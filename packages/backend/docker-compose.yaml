@@ -1,0 +1,57 @@
+version: '3.7'
+
+services:
+
+#  backend:
+#    build:
+#      dockerfile: Dockerfile
+#      context: .
+#    ports:
+#      - 2050:2050
+
+  mongo:
+    image: mongo
+    ports:
+      - 27001:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root123
+    volumes:
+      - mongo-db:/data/db
+      - mongo-db-config:/data/configdb
+
+  redis:
+    image: redis:alpine
+    privileged: true
+    ports:
+      - 6379:6379
+    volumes:
+      - redis:/data
+    sysctls:
+      net.core.somaxconn: 65535
+    command: "/bin/sh -c redis-server & echo 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' > /etc/rc.local"
+#
+#  minio:
+#    image: minio/minio
+#    ports:
+#      - "8080:8080"
+#      - "9000:9000"
+#    volumes:
+#      - media:/data
+#    environment:
+#      MINIO_ROOT_USER: ROOTNAME
+#      MINIO_ROOT_PASSWORD: CHANGEME123
+#
+#    command: server --address ":8080" --console-address ":9000" /data
+
+networks:
+  default:
+    name: "ya"
+
+volumes:
+  mongo-db:
+    name: "ya_mongo-db"
+  mongo-db-config:
+    name: "ya_mongo-db-config"
+  redis:
+    name: "ya_redis"

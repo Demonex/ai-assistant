@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  minio:
+    image: minio/minio
+    restart: always
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - media:/data
+    environment:
+      MINIO_ROOT_USER: 8VUKTW1WH9ER56OTO9Y
+      MINIO_ROOT_PASSWORD: LRHKD9EUJ9WQMRHYILNKRJN8O8W
+
+    command: server --address ":80" --console-address ":8080" /data
+
+#  rclone:
+#    links:
+#      - minio
+#    build:
+#      dockerfile: rclone.Dockerfile
+#    volumes:
+#      - rclone:/root
+#    command: "bin sh sleep 9999999999999"
+
+networks:
+  default:
+    name: "yoga"
+
+volumes:
+  media:
+    name: "yoga_media"
+#  rclone:
+#    name: "yoga_rclone"

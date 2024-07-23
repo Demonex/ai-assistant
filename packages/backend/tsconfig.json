@@ -1,0 +1,50 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "noLib": false,
+    "emitDecoratorMetadata": true,
+    "declaration": false,
+    "allowJs": true,
+    "checkJs": true,
+    "jsx": "react",
+    "outDir": "dist",
+    "rootDir": "src",
+    "noEmit": false,
+    "strict": false,
+    "moduleResolution": "bundler",
+    "baseUrl": "src",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext",
+    ],
+    "sourceMap": false,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "node_modules/@types",
+      "src/types.d.ts"
+    ]
+  },
+  "include": [
+    "src/"
+  ],
+  "exclude": [
+    "dist",
+    "build",
+    "tests",
+    "**/*.spec.js",
+    "node_modules",
+  ],
+  "ts-node": {
+    "transpileOnly": true
+  }
+}

@@ -1,0 +1,91 @@
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Put,
+  Request,
+  UploadedFile,
+  UseInterceptors
+} from '@nestjs/common';
+import {Types} from 'mongoose';
+import {get} from 'lodash-es';
+import {UserService} from '../services/User.js';
+import {UpdateProfileAvatarDto, UpdateProfileDto} from '../dto/Profile.js';
+import {Authorized} from '../decorators/auth.js';
+import {UserEmail, UserId} from '../decorators/user.js';
+import {ApiBearerAuth, ApiConsumes, ApiExcludeEndpoint, ApiOperation, ApiParam, ApiTags} from '@nestjs/swagger';
+import {validateDto} from '../middlewares/validateDto.js';
+import {FileInterceptor} from '@nestjs/platform-express';
+
+@ApiTags('web', 'ios')
+@Controller('/api/rest/profile')
+export class ProfileController {
+  constructor(
+    public service: UserService
+  ) {
+  }
+
+  @ApiBearerAuth('bearer-sid')
+  @ApiOperation({summary: 'get profile'})
+  @Get()
+  @HttpCode(200)
+  async meAdmin(
+    @UserId() id?: Types.ObjectId,
+    @UserEmail() email?: string
+  ) {
+    return this.service.me(id, email);
+  }
+
+  @ApiBearerAuth('bearer-sid')
+  @ApiOperation({summary: 'update profile'})
+  @Authorized()
+  @Put()
+  async update(
+    @Request() request: any,
+    @UserId() id: Types.ObjectId,
+    @Body() args: UpdateProfileDto,
+    @UploadedFile() photo) {
+    return this.service.findByIdAndUpdate(id, args);
+  }
+
+  @ApiBearerAuth('bearer-sid')
+  @ApiOperation({summary: 'avatar update in profile'})
+  @Authorized()
+  @Post('avatar/update')
+  @UseInterceptors(
+    FileInterceptor('file' /*{
+      limits: {
+        fieldNameSize: 100,
+        fieldSize: 1000000,
+        fields: 20,
+        fileSize: 5000000,
+        files: 1,
+        headerPairs: 2000
+      }
+    }*/)
+  )
+  @ApiConsumes('multipart/form-data')
+  async updateAvatar(
+    @Request() request: any,
+    @UserId() id: Types.ObjectId,
+    @Body() args: UpdateProfileAvatarDto,
+    @UploadedFile('file') file) {
+    // console.log('avatar update', get(request, 'headers.authorization'), get(request, 'session.id'), id);
+    return this.service.findByIdAndUpdateAvatar(id, {file});
+  }
+
+  @ApiBearerAuth('bearer-sid')
+  @ApiOperation({summary: 'delete user profile'})
+  @Authorized()
+  @Delete('delete')
+  async profileDelete(
+    @Request() request: any,
+    @UserId() userId: Types.ObjectId,
+    @Param('id') id: Types.ObjectId) {
+    return this.service.findByIdAndDelete(userId);
+  }
+}

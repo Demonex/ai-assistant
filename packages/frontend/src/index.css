@@ -1,0 +1,187 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    font-family: 'Lab Grotesque', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    color-scheme: light dark;
+    color: #ffff;
+    background-color: #0C0C0C;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-width: 320px;
+    min-height: 100vh;
+
+}
+
+#root {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    /*min-width: 100vw;*/
+    position: relative;
+    overflow-x: hidden;
+    /*overflow: hidden;*/
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*align-items: center;*/
+}
+input {
+    background-color: transparent;
+}
+textarea:focus, input:focus{
+    outline: none;
+
+}
+.p_line_unset::first-line {
+    line-height: 0em;
+}
+button {
+    /*background-color: #125BFF;*/
+    border: none;
+    /*border-radius: 16px;*/
+    /*width: 100%;*/
+    /*max-width: 330px;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*padding: 19px 26px;*/
+    gap: 16px
+}
+
+.main_div_style {
+    width: 100%;
+    height: 100%;
+    padding: 3.125rem 7.5rem 7.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title_primary {
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+.scroller, .scroller-y {
+    /*max-width: 100%;*/
+    /*margin: 20px auto*/
+}
+
+.scroller__inner {
+    /*padding-block: 1rem;*/
+    display: flex;
+    /*flex-wrap: wrap;*/
+    /*gap: 1rem;*/
+}
+
+.scroller-y .scroller__inner {
+    /*padding-block: 1rem;*/
+    display: flex;
+    flex-direction: column;
+}
+
+.scroller[data-animated="true"], .scroller-y[data-animated="true"] {
+    overflow: hidden;
+}
+
+.scroller[data-animated="true"] .scroller__inner,
+.scroller-y[data-animated="true"] .scroller__inner {
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+    flex-wrap: nowrap;
+}
+
+.scroller[data-animated="true"] .scroller__inner {
+    -webkit-animation: scrollX var(--_animation-duration, 40s) var(--_animation-direction, forwards) linear infinite;
+    animation: scrollX var(--_animation-duration, 40s) var(--_animation-direction, forwards) linear infinite;
+}
+
+.scroller-y[data-animated="true"] .scroller__inner {
+    -webkit-animation: scrollY var(--_animation-duration, 40s) var(--_animation-direction, forwards) linear infinite;
+    animation: scrollY var(--_animation-duration, 40s) var(--_animation-direction, forwards) linear infinite;
+}
+
+.scroller[data-direction="right"], .scroller-y[data-direction="right"] {
+    --_animation-direction: reverse;
+}
+
+.scroller[data-direction="left"], .scroller-y[data-direction="left"] {
+    --_animation-direction: forwards;
+}
+
+.scroller[data-speed="fast"], .scroller-y[data-speed="fast"] {
+    --_animation-duration: 20s;
+}
+
+.scroller[data-speed="slow"], .scroller-y[data-speed="slow"] {
+    --_animation-duration: 60s;
+}
+
+@-webkit-keyframes scrollX {
+    to {
+        transform: translateX(calc(-50% - 0.5rem));
+    }
+}
+
+@keyframes scrollX {
+    to {
+        transform: translateX(calc(-50% - 0.5rem));
+    }
+}
+
+@-webkit-keyframes scrollY {
+    to {
+        transform: translateY(calc(-50% - 0.5rem));
+    }
+}
+
+@keyframes scrollY {
+    to {
+        transform: translateY(calc(-50% - 0.5rem));
+    }
+}
+
+.numbers-blue::after {
+    content: attr(data-end);
+    color: #125BFF;
+}
+
+.numbers-yellow::after {
+    content: attr(data-end);
+    color: #E4FF29;
+}
+.animated-gradient {
+    animation: animateBg 2s linear infinite;
+    background-image: linear-gradient(90deg,#a11eaf,#7520b9,#7619aa,#a11eaf,#7520b9);
+    background-size: 400% 100%;
+}
+@keyframes animateBg {
+    0% { background-position: 100% 0%; }
+    100% { background-position: 0% 0%; }
+}
+.slick-dots li.slick-active button:before{
+    color: orange
+}
+.slick-active {
+    color: white!important;
+}

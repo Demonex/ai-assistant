@@ -1,0 +1,29 @@
+{
+  "name": "rifify",
+  "version": "0.0.0-development",
+  "license": "GNU LGPL",
+  "private": true,
+  "packageManager": "pnpm@9.1.4",
+  "scripts": {
+    "build:docker": "docker buildx build --platform linux/amd64 -t bardakdev/elysium-backend . --no-cache --push"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "resolutions": {
+    "typescript": "5.4.5",
+    "mongoose": "6.13.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@types/react": "18.2.48",
+    "@types/react-dom": "18.2.18",
+    "punycode": "2.3.0",
+    "whatwg-url": "13.0.0",
+    "sass": "1.77.1"
+  }
+}

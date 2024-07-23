@@ -1,0 +1,67 @@
+version: '3.7'
+
+services:
+
+  nginx:
+    image: bardakdev/musicstats-nginx
+    restart: always
+    links:
+      - backend
+      - resizer
+    ports:
+      - "80:80"
+    privileged: true
+
+  backend:
+    image: bardakdev/musicstats
+    restart: always
+    depends_on:
+      - mongo
+      - redis
+    links:
+      - mongo
+      - redis
+
+  resizer:
+    image: bardakdev/musicstats-resizer
+    restart: always
+    depends_on:
+      - mongo
+      - backend
+    links:
+      - mongo
+      - backend
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root123
+    ports:
+      - "27001:27017"
+    volumes:
+      - mongo-db:/data/db
+      - mongo-db-config:/data/configdb
+
+  redis:
+    image: redis:alpine
+    restart: always
+    privileged: true
+    volumes:
+      - redis:/data
+    sysctls:
+      net.core.somaxconn: 65535
+    command: "/bin/sh -c redis-server & echo 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' > /etc/rc.local"
+
+networks:
+  default:
+    name: "yoga"
+
+volumes:
+  mongo-db:
+    name: "yoga_mongo-db"
+  mongo-db-config:
+    name: "yoga_mongo-db-config"
+  redis:
+    name: "yoga_redis"

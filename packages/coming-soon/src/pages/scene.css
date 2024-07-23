@@ -1,0 +1,34 @@
+#box {
+    position: absolute;
+    background: #ffffff;
+    height: 40px;
+    width: 40px;
+    cursor: move;
+}
+
+#ground {
+    position: absolute;
+    height: 120px;
+    width: 400px;
+    background: #3b2c2c;
+}
+
+.walls {
+    position: absolute;
+    background: #fd0000;
+}
+
+.walls-top,.walls-bottom {
+    width: 600px;
+    height: 1px;
+}
+.walls-left,.walls-right {
+    width: 1px;
+    height: 600px;
+}
+
+html, body {
+    position: relative;
+    height: 100%;
+    margin: 0;
+}

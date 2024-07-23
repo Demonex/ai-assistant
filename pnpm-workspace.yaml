@@ -1,0 +1,4 @@
+packages:
+  - 'packages/*'
+  - 'libs/payload/packages/*'
+  - 'libs/typegoose-cursor-pagination'

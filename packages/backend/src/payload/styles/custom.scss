@@ -1,0 +1,24 @@
+@import '@stigma-io/payload/scss';
+
+.login__brand {
+  margin-bottom: 2.846154rem !important;
+  svg {
+    width: base(10);
+    height: auto;
+  }
+}
+
+.login form {
+  //display: none;
+}
+
+.apple-login {
+  display: flex;
+  justify-content: center;
+}
+
+.thumbnail img, .thumbnail svg {
+  object-fit: contain !important;
+}
+
+

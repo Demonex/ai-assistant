@@ -1,0 +1,130 @@
+@font-face {
+    font-family: 'Geist';
+    src: url('Geist-Black.eot');
+    src: url('Geist-Black.eot?#iefix') format('embedded-opentype'),
+        url('Geist-Black.woff2') format('woff2'),
+        url('Geist-Black.woff') format('woff'),
+        url('Geist-Black.ttf') format('truetype'),
+        url('Geist-Black.svg#Geist-Black') format('svg');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Geist UltraBlack';
+    src: url('Geist-UltraBlack.eot');
+    src: url('Geist-UltraBlack.eot?#iefix') format('embedded-opentype'),
+        url('Geist-UltraBlack.woff2') format('woff2'),
+        url('Geist-UltraBlack.woff') format('woff'),
+        url('Geist-UltraBlack.ttf') format('truetype'),
+        url('Geist-UltraBlack.svg#Geist-UltraBlack') format('svg');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Geist';
+    src: url('Geist-SemiBold.eot');
+    src: url('Geist-SemiBold.eot?#iefix') format('embedded-opentype'),
+        url('Geist-SemiBold.woff2') format('woff2'),
+        url('Geist-SemiBold.woff') format('woff'),
+        url('Geist-SemiBold.ttf') format('truetype'),
+        url('Geist-SemiBold.svg#Geist-SemiBold') format('svg');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Geist';
+    src: url('Geist-Light.eot');
+    src: url('Geist-Light.eot?#iefix') format('embedded-opentype'),
+        url('Geist-Light.woff2') format('woff2'),
+        url('Geist-Light.woff') format('woff'),
+        url('Geist-Light.ttf') format('truetype'),
+        url('Geist-Light.svg#Geist-Light') format('svg');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Geist Variable';
+    src: url('GeistVariable-Regular.eot');
+    src: url('GeistVariable-Regular.eot?#iefix') format('embedded-opentype'),
+        url('GeistVariable-Regular.woff2') format('woff2'),
+        url('GeistVariable-Regular.woff') format('woff'),
+        url('GeistVariable-Regular.ttf') format('truetype'),
+        url('GeistVariable-Regular.svg#GeistVariable-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Geist';
+    src: url('Geist-Thin.eot');
+    src: url('Geist-Thin.eot?#iefix') format('embedded-opentype'),
+        url('Geist-Thin.woff2') format('woff2'),
+        url('Geist-Thin.woff') format('woff'),
+        url('Geist-Thin.ttf') format('truetype'),
+        url('Geist-Thin.svg#Geist-Thin') format('svg');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Geist';
+    src: url('Geist-UltraLight.eot');
+    src: url('Geist-UltraLight.eot?#iefix') format('embedded-opentype'),
+        url('Geist-UltraLight.woff2') format('woff2'),
+        url('Geist-UltraLight.woff') format('woff'),
+        url('Geist-UltraLight.ttf') format('truetype'),
+        url('Geist-UltraLight.svg#Geist-UltraLight') format('svg');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Geist';
+    src: url('Geist-Regular.eot');
+    src: url('Geist-Regular.eot?#iefix') format('embedded-opentype'),
+        url('Geist-Regular.woff2') format('woff2'),
+        url('Geist-Regular.woff') format('woff'),
+        url('Geist-Regular.ttf') format('truetype'),
+        url('Geist-Regular.svg#Geist-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Geist';
+    src: url('Geist-Bold.eot');
+    src: url('Geist-Bold.eot?#iefix') format('embedded-opentype'),
+        url('Geist-Bold.woff2') format('woff2'),
+        url('Geist-Bold.woff') format('woff'),
+        url('Geist-Bold.ttf') format('truetype'),
+        url('Geist-Bold.svg#Geist-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Geist';
+    src: url('Geist-Medium.eot');
+    src: url('Geist-Medium.eot?#iefix') format('embedded-opentype'),
+        url('Geist-Medium.woff2') format('woff2'),
+        url('Geist-Medium.woff') format('woff'),
+        url('Geist-Medium.ttf') format('truetype'),
+        url('Geist-Medium.svg#Geist-Medium') format('svg');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+

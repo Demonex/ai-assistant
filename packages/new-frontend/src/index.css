@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+root {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/*html, body, #app {*/
+/*    height: 100%;*/
+/*}*/
+
+body {
+    background-color: #0C0C0C;
+    /*font-family: 'Geist', sans-serif;*/
+    min-width: 320px;
+}
+
+input {
+    outline: none;
+    background-color: rgba(199, 210, 254, 0.07)
+}
+
+button:focus {
+    outline: 0;
+}
+
+.noSelect {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.dropdown-transition_enter {
+    animation: dropdown-transition_start ease-out .2s;
+}
+
+.dropdown-transition_end {
+    animation: dropdown-transition_leave ease-out .3s 1s;
+}
+
+@keyframes dropdown-transition_start {
+    from {
+        opacity: 0;
+        scale: 0.95;
+    }
+    to {
+        opacity: 1;
+        scale: 1;
+    }
+}
+
+@keyframes dropdown-transition_leave {
+    from {
+        opacity: 1;
+        scale: 1;
+    }
+    to {
+        opacity: 0;
+        scale: 0.95;
+    }
+}
+
+
+.tracking-loose {
+    letter-spacing: 1px
+}
+
+.text-smaller {
+    font-size: 90%
+}
+
+.button-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #6366f1;
+    background-size: 600% 600%;
+    border-radius: 10px;
+    z-index: -1;
+    transition: all .8s ease-in;
+    filter: blur(4px);
+    opacity: .65;
+}
+
+
+.button-wrapper:hover .button-bg {
+    width: calc(100% + 1px);
+    height: calc(100% + 1px);
+    transform: translate(-1px, -1px);
+    filter: blur(8px);
+    transition: all .4s ease-in;
+    opacity: .8;
+}
