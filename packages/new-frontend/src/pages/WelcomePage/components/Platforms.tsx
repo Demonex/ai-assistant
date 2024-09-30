@@ -8,6 +8,7 @@ import youtube from '/assets/png/youtubeNew.png'
 import React, {memo, useMemo} from "react";
 import {Helmet} from "react-helmet";
 import {useElementRangeSize} from "../../../hooks/useElementRangeSize.js";
+import {Link, useParams} from "wouter";
 
 type platformIconsType = {
     title: string
@@ -22,6 +23,7 @@ type platformIconsType = {
     leftMobile?: number
     maxWidthMobile?: number
     minWidthMobile?: number
+    link?: string
 }[]
 const platformIcons: platformIconsType = [
     {
@@ -35,6 +37,7 @@ const platformIcons: platformIconsType = [
         leftMobile: 12,
         maxWidth: 160,
         minWidth: 80,
+        link: '/platform/youtube'
 
     },
     {
@@ -48,6 +51,7 @@ const platformIcons: platformIconsType = [
         leftMobile: 30,
         maxWidth: 603,
         minWidth: 200,
+        link: '/platform/applemusic'
 
     },
     {
@@ -61,6 +65,8 @@ const platformIcons: platformIconsType = [
         leftMobile: 54,
         maxWidth: 240,
         minWidth: 100,
+        link: '/platform/shazam'
+
     },
     {
         title: 'soundcloud',
@@ -69,10 +75,12 @@ const platformIcons: platformIconsType = [
         left: 90,
         topMedium: 18,
         leftMedium: 90,
-        topMobile: 10,
+        topMobile: 12,
         leftMobile: 90,
         maxWidth: 224,
         minWidth: 70,
+        link: '/platform/soundcloud'
+
     },
     {
         title: 'spotify',
@@ -85,11 +93,12 @@ const platformIcons: platformIconsType = [
         leftMedium: 75,
         topMobile: 67,
         leftMobile: 80,
+        link: '/platform/spotify'
     },
 ]
 
 const Platforms = memo(() => {
-    const { h1Size, marginVertical,paddingHorizontal} = useElementRangeSize();
+    const {h1Size, marginVertical, paddingHorizontal} = useElementRangeSize();
     const {elementRange} = useSizes();
     const {elementRange: elementRangeMobile} = useSizes(320, 768);
     const {elementRange: elementRangeLaptop} = useSizes(1024, 1920);
@@ -101,20 +110,21 @@ const Platforms = memo(() => {
     const morePlatformsGap = elementRange(24, 40);
     const morePlatformsMarginTop = elementRangeMobile(32, 0);
     const {isTablet, isMobile} = useSizes();
-
+    const params = useParams();
+    const customerName = params['customer-name'];
 
     const styles = useMemo(() => {
         return Array.from({length: platformIcons.length}).map((_, i) => {
             const percent25 = [
-                randomInt(5),
+                randomInt(10),
                 randomInt(5)
             ];
             const percent50 = [
-                randomInt(10),
-                randomInt(10)
+                randomInt(20),
+                randomInt(20)
             ];
             const percent75 = [
-                randomInt(5),
+                randomInt(10),
                 randomInt(5)
             ];
             return `
@@ -155,17 +165,24 @@ const Platforms = memo(() => {
              style={{
                  marginTop: `${marginVertical}px`,
                  marginBottom: `${marginVertical}px`,
-                 paddingLeft:`${paddingHorizontal}px`,
-                 paddingRight:`${paddingHorizontal}px`,
-                 // height: `${height}px`
+                 paddingLeft: `${paddingHorizontal}px`,
+                 paddingRight: `${paddingHorizontal}px`,
              }}>
             <Helmet>
                 <style type="text/css">{styles}</style>
             </Helmet>
-            <h1 className='text-h2Desctop font-bold lg:font-black'
-                style={{
-                    fontSize: isMobile || isTablet ? `${h1SizeMobile}px` : `${h1Size}px`,
-                }}>Аналитика твоей музыки <br/> с 14+ платформ в одном месте</h1>
+            {
+                customerName === 'distributors'
+                    ? <h1 className='text-h2Desctop font-bold lg:font-black'
+                          style={{
+                              fontSize: isMobile || isTablet ? `${h1SizeMobile}px` : `${h1Size}px`,
+                          }}>Анализируй музыкальные релизы в&nbsp;одном<br/> сервисе и&nbsp;принимай обоснованные<br/> решения для
+                        развития</h1>
+                    : <h1 className='text-h2Desctop font-bold lg:font-black'
+                          style={{
+                              fontSize: isMobile || isTablet ? `${h1SizeMobile}px` : `${h1Size}px`,
+                          }}>Аналитика твоей музыки <br/> с 14+ платформ в одном месте</h1>
+            }
             <div className='w-full relative' style={{height: `${platformsContainerHeight}px`}}>
                 {
                     platformIcons.map((platform, index) => {
@@ -173,16 +190,18 @@ const Platforms = memo(() => {
                             const iconTop = elementRangeLaptop(platform.topMedium, platform.top);
                             const iconLeft = elementRange(platform.leftMedium, platform.left);
                             return (
-                                <img
-                                    src={platform.img}
-                                    key={index}
-                                    style={{
-                                        // maxWidth: `${platform.maxWidth}px`,
-                                        top: isMobile ? `${platform.topMobile}%` : `${iconTop}%`,
-                                        left: isMobile ? `${platform.leftMobile}%` : `${iconLeft}%`,
-                                        width: `${iconSize}px`
-                                    }}
-                                    className={`absolute float-numbers -translate-x-1/2 -translate-y-1/2`}/>
+                                <Link to={platform.link} key={index} className='absolute float-numbers -translate-x-1/2 -translate-y-1/2 '
+                                      style={{
+                                          // maxWidth: `${platform.maxWidth}px`,
+                                          top: isMobile ? `${platform.topMobile}%` : `${iconTop}%`,
+                                          left: isMobile ? `${platform.leftMobile}%` : `${iconLeft}%`,
+                                          width: `${iconSize}px`
+                                      }}>
+                                        <img
+                                            src={platform.img}
+                                            key={index}
+                                            className={`hover:scale-110 cursor-pointer transition duration-300 `}/>
+                                </Link>
                             )
                         }
                     )
@@ -211,11 +230,11 @@ const Platforms = memo(() => {
                     marginTop: `${morePlatformsMarginTop}px`,
                 }}
                 className=' items-center flex lg:hidden'
-                >
+            >
                 <div
                     style={{
-                        width: `${morePlatformsSize}px`,
-                        height: `${morePlatformsSize}px`,
+                        minWidth: `${morePlatformsSize}px`,
+                        minHeight: `${morePlatformsSize}px`,
 
                     }}
                     className='border border-medium_grey rounded-[20px] md:rounded-[40px] flex justify-center items-center'>

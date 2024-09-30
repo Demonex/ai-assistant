@@ -54,6 +54,7 @@ const PinkCTA = memo(() => {
           </div>
           <PrimaryButton
               title='Попробовать бесплатно'
+              to='/sign-up'
               titleStyle={{
                   fontSize: `${buttonFontSize}px`
               }}

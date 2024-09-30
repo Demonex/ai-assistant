@@ -1,209 +1,290 @@
-import logo from "/assets/svg/Logo.svg";
-import yellow from "/assets/png/yellowLogo@3x.png";
-import apple from "/assets/png/appple@3x.png";
-import rustore from "/assets/png/rustore@3x.png";
-import google from "/assets/png/google@3x.png";
-import {useSizes} from "../../hooks/useSizes.js";
-import {useElementRangeSize} from "../../hooks/useElementRangeSize.js";
-import bottomImg from '/assets/png/bottomImg@3x.png'
-import bottomImgMob from '/assets/png/bottom-mob@3x.png'
-import {memo} from "react";
+import logo from '/assets/svg/Logo.svg';
+import {useSizes} from '../../hooks/useSizes.js';
+import {useElementRangeSize} from '../../hooks/useElementRangeSize.js';
+import {memo} from 'react';
+import {ShowOnLaptopToDesktop} from '../SowOnLaptopToDeckTop/index.js';
+import YoutubeSmm from '../../assets/YoutubeSmm.js';
+import VkSmm from '../../assets/VkSmm.js';
+import ZenSmm from '../../assets/ZenSmm.js';
+import TGSmm from '../../assets/TGSmm.js';
+import AppleBtn from '../../assets/AppleBtn.js';
+import RustoreBtn from '../../assets/RustoreBtn.js';
+import GoogleBtn from '../../assets/GoogleBtn.js';
+import {Link, useLocation} from 'wouter';
+import RutubeSmm from "../../assets/RutubeSmm.js";
 
-const footerItems = [
+const platforms = [
   {
-    title: 'платформы',
+    title: 'Платформы',
     list: [
       {
-        name: 'Apple Music'
+        name: 'Spotify',
+        link: '/platform/spotify'
       },
       {
-        name: 'Instagram'
+        name: 'Apple Music',
+        link: '/platform/applemusic'
       },
       {
-        name: 'TikTok'
+        name: 'Shazam',
+        link: '/platform/shazam'
       },
       {
-        name: 'YouTube'
-      },
-      {
-        name: 'Shazam'
-      },
-      {
-        name: 'Traxsource'
-      },
-      {
-        name: 'iTunes'
-      },
-      {
-        name: 'SoundCloud'
-      },
-      {
-        name: 'Facebook'
-      },
+        name: 'SoundCloud',
+        link: '/platform/soundcloud'
+      }
     ]
-  },
+  }
+];
+const customers = [
   {
-    title: 'кейсы',
+    title: 'Для кого',
     list: [
+
       {
-        name: 'исполнители'
+        name: 'лейблы',
+        link: '/customer/labels'
       },
       {
-        name: 'лейблы'
+        name: 'дестрибьюторы',
+        link: '/customer/distributors'
+
       },
       {
-        name: 'дестрибьюторы'
+        name: 'менеджеры',
+        link: '/customer/managers'
+
       },
       {
-        name: 'промоутеры'
-      },
-      {
-        name: 'менеджеры'
-      },
-      {
-        name: 'пресс-агенты'
-      },
-      {
-        name: 'A&Rs'
-      },
-      {
-        name: 'разроботчики'
-      },
-      {
-        name: 'букинг-агенты'
-      },
+        name: 'Фанаты',
+        link: '/customer/fans'
+
+      }
+
     ]
-  },
-]
+  }
+];
 const footerInfo = [
   {
-    name: 'Тарифы'
+    name: 'Тарифы',
+    link: '#tariffes'
   },
   {
-    name: 'Контакты'
+    name: 'Обратная связь',
+    link: '/feedback'
   },
   {
-    name: "Политика конфиденциальности"
+    name: 'Реквизиты',
+    link: '/documents/requisite'
   },
   {
-    name: 'Пользовательское соглашение'
+    name: 'Попробовать бесплатно',
+    link: '/sign-up'
+  }
+];
+const icons = [
+  {
+    name: 'vk',
+    icon: <VkSmm className="hover:fill-primary_blue"/>,
+    link: 'https://vk.com/rifify'
   },
   {
-    name: 'Реквизиты'
+    name: 'zen',
+    icon: <ZenSmm className="hover:fill-primary_blue"/>,
+    link: 'https://dzen.ru/rifify'
   },
   {
-    name: 'API'
+    name: 'tg',
+    icon: <TGSmm className="hover:fill-primary_blue"/>,
+    link: 'https://t.me/rififymedia'
   },
   {
-    name: 'Попробовать бесплатно'
-  },
-]
-const apps = [
-  {
-    name: 'apple',
-    img: apple
+    name: 'yt',
+    icon: <YoutubeSmm className="hover:fill-primary_blue"/>,
+    link: 'https://www.youtube.com/channel/UCGTSwF24I3guLlSl3tvwV6w'
   },
   {
-    name: 'rustore',
-    img: rustore
+    name: 'rt',
+    icon: <RutubeSmm className="hover:fill-primary_blue"/>,
+    link: 'https://rutube.ru/channel/39844042/'
   },
-  {
-    name: 'google',
-    img: google
-  },
-]
-const Footer = memo(() => {
-  const {elementRange, isTablet, isMobile} = useSizes();
-  const {elementRange: elementRangeLaptop} = useSizes(1024, 2560);
-  const {elementRange: elementRangeMobile} = useSizes(320, 1023);
-  const logoWidth = elementRangeLaptop(135 / 2, 227);
-  const yellowWidth = elementRange(35, 84);
-  const appWidth = elementRangeLaptop(110, 218);
-  const paddingTopFooter = elementRangeLaptop(47, 125);
-  const paddingBottomFooter = elementRange(54, 225);
-  const gapFooterHorizontal = elementRangeLaptop(50, 230);
-  const gapFooterVertical = elementRangeLaptop(20, 40);
-  const gapFooterGridMobile = elementRangeMobile(32, 63);
-  const gapFooterMobile = elementRangeMobile(32, 77);
-  const textFooter = elementRangeLaptop(14, 28);
-  const textFooterMobile = elementRangeLaptop(14, 28);
-  const marginLeftYellowText = elementRangeMobile(7, 231);
-  const {paddingHorizontal} = useElementRangeSize()
+];
 
+
+const Footer = memo(() => {
+  const {isTablet, isMobile} = useSizes();
+  const {elementRange: elementRangeLaptop} = useSizes(1024, 1920);
+  const {paddingHorizontal} = useElementRangeSize();
+  const appBtnWidth = elementRangeLaptop(10.25, 12.25);
+  const scrollToTop = () => {
+    document.getElementById('app').scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+  const apps = [
+    {
+      name: 'apple',
+      img: <AppleBtn
+        style={{
+          width: isMobile || isTablet ? '12.25rem' : `${appBtnWidth}rem`
+        }}
+        className="group-hover:fill-primary_blue max-h-[58px]"
+      />
+    },
+    {
+      name: 'rustore',
+      img: <RustoreBtn
+        style={{
+          width: isMobile || isTablet ? '12.25rem' : `${appBtnWidth}rem`
+        }}
+        className="group-hover:fill-primary_blue max-h-[58px]"/>
+    },
+    {
+      name: 'google',
+      img: <GoogleBtn
+        style={{
+          width: isMobile || isTablet ? '12.25rem' : `${appBtnWidth}rem`
+        }}
+        className="group-hover:fill-primary_blue max-h-[58px]"/>
+    }
+  ];
+  const [, navigate] = useLocation();
 
   return (
-    <footer className='w-full  bg-[#060708] flex flex-col lg:flex-row relative '
-            style={{
-              paddingRight: `${paddingHorizontal}px`,
-              paddingLeft: `${paddingHorizontal}px`,
-              paddingBottom: `${paddingBottomFooter}px`,
-              paddingTop: `${paddingTopFooter}px`,
-              gap: isMobile || isTablet ? `${gapFooterMobile}px` : '0px',
-            }}>
+    <footer
+      className="w-full bg-[#060708] flex flex-col relative py-8 md:pb-[3.125rem] lg:pt-[5rem] lg:pb-10  lg:gap-2.5"
+      style={{
+        paddingRight: `${paddingHorizontal}px`,
+        paddingLeft: `${paddingHorizontal}px`
+      }}>
       <div
-        className='w-full lg:w-1/4  flex lg:flex-col items-center lg:items-start '
-        style={{gap: isMobile || isTablet ? `${gapFooterGridMobile}px` : `${gapFooterVertical}px`,}}>
-        <img src={logo} alt='logo' style={{
-          width: `${logoWidth}px`,
-        }}/>
-        <div className='flex items-center justify-center'>
-          <img src={yellow} style={{width: `${yellowWidth}px`}}/>
+        className="min-w-full flex flex-col md:flex-row  pb-8 justify-between md:gap-[3.25rem] lg:gap-[2.25rem]">
+        <div className="flex flex-col md:gap-11 lg:gap-6 pb-5 md:pb-[unset] border-b border-dark_grey md:border-none">
+          <div className="flex flex-row justify-between md:justify-start md:flex-col md:gap-6 lg:gap-2">
+            <img src={logo} className="max-w-[120px] md:max-w-[152px]"/>
+            <p className="text-t2Regular">Сервис аналитики<br/> для музыкантов</p>
+          </div>
+          {
+            isMobile
+              ? null
+              : <div className="flex flex-col gap-0.5">
+                <Link to='/documents/privacy-policy' className="text-caption_m_desk text-light_grey hover:text-medium_grey cursor-pointer" onClick={scrollToTop}>Политика
+                  конфеденциальности</Link>
+                <Link to='/documents/user-agreement' className="text-caption_m_desk text-light_grey hover:text-medium_grey cursor-pointer" onClick={scrollToTop}>Пользовательское
+                  соглашение</Link>
+                <Link to='/documents/public-offer' className="text-caption_m_desk text-light_grey  hover:text-medium_grey" onClick={scrollToTop}>Публичная оферта</Link>
+              </div>
+          }
 
         </div>
-        <p className='text-[#e4fd44] ' style={{
-          fontSize: isMobile || isTablet ? `${textFooterMobile}px` : `${textFooter}px`,
-          marginLeft: isTablet || isMobile ? `${marginLeftYellowText}px` : '0px'
-        }}>Сервис аналитики<br/> для музыкантов</p>
-      </div>
-      <div
-        style={{
-          marginRight: isMobile || isTablet ? '0px' : `${paddingHorizontal}px`,
-          marginLeft: isMobile || isTablet ? '0px' : `${paddingHorizontal}px`,
-          gap: `${gapFooterHorizontal}px`
-        }}
-        className='grid grid-cols-2 grid-rows-2 lg:flex w-full lg:justify-center'>
         {
-          footerItems.map((itemList, iList) => (
-            <ul key={iList} className='flex flex-col' style={{
-              gap: `${gapFooterVertical}px`,
-            }}>
-              <p className='font-bold text-[#a1a4ad] capitalize'
-                 style={{fontSize: `${textFooter}px`}}>{itemList.title}</p>
+          !isMobile
+            ? null
+            : <div className="flex justify-between py-5 md:py-[unset] border-b border-dark_grey md:border-[unset]">
               {
-                itemList.list.map((item, i) => (
-                  <p key={i} className='text-[#5d6674] text-[28px] capitalize'
-                     style={{fontSize: `${textFooter}px`}}>{item.name}</p>
+                icons.map((icon, i) => (
+                  <a
+                    className="w-10 h-10"
+                    key={i} href={icon.link} target='_blank'>{icon.icon}</a>
                 ))
               }
-            </ul>
-          ))
+            </div>
         }
-        <ul className='flex flex-col max-w-[250px]' style={{gap: `${gapFooterVertical}px`}}>
+        <ShowOnLaptopToDesktop>
+          <div>
+            {
+              platforms.map((platform, index) => (
+                <div key={index} className="flex flex-col gap-5">
+                  <h2 className=" text-btnText text-medium_grey">{platform.title}</h2>
+                  {
+                    platform.list.map((item, i) => (
+                      <Link to={item.link} key={i} onClick={scrollToTop}>
+                        <p className="capitalize text-t2Regular hover:text-medium_grey cursor-pointer"
+                        > {item.name}</p>
+                      </Link>
+
+                    ))
+                  }
+                </div>
+              ))
+            }
+          </div>
+          <div>
+            {
+              customers.map((customer, index) => (
+                <div key={index} className="flex flex-col gap-5">
+                  <h2 className=" text-btnText text-medium_grey">{customer.title}</h2>
+                  {
+                    customer.list.map((item, i) => (
+                      <Link to={item.link} key={i} onClick={scrollToTop}>
+                        <p className="capitalize text-t2Regular hover:text-medium_grey cursor-pointer"
+                        > {item.name}</p>
+                      </Link>
+
+                    ))
+                  }
+                </div>
+              ))
+            }
+          </div>
+        </ShowOnLaptopToDesktop>
+
+        <div className="flex flex-col gap-5 py-5 md:py-[unset] border-b border-dark_grey md:border-none">
           {
-            footerInfo.map((item, i) => (
-              <li key={i}
-                  className={`font-bold  cursor-pointer ${i === footerInfo.length - 1 ? 'text-[white] underline underline-offset-4 decoration-[#125BFF] mt-[20px]' : 'text-[#a1a4ad]'}`}
-                  style={{fontSize: isMobile || isTablet ? `${textFooterMobile}px` : `${textFooter}px`}}>{item.name}</li>
-            ))
+            isMobile
+              ? null
+              : <div className="flex gap-3">
+                {
+                  icons.map((icon, i) => (
+                    <a className=" w-10 h-10 cursor-pointer " key={i} href={icon.link} target='_blank'>
+                      {icon.icon}
+                    </a>
+                  ))
+                }
+              </div>
           }
-        </ul>
-        <ul className='flex flex-col' style={{gap: `${gapFooterVertical}px`}}>
+          <div className="flex flex-col gap-5">
+            {
+              footerInfo.map((item, i) => (
+                <p
+                  className={` text-t2Regular hover:text-medium_grey cursor-pointer ${i === footerInfo.length - 1 ? 'underline underline-offset-4 decoration-[#125BFF]' : ''}`}
+                  key={i} onClick={() => {
+                    if(item.link){
+                      navigate(item.link);
+                      scrollToTop()
+                    }
+                     return
+                }}>{item.name}</p>
+              ))
+            }
+          </div>
+        </div>
+        <div className="flex flex-col gap-4 md:gap-3 mt-5 md:mt-[unset] ">
           {
             apps.map((app, i) => (
-              <img
+              <div
                 key={i}
-                style={{
-                  width: `${appWidth}px`,
-                }}
-                src={app.img}
-                alt={app.name}
-              />
+                className="group cursor-pointer "
+              >
+                {app.img}
+              </div>
             ))
           }
-        </ul>
+        </div>
+        {
+          !isMobile
+            ? null
+            : <div className="flex flex-col gap-1 mt-6">
+              <Link to='/documents/privacy-policy' className="text-caption_m_desk text-light_grey  hover:text-primary_blue" onClick={scrollToTop}>Политика
+                конфеденциальности</Link>
+              <Link to='/documents/user-agreement' className="text-caption_m_desk text-light_grey  hover:text-medium_grey" onClick={scrollToTop}>Пользовательское
+                соглашение</Link>
+              <Link to='/documents/public-offer' className="text-caption_m_desk text-light_grey  hover:text-medium_grey" onClick={scrollToTop}>Публичная оферта</Link>
+            </div>
+        }
       </div>
-
     </footer>
-  )
-})
-export default Footer
+  );
+});
+export default Footer;

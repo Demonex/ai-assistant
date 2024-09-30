@@ -141,8 +141,8 @@ export const Skeleton = memo(() => {
     <>
       <SkeletonList items={0}/>
       <SkeletonList items={5}/>
-      <SkeletonList items={5}/>
-      <SkeletonList items={3}/>
+      {/*<SkeletonList items={5}/>
+      <SkeletonList items={3}/>*/}
     </>
   )
 })

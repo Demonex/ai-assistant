@@ -3,7 +3,7 @@ import {MapChart, projections, MapPolygonSeries, MapImageSeries} from '@amcharts
 import type {MapPolygon} from '@amcharts/amcharts4/maps.js';
 import geoDataWorldLow from '@amcharts/amcharts4-geodata/worldLow.js';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated.js';
-import {memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
+import React, {memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
 import get from 'lodash.get';
 import set from 'lodash.set';
 import sample from 'lodash.sample';
@@ -12,6 +12,17 @@ import {useArtistAudienceMap} from '../../../hooks/useArtistAudienceMap.js';
 import {findClosest} from '../../../../../utils/findClosest.js';
 import './styles.css';
 import {useSizes} from '../../../../../hooks/useSizes.js';
+import MapIcon from "../../../../../assets/MapIcon.js";
+import GlobeIcon from "../../../../../assets/GlobeIcon.js";
+import InfoIcon from "../../../../../assets/InfoIcon.js";
+import {CountriesTable} from "./CountriesTable.js";
+import {useArtistAudienceSummery} from "../../../hooks/useArtistAudienceSummery.js";
+import LockIcon from "../../../../../assets/LockIcon.js";
+import SecondaryButton from "../../../../../components/SecondaryButton.js";
+import {useSubscriptions} from "../../../../../hooks/useSubscriptions.js";
+import {useAccount} from "../../../../../components/Header/hooks/useAccount.js";
+import {useArtistProfile} from "../../../hooks/useArtistProfile.js";
+import {useManageTable} from "../hooks/useManageTable.js";
 
 enum MAP_TYPE {
   'map' = 'Map',
@@ -20,9 +31,9 @@ enum MAP_TYPE {
 
 const colors = {
   background: color('#ffffff'),
-  country: color('#a5b4fc'),
+  country: color('#484848'),
   countryStroke: color('#000000'),
-  countryHover: color('#1b1b1b'),
+  countryHover: color('#272727'),
   countryActive: color('#0f0f0f'),
   tooltipBackground: color('#0f0f0f'),
   tooltipStroke: color('#070707')
@@ -31,42 +42,54 @@ const colors = {
 export default memo(() => {
   const {data, mapTabSelected, mapButtonSelected} = useArtistAudienceMap();
   const {isMobile, isTablet, isLaptop} = useSizes();
+  const {mapType, setMapType} = useManageTable();
   const mapRef = useRef<HTMLDivElement>(null);
   const mapChartRef = useRef<MapChart>(null);
   const polygonSeriesRef = useRef<MapPolygonSeries>(null);
   const bubbleSeriesRef = useRef<MapImageSeries>(null);
   const currentPolygonRef = useRef<MapPolygon>(undefined);
-
-  const [mapType, setMapType] = useState(MAP_TYPE.map);
+  const {elementRange} = useSizes();
+  const mapHeight = elementRange(320, 480);
+  const containerHeight = elementRange(360, 580);
+  // const {data: dataSummery, loading: dataSummeryLoading} = useArtistAudienceSummery();
+  const {isSubscribed} = useSubscriptions();
+  const {profile} = useAccount();
+  const {data: artistProfile} = useArtistProfile();
+  // const [mapType, setMapType] = useState(MAP_TYPE.map);
 
   const id = useMemo(() => {
-    return data?.mapStats[mapTabSelected]?.data.columns.filter(({showInMap}) => showInMap)[mapButtonSelected]?.id;
+    return data?.mapStats?.[mapTabSelected]?.data.columns.filter(({showInMap}) => showInMap)[mapButtonSelected]?.id;
   }, [data, mapTabSelected, mapButtonSelected]);
 
   const dataMap = useMemo<Record<string, unknown>[]>(() => {
     const colors = [
       {
         lng: -180,
-        color: '#a367dc'
+        // color: '#a367dc'
+        color: '#1ED760'
       },
       {
         lng: -90,
-        color: '#8067dc'
+        // color: '#8067dc'
+        color: '#1ED760'
       },
       {
         lng: 0,
-        color: '#6771dc'
+        // color: '#6771dc'
+        color: '#1ED760'
       },
       {
         lng: 90,
-        color: '#6794dc'
+        // color: '#6794dc'
+        color: '#1ED760'
       },
       {
         lng: 180,
-        color: '#67b7dc'
+        // color: '#67b7dc'
+        color: '#1ED760'
       }
     ];
-    const result = data?.mapStats.reduce<any>((result, {data: {columns, rows}}, i) => {
+    const result = data?.mapStats?.reduce<any>((result, {data: {columns, rows}}, i) => {
       columns.forEach(({id, showInMap}, index) => {
         if (!showInMap) {
           return;
@@ -337,7 +360,7 @@ export default memo(() => {
 
     const polygonTemplate = polygonSeriesRef.current.mapPolygons.template;
     polygonTemplate.fill = colors.country;
-    polygonTemplate.fillOpacity = .25;
+    polygonTemplate.fillOpacity = 1;
     polygonTemplate.stroke = colors.countryStroke;
     polygonTemplate.strokeOpacity = .15;
     polygonTemplate.setStateOnChildren = true;
@@ -478,63 +501,56 @@ export default memo(() => {
   }, [mapType, isMobile, isTablet, isLaptop]);
 
   const enabled = mapType === MAP_TYPE.globe;
-
   return (
-    <div className={`flex w-full h-full flex-col relative ${isMobile ? 'min-h-[380px]' : 'min-h-[480px]'} mb-6`}>
-      <div className="flex w-full justify-end top-4 right-4 absolute z-10">
-        <Switch.Group as="div" className="flex items-center cursor-pointer">
-          <Switch.Label as="span" className="mr-2">
-            <span className={`text-sm ${enabled ? 'text-gray-500' : 'text-gray-200'}`}>Map</span>
-          </Switch.Label>
-          <Switch
-            checked={enabled}
-            onChange={(checked) => setMapType(checked ? MAP_TYPE.globe : MAP_TYPE.map)}
-            className={` justify-start relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent  rounded-full transition-colors ease-in-out duration-200 focus:outline-none ${enabled ? 'bg-cyan-600' : 'bg-indigo-600'}`}
-          >
-            <div
-              className={`pointer-events-none relative inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200 ${enabled ? 'translate-x-5 ' : 'translate-x-0 '}`}
-            >
-              <div
-                className={`absolute inset-0 h-full w-full flex items-center justify-center transition-opacity ${enabled ? 'opacity-0 ease-out duration-100 ' : 'opacity-100 ease-in duration-200 '}`}
-              >
-                <svg
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  className="h-3 w-3 text-indigo-700"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2} // 1.5
-                    stroke="currentColor"
-                    d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"/>
-                </svg>
-              </div>
-              <div
-                className={`absolute inset-0 h-full w-full flex items-center justify-center transition-opacity ${enabled ? 'opacity-100 ease-in duration-200' : 'opacity-0 ease-out duration-100'}`}
-              >
-                <svg fill="none"
-                     viewBox="0 0 24 24"
-                     className="h-3 w-3 text-cyan-700"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2} // 1.5
-                    stroke="currentColor"
-                    d="M12.75 3.03v.568c0 .334.148.65.405.864l1.068.89c.442.369.535 1.01.216 1.49l-.51.766a2.25 2.25 0 0 1-1.161.886l-.143.048a1.107 1.107 0 0 0-.57 1.664c.369.555.169 1.307-.427 1.605L9 13.125l.423 1.059a.956.956 0 0 1-1.652.928l-.679-.906a1.125 1.125 0 0 0-1.906.172L4.5 15.75l-.612.153M12.75 3.031a9 9 0 0 0-8.862 12.872M12.75 3.031a9 9 0 0 1 6.69 14.036m0 0-.177-.529A2.25 2.25 0 0 0 17.128 15H16.5l-.324-.324a1.453 1.453 0 0 0-2.328.377l-.036.073a1.586 1.586 0 0 1-.982.816l-.99.282c-.55.157-.894.702-.8 1.267l.073.438c.08.474.49.821.97.821.846 0 1.598.542 1.865 1.345l.215.643m5.276-3.67a9.012 9.012 0 0 1-5.276 3.67m0 0a9 9 0 0 1-10.275-4.835M15.75 9c0 .896-.393 1.7-1.016 2.25"/>
-                </svg>
-              </div>
+    <div className=' overflow-hidden overflow-y-scroll relative' style={{
+      maxHeight: `${mapHeight}px`
+    }}>
+      <div className='absolute w-full z-50 px-0 md:px-8 -top-6 md:top-6'>
+        <div
+          className="w-full flex flex-col justify-center items-center gap-6 py-6 px-4 lg:p-8 mt-6  md:py-6 md:my-6 rounded-xl border border-secondary_dark_gray backdrop-blur-md bg-[#0C0C0C80]">
+          <div className=" flex flex-col justify-center items-center gap-4">
+            <div className='flex flex-col md:flex-row items-center gap-4'>
+              <LockIcon className='stroke-yellow min-w-8'/>
+              <h1 className="text-t1Mobile md:text-t1Regular text-light_grey">Просмотр аудитории ограничен</h1>
             </div>
-          </Switch>
-          <Switch.Label as="span" className="ml-2">
-            <span
-              className={`text-sm ${enabled ? 'text-gray-200' : 'text-gray-500'}`}>Globe</span>
-          </Switch.Label>
-        </Switch.Group>
+            {
+              !profile && (
+                <p className="text-t2Regular text-medium_grey text-center">Войдите или зарегистрируйтесь, чтобы получить
+                  доступ к подписке.</p>
+              )
+            }
+            {
+              !isSubscribed && (
+                <p className="text-t2Regular text-medium_grey text-center">Подпишись на артиста, чтобы получить всю информацию об аудитории!</p>
+              )
+            }
+          </div>
+          {
+            !profile && (
+              <SecondaryButton title='Войти' className='border-none bg-primary_blue text-white w-full md:w-fit'/>
+            )
+          }
+          {
+            !isSubscribed && (
+              <SecondaryButton
+                title={`Подпишись
+                              на ${artistProfile?.account.name}`}
+                className='border-none bg-primary_blue text-white w-full md:w-fit  '/>
+            )
+          }
+        </div>
       </div>
-      <div className={`map-container w-full h-full ${isMobile ? 'min-h-[380px]' : 'min-h-[480px]'} `} ref={mapRef}/>
+      <div className={`flex w-full h-full flex-col relative lg:bg-popup_gray/50`}>
+        {
+          mapType === 'map'
+            ? <div className={`map-container w-full h-full  `} ref={mapRef} style={{
+              height: `${mapHeight}px`
+            }}/>
+            : <CountriesTable/>
+        }
+      </div>
     </div>
+
   );
 });
 

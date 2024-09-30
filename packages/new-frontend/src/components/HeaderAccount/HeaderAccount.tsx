@@ -32,7 +32,7 @@ export const HeaderAccount = memo(() => {
                             d="M15.80762,3.106a.49281.49281,0,0,0-.42871-.09082l-8,2A.4998.4998,0,0,0,7,5.5v8.01257A2.4757,2.4757,0,0,0,5.5,13,2.5,2.5,0,1,0,8,15.5V8.89014l7-1.75v4.37243A2.4757,2.4757,0,0,0,13.5,11,2.5,2.5,0,1,0,16,13.5V3.5A.50094.50094,0,0,0,15.80762,3.106Z"/>
                     </g>
                   </svg>
-                  <h2 className="text-white font-bold text-[20px]">MusicStats</h2>
+                  <h2 className="text-white font-bold text-[20px]">Rifify</h2>
                 </Link>
               </div>
               <div className="relative hidden lg:flex items-center">

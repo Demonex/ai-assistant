@@ -1,28 +1,25 @@
-import React, {ChangeEvent, Fragment, memo, useCallback, useContext, useEffect, useMemo, useRef, useState} from 'react';
+import React, {ChangeEvent, Fragment, memo, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
 import './styles.css';
 import {Skeleton} from './Skeleton.js';
 import {SearchResultsPanel} from './SearchResultsPanel.js';
 import {PreviewPanel} from './PreviewPanel.js';
-import {SearchResultsContext, SearchResultsContextProvider} from './context/SearchResultsContext.js';
-import {SearchFooter} from './SearchFooter.js';
-import {ShowOnLaptopToDesktop} from '../../../Sizes/ShowOnLaptopToDesktop/ShowOnLaptopToDesktop.js';
+import {SearchResultsContextProvider} from './context/SearchResultsContext.js';
 import {useLazyFetch} from '../../../../hooks/useFetch.js';
 import {BACKEND_URL} from '../../../../constants/index.js';
+import {useOpenModalSearch} from '../../../../hooks/useOpenModalSearch.js';
+import LogoNew from '../../../../assets/LogoNew.js';
+import SearchIcon from '../../../../assets/SearchIcon.js';
+import SecondaryCloseIcon from '../../../../assets/SecondaryCloseIcon.js';
+import chevronRight from '/assets/svg/chevronRight_search.svg';
+import {Link} from 'wouter';
+import debounce from 'lodash.debounce';
+import {useSearchData} from '../../hooks/useSearchData.js';
 
+const SearchField = memo(() => {
 
-type SearchFieldProps = {
-  isOpen: boolean
-  closeModal: () => void
-}
-type SearchBarProps = SearchFieldProps
-
-
-const SearchField = memo<SearchFieldProps>(({isOpen, closeModal}) => {
-  const {
-    data,
-    setData
-  } = useContext(SearchResultsContext);
+  const {setSearchData, searchData, setSearchValue} = useSearchData();
+  const [fakeLoading, setFakeLoading] = useState(false);
   const [focused, setFocused] = useState(false);
   const [value, setValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -31,28 +28,36 @@ const SearchField = memo<SearchFieldProps>(({isOpen, closeModal}) => {
   const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
   }, []);
-
-  const [{data: apiData, loading, error}, fetchResults] = useLazyFetch({
+  const {isOpenSearchModal, setIsOpenSearchModal} = useOpenModalSearch();
+  const [{data: apiData, loading}, fetchResults] = useLazyFetch({
     url: `${BACKEND_URL}/proxy/api/v1/search/search_all`
   });
-
-  useEffect(() => {
-    if(!value && data) {
-      setData([]);
-      return;
-    }
+  const handleDebounceFn = useCallback((value: string) => {
+    setFakeLoading(false);
     fetchResults({
       params: {
-        q: value
+        q: value,
+        excludedModels: 'RadioStation'
       }
     }).catch(console.error);
+  }, []);
+  const debounceFn = useCallback(debounce(handleDebounceFn, 3 * 1000), []);
+  useEffect(() => {
+    if(!value && searchData) {
+      setFakeLoading(false);
+      setSearchData([]);
+      return;
+    }
+    setFakeLoading(true);
+    debounceFn(value);
+    setSearchValue(value);
   }, [value]);
 
   useEffect(() => {
-    if(!apiData) {
+    if(!apiData?.groupedResults) {
       return;
     }
-    setData(Object.entries(apiData.groupedResults).map(([k, v]: [string, any[]], ig) => {
+    setSearchData(Object.entries(apiData.groupedResults).map(([k, v]: [string, any[]], ig) => {
       return (
         {
           title: k,
@@ -62,31 +67,31 @@ const SearchField = memo<SearchFieldProps>(({isOpen, closeModal}) => {
               photo: item.imageUrl,
               description: item.type,
               id: item.idUnique,
-              selected: ig === 0 && ii === 0
+              selected: ig === 0 && ii === 0,
+              secondaryText: item.secondaryText
             }
           ))
         }
       );
     }));
-  }, [apiData]);
 
+  }, [apiData]);
+// console.log('apiData',apiData)
   const onReset = useCallback(() => {
     inputRef.current?.focus();
     setValue('');
   }, []);
-  const isLoading = useMemo(() => Boolean(value && loading), [value, loading]);
+  const isLoading = useMemo(() => Boolean(value && (loading || fakeLoading)), [value, loading, fakeLoading]);
   useEffect(() => {
-    if(!isOpen) {
+    if(!isOpenSearchModal) {
       return;
     }
     inputRef.current?.focus();
-  }, [isOpen]);
-
-
+  }, [isOpenSearchModal]);
   return (
     <>
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-50" onClose={closeModal}>
+      <Transition appear show={isOpenSearchModal} as={Fragment}>
+        <Dialog as="div" className="relative z-50" onClose={() => setIsOpenSearchModal(false)}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -96,13 +101,23 @@ const SearchField = memo<SearchFieldProps>(({isOpen, closeModal}) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black/25"/>
+            <div className="fixed inset-0 bg-[black]/25"/>
           </Transition.Child>
-
-          <div className="fixed inset-0 bg-[#0f172acc] search-portal-shadow backdrop-blur-[10px]"/>
+          <div className="fixed inset-0 bg-[#0C0C0CD9] search-portal-shadow backdrop-blur-[8px]"/>
           <div className="fixed inset-0 overflow-y-auto">
             <div
-              className="flex min-h-full items-start justify-center p-4 text-center laptop:pt-[40px] laptop:pb-[32px] laptop:px-[40px]">
+              className="flex flex-col min-h-full px-4 md:px-8 py-5 gap-5 md:gap-6 lg:px-[10.5rem] text-center laptop:pt-16">
+              <div className="flex justify-between items-center">
+                <Link to='/'>
+                  <LogoNew width={80} className=" lg:hidden"/>
+                </Link>
+                <button
+                  onClick={() => setIsOpenSearchModal(false)}
+                  className=" md:hidden text-light_grey text-t2Regular hover:text-gray-300 transition-fast-out ">
+                  Отмена
+                </button>
+              </div>
+
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -112,15 +127,21 @@ const SearchField = memo<SearchFieldProps>(({isOpen, closeModal}) => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
+
                 <Dialog.Panel
-                  className="laptop:max-w-[1040px] transition-all w-full flex flex-col justify-between transform align-middle">
+                  className=" transition-all w-full flex gap-10 transform items-start justify-center ">
                   <div
-                    className={`w-full flex flex-col justify-between bg-[#1e293b] shadow-md rounded-md laptop:rounded-lg h-full align-middle transform transition-all text-left search ${value ? 'laptop:max-h-[832px] min-h-[320px]' : ''}`}>
+                    className={`w-full laptop:max-w-[1040px] flex flex-col justify-between md:bg-popup_gray  rounded-[.875rem] h-full align-middle transform transition-all text-left search relative ${value ? '' : ''}`}>
+                    <Link to='/'>
+                      <LogoNew width={105}
+                               className="hidden lg:block lg:absolute lg:-left-[9rem] lg:top-3"/>
+                    </Link>
+
                     <div
-                      className="flex items-center flex-none h-[72px] border-b border-[#e2e8f00d]">
+                      className="flex items-center px-3.5 md:px-6 py-3 bg-popup_gray md:bg-[unset] rounded-xl">
                       <div className="w-full h-full">
                         <form
-                          className="flex items-center w-full h-full outline-none rounded-tl-lg"
+                          className="flex items-center w-full h-full "
                           action=""
                           noValidate={true}
                           role="search"
@@ -128,60 +149,61 @@ const SearchField = memo<SearchFieldProps>(({isOpen, closeModal}) => {
                           onSubmit={(event) => event.preventDefault()}
                         >
                           <label htmlFor="search-input" id="search-label"
-                                 className={`h-full w-[56px] mt-[1px] px-[16px] flex items-center justify-center transition-colors duration-200 ease-in-out ${focused ? 'text-indigo-400' : 'text-gray-400'}`}>
+                                 className={`h-full w-10 flex items-center justify-center transition-colors duration-200 ease-in-out ${focused ? 'text-primary_blue' : 'text-gray-400'}`}>
                             {
                               isLoading
                                 ? (
-                                  <svg viewBox="0 0 100 100" className="flex-none h-[24px]">
-                                    <circle cx="50" cy="50" fill="none" r="35" stroke="currentColor"
-                                            strokeDasharray="164.93361431346415 56.97787143782138" strokeWidth="4">
-                                      <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite"
-                                                        dur="1s" values="0 50 50;90 50 50;180 50 50;360 50 50"
+                                  <svg viewBox="0 0 100 100"
+                                       className="flex-none h-8">
+                                    <circle cx="50" cy="50" fill="none" r="35"
+                                            stroke="currentColor"
+                                            strokeDasharray="164.93361431346415 56.97787143782138"
+                                            strokeWidth="4">
+                                      <animateTransform attributeName="transform"
+                                                        type="rotate"
+                                                        repeatCount="indefinite"
+                                                        dur="1s"
+                                                        values="0 50 50;90 50 50;180 50 50;360 50 50"
                                                         keyTimes="0;0.40;0.65;1"/>
                                     </circle>
                                   </svg>
                                 )
                                 : (
-                                  <svg viewBox="0 0 20 20" fill="currentColor"
-                                       className="flex-none h-[24px] py-[1px]">
-                                    <path
-                                      d="M19.71,18.29,16,14.61A9,9,0,1,0,14.61,16l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,19.71,18.29ZM2,9a7,7,0,1,1,12,4.93h0s0,0,0,0A7,7,0,0,1,2,9Z"/>
-                                  </svg>
+                                  <SearchIcon className={'fill-medium_grey '} width={30}/>
                                 )
                             }
                           </label>
-                          <div className="relative flex-1">
+                          <div
+                            className="relative flex w-full items-center md:border-r border-dark_grey">
                             <input
                               ref={inputRef}
                               value={value}
                               onFocus={onFocus}
                               onBlur={onBlur}
                               onChange={onChange}
-                              className="flex-1 h-full bg-transparent focus:text-gray-200 text-gray-400 placeholder-gray-400 shadow-none outline-none truncate text-lg sm:text-3xl caret-color-xenon-400 leading-normalized w-full appearance-none rounded-none transition-colors duration-200 ease-in-out font-extralight border-0 focus:ring-0"
+                              className=" h-full bg-transparent focus:text-[white] placeholder-medium_grey outline-none truncate text-t2Regular  w-full transition-colors duration-200 ease-in-out border-0 focus:ring-0 px-6 py-2"
                               autoComplete="off"
                               autoCorrect="off"
                               autoCapitalize="off"
                               spellCheck="false"
-                              placeholder="Search for Artists, Labels or Songs..."
+                              placeholder="Найти артиста, лейбл или песню"
                               maxLength={512}
                               type="search"
                               enterKeyHint="go"
                             />
+                            <button type="reset"
+                                    className={`items-center justify-center h-full md:mr-6 text-medium_grey hover:text-[white] cursor-pointer transition-fast-out fill-medium_grey flex ${value ? '' : 'hidden'}`}>
+                              <SecondaryCloseIcon
+                                className="stroke-medium_grey hover:stroke-[white]"/>
+                            </button>
                           </div>
-                          <button type="reset"
-                                  className={`items-center justify-center h-full w-[56px] px-[16px] text-gray-400 hover:text-gray-300 opacity-75 fill-current cursor-pointer transition-fast-out flex ${value ? '' : 'hidden'}`}>
-                            <svg viewBox="0 0 14 14" className="h-[8px]">
-                              <path
-                                d="M8.41,7l5.3-5.29A1,1,0,1,0,12.29.29L7,5.59,1.71.29A1,1,0,0,0,.29,1.71L5.59,7,.29,12.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L7,8.41l5.29,5.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/>
-                            </svg>
-                          </button>
+
                         </form>
                       </div>
-                      <div className="flex-none w-[1px] h-[32px] bg-[#e2e8f00d]"/>
                       <button
-                        onClick={closeModal}
-                        className="h-full px-[16px] text-gray-400 hover:text-gray-300 transition-fast-out font-extralight">
-                        Cancel
+                        onClick={() => setIsOpenSearchModal(false)}
+                        className=" hidden md:block h-full pl-8 pr-2 text-light_grey text-t2Regular hover:text-gray-300 transition-fast-out ">
+                        Отмена
                       </button>
                     </div>
                     {
@@ -189,34 +211,53 @@ const SearchField = memo<SearchFieldProps>(({isOpen, closeModal}) => {
                         ? (
                           <>
                             <div
-                              className={`flex flex-grow overflow-hidden ${isLoading ? 'animate-pulse cursor-wait' : ''}`}>
-                              <div className="relative w-full flex-none overflow-y-auto laptop:w-1/2">
-                                <div className={isLoading ? 'pointer-events-none' : ''}>
+                              className={`flex w-full overflow-hidden ${isLoading ? 'animate-pulse cursor-wait' : ''}`}>
+                              <div
+                                className={`flex flex-col justify-between relative w-full flex-none  md:border-t border-secondary_dark_gray ${searchData?.length === 0 ? 'laptop:w-[100%]' : 'md:w-[60%]'}`}>
+                                <div
+                                  className={isLoading ? 'pointer-events-none' : 'wrapper'}>
                                   {
                                     isLoading
                                       ? (
                                         <Skeleton/>
                                       )
                                       : (
-                                        <SearchResultsPanel
-                                          closeModal={closeModal}
-                                        />
+                                        searchData?.length > 0
+                                          ? <SearchResultsPanel
+                                            closeModal={() => setIsOpenSearchModal(false)}
+                                          />
+                                          : <div
+                                            className="px-5 pt-4 pb-20 mb:border-b border-b-secondary_dark_gray">
+                                            <p className="text-medium_grey text-t2Regular">По
+                                              твоему запросу ничего не найдено.</p>
+                                          </div>
                                       )
                                   }
                                 </div>
-                                <div
-                                  className="bg-gradient-to-b from-white-opacity-0 to-white w-full h-[32px] sticky bottom-0"/>
-                              </div>
-                              <ShowOnLaptopToDesktop>
-                                <div
-                                  className="preview-panel bg-gray-200-opacity-60 hidden laptop:block w-1/2 flex-none overflow-y-auto leading-normal">
-                                  <div className="w-full py-[16px] px-[56px]">
-                                    <PreviewPanel/>
+                                <Link to={`/all_search_results?q=${value}`}
+                                      onClick={() => setIsOpenSearchModal(false)}>
+                                  <div
+                                    className="w-full px-1 py-5 md:p-5 sticky bottom-0  justify-between items-center cursor-pointer hidden md:flex">
+                                    <p className="text-btnText">Смотреть все
+                                      результаты</p>
+                                    <img src={chevronRight}/>
                                   </div>
-                                </div>
-                              </ShowOnLaptopToDesktop>
+                                </Link>
+                              </div>
+                              {
+                                searchData?.length === 0
+                                  ? null
+                                  : <div
+                                    className="border-t border-l border-secondary_dark_gray hidden md:block w-[40%] flex-none overflow-y-auto ">
+                                    <div className="w-full py-8 px-5">
+                                      <PreviewPanel/>
+                                    </div>
+                                  </div>
+                              }
+
                             </div>
-                            <SearchFooter/>
+                            {/*<SearchFooter/>*/}
+
                           </>
                         )
                         : null
@@ -225,15 +266,30 @@ const SearchField = memo<SearchFieldProps>(({isOpen, closeModal}) => {
                 </Dialog.Panel>
               </Transition.Child>
             </div>
+            {
+              searchData?.length === 0
+                ? null
+                : <Link
+                  to={`/all_search_results?q=${value}`}
+                  onClick={() => setIsOpenSearchModal(false)}
+                >
+                  <div
+                    className="w-full p-5 sticky bottom-0 border-t border-secondary_dark_gray justify-between items-center cursor-pointer flex md:hidden bg-[#0C0C0C]">
+                    <p className="text-btnText">Смотреть все результаты</p>
+                    <img src={chevronRight}/>
+                  </div>
+                </Link>
+            }
+
           </div>
         </Dialog>
       </Transition>
     </>
   );
 });
-export const SearchBar = memo<SearchBarProps>(({closeModal, isOpen}) => (
+export const SearchBar = memo(() => (
   <SearchResultsContextProvider>
-    <SearchField closeModal={closeModal} isOpen={isOpen}/>
+    <SearchField/>
   </SearchResultsContextProvider>
 ));
 

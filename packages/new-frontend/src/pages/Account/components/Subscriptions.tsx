@@ -1,91 +1,98 @@
+import PrimaryButton from "../../../components/PrimaryButton.js";
+import SecondaryButton from "../../../components/SecondaryButton.js";
+
 export const Subscriptions = () => {
-  const subscription = [
+  const subscriptions = [
     {
       photo: '',
-      name: '',
-      subscriptionDate: '10.11.1992',
+      name: 'Dua Lipa',
       paymentType: 'stripe',
       recurring: 'monthly',
-      status: 'active',
+      status: 'Активен',
+      period: '12 month',
+      sum: '1190 ₽',
+      nextPayment: '22.12.2024',
+      endDate: '22.12.2025'
+    },
+    {
+      photo: '',
+      name: 'Dua Lipa',
+      paymentType: 'stripe',
+      recurring: 'monthly',
+      status: 'Активен',
+      period: '12 month',
+      sum: '1190 ₽',
+      nextPayment: '22.12.2024',
+      endDate: '22.12.2025'
+    },
+    {
+      photo: '',
+      name: 'Dua Lipa',
+      paymentType: 'stripe',
+      recurring: 'monthly',
+      status: 'архив',
+      period: '12 month',
+      sum: '1190 ₽',
+      nextPayment: '22.12.2024',
+      endDate: '22.12.2025'
     }
   ]
   const subscriptionTitles = [
     {
-      title: 'SUBSCRIPTION',
+      title: 'Название',
     },
     {
-      title: 'START DATE',
+      title: 'Статус',
     },
     {
-      title: 'PAYMENT',
+      title: 'Длительность',
     },
     {
-      title: 'RECURRING',
+      title: 'Сумма в месяц',
     },
     {
-      title: 'STATUS',
+      title: 'Следующее списание',
     },
     {
-      title: 'ACTION',
+      title: 'Дата окончания',
     },
 
   ]
   return (
-    <div className=' flex flex-col gap-[1rem]'>
-      <div className='pb-[4rem] lg:p-[2rem]'>
-        <div className='flex flex-col gap-3'>
-          <h1 className='text-gray-200 font-medium text-lg xl:text-xl capitalize text-center'>your Subscriptions</h1>
-          <p className='text-gray-300 font-light text-md xl:text-[1rem] capitalize py-4 text-center'>Manage your
-            subscriptions, see invoices, and update billing information.</p>
-          <div className='flex w-full justify-between px-4'>
+    <div className='py-6 flex flex-col gap-6'>
+      <div className=' bg-[#272727]/50 rounded-t-[20px] border-b border-b-secondary_dark_gray'>
+        <table className="w-full ">
+          <thead className="">
+          <tr>
             {
               subscriptionTitles.map((title, index) => (
-                <h1 key={index} className='text-gray-400 font-light text-xs xl:text-sm py-4 basis-1 whitespace-nowrap'>{title.title}</h1>
+                <th className="py-5 px-4 text-start  text-btnText" key={index}>
+                  {title.title}
+                </th>
               ))
             }
-          </div>
-
+          </tr>
+          </thead>
+          <tbody className="divide-y divide-secondary_dark_gray bg-[#0C0C0C]">
           {
-            subscription.map((item, index) => (
-              <div className='w-full px-4 py-2 border border-slate-600/50 rounded-[8px] bg-slate-500/5' key={index}>
-                <div className='w-full flex justify-between gap-10 items-center'>
-                  {
-                    subscription.map((item, index) => (
-                      <div key={index} className='flex w-full justify-between items-center'>
-                        <div className='flex gap-2 items-center'>
-                          <img src={item.photo} className='w-6 h-6'/>
-                          <p
-                            className='text-gray-200 font-medium text-xs xl:text-sm uppercase py-4 px-4'>{item.name}</p>
-                        </div>
-                        <p
-                          className='capitalize text-[12px] lg:text-[16px] leading-6 font-light text-indigo-300/50 hover:text-indigo-200/80 whitespace-nowrap '
-                        >{item.subscriptionDate}
-                        </p>
-                        <p
-                          className='capitalize text-[12px] lg:text-[16px] leading-6 font-light text-indigo-300/50 hover:text-indigo-200/80 whitespace-nowrap '
-                        >{item.paymentType}
-                        </p>
-                        <p
-                          className='capitalize text-[12px] lg:text-[16px] leading-6 font-light text-indigo-300/50 hover:text-indigo-200/80 whitespace-nowrap '
-                        >{item.recurring}
-                        </p>
-                        <p
-                          className='capitalize text-[12px] lg:text-[16px] leading-6 font-light text-indigo-300/50 hover:text-indigo-200/80 whitespace-nowrap '
-                        >{item.status}
-                        </p>
-                      </div>
-                    ))
-                  }
-                  <div className='flex gap-3 basis-1/6 justify-end'>
-                    <div className='w-5 h-5 bg-slate-500'></div>
-                    <div className='w-5 h-5 bg-slate-500'></div>
-                  </div>
-                </div>
-              </div>
+            subscriptions.map((item, indexItem) => (
+              <tr className="" key={indexItem}>
+                <td className="p-4 text-start flex items-center gap-2.5 min-w-[20rem] text-t2Regular">
+                  <img src={item.photo} className='w-11 h-11 rounded-full bg-medium_grey'/>
+                  <p>{item.name}</p>
+                </td>
+                <td className={`p-4 text-caption_r_desk capitalize ${item.status === 'архив' ? 'text-medium_grey' : ''}`}>{item.status}</td>
+                <td className={`p-4 text-caption_r_desk ${item.status === 'архив' ? 'text-medium_grey' : ''}`}>{item.period}</td>
+                <td className={`p-4 text-caption_r_desk ${item.status === 'архив' ? 'text-medium_grey' : ''}`}>{item.sum}</td>
+                <td className={`p-4 text-caption_r_desk ${item.status === 'архив' ? 'text-medium_grey' : ''}`}>{item.nextPayment}</td>
+                <td className={`p-4 text-caption_r_desk ${item.status === 'архив' ? 'text-medium_grey' : ''}`}>{item.endDate}</td>
+              </tr>
             ))
           }
-        </div>
+          </tbody>
+        </table>
       </div>
+      <SecondaryButton title='Добавить подписку на артиста' className='w-fit bg-primary_blue border-none text-white'/>
     </div>
   )
 }

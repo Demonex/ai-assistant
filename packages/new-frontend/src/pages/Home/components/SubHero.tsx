@@ -11,7 +11,7 @@ export const SubHero = memo(() => {
                         All together now.
                     </p><p
                         className="mt-8 text-xl laptop:text-2xl desktop:text-3xl font-normal tracking-tight text-white">
-                        MusicStats aggregates all of your music data into one comprehensive analytics platform.
+                        Rifify aggregates all of your music data into one comprehensive analytics platform.
                     </p></div>
                     <ul className="flex px-5 gap-6 mt-12 lg:text-center justify-between lg:gap-12" role="list">
                         <li>

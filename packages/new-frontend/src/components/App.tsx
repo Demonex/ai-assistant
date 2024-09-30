@@ -1,9 +1,10 @@
-import {memo} from 'react';
-import {Route, Switch, useLocation} from 'wouter';
+import React, {memo} from 'react';
+import {Route, Switch} from 'wouter';
 import get from 'lodash.get';
 import {ErrorPage} from '../pages/404/Error.js';
 import {MemoComponent} from './MemoComponent.js';
-// import '../index.css'
+import '../index.css'
+import {SearchBar} from './Header/components/SearchField/index.js';
 
 const PagePathsWithComponents: {
   [k: string]: {
@@ -47,6 +48,7 @@ export const App = memo(() => {
           );
         })}
       </Switch>
+      <SearchBar/>
     </>
   );
 });

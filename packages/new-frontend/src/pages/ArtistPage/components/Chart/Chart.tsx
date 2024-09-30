@@ -4,17 +4,22 @@ import {
   XAxis,
   Tooltip,
   ResponsiveContainer,
-  YAxis
+  YAxis, Label
 } from 'recharts';
 import get from 'lodash.get';
 import set from 'lodash.set';
 import {DateTime} from 'luxon';
-import React, {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {forwardRef, memo, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import humanNumber from 'human-number';
 import type {TooltipProps as CustomTooltipProps} from 'recharts/types/component/Tooltip.js';
 import {useWindowSize} from '@uidotdev/usehooks';
 import {useArtistChart} from '../../hooks/useArtistChart.js';
 import turnPhoneIcon from '/assets/svg/turnPhoneIcon.svg'
+import {useArtist} from "../../hooks/useArtist.js";
+import {overviewSources} from "../../../../data/consts/favoriteSources.js";
+import {useSizes} from "../../../../hooks/useSizes.js";
+import settings from "/assets/svg/settings_icon.svg";
+import {ShowOnMobileOnly} from "../../../../components/Sizes/ShowOnMobileOnly/ShowOnMobileOnly.js";
 
 
 type DataType = ({ time: number } & { [k: string]: unknown })[]
@@ -22,15 +27,18 @@ type DataType = ({ time: number } & { [k: string]: unknown })[]
 type TabsZoomProps = {
   zoom: Zoom
   setZoom: React.Dispatch<React.SetStateAction<Zoom>>
+  currentDataFiltered: any
+  popupChart: boolean
+  setPopupChart: () => void
 }
 
 enum Zoom {
-  '1m' = '1m',
-  '3m' = '3m',
-  '6m' = '6m',
-  'ytd' = 'YTD',
-  '1y' = '1y',
-  'all' = 'All'
+  '1m' = '1 мес',
+  '3m' = '3 мес',
+  '6m' = '6 мес',
+  'ytd' = '2024',
+  '1y' = '1 год',
+  'all' = 'Все'
 }
 
 const OFFSET_PERCENT = 10;
@@ -43,11 +51,31 @@ const ChartStub = () => {
     </div>
   )
 }
-const TabsZoom = memo<TabsZoomProps>(({zoom, setZoom}) => {
+const TabsZoom = forwardRef<HTMLImageElement, TabsZoomProps>(({
+                                                                zoom,
+                                                                setZoom,
+                                                                currentDataFiltered,
+                                                                popupChart,
+                                                                setPopupChart,
+                                                              }, refSettings) => {
+  const {source} = useArtist();
   const tabsParentRef = useRef<HTMLDivElement>(null);
   const tabMarkerRef = useRef<HTMLDivElement>(null);
   const [activateAnimation, setActivateAnimation] = useState(false);
+  const [selectedTab, setSelectedTab] = useState(0);
   const {width, height} = useWindowSize();
+  const getLogo = overviewSources.find(item => item.slug === source);
+  const {elementRange} = useSizes();
+  const logoChart = elementRange(6, 11.25);
+  const [openZoom, setOpenZoom] = useState(false);
+
+  const handleClickOnTab = (value, index) => {
+    if (tabMarkerRef) {
+      setZoom(value);
+      setSelectedTab(index)
+    }
+    return
+  }
   useEffect(() => {
     const selectedIndex = Object.values(Zoom).indexOf(zoom);
     if (!tabsParentRef.current
@@ -69,32 +97,95 @@ const TabsZoom = memo<TabsZoomProps>(({zoom, setZoom}) => {
     setActivateAnimation(true);
   }, [zoom, tabsParentRef.current, tabMarkerRef.current, width, height, activateAnimation]);
   return (
-    <div className="flex w-full justify-end items-center select-none gap-8">
-      <span className="text-slate-200 text-[11px] h-8 leading-9">Zoom</span>
-      <div
-        className="relative flex xl:gap-4 h-8 text-white"
-        ref={tabsParentRef}>
-        {
-          Object.values(Zoom).map((value, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                setZoom(value);
-              }}
-              className={'relative z-20 items-center gap-2 w-auto h-8 text-sm p-2 font-medium cursor-pointer transition-all whitespace-nowrap'}
-              type="button">
-              {value}
-            </button>
-
-          ))
-        }
-        <div
-          className={`absolute left-0 w-0 z-10 h-full duration-300 ease-out ${activateAnimation ? 'duration-300' : 'duration-0'}`}
-          ref={tabMarkerRef}>
-          <div className="w-full h-full rounded-lg bg-vulcan-900 border-2 border-indigo-500 mt-[2px]"/>
+    <>
+      <div className="flex gap-4 flex-col md:flex-row">
+        <div style={{
+          width: `${logoChart}rem`,
+        }}
+             className=' mr-6'>
+          {getLogo?.logo}
         </div>
+        <div className='flex gap-10'>
+          {
+            currentDataFiltered?.map((item, index) => (
+              <div className="flex flex-col " key={index}>
+                <h1
+                  className={`pl-1 text-caption_s_desk whitespace-nowrap uppercase text-medium_grey border-l-2 ${index === 0 ? 'border-magenta' : 'border-yellow'}`}>{item.text}</h1>
+                <h1
+                  className="text-t1Semi_deck text-light_grey">{item.count}</h1>
+              </div>
+            ))
+          }
+        </div>
+
       </div>
-    </div>
+      {
+        width > 1680 || width < 1023
+          ?
+          <>
+          <div className="flex w-full lg:justify-end items-center select-none gap-8">
+            <div
+              className="relative flex gap-2 h-8 overflow-x-auto"
+              ref={tabsParentRef}>
+              {
+                Object.values(Zoom).map((value, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      handleClickOnTab(value, index)
+                    }}
+                    className={`relative z-20 items-center gap-2 w-auto h-8 text-sm px-6 py-2 text-caption_m_desk cursor-pointer transition-all whitespace-nowrap border border-solid border-secondary_dark_gray rounded-[30px] ${index === selectedTab ? 'bg-yellow text-[black]' : ''}`}
+                    type="button">
+                    {value}
+                  </button>
+                ))
+              }
+
+              {/*<div
+                        className={`absolute left-0 w-0 z-10 h-full duration-300 ease-out ${activateAnimation ? 'duration-300' : 'duration-0'}`}
+                        ref={tabMarkerRef}>
+                        <div className="w-full h-full rounded-lg bg-vulcan-900 border-2 border-indigo-500 mt-[2px]"/>
+                    </div>*/}
+            </div>
+          </div>
+            <ShowOnMobileOnly>
+              <p className='text-caption_s_desk text-medium_grey'>Нажмите на график, чтобы увидеть значения</p>
+            </ShowOnMobileOnly>
+          </>
+          : (
+            <div className='w-full flex justify-end relative'>
+              <img className='fill-white w-7 h-7' src={settings} ref={refSettings}
+                   onClick={() => setOpenZoom(!openZoom)}/>
+              {
+                openZoom && (
+                  <div className=" rounded-xl w-[10rem] absolute bg-popup_gray p-4 z-20 top-8">
+                    <div
+                      className="relative flex gap-2 flex-col "
+                      ref={tabsParentRef}>
+                      {
+                        Object.values(Zoom).map((value, index) => (
+                          <button
+                            key={index}
+                            onClick={() => {
+                              setZoom(value);
+                              setSelectedTab(index)
+                            }}
+                            className={`relative z-20 items-center gap-2 w-auto h-8 text-sm px-6 py-2 text-caption_m_desk cursor-pointer transition-all whitespace-nowrap border border-solid border-secondary_dark_gray rounded-[30px] ${index === selectedTab ? 'bg-yellow text-[black]' : ''}`}
+                            type="button">
+                            {value}
+                          </button>
+                        ))
+                      }
+                    </div>
+                  </div>
+                )
+              }
+            </div>
+          )
+      }
+
+    </>
+
   );
 });
 
@@ -105,27 +196,37 @@ const CustomTooltip = memo<CustomTooltipProps<number, string>>(({
   if (!active || !payload?.length) {
     return null;
   }
-
+  const date = new Date(payload[0].payload.time);
+  const formattedDate = DateTime.fromJSDate(date).setLocale('ru').toFormat(`ccc d/MM/yyyy`);
   return (
-    <div className="flex flex-col bg-indigo-500/70 text-white p-2 rounded-md">
+    <div className="flex flex-col bg-popup_gray text-white p-2 rounded-md gap-2">
+      <p
+        className='text-caption_s_desk text-medium_grey pb-1 border-b border-medium_grey capitalize'>{formattedDate}</p>
       {
         payload.map(({name, value}, index) => (
-          <div className="" key={index}>{name}: {value}</div>
+          <div className="flex gap-1" key={index}>
+            <p
+              className={`text-caption_s_desk uppercase text-medium_grey border-l-2 pl-1 ${index === 0 ? "border-magenta" : "border-yellow"}`}>{name}: </p>
+            <span className='text-xs text-light_grey'>{value}</span>
+          </div>
         ))
       }
     </div>
   );
 });
 
-export const Chart = memo(() => {
+export const Chart = forwardRef<any, any>(({setPopupChart, popupChart}, ref) => {
   const {data: chartData} = useArtistChart();
-  const {width} = useWindowSize();
-  const currentDataFiltered = chartData?.chart.iconData.filter((item) => (
-    item.secondaryText === 'current'
+  const refSettings = useRef<HTMLImageElement>(null);
+  const {isMobile, width} = useSizes();
+  const areachartWidth = width - 32
+
+  const currentDataFiltered = chartData?.chart?.iconData?.filter((item, index) => (
+    item.secondaryText === 'current' && index < 2
   ));
   const chartDataGraph: DataType = useMemo(() => {
     const seriesData = get(chartData, 'chart.seriesData', []);
-    return seriesData.length ? seriesData.filter(({data}) => data.length).reduce((prev, current, index, array) => {
+    return seriesData?.length ? seriesData?.filter(({data}) => data.length).reduce((prev, current, index, array) => {
       current.data.forEach(item => {
         const time = String(get(item, 0, ''));
         const value = get(item, 1);
@@ -149,7 +250,6 @@ export const Chart = memo(() => {
       }, []) : prev;
     }, {} as any) : [];
   }, [chartData]);
-
   const [zoom, setZoom] = useState<Zoom>(Zoom['1m']);
 
   const startDate = useMemo(() => {
@@ -230,127 +330,141 @@ export const Chart = memo(() => {
   }, [ticks, chartDataGraph]);
 
   const keys = useMemo(() => {
-    return chartData?.chart.seriesData.filter(({data}) => data.length).map(item => item.name) || [];
+    return chartData?.chart?.seriesData?.filter(({data}) => data.length).map(item => item.name) || [];
   }, [chartData]);
 
   return (
-    <div className="relative flex flex-col text-xs mt-6 gap-5 px-4 xl:px-6 bg-indigo-200/5 py-4 rounded-3xl w-full flex-1 h-fit">
-      {
-        width < 660
-        ? <ChartStub/>
-          : <>
-            <div className="flex gap-4 w-full justify-end text-base text-slate-200 mb-2 ">
-              {
-                <TabsZoom zoom={zoom} setZoom={setZoom}/>
-              }
-            </div>
-            <ResponsiveContainer
-              width="100%"
-              aspect={3 / 1}
-              height="fit-content"
-              maxHeight={500}
-              //aspect or height={300}
-            >
-              <AreaChart data={filledData} margin={{
-                top: 0,
-                right: 20,
-                left: 20,
-                bottom: 0
-              }}>
-                <defs>
-                  <linearGradient id="Color0" x1="1" y1="0.5" x2="0" y2="0.5">
-                    <stop offset="0%" stopColor="#76b1ff" stopOpacity={0.65}/>
-                    <stop offset="100%" stopColor="#7676ff" stopOpacity={0.65}/>
-                  </linearGradient>
-                  <linearGradient id="Color0Stroke" x1="1" y1="0.5" x2="0" y2="0.5">
-                    <stop offset="0%" stopColor="#76b1ff"/>
-                    <stop offset="100%" stopColor="#7676ff"/>
-                  </linearGradient>
-                  <linearGradient id="Color1" x1="1" y1="0.5" x2="0" y2="0.5">
-                    <stop offset="5%" stopColor="#fa4fdf" stopOpacity={0.65}/>
-                    <stop offset="95%" stopColor="#fa994f" stopOpacity={0.65}/>
-                  </linearGradient>
-                  <linearGradient id="Color1Stroke" x1="1" y1="0.5" x2="0" y2="0.5">
-                    <stop offset="5%" stopColor="#fa4fdf"/>
-                    <stop offset="95%" stopColor="#fa994f"/>
-                  </linearGradient>
-                </defs>
-                <XAxis
-                  dataKey="time"
-                  stroke="#6b7280"
-                  tickFormatter={dateFormatter}
-                  scale="time"
-                  type="number"
-                  domain={domainX}
-                  ticks={ticks}
-                  axisLine={false}
-                  tickLine={false}
-                  interval="equidistantPreserveStart"
-                  padding="no-gap"
-                  textAnchor="middle"
-                  dy={10}
-                />
-                {
-                  keys.map((key, index) => {
-                    return (
-                      <YAxis
-                        yAxisId={key}
-                        key={index}
-                        dataKey={key}
-                        type="number"
-                        domain={domainY}
-                        stroke="#6b7280"
-                        orientation={index === 0 ? 'left' : 'right'}
-                        axisLine={false}
-                        tickLine={false}
-                        label={{
+    <div ref={ref}
+         onClick={(e) => {
+           if (e.target === refSettings.current) {
+             return
+           }
+           setPopupChart?.(true)
+         }}
+         className={`relative flex flex-col text-xs gap-4 md:gap-5 py-4 lg:px-8 lg:py-8 rounded-[20px] w-full  h-fit ${popupChart ? 'lg:bg-popup_gray' : 'lg:bg-popup_gray/50 '}`}>
+      <>
+        <div className="flex flex-col lg:flex-row gap-4">
+          {
+            <TabsZoom
+              zoom={zoom}
+              setZoom={setZoom}
+              currentDataFiltered={currentDataFiltered}
+              setPopupChart={setPopupChart}
+              popupChart={popupChart}
+              ref={refSettings}
+            />
+          }
+        </div>
+        <ResponsiveContainer
+          width="100%"
+          aspect={3 / 1}
+          height="fit-content"
+          maxHeight={500}
+          //aspect or height={300}
+
+        >
+          <AreaChart data={filledData}
+
+                     margin={{
+                       top: 0,
+                       right: !isMobile ? 20 : 0,
+                       left: !isMobile ? 20 : 0,
+                       bottom: 0
+                     }}>
+            <defs>
+              <linearGradient id="Color0" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#E4FF29" stopOpacity={0.1}/>
+                <stop offset="100%" stopColor="#E4FF29" stopOpacity={0}/>
+              </linearGradient>
+              <linearGradient id="Color0Stroke" x1="1" y1="0.5" x2="0" y2="0.5">
+                <stop offset="0%" stopColor="#E4FF29"/>
+                <stop offset="100%" stopColor="#E4FF29"/>
+              </linearGradient>
+              <linearGradient id="Color1" x1="0." y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#A51BC8" stopOpacity={0.2}/>
+                <stop offset="95%" stopColor="#A51BC8" stopOpacity={0}/>
+              </linearGradient>
+              <linearGradient id="Color1Stroke" x1="1" y1="0.5" x2="0" y2="0.5">
+                <stop offset="5%" stopColor="#A51BC8"/>
+                <stop offset="95%" stopColor="#A51BC8"/>
+              </linearGradient>
+            </defs>
+            <XAxis
+              dataKey="time"
+              stroke="#7B7B7B"
+              tickFormatter={dateFormatter}
+              scale="time"
+              type="number"
+              domain={domainX}
+              ticks={ticks}
+              axisLine={false}
+              tickLine={false}
+              interval="equidistantPreserveStart"
+              padding="no-gap"
+              textAnchor="middle"
+              tick={!isMobile}
+              dy={10}
+            />
+            {
+              keys.map((key, index) => {
+                return (
+                  <YAxis
+                    yAxisId={key}
+                    key={index}
+                    dataKey={key}
+                    type="number"
+                    domain={domainY}
+                    stroke="#7B7B7B"
+                    orientation={index === 0 ? 'left' : 'right'}
+                    axisLine={false}
+                    tickLine={false}
+                    tick={!isMobile}
+                    label={
+                      /* <Label className='text-caption_r_desk uppercase absolute'>{key}</Label>*/
+                      !isMobile && (
+                        {
                           value: key,
                           angle: index === 0 ? -90 : 90,
                           position: index === 0 ? 'insideLeft' : 'insideRight',
-                          fill: '#e2e8f0',
-                          offset: index === 0 ? -10 : -10
-                        }}
-                        dx={index === 0 ? -10 : 10}
-                        tickFormatter={tickYFormatter}
-                      />
-                    );
-                  })
-                }
-                {
-                  keys.map((key, index) => (
-                    <Area
-                      key={index}
-                      type="monotone"
-                      dataKey={key}
-                      stroke={`url(#Color${index}Stroke)`}
-                      strokeLinejoin="round"
-                      strokeLinecap="round"
-                      strokeWidth={2}
-                      strokeOpacity={1}
-                      fillOpacity={1}
-                      fill={`url(#Color${index})`}
-                      dot={false}
-                      yAxisId={key}
-                    />
-                  ))
-                }
-                <Tooltip content={<CustomTooltip/>}/>
-              </AreaChart>
-            </ResponsiveContainer>
-            <div className="flex overflow-x-auto justify-between  md:justify-start">
-              {
-                currentDataFiltered?.map((item, index) => (
-                  <div className="px-4 py-2 xl:px-8 xl:py-4 flex flex-col gap-1.5" key={index}>
-                    <h1 className="text-white text-xs lg:text-sm whitespace-nowrap">{item.text}</h1>
-                    <p className="text-gray-500 text-xs">{item.secondaryText}</p>
-                    <h1
-                      className="text-xl md:text-2xl xl:text-4xl text-transparent capitalize bg-gradient-to-r from-indigo-400 to-indigo-500 bg-clip-text font-bold">{item.count}</h1>
-                  </div>
-                ))
-              }
-            </div>
-          </>
-      }
+                          fill: '#7B7B7B',
+                          offset: index === 0 ? -10 : -10,
+                          style: {
+                            fontSize: 16,
+                            lineHeight: 24,
+                            fontWeight: 400,
+                          }
+                        }
+                      )
+                    }
+                    dx={index === 0 ? -10 : 10}
+                    tickFormatter={tickYFormatter}
+                  />
+                );
+              })
+            }
+            {
+              keys.map((key, index) => (
+                <Area
+                  key={index}
+                  type="monotone"
+                  dataKey={key}
+                  stroke={`url(#Color${index}Stroke)`}
+                  strokeLinejoin="round"
+                  strokeLinecap="round"
+                  strokeWidth={2}
+                  strokeOpacity={1}
+                  fillOpacity={1}
+                  fill={`url(#Color${index})`}
+                  dot={false}
+                  yAxisId={key}
+                />
+              ))
+            }
+            <Tooltip content={<CustomTooltip/>}/>
+          </AreaChart>
+        </ResponsiveContainer>
+      </>
     </div>
+
   );
 });

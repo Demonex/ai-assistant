@@ -1,6 +1,6 @@
 import {useSizes} from "../../../hooks/useSizes.js";
 import {Disclosure,} from '@headlessui/react'
-import {memo, useEffect, useState} from "react";
+import {memo} from "react";
 import tape from '/assets/png/Tape@3x.png'
 import {useElementRangeSize} from "../../../hooks/useElementRangeSize.js";
 import {ShowOnLaptopToDesktop} from "../../../components/SowOnLaptopToDeckTop/index.js";
@@ -8,62 +8,63 @@ import {ShowOnLaptopToDesktop} from "../../../components/SowOnLaptopToDeckTop/in
 const questions = [
   {
     title: 'Что такое Rifify?',
-    description: 'Rifify — это платформа, основанная на данных, которая предоставляет музыкантам и профессионалам музыкальной индустрии информацию и аналитику, необходимые для принятия обоснованных решений и достижения успеха'
+    description: 'Rifify — это платформа, которая предоставляет музыкантам и профессионалам музыкальной индустрии информацию и аналитику, необходимые для принятия обоснованных решений и достижения успеха'
   },
   {
     title: 'Чем сервис может помочь музыкантам?',
-    description: 'Rifify — это платформа, основанная на данных, которая предоставляет музыкантам и профессионалам музыкальной индустрии информацию и аналитику, необходимые для принятия обоснованных решений и достижения успеха'
+      description: <p>Находить свою целевую аудиторию и понимать ее предпочтения <br/>
+        Отслеживать эффективность своих релизов и выступлений<br/>
+          Идентифицировать возможности для роста и продвижения<br/>
+        Связываться с другими профессионалами индустрии<br/>
+        Получать ценные сведения о музыкальном рынке и тенденциях</p>
   },
   {
     title: 'Какие данные использует сервис?',
-    description: 'Rifify — это платформа, основанная на данных, которая предоставляет музыкантам и профессионалам музыкальной индустрии информацию и аналитику, необходимые для принятия обоснованных решений и достижения успеха'
+    description: 'Rifify собирает данные из различных источников, включая все известные стриминговые платформы, социальные сети. Более 14 источников данных'
   },
   {
     title: 'Сколько стоит использование?',
-    description: 'Rifify — это платформа, основанная на данных, которая предоставляет музыкантам и профессионалам музыкальной индустрии информацию и аналитику, необходимые для принятия обоснованных решений и достижения успеха'
+    description: 'Сервис предлагает различные тарифные планы, включая бесплатный. Вы можете выбрать план, который наилучшим образом соответствует вашим потребностям и бюджету. Информацию о тарифах можно найти  [здесь]'
   },
   {
     title: 'Могу ли я попробовать сервис бесплатно?',
-    description: 'Rifify — это платформа, основанная на данных, которая предоставляет музыкантам и профессионалам музыкальной индустрии информацию и аналитику, необходимые для принятия обоснованных решений и достижения успеха'
+    description: 'Да, мы предлагаем бесплатный пробный период, чтобы вы могли ознакомиться с функциями платформы перед подпиской на платный тариф'
+  },
+  {
+    title: 'Как мне связаться со службой поддержки Rifify?',
+    description: 'Вы можете связаться с нашей службой поддержки по электронной почте [адрес электронной почты]'
+  },
+  {
+    title: 'Где я могу узнать больше о сервисе?',
+    description: 'Вы можете узнать больше о нас на нашей странице медиа (ссылка), где мы публикуем новости, статьи и советы для музыкантов и профессионалов индустрии'
   },
 ]
 const FAQ = memo(() => {
-  const {elementRange, isTablet, isMobile} = useSizes();
+  const { isTablet, isMobile} = useSizes();
   const {elementRange: elementRangeLaptop} = useSizes(1024, 2560);
   const {elementRange: elementRangeMobile} = useSizes(320, 1024);
-  const {h1Size, h1SizeMobile, borderRadiusMobile} = useElementRangeSize()
-  const mainGap = elementRange(33, 66);
-  const titleSize = elementRange(32, 64);
-  const titleSizeMobile = elementRangeMobile(25, 50);
-  const plusSize = elementRangeLaptop(21, 40);
-  const descriptionSize = elementRange(16, 36);
+  const {h1Size, h1SizeMobile, marginVertical, paddingHorizontal} = useElementRangeSize()
   const gapBetweenQuestions = elementRangeLaptop(25, 48);
   const gapBetweenQuestionsMobile = elementRangeMobile(13, 25);
-  const questionsHorizontalPadding = elementRangeLaptop(0, 316);
-  const tapeSize = elementRangeLaptop(120, 253);
-  const buttonPaddingHorizontal = elementRange(95 / 3, 95);
-  const buttonPaddingVertical = elementRangeLaptop(27, 95);
-  const [open, setOpen] = useState()
-  const [activeIndex, setActiveIndex] = useState()
-  const handleClick = (index) => {
-    setOpen(index);
-    // setActiveIndex( )
-    console.log(open)
-  }
-
+  const questionsHorizontalPadding = elementRangeLaptop(0, 162);
+  const tapeSize = elementRangeLaptop(110, 200);
 
   return (
     <div
       style={{
-        gap: `${mainGap}px`
+        marginTop:`${marginVertical}px`,
+        marginBottom:`${marginVertical}px`,
+        paddingRight:`${paddingHorizontal}px`,
+        paddingLeft:`${paddingHorizontal}px`,
       }}
-      className='flex flex-col '>
+      className='w-full flex flex-col gap-10'>
       <h1
         style={{
           fontSize: isTablet || isMobile ? `${h1SizeMobile}px` : `${h1Size}px`,
-          lineHeight: '120%'
+          paddingLeft: `${questionsHorizontalPadding}px`,
+          paddingRight: `${questionsHorizontalPadding}px`,
         }}
-        className='font-bold text-left w-full'>Вопросы и ответы</h1>
+        className='text-h2Desctop font-bold lg:font-black text-left w-full'>Вопросы и ответы</h1>
       <div style={{
         paddingLeft: `${questionsHorizontalPadding}px`,
         paddingRight: `${questionsHorizontalPadding}px`,
@@ -75,15 +76,7 @@ const FAQ = memo(() => {
             <Disclosure key={index} >
               {({open}) => (
                 <Disclosure.Button
-                  className={`group w-full gap-[32px] lg:gap-[64px] bg-[#17191d]  flex flex-col items-center justify-start ${index === 0 ? 'relative' : ''}`}
-                  style={{
-                    paddingTop: `${buttonPaddingVertical}px`,
-                    paddingBottom: `${buttonPaddingVertical}px`,
-                    paddingLeft: `${buttonPaddingHorizontal}px`,
-                    paddingRight: `${buttonPaddingHorizontal}px`,
-                    borderRadius: `${borderRadiusMobile}px`
-                  }}
-                  // onClick={() => handleClick(index)}
+                  className={`group w-full gap-4 md:gap-8 bg-dark_grey  flex flex-col items-center justify-start py-4 md:py-10 px-5 md:px-12 lg:px-[3.75rem] rounded-[12px] md:rounded-[20px] ${index === 0 ? 'relative' : ''}`}
                 >
                   <ShowOnLaptopToDesktop>
                     {
@@ -93,28 +86,14 @@ const FAQ = memo(() => {
                     }
                   </ShowOnLaptopToDesktop>
                   <div
-                    className='w-full flex flex-col-reverse lg:flex-row items-center justify-between lg:gap-6 relative'>
-                    <p className='font-bold w-full text-left'
-                       style={{
-                         fontSize: isTablet || isMobile ? `${titleSizeMobile}px` : `${titleSize}px`,
-                         lineHeight: '120%'
-                       }}>{item.title}</p>
-                    <p className={`text-[#e4fd44] font-medium  text-right absolute -top-[15%] -right-[5%] lg:static ${open ? 'block' : 'hidden'}`}
-                       style={{
-                         fontSize: `${plusSize}px`
-                       }}>-</p>
-                    <p className={`text-[#e4fd44] font-medium  text-right absolute -top-[15%] -right-[5%] lg:static ${open ? 'hidden' : 'block'}`}
-                       style={{
-                         fontSize: `${plusSize}px`
-                       }}>+</p>
+                    className='w-full flex  items-center justify-between lg:gap-6 relative'>
+                    <p className='text-h3Mobile md:text-h3Desctop w-full text-left'
+                      >{item.title}</p>
+                    <div className={`plusminus_animation w-8 h-8 md:w-[60px] md:h-[60px] ${open ? 'active' : ''}`}/>
                   </div>
-
-                  <Disclosure.Panel>
-                    <p className='text-[white]/70 text-left'
-                       style={{
-                         fontSize: `${descriptionSize}px`,
-                         lineHeight: '120%'
-                       }}>{item.description}</p>
+                  <Disclosure.Panel className='w-full'>
+                    <p className='text-[white] text-left text-t1Mobile md:text-t1Regular'
+                      >{item.description}</p>
                   </Disclosure.Panel>
                 </Disclosure.Button>
               )}

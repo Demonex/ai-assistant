@@ -1,7 +1,6 @@
 import {navbar} from '../../data/consts/navbar.js';
 import {Bars3Icon} from '@heroicons/react/24/outline';
 import {memo} from 'react';
-import {Search} from './components/Search.js';
 import {Menu} from './components/Menu.js';
 import {ShowOnLaptopToDesktop} from '../Sizes/ShowOnLaptopToDesktop/ShowOnLaptopToDesktop.js';
 import {ShowOnMobileToTablet} from '../Sizes/ShowOnMobileToTablet/ShowOnMobileToTablet.js';
@@ -37,14 +36,14 @@ export const Authorised = memo(() => {
   return (
     <div className="relative">
       <div className="flex items-center lg:border-l sm:pl-0 lg:ml-6 lg:pl-6 sm:border-0 border-slate-800/50">
-        <a href="#" type="button">
+        <Link to="/account" type="button">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                stroke="currentColor" className="w-6 h-6">
             <path className="stroke-slate-500" strokeLinecap="round" strokeLinejoin="round"
                   d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/>
           </svg>
 
-        </a>
+        </Link>
         <div className="relative z-10">
           <div onClick={toggleMenu} className="ml-6 text-slate-400 hover:text-slate-300">
             <img
@@ -81,13 +80,13 @@ export const Header = memo(() => {
                           d="M15.80762,3.106a.49281.49281,0,0,0-.42871-.09082l-8,2A.4998.4998,0,0,0,7,5.5v8.01257A2.4757,2.4757,0,0,0,5.5,13,2.5,2.5,0,1,0,8,15.5V8.89014l7-1.75v4.37243A2.4757,2.4757,0,0,0,13.5,11,2.5,2.5,0,1,0,16,13.5V3.5A.50094.50094,0,0,0,15.80762,3.106Z"/>
                   </g>
                 </svg>
-                <h2 className="text-white font-bold text-[20px]">MusicStats</h2>
+                <h2 className="text-white font-bold text-[20px]">Rifify</h2>
               </Link>
               <div className="flex px-5 flex-1 laptop:justify-start justify-end">
                 <ShowOnLaptopToDesktop>
                   <div className="flex gap-x-3 desktop:gap-x-10 relative">
                     {navbar.map((item, index) => (
-                      <Menu key={index} title={item.title} items={item.content}/>
+                      <Menu key={index} title={item.title} items={item.content} />
                     ))}
                   </div>
                 </ShowOnLaptopToDesktop>
@@ -105,7 +104,7 @@ export const Header = memo(() => {
                 </ShowOnMobileToTablet>
               </div>
               <ShowOnLaptopToDesktop>
-                <Search/>
+                {/*<Search/>*/}
                 {
                   profile !== undefined
                     ? <Authorised/>

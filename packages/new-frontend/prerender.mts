@@ -1,4 +1,5 @@
 import {readFileSync, readdirSync} from 'node:fs';
+// @ts-ignore
 import {outputFileSync} from 'fs-extra/esm';
 import {resolve, join} from 'node:path';
 import {createServer as createViteServer} from 'vite';

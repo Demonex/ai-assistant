@@ -1,6 +1,6 @@
-import {navbar} from "../../../data/consts/navbar.js";
 import {memo} from "react";
 import {Link} from "wouter";
+import {navbar} from "../../../data/consts/navbar.js";
 
 type DropdownDownloadProps = {
     opened?: boolean
@@ -18,7 +18,6 @@ export const DropdownDownload = memo<DropdownDownloadProps>(({
                 {
                     navbar[1].content.map((item, index) => (
                         <div className='p-4' key={index}>
-                            <h1 className='text-gray-400/50 uppercase ml-4'>{item.deviceOption}</h1>
                             {item.options.map((option, index) => (
                                 <div className="group relative flex gap-x-6 rounded-lg px-4 py-2 duration-300"
                                      key={index}>

@@ -7,6 +7,7 @@ import useFetch, {useLazyFetch} from '../../../../hooks/useFetch.js';
 import {useArtist} from '../../hooks/useArtist.js';
 import useStateRef from 'react-usestateref';
 import {BACKEND_URL} from "../../../../constants/index.js";
+import InfoIcon from "../../../../assets/InfoIcon.js";
 
 
 const SkeletonTopTracks = memo(() => (
@@ -67,11 +68,11 @@ const WithButtons = memo<{
 
   return (
     <>
-      <div className="w-full flex justify-start items-center gap-2 mb-5 px-2 overflow-x-auto">
+      <div className="w-full flex justify-start items-center gap-2 my-4  overflow-x-auto ">
         {
           data.buttons.map(({title, buttonId}, index) => (
               <button key={index}
-                      className={`text-white text-xs px-4 py-2 rounded-[8px] border ${index === activeButton ? 'bg-indigo-500 border-transparent' : 'bg-transparent border-indigo-500'}`}
+                      className={` text-caption_m_desk px-6 py-2 rounded-[30px] border border-solid ${index === activeButton ? 'bg-yellow border-transparent text-[black]' : 'bg-transparent border-dark_grey text-medium_grey'}`}
                       onClick={() => handleButtonClick(index, buttonId)}>
                 {title}
               </button>
@@ -79,7 +80,7 @@ const WithButtons = memo<{
           )
         }
       </div>
-      <div className="w-full overflow-y-scroll flex flex-col gap-3 mb-5">
+      <div className="w-full overflow-y-scroll flex flex-col gap-3 mt-2.5">
         {
           data.items[activeButton]?.length
             ? data.items[activeButton]?.map((track, index) => {
@@ -90,18 +91,18 @@ const WithButtons = memo<{
                   <div
                     className="text-white rounded-xl w-full"
                     key={index}>
-                    <div className="bg-transparent p-2 rounded-xl h-full flex justify-between items-center">
-                      <div className="flex gap-3 items-start">
-                        <img src={track.imageUrl} alt="" className="w-10 h-10"/>
+                    <div className="bg-transparent py-2.5 rounded-xl h-full flex justify-between items-center gap-5">
+                      <div className="flex gap-4 items-start">
+                        <img src={track.imageUrl} alt="" className="w-11 h-11 rounded-full"/>
                         <div className="flex flex-col gap-1.5 max-w-[9.125rem]">
                           <p
-                            className="font-normal text-gray-300 text-sm xl:text-md">{track.primaryText}</p>
+                            className="text-t2Regular">{track.primaryText}</p>
                           <p
-                            className="text-gray-400 font-light text-[10px] xl:text-[12px] capitalize">{track.secondaryText}</p>
+                            className="text-caption_s_desk text-medium_grey capitalize">{track.secondaryText}</p>
                         </div>
                       </div>
                       <span
-                        className="text-sm xl:text-[1.125rem] text-transparent capitalize text-white font-bold">{track.primaryValue}</span>
+                        className="text-caption_m_desk">{track.primaryValue}</span>
                     </div>
                   </div>
                 );
@@ -144,32 +145,22 @@ export const TopTracks = memo(() => {
   });
 
   return (
-    <div className="w-full min-w-full lg:min-w-[17rem] max-w-[20rem] flex flex-col md:flex-row lg:flex-col lg:items-center gap-4">
+    <div className="w-full  flex flex-col lg:flex-row gap-4 lg:gap-6 mb-[5.5rem]">
       {
         apiTrackDataLoading === true
           ? <SkeletonTopTracks/>
-          : trackData?.trackData.listData.map((item, index) => {
+          : trackData?.trackData?.listData?.map((item, index) => {
             if (!('buttons' in item && item.items.length || (item as any).items?.length)) {
               return null;
             }
             return (
               <div
-                className="bg-indigo-200/5 rounded-3xl my-3 h-fit py-4 px-3 xl:px-5 w-full"
+                className="lg:bg-popup_gray/50 rounded-[20px] h-fit  lg:px-7 py-4 lg:py-8  w-full min-w-[350px]"
                 key={index}>
-                <div className="flex items-center gap-3 mb-5 justify-center">
-                  <div
-                    className="flex w-6 xl:w-8 h-6 xl:h-8 items-center justify-center rounded-md  p-[0.060rem] text-center aspect-square">
-                    <div
-                      className="bg-indigo-200/5 border border-indigo-500/30 p-[6px] xl:p-[8px] h-full w-full rounded-md flex items-center justify-center ">
-                      {
-                        getLogo.map((logo, index) => (
-                          <img src={logo.logo} alt="" className="w-[15px] h-[15px]" key={index}/>
-                        ))
-                      }
-                    </div>
-                  </div>
+                <div className="flex items-center gap-3 pb-4 border-b border-dark_grey justify-between">
                   <p
-                    className="text-sm lg:text-md text-transparent uppercase bg-gradient-to-r from-indigo-300 to-indigo-400 bg-clip-text ">{item.headerText}</p>
+                    className="text-btnText text-light_grey">{item.headerText}</p>
+                  <InfoIcon className='fill-light_grey hover:fill-medium_grey'/>
                 </div>
                 {
                   'buttons' in item
@@ -188,8 +179,12 @@ export const TopTracks = memo(() => {
                                     <div className="flex flex-col gap-1.5 max-w-[9.125rem]">
                                       <span
                                         className="font-normal text-gray-300 text-sm xl:text-md">{track.artistName}</span>
-                                      <p
-                                        className="text-gray-400 font-light text-[10px] xl:text-[12px] capitalize">{track.trackName}</p>
+                                      {
+                                        track?.trackName && (
+                                          <p
+                                            className="text-gray-400 font-light text-[10px] xl:text-[12px] capitalize">{track.trackName}</p>
+                                        )
+                                      }
                                     </div>
                                   </div>
                                   <span

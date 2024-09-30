@@ -2,18 +2,29 @@ version: '3.7'
 
 services:
 
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    environment:
+      - TZ=Europe/Moscow
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "9000:9000"
+    privileged: true
+    restart: always
+
   nginx:
-    image: bardakdev/musicstats-nginx
+    image: bardakdev/rifify-nginx
     restart: always
     links:
       - backend
-      - resizer
     ports:
       - "80:80"
     privileged: true
 
   backend:
-    image: bardakdev/musicstats
+    image: bardakdev/rifify-backend
     restart: always
     depends_on:
       - mongo
@@ -21,28 +32,31 @@ services:
     links:
       - mongo
       - redis
-
-  resizer:
-    image: bardakdev/musicstats-resizer
-    restart: always
-    depends_on:
-      - mongo
-      - backend
-    links:
-      - mongo
-      - backend
+    command: [ "npm", "run", "dev"]
 
   mongo:
-    image: mongo
-    restart: always
+    privileged: true
+    image: bardakdev/mongo
+    container_name: mongo
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root123
-    ports:
-      - "27001:27017"
+      - PUID=1000
+      - PGID=1000
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root123
+      - MONGO_INITDB_DATABASE=rifify
+      - MONGO_REPLICA_SET_NAME=rs0
     volumes:
       - mongo-db:/data/db
       - mongo-db-config:/data/configdb
+    command: [ --replSet, rs0, --bind_ip_all, --port, "27017", --keyFile, "/opt/keyfile" ]
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: test $$(echo "rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo:27017'}]}).ok || rs.status().ok" | /usr/bin/mongo -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet) -eq 1
+      interval: 10s
+      start_period: 30s
 
   redis:
     image: redis:alpine
@@ -56,12 +70,14 @@ services:
 
 networks:
   default:
-    name: "yoga"
+    name: "rifify"
 
 volumes:
+  media:
+    name: "rifify_media"
   mongo-db:
-    name: "yoga_mongo-db"
+    name: "rifify_mongo-db"
   mongo-db-config:
-    name: "yoga_mongo-db-config"
+    name: "rifify_mongo-db-config"
   redis:
-    name: "yoga_redis"
+    name: "rifify_redis"

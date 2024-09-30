@@ -26,7 +26,7 @@ const Auditoria = memo(() => {
                         fontSize: isTablet || isMobile ? `${h1SizeMobile}px` : `${h1Size}px`,
 
                     }}>
-                        Разбирайся{isMobile || isTablet ? null : <br/>}в своей
+                        Разбирайся{isMobile || isTablet ? null : <br/>}  &nbsp;в своей
                         <span className='relative w-fit'>
             &nbsp; аудитории
             <img src={marker} className='absolute w-[80%] -bottom-[30%] right-0'/>

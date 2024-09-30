@@ -1,25 +1,26 @@
 {
-  "name": "@stigma-io/musicstats-backend",
+  "name": "@stigma-io/rifify-backend",
   "description": "backend",
   "version": "0.0.0-development",
   "license": "GNU LGPL",
   "type": "module",
   "private": true,
   "engines": {
-    "node": ">=21.0.0"
+    "node": ">=18.0.0"
   },
   "packageManager": "pnpm@9.1.4",
   "scripts": {
     "copyfiles": "copyfiles -u 1 src/**/*.{html,css,scss,ttf,woff,woff2,eot,svg,jpg,png,json,csv} dist/",
     "pre:debug": "yarn copyfiles && yarn build:server",
     "start": "docker compose up -d --build --remove-orphans && NODE_OPTIONS=--trace-warnings dotenv -- vite --host",
-    "start:backend": "docker compose up -d --build --remove-orphans && SWCRC=true node --watch -r \"dotenv/config\" --import 'data:text/javascript,import { register } from \"node:module\"; import { pathToFileURL } from \"node:url\"; register(\"%40swc-node/register/esm\", pathToFileURL(\"./\"));' src/index.ts",
+    "start:backend": "nr start",
+    "start:backend:old": "docker compose up -d --build --remove-orphans && SWCRC=true node --watch -r \"dotenv/config\" --import 'data:text/javascript,import { register } from \"node:module\"; import { pathToFileURL } from \"node:url\"; register(\"%40swc-node/register/esm\", pathToFileURL(\"./\"));' src/index.ts",
     "build:payload": "payload build",
     "build:server": "tsc",
     "build": "rm -rf dist build && yarn copyfiles && yarn build:server",
     "serve": "node -r \"dotenv/config\" dist/index.js",
     "generate:types": "payload generate:types",
-    "build:docker": "docker buildx build --push --platform linux/amd64 -t bardakdev/musicstats .",
+    "build:docker": "docker buildx build --push --platform linux/amd64 -t bardakdev/rifify .",
     "payload": "dotenv -- payload",
     "dev": "dotenv -- vite --host --force"
   },
@@ -51,7 +52,6 @@
     "@stigma-io/payload-bundler-vite": "workspace:*",
     "@stigma-io/payload-db-mongodb": "workspace:*",
     "@stigma-io/payload-richtext-lexical": "workspace:*",
-    "@stigma-io/typegoose-cursor-pagination": "workspace:*",
     "@swc/core": "1.3.94",
     "@typegoose/typegoose": "10.4.0",
     "apple-auth": "1.0.9",
@@ -128,6 +128,7 @@
     "@types/jsonwebtoken": "9.0.4",
     "@types/lodash": "^4.14.200",
     "@types/lodash-es": "^4.17.12",
+    "@types/md5": "^2.3.5",
     "@types/mime-types": "2.1.3",
     "@types/mongoose": "5.11.97",
     "@types/node": "20.8.7",

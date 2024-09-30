@@ -5,10 +5,10 @@ import {
   IsOptional,
   IsString,
   MaxLength,
-  IsEnum, IsBoolean
+  IsEnum, IsBoolean, Matches
 } from 'class-validator';
 import {ApiPropertyOptional} from '@nestjs/swagger';
-import {Languages} from '../entities/User/index.js';
+import {USER_LANGUAGES} from '../entities/enums.js';
 
 export class UpdateProfileDto {
   @IsOptional()
@@ -16,27 +16,27 @@ export class UpdateProfileDto {
   @ApiPropertyOptional()
   readonly email?: string;
   @IsOptional()
-  @IsBoolean()
-  @ApiPropertyOptional({
-    type: Boolean
-  })
-  readonly hasFinishedQuiz?: boolean;
+  @IsString()
+  @MaxLength(256)
+  @ApiPropertyOptional()
+  readonly name?: string;
   @IsOptional()
   @IsString()
-  @ApiPropertyOptional()
   @MaxLength(256)
-  readonly firstName?: string;
+  @ApiPropertyOptional()
+  @Matches(/^[a-zA-Z0-9_.-]{2,20}$/)
+  readonly username?: string;
   @IsOptional()
   @IsString()
-  @ApiPropertyOptional()
   @MaxLength(256)
-  readonly lastName?: string;
+  @ApiPropertyOptional()
+  readonly password?: string;
   @IsOptional()
-  @IsEnum(Languages)
+  @IsEnum(USER_LANGUAGES)
   @ApiPropertyOptional({
-    enum: Languages
+    enum: USER_LANGUAGES
   })
-  readonly language?: Languages.EN | Languages.RU;
+  readonly language?: USER_LANGUAGES.EN | USER_LANGUAGES.RU;
   @IsOptional()
   @IsArray()
   @ArrayMaxSize(120)
@@ -59,4 +59,11 @@ export class UpdateProfileAvatarDto {
     format: 'binary'
   })
   readonly file?: any;
+}
+export class UpdateProfileSubscriptionDto {
+  @IsOptional()
+  @IsString()
+  @MaxLength(256)
+  @ApiPropertyOptional()
+  readonly artist?: string;
 }

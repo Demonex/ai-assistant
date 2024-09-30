@@ -3,10 +3,10 @@
   "version": "0.0.0-development",
   "license": "GNU LGPL",
   "private": true,
-  "packageManager": "pnpm@9.1.4",
   "scripts": {
-    "build:docker": "docker buildx build --platform linux/amd64 -t bardakdev/elysium-backend . --no-cache --push",
-    "start:backend": "nr --filter @stigma-io/musicstats-backend start"
+    "build:docker:source": "docker buildx build --platform linux/amd64 -t bardakdev/rifify-backend:source -f ng.Dockerfile . --push",
+    "build:docker": "docker buildx build --platform linux/amd64 -t bardakdev/rifify-backend . --push",
+    "start:backend": "nr --filter @stigma-io/rifify-backend start"
   },
   "engines": {
     "node": ">=18.0.0"

@@ -1,15 +1,20 @@
-import {HeaderAccount} from '../../components/HeaderAccount/HeaderAccount.js';
 import {Sidebar} from './components/Sidebar/Sidebar.js';
-import imgPng from '/assets/imgs/docs-dark@30.1a9f8cbf.png';
 import {lazy, memo, Suspense, useEffect, useMemo} from 'react';
 import {ArtistNavigation, useArtist} from './hooks/useArtist.js';
 import {useParams, useSearch} from 'wouter';
-import {overviewSources} from '../../data/consts/favoriteSources.js';
+
 import Header from "../../components/HeaderMain/index.js";
 import '../../index.css'
+import {overviewSources} from "../../data/consts/favoriteSources.js";
+import Catalogue from "./components/Catalogue/index.js";
+import {useSizes} from "../../hooks/useSizes.js";
+import MobileTabs from "./components/MobileTabs/index.js";
+
+
 const FeedContent = lazy(() => import('./components/FeedContent.js'));
 const AnalyticsContent = lazy(() => import('./components/Analytics/AnalyticsContent.js'));
 const AudienceContent = lazy(() => import('./components/Audience/AudienceContent.js'));
+const ToolsContent = lazy(() => import('./components/Tools/index.js'));
 
 const ArtistContent = memo(() => {
   const {navigation, setParams} = useArtist();
@@ -32,7 +37,6 @@ const ArtistContent = memo(() => {
     ).slug;
   }, [queryParams?.source]);
   useEffect(() => {
-    console.log('pa', params);
     setParams({
       ...params,
       source: queryParams?.source ?? defaultSource
@@ -61,28 +65,40 @@ const ArtistContent = memo(() => {
         </Suspense>
       );
     }
+    case 'tools': {
+      return (
+        <Suspense fallback={null}>
+          <ToolsContent/>
+        </Suspense>
+      );
+    }
+    case 'catalogue': {
+      return (
+        <Suspense fallback={null}>
+          <Catalogue/>
+        </Suspense>
+      );
+    }
     default: {
       return null;
     }
   }
 });
 export const ArtistPage = memo(() => {
+  const {isMobile, isTablet} = useSizes();
+
   return (
     <div className="h-full relative overflow-x-hidden flex flex-col items-center">
-      <div className="absolute z-20 top-0 inset-x-0 flex justify-center overflow-hidden pointer-events-none">
-        <div className="w-[108rem] flex-none flex justify-end">
-          <picture>
-            <img
-              src={imgPng} alt=""
-              className="w-[90rem] flex-none max-w-none hidden md:block"/>
-          </picture>
-        </div>
-      </div>
       <Header/>
-      <div className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8">
-        <Sidebar/>
+      <Sidebar/>
+      <div className="flex lg:pl-[15.25rem]  lg:px-4 overflow-x-hidden flex-col items-center w-full relative mb-[4.5rem] lg:mb-[unset] mt-[68px] md:mt-[84px] lg:mt-[96px] ">
+        <ArtistContent/>
       </div>
-      <ArtistContent/>
+      {
+        isMobile || isTablet
+          ? <MobileTabs/>
+          : null
+      }
     </div>
   );
 });

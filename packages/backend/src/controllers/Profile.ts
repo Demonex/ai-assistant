@@ -45,10 +45,8 @@ export class ProfileController {
   @Authorized()
   @Put()
   async update(
-    @Request() request: any,
     @UserId() id: Types.ObjectId,
-    @Body() args: UpdateProfileDto,
-    @UploadedFile() photo) {
+    @Body() args: UpdateProfileDto) {
     return this.service.findByIdAndUpdate(id, args);
   }
 
@@ -70,9 +68,7 @@ export class ProfileController {
   )
   @ApiConsumes('multipart/form-data')
   async updateAvatar(
-    @Request() request: any,
     @UserId() id: Types.ObjectId,
-    @Body() args: UpdateProfileAvatarDto,
     @UploadedFile('file') file) {
     // console.log('avatar update', get(request, 'headers.authorization'), get(request, 'session.id'), id);
     return this.service.findByIdAndUpdateAvatar(id, {file});
@@ -83,9 +79,7 @@ export class ProfileController {
   @Authorized()
   @Delete('delete')
   async profileDelete(
-    @Request() request: any,
-    @UserId() userId: Types.ObjectId,
-    @Param('id') id: Types.ObjectId) {
+    @UserId() userId: Types.ObjectId) {
     return this.service.findByIdAndDelete(userId);
   }
 }

@@ -68,8 +68,8 @@ export const FavoriteSources = () => {
                             key={indexAllSources}>
                         <div className='w-full flex justify-between'>
                             <div className='flex gap-2 items-center'>
-                                <img src={allSocialsWithLogo.logo} className='w-6 h-6'/>
-                                <p className='text-gray-200 font-medium text-xs xl:text-sm uppercase py-4 px-4'>{allSocialsWithLogo.name}</p>
+                                <img src={allSocialsWithLogo?.logo} className='w-6 h-6'/>
+                                <p className='text-gray-200 font-medium text-xs xl:text-sm uppercase py-4 px-4'>{allSocialsWithLogo?.name}</p>
                             </div>
                             <button
                                 className='capitalize text-[12px] lg:text-[16px] leading-6 font-light text-indigo-300/50 hover:text-indigo-200/80 whitespace-nowrap'

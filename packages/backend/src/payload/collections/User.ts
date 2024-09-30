@@ -83,48 +83,8 @@ const User: CollectionConfig = {
           ]
         },
         {
-          name: 'creator',
-          label: 'Creator Info & KYC', // required
-          interfaceName: 'Creator',
-          fields: [
-            {
-              name: 'status',
-              type: 'select',
-              options: Object.values(USER_CREATOR_STATUS)
-            },
-            {
-              name: 'birthday',
-              type: 'text'
-            },
-            {
-              name: 'firstName',
-              type: 'text'
-            },
-            {
-              name: 'lastName',
-              type: 'text'
-            },
-            {
-              name: 'middleName',
-              type: 'text'
-            },
-            {
-              name: 'KYC',
-              type: 'array',
-              fields: [
-                {
-                  name: 'file',
-                  type: 'upload',
-                  relationTo: 'user-media-kyc',
-                  required: true
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: 'Wallets',
-          description: 'Wallets & balance',
+          label: 'Subscriptions',
+          description: 'Subscriptions & Payment',
           fields: [
             {
               name: 'wallet',
@@ -136,27 +96,12 @@ const User: CollectionConfig = {
                 }
               ]
             },
-            {
-              name: 'walletCreator',
-              type: 'group',
-              fields: [
-                {
-                  name: 'balance',
-                  type: 'number'
-                }
-              ]
-            }
           ]
         },
         {
           label: 'Extra',
           description: 'Additional params & UI settings',
           fields: [
-            {
-              name: 'background',
-              type: 'upload',
-              relationTo: 'user-media-background'
-            },
             {
               name: 'location',
               type: 'text'

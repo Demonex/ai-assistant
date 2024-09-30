@@ -27,7 +27,7 @@ const Performance = () => {
                 </div>
               </div>
               <p
-                className="text-sm lg:text-md text-transparent capitalize bg-gradient-to-r from-indigo-300 to-indigo-400 bg-clip-text">PERFORMANCE</p>
+                className="text-sm lg:text-md text-transparent capitalize bg-gradient-to-r from-indigo-300 to-indigo-400 bg-clip-text">ДОСТИЖЕНИЯ</p>
             </div>
             {
               chartTrackData?.chart.iconData.map((item, index) => {

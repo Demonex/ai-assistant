@@ -13,7 +13,7 @@ import { MailchimpModule } from '@mindik/mailchimp-nestjs';
     MailchimpModule.forRoot(`${process.env.MAILCHIMP_TRANSACTIONAL_API_KEY}`),
     RedisModule.forRoot([
       {
-        name:'musicstats.ru',
+        name:'rifify.ru',
         host:process.env.REDIS_HOST||'localhost',
         port:6379,
         password:''

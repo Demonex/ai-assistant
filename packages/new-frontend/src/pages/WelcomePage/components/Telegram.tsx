@@ -1,71 +1,50 @@
 import bg from '/assets/png/TELEGRAM.png'
-import bg_mob from '/assets/png/telega-mob@3x.png'
+import bg_mob from '/assets/png/telega_mobNew.png'
 import {useElementRangeSize} from "../../../hooks/useElementRangeSize.js";
 import PrimaryButton from "../../../components/PrimaryButton.js";
 import {useSizes} from "../../../hooks/useSizes.js";
 import {memo} from "react";
 
 const Telegram = memo(() => {
-  const {isTablet, isMobile} = useSizes();
-  const {h1SizeMobile, borderRadiusMobile, buttonFontSizeMobile, buttonFontSize} = useElementRangeSize();
-  const {elementRange: elementRangeTablet} = useSizes(1024, 2560);
-  const {elementRange: elementRangeMobile} = useSizes(320, 1023);
-  const imageHeight = elementRangeTablet(386, 930);
-  const imageHeightMobile = elementRangeMobile(420, 1200);
-  const buttonPaddingVertical = elementRangeTablet(16, 34);
-  const buttonPaddingVerticalMobile = elementRangeMobile(16, 40);
-  const h1Size = elementRangeTablet(38, 84);
-  const paddingTop = elementRangeMobile(58/2, 58);
-  const paddingBottom = elementRangeTablet(82, 163);
-  const paddingBottomMobile = elementRangeMobile(11, 22);
-  const buttonPaddingHorizontal = elementRangeTablet(60, 120);
-  const paddingHorizontal= elementRangeMobile(22, 54);
+    const {isTablet, isMobile,elementRange} = useSizes();
+    const { h1Size, marginVertical, paddingHorizontal} = useElementRangeSize();
+    const {elementRange: elementRangeTablet} = useSizes(1024, 1920);
+    const {elementRange: elementRangeMobile} = useSizes(320, 768);
+    const imageHeight = elementRangeTablet(682, 710);
+    const imageHeightMobile = elementRangeMobile(534, 682);
+    const h1SizeMobile = elementRangeMobile(23, 40);
 
-  return (
-    <div className='w-full  box-border'>
-      <div
-        className='w-full h-full bg-cover bg-no-repeat bg-center flex flex-col lg:justify-center '
-        style={{
-          backgroundImage: isTablet|| isMobile ? `url(${bg_mob})` : `url(${bg})`,
-          height: isTablet || isMobile ? `${imageHeightMobile}px` : `${imageHeight}px`,
-          borderRadius: `${borderRadiusMobile}px`
-        }}>
+    return (
         <div
-          style={{
-            // marginLeft: isMobile || isTablet ? '0px':`${marginText}px`,
-            paddingTop: `${paddingTop}px`,
-            paddingBottom: isTablet || isMobile ?`${paddingBottomMobile}px` :`${paddingBottom}px` ,
-            paddingRight: `${paddingHorizontal}px`,
-            paddingLeft: `${paddingHorizontal}px`,
-            justifyContent: 'space-between',
-        }}
-          className='flex h-full flex-col items-center lg:items-start'>
-          <h1
             style={{
-              fontSize: isTablet|| isMobile ?  `${h1SizeMobile}px`: `${h1Size}px`,
-              lineHeight:'120%'
+                marginTop: `${marginVertical}px`,
+                marginBottom: `${marginVertical}px`,
+                paddingLeft: `${paddingHorizontal}px`,
+                paddingRight: `${paddingHorizontal}px`,
             }}
-            className='font-bold'>Новые релизы сервиса<br/> и&nbsp;интересные новости{ isMobile ? null :<br/>} в&nbsp;нашем
-            телеграм{ isMobile ? null :<br/>}  канале</h1>
-          <PrimaryButton
-            title='подписаться'
-            titleStyle={{
-              fontSize: isTablet || isMobile ? `${buttonFontSizeMobile}px` : `${buttonFontSize}px`,
-            }}
-            isIcon={false}
-            className='bg-[#E4FF29] w-full lg:w-fit'
-            style={{
-              // width:`${buttonWidth}px`,
-              paddingTop: isTablet || isMobile ? `${buttonPaddingVerticalMobile}px` :  `${buttonPaddingVertical}px`,
-              paddingBottom: isTablet || isMobile ? `${buttonPaddingVerticalMobile}px` :  `${buttonPaddingVertical}px`,
-              paddingLeft: `${buttonPaddingHorizontal}px`,
-              paddingRight: `${buttonPaddingHorizontal}px`,
-              borderRadius: `${borderRadiusMobile}px`,
-            }}
-            titleClassName='text-[black] capitalize'/>
+            className='w-full  box-border'>
+            <div
+                className='w-full h-full bg-cover bg-no-repeat bg-center flex flex-col lg:justify-center rounded-[20px]'
+                style={{
+                    backgroundImage: isMobile ?  `url(${bg_mob})` : `url(${bg})`,
+                    height: isMobile?  `${imageHeightMobile}px` : `${imageHeight}px`,
+                }}>
+                <div
+                    className='py-6 px-5 md:py-[4.375rem] lg:py-[7rem] lg:px-[3.125rem] flex h-full flex-col items-center md:items-start gap-6 md:gap-10'>
+                    <h1
+                        style={{
+                            fontSize: isTablet || isMobile ? `${h1SizeMobile}px` : `${h1Size}px`,
+                        }}
+                        className='text-h2Mobile md:text-h2Desctop text-center md:text-left md:w-2/3 lg:w-1/2'>Новые релизы сервиса и&nbsp;интересные{isTablet ? <br/> : null} новости в&nbsp;нашем
+                        телеграм-канале</h1>
+                    <PrimaryButton
+                        title='подписаться '
+                        isIcon={false}
+                        className='bg-[#E4FF29] w-full lg:w-fit rounded-[12px] md:rounded-[20px] py-5 md:py-8 px-[3.188rem] md:w-1/2'
+                        titleClassName='text-[black] text-h3Mobile md:text-h3Desctop capitalize'/>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  )
+    )
 })
 export default Telegram

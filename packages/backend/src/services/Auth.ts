@@ -29,7 +29,7 @@ export class AuthService {
     private readonly adapterHost: HttpAdapterHost<ExpressAdapter>,
     @InjectModel(UserEntity) private readonly repoUser: ReturnModelType<typeof UserEntity>,
     @Inject(SmtpService) private readonly smtp: SmtpService,
-    @InjectRedisClient('musicstats.ru') private readonly redisClient: Redis
+    @InjectRedisClient('rifify.ru') private readonly redisClient: Redis
   ) {
   }
 
@@ -65,7 +65,8 @@ export class AuthService {
     this.request.session.user = {
       id: user._id,
       language: user.language,
-      roles: user.roles
+      roles: user.roles,
+      email: user.email
     };
     return user as UserEntity;
   }

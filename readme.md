@@ -1,4 +1,4 @@
-1. git submodule update --init --recursive
+1. git submodule update --init --recursive --remote
 2. npm install -g pnpm
 3. npm i -g @antfu/ni
 4. ni

@@ -69,7 +69,11 @@ export enum Currencies {
         ...rest
       })
     },
-    collection: 'user'
+    collection: 'user',
+
+  },
+  options: {
+    customName: 'user'
   }
 })
 @index(
@@ -99,10 +103,7 @@ export class UserEntity extends _BaseEntity {
     default: false
   })
   emailVerified?: boolean;
-  @prop()
-  firstName?: string;
-  @prop()
-  lastName?: string;
+
   @prop({
     default: null,
     select: false
@@ -126,8 +127,6 @@ export class UserEntity extends _BaseEntity {
   subscription?: Subscription;
   @prop({default: false})
   consent?: boolean;
-  @prop({default: false})
-  hasFinishedQuiz?: boolean;
   @prop({
     default: [],
     type: [String],
@@ -144,9 +143,8 @@ export class UserEntity extends _BaseEntity {
     }, []) : [];
   }
 
-  get name(): string {
-    return `${this.firstName}${this.lastName ? ` ${this.lastName}` : ''}`
-  }
+  @prop()
+  name?: string;
 
   @prop({
     default: ['user'],
@@ -182,14 +180,12 @@ export class UserEntity extends _BaseEntity {
 export const UserEntityDefaultSelect = [
   'id',
   'email',
+  'name',
   'avatar',
   'emailVerified',
-  'firstName',
-  'lastName',
   'language',
   'currency',
   'providers',
-  'hasFinishedQuiz'
 ];
 
 export const UserEntities = [

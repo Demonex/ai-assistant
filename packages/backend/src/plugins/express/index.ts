@@ -7,7 +7,7 @@ import {TaggableCache as RedisTaggable} from 'cache-tags';
 import cookieParser from 'cookie-parser';
 import {get} from 'lodash-es';
 import {REDIS_SESSION_PREFIX} from '../../constants.js';
-// import payloadInit from '@stigma-io/payload';
+import payloadInit from '@stigma-io/payload';
 import {parse} from 'cookie';
 
 const RedisTaggableClient: Redis & any = new RedisTaggable({
@@ -40,7 +40,7 @@ const expressPlugins = async (express: Express) => {
   express.disable('x-powered-by');
   express.set('trust proxy', true);
   express.use(cors({
-    origin: true,//[`${process.env.SERVER_URL}`, ...`${process.env.FRONTEND_URLS}`.split(',')],
+    origin: [`${process.env.SERVER_URL}`, `${process.env.FRONTEND_URL}`],
     allowedHeaders: [
       'Origin',
       'Keep-Alive',
@@ -66,7 +66,11 @@ const expressPlugins = async (express: Express) => {
       'age',
       'x-axios-cache-etag',
       'x-axios-cache-last-modified',
-      'x-axios-cache-stale-if-error'
+      'x-axios-cache-stale-if-error',
+      'referer',
+      'sec-ch-ua',
+      'sec-ch-ua-mobile',
+      'sec-ch-ua-platform',
     ],
     preflightContinue: true,
     credentials: true
@@ -92,7 +96,7 @@ const expressPlugins = async (express: Express) => {
     // let webDomain = undefined;
     try {
       /*webDomain*/
-      domain = new URL(req.headers.origin || req.headers.referer).hostname;
+      // domain = new URL(req.headers.origin || req.headers.referer).hostname;
     } catch (e) {
       // console.error(e)
     }
@@ -118,10 +122,10 @@ const expressPlugins = async (express: Express) => {
     });
     expressSession(req, res, next);
   });
-  console.log('payload skip');
-  /*await payloadInit.init({
+  // console.log('payload skip');
+  await payloadInit.init({
     secret: process.env.PAYLOAD_SECRET,
-    express,
-  });*/
+    express
+  });
 };
 export default expressPlugins;

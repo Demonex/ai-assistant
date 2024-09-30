@@ -1,19 +1,39 @@
-import {memo, lazy, Suspense, useMemo} from 'react';
+import React, {memo, lazy, Suspense, useMemo, useEffect, Fragment} from 'react';
 import {Tabs} from '../SocialTabs.js';
 import {useArtistAudienceMap} from '../../hooks/useArtistAudienceMap.js';
 import {useArtistAudienceSummery} from '../../hooks/useArtistAudienceSummery.js';
 import get from 'lodash.get';
-import {CountriesTable} from "./components/CountriesTable.js";
 import Skeleton, {SkeletonTheme} from "react-loading-skeleton";
 import {useArtist} from '../../hooks/useArtist.js';
 import {overviewSources} from '../../../../data/consts/favoriteSources.js';
 import '../../../../index.css'
+import ChevronRight from "../../../../assets/ChevronRight.js";
+import settings from "/assets/svg/settings_icon.svg";
+import {useChangeTab} from "../../hooks/useChangeTab.js";
+import {useSizes} from "../../../../hooks/useSizes.js";
+import ArtistMobileHeader from "../ArtistMobileHeader.js";
+import reload from "/assets/svg/reload_icon.svg";
+import PrimaryButton from "../../../../components/PrimaryButton.js";
+import {ShowOnLaptopToDesktop} from "../../../../components/SowOnLaptopToDeckTop/index.js";
+import {ShowOnMobileToTablet} from "../../../../components/showFromMobileToTablet/index.js";
+import {useManageTable} from "./hooks/useManageTable.js";
+import {useElementRangeSize} from "../../../../hooks/useElementRangeSize.js";
+import GlobeIcon from "../../../../assets/GlobeIcon.js";
+import MapIcon from "../../../../assets/MapIcon.js";
+import InfoIcon from "../../../../assets/InfoIcon.js";
+import {useAccount} from "../../../../components/Header/hooks/useAccount.js";
+import {useSubscriptions} from "../../../../hooks/useSubscriptions.js";
+import {Dialog, Transition} from "@headlessui/react";
+import SecondaryCloseIcon from "../../../../assets/SecondaryCloseIcon.js";
+import CountryDataPopup from "./components/CountryDataPopup.js";
+
 const MapChart = lazy(() => import('./components/MapChart.js'));
 
 const ChartsTabs = memo(() => {
   const {data, mapTabSelected, setMapTabSelected} = useArtistAudienceMap();
   return (
-    <ul className="border-b space-x-6 flex whitespace-nowrap border-slate-200/5 mb-px overflow-x-auto overflow-y-hiddenr">
+    <ul
+      className="border-b space-x-6 flex whitespace-nowrap border-slate-200/5 mb-px overflow-x-auto overflow-y-hiddenr">
       {
         data?.mapStats.map((chart, index) => (
           <li key={index} className='overflow-y-hidden overflow-x-hidden min-w-fit'>
@@ -52,8 +72,16 @@ const SkeletonDataSummary = memo(() => (
   </SkeletonTheme>
 ))
 export const AudienceContent = memo(() => {
-
-  const {source: sourceSlug} = useArtist();
+  const {elementRange: elementRangeLaptop} = useSizes(1420, 1920);
+  const {changeTab} = useChangeTab();
+  const {source: sourceSlug, setSource} = useArtist();
+  const {profile} = useAccount();
+  const {isSubscribed} = useSubscriptions();
+  const {mapType, setSearchValue, searchRef, setMapType} = useManageTable();
+  const getLogo = overviewSources.find(item => item.slug === sourceSlug);
+  const {elementRange, width, isMobile, isTablet} = useSizes();
+  const logoChart = elementRange(6, 11.25);
+  const sideDataWidth = elementRangeLaptop(5.5, 20.5)
   const {
     data: dataMap,
     mapTabSelected,
@@ -62,7 +90,6 @@ export const AudienceContent = memo(() => {
     loading: dataMapLoading
   } = useArtistAudienceMap();
   const {data: dataSummery, loading: dataSummeryLoading} = useArtistAudienceSummery();
-
   const buttons: typeof dataMap.mapStats[number]['data']['columns'] = useMemo(() => {
     return get(dataMap, `mapStats.${mapTabSelected}.data.columns`, []).filter(({showInMap}) => showInMap);
   }, [dataMap]);
@@ -77,127 +104,175 @@ export const AudienceContent = memo(() => {
   const source = useMemo(() => {
     return overviewSources.find(({slug}) => slug === sourceSlug);
   }, [sourceSlug]);
-
   return (
     <>
-      <div
-        className="h-full laptop:flex lg:pl-[19.5rem]  px-6 overflow-x-hidden flex-col items-center w-full relative overflow-hidden">
-        <main className="h-full max-w-4xl relative z-20 pt-10 xl:max-w-none w-full ">
-          <header id="header" className="mb-8 md:flex md:items-start">
-            <div className="flex-auto max-w-4xl">
-              <h1 className="text-2xl font-extrabold tracking-tight text-slate-200">Audience</h1>
-            </div>
-          </header>
-          <section className="h-full mb-16 relative">
-            <div className="h-full relative z-10">
-              <div className="h-full flex overflow-auto mb-6 flex-col">
-                <div className="flex-none min-w-full overflow-y-hidden">
-                  <Tabs/>
+
+      <main className="h-full relative z-20 pt-4 xl:max-w-none w-full lg:px-6 md:px-8 px-4">
+        <header id="header"
+                className="pb-3 border-b border-popup_gray md:border-none md:pb-[unset] md:mb-6 md:flex justify-between items-center  lg:px-[unset]">
+          {
+            isMobile || isTablet
+              ? <ArtistMobileHeader/>
+              : <div className="flex-auto max-w-4xl">
+                <h1 className="text-t1Semi_deck">Аудитория</h1>
+              </div>
+          }
+          <PrimaryButton
+            titleClassName='text-caption_m_desk text-light_grey'
+            className='px-6 py-4 border border-solid border-medium_grey rounded-xl hidden lg:flex'
+            title='Обновить'
+            isIcon={true}
+            icon={reload}/>
+        </header>
+        <section className="relative ">
+          <div className="  relative z-10">
+            <div className=" flex overflow-auto  flex-col">
+              <div className=" flex-none min-w-full overflow-y-hidden">
+                <div className="flex min-w-full items-center gap-4">
+                  <ShowOnLaptopToDesktop>
+                    <button className='min-w-5 h-5'>
+                      <ChevronRight color={changeTab === 0 || changeTab === undefined ? '#7B7B7B' : 'white'}
+                                    className={`rotate-[180deg]`}/>
+                    </button>
+                  </ShowOnLaptopToDesktop>
+                  <div
+                    className='w-full border-b border-[#33333380] lg:border-none pb-3 md:pb-4 pt-3 md:pt-[unset] lg:pb-0'>
+                    <Tabs/>
+                  </div>
+                  <ShowOnLaptopToDesktop>
+                    <button className='min-w-5 h-5'>
+                      <ChevronRight color='white' className={``}/>
+                    </button>
+                  </ShowOnLaptopToDesktop>
+
+                  <img className='fill-white w-7 h-7 ' src={settings}/>
                 </div>
-                {
-                  isDataExists
-                    ? (
-                      <>
-                        <section className="w-full py-5 flex gap-6 overflow-x-auto min-h-[140px]">
-                          {
-                            dataSummeryLoading === true
-                              ? <SkeletonDataSummary/>
-                              : dataSummery?.summaryStats.map((item, index) => (
-                                <div
-                                  key={index}
-                                  className="rounded-2xl bg-indigo-200/5 hover:bg-indigo-200/10 flex flex-col gap-1 min-w-[9.625rem] border border-indigo-500/30 py-3 px-4 items-center h-[100px]">
-                                  <div className="flex flex-col gap-0.5 w-full">
-                                    <h2
-                                      className="font-normal text-white text-sm xl:text-[.9rem] whitespace-nowrap">{item.titleText}</h2>
-                                    <p
-                                      className="text-gray-400 font-light text-xs xl:text-md capitalize">{item.subtitleText}</p>
-                                  </div>
-                                  <h1
-                                    className="text-2xl text-transparent capitalize bg-gradient-to-r from-indigo-400 to-indigo-500 bg-clip-text font-extrabold tracking-wider">{item.primaryValue}</h1>
-                                </div>
-                              ))
-                          }
-                        </section>
-                        <section>
-                          {
+              </div>
+              <ShowOnMobileToTablet>
+                <p className='text-[10px] font-normal leading-3 text-left text-medium_grey  mt-2'>*компания
+                  Meta
+                  Platforms Inc., владеющая Facebook и Instagram, внесена в реестр экстремистских организаций, ее
+                  деятельность в России по поддержанию указанных соцсетей признана экстремистской деятельностью</p>
+              </ShowOnMobileToTablet>
+              {
+                isDataExists
+                  ? (
+                    <>
+                      <section className={`py-6  flex  w-full gap-6 ${width < 1420 ? 'flex-col' : 'flex-row'}`}>
+                        {/* {
                             dataMapLoading === true
                               ? <SkeletonChartsTabs/>
                               : <ChartsTabs/>
-                          }
-                          <Suspense fallback={(<div className="map-container w-full h-full min-h-[480px]"/>)}>
+                          }*/}
+                        <div className='w-full '>
+                          <div className='w-full py-4 lg:p-8 flex justify-between lg:bg-popup_gray/50 rounded-t-[20px]'>
+                            <div className='flex flex-col lg:flex-row gap-4 lg:gap-10 lg:items-center'>
+                              <div style={{
+                                width: `${logoChart}rem`,
+                              }}
+                                   className=' mr-6'>
+                                {getLogo?.logo}
+                              </div>
+                              <div className="flex flex-col md:flex-row gap-4 justify-center md:justify-end">
+                                {
+                                  buttons.map((button, index) => (
+                                    <button
+                                      key={index}
+                                      className={`text-caption_m_desk p-2 flex justify-start
+                                        ${index === mapButtonSelected ? 'text-medium_grey' : ''}`}
+                                      onClick={() => setMapButtonSelected(index)}
+                                    >{button.name}</button>
+                                  ))
+                                }
+                              </div>
+                              {
+                                mapType === 'table' && (
+                                  <div
+                                    className="w-full md:w-fit flex items-center text-caption_r_desk text-medium_grey rounded-xl p-3.5  bg-transparent border-dark_grey border max-h-[52px]">
+                                    <svg width="24" height="24" fill="none" aria-hidden="true"
+                                         className="mr-3 flex-none">
+                                      <path d="m19 19-3.5-3.5" stroke="currentColor" strokeWidth="2"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"></path>
+                                      <circle cx="11" cy="11" r="6" stroke="currentColor" strokeWidth="2"
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"></circle>
+                                    </svg>
+                                    <input placeholder="Поиск по странам"
+                                           className="bg-transparent text-white placeholder:text-medium_grey border-0 focus:ring-0 p-0"
+                                           onChange={(e) => setSearchValue(e.target.value)}
+                                           ref={searchRef}/>
+                                  </div>
+                                )
+                              }
+                            </div>
+                          </div>
+                          <Suspense fallback={(<div className="map-container w-full h-full"/>)}>
                             <MapChart/>
                           </Suspense>
-                          <div className="flex gap-2 justify-center md:justify-end">
-                            {
-                              buttons.map((button, index) => (
-                                <button
-                                  key={index}
-                                  className={`text-white text-[10px] px-4 py-1.5 rounded-3xl border border-indigo-500
-                          ${index === mapButtonSelected ? 'bg-indigo-500' : ''}`}
-                                  onClick={() => setMapButtonSelected(index)}
-                                >{button.name}</button>
-                              ))
-                            }
+                          <div
+                            className="flex w-full justify-between items-center  md:p-8 lg:bg-popup_gray/50 rounded-b-[20px]">
+                            <div className='flex items-center gap-4 '>
+                              <button onClick={() => {
+                                /* if (!profile || !isSubscribed) {
+                                   return
+                                 }*/
+                                setMapType('map')
+                              }}>
+                                <GlobeIcon
+                                  className={` w-10 h-10 cursor-pointer ${mapType === 'map' ? 'fill-white' : 'fill-medium_grey'}`}/>
+                              </button>
+                              <button onClick={() => {
+                                /* if (!profile || !isSubscribed) {
+                                   return
+                                 }*/
+                                setMapType('table')
+                              }}>
+                                <MapIcon
+                                  className={`w-10 h-10 cursor-pointer ${mapType === 'table' ? 'fill-white' : 'fill-medium_grey'}`}/>
+                              </button>
+                            </div>
+                            <InfoIcon className='fill-light_grey'/>
                           </div>
-                        </section>
-                        <section className=' mt-16 lg:mt-32 min-h-screen'>
-                          <CountriesTable/>
-                        </section>
-                      </>
-                    )
-                    : (
-                      <div className="mx-auto max-w-3xl flex items-start h-1/2 py-10 min-h-[50rem]">
-                        <p className="mt-2 text-xl font-bold tracking-tight text-white sm:text-2xl">
-                          Subscribe to connect your {source?.name} account and import valuable Audience insights.</p>
-                      </div>
-                    )
-                }
-              </div>
-            </div>
-          </section>
-        </main>
-        <svg className="absolute blur-3xl right-[15%] top-[30.5rem] opacity-20" width="50%" height="20%"
-             viewBox="0 0 400 400"
-             fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g clipPath="url(#clip0_17_60)">
-            <g filter="url(#filter0_f_17_60)">
-              <path d="M128.6 0H0V322.2L332.5 211.5L128.6 0Z" fill="#4D07E3"></path>
-              <path d="M0 322.2V400H240H320L332.5 211.5L0 322.2Z" fill="#4C00FF"></path>
-              <path d="M320 400H400V78.75L332.5 211.5L320 400Z" fill="#7fcef3"></path>
-              <path d="M400 0H128.6L332.5 211.5L400 78.75V0Z" fill="#7fcef3"></path>
-            </g>
-          </g>
-          <defs>
-            <filter id="filter0_f_17_60" x="-159.933" y="-159.933" width="719.867" height="619.867"
-                    filterUnits="userSpaceOnUse">
-              <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
-              <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend>
-              <feGaussianBlur stdDeviation="109.9667" result="effect1_foregroundBlur_17_60"></feGaussianBlur>
-            </filter>
-          </defs>
-        </svg>
-        <svg className="absolute blur-[85px] right-[15%] top-[50%] opacity-25" width="50%" height="35%"
-             viewBox="0 0 400 500"
-             fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g clipPath="url(#clip0_17_60)">
-            <g filter="url(#filter0_f_17_60)">
-              <path d="M128.6 0H0V322.2L332.5 211.5L128.6 0Z" fill="#4D07E3"></path>
-              <path d="M0 322.2V400H240H320L332.5 211.5L0 322.2Z" fill="#4C00FF"></path>
-              <path d="M320 400H400V78.75L332.5 211.5L320 400Z" fill="#7fcef3"></path>
-              <path d="M400 0H128.6L332.5 211.5L400 78.75V0Z" fill="#7fcef3"></path>
-            </g>
-          </g>
-          <defs>
-            <filter id="filter0_f_17_60" x="-159.933" y="-159.933" width="719.867" height="619.867"
-                    filterUnits="userSpaceOnUse">
-              <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
-              <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend>
-              <feGaussianBlur stdDeviation="139.9667" result="effect1_foregroundBlur_17_60"></feGaussianBlur>
-            </filter>
-          </defs>
-        </svg>
+                        </div>
+                        <div className='flex flex-col gap-4 lg:gap-6'>
+                          {
+                            dataSummeryLoading === true
+                              ? <SkeletonDataSummary/>
+                              : dataSummery?.summaryStats?.map((item, index) => (
+                                <div
+                                  style={{
+                                    minWidth: `${sideDataWidth}rem`
+                                  }}
+                                  key={index}
+                                  className="py-6 px-7 bg-popup_gray/50 rounded-xl w-full ">
+                                  <div className="flex items-center justify-between gap-14 w-full">
+                                    <h2
+                                      className="text-caption_r_desk whitespace-nowrap text-medium_grey">{item.titleText},<br/> {item.subtitleText}
+                                    </h2>
+                                    <h1
+                                      className="text-t1Semi_deck">{item.primaryValue}</h1>
+                                  </div>
+                                </div>
+                              ))
+                          }
+                        </div>
+                      </section>
 
-      </div>
+                    </>
+                  )
+                  : (
+                    <div className="mx-auto max-w-3xl flex items-start h-1/2 py-10 min-h-[50rem]">
+                      <p className="mt-2 text-xl font-bold tracking-tight text-white sm:text-2xl">
+                        Subscribe to connect your {source?.name} account and import valuable Audience insights.</p>
+                    </div>
+                  )
+              }
+            </div>
+          </div>
+        </section>
+      </main>
+      <CountryDataPopup/>
     </>
   );
 });

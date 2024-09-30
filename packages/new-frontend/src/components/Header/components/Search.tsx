@@ -8,7 +8,7 @@ type SearchProps = {
   type?: 'small'
 }
 export const Search = memo<SearchProps>(({
-                                           placeholder = 'Search for Artists, Labels or Songs...',
+                                           placeholder = 'Найти артиста, лейбл или песню',
                                            type
                                          }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -82,7 +82,7 @@ export const Search = memo<SearchProps>(({
             </div>
           )
       }
-      <SearchBar isOpen={isOpen} closeModal={closeModal}/>
+      <SearchBar/>
     </>
   );
 });

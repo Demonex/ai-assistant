@@ -2,6 +2,7 @@ import {memo} from 'react';
 import Skeleton, {SkeletonTheme} from 'react-loading-skeleton';
 import {useArtistChart} from '../../hooks/useArtistChart.js';
 import {socials} from "../../../../data/consts/socials.js";
+import InfoIcon from "../../../../assets/InfoIcon.js";
 
 export const SkeletonPerformance = () => {
   return (
@@ -11,7 +12,8 @@ export const SkeletonPerformance = () => {
         <div className=" flex items-center gap-3 w-full justify-center pt-4">
           <Skeleton width={32} height={32}/>
           <p
-            className="text-sm lg:text-md text-transparent capitalize bg-gradient-to-r from-indigo-300 to-indigo-400 bg-clip-text">{<Skeleton width={100}/>}</p>
+            className="text-sm lg:text-md text-transparent capitalize bg-gradient-to-r from-indigo-300 to-indigo-400 bg-clip-text">{
+            <Skeleton width={100}/>}</p>
         </div>
         {
           Array.from({length: 4}).map((item, index) => (
@@ -38,45 +40,32 @@ export const SkeletonPerformance = () => {
 export const Performance = memo(() => {
   const {data: chartData, loading: apiChartDataLoading} = useArtistChart();
   const getLogo = socials.filter((item, _) => {
-    const getSource = chartData?.chart.source;
-    return  item.slug === getSource;
+    const getSource = chartData?.chart?.source;
+    return item.slug === getSource;
   });
-  const filteredData = chartData?.chart.iconData.filter((item) => (item.secondaryText === 'total'));
+  const filteredData = chartData?.chart?.iconData?.filter((item) => (item.secondaryText === 'total'));
   return (
-    <div className="w-full flex flex-col items-center bg-indigo-200/5 rounded-3xl">
+    <div className=" flex-col items-center lg:bg-popup_gray/50 rounded-[20px] lg:px-7 lg:py-8 gap-2.5">
       {
         apiChartDataLoading === true
           ? <SkeletonPerformance/>
           : <>
-            <div className=" flex items-center gap-3 w-full justify-center pt-4">
-              <div
-                className="flex w-6 xl:w-8 h-6 xl:h-8 items-center justify-center rounded-md  p-[0.060rem] text-center aspect-square">
-                <div
-                  className="bg-indigo-200/5 border border-indigo-500/30 p-[6px] xl:p-[8px] h-full w-full rounded-md flex items-center justify-center ">
-                  {
-                    getLogo.map((logo, index) => (
-                      <img src={logo.logo} alt="" className="w-[15px] h-[15px]" key={index}/>
-                    ))
-                  }
-                </div>
-              </div>
+            <div className=" flex items-center w-full justify-between pb-4 border-b border-dark_grey mb-4">
               <p
-                className="text-sm lg:text-md text-transparent capitalize bg-gradient-to-r from-indigo-300 to-indigo-400 bg-clip-text">PERFORMANCE</p>
+                className="text-btnText capitalize text-light_grey">статистика</p>
+              <InfoIcon className='fill-light_grey hover:fill-medium_grey'/>
             </div>
             {
               filteredData?.map((item, index) => {
                 return (
-                  <div className="w-full overflow-y-scroll flex flex-col gap-3 px-3 xl:px-5 py-2 xl:py-3"  key={index}>
+                  <div className="w-full overflow-y-scroll flex flex-col gap-3 " key={index}>
                     <div
                       className="text-white w-full"
-                     >
-                      <div className="bg-transparent p-2 rounded-xl h-full flex justify-between ">
-                        <div className="flex flex-col gap-1.5">
-                          <span className="font-normal text-white text-sm lg:text-[1.1rem] xl:text-md">{item.text}</span>
-                          <p className="text-gray-400 font-light text-xs xl:text-sm capitalize">{item.secondaryText}</p>
-                        </div>
+                    >
+                      <div className="bg-transparent py-2 rounded-xl h-full flex justify-between items-center gap-[8.75rem]">
+                        <span className="text-medium_grey text-caption_r_desk">{item.text}</span>
                         <span
-                          className=" text-md xl:text-xl text-transparent capitalize bg-gradient-to-r from-indigo-400 to-indigo-500 bg-clip-text font-bold">{item.count}</span>
+                          className="text-t1Semi_mob md:text-t1Semi_deck">{item.count}</span>
                       </div>
                     </div>
                   </div>

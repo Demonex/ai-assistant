@@ -17,7 +17,7 @@ Logger.useLogger(
     level: process.env.LOGGER_LEVEL ? Number(process.env.LOGGER_LEVEL) : LogLevel.Info
   })
 );
-Logger.info(`Bootstrapping musicstats.ru (pid: ${process.pid}) 🚀`);
+Logger.info(`Bootstrapping rifify.ru (pid: ${process.pid}) 🚀`);
 DefaultLogger.hideNestBootstrapLogs();
 const expressApp: Express = express();
 const adapter = new ExpressAdapter(expressApp);
@@ -26,22 +26,24 @@ const app = await NestFactory.create<NestExpressApplication>(AppModule, adapter,
 });
 await expressPlugins(expressApp);
 app.useGlobalPipes(new ValidationPipe({
+  transform: true,
+  whitelist: true,
   exceptionFactory: (errors) => {
-    console.log('errors', errors)
+    // console.log('errors', errors);
     const result = errors.map((error) => ({
       property: error.property,
-      messages: Object.values(error.constraints),
+      messages: Object.values(error.constraints)
     }));
     return new HttpException({
       statusCode: HttpStatus.BAD_REQUEST,
       messages: result
     }, HttpStatus.BAD_REQUEST);
-  },
+  }
 }));
 SwaggerModule.setup('/api/playground/rest', app, SwaggerModule.createDocument(app, new DocumentBuilder()
-  .setTitle('musicstats.ru API')
+  .setTitle('rifify.ru API')
   .setDescription(
-    `Backend API for <a href="https://backend.musicstats.ru" target="_blank">https://backend.musicstats.ru</a>`
+    `Backend API for <a href="https://backend.rifify.ru" target="_blank">https://backend.musicstats.ru</a>`
   )
   .addBearerAuth({
     type: 'http',

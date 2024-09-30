@@ -62,7 +62,7 @@ export const Footer = memo(() => {
               <div
                 className="flex flex-row items-center cursor-pointer gap-x-0.5 w-full justify-center laptop:w-auto laptop:justify-normal">
                 <img src={logo} alt="logo" className="w-[30px] h-[30px]"/>
-                <h2 className="text-white font-bold text-[20px]">MusicStats</h2>
+                <h2 className="text-white font-bold text-[20px]">Rifify</h2>
               </div>
               <div
                 className="flex flex-col gap-2 w-full justify-center laptop:w-auto laptop:justify-normal">

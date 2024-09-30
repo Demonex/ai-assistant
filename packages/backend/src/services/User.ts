@@ -12,37 +12,35 @@ import {REQUEST} from '@nestjs/core';
 // import payload from '@stigma-io/payload';
 import payload from '@stigma-io/payload';
 
-import jwt from 'jsonwebtoken';
-
 @Injectable({scope: Scope.REQUEST})
 export class UserService {
   constructor(
     @Inject(REQUEST) private readonly request: any,
     @InjectModel(UserEntity) private readonly repo: ReturnModelType<typeof UserEntity>,
-    @InjectRedisClient('musicstats.ru') private readonly redisClient: Redis
+    @InjectRedisClient('rifify.ru') private readonly redisClient: Redis
   ) {
   }
 
   async findById(id?: Types.ObjectId): Promise<UserEntity | null> {
-    if (!id) return null;
+    if(!id) return null;
     return this.repo.findById(id).select(UserEntityDefaultSelect);
   }
 
   async me(id?: Types.ObjectId, email?: string) {
     const isAdminRequest = String(get(this.request, 'headers.referer', '')).includes('/admin');
-    if (!id && !isAdminRequest) {
+    if(!id && !isAdminRequest) {
       throw new HttpException({
         statusCode: HttpStatus.UNAUTHORIZED,
         messages: [{
           messages: [HttpStatusMessages.UNAUTHORIZED]
         }]
       }, HttpStatus.UNAUTHORIZED);
-    } else if (!id && isAdminRequest) {
+    } else if(!id && isAdminRequest) {
       return {user: null};
     }
     const user = await this.findByIdOrEmail(id, email);
-    if (!user) {
-      if (!isAdminRequest) {
+    if(!user) {
+      if(!isAdminRequest) {
         throw new HttpException({
           statusCode: HttpStatus.UNAUTHORIZED,
           messages: [{
@@ -54,7 +52,7 @@ export class UserService {
         await new Promise(resolve => {
           this.request.session.destroy(() => resolve(true));
         });
-      } catch (err) {
+      } catch(err) {
         console.error(err.message);
         //
       }
@@ -76,14 +74,12 @@ export class UserService {
   ): Promise<any | null> {
     const keys = [
       'email',
-      'firstName',
-      'lastName',
+      'name',
       'language',
-      'hasFinishedQuiz'
     ];
     const data = Object.fromEntries(
       Object.entries(args).filter(([_, __]) => {
-        switch (_) {
+        switch(_) {
           default:
             return keys.includes(_);
         }
@@ -92,20 +88,20 @@ export class UserService {
     const getUser = () => this.repo.findById(id).select(['email', 'providers']);
     let userData;
     const {providersSafe} = args;
-    if (data.email || (Array.isArray(providersSafe) && providersSafe.length)) {
+    if(data.email || (Array.isArray(providersSafe) && providersSafe.length)) {
       userData = await getUser();
     }
-    if (data.email) {
+    if(data.email) {
       const oldEmail = get(userData || (await getUser()), 'email');
-      if (data.email !== oldEmail) {
+      if(data.email !== oldEmail) {
         data['emailVerified'] = false;
       }
     }
-    if (Array.isArray(providersSafe)) {
+    if(Array.isArray(providersSafe)) {
       const providers = get(userData || (await getUser()), 'providers');
       data['providers'] = (Array.isArray(providers) ? providers : []).reduce<string[]>((prev, provider) => {
         const providerSafe = provider.split('_').shift();
-        if (providersSafe.includes(providerSafe)) {
+        if(providersSafe.includes(providerSafe)) {
           return [...prev, provider];
         }
         return prev;
@@ -113,18 +109,18 @@ export class UserService {
     }
     try {
       const user = (await this.repo
-        .findByIdAndUpdate(id, data, {new: true})
-        .select(UserEntityDefaultSelect)).toJSON();
-      if (!user) return null;
+      .findByIdAndUpdate(id, data, {new: true})
+      .select(UserEntityDefaultSelect)).toJSON();
+      if(!user) return null;
       this.request.session.user.language = user.language;
+      this.request.session.user.email = user.email;
 
-      user['photos'] = get(user, 'photos', []).map(photo => get(photo, 'photo', undefined)).filter(Boolean);
       return user;
-    } catch (e) {
+    } catch(e) {
       console.error(e.message);
-      switch (e.code) {
+      switch(e.code) {
         case 11000: {
-          if ('username' in e.keyValue)
+          if('username' in e.keyValue)
             throw new HttpException({
               statusCode: HttpStatus.BAD_REQUEST,
               messages: [{
@@ -156,20 +152,16 @@ export class UserService {
         size: file.size
       }
     });
-    if (result) {
+    if(result) {
       try {
         await this.repo.findByIdAndUpdate(userId, {
             avatar: result.id
           }
         );
-      } catch (e) {
+      } catch(e) {
         console.error(e);
       }
       const select = (await this.repo.findById(userId).select(UserEntityDefaultSelect)).toJSON();
-      /*select['photos'] = get(select, 'photos', []).map(photo => get(photo, 'photo', undefined)).filter(Boolean).map((rest) => ({
-        ...rest,
-        url: `${process.env.SERVER_URL}/media/${encodeURI(rest.filename)}`
-      }));*/
       return select;
     }
     return null;
@@ -183,36 +175,33 @@ export class UserService {
       await new Promise((resolve, reject) => {
         this.request.session.destroy((err) => err ? reject(err) : resolve(true));
       });
-    } catch (err) {
+    } catch(err) {
       console.error(err.message);
       //
     }
     return true;
   }
 
-  async findByIdOrEmail(_id: Types.ObjectId, email?: string): Promise<any | null> {
-    if (!_id && !email) return null;
+  async findByIdOrEmail(_id: Types.ObjectId, email?: string, fields: (keyof UserEntity)[] = []): Promise<any | null> {
+    if(!_id && !email) return null;
     const select = await this.repo
-      .findOne(
-        _id && email
-          ? {
-            $or: [
-              {
-                _id
-              },
-              {
-                email
-              }
-            ]
-          }
-          : _id
-            ? {_id}
-            : {email}
-      )
-      .select(UserEntityDefaultSelect).lean();
-    if (select)
-      select['photos'] = get(select, 'photos', []).map(photo => get(photo, 'photo', undefined)).filter(Boolean);
-    // .populate('photos', PhotoEntityDefaultSelect)
+    .findOne(
+      _id && email
+        ? {
+          $or: [
+            {
+              _id
+            },
+            {
+              email
+            }
+          ]
+        }
+        : _id
+          ? {_id}
+          : {email}
+    )
+    .select([...UserEntityDefaultSelect, ...fields]);
     return select;
   }
 }

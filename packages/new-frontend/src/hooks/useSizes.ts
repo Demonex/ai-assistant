@@ -3,7 +3,7 @@ import {useCallback, useMemo} from "react";
 import {convertRange} from "../utils.js";
 
 export const useSizes = (widthRangeMin = 320, widthRangeMax = 1920) => {
-  const {width, height} = useWindowSize();
+    const {width, height} = useWindowSize();
   const widthRange = Math.min(Math.max(widthRangeMin, width), widthRangeMax);
 
   const elementRange = useCallback((min: number, max: number) => {

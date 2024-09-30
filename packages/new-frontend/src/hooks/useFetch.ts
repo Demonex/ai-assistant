@@ -14,7 +14,7 @@ const fetch = setupCache(Axios.create({
   },
   withCredentials: true
 }), {
-  storage: buildWebStorage(window.localStorage, 'axios-cache:'),
+  storage: buildWebStorage(window.localStorage, 'acr:'),
   ttl: 1000 * 60 * 60 * 24
 });
 

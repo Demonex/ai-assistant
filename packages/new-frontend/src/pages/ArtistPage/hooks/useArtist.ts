@@ -3,7 +3,7 @@ import useSharedHook from '../../../hooks/useSharedHook.js';
 import React, {useCallback, useState} from 'react';
 import {useArtistProfile} from './useArtistProfile.js';
 
-export type ArtistNavigation = 'feed' | 'analytics' | 'audience' | 'marketing' | 'catalogue' | undefined
+export type ArtistNavigation = 'feed' | 'analytics' | 'audience' | 'tools' | 'catalogue' | undefined
 
 const _useArtist = (): {
   id?: string

@@ -29,6 +29,7 @@ import tailwindcssForms from '@tailwindcss/forms';
 import type {InlineConfig as ConfigVite} from 'vite';
 import tailwindcssNesting from 'tailwindcss/nesting/index.js';
 import {mergeConfig} from 'vite';
+import {userMediaAvatar} from './collections/user/media/avatar';
 
 const __dirname = dirname();
 const s3AdapterConfig = {
@@ -135,18 +136,19 @@ export const defaultPayloadConfig: ConfigPayload = {
   },
   collections: [
     // Practise,
-    Pose,
-    Transition,
-    Model,
-    Voice,
-    Video,
-    Audio,
-    Media,
-    Photo,
-    User
+    // Pose,
+    // Transition,
+    // Model,
+    // Voice,
+    // Video,
+    // Audio,
+    // Media,
+    // Photo,
+    User,
+    userMediaAvatar,
   ],
   globals: [
-    AppScreens
+    // AppScreens
   ],
   rateLimit: {
     trustProxy: true,
@@ -156,30 +158,12 @@ export const defaultPayloadConfig: ConfigPayload = {
   plugins: [
     cloudStorage({
       collections: {
-        video: {
+        ['user-media-avatar']: {
           adapter: s3Adapter({
             config: s3AdapterConfig,
-            bucket: process.env.S3_BUCKET_VIDEO
+            bucket: process.env.S3_BUCKET_USER_AVATAR
           })
         },
-        audio: {
-          adapter: s3Adapter({
-            config: s3AdapterConfig,
-            bucket: process.env.S3_BUCKET_AUDIO
-          })
-        },
-        media: {
-          adapter: s3Adapter({
-            config: s3AdapterConfig,
-            bucket: process.env.S3_BUCKET_MEDIA
-          })
-        },
-        photo: {
-          adapter: s3Adapter({
-            config: s3AdapterConfig,
-            bucket: process.env.S3_BUCKET_PHOTO
-          })
-        }
       }
     })
   ],

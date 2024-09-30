@@ -15,11 +15,8 @@ const LilacCTA = memo(() => {
   const verticalPadding = elementRange(47, 69);
   const imgSize = elementRange(230, 430);
   const imgSizeMob = elementRangeMobile(360, 670);
-  // const h1Size = elementRangeLaptop(84/3, 84);
   const sparySize = elementRange(120, 350);
   const sparySizeMobile = elementRangeMobile(120, 350);
-  const bottom = elementRangeLaptop(14, 25);
-  const bottomMobile = elementRangeMobile(8, 22);
 
   return (
     <div
@@ -27,7 +24,7 @@ const LilacCTA = memo(() => {
         style={{
             paddingLeft: `${paddingHorizontal}px`,
             paddingRight: `${paddingHorizontal}px`,
-            marginTop:`${marginVertical*2}px`,
+            marginTop:!isMobile ? `${marginVertical*2}px` : `${marginVertical}px`,
             marginBottom:`${marginVertical}px`,
     }}>
       <div

@@ -4,10 +4,8 @@ import applemusic from "/assets/svg/appleLogo.svg";
 import spotify from "/assets/svg/spotifyLogo.svg";
 import tiktok from "/assets/svg/tiktokLogo.svg";
 import amazon from "/assets/svg/amazonLogo.svg";
-import songshare from "/assets/svg/songshareLogo.svg";
 import shazam from "/assets/svg/shasamLogo.svg";
 import deezer from "/assets/svg/deezerLogo.svg";
-import twitter from "/assets/svg/twitterLogo.svg";
 import beatport from "/assets/svg/beatportLogo.svg";
 import tidal from "/assets/svg/tidalLogo.svg";
 import tracklist from "/assets/svg/tracklistLogo.svg";
@@ -16,39 +14,44 @@ import facebook from "/assets/svg/facebookLogo.svg";
 import bandsintown from "/assets/svg/bandsintownLogo.svg";
 import songkick from "/assets/svg/songkickLogo.svg";
 import musicbrainz from "/assets/svg/musicbrainz.svg";
+import songshare from "/assets/svg/songshareLogo.svg";
+import twitter from "/assets/svg/twitterLogo.svg";
+
+
 
 
 export const socials = [
     {
         name: 'overview',
         logo: '',
-        slug: ''
+        slug: 'overview',
+
     },
     {
         name: 'instagram',
         logo: instagram,
-        slug: 'instagram'
+        slug: 'instagram',
     },
-    {
+   /* {
         name: 'musicbrainz',
         logo: musicbrainz,
         slug: 'musicbrainz'
-    },
-    {
+    },*/
+   /* {
         name: 'songkick',
         logo: songkick,
         slug: 'songkick'
-    },
-    {
+    },*/
+  /*  {
         name: 'bandsintown',
         logo: bandsintown,
         slug: 'bandsintown'
-    },
-    {
+    },*/
+  /*  {
         name: 'facebook',
         logo: facebook,
         slug: 'facebook'
-    },
+    },*/
     {
         name: 'youtube',
         logo: youtube,
@@ -74,11 +77,11 @@ export const socials = [
         logo: amazon,
         slug: 'amazon'
     },
-    {
+   /* {
         name: 'songshare',
         logo: songshare,
         slug: 'songshare'
-    },
+    },*/
     { name: 'shazam',
         logo: shazam,
         slug: 'shazam'
@@ -88,11 +91,11 @@ export const socials = [
         logo: deezer,
         slug: 'deezer'
     },
-    {
+   /* {
         name: 'twitter',
         logo: twitter,
         slug: 'twitter'
-    },
+    },*/
     {
         name: 'beatport',
         logo: beatport,
@@ -116,7 +119,7 @@ export const socials = [
     {
         name: 'iTunes',
         logo: applemusic,
-        slug: 'itunes'
+        slug: 'itunes',
     },
 
 ]

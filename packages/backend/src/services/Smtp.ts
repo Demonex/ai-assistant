@@ -18,7 +18,7 @@ export class SmtpService{
           template_content:[],
           message:{
             subject:'Recovery password',
-            from_email:'no-reply@musicstats.ru',
+            from_email:'no-reply@rifify.ru',
             merge_vars:[{
               rcpt:email,
               vars:[

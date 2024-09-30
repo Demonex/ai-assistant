@@ -4,6 +4,7 @@ export type Artists = {
   photo: string
   description: string
   id: string
+  secondaryText?:string
 }[]
 
 
