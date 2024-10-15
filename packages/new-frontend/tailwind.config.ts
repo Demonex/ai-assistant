@@ -115,6 +115,12 @@ export default {
             fontWeight: '500',
           }
         ],
+        t1Semi_ipad: [
+          '1.5rem', {
+            lineHeight: '36px',
+            fontWeight: '500',
+          }
+        ],
         t1Semi_mob: [
           '1.5rem', {
             lineHeight: '36px',

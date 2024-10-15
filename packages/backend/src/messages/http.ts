@@ -13,6 +13,7 @@ export const HttpStatusMessages = {
   SMS_REQUESTED_INTERVAL: 'To many sms requests, try in 5 minutes.',
   SIGN_UP_INTERVAL: 'To many sign-up requests, try in 24 hours.',
   SMS_REQUESTED_TIMEOUT: 'Time to verify is past, try send another sms.',
+  OBJECT_ID_EXPECTED: 'OBJECT_ID_EXPECTED.',
 };
 export const HttpStatusMessagesRu = {
   UNAUTHORIZED: 'Не аторизован',

@@ -514,30 +514,27 @@ export default memo(() => {
               <h1 className="text-t1Mobile md:text-t1Regular text-light_grey">Просмотр аудитории ограничен</h1>
             </div>
             {
-              !profile && (
-                <p className="text-t2Regular text-medium_grey text-center">Войдите или зарегистрируйтесь, чтобы получить
+              !profile
+                ? <p className="text-t2Regular text-medium_grey text-center">Войдите или зарегистрируйтесь, чтобы получить
                   доступ к подписке.</p>
+                :  !isSubscribed && (
+                <p className="text-t2Regular text-medium_grey text-center">Подпишись на артиста, чтобы получить всю
+                  информацию об аудитории!</p>
               )
-            }
-            {
-              !isSubscribed && (
-                <p className="text-t2Regular text-medium_grey text-center">Подпишись на артиста, чтобы получить всю информацию об аудитории!</p>
-              )
+
             }
           </div>
           {
-            !profile && (
-              <SecondaryButton title='Войти' className='border-none bg-primary_blue text-white w-full md:w-fit'/>
-            )
-          }
-          {
-            !isSubscribed && (
-              <SecondaryButton
-                title={`Подпишись
+            !profile
+              ? <SecondaryButton title='Войти' className='border-none bg-primary_blue text-white w-full md:w-fit'/>
+              : !isSubscribed
+                ? <SecondaryButton
+                  title={`Подпишись
                               на ${artistProfile?.account.name}`}
-                className='border-none bg-primary_blue text-white w-full md:w-fit  '/>
-            )
+                  className='border-none bg-primary_blue text-white w-full md:w-fit  '/>
+                : null
           }
+
         </div>
       </div>
       <div className={`flex w-full h-full flex-col relative lg:bg-popup_gray/50`}>

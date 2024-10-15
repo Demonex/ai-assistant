@@ -79,7 +79,7 @@ const footerInfo = [
   },
   {
     name: 'Попробовать бесплатно',
-    link: '/sign-up'
+    link: '/auth/sign-up'
   }
 ];
 const icons = [

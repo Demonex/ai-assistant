@@ -1,7 +1,7 @@
 import {Dialog} from '@headlessui/react';
 import {Accordion} from '../Accordion.js';
 import {navbar} from '../../../../data/consts/navbar.js';
-import React, {memo} from 'react';
+import React, {memo, useCallback} from 'react';
 import {ShowOnMobileToTablet} from '../../../Sizes/ShowOnMobileToTablet/ShowOnMobileToTablet.js';
 import {NavigationItems} from '../../../../pages/ArtistPage/components/Sidebar/Sidebar.js';
 import {useMobileMenu} from './hooks/useMobileMenu.js';
@@ -17,11 +17,16 @@ import {Link} from "wouter";
 
 
 export const MobileMenu = memo(() => {
-  const {profile} = useAccount();
   const {isOpen, setIsOpen} = useMobileMenu();
   const {id} = useArtist();
-  const {setIsOpenSearchModal} = useOpenModalSearch();
-
+  const {setSubscription,setIsOpenSearchModal,setButtonText,setSubscriptionOnClick,setIsShowAll} = useOpenModalSearch();
+  const handleSearchClick = useCallback(() => {
+    setSubscription(undefined);
+    setButtonText('Перейти');
+    setSubscriptionOnClick(false);
+    setIsShowAll(true);
+    setIsOpenSearchModal(true);
+  }, []);
   return (
     <ShowOnMobileToTablet>
       <Dialog as="div" open={isOpen} onClose={() => setIsOpen(false)}>
@@ -36,7 +41,7 @@ export const MobileMenu = memo(() => {
               </Link>
             </div>
             <div className="w-full flex flex-row justify-end gap-4 md:gap-5">
-              <button onClick={() => setIsOpenSearchModal(true)}>
+              <button onClick={handleSearchClick}>
                 <SearchIcon color="white" width={40}/>
               </button>
               <IconUserAccount className="fill-white h-10 w-10"/>
@@ -65,7 +70,7 @@ export const MobileMenu = memo(() => {
               className="py-4 px-8 rounded-xl bg-primary_blue mt-5 w-full md:w-fit"
               titleClassName="text-btnText "
               title="Попробовать бесплатно"
-              to="/sign-up"
+              to="/auth/sign-up"
               isIcon={false}/>
           </div>
 

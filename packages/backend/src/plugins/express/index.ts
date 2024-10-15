@@ -93,19 +93,18 @@ const expressPlugins = async (express: Express) => {
   });
   express.use((req, res, next) => {
     let domain = process.env.SERVER_COOKIE_HOST || process.env.SERVER_HOST;
-    // let webDomain = undefined;
+    let webDomain = undefined;
     try {
-      /*webDomain*/
-      // domain = new URL(req.headers.origin || req.headers.referer).hostname;
+      webDomain = new URL(req.headers.origin || req.headers.referer).hostname;
     } catch (e) {
       // console.error(e)
     }
-    /*switch(webDomain) {
-      case 'app.musicstats.ru': {
-        domain = '.musicstats.ru';
+    switch(webDomain) {
+      case 'stage.rifify.ru': {
+        domain = '.rifify.ru';
         break;
       }
-    }*/
+    }
     const expressSession = session({
       name: process.env.SESSIONS_KEY,
       store: RedisSessionStore,

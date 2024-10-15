@@ -19,12 +19,12 @@ export const Unauthorised = memo(() => {
         <Link
           onClick={() => setIsOpen(false)}
           className="text-sm text-white font-normal leading-6 py-1.5 px-4 cursor-pointer border border-gray-300/20 rounded-[8px] hover:bg-gray-600/20 whitespace-nowrap"
-          to="/sign-in">
+          to="/auth/sign-in">
           Sign In
         </Link>
         <Link
           onClick={() => setIsOpen(false)}
-          to="/sign-up"
+          to="/auth/sign-up"
           className="text-sm text-black font-normal leading-6 py-1.5 px-4 bg-gray-100 rounded-[8px] cursor-pointer ring-1 ring-inset ring-white/20 hover:bg-gray-300 whitespace-nowrap">Sign
           Up</Link>
       </div>

@@ -2,6 +2,20 @@ version: '3.7'
 
 services:
 
+  minio:
+    image: minio/minio
+    restart: always
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    volumes:
+      - media:/data
+    environment:
+      MINIO_ROOT_USER: 8VUKTW1WH9ER56OTO9Y
+      MINIO_ROOT_PASSWORD: LRHKD9EUJ9WQMRHYILNKRJN8O8W
+
+    command: server --address ":8080" --console-address ":9090" /data
+
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer
@@ -29,10 +43,12 @@ services:
     depends_on:
       - mongo
       - redis
+      - minio
     links:
       - mongo
       - redis
-    command: [ "npm", "run", "dev"]
+      - minio
+    command: [ "npm", "run", "dev" ]
 
   mongo:
     privileged: true

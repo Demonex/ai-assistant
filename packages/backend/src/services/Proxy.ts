@@ -7,6 +7,8 @@ import md5 from 'md5';
 import {InjectModel} from 'nestjs-typegoose';
 import LogEntity from '../entities/Log';
 import type {ReturnModelType} from '@typegoose/typegoose';
+import {Types} from 'mongoose';
+import SubscriptionEntity from '../entities/Subscription';
 
 const getHeaders = () => ({
   'accept': 'application/json',
@@ -40,8 +42,20 @@ export class ProxyService {
   constructor(
     @Inject(REQUEST) private readonly request: any,
     @InjectRedisClient('rifify.ru') private readonly redisClient: Redis,
-    @InjectModel(LogEntity) private readonly repoLog: ReturnModelType<typeof LogEntity>
+    @InjectModel(LogEntity) private readonly repoLog: ReturnModelType<typeof LogEntity>,
+    @InjectModel(SubscriptionEntity) private readonly repoSubscriptions: ReturnModelType<typeof SubscriptionEntity>
   ) {
+  }
+
+  async isSubscribed(user: Types.ObjectId, artist?: string) {
+    if (!user || !artist) {
+      return false;
+    }
+    return Boolean(await this.repoSubscriptions.exists({
+      user,
+      artists: artist,
+      archived: {$ne: false}
+    }));
   }
 
   async get() {
@@ -119,6 +133,7 @@ export class ProxyService {
   async paid() {
     const path = this.request.path.replace(/^\/api\/rest\/proxy-paid/, '');
     const {query} = this.request;
+    console.log(path, query);
     return got.get(`https://api.songstats.com/enterprise${path}`, {
       headers: {
         'content-type': 'application/json',

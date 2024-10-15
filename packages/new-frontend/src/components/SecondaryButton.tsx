@@ -8,6 +8,7 @@ type PrimaryButtonProps = {
   to?: string;
   onClick?: () => void,
   type?: 'button' | 'submit'
+  children?: any
 }
 const SecondaryButton = forwardRef<HTMLButtonElement, PrimaryButtonProps>(({
                                                                              title,
@@ -15,7 +16,8 @@ const SecondaryButton = forwardRef<HTMLButtonElement, PrimaryButtonProps>(({
                                                                              style,
                                                                              to,
                                                                              onClick,
-  type
+                                                                             type,
+                                                                             children
                                                                            }, ref) => {
   const [, navigate] = useLocation();
 
@@ -35,7 +37,7 @@ const SecondaryButton = forwardRef<HTMLButtonElement, PrimaryButtonProps>(({
       type={type}
     >
       <span className='truncate'> {title}</span>
-
+      {children}
     </button>
   );
 });

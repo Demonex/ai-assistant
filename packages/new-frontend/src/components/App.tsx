@@ -3,8 +3,9 @@ import {Route, Switch} from 'wouter';
 import get from 'lodash.get';
 import {ErrorPage} from '../pages/404/Error.js';
 import {MemoComponent} from './MemoComponent.js';
-import '../index.css'
+import '../index.css';
 import {SearchBar} from './Header/components/SearchField/index.js';
+import {useSizes} from '../hooks/useSizes.js';
 
 const PagePathsWithComponents: {
   [k: string]: {
@@ -37,6 +38,11 @@ const routes: {
   }
 ];
 export const App = memo(() => {
+  const {width, height} = useSizes();
+
+  if (width === 0 || height === 0) {
+    return null;
+  }
 
   return (
     <>

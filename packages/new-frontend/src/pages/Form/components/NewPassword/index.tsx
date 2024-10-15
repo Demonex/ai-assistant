@@ -41,7 +41,7 @@ export const NewPassword = memo(() => {
                             <p className='text-t2Regular lg:text-t2Regular text-medium_grey'>Ты снова можешь пользоваться
                                 всеми преимуществами личного кабинета.</p>
                         </div>
-                        <a href='/form/sign-in'>
+                        <a href='/auth/sign-in'>
                             <button
                                 className="flex w-full justify-center rounded-xl bg-primary_blue px-3 py-3.5 text-caption_m_desk text-white hover:scale-105 transition duration-300"
                             >
@@ -130,7 +130,7 @@ export const NewPassword = memo(() => {
                                 </div>
                             </div>
                             <div className='flex flex-col md:flex-row gap-3 md:gap-3.5 mt-2'>
-                                <Link className='w-full' to='/form/sign-in'>
+                                <Link className='w-full' to='/auth/sign-in'>
                                     <button
                                         className="flex w-full justify-center rounded-xl border border-solid border-medium_grey px-3 py-3.5 text-caption_m_desk text-white hover:scale-105 transition duration-300"
                                     >

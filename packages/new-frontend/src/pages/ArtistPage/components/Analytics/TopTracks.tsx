@@ -72,7 +72,7 @@ const WithButtons = memo<{
         {
           data.buttons.map(({title, buttonId}, index) => (
               <button key={index}
-                      className={` text-caption_m_desk px-6 py-2 rounded-[30px] border border-solid ${index === activeButton ? 'bg-yellow border-transparent text-[black]' : 'bg-transparent border-dark_grey text-medium_grey'}`}
+                      className={`whitespace-nowrap text-caption_m_desk px-6 py-2 rounded-[30px] border border-solid ${index === activeButton ? 'bg-yellow border-transparent text-[black]' : 'bg-transparent border-dark_grey text-medium_grey'}`}
                       onClick={() => handleButtonClick(index, buttonId)}>
                 {title}
               </button>

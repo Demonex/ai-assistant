@@ -8,6 +8,17 @@ export enum USER_LANGUAGES {
   RU = 'ru'
 }
 
+export enum SUBSCRIPTION_PLAN_PERIOD {
+  MONTH = 'month',
+  HALF_YEAR = 'half-year',
+  YEAR = 'year'
+}
+
+export enum SUBSCRIPTION_TRANSACTION_STATUS {
+  SUCCESS = 'success',
+  FAIL = 'fail',
+}
+
 export enum USER_CURRENCIES {
   USD = 'usd',
   RUB = 'rub'

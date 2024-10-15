@@ -54,7 +54,7 @@ const VioletInterraption = memo(() => {
                 </div>
                 <PrimaryButton
                     title='Попробовать бесплатно'
-                    to='/sign-up'
+                    to='/auth/sign-up'
                     titleStyle={{
                         fontSize: `${buttonFontSize}px`
                     }}

@@ -3,12 +3,14 @@ import {lazy, memo, Suspense, useEffect, useMemo} from 'react';
 import {ArtistNavigation, useArtist} from './hooks/useArtist.js';
 import {useParams, useSearch} from 'wouter';
 
-import Header from "../../components/HeaderMain/index.js";
-import '../../index.css'
-import {overviewSources} from "../../data/consts/favoriteSources.js";
-import Catalogue from "./components/Catalogue/index.js";
-import {useSizes} from "../../hooks/useSizes.js";
-import MobileTabs from "./components/MobileTabs/index.js";
+import Header from '../../components/HeaderMain/index.js';
+import '../../index.css';
+import {overviewSources} from '../../data/consts/favoriteSources.js';
+import Catalogue from './components/Catalogue/index.js';
+import {useSizes} from '../../hooks/useSizes.js';
+import MobileTabs from './components/MobileTabs/index.js';
+import SubscriptionsCalculator from '../Account/components/SubscriptionsCalculator.js';
+import {useSubscriptionCalculator} from '../Account/components/hooks/useSubscriptionCalculator.js';
 
 
 const FeedContent = lazy(() => import('./components/FeedContent.js'));
@@ -86,12 +88,30 @@ const ArtistContent = memo(() => {
 });
 export const ArtistPage = memo(() => {
   const {isMobile, isTablet} = useSizes();
+  const {id} = useParams<{
+    id?: string
+    name?: string
+    navigation?: ArtistNavigation
+  }>();
+
+  const {
+    setArtistId
+  } = useSubscriptionCalculator();
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+    setArtistId(id);
+  }, [id]);
 
   return (
     <div className="h-full relative overflow-x-hidden flex flex-col items-center">
       <Header/>
+      <SubscriptionsCalculator/>
       <Sidebar/>
-      <div className="flex lg:pl-[15.25rem]  lg:px-4 overflow-x-hidden flex-col items-center w-full relative mb-[4.5rem] lg:mb-[unset] mt-[68px] md:mt-[84px] lg:mt-[96px] ">
+      <div
+        className="flex lg:pl-[15.25rem]  lg:px-4 overflow-x-hidden flex-col items-center w-full relative mb-[4.5rem] lg:mb-[unset] mt-[68px] md:mt-[84px] lg:mt-[96px] ">
         <ArtistContent/>
       </div>
       {

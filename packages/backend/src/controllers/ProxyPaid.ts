@@ -1,13 +1,14 @@
 import {
   Controller,
   Get,
-  HttpCode, HttpException, HttpStatus
+  HttpCode, HttpException, HttpStatus, Param, Query
 } from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
-import {ProxyService} from "../services/Proxy.js";
+import {ProxyService} from '../services/Proxy.js';
 import {HttpStatusMessages} from '../messages/http';
-import {UserEmail} from '../decorators/user';
+import {UserEmail, UserId} from '../decorators/user';
 import {Authorized} from '../decorators/auth';
+import {Types} from 'mongoose';
 
 @Controller('/api/rest/proxy-paid')
 export class ProxyPaidController {
@@ -21,9 +22,12 @@ export class ProxyPaidController {
   @Get('*')
   @HttpCode(200)
   async get(
-    @UserEmail() email?: string
+    @UserId() user?: Types.ObjectId,
+    @Query('songstats_artist_id') id?: string,
+    @Query('songstats_collaborator_id') _id?: string
   ) {
-    if(!email?.includes('@rifify.com')) {
+    const isSubscribed = await this.service.isSubscribed(user, id || _id);
+    if (!isSubscribed) {
       throw new HttpException({
         statusCode: HttpStatus.METHOD_NOT_ALLOWED,
         messages: [{

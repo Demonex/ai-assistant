@@ -30,6 +30,8 @@ import type {InlineConfig as ConfigVite} from 'vite';
 import tailwindcssNesting from 'tailwindcss/nesting/index.js';
 import {mergeConfig} from 'vite';
 import {userMediaAvatar} from './collections/user/media/avatar';
+import Post from './collections/Post';
+import PostMedia from './collections/PostMedia';
 
 const __dirname = dirname();
 const s3AdapterConfig = {
@@ -144,6 +146,8 @@ export const defaultPayloadConfig: ConfigPayload = {
     // Audio,
     // Media,
     // Photo,
+    Post,
+    PostMedia,
     User,
     userMediaAvatar,
   ],
@@ -159,6 +163,12 @@ export const defaultPayloadConfig: ConfigPayload = {
     cloudStorage({
       collections: {
         ['user-media-avatar']: {
+          adapter: s3Adapter({
+            config: s3AdapterConfig,
+            bucket: process.env.S3_BUCKET_USER_AVATAR
+          })
+        },
+        ['post-media']: {
           adapter: s3Adapter({
             config: s3AdapterConfig,
             bucket: process.env.S3_BUCKET_USER_AVATAR

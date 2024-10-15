@@ -6,15 +6,16 @@ import {useArtist} from '../../hooks/useArtist.js';
 import Skeleton, {SkeletonTheme} from 'react-loading-skeleton';
 import {useMobileMenu} from '../../../../components/Header/components/MobileMenu/hooks/useMobileMenu.js';
 import {useSubscriptions} from '../../../../hooks/useSubscriptions.js';
-import subscribedIcon from '/assets/svg/subscribed_icon.svg'
+import subscribedIcon from '/assets/svg/subscribed_icon.svg';
 import {buildStyles, CircularProgressbarWithChildren} from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import PrimaryButton from "../../../../components/PrimaryButton.js";
-import {navigations} from "../../../../data/consts/navigation.js";
-import {useSizes} from "../../../../hooks/useSizes.js";
-import SecondaryCloseIcon from "../../../../assets/SecondaryCloseIcon.js";
-import {ArrowBack} from "../../../../assets/ArrowBack.js";
-import {useOpenMobileSidebar} from "../../hooks/useOpenMobileSidebar.js";
+import PrimaryButton from '../../../../components/PrimaryButton.js';
+import {navigations} from '../../../../data/consts/navigation.js';
+import {useSizes} from '../../../../hooks/useSizes.js';
+import SecondaryCloseIcon from '../../../../assets/SecondaryCloseIcon.js';
+import {ArrowBack} from '../../../../assets/ArrowBack.js';
+import {useOpenMobileSidebar} from '../../hooks/useOpenMobileSidebar.js';
+import {useSubscriptionCalculator} from '../../../Account/components/hooks/useSubscriptionCalculator.js';
 
 
 export const NavigationItems = memo(() => {
@@ -34,7 +35,7 @@ export const NavigationItems = memo(() => {
               {nav.svg(nav.component === navigation)}
               {
                 !isTablet && !isMobile && (
-                  <p className='text-btnText'> {nav.title}</p>
+                  <p className="text-btnText"> {nav.title}</p>
                 )
               }
             </Link>
@@ -79,7 +80,7 @@ const SkeletonSideBar = memo(() => (
 
 export const SidebarMobile = memo(() => {
   const profile = useArtistProfile();
-  const {subscriptions, subscribe, unsubscribe} = useSubscriptions();
+  const {subscriptions /*subscribe, unsubscribe*/} = useSubscriptions();
   const {id: artistId} = useArtist();
   const {setOpenMobileSidebar} = useOpenMobileSidebar();
   /* const artistId = useMemo(() => {
@@ -108,7 +109,7 @@ export const SidebarMobile = memo(() => {
   return (
     <div
       className="mb-[4.5rem] overflow-y-auto mt-[4.375rem] py-6 px-4 relative">
-      <button className='absolute left-2 p-2 top-2 z-20' onClick={() => setOpenMobileSidebar(false)}>
+      <button className="absolute left-2 p-2 top-2 z-20" onClick={() => setOpenMobileSidebar(false)}>
         <ArrowBack/>
       </button>
       <nav id="nav" className=" relative flex flex-col h-full">
@@ -117,14 +118,14 @@ export const SidebarMobile = memo(() => {
             artistProfileLoading === true
               ? <SkeletonSideBar/>
               : <div className="flex flex-col items-center gap-4 ">
-                <div className=''>
+                <div className="">
                   <CircularProgressbarWithChildren
                     value={80}
                     strokeWidth={2}
                     styles={buildStyles({
                       trailColor: '#0c0c0c',
-                      pathColor: '#E4FF29',
-                    })} className='w-[7.5rem] h-[7.5rem]'>
+                      pathColor: '#E4FF29'
+                    })} className="w-[7.5rem] h-[7.5rem]">
                     <div
                       className="w-[7rem] h-[7rem] bg-cover bg-center bg-no-repeat rounded-full relative"
                       style={{
@@ -138,16 +139,16 @@ export const SidebarMobile = memo(() => {
                     className="text-caption_r_desk text-medium_grey uppercase">{artistProfile?.account?.country}</span>
                 </div>
 
-                <div className="mt-2.5">
+                <div className={isSubscribed ? '' : 'mt-2.5'}>
                   <PrimaryButton
-                    className={` py-3.5 px-11 rounded-xl text-caption_m_desk ${isSubscribed ? 'bg-medium_grey' : 'bg-primary_blue'}`}
-                    title={` ${isSubscribed ? 'Отписаться' : 'Подписаться'}`}
-                    isIcon={isSubscribed}
+                    className={`py-3.5 px-11 rounded-xl text-caption_m_desk ${isSubscribed ? 'bg-medium_grey' : 'bg-primary_blue'}`}
+                    title={`${isSubscribed ? 'Отписаться' : 'Подписаться'}`}
+                    isIcon={false}
                     icon={subscribedIcon}
-                    onClick={() => isSubscribed ? unsubscribe(artistId) : subscribe(artistId)}
+                    // onClick={() => isSubscribed ? unsubscribe(artistId) : subscribe(artistId)}
                   />
-                  <div className='w-full flex justify-center mt-4'>
-                    <Link to='' className=' text-caption_m_desk text-light_grey text-center'>Как
+                  <div className={`w-full flex justify-center ${isSubscribed ? '' : 'mt-4'}`}>
+                    <Link to="" className=" text-caption_m_desk text-light_grey text-center">Как
                       работает сервис?</Link>
                   </div>
                 </div>
@@ -174,7 +175,7 @@ export const SidebarMobile = memo(() => {
                 ))
               }
             </div>
-            <p className='text-[10px] text-medium_grey text-center mt-2 leading-3'>*компания Meta Platforms
+            <p className="text-[10px] text-medium_grey text-center mt-2 leading-3">*компания Meta Platforms
               Inc.,
               владеющая Facebook и Instagram, внесена в реестр экстремистских организаций, ее
               деятельность в России по поддержанию указанных соцсетей признана экстремистской
@@ -183,19 +184,18 @@ export const SidebarMobile = memo(() => {
         }
       </nav>
     </div>
-  )
-})
+  );
+});
 export const Sidebar = memo(() => {
   const profile = useArtistProfile();
-  const {subscriptions, subscribe, unsubscribe} = useSubscriptions();
-
+  const {isSubscribed} = useSubscriptions();
+  // const {subscriptions, subscribe, unsubscribe} = useSubscriptions();
+  const {
+    setOpenModal
+  } = useSubscriptionCalculator();
   const artistId = useMemo(() => {
     return profile?.data?.account?.idUnique;
   }, [profile]);
-
-  const isSubscribed = useMemo(() => {
-    return !!subscriptions?.find(({artist}) => artist === artistId);
-  }, [subscriptions, artistId]);
 
   const {data: artistProfile, loading: artistProfileLoading} = profile || {};
   const artistProfileFiltered = artistProfile?.account?.links?.map((social) => {
@@ -224,14 +224,14 @@ export const Sidebar = memo(() => {
                 artistProfileLoading === true
                   ? <SkeletonSideBar/>
                   : <div className="flex flex-col items-center gap-6 ">
-                    <div className='px-7'>
+                    <div className="px-7">
                       <CircularProgressbarWithChildren
                         value={80}
                         strokeWidth={2}
                         styles={buildStyles({
                           trailColor: '#0c0c0c',
-                          pathColor: '#E4FF29',
-                        })} className='w-[8.75rem] h-[8.75rem]'>
+                          pathColor: '#E4FF29'
+                        })} className="w-[8.75rem] h-[8.75rem]">
                         <div
                           className="w-[8rem] h-[8rem] bg-cover bg-center bg-no-repeat rounded-full relative"
                           style={{
@@ -246,16 +246,21 @@ export const Sidebar = memo(() => {
                         className="text-caption_r_desk text-medium_grey uppercase">{artistProfile?.account?.country}</span>
                     </div>
 
-                    <div className="mt-2.5">
-                      <PrimaryButton
-                        className={` py-3.5 px-11 rounded-xl text-caption_m_desk ${isSubscribed ? 'bg-medium_grey' : 'bg-primary_blue'}`}
-                        title={` ${isSubscribed ? 'Отписаться' : 'Подписаться'}`}
-                        isIcon={isSubscribed}
-                        icon={subscribedIcon}
-                        onClick={() => isSubscribed ? unsubscribe(artistId) : subscribe(artistId)}
-                      />
-                      <div className='w-full flex justify-center mt-4'>
-                        <Link to='' className=' text-caption_m_desk text-light_grey text-center'>Как
+                    <div className={isSubscribed ? '' : 'mt-2.5'}>
+                      {
+                        !isSubscribed && (
+                          <PrimaryButton
+                            className={` py-3.5 px-11 rounded-xl text-caption_m_desk ${isSubscribed ? 'bg-medium_grey' : 'bg-primary_blue'}`}
+                            title={`${isSubscribed ? 'Отписаться' : 'Подписаться'}`}
+                            isIcon={false}
+                            icon={subscribedIcon}
+                            onClick={() => isSubscribed ? () => {
+                            } : setOpenModal(true)}
+                          />
+                        )
+                      }
+                      <div className={`w-full flex justify-center ${isSubscribed ? '' : 'mt-4'}`}>
+                        <Link to="" className=" text-caption_m_desk text-light_grey text-center">Как
                           работает сервис?</Link>
                       </div>
                     </div>
@@ -286,7 +291,7 @@ export const Sidebar = memo(() => {
                   ))
                 }
               </div>
-              <p className='text-[10px] text-medium_grey text-start mt-2 leading-3'>*компания Meta Platforms Inc.,
+              <p className="text-[10px] text-medium_grey text-start mt-2 leading-3">*компания Meta Platforms Inc.,
                 владеющая Facebook и Instagram, внесена в реестр экстремистских организаций, ее
                 деятельность в России по поддержанию указанных соцсетей признана экстремистской
                 деятельностью</p>

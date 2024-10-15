@@ -1,7 +1,7 @@
 import {useSizes} from '../../hooks/useSizes.js';
 import PrimaryButton from '../PrimaryButton.js';
 import {ShowOnLaptopToDesktop} from '../SowOnLaptopToDeckTop/index.js';
-import React, {memo, useEffect} from 'react';
+import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import {Link} from 'wouter';
 import {useAccount} from '../Header/hooks/useAccount.js';
 import {useMobileMenu} from '../Header/components/MobileMenu/hooks/useMobileMenu.js';
@@ -16,27 +16,33 @@ import IconUserAccount from '../../assets/IconUserAccount.js';
 import {navbar} from '../../data/consts/navbar.js';
 import {Menu} from '../Header/components/Menu.js';
 import NotificationIcon from '../../assets/NotificationIcon.js';
-import {useLazyFetch} from '../../hooks/useFetch.js';
-import {BACKEND_URL} from '../../constants/index.js';
+import NotificationsModal from './components/NotificationsModal.js';
+import {useOpenNotifications} from '../../hooks/useOpenNotifications.js';
 
 
 export const Unauthorised = memo(() => {
-
-    const {isOpenSearchModal, setIsOpenSearchModal} = useOpenModalSearch();
+    const {setSubscription,setIsOpenSearchModal, setButtonText, setSubscriptionOnClick, setIsShowAll} = useOpenModalSearch();
     const {setIsOpen: setIsOpenMobileMenu} = useMobileMenu();
     const {profile} = useAccount();
     const {elementRange: elementRangeMobile} = useSizes(320, 1023);
     const burgerSize = elementRangeMobile(27, 44);
     const {isTablet, isMobile} = useSizes();
+    const handleSearchClick = useCallback(() => {
+      setSubscription(undefined);
+      setButtonText('Перейти');
+      setSubscriptionOnClick(false);
+      setIsShowAll(true);
+      setIsOpenSearchModal(true);
+    }, []);
     return (
       <>
         {
           isTablet || isMobile
             ? <div className="flex gap-5 ">
-              <button onClick={() => setIsOpenSearchModal(true)}>
+              <button onClick={handleSearchClick}>
                 <SearchIcon color="white" width={40}/>
               </button>
-              <Link to={profile ? '/account' : '/form/sign-in'}>
+              <Link to={profile ? '/account' : '/auth/sign-in'}>
                 <IconUserAccount className="fill-white h-10 w-10"/>
               </Link>
               <button onClick={() => setIsOpenMobileMenu(true)}>
@@ -46,10 +52,10 @@ export const Unauthorised = memo(() => {
             : <div className="flex gap-6">
               <div
                 className="flex items-center justify-center cursor-pointer"
-                onClick={() => setIsOpenSearchModal(!isOpenSearchModal)}>
+                onClick={handleSearchClick}>
                 <SearchIcon width="1.375rem" className="fill-amber-50 hover:fill-medium_grey"/>
               </div>
-              <Link to={profile ? '/account' : '/form/sign-in'}>
+              <Link to={profile ? '/account' : '/auth/sign-in'}>
                 <IconUserAccount className="fill-amber-50 hover:fill-medium_grey cursor-pointer"/>
               </Link>
             </div>
@@ -60,23 +66,40 @@ export const Unauthorised = memo(() => {
   }
 );
 export const Authorised = memo(() => {
-  const {toggleMenu} = useHeaderAccountMenu();
-  const {isOpenSearchModal, setIsOpenSearchModal} = useOpenModalSearch();
+  const {setOpenNotifications} = useOpenNotifications();
+  const [notification, setNotification] = useState(true);
+  const {setSubscription,setIsOpenSearchModal, setButtonText, setSubscriptionOnClick, setIsShowAll} = useOpenModalSearch();
   const {setIsOpen: setIsOpenMobileMenu} = useMobileMenu();
   const {profile} = useAccount();
   const {elementRange: elementRangeMobile} = useSizes(320, 1023);
   const burgerSize = elementRangeMobile(27, 44);
   const {isTablet, isMobile} = useSizes();
-  console.log('profile', profile);
+  const handleSearchClick = useCallback(() => {
+    setSubscription(undefined);
+    setButtonText('Перейти');
+    setSubscriptionOnClick(false);
+    setIsShowAll(true);
+    setIsOpenSearchModal(true);
+  }, []);
   return (
     <>
       {
         isTablet || isMobile
           ? <div className="flex gap-4 ">
-            <button onClick={() => setIsOpenSearchModal(true)}>
+            <button onClick={handleSearchClick}>
               <SearchIcon color="white" width={30}/>
             </button>
-            <NotificationIcon className="stroke-white hover:stroke-medium_grey"/>
+            <button className="relative" onClick={() => setOpenNotifications(true)}>
+              <NotificationIcon className="stroke-white hover:stroke-medium_grey"/>
+              {
+                notification && (
+                  <div
+                    className="w-4 h-4 rounded-full bg-secondary_red flex justify-center items-center absolute top-2 left-1">
+                    <span className="text-caption_s_desk">2</span>
+                  </div>
+                )
+              }
+            </button>
             <Link to={'/account'}>
               <div className="w-10 h-10 md:w-11 md:h-11 rounded-xl flex justify-center items-center bg-medium_grey">
                 {
@@ -93,10 +116,20 @@ export const Authorised = memo(() => {
           : <div className="flex gap-6">
             <div
               className="flex items-center justify-center cursor-pointer"
-              onClick={() => setIsOpenSearchModal(!isOpenSearchModal)}>
+              onClick={handleSearchClick}>
               <SearchIcon width="30" className="fill-amber-50 hover:fill-medium_grey"/>
             </div>
-            <NotificationIcon className="stroke-white hover:stroke-medium_grey cursor-pointer"/>
+            <button className="relative" onClick={() => setOpenNotifications(true)}>
+              <NotificationIcon className="stroke-white hover:stroke-medium_grey"/>
+              {
+                notification && (
+                  <div
+                    className="w-4 h-4 rounded-full bg-secondary_red flex justify-center items-center absolute top-2 left-1">
+                    <span className="text-caption_s_desk">2</span>
+                  </div>
+                )
+              }
+            </button>
             <Link to={'/account'}>
               <div className="w-10 h-10 md:w-11 md:h-11 rounded-xl flex justify-center items-center bg-medium_grey">
                 {
@@ -122,22 +155,6 @@ const Header = memo(() => {
   const gapTabs = elementRangeLaptop(1.5, 3.75);
   const gapHeader = elementRangeLaptop(1.5, 3.125);
 
-  const [{data, error}, fetchPayUrl] = useLazyFetch<{
-    url: string
-  }>({
-    url: `${BACKEND_URL}/pay`,
-    method: 'get',
-    cache: false
-  });
-  useEffect(() => {
-    if(!profile) {
-      return;
-    }
-    fetchPayUrl().catch(console.error);
-  }, [profile]);
-
-  console.log('data1', data);
-
   return (
     <div
       className="w-full py-4 px-4 pb-3 md:py-5 md:px-8 lg:py-6 lg:px-11 flex border-b border-[#333333]/50 z-40 fixed bg-[#0C0C0C] max-h-[68px] md:max-h-[84px] lg:max-h-[96px]">
@@ -158,18 +175,10 @@ const Header = memo(() => {
               <Menu key={index} title={item.title} items={item.content} icon={item.icon} link={item.link}/>
             ))}
             {
-              profile ? (
-                <a
-                  className={`hidden xl:block ml-2 rounded-[12px] hover:scale-105 transition-all duration-300 bg-primary_blue py-4 px-8 `}
-                  href={(data as any)?.url}
-                  target="_blank"
-                >
-                  <p className={'text-btnText whitespace-nowrap'}>Попробовать бесплатно</p>
-                </a>
-              ) : (
+              !profile && (
                 <PrimaryButton
                   title="Попробовать бесплатно"
-                  to="/form/sign-up"
+                  to="/auth/sign-up"
                   titleClassName="text-btnText whitespace-nowrap"
                   className="hidden xl:block ml-2 rounded-[12px] hover:scale-105 transition-all duration-300 bg-primary_blue py-4 px-8"
                   isIcon={false}
@@ -177,7 +186,6 @@ const Header = memo(() => {
               )
             }
           </ol>
-
         </ShowOnLaptopToDesktop>
         <div
           className="account flex-grow flex w-fit items-center justify-end gap-[1.5rem] xl:gap-[2.5rem] 4xl:gap-[3.44rem] ">
@@ -189,6 +197,7 @@ const Header = memo(() => {
         </div>
       </div>
       <MobileMenu/>
+      <NotificationsModal/>
     </div>
   );
 });

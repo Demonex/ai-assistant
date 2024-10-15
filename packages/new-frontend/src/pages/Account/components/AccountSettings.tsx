@@ -9,8 +9,6 @@ import {SharedFileInput} from '../../../components/SharedFileInput.js';
 export const AccountSettings = ({setIsPopupOpen}) => {
   const {profile, setProfile} = useAccount();
 
-  console.log('profile', profile);
-
   const [{data: dataUpdatedProfile}, fetchUpdate] = useLazyFetch({
     url: `${BACKEND_URL}/profile`,
     method: 'put',

@@ -1,10 +1,13 @@
-import type {Ref} from '@typegoose/typegoose';
+import {plugin, Ref} from '@typegoose/typegoose';
 import {index, modelOptions, prop} from '@typegoose/typegoose';
 import {_BaseEntity} from '../_BaseEntity.js';
 import {defaultModelOptions, defaultSchemaOptions} from '../../mongoose.config.js';
 import UserEntity from '../User';
+import SubscriptionPlanEntity from './Plan';
+import autopopulate from 'mongoose-autopopulate';
 
 
+@plugin(autopopulate)
 @modelOptions({
   ...defaultModelOptions,
   schemaOptions: {
@@ -26,27 +29,37 @@ import UserEntity from '../User';
     customName: 'subscription'
   }
 })
-@index(
-  {user: 1, artist: 1},
-  {
-    unique: true,
-    background: true
-  }
-)
 export class SubscriptionEntity extends _BaseEntity {
   @prop({
     ref: () => UserEntity
   })
   user?: Ref<UserEntity>;
-  @prop()
-  artist?: string;
+
+  @prop({type: () => [String]})
+  artists?: string[];
+
+  @prop({
+    required: true,
+    autopopulate: true,
+    ref: () => SubscriptionPlanEntity
+  })
+  plan!: Ref<SubscriptionPlanEntity>;
+
+  @prop({default: true})
+  renew?: boolean;
+
+  @prop({default: false})
+  archived?: boolean;
 }
 
 
 export const SubscriptionEntityDefaultSelect = [
   'id',
   'user',
-  'artist',
+  'artists',
+  'plan',
+  'renew',
+  'archived',
 ];
 
 export default SubscriptionEntity;

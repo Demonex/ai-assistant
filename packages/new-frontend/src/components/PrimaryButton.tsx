@@ -3,7 +3,7 @@ import {useLocation} from 'wouter';
 
 type PrimaryButtonProps = {
     title: string;
-    icon?: string;
+    icon?: any;
     className?: string;
     isIcon: boolean
     style?: React.CSSProperties;

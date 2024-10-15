@@ -36,7 +36,7 @@ const BottomBeforeFooter = ({tildaColor, children,fillPath}:BottomBeforeFooterPr
                 }}
                 className='py-5 md:py-8 px-8 lg:px-[9.75rem] bg-yellow rounded-[12px] md:rounded-[20px] absolute left-1/2 -translate-x-1/2 lg:ml-2.5 z-30'
                 title='Попробовать бесплатно'
-                to='/sign-up'
+                to='/auth/sign-up'
                 titleClassName='text-[black] text-h3Mobile md:text-h3Desctop whitespace-nowrap '
                 isIcon={false}/>
             <BigTilda

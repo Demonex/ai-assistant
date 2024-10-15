@@ -1,14 +1,28 @@
-import {Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Post} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  Redirect
+} from '@nestjs/common';
 import {Authorized} from '../decorators/auth.js';
 import {UserEmail, UserId} from '../decorators/user.js';
-import {ApiBearerAuth, ApiOperation, ApiTags} from '@nestjs/swagger';
+import {ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags} from '@nestjs/swagger';
 import {Types} from 'mongoose';
 import {SubscriptionService} from '../services/Subscription';
 import {UpdateProfileSubscriptionDto} from '../dto/Profile';
 import {HttpStatusMessages} from '../messages/http';
-import md5 from 'md5';
+import {SubscriptionPurchaseCallbackDto, SubscriptionPurchaseDto, SubscriptionUpdateDto} from '../dto/Subscription';
+import process from 'process';
+import {ParseObjectIdPipe} from '../middlewares/ParseObjectIdPipe';
 
-@ApiTags('web', 'ios')
+@ApiTags('subscription')
 @Controller('/api/rest')
 export class SubscriptionController {
   constructor(
@@ -16,22 +30,72 @@ export class SubscriptionController {
   ) {
   }
 
-  @ApiBearerAuth('bearer-sid')
-  @ApiOperation({summary: 'pay'})
-  @Authorized()
-  @Get('/pay')
+  @Get('subscription/plans')
   @HttpCode(200)
-  async pay(
-    @UserId() id?: Types.ObjectId
+  async signIn() {
+    return this.service.plans();
+  }
+
+  @ApiBearerAuth('bearer-sid')
+  @ApiOperation({summary: 'purchase'})
+  @Authorized()
+  @Post('subscription/purchase')
+  @HttpCode(200)
+  async purchase(
+    @Body() {subscription, plan, artist}: SubscriptionPurchaseDto,
+    @UserId() id: Types.ObjectId
   ) {
-    const merchant_login = 'analitica';
-    const password_1 = 'A6VeSSiY429wKAhhf9Qw';
-    const invid = Math.floor(Math.random() * 2147483647);
-    const description = 'Подписка rifify.ru';
-    const out_sum = '1';
-    const signature_value = md5(`${merchant_login}:${out_sum}:${invid}:${password_1}`);
-    const url = `https://auth.robokassa.ru/Merchant/Index.aspx?MerchantLogin=${merchant_login}&OutSum=${out_sum}&InvoiceID=${invid}&Description=${description}&SignatureValue=${signature_value}&Recurring=true`;
-    return {url};
+    return this.service.purchase(id, plan, artist, subscription);
+  }
+
+  @ApiBearerAuth('bearer-sid')
+  @ApiOperation({summary: 'purchase callback'})
+  @Post('subscription/purchase/callback')
+  @Redirect(`${process.env.FRONTEND_URL || '/'}/account`, HttpStatus.SEE_OTHER)
+  @ApiResponse({status: HttpStatus.SEE_OTHER})
+  async purchaseCallback(
+    @Body() body: SubscriptionPurchaseCallbackDto
+  ) {
+    const {OutSum, InvId, SignatureValue, skip} = body;
+    return this.service.purchaseCallback(OutSum, InvId, SignatureValue, skip);
+  }
+
+  @ApiBearerAuth('bearer-sid')
+  @ApiOperation({summary: 'update'})
+  @ApiParam({
+    name: 'id',
+    type: String
+  })
+  @Authorized()
+  @Put('subscription/:id/update')
+  @HttpCode(200)
+  async update(
+    @Param('id', ParseObjectIdPipe) subscription: Types.ObjectId,
+    @Body() data: SubscriptionUpdateDto,
+    @UserId() id: Types.ObjectId
+  ) {
+    return this.service.update(id, subscription, data);
+  }
+
+  @ApiBearerAuth('bearer-sid')
+  @ApiOperation({summary: 'update'})
+  @ApiParam({
+    name: 'subscription',
+    type: String
+  })
+  @ApiParam({
+    name: 'artist',
+    type: String
+  })
+  @Authorized()
+  @Post('subscription/:subscription/artist/:artist')
+  @HttpCode(200)
+  async addArtist(
+    @Param('subscription', ParseObjectIdPipe) subscription: Types.ObjectId,
+    @Param('artist') artist: string,
+    @UserId() id: Types.ObjectId
+  ) {
+    return this.service.addArtist(id, subscription, artist);
   }
 
   @ApiBearerAuth('bearer-sid')
@@ -45,7 +109,7 @@ export class SubscriptionController {
     return this.service.findByUser(id);
   }
 
-  @ApiBearerAuth('bearer-sid')
+  /*@ApiBearerAuth('bearer-sid')
   @ApiOperation({summary: 'add subscription'})
   @Authorized()
   @Post('profile/subscription')
@@ -56,7 +120,7 @@ export class SubscriptionController {
     @UserEmail() email?: string
   ) {
     console.log('email', email);
-    if(!email?.includes('@rifify.com')) {
+    if (!email?.includes('@rifify.com')) {
       throw new HttpException({
         statusCode: HttpStatus.METHOD_NOT_ALLOWED,
         messages: [{
@@ -78,5 +142,5 @@ export class SubscriptionController {
     @UserId() id?: Types.ObjectId
   ) {
     return this.service.unsubscribe(id, artist);
-  }
+  }*/
 }

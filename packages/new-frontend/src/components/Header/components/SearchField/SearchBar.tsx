@@ -17,7 +17,6 @@ import debounce from 'lodash.debounce';
 import {useSearchData} from '../../hooks/useSearchData.js';
 
 const SearchField = memo(() => {
-
   const {setSearchData, searchData, setSearchValue} = useSearchData();
   const [fakeLoading, setFakeLoading] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -28,7 +27,7 @@ const SearchField = memo(() => {
   const onChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
   }, []);
-  const {isOpenSearchModal, setIsOpenSearchModal} = useOpenModalSearch();
+  const {isOpenSearchModal, setIsOpenSearchModal, isShowAll} = useOpenModalSearch();
   const [{data: apiData, loading}, fetchResults] = useLazyFetch({
     url: `${BACKEND_URL}/proxy/api/v1/search/search_all`
   });
@@ -43,7 +42,7 @@ const SearchField = memo(() => {
   }, []);
   const debounceFn = useCallback(debounce(handleDebounceFn, 3 * 1000), []);
   useEffect(() => {
-    if(!value && searchData) {
+    if (!value && searchData) {
       setFakeLoading(false);
       setSearchData([]);
       return;
@@ -54,10 +53,10 @@ const SearchField = memo(() => {
   }, [value]);
 
   useEffect(() => {
-    if(!apiData?.groupedResults) {
+    if (!apiData?.groupedResults) {
       return;
     }
-    setSearchData(Object.entries(apiData.groupedResults).map(([k, v]: [string, any[]], ig) => {
+    setSearchData(Object.entries(apiData.groupedResults).sort().map(([k, v]: [string, any[]], ig) => {
       return (
         {
           title: k,
@@ -74,16 +73,14 @@ const SearchField = memo(() => {
         }
       );
     }));
-
   }, [apiData]);
-// console.log('apiData',apiData)
   const onReset = useCallback(() => {
     inputRef.current?.focus();
     setValue('');
   }, []);
   const isLoading = useMemo(() => Boolean(value && (loading || fakeLoading)), [value, loading, fakeLoading]);
   useEffect(() => {
-    if(!isOpenSearchModal) {
+    if (!isOpenSearchModal) {
       return;
     }
     inputRef.current?.focus();
@@ -108,7 +105,7 @@ const SearchField = memo(() => {
             <div
               className="flex flex-col min-h-full px-4 md:px-8 py-5 gap-5 md:gap-6 lg:px-[10.5rem] text-center laptop:pt-16">
               <div className="flex justify-between items-center">
-                <Link to='/'>
+                <Link to="/">
                   <LogoNew width={80} className=" lg:hidden"/>
                 </Link>
                 <button
@@ -132,7 +129,7 @@ const SearchField = memo(() => {
                   className=" transition-all w-full flex gap-10 transform items-start justify-center ">
                   <div
                     className={`w-full laptop:max-w-[1040px] flex flex-col justify-between md:bg-popup_gray  rounded-[.875rem] h-full align-middle transform transition-all text-left search relative ${value ? '' : ''}`}>
-                    <Link to='/'>
+                    <Link to="/">
                       <LogoNew width={105}
                                className="hidden lg:block lg:absolute lg:-left-[9rem] lg:top-3"/>
                     </Link>
@@ -197,7 +194,6 @@ const SearchField = memo(() => {
                                 className="stroke-medium_grey hover:stroke-[white]"/>
                             </button>
                           </div>
-
                         </form>
                       </div>
                       <button
@@ -234,15 +230,19 @@ const SearchField = memo(() => {
                                       )
                                   }
                                 </div>
-                                <Link to={`/all_search_results?q=${value}`}
-                                      onClick={() => setIsOpenSearchModal(false)}>
-                                  <div
-                                    className="w-full px-1 py-5 md:p-5 sticky bottom-0  justify-between items-center cursor-pointer hidden md:flex">
-                                    <p className="text-btnText">Смотреть все
-                                      результаты</p>
-                                    <img src={chevronRight}/>
-                                  </div>
-                                </Link>
+                                {
+                                  isShowAll && (
+                                    <Link to={`/all_search_results?q=${value}`}
+                                          onClick={() => setIsOpenSearchModal(false)}>
+                                      <div
+                                        className="w-full px-1 py-5 md:p-5 sticky bottom-0  justify-between items-center cursor-pointer hidden md:flex">
+                                        <p className="text-btnText">Смотреть все
+                                          результаты</p>
+                                        <img src={chevronRight} alt=""/>
+                                      </div>
+                                    </Link>
+                                  )
+                                }
                               </div>
                               {
                                 searchData?.length === 0
@@ -257,7 +257,6 @@ const SearchField = memo(() => {
 
                             </div>
                             {/*<SearchFooter/>*/}
-
                           </>
                         )
                         : null
@@ -267,7 +266,7 @@ const SearchField = memo(() => {
               </Transition.Child>
             </div>
             {
-              searchData?.length === 0
+              searchData?.length === 0 || !isShowAll
                 ? null
                 : <Link
                   to={`/all_search_results?q=${value}`}
@@ -280,7 +279,6 @@ const SearchField = memo(() => {
                   </div>
                 </Link>
             }
-
           </div>
         </Dialog>
       </Transition>

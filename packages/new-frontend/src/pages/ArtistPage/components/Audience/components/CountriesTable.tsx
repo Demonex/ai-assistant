@@ -34,7 +34,7 @@ const SkeletonCountriesTable = memo(() => (
                 {
                   Array.from({length: 4}).map((headerTitle, indexHeaderTitle) => (
                     <th scope="col"
-                        className={` p-5 text-left uppercase text-xs font-medium cursor-pointer basis-1`}
+                        className={` p-5 text-left uppercase text-xs font-medium cursor-pointer basis-1 `}
                         key={indexHeaderTitle}>
                       <div className="flex items-center">
                         <Skeleton width="7rem"></Skeleton>
@@ -136,7 +136,6 @@ export const CountriesTable = memo(() => {
     }
   };
   document.addEventListener('mousedown', handleClickOutside);
-
   const numbersFormatter = useCallback((value: any) => {
     return value >= 1000 ? humanNumber(value, n => n.toFixed(1)) : value;
   }, []);
@@ -167,7 +166,7 @@ export const CountriesTable = memo(() => {
                                   {
                                     mapStat?.data.columns.map((headerTitle, indexHeaderTitle) => (
                                       <th scope="col"
-                                          className={`px-2 py-4 md:p-5 text-left text-caption_r_desk md:text-btnText font-medium cursor-pointer basis-1 ${activeSort === indexHeaderTitle ? 'text-medium_grey' : 'text-white'} ${indexHeaderTitle === 0 ? 'w-[38%]' : 'w-auto'}`}
+                                          className={`px-2 py-4 md:p-5 text-left text-caption_r_desk md:text-btnText font-medium cursor-pointer flex-1 basis-1 ${activeSort === indexHeaderTitle ? 'text-medium_grey' : 'text-white'} ${indexHeaderTitle === 0 ? 'w-[38%]' : 'w-auto'}`}
                                           key={indexHeaderTitle}
                                           onClick={() => handleClickTableHeader(indexHeaderTitle)}>
                                         <div className="flex items-center">
@@ -192,27 +191,32 @@ export const CountriesTable = memo(() => {
                                       countries.map((item, i) => {
                                         return (
                                           <tr
+                                            className='cursor-pointer'
                                             onClick={() => {
                                               setCountryID(item?.countryCode)
                                               setOpenModal(true)
                                             }}
                                             key={i}>
                                             {
-                                              Object.values(item).map((itemObjVal, indexObjVal) => (
-                                                <td className="whitespace-nowrap px-2 py-4 md:p-5 text-xs  text-gray-300"
+                                              Object.values(item).map((itemObjVal, indexObjVal) => {
+                                                return itemObjVal === item.countryCode
+                                                  ? null
+                                                  : <td
+                                                    className="whitespace-nowrap px-2 py-4 md:p-5 text-xs  text-gray-300"
                                                     key={indexObjVal}>
-                                                  <div className={`flex items-center  gap-x-4 ${indexObjVal === 0 ? '' : 'justify-center'}`}>
-                                                    {
-                                                      itemObjVal['avatar']
-                                                        ? <img src={itemObjVal['avatar']} alt=""
-                                                               className="h-6 w-6"/>
-                                                        : null
-                                                    }
-                                                    <span
-                                                      className="block text-white text-caption_r_desk">{numbersFormatter(itemObjVal['displayText'])}</span>
-                                                  </div>
-                                                </td>
-                                              ))
+                                                    <div
+                                                      className={`flex items-center  gap-x-4 ${indexObjVal === 0 ? '' : 'justify-center'}`}>
+                                                      {
+                                                        itemObjVal['avatar']
+                                                          ? <img src={itemObjVal['avatar']} alt=""
+                                                                 className="h-6 w-6"/>
+                                                          : null
+                                                      }
+                                                      <span
+                                                        className="block text-white text-caption_r_desk">{numbersFormatter(itemObjVal['displayText'])}</span>
+                                                    </div>
+                                                  </td>
+                                              })
                                             }
                                           </tr>
                                         );
@@ -233,7 +237,7 @@ export const CountriesTable = memo(() => {
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                      className="icon icon-tabler icon-tabler-chevron-left stroke-medium_grey"
                                      width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                   <path d="M15 6l-6 6l6 6"></path>
                                 </svg>
                               </button>

@@ -18,7 +18,6 @@ export const SearchResultsPanel = memo<SearchResultsPanelProps>(({closeModal}) =
   const {setSearchData, searchData} = useSearchData();
 
   const onHover = useCallback((indexGroupSelected: number, indexItemSElected: number) => {
-
     setSearchData(searchData => searchData.map((group, indexGroup) => {
       group.items.forEach((item, indexItem) => {
         item.selected = indexItem === indexItemSElected && indexGroup === indexGroupSelected;
@@ -33,7 +32,7 @@ export const SearchResultsPanel = memo<SearchResultsPanelProps>(({closeModal}) =
 
   const [prevIndexGroup, prevIndexItem] = useMemo<[number, number]>(() => searchData.reduce<any>((prev, group, _indexGroup, array) => {
     const isSelectedGroup = group.items.find(item => item.selected);
-    if(!isSelectedGroup) {
+    if (!isSelectedGroup) {
       return prev;
     }
     const indexItem = group.items.findIndex(item => item.selected) - 1;
@@ -43,7 +42,7 @@ export const SearchResultsPanel = memo<SearchResultsPanelProps>(({closeModal}) =
 
   const [nextIndexGroup, nextIndexItem] = useMemo<[number, number]>(() => searchData.reduce<any>((prev, group, _indexGroup, array) => {
     const isSelectedGroup = group.items.find(item => item.selected);
-    if(!isSelectedGroup) {
+    if (!isSelectedGroup) {
       return prev;
     }
     let indexItem = group.items.findIndex(item => item.selected) + 1;
@@ -79,10 +78,10 @@ export const SearchResultsPanel = memo<SearchResultsPanelProps>(({closeModal}) =
     navigation: string
   }>();
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     setIsOpen(false);
     closeModal();
-  };
+  }, []);
   return (
     <>
       <div className="px-5 py-4 flex items-center justify-start gap-2 mt-2.5 md:mt-0 flex-wrap">

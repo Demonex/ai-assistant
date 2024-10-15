@@ -75,7 +75,7 @@ export const RelatedTracks = memo(() => {
                           <Link to={`/track/${track.idUnique}/${track.baseUrl.split('/').pop()}?source=${source}`}>
                             <div className="bg-popup_gray/50  rounded-xl p-2 md:p-4 ">
                               <div
-                                className="w-full h-[8.125rem]">
+                                className="w-full aspect-square">
                                 <div
                                   className="group-hover:scale-110 duration-300 rounded-[10px] bg-cover bg-no-repeat bg-center w-full h-full"
                                   style={{

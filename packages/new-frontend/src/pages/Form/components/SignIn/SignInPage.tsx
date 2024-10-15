@@ -204,7 +204,7 @@ export const SignInPage = memo(() => {
                                 </div>
 
                                 <div className="text-caption_m_desk">
-                                    <a href="/form/password-recovery" className=" hover:text-primary_blue">
+                                    <a href="/password-recovery" className=" hover:text-primary_blue">
                                         Восстановить пароль
                                     </a>
                                 </div>
@@ -244,7 +244,7 @@ export const SignInPage = memo(() => {
                 }
                 <div className='mt-4 text-center'>
                     <p className='text-caption_r_desk text-medium_grey'>Нет аккаунта? <Link className='text-[white] hover:text-medium_grey'
-                                                                                         to='/form/sign-up'>Создать</Link>
+                                                                                         to='/auth/sign-up'>Создать</Link>
                     </p>
                 </div>
             </div>

@@ -255,7 +255,7 @@ export const SignUpPage = memo(() => {
                                     <div className='mt-4 text-center'>
                                         <p className='text-caption_r_desk text-medium_grey'>Есть аккаунт?<a
                                             className='text-[white]'
-                                            href='/form/sign-in'> Войти</a></p>
+                                            href='/auth/sign-in'> Войти</a></p>
                                     </div>
                                 </>
                         }

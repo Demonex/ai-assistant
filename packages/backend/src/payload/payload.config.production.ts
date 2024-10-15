@@ -4,6 +4,6 @@ import {Config}               from '@stigma-io/payload/config';
 
 const configProduction: Config={
   ...defaultPayloadConfig,
-  serverURL:`https://backend.musicstats.ru`
+  serverURL:`https://backend.rifify.ru`
 };
 export default buildConfig(configProduction);
