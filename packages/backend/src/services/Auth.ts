@@ -130,12 +130,12 @@ export class AuthService {
   }): Promise<{ redirect: string }> {
     const user = username ? (await this.repoUser.findOne(isEmail(username) ? {email: username} : {username})) : null;
     if (!user && !(recoverCode && verifyCode)) {
-      return {redirect: `${process.env.FRONTEND_URL}/error?code=recover`};
+      return {redirect: `${import.meta.env.VITE_FRONTEND_URL}/error?code=recover`};
     }
     const recoverExistRequest = (user ? md5(`${user.id}:email:recover`) : recoverCode) as string;
     const recoverExist = await this.redisClient.get(recoverExistRequest);
     if (user && recoverExist) {
-      return {redirect: `${process.env.FRONTEND_URL}/error?code=recover`};
+      return {redirect: `${import.meta.env.VITE_FRONTEND_URL}/error?code=recover`};
     } else if (!recoverExist && user) {
       const recoverExistRequestVerify = md5(`${user.id}:email:recover:${randomStringGenerator()}`);
       await this.redisClient.set(
@@ -165,18 +165,18 @@ export class AuthService {
       const {user, recoverExistRequestVerify} = JSON.parse(recoverExist);
       if (verifyCode === recoverExistRequestVerify) {
         /*if(this.request.session.user&&this.request.session.user.id!==user.id){
-          return {redirect:`${process.env.FRONTEND_URL}/error?code=recover`};
+          return {redirect:`${import.meta.env.VITE_FRONTEND_URL}/error?code=recover`};
         }*/
         this.request.session.user = user;
         await this.redisClient.del(recoverExistRequest);
         return {
-          redirect: `${process.env.FRONTEND_URL}/user/restorePassword`
+          redirect: `${import.meta.env.VITE_FRONTEND_URL}/user/restorePassword`
         };
       } else {
-        return {redirect: `${process.env.FRONTEND_URL}/error?code=recover`};
+        return {redirect: `${import.meta.env.VITE_FRONTEND_URL}/error?code=recover`};
       }
     }
-    return {redirect: `${process.env.FRONTEND_URL}/error?code=recover`};
+    return {redirect: `${import.meta.env.VITE_FRONTEND_URL}/error?code=recover`};
   }
 
   private async createUserByEmail(args): Promise<UserEntity & { id?: string; _id?: Types.ObjectId }> {

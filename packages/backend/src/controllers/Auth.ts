@@ -43,7 +43,7 @@ export class AuthController {
   }
 
   @ApiTags('web')
-  @ApiExcludeEndpoint(process.env.ENV !== 'development')
+  @ApiExcludeEndpoint(import.meta.env.VITE_ENV !== 'development')
   @Authorized()
   @Post('/admin/user/logout')
   @HttpCode(200)
@@ -67,7 +67,7 @@ export class AuthController {
   @ApiTags('web')
   @Unauthorized()
   @Post('/admin/user/login')
-  @ApiExcludeEndpoint(process.env.ENV !== 'development')
+  @ApiExcludeEndpoint(import.meta.env.VITE_ENV !== 'development')
   @HttpCode(200)
   async login(
     @Request() request: any,
@@ -84,7 +84,7 @@ export class AuthController {
     };
     const token = jwt.sign(
       data,
-      `${process.env.PAYLOAD_SECRET}`,
+      `${import.meta.env.VITE_PAYLOAD_SECRET}`,
       {
         expiresIn: 7200
       }
@@ -124,9 +124,9 @@ export class AuthController {
   }
 
   @ApiTags('web')
-  @ApiExcludeEndpoint(process.env.NODE_ENV !== 'development')
+  @ApiExcludeEndpoint(import.meta.env.VITE_USER_NODE_ENV !== 'development')
   @Get('/rest/auth/email/recover/:code/:state')
-  @Redirect(`${process.env.FRONTEND_URL || '/'}`, HttpStatus.SEE_OTHER)
+  @Redirect(`${import.meta.env.VITE_FRONTEND_URL || '/'}`, HttpStatus.SEE_OTHER)
   @ApiResponse({status: HttpStatus.SEE_OTHER})
   async recoverVerify(@Param('code') recoverCode: string, @Param('state') verifyCode: string): Promise<RedirectResponse> {
     const url = (await this.service.recover({recoverCode, verifyCode})).redirect;
