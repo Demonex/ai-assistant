@@ -17,7 +17,7 @@ import {AuthRecoverDto, AuthSignInDto, AuthSignUpDto} from '../dto/Auth.js';
 import {UserEntity, UserEntityDefaultSelect} from '../entities/User/index.js';
 import {promiseMap} from '../utils/index.js';
 import jwt from 'jsonwebtoken';
-import {get} from 'lodash';
+import {get} from 'lodash-es';
 import fs from 'fs';
 import {SmtpService} from './Smtp.js';
 import {Types} from 'mongoose';

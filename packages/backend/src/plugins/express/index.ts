@@ -7,7 +7,7 @@ import {TaggableCache as RedisTaggable} from 'cache-tags';
 import cookieParser from 'cookie-parser';
 import {get} from 'lodash-es';
 import {REDIS_SESSION_PREFIX} from '../../constants.js';
-import payloadInit from '@stigma-io/payload';
+// import payloadInit from '@stigma-io/payload';
 import {parse} from 'cookie';
 
 const RedisTaggableClient: Redis & any = new RedisTaggable({
@@ -21,7 +21,7 @@ const RedisSessionStore = new RedisStore({
 RedisSessionStore.set = function (sid: string, sess: SessionData, cb?: (_err?: unknown, _data?: any) => any) {
   const $this = this;
   let args = [$this.prefix + sid];
-  let value;
+  let value: string;
   try {
     value = $this.serializer.stringify(sess);
   } catch (er) {
@@ -70,7 +70,7 @@ const expressPlugins = async (express: Express) => {
       'referer',
       'sec-ch-ua',
       'sec-ch-ua-mobile',
-      'sec-ch-ua-platform',
+      'sec-ch-ua-platform'
     ],
     preflightContinue: true,
     credentials: true
@@ -95,11 +95,14 @@ const expressPlugins = async (express: Express) => {
     let domain = process.env.SERVER_COOKIE_HOST || process.env.SERVER_HOST;
     let webDomain = undefined;
     try {
-      webDomain = new URL(req.headers.origin || req.headers.referer).hostname;
+      webDomain = new URL(req.headers.referer || req.headers.origin).hostname;
+      if (webDomain) {
+        domain = webDomain;
+      }
     } catch (e) {
       // console.error(e)
     }
-    switch(webDomain) {
+    switch (webDomain) {
       case 'stage.rifify.ru': {
         domain = '.rifify.ru';
         break;
@@ -122,9 +125,9 @@ const expressPlugins = async (express: Express) => {
     expressSession(req, res, next);
   });
   // console.log('payload skip');
-  await payloadInit.init({
+  /*await payloadInit.init({
     secret: process.env.PAYLOAD_SECRET,
     express
-  });
+  });*/
 };
 export default expressPlugins;

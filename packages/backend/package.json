@@ -14,7 +14,7 @@
     "pre:debug": "yarn copyfiles && yarn build:server",
     "start": "DOCKER_DEFAULT_PLATFORM=linux/amd64 docker compose up -d --build --remove-orphans && NODE_OPTIONS=--trace-warnings dotenv -- vite --host",
     "start:backend": "nr start",
-    "start:backend:old": "docker compose up -d --build --remove-orphans && SWCRC=true node --watch -r \"dotenv/config\" --import 'data:text/javascript,import { register } from \"node:module\"; import { pathToFileURL } from \"node:url\"; register(\"%40swc-node/register/esm\", pathToFileURL(\"./\"));' src/index.ts",
+    "start:backend:old": "DOCKER_DEFAULT_PLATFORM=linux/amd64 docker compose up -d --build --remove-orphans && SWCRC=true node --trace-warnings --watch -r \"dotenv/config\" --import @swc-node/register/esm-register src/index.ts",
     "build:payload": "payload build",
     "build:server": "tsc",
     "build": "rm -rf dist build && yarn copyfiles && yarn build:server",
@@ -114,7 +114,7 @@
     "vite": "4.5.0"
   },
   "devDependencies": {
-    "@swc-node/register": "^1.6.8",
+    "@swc-node/register": "^1.10.9",
     "@tailwindcss/forms": "^0.5.6",
     "@types/connect-redis": "0.0.21",
     "@types/cookie-parser": "1.4.5",

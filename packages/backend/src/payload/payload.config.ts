@@ -1,6 +1,6 @@
 import {buildConfig} from '@stigma-io/payload/config';
 import type {Config as ConfigPayload} from '@stigma-io/payload/config';
-import {get, set} from 'lodash';
+import {get, set} from 'lodash-es';
 import path from 'path';
 import Media from './collections/Media';
 import User from './collections/User';

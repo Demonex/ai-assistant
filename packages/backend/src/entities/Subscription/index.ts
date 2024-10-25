@@ -1,4 +1,5 @@
-import {plugin, Ref} from '@typegoose/typegoose';
+import {plugin} from '@typegoose/typegoose';
+import type {Ref} from '@typegoose/typegoose';
 import {index, modelOptions, prop} from '@typegoose/typegoose';
 import {_BaseEntity} from '../_BaseEntity.js';
 import {defaultModelOptions, defaultSchemaOptions} from '../../mongoose.config.js';
@@ -59,7 +60,7 @@ export const SubscriptionEntityDefaultSelect = [
   'artists',
   'plan',
   'renew',
-  'archived',
+  'archived'
 ];
 
 export default SubscriptionEntity;

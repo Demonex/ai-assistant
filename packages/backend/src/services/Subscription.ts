@@ -4,7 +4,7 @@ import {Types} from 'mongoose';
 import SubscriptionEntity, {SubscriptionEntityDefaultSelect} from '../entities/Subscription';
 import SubscriptionPlanEntity, {SubscriptionPlanEntityDefaultSelect} from '../entities/Subscription/Plan';
 import md5 from 'md5';
-import {get} from 'lodash';
+import {get} from 'lodash-es';
 import SubscriptionTransactionEntity, {
   SubscriptionTransactionEntityDefaultSelect
 } from '../entities/Subscription/Transaction';

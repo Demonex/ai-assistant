@@ -10,7 +10,7 @@ import {InjectRedisClient} from 'nestjs-ioredis-tags';
 import {HttpStatusMessages} from '../messages/http.js';
 import {REQUEST} from '@nestjs/core';
 // import payload from '@stigma-io/payload';
-import payload from '@stigma-io/payload';
+// import payload from '@stigma-io/payload';
 
 @Injectable({scope: Scope.REQUEST})
 export class UserService {
@@ -139,7 +139,7 @@ export class UserService {
     userId: Types.ObjectId,
     {file}: UpdateProfileAvatarDto
   ): Promise<any | null> {
-    const result = await payload.create({
+    /*const result = await payload.create({
       user: {
         id: userId
       },
@@ -151,8 +151,8 @@ export class UserService {
         name: file.originalname,
         size: file.size
       }
-    });
-    if(result) {
+    });*/
+    /*if(result) {
       try {
         await this.repo.findByIdAndUpdate(userId, {
             avatar: result.id
@@ -163,7 +163,7 @@ export class UserService {
       }
       const select = (await this.repo.findById(userId).select(UserEntityDefaultSelect)).toJSON();
       return select;
-    }
+    }*/
     return null;
   }
 

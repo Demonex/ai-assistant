@@ -8,8 +8,8 @@ import {Logger, LogLevel} from './config/logger/api-logger.js';
 import {DefaultLogger} from './config/logger/default-logger.js';
 import expressPlugins from './plugins/express/index.js';
 import {AppModule} from './app.module.js';
-import {BadRequestException, HttpException, HttpStatus, ValidationPipe} from "@nestjs/common";
-import {HttpStatusMessages} from "./messages/http.js";
+import {BadRequestException, HttpException, HttpStatus, ValidationPipe} from '@nestjs/common';
+import {HttpStatusMessages} from './messages/http.js';
 
 mongoose.pluralize(null);
 Logger.useLogger(
@@ -54,12 +54,10 @@ SwaggerModule.setup('/api/playground/rest', app, SwaggerModule.createDocument(ap
   .setVersion('0.0')
   .build()));
 
-// if (process.env.NODE_ENV === 'production') {
-//   await app.listen(parseInt(String(process.env.PORT)) || 2050, '0.0.0.0', async () => {
-//     DefaultLogger.restoreOriginalLogLevel();
-//     logWelcomeMessage();
-//   });
-// }
+await app.listen(parseInt(String(process.env.PORT)) || 2050, '0.0.0.0', async () => {
+  DefaultLogger.restoreOriginalLogLevel();
+  logWelcomeMessage();
+});
 
 app.enableShutdownHooks();
 

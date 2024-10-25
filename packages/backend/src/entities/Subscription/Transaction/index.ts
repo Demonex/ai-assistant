@@ -1,4 +1,5 @@
-import {index, modelOptions, plugin, prop, Ref} from '@typegoose/typegoose';
+import {index, modelOptions, prop} from '@typegoose/typegoose';
+import type {Ref} from '@typegoose/typegoose';
 import {_BaseEntity} from '../../_BaseEntity.js';
 import {defaultModelOptions, defaultSchemaOptions} from '../../../mongoose.config.js';
 import UserEntity from '../../User';
