@@ -7,6 +7,7 @@ import {RedisModule}                                                from 'nestjs
 import {ScheduleModule}                                             from '@nestjs/schedule';
 import { MailchimpModule } from '@mindik/mailchimp-nestjs';
 
+
 @Module({
   imports:[
     TypegooseModule.forRoot(`${MONGO_URI}`,MONGO_CONFIG),
@@ -21,7 +22,8 @@ import { MailchimpModule } from '@mindik/mailchimp-nestjs';
     ]),
     ScheduleModule.forRoot(),
     ...Object.values(modules)
-  ]
+  ],
+
 })
 export class AppModule implements NestModule,OnApplicationShutdown{
   onApplicationShutdown(signal?: string): void{

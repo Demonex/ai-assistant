@@ -47,8 +47,8 @@ services:
   minio:
     image: minio/minio
     ports:
-      - "8080:8080"
-      - "9000:9000"
+      - "8090:8080"
+      - "9090:9000"
     volumes:
       - media:/data
     environment:
