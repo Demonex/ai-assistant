@@ -21,7 +21,7 @@ import {get} from 'lodash-es';
 import fs from 'fs';
 import {SmtpService} from './Smtp.js';
 import {Types} from 'mongoose';
-import { CrmService } from '../services/crm.service';  // Импортируем CrmService
+import { CrmService } from '../services/crm.service';  
 
 @Injectable({scope: Scope.REQUEST})
 export class AuthService {
@@ -31,7 +31,7 @@ export class AuthService {
     @InjectModel(UserEntity) private readonly repoUser: ReturnModelType<typeof UserEntity>,
     @Inject(SmtpService) private readonly smtp: SmtpService,
     @InjectRedisClient('rifify.ru') private readonly redisClient: Redis,
-    private readonly crmService: CrmService  // Инжектируем CrmService
+    private readonly crmService: CrmService  
   ) {
   }
 

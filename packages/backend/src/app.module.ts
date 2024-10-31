@@ -6,7 +6,7 @@ import * as modules                                                 from './modu
 import {RedisModule}                                                from 'nestjs-ioredis-tags';
 import {ScheduleModule}                                             from '@nestjs/schedule';
 import { MailchimpModule } from '@mindik/mailchimp-nestjs';
-import { CrmService } from './services/crm.service'; 
+
 
 @Module({
   imports:[
@@ -23,7 +23,7 @@ import { CrmService } from './services/crm.service';
     ScheduleModule.forRoot(),
     ...Object.values(modules)
   ],
-  providers: [CrmService],
+
 })
 export class AppModule implements NestModule,OnApplicationShutdown{
   onApplicationShutdown(signal?: string): void{
