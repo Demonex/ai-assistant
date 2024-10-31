@@ -13,9 +13,9 @@ const Sidebar = memo(() => {
     setAccountSettingsType,
     handleSubmit,
     onSubmitUpdate,
-    register
+    register, avatarImage, setAvatarImage
   } = useAccountSettings();
-  const [avatarImage, setAvatarImage] = useState<string>();
+
 
   return (
     <section className='p-6 w-full h-full max-w-[15.25rem] border-r border-[#33333380]'>

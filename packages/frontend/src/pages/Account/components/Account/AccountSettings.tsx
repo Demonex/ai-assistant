@@ -1,23 +1,25 @@
-import {useAccount} from '../../../components/Header/hooks/useAccount.js';
-import {useAccountSettings} from "./hooks/useAccountSettings.js";
+import {useAccount} from '../../../../components/Header/hooks/useAccount.js';
+import {useAccountSettings} from "../hooks/useAccountSettings.js";
 import shownPassword from "/assets/svg/shown_password.svg";
 import hiddenPassword from "/assets/svg/hidden_password.svg";
-import {useState} from "react";
-import BasketIcon from "../../../assets/BasketIcon.js";
+import React, {useState} from "react";
+import BasketIcon from "../../../../assets/BasketIcon.js";
+import {ArrowBack} from "../../../../assets/ArrowBack.js";
 
-export const AccountSettings = ({setIsPopupOpen}) => {
-  const {profile, setProfile} = useAccount();
+export const AccountSettings = () => {
+  const {profile} = useAccount();
   const {
     onSubmitUpdate,
     handleSubmit,
-    register
+    register, setOpenPopupDeleteAccount
   } = useAccountSettings();
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
   return (
     <>
-      <div className="mt-2.5 py-6">
-        <form className="flex flex-col gap-6 max-w-[27.8rem]" onSubmit={handleSubmit(onSubmitUpdate)}
+      <h1 className='text-t1Semi_ipad lg:hidden'>Данные аккаунта</h1>
+      <div className=" py-6">
+        <form className="flex flex-col gap-6 w-full md:max-w-[27.8rem]" onSubmit={handleSubmit(onSubmitUpdate)}
               autoComplete="off">
           <div className="flex flex-col gap-4">
             <div>
@@ -108,7 +110,7 @@ export const AccountSettings = ({setIsPopupOpen}) => {
             <button
               type="button"
               className="w-full border border-solid border-secondary_red rounded-xl px-5 py-3.5 text-caption_m_desk text-secondary_red"
-              onClick={() => setIsPopupOpen(true)}
+              onClick={() => setOpenPopupDeleteAccount(true)}
             >
               <BasketIcon className='fill-secondary_red'/>
               Удалить аккаунт

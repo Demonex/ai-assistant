@@ -51,7 +51,7 @@ export class SubscriptionController {
   @ApiBearerAuth('bearer-sid')
   @ApiOperation({summary: 'purchase callback'})
   @Post('subscription/purchase/callback')
-  @Redirect(`${import.meta.env.VITE_FRONTEND_URL || '/'}/account`, HttpStatus.SEE_OTHER)
+  @Redirect(`${process.env.FRONTEND_URL || '/'}/account`, HttpStatus.SEE_OTHER)
   @ApiResponse({status: HttpStatus.SEE_OTHER})
   async purchaseCallback(
     @Body() body: SubscriptionPurchaseCallbackDto

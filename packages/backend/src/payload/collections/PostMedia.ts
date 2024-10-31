@@ -25,7 +25,7 @@ const PostMedia: CollectionConfig = {
   // https://github.com/richardvanbergen/payload-plugin-cloud-storage as an example
   upload: {
     // from the imageSizes below, the admin UI will show this size for previewing
-    adminThumbnail: 'thumbnail',
+    /*adminThumbnail: 'thumbnail',
     // staticDir tell Payload where to store files to and allows them to be served
     // staticDir: resolve(__dirname, '../../../media'),
     // limit the types of files allowed and request validation
@@ -46,7 +46,7 @@ const PostMedia: CollectionConfig = {
         width: 1920,
         height: 1080
       }
-    ]
+    ]*/
   },
   // upload collections inherit base fields for file information and imageSizes, then add your own for users to change
   fields: [

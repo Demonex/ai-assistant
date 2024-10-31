@@ -15,7 +15,7 @@ export class PayloadController{
   constructor(
   ){
   }
-  @ApiExcludeEndpoint(import.meta.env.VITE_ENV!=='development')
+  @ApiExcludeEndpoint(process.env.ENV!=='development')
   @Get('user/init')
   @HttpCode(200)
   async init(

@@ -8,17 +8,11 @@ import type {Redis} from 'ioredis';
 import md5 from 'md5';
 import type {ExpressAdapter} from '@nestjs/platform-express';
 import {isEmail} from 'class-validator';
-import {
-  randstr as randomStringGenerator
-} from 'better-randstr';
+import {randstr as randomStringGenerator} from 'better-randstr';
 import {BCRYPT_SALT_ROUNDS} from '../constants.js';
 import {HttpStatusMessages} from '../messages/http.js';
-import {AuthRecoverDto, AuthSignInDto, AuthSignUpDto} from '../dto/Auth.js';
+import {AuthRecoverDto, AuthSignUpDto} from '../dto/Auth.js';
 import {UserEntity, UserEntityDefaultSelect} from '../entities/User/index.js';
-import {promiseMap} from '../utils/index.js';
-import jwt from 'jsonwebtoken';
-import {get} from 'lodash-es';
-import fs from 'fs';
 import {SmtpService} from './Smtp.js';
 import {Types} from 'mongoose';
 
@@ -38,7 +32,7 @@ export class AuthService {
       return await new Promise((resolve, reject) => {
         this.request.session.destroy((err) => err ? reject(err) : resolve(true));
       });
-    } catch (err) {
+    } catch(err) {
       console.error(err.message);
       //
     }
@@ -52,9 +46,9 @@ export class AuthService {
       password: passwordCheck
     } = Object.fromEntries(Object.entries(args).filter(([_, __]) => keys.includes(_))) as any;
     const user = await this.getUserByEmailOrUsername(email);
-    if(user.password){
-      await this.verifyUserPassword(user.password,passwordCheck);
-    }else{
+    if(user.password) {
+      await this.verifyUserPassword(user.password, passwordCheck);
+    } else {
       throw new HttpException({
         statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
         messages: [{
@@ -82,7 +76,7 @@ export class AuthService {
       'consent'
     ];
     const data = Object.fromEntries(Object.entries(args).filter(([_, __]) => {
-      switch (_) {
+      switch(_) {
         case 'email':
         case 'phone':
           return Boolean(__);
@@ -92,9 +86,9 @@ export class AuthService {
     }));
     const ipReg = `ip.reg:${this.request.ip}`;
     const counter = await this.redisClient.get(ipReg);
-    if (ipRegLimit) {
+    if(ipRegLimit) {
       // console.log(ipReg,counter);
-      if (counter && Number(counter) > 10) {
+      if(counter && Number(counter) > 10) {
         throw new HttpException({
           statusCode: HttpStatus.TOO_MANY_REQUESTS
         }, HttpStatus.TOO_MANY_REQUESTS);
@@ -109,7 +103,7 @@ export class AuthService {
       language: user.language,
       roles: user.roles
     };
-    if (ipRegLimit) {
+    if(ipRegLimit) {
       await this.redisClient.set(
         ipReg,
         `${1 + (counter ? Number(counter) : 0)}`,
@@ -129,14 +123,14 @@ export class AuthService {
     verifyCode?: string;
   }): Promise<{ redirect: string }> {
     const user = username ? (await this.repoUser.findOne(isEmail(username) ? {email: username} : {username})) : null;
-    if (!user && !(recoverCode && verifyCode)) {
-      return {redirect: `${import.meta.env.VITE_FRONTEND_URL}/error?code=recover`};
+    if(!user && !(recoverCode && verifyCode)) {
+      return {redirect: `${process.env.FRONTEND_URL}/error?code=recover`};
     }
     const recoverExistRequest = (user ? md5(`${user.id}:email:recover`) : recoverCode) as string;
     const recoverExist = await this.redisClient.get(recoverExistRequest);
-    if (user && recoverExist) {
-      return {redirect: `${import.meta.env.VITE_FRONTEND_URL}/error?code=recover`};
-    } else if (!recoverExist && user) {
+    if(user && recoverExist) {
+      return {redirect: `${process.env.FRONTEND_URL}/error?code=recover`};
+    } else if(!recoverExist && user) {
       const recoverExistRequestVerify = md5(`${user.id}:email:recover:${randomStringGenerator()}`);
       await this.redisClient.set(
         recoverExistRequest,
@@ -158,36 +152,36 @@ export class AuthService {
             recoverExistRequestVerify
           })
           .then();*/
-      } catch (e) {
+      } catch(e) {
         console.error(e.message);
       }
-    } else if (recoverExist && verifyCode) {
+    } else if(recoverExist && verifyCode) {
       const {user, recoverExistRequestVerify} = JSON.parse(recoverExist);
-      if (verifyCode === recoverExistRequestVerify) {
+      if(verifyCode === recoverExistRequestVerify) {
         /*if(this.request.session.user&&this.request.session.user.id!==user.id){
-          return {redirect:`${import.meta.env.VITE_FRONTEND_URL}/error?code=recover`};
+          return {redirect:`${process.env.FRONTEND_URL}/error?code=recover`};
         }*/
         this.request.session.user = user;
         await this.redisClient.del(recoverExistRequest);
         return {
-          redirect: `${import.meta.env.VITE_FRONTEND_URL}/user/restorePassword`
+          redirect: `${process.env.FRONTEND_URL}/user/restorePassword`
         };
       } else {
-        return {redirect: `${import.meta.env.VITE_FRONTEND_URL}/error?code=recover`};
+        return {redirect: `${process.env.FRONTEND_URL}/error?code=recover`};
       }
     }
-    return {redirect: `${import.meta.env.VITE_FRONTEND_URL}/error?code=recover`};
+    return {redirect: `${process.env.FRONTEND_URL}/error?code=recover`};
   }
 
   private async createUserByEmail(args): Promise<UserEntity & { id?: string; _id?: Types.ObjectId }> {
     args.password = await bcrypt.hash(args.password, BCRYPT_SALT_ROUNDS);
     try {
       return await this.repoUser.create(args);
-    } catch (e) {
+    } catch(e) {
       console.error(e.message);
-      switch (e.code) {
+      switch(e.code) {
         case 11000: {
-          if ('email' in e.keyValue) throw new HttpException({
+          if('email' in e.keyValue) throw new HttpException({
             statusCode: HttpStatus.BAD_REQUEST,
             messages: [{
               property: 'email',
@@ -210,15 +204,17 @@ export class AuthService {
 
   private async getUserByEmailOrUsername(login: string): Promise<UserEntity & { id?: string; _id: Types.ObjectId }> {
     let criteria = {};
-    if (isEmail(login)) {
+    if(isEmail(login)) {
       criteria['email'] = login;
-    } else {
+    } else if(login) {
       criteria['username'] = login;
+    } else {
+      throw new Error('Internal Server Error');
     }
     const user = await this.repoUser
-      .findOne(criteria)
-      .select([...UserEntityDefaultSelect, 'password', 'roles']);
-    if (!user) {
+    .findOne(criteria)
+    .select([...UserEntityDefaultSelect, 'password', 'roles']);
+    if(!user) {
       throw new HttpException({
         statusCode: HttpStatus.UNAUTHORIZED,
         messages: [{
@@ -231,7 +227,7 @@ export class AuthService {
 
   async verifyUserPassword(password: string, passwordCheck: string): Promise<boolean> {
     const passwordMatches = await bcrypt.compare(passwordCheck, password);
-    if (!passwordMatches) {
+    if(!passwordMatches) {
       throw new HttpException({
         statusCode: HttpStatus.UNAUTHORIZED,
         messages: [{

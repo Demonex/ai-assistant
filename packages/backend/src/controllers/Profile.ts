@@ -21,7 +21,7 @@ import {ApiBearerAuth, ApiConsumes, ApiExcludeEndpoint, ApiOperation, ApiParam, 
 import {validateDto} from '../middlewares/validateDto.js';
 import {FileInterceptor} from '@nestjs/platform-express';
 
-@ApiTags('web', 'ios')
+@ApiTags('profile')
 @Controller('/api/rest/profile')
 export class ProfileController {
   constructor(

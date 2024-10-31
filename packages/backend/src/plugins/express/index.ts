@@ -7,30 +7,30 @@ import {TaggableCache as RedisTaggable} from 'cache-tags';
 import cookieParser from 'cookie-parser';
 import {get} from 'lodash-es';
 import {REDIS_SESSION_PREFIX} from '../../constants.js';
-// import payloadInit from '@stigma-io/payload';
+import payloadInit from '@stigma-io/payload';
 import {parse} from 'cookie';
 
 const RedisTaggableClient: Redis & any = new RedisTaggable({
-  host: import.meta.env.VITE_REDIS_HOST || 'localhost',
+  host: process.env.REDIS_HOST || 'localhost',
   port: 6379
 });
 const RedisSessionStore = new RedisStore({
   client: RedisTaggableClient,
   prefix: REDIS_SESSION_PREFIX
 });
-RedisSessionStore.set = function (sid: string, sess: SessionData, cb?: (_err?: unknown, _data?: any) => any) {
+RedisSessionStore.set = function(sid: string, sess: SessionData, cb?: (_err?: unknown, _data?: any) => any) {
   const $this = this;
   let args = [$this.prefix + sid];
   let value: string;
   try {
     value = $this.serializer.stringify(sess);
-  } catch (er) {
+  } catch(er) {
     return cb(er);
   }
   args.push(value);
   args.push('EX', $this._getTTL(sess));
   const userId = get(sess, 'user.id');
-  if (userId) {
+  if(userId) {
     RedisTaggableClient.tags([userId]).set(args, cb);
   } else {
     $this.client.set(args, cb);
@@ -40,7 +40,7 @@ const expressPlugins = async (express: Express) => {
   express.disable('x-powered-by');
   express.set('trust proxy', true);
   express.use(cors({
-    origin: [`${import.meta.env.VITE_SERVER_URL}`, `${import.meta.env.VITE_FRONTEND_URL}`],
+    origin: [`${process.env.SERVER_URL}`, `${process.env.FRONTEND_URL}`],
     allowedHeaders: [
       'Origin',
       'Keep-Alive',
@@ -77,41 +77,38 @@ const expressPlugins = async (express: Express) => {
   }));
   express.use(cookieParser());
   express.use((req, res, next) => {
-    if ('OPTIONS' === req.method) {
+    if('OPTIONS' === req.method) {
       return res.sendStatus(204);
     }
-    if ('authorization' in req.headers && !get(req, `cookies.${import.meta.env.VITE_SESSIONS_KEY}`)) {
+    if('authorization' in req.headers && !get(req, `cookies.${process.env.SESSIONS_KEY}`)) {
       const authorization = get(req, 'headers.authorization', '').replace(/^Bearer\s/, '');
-      if (!authorization) {
+      if(!authorization) {
         return next();
       }
       const cookies = parse(get(req, 'headers.cookie', ''));
-      cookies[`${import.meta.env.VITE_SESSIONS_KEY}`] = authorization;
+      cookies[`${process.env.SESSIONS_KEY}`] = authorization;
       req.headers['cookie'] = Object.entries(cookies).map(([key, value]) => `${key}=${value}`).join('; ');
     }
     return next();
   });
   express.use((req, res, next) => {
-    let domain = import.meta.env.VITE_SERVER_COOKIE_HOST || import.meta.env.VITE_SERVER_HOST;
-    let webDomain = undefined;
+    let domain = process.env.SERVER_COOKIE_HOST || process.env.SERVER_HOST;
+    let webDomain: string = undefined;
     try {
       webDomain = new URL(req.headers.referer || req.headers.origin).hostname;
-      if (webDomain) {
+      if(webDomain) {
         domain = webDomain;
       }
-    } catch (e) {
+    } catch(e) {
       // console.error(e)
     }
-    switch (webDomain) {
-      case 'stage.rifify.ru': {
-        domain = '.rifify.ru';
-        break;
-      }
+    if(webDomain?.endsWith('.rifify.ru')) {
+      domain = '.rifify.ru';
     }
     const expressSession = session({
-      name: import.meta.env.VITE_SESSIONS_KEY,
+      name: process.env.SESSIONS_KEY,
       store: RedisSessionStore,
-      secret: import.meta.env.VITE_COOKIE_SECRET,
+      secret: process.env.COOKIE_SECRET,
       resave: false,
       saveUninitialized: false,
       cookie: {
@@ -125,9 +122,9 @@ const expressPlugins = async (express: Express) => {
     expressSession(req, res, next);
   });
   // console.log('payload skip');
-  /*await payloadInit.init({
-    secret: import.meta.env.VITE_PAYLOAD_SECRET,
+  await payloadInit.init({
+    secret: process.env.PAYLOAD_SECRET,
     express
-  });*/
+  });
 };
 export default expressPlugins;

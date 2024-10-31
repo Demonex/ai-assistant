@@ -9,7 +9,7 @@ import {overviewSources} from '../../data/consts/favoriteSources.js';
 import Catalogue from './components/Catalogue/index.js';
 import {useSizes} from '../../hooks/useSizes.js';
 import MobileTabs from './components/MobileTabs/index.js';
-import SubscriptionsCalculator from '../Account/components/SubscriptionsCalculator.js';
+import SubscriptionsCalculator from '../Account/components/Account/SubscriptionsCalculator.js';
 import {useSubscriptionCalculator} from '../Account/components/hooks/useSubscriptionCalculator.js';
 
 
