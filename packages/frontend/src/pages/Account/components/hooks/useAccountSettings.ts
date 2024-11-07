@@ -7,7 +7,10 @@ import {useForm} from "react-hook-form";
 
 const _useAccountSettings = () => {
   const [accountSettingsType, setAccountSettingsType] = useState('account');
+  const [mobileRender, setMobileRender] = useState('');
+  const [openPopupDeleteAccount, setOpenPopupDeleteAccount] = useState(false);
   const {profile, setProfile} = useAccount();
+  const [avatarImage, setAvatarImage] = useState<string>();
   const [{data: dataUpdatedProfile}, fetchUpdateProfile] = useLazyFetch({
     url: `${BACKEND_URL}/profile`,
     method: 'put',
@@ -70,7 +73,13 @@ const _useAccountSettings = () => {
     register,
     handleSubmit,
     errors,
-    setValue
+    setValue,
+    avatarImage,
+    setAvatarImage,
+    openPopupDeleteAccount,
+    setOpenPopupDeleteAccount,
+    mobileRender,
+    setMobileRender,
   };
 };
 

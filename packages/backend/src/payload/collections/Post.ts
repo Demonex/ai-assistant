@@ -1,6 +1,8 @@
 import {CollectionConfig} from '@stigma-io/payload/types';
 import defaultAccess from '../utilities/defaultAccess';
 
+
+
 const Post: CollectionConfig = {
   slug: 'post',
   admin: {
@@ -9,7 +11,7 @@ const Post: CollectionConfig = {
     defaultColumns: [
       'title',
       'description',
-      'preview',
+      'preview'
     ]
   },
   access: defaultAccess,
@@ -31,12 +33,13 @@ const Post: CollectionConfig = {
     {
       name: 'preview',
       type: 'upload',
-      relationTo: 'post-media',
+      relationTo: 'post-media'
     },
     {
       name: 'content',
       type: 'richText',
-      required: false
+      required: false,
+      localized: true
     }
   ]
 };

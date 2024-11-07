@@ -20,6 +20,7 @@ import {validateDto} from '../middlewares/validateDto.js';
 import {Types} from "mongoose";
 import * as process from 'process';
 
+@ApiTags('auth')
 @Controller('/api')
 export class AuthController {
   constructor(
@@ -27,7 +28,6 @@ export class AuthController {
   ) {
   }
 
-  @ApiTags('web','ios')
   @ApiBearerAuth('bearer-sid')
   @ApiOperation({summary: 'sign-out user'})
   @Authorized()
@@ -42,8 +42,7 @@ export class AuthController {
     };
   }
 
-  @ApiTags('web')
-  @ApiExcludeEndpoint(import.meta.env.VITE_ENV !== 'development')
+  @ApiExcludeEndpoint(process.env.ENV !== 'development')
   @Authorized()
   @Post('/admin/user/logout')
   @HttpCode(200)
@@ -54,7 +53,6 @@ export class AuthController {
     };
   }
 
-  @ApiTags('web')
   @Unauthorized()
   @Post('/rest/auth/email/sign-in')
   @HttpCode(200)
@@ -64,17 +62,16 @@ export class AuthController {
     return profile;
   }
 
-  @ApiTags('web')
   @Unauthorized()
   @Post('/admin/user/login')
-  @ApiExcludeEndpoint(import.meta.env.VITE_ENV !== 'development')
+  @ApiExcludeEndpoint(process.env.ENV !== 'development')
   @HttpCode(200)
   async login(
     @Request() request: any,
     @Body() body
   ) {
     const user = await this.service.signInByEmail({
-      login: body.email,
+      email: body.email,
       password: body.password
     } as any);
     const data = {
@@ -84,7 +81,7 @@ export class AuthController {
     };
     const token = jwt.sign(
       data,
-      `${import.meta.env.VITE_PAYLOAD_SECRET}`,
+      `${process.env.PAYLOAD_SECRET}`,
       {
         expiresIn: 7200
       }
@@ -102,7 +99,6 @@ export class AuthController {
     };
   }
 
-  @ApiTags('web')
   @Unauthorized()
   @Post('/rest/auth/email/sign-up')
   async signUp(@Request() request: any, @Body() args: AuthSignUpDto) {
@@ -111,7 +107,6 @@ export class AuthController {
     return profile;
   }
 
-  @ApiTags('web')
   @Unauthorized()
   @Post('/rest/auth/email/recover')
   @HttpCode(200)
@@ -123,10 +118,9 @@ export class AuthController {
     };
   }
 
-  @ApiTags('web')
-  @ApiExcludeEndpoint(import.meta.env.VITE_USER_NODE_ENV !== 'development')
+  @ApiExcludeEndpoint(process.env.NODE_ENV !== 'development')
   @Get('/rest/auth/email/recover/:code/:state')
-  @Redirect(`${import.meta.env.VITE_FRONTEND_URL || '/'}`, HttpStatus.SEE_OTHER)
+  @Redirect(`${process.env.FRONTEND_URL || '/'}`, HttpStatus.SEE_OTHER)
   @ApiResponse({status: HttpStatus.SEE_OTHER})
   async recoverVerify(@Param('code') recoverCode: string, @Param('state') verifyCode: string): Promise<RedirectResponse> {
     const url = (await this.service.recover({recoverCode, verifyCode})).redirect;

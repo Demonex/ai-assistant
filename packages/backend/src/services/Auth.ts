@@ -13,14 +13,11 @@ import {
 } from 'better-randstr';
 import {BCRYPT_SALT_ROUNDS} from '../constants.js';
 import {HttpStatusMessages} from '../messages/http.js';
-import {AuthRecoverDto, AuthSignInDto, AuthSignUpDto} from '../dto/Auth.js';
+import {AuthRecoverDto, AuthSignUpDto} from '../dto/Auth.js';
 import {UserEntity, UserEntityDefaultSelect} from '../entities/User/index.js';
-import {promiseMap} from '../utils/index.js';
-import jwt from 'jsonwebtoken';
-import {get} from 'lodash-es';
-import fs from 'fs';
 import {SmtpService} from './Smtp.js';
 import {Types} from 'mongoose';
+import { CrmService } from '../services/crm.service';
 
 @Injectable({scope: Scope.REQUEST})
 export class AuthService {
@@ -29,7 +26,8 @@ export class AuthService {
     private readonly adapterHost: HttpAdapterHost<ExpressAdapter>,
     @InjectModel(UserEntity) private readonly repoUser: ReturnModelType<typeof UserEntity>,
     @Inject(SmtpService) private readonly smtp: SmtpService,
-    @InjectRedisClient('rifify.ru') private readonly redisClient: Redis
+    @InjectRedisClient('rifify.ru') private readonly redisClient: Redis,
+    private readonly crmService: CrmService
   ) {
   }
 
@@ -182,7 +180,26 @@ export class AuthService {
   private async createUserByEmail(args): Promise<UserEntity & { id?: string; _id?: Types.ObjectId }> {
     args.password = await bcrypt.hash(args.password, BCRYPT_SALT_ROUNDS);
     try {
-      return await this.repoUser.create(args);
+      // return await this.repoUser.create(args);
+
+      const user = await this.repoUser.create(args);
+
+      const crmUserData = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        phone: user.phone,
+      };
+      try {
+        await this.crmService.createUserInCrm(crmUserData);
+      } catch (crmError) {
+        console.error('Failed to create user in CRM:', crmError.message);
+
+      }
+
+      return user;
+
+
     } catch (e) {
       console.error(e.message);
       switch (e.code) {
@@ -212,8 +229,10 @@ export class AuthService {
     let criteria = {};
     if (isEmail(login)) {
       criteria['email'] = login;
-    } else {
+    } else if(login) {
       criteria['username'] = login;
+    } else {
+      throw new Error('Internal Server Error');
     }
     const user = await this.repoUser
       .findOne(criteria)

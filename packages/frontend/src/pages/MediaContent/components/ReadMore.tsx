@@ -1,4 +1,3 @@
-import {news} from "../../Media/components/NewsBlock/components/NewsList.js";
 import {Link} from "wouter";
 import React, {memo} from "react";
 import {useElementRangeSize} from "../../../hooks/useElementRangeSize.js";
@@ -9,7 +8,7 @@ const ReadMore = memo(() => {
     const {isMobile} = useSizes();
     const {paddingHorizontal, h1Size, h1SizeMobile} = useElementRangeSize();
 
-    return (
+    return null/*(
         <div className='w-full bg-popup_gray pt-[3.75rem] pb-10 mt-10 md:mt-20'>
             <div className='m-auto'
                  style={{
@@ -57,6 +56,6 @@ const ReadMore = memo(() => {
                 </div>
             </div>
         </div>
-    )
+    )*/
 })
 export default ReadMore

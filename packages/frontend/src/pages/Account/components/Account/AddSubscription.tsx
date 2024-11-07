@@ -1,9 +1,9 @@
 import React, {Fragment, memo} from "react";
 import {Dialog, Disclosure, Transition} from "@headlessui/react";
-import SecondaryCloseIcon from "../../../assets/SecondaryCloseIcon.js";
-import './style.css'
-import SecondaryButton from "../../../components/SecondaryButton.js";
-import {useSubscriptionCalculator} from './hooks/useSubscriptionCalculator.js';
+import SecondaryCloseIcon from "../../../../assets/SecondaryCloseIcon.js";
+import '../style.css'
+import SecondaryButton from "../../../../components/SecondaryButton.js";
+import {useSubscriptionCalculator} from '../hooks/useSubscriptionCalculator.js';
 const subscriptionTitles = [
   {
     title: 'Наименование подписки'

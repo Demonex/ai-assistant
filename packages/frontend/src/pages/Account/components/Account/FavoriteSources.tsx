@@ -1,7 +1,7 @@
-import {socials} from "../../../data/consts/socials.js";
-import {allSources} from "../../../data/consts/favoriteSources.js";
+import {socials} from "../../../../data/consts/socials.js";
+import {allSources} from "../../../../data/consts/favoriteSources.js";
 import {useState} from "react";
-import {useFavoriteSources} from "./hooks/useFavoriteSources.js";
+import {useFavoriteSources} from "../hooks/useFavoriteSources.js";
 
 
 export const FavoriteSources = () => {

@@ -6,7 +6,7 @@ import {useArtist} from '../../ArtistPage/hooks/useArtist.js';
 import {useParams} from 'wouter';
 import {TrackDataType} from '../types.js';
 import memoize from 'memoizee';
-import {useBetween} from '../../../use-between/index.js';
+import {useBetween} from 'use-between';
 import {useArtistProfile} from '../../ArtistPage/hooks/useArtistProfile.js';
 
 type UseTrackReturn = {

@@ -17,9 +17,10 @@ const _useAccount = (): {
   });
 
   useEffect(() => {
-    if (!data) {
+    if (!data || profile) {
       return;
     }
+    console.log('reset')
     setProfile(data);
   }, [data]);
 

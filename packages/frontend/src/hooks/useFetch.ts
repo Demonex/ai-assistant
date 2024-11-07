@@ -3,7 +3,7 @@ import Axios, {AxiosError, AxiosRequestConfig, AxiosResponse} from 'axios';
 import useSharedHook from './useSharedHook.js';
 import {buildWebStorage, setupCache} from 'axios-cache-interceptor';
 import memoize from 'memoizee';
-import {useBetween} from '../use-between/index.js';
+import {useBetween} from 'use-between';
 
 const fetch = setupCache(Axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL || '',

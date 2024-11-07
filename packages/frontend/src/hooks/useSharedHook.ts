@@ -1,4 +1,4 @@
-import {useBetween} from '../use-between/index.js';
+import {useBetween} from 'use-between';
 import get from 'lodash.get';
 import set from 'lodash.set';
 import memoize from "memoizee";

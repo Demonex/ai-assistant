@@ -1,11 +1,11 @@
 import React, {Fragment, memo, useMemo} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
-import SecondaryCloseIcon from '../../../assets/SecondaryCloseIcon.js';
-import {useSubscriptionCalculator} from './hooks/useSubscriptionCalculator.js';
-import './style.css';
-import SecondaryButton from '../../../components/SecondaryButton.js';
+import SecondaryCloseIcon from '../../../../assets/SecondaryCloseIcon.js';
+import {useSubscriptionCalculator} from '../hooks/useSubscriptionCalculator.js';
+import '../style.css';
+import SecondaryButton from '../../../../components/SecondaryButton.js';
 import {Link} from 'wouter';
-import InfoIcon from '../../../assets/InfoIcon.js';
+import InfoIcon from '../../../../assets/InfoIcon.js';
 
 const SubscriptionsCalculator = memo(() => {
   const {
@@ -61,7 +61,7 @@ const SubscriptionsCalculator = memo(() => {
             leaveTo="opacity-0 scale-95"
           >
             <Dialog.Panel
-              className=" bg-popup_gray lg:my-20 p-4 md:py-8 lg:py-10 md:px-8 lg:px-[3.75rem] lg:mx-auto lg:rounded-[20px] z-50 relative w-full lg:w-fit max-w-[53.7rem]"
+              className=" bg-popup_gray lg:my-20 p-4 md:py-8 lg:py-10 md:px-8 lg:px-[3.75rem] lg:mx-auto lg:rounded-[20px] z-50 relative w-full lg:w-fit lg:max-w-[53.7rem]"
             >
               <div className="w-full flex justify-end" onClick={() => setOpenModal(false)}>
                 <SecondaryCloseIcon className="stroke-white cursor-pointer"/>
@@ -74,7 +74,7 @@ const SubscriptionsCalculator = memo(() => {
                 </div>
                 <div className="flex flex-col gap-4">
                   <h2 className="text-caption_r_desk text-light_grey">Максимальное количество артистов</h2>
-                  <div className="relative w-[45rem]">
+                  <div className="relative w-full lg:w-[45rem]">
                     <input step={1} id="labels-range-input" type="range" value={limit}
                            onChange={({target: {value}}) => {
                              setLimit(value);
@@ -105,7 +105,7 @@ const SubscriptionsCalculator = memo(() => {
                 </div>
                 <div className="flex flex-col gap-4 mt-6">
                   <h2 className="text-caption_r_desk text-light_grey">Длительность подписки</h2>
-                  <div className="relative max-w-[23rem]">
+                  <div className="relative w-full md:w-1/2 lg:max-w-[23rem]">
                     <input step={1} id="labels-range-input" type="range" value={period} min={1} max={3}
                            onChange={({target: {value}}) => {
                              setPeriod(value);
@@ -122,7 +122,7 @@ const SubscriptionsCalculator = memo(() => {
                       <div
                         className=" absolute start-1/2 h-5 w-[1px] bg-medium_grey top-1/2 -translate-y-1/2 -z-10"/>
                       <span
-                        className="text-caption_r_desk text-medium_grey dark:text-gray-400 absolute -end-20  -bottom-8 ">12 месяцев</span>
+                        className="text-caption_r_desk text-medium_grey dark:text-gray-400 absolute end-0 md:-end-20  -bottom-8 ">12 месяцев</span>
                       <div
                         className="absolute h-5 w-[1px] bg-medium_grey top-1/2 -translate-y-1/2 -z-10 end-0"/>
                     </div>
@@ -131,14 +131,14 @@ const SubscriptionsCalculator = memo(() => {
               </div>
               <div className="pb-8 border-b border-secondary_dark_gray/50 mt-8"/>
               <div className="mt-6 flex flex-col gap-6">
-                <div className="flex justify-between min-h-20">
+                <div className="flex flex-col md:flex-row gap-4 justify-between md:min-h-20 min-h-[10.75rem]">
                   <div>
                     <h2 className="text-caption_r_desk text-light_grey">Рекуррентный платёж</h2>
                     <p className="text-[40px] font-normal leading-[44px] mt-2">{plan?.price} ₽</p>
                   </div>
                   <div>
                     <h2 className="text-caption_r_desk text-light_grey">Стоимость за одного артиста в месяц</h2>
-                    <div className="mt-2 relative flex gap-3">
+                    <div className="mt-2 relative flex gap-3 min-h-[3rem]">
                       {
                         plan?.discount && (
                           <div className="flex items-center justify-center">

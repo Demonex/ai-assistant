@@ -10,6 +10,7 @@ import {UserEmail, UserId} from '../decorators/user';
 import {Authorized} from '../decorators/auth';
 import {Types} from 'mongoose';
 
+@ApiTags('proxy')
 @Controller('/api/rest/proxy-paid')
 export class ProxyPaidController {
   constructor(
@@ -18,7 +19,6 @@ export class ProxyPaidController {
   }
 
   @Authorized()
-  @ApiTags('web')
   @Get('*')
   @HttpCode(200)
   async get(
