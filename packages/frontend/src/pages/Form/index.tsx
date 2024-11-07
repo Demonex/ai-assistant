@@ -5,7 +5,7 @@ import {useElementRangeSize} from "../../hooks/useElementRangeSize.js";
 import {useSizes} from "../../hooks/useSizes.js";
 import {Link, useParams} from "wouter";
 import {SignInPage} from "./components/SignIn/SignInPage.js";
-import {SignUpPage} from "./components/SignUp/SignUpPage.js";
+import {SignUpPage} from "./components/SignUp/ui/SignUpPage.js";
 import {PasswordRecovery} from "./components/PasswordRecovery/index.js";
 import {NewPassword} from "./components/NewPassword/index.js";
 
