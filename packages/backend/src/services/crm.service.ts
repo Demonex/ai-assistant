@@ -33,7 +33,7 @@ import axios from 'axios';
 @Injectable()
 export class CrmService {
   async createUserInCrm(userData: any): Promise<any> {
-    const crmUrl = import.meta.env.VITE_CRM_URLcrmCreateUserUrl;
+    const crmUrl = import.meta.env.VITE_CRM_URL;
     const token = import.meta.env.VITE_CRM_TOKEN;
 
 
