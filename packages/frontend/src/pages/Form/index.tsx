@@ -4,7 +4,7 @@ import RRR from "/assets/svg/RRRRR.svg";
 import {useElementRangeSize} from "../../hooks/useElementRangeSize.js";
 import {useSizes} from "../../hooks/useSizes.js";
 import {Link, useParams} from "wouter";
-import {SignInPage} from "./components/SignIn/SignInPage.js";
+import {SignInPage} from "./components/SignIn/ui/SignInPage.js";
 import {SignUpPage} from "./components/SignUp/ui/SignUpPage.js";
 import {PasswordRecovery} from "./components/PasswordRecovery/index.js";
 import {NewPassword} from "./components/NewPassword/index.js";

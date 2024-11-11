@@ -14,7 +14,7 @@ import { ISignUpFormInputs } from '../types/types.js';
 import { SentEmail } from './SentEmail.js';
 import { FormActions } from './FormActions.js';
 import { AlreadyRegistered } from './AlreadyRegistered.js';
-import { FormContainer } from './FormContainer.js';
+import { FormContainer } from '../../../../../shared/ui/FormContainer.js';
  
 export const SignUpPage = () => {
     const {

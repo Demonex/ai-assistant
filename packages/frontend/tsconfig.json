@@ -5,6 +5,9 @@
     "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+    },
     "checkJs": true,
     "declaration": false,
     "declarationMap": false,
