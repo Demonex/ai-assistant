@@ -36,7 +36,7 @@ export class ProviderController {
     }
   }
 
-  @ApiExcludeEndpoint(process.env.NODE_ENV !== 'development')
+  @ApiExcludeEndpoint(import.meta.env.VITE_NODE_ENV !== 'development')
   @Get(':provider(apple)/link')
   async getOauthLink(
     @Param('provider') provider: SocialProviders
@@ -92,7 +92,7 @@ export class ProviderController {
           }
           await this.providerService
           .authByProvider(`APPLE_${_json.sub}`, user,true)
-          const sid = encodeURIComponent(`s:${signature.sign(res.req.sessionID, process.env.COOKIE_SECRET)}`)
+          const sid = encodeURIComponent(`s:${signature.sign(res.req.sessionID, import.meta.env.VITE_COOKIE_SECRET)}`)
           console.log('sid',sid);
           return res.send({
             sid
@@ -107,14 +107,14 @@ export class ProviderController {
       default: {
         return passport.authenticate(provider, {state: code}, (err, user) => {
           if(err) return next(err);
-          if(!user) res.redirect(HttpStatus.SEE_OTHER, `${process.env.FRONTEND_URL}/error?code=auth-social`);
-          res.redirect(HttpStatus.SEE_OTHER, `${process.env.FRONTEND_URL}/user/social`);
+          if(!user) res.redirect(HttpStatus.SEE_OTHER, `${import.meta.env.VITE_FRONTEND_URL}/error?code=auth-social`);
+          res.redirect(HttpStatus.SEE_OTHER, `${import.meta.env.VITE_FRONTEND_URL}/user/social`);
         })(req, res, next);
       }
     }
   }
 
-  @ApiExcludeEndpoint(process.env.NODE_ENV !== 'development')
+  @ApiExcludeEndpoint(import.meta.env.VITE_NODE_ENV !== 'development')
   @Post(':provider(google|facebook|apple)/callback')
   async handleOauthCallbackPost(
     @Res() res: Response,
@@ -122,7 +122,7 @@ export class ProviderController {
     @Body() body: any
   ) {
     const end = () => {
-      res.redirect(HttpStatus.SEE_OTHER, `${process.env.SERVER_URL}/admin`)
+      res.redirect(HttpStatus.SEE_OTHER, `${import.meta.env.VITE_SERVER_URL}/admin`)
     }
     try {
       if(provider !== 'apple') return end();

@@ -1,24 +1,14 @@
 import {buildConfig} from '@stigma-io/payload/config';
 import type {Config as ConfigPayload} from '@stigma-io/payload/config';
-import {get, set} from 'lodash-es';
 import path from 'path';
-import Media from './collections/Media';
-import User from './collections/User';
-import BeforeLogin from './components/BeforeLogin';
-import AfterDashboard from './components/AfterDashboard';
-import BeforeDashboard from './components/BeforeDashboard';
-import Photo from './collections/Photo';
-import {LogoComponent, IconComponent} from './components/Logo/Logo';
-import Pose from './collections/Pose';
-import Video from './collections/Video';
-import Audio from './collections/Audio';
-import Model from './collections/Model';
-import Voice from './collections/Voice';
-import {Transition} from './collections/Transition';
-import {cloudStorage} from './plugins/s3';
-import {s3Adapter} from './plugins/s3/adapters/s3';
-import AppScreens from './globals/AppScreens';
-import CustomAccount from './components/views/CustomAccount';
+import User from './src/payload/collections/User';
+import BeforeLogin from './src/payload/components/BeforeLogin';
+import AfterDashboard from './src/payload/components/AfterDashboard';
+import BeforeDashboard from './src/payload/components/BeforeDashboard';
+import {LogoComponent, IconComponent} from './src/payload/components/Logo/Logo';
+import {cloudStorage} from './src/payload/plugins/s3';
+import {s3Adapter} from './src/payload/plugins/s3/adapters/s3';
+import CustomAccount from './src/payload/components/views/CustomAccount';
 import {viteBundler} from '@stigma-io/payload-bundler-vite';
 import {lexicalEditor} from '@stigma-io/payload-richtext-lexical';
 import {mongooseAdapter} from '@stigma-io/payload-db-mongodb';
@@ -29,9 +19,9 @@ import tailwindcssForms from '@tailwindcss/forms';
 import type {InlineConfig as ConfigVite} from 'vite';
 import tailwindcssNesting from 'tailwindcss/nesting/index.js';
 import {mergeConfig} from 'vite';
-import {userMediaAvatar} from './collections/user/media/avatar';
-import Post from './collections/Post';
-import PostMedia from './collections/PostMedia';
+import {userMediaAvatar} from './src/payload/collections/user/media/avatar';
+import Post from './src/payload/collections/Post';
+import PostMedia from './src/payload/collections/PostMedia';
 
 const __dirname = dirname();
 const s3AdapterConfig = {
@@ -125,11 +115,11 @@ export const defaultPayloadConfig: ConfigPayload = {
           alias: [
             {
               find: 'vite',
-              replacement: `${path.resolve(__dirname + '/..')}/mocks/vite.ts`
+              replacement: `${path.resolve(__dirname)}/src/mocks/vite.ts`
             },
             {
               find: /^tailwindcss$/,
-              replacement: `${path.resolve(__dirname + '/..')}/mocks/emptyModule.ts`
+              replacement: `${path.resolve(__dirname)}/src/mocks/emptyModule.ts`
             }
           ]
         },

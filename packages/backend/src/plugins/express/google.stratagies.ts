@@ -7,9 +7,9 @@ import {AuthByProvider,ProviderService} from '../../services/Provider.js';
 export class GoogleStrategy extends PassportStrategy(Strategy,'google'){
   constructor(providerService: ProviderService){
     super({
-        clientID:process.env.GOOGLE_AUTH_CLIENT_ID,
-        clientSecret:process.env.GOOGLE_AUTH_CLIENT_SECRET,
-        callbackURL:process.env.GOOGLE_AUTH_REDIRECT_URI,
+        clientID:import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID,
+        clientSecret:import.meta.env.VITE_GOOGLE_AUTH_CLIENT_SECRET,
+        callbackURL:import.meta.env.VITE_GOOGLE_AUTH_REDIRECT_URI,
         scope:['email','profile'],
         passReqToCallback:true
       },

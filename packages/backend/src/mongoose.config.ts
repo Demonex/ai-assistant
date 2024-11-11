@@ -2,7 +2,7 @@ import type {  SchemaOptions } from 'mongoose';
 import type { ICustomOptions } from '@typegoose/typegoose/lib/types.js';
 import { Severity } from '@typegoose/typegoose';
 
-export const MONGO_URI = process.env.MONGO_CONNECTION_STRING;
+export const MONGO_URI = import.meta.env.VITE_MONGO_CONNECTION_STRING;
 export const MONGO_CONFIG: any = {
   useNewUrlParser: true,
   useUnifiedTopology: true,

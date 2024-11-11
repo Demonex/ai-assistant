@@ -20,7 +20,7 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext",
+      "esnext"
     ],
     "sourceMap": false,
     "forceConsistentCasingInFileNames": true,
@@ -32,10 +32,14 @@
     "typeRoots": [
       "node_modules/@types",
       "src/types.d.ts"
-    ]
+    ],
+    "paths": {
+      "~/*": ["./*"]
+    }
   },
   "include": [
-    "src/"
+    "src/",
+    "payload.config.ts"
   ],
   "exclude": [
     "dist",
