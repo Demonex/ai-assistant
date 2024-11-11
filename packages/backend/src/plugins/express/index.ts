@@ -7,7 +7,7 @@ import {TaggableCache as RedisTaggable} from 'cache-tags';
 import cookieParser from 'cookie-parser';
 import {get} from 'lodash-es';
 import {REDIS_SESSION_PREFIX} from '../../constants.js';
-import payloadInit from '@stigma-io/payload';
+// import payloadInit from '@stigma-io/payload';
 import {parse} from 'cookie';
 
 const RedisTaggableClient: Redis & any = new RedisTaggable({
@@ -121,9 +121,9 @@ const expressPlugins = async (express: Express) => {
     });
     expressSession(req, res, next);
   });
-  await payloadInit.init({
+  /*await payloadInit.init({
     secret: import.meta.env.VITE_PAYLOAD_SECRET,
     express
-  });
+  });*/
 };
 export default expressPlugins;
