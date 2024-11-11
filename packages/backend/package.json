@@ -12,7 +12,7 @@
   "scripts": {
     "copyfiles": "copyfiles -u 1 src/**/*.{html,css,scss,ttf,woff,woff2,eot,svg,jpg,png,json,csv} dist/",
     "pre:debug": "yarn copyfiles && yarn build:server",
-    "start": "DOCKER_DEFAULT_PLATFORM=linux/amd64 docker compose up -d --build --remove-orphans && NODE_OPTIONS=--trace-warnings dotenv -- vite --host",
+    "start": "docker compose up -d --build --remove-orphans && vite --host",
     "start:backend": "nr start",
     "start:backend:old": "DOCKER_DEFAULT_PLATFORM=linux/amd64 docker compose up -d --build --remove-orphans && SWCRC=true node --trace-warnings --watch -r \"dotenv/config\" --import @swc-node/register/esm-register src/index.ts",
     "build:payload": "payload build",

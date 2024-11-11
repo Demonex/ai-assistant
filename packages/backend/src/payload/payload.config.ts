@@ -36,17 +36,17 @@ import PostMedia from './collections/PostMedia';
 const __dirname = dirname();
 const s3AdapterConfig = {
   forcePathStyle: true,
-  region: process.env.S3_REGION,
-  endpoint: process.env.S3_ENDPOINT,
+  region: import.meta.env.VITE_S3_REGION,
+  endpoint: import.meta.env.VITE_S3_ENDPOINT,
   credentials: {
-    accessKeyId: process.env.S3_ACCESS_KEY_ID,
-    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY
+    accessKeyId: import.meta.env.VITE_S3_ACCESS_KEY_ID,
+    secretAccessKey: import.meta.env.VITE_S3_SECRET_ACCESS_KEY
   }
 };
 
 export const defaultPayloadConfig: ConfigPayload = {
   db: mongooseAdapter({
-    url: process.env.MONGO_CONNECTION_STRING,
+    url: import.meta.env.VITE_MONGO_CONNECTION_STRING,
     // migrationDir: path.resolve(__dirname, 'migrations'),
     autoPluralization: false
   }),
@@ -55,7 +55,7 @@ export const defaultPayloadConfig: ConfigPayload = {
     api: '/api/admin',
     admin: '/admin'
   },
-  serverURL: `http://localhost:${process.env.PORT || 2050}`,
+  serverURL: `http://localhost:${import.meta.env.VITE_PORT || 2050}`,
   admin: {
     user: User.slug,
     meta: {
@@ -165,13 +165,13 @@ export const defaultPayloadConfig: ConfigPayload = {
         ['user-media-avatar']: {
           adapter: s3Adapter({
             config: s3AdapterConfig,
-            bucket: process.env.S3_BUCKET_USER_AVATAR
+            bucket: import.meta.env.VITE_S3_BUCKET_USER_AVATAR
           })
         },
         ['post-media']: {
           adapter: s3Adapter({
             config: s3AdapterConfig,
-            bucket: process.env.S3_BUCKET_POST_MEDIA
+            bucket: import.meta.env.VITE_S3_BUCKET_POST_MEDIA
           })
         },
       }

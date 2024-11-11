@@ -11,7 +11,7 @@ import payloadInit from '@stigma-io/payload';
 import {parse} from 'cookie';
 
 const RedisTaggableClient: Redis & any = new RedisTaggable({
-  host: process.env.REDIS_HOST || 'localhost',
+  host: import.meta.env.VITE_REDIS_HOST || 'localhost',
   port: 6379
 });
 const RedisSessionStore = new RedisStore({
@@ -40,7 +40,7 @@ const expressPlugins = async (express: Express) => {
   express.disable('x-powered-by');
   express.set('trust proxy', true);
   express.use(cors({
-    origin: [`${process.env.SERVER_URL}`, `${process.env.FRONTEND_URL}`],
+    origin: [`${import.meta.env.VITE_SERVER_URL}`, `${import.meta.env.VITE_FRONTEND_URL}`],
     allowedHeaders: [
       'Origin',
       'Keep-Alive',
@@ -80,19 +80,19 @@ const expressPlugins = async (express: Express) => {
     if('OPTIONS' === req.method) {
       return res.sendStatus(204);
     }
-    if('authorization' in req.headers && !get(req, `cookies.${process.env.SESSIONS_KEY}`)) {
+    if('authorization' in req.headers && !get(req, `cookies.${import.meta.env.VITE_SESSIONS_KEY}`)) {
       const authorization = get(req, 'headers.authorization', '').replace(/^Bearer\s/, '');
       if(!authorization) {
         return next();
       }
       const cookies = parse(get(req, 'headers.cookie', ''));
-      cookies[`${process.env.SESSIONS_KEY}`] = authorization;
+      cookies[`${import.meta.env.VITE_SESSIONS_KEY}`] = authorization;
       req.headers['cookie'] = Object.entries(cookies).map(([key, value]) => `${key}=${value}`).join('; ');
     }
     return next();
   });
   express.use((req, res, next) => {
-    let domain = process.env.SERVER_COOKIE_HOST || process.env.SERVER_HOST;
+    let domain = import.meta.env.VITE_SERVER_COOKIE_HOST || import.meta.env.VITE_SERVER_HOST;
     let webDomain: string = undefined;
     try {
       webDomain = new URL(req.headers.referer || req.headers.origin).hostname;
@@ -106,9 +106,9 @@ const expressPlugins = async (express: Express) => {
       domain = '.rifify.ru';
     }
     const expressSession = session({
-      name: process.env.SESSIONS_KEY,
+      name: import.meta.env.VITE_SESSIONS_KEY,
       store: RedisSessionStore,
-      secret: process.env.COOKIE_SECRET,
+      secret: import.meta.env.VITE_COOKIE_SECRET,
       resave: false,
       saveUninitialized: false,
       cookie: {
@@ -123,7 +123,7 @@ const expressPlugins = async (express: Express) => {
   });
   // console.log('payload skip');
   await payloadInit.init({
-    secret: process.env.PAYLOAD_SECRET,
+    secret: import.meta.env.VITE_PAYLOAD_SECRET,
     express
   });
 };

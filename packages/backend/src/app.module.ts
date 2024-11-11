@@ -11,11 +11,11 @@ import { MailchimpModule } from '@mindik/mailchimp-nestjs';
 @Module({
   imports:[
     TypegooseModule.forRoot(`${MONGO_URI}`,MONGO_CONFIG),
-    MailchimpModule.forRoot(`${process.env.MAILCHIMP_TRANSACTIONAL_API_KEY}`),
+    MailchimpModule.forRoot(`${import.meta.env.VITE_MAILCHIMP_TRANSACTIONAL_API_KEY}`),
     RedisModule.forRoot([
       {
         name:'rifify.ru',
-        host:process.env.REDIS_HOST||'localhost',
+        host:import.meta.env.VITE_REDIS_HOST||'localhost',
         port:6379,
         password:''
       }

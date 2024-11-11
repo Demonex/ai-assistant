@@ -4,8 +4,8 @@
 // @Injectable()
 // export class CrmService {
 //   async createUserInCrm(userData: any): Promise<any> {
-//     const crmUrl = process.env.CRM_URL;
-//     const token = process.env.CRM_TOKEN;
+//     const crmUrl = import.meta.env.VITE_CRM_URL;
+//     const token = import.meta.env.VITE_CRM_TOKEN;
 
 //     try {
 //       const response = await axios.post(crmUrl, userData, {
@@ -33,16 +33,16 @@ import axios from 'axios';
 @Injectable()
 export class CrmService {
   async createUserInCrm(userData: any): Promise<any> {
-    const crmUrl = process.env.CRM_URLcrmCreateUserUrl;
-    const token = process.env.CRM_TOKEN;
+    const crmUrl = import.meta.env.VITE_CRM_URLcrmCreateUserUrl;
+    const token = import.meta.env.VITE_CRM_TOKEN;
 
-   
+
     const crmRequestData = {
       template: { id: 1 },
       sourceObjectId: "0c091b1f-a735-44e9-a56c-43435e7a40b6",
       sourceDataVersion: "AADJIgAAAAA=",
       name: userData.firstName,
-      midname: userData.middleName || "",  
+      midname: userData.middleName || "",
       lastname: userData.lastName,
       gender: "Male",
       description: "Передано из сервиса Refify.ru",

@@ -14,7 +14,7 @@ import {HttpStatusMessages} from './messages/http.js';
 mongoose.pluralize(null);
 Logger.useLogger(
   new DefaultLogger({
-    level: process.env.LOGGER_LEVEL ? Number(process.env.LOGGER_LEVEL) : LogLevel.Info
+    level: import.meta.env.VITE_LOGGER_LEVEL ? Number(import.meta.env.VITE_LOGGER_LEVEL) : LogLevel.Info
   })
 );
 Logger.info(`Bootstrapping rifify.ru (pid: ${process.pid}) 🚀`);
@@ -54,7 +54,7 @@ SwaggerModule.setup('/api/playground/rest', app, SwaggerModule.createDocument(ap
   .setVersion('0.0')
   .build()));
 
-// await app.listen(parseInt(String(process.env.PORT)) || 2050, '0.0.0.0', async () => {
+// await app.listen(parseInt(String(import.meta.env.VITE_PORT)) || 2050, '0.0.0.0', async () => {
 //   DefaultLogger.restoreOriginalLogLevel();
 //   logWelcomeMessage();
 // });
@@ -66,9 +66,9 @@ export const viteNodeApp = app;
 function logWelcomeMessage() {
   const version = '1.0.0';
   Logger.info(`=================================================`);
-  Logger.info(`BACKEND (v: ${version}) now running on port ${parseInt(String(process.env.PORT)) || 2050} ✨`);
+  Logger.info(`BACKEND (v: ${version}) now running on port ${parseInt(String(import.meta.env.VITE_PORT)) || 2050} ✨`);
   // Logger.info(`SWAGGER: ${payload.getAPIURL().replace('/api/admin', '/api/playground/rest')}`);
   // Logger.info(`ADMIN: ${payload.getAdminURL()}`);
-  Logger.info(`http://localhost:${parseInt(String(process.env.PORT)) || 2050}/api/playground/rest`);
+  Logger.info(`http://localhost:${parseInt(String(import.meta.env.VITE_PORT)) || 2050}/api/playground/rest`);
   Logger.info(`=================================================`);
 }
