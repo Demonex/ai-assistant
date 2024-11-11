@@ -121,7 +121,6 @@ const expressPlugins = async (express: Express) => {
     });
     expressSession(req, res, next);
   });
-  // console.log('payload skip');
   await payloadInit.init({
     secret: import.meta.env.VITE_PAYLOAD_SECRET,
     express

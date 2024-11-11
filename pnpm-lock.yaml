@@ -1140,6 +1140,9 @@ importers:
       aws-sdk:
         specifier: 2.1478.0
         version: 2.1478.0
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
       dotenv:
         specifier: 8.6.0
         version: 8.6.0
