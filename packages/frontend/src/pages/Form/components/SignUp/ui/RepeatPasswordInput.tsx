@@ -1,7 +1,7 @@
-import capitalize from 'lodash.capitalize';
 import shownPassword from "/assets/svg/shown_password.svg";
 import hiddenPassword from "/assets/svg/hidden_password.svg";
 import { useState } from 'react';
+import { FormInputError } from '@/shared/ui/FormUi/FormInputError.js';
 
 export const RepeatPasswordInput = ({register, error, passwordRef}) => {
     const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
@@ -39,10 +39,7 @@ export const RepeatPasswordInput = ({register, error, passwordRef}) => {
                             </button>
                     }
                 </div>
-                {
-                    error &&
-                    <p className="text-secondary_red text-caption_m_desk mt-1.5">{capitalize(String(error.message))}</p>
-                }
+                {error && <FormInputError message={error.message} />} 
             </div>
         </div>
 	);

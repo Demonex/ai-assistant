@@ -1,6 +1,6 @@
-import capitalize from 'lodash.capitalize';
 import type { FieldError, UseFormRegister } from 'react-hook-form';
 import type { ISignUpFormInputs } from '../types/types.js';
+import { FormInputError } from '@/shared/ui/FormUi/FormInputError.js';
 
 interface AcceptPolicyInputProps {
     register: UseFormRegister<ISignUpFormInputs>;
@@ -30,9 +30,7 @@ export const AcceptPolicyInput = (props: AcceptPolicyInputProps) => {
                     </label>
                 </div>
             </div>
-            {error &&
-                <p className="text-secondary_red text-caption_m_desk mt-1.5">{capitalize(String(error.message))}</p>
-            }
+            {error && <FormInputError message={error.message} /> }
         </div>
 	);
 };

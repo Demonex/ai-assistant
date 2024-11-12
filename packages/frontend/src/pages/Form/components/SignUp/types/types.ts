@@ -1,5 +1,5 @@
 export interface ISignUpFormInputs {
-    firstName: string;
+    name: string;
     email: string;
     password: string;
     repeatPassword: string;

@@ -1,19 +1,16 @@
 import { useState } from 'react';
-import { ErrorPage } from '../../../../404/Error.js';
-import { useAccount } from '../../../../../components/Header/hooks/useAccount.js';
-import { FormContainer } from '../../../../../shared/ui/FormContainer.js';
+import { FormContainer } from '../../../../../shared/ui/FormUi/FormContainer.js';
 import { SelectSignInMethod } from './SelectSignInMethod.js';
 import { SignInMethod } from '../types/types.js';
 import { EmailSignIn } from './EmailSignInForm/EmailSignIn.js';
 import { ServicesSignIn } from './ServicesSignIn.js';
 import { NoAccount } from './NoAccount.js';
+import { useRedirectIfProfile } from '@/shared/hooks/useRedirectIfProfile.js';
 
 export const SignInPage = () => {
-    const { profile } = useAccount();
-
     const [signInOption, setSignInOption] = useState<SignInMethod>('email');
 
-    if (profile) return <ErrorPage />
+    useRedirectIfProfile();
 
     return (
             <FormContainer>

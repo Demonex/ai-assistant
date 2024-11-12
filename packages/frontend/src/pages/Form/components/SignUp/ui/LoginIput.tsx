@@ -1,6 +1,6 @@
-import capitalize from 'lodash.capitalize';
 import type { FieldError, UseFormRegister } from 'react-hook-form';
 import type { ISignUpFormInputs } from '../types/types.js';
+import { FormInputError } from '@/shared/ui/FormUi/FormInputError.js';
 
 interface LoginInputProps {
     register: UseFormRegister<ISignUpFormInputs>;
@@ -12,22 +12,20 @@ export const LoginInput = (props: LoginInputProps) => {
     
 	return (
 		<div>
-            <label htmlFor="firstName"
+            <label htmlFor="name"
                    className="text-caption_m_desk text-medium_grey">
                 Логин <span className='text-secondary_red'>*</span>
             </label>
             <div className="mt-1.5">
                 <input
+                    id='name'
                     type="text"
-                    autoComplete="firstName"
                     className="block w-full border-solid rounded-xl border border-dark_grey p-[.875rem] text-white !bg-[transparent] text-t2Regular md:text-caption_r_desk placeholder:text-medium_grey focus:ring-0 focus:border-medium_grey"
-                    {...register('firstName')}
+                    {...register('name', { required: 'Логин обязателен' })}
                     placeholder='Придумай логин'
                 />
             </div>
-            {error &&
-                <p className="text-secondary_red text-caption_m_desk mt-1.5">{capitalize(String(error.message))}</p>
-            }
+            {error && <FormInputError message={error.message} />}
         </div>
 	);
 };

@@ -4,7 +4,6 @@ import {useLazyFetch} from '../../hooks/useFetch.js';
 import {AccountSettings} from './components/Account/AccountSettings.js';
 import {Subscriptions} from './components/Account/Subscriptions.js';
 import {BACKEND_URL} from '../../constants/index.js';
-import {useAccount} from '../../components/Header/hooks/useAccount.js';
 import SecondaryButton from '../../components/SecondaryButton.js';
 import {SignOutIcon} from '../../assets/SignOutIcon.js';
 import SecondaryCloseIcon from "../../assets/SecondaryCloseIcon.js";
@@ -15,6 +14,7 @@ import Team from "./components/Account/Team.js";
 import ManageNotifications from "./components/Account/ManageNotifications.js";
 import {accountTabs} from "./consts.js";
 import PopupDeleteAccount from "./components/Account/PopupDeleteAccount.js";
+import { useAccount } from '@/components/Header/hooks/useAccount.js';
 
 export const AccountPage = () => {
   const [location, navigate] = useLocation()
@@ -25,8 +25,9 @@ export const AccountPage = () => {
     url: `${BACKEND_URL}/auth/sign-out`,
     method: 'post',
   });
-  const onSubmitSignOut = () => {
-    fetchSignOut();
+
+  const onSubmitSignOut = async () => {
+    await fetchSignOut();
     clear();
     navigate('/auth/sign-in');
   }

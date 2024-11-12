@@ -1,8 +1,6 @@
-import { navigate } from 'wouter/use-browser-location';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLazyFetch } from '../../../../../hooks/useFetch.js';
-import { ErrorPage } from '../../../../404/Error.js';
 import { BACKEND_URL } from '../../../../../constants/index.js';
 import { useAccount } from '../../../../../components/Header/hooks/useAccount.js';
 import { EmailInput } from './EmailInput.js';
@@ -14,13 +12,11 @@ import { ISignUpFormInputs } from '../types/types.js';
 import { SentEmail } from './SentEmail.js';
 import { FormActions } from './FormActions.js';
 import { AlreadyRegistered } from './AlreadyRegistered.js';
-import { FormContainer } from '../../../../../shared/ui/FormContainer.js';
+import { FormContainer } from '../../../../../shared/ui/FormUi/FormContainer.js';
+import { useRedirectIfProfile } from '@/shared/hooks/useRedirectIfProfile.js';
  
 export const SignUpPage = () => {
-    const {
-        setProfile,
-        profile
-    } = useAccount();
+    const { setProfile } = useAccount();
     
     const passwordRef = useRef('');
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -41,11 +37,10 @@ export const SignUpPage = () => {
     });
 
     const onSubmit = useCallback((data) => {
-        const { firstName, email, password, policyAccepted } = data;
-        console.log(data)
-        console.log(typeof data)
+        const { name, email, password, policyAccepted } = data;
+
         const dto = {
-            firstName,
+            name,
             email,
             password,
             concent: policyAccepted
@@ -61,7 +56,7 @@ export const SignUpPage = () => {
         }
 
         requestError?.response.data.messages.forEach((item, index) => {
-            setError(`${item.property}` as "firstName" | "email" | "password" | "repeatPassword" | "policyAccepted", {
+            setError(`${item.property}` as "name" | "email" | "password" | "repeatPassword" | "policyAccepted", {
                 message: item.messages.join(' ')
             }, {
                 shouldFocus: index === 0
@@ -75,10 +70,9 @@ export const SignUpPage = () => {
             return;
         }
         setProfile(data);
-        navigate('/account');
     }, [data, setProfile]);
 
-    if (profile) return <ErrorPage />
+    useRedirectIfProfile();
 
     if (sendRegisterLink) return <FormContainer><SentEmail /></FormContainer>;
 
@@ -88,7 +82,7 @@ export const SignUpPage = () => {
             <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
                 <LoginInput 
                     register={register}
-                    error={errors.firstName}
+                    error={errors.name}
                 />
                 <EmailInput 
                     register={register} 

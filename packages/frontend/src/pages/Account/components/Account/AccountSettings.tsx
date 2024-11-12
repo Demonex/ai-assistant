@@ -15,6 +15,7 @@ export const AccountSettings = () => {
   } = useAccountSettings();
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
+
   return (
     <>
       <h1 className='text-t1Semi_ipad lg:hidden'>Данные аккаунта</h1>
@@ -24,7 +25,7 @@ export const AccountSettings = () => {
           <div className="flex flex-col gap-4">
             <div>
               <label htmlFor="name" className="text-caption_m_desk text-medium_grey">
-                Имя
+                Логин
               </label>
               <div className="mt-1.5">
                 <input

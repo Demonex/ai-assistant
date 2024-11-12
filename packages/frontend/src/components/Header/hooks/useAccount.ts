@@ -1,27 +1,30 @@
 import useSharedHook from '../../../hooks/useSharedHook.js';
-import {BACKEND_URL} from '../../../constants/index.js';
+import { BACKEND_URL } from '../../../constants/index.js';
 import useFetch from '../../../hooks/useFetch.js';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
+import type { IProfile } from '../../../entities/account/types/types.js';
 
 const _useAccount = (): {
-  profile: any
-  setProfile: any
-  loading?: boolean
-  error?: any
+  profile: IProfile;
+  setProfile: Dispatch<SetStateAction<IProfile>>;
+  loading?: boolean;
+  error?: unknown;
 } => {
 
-  const [profile, setProfile] = useState<any>();
+  const [profile, setProfile] = useState<IProfile>();
   const {data, loading, error} = useFetch({
     url: `${BACKEND_URL}/profile`,
     cache: false
   });
 
   useEffect(() => {
-    if (!data || profile) {
+    if (!data) {
       return;
     }
     console.log('reset')
-    setProfile(data);
+    console.log("data", data)
+    setProfile(data as IProfile);
   }, [data]);
 
   return {
