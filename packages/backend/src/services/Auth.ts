@@ -7,7 +7,7 @@ import {InjectRedisClient} from 'nestjs-ioredis-tags';
 import type {Redis} from 'ioredis';
 import md5 from 'md5';
 import type {ExpressAdapter} from '@nestjs/platform-express';
-import {isEmail} from 'class-validator';
+import {IS_UUID, isEmail} from 'class-validator';
 import {
   randstr as randomStringGenerator
 } from 'better-randstr';
@@ -18,6 +18,9 @@ import {UserEntity, UserEntityDefaultSelect} from '../entities/User/index.js';
 import {SmtpService} from './Smtp.js';
 import {Types} from 'mongoose';
 import { CrmService } from '../services/crm.service';
+import { v4 as uuidv4 } from 'uuid';
+import { MailerService } from '~/mailer/mailer.service.js';
+import { NotFoundException } from '@nestjs/common';
 
 @Injectable({scope: Scope.REQUEST})
 export class AuthService {
@@ -27,7 +30,8 @@ export class AuthService {
     @InjectModel(UserEntity) private readonly repoUser: ReturnModelType<typeof UserEntity>,
     @Inject(SmtpService) private readonly smtp: SmtpService,
     @InjectRedisClient('rifify.ru') private readonly redisClient: Redis,
-    private readonly crmService: CrmService
+    private readonly crmService: CrmService,
+    private readonly mailerService: MailerService
   ) {
   }
 
@@ -70,24 +74,6 @@ export class AuthService {
   }
 
   async signUpByEmail(args: AuthSignUpDto, ipRegLimit = true): Promise<UserEntity> {
-    const keys = [
-      'firstName',
-      'lastName',
-      // 'username',
-      'email',
-      'password',
-      'phone',
-      'consent'
-    ];
-    const data = Object.fromEntries(Object.entries(args).filter(([_, __]) => {
-      switch (_) {
-        case 'email':
-        case 'phone':
-          return Boolean(__);
-        default:
-          return keys.includes(_);
-      }
-    }));
     const ipReg = `ip.reg:${this.request.ip}`;
     const counter = await this.redisClient.get(ipReg);
     if (ipRegLimit) {
@@ -98,15 +84,27 @@ export class AuthService {
         }, HttpStatus.TOO_MANY_REQUESTS);
       }
     }
+
+    const { name, email, password, consent } = args;
+    const hashPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
+    const activationLink = uuidv4();
+
     const user = await this.createUserByEmail({
-      ...data,
-      consent: true
+      name, email, password: hashPassword, consent, activationLink
     });
+
+    await this.mailerService.sendMail({
+      recipients: [email],
+      subject: 'Подтвердите свою почту и начните использовать Rifify',
+      html: this.createConfirmEmailText(`http://localhost:2050/api/rest/auth/activate/${activationLink}`),
+    })
+
     this.request.session.user = {
       id: user._id,
       language: user.language,
       roles: user.roles
     };
+
     if (ipRegLimit) {
       await this.redisClient.set(
         ipReg,
@@ -178,25 +176,12 @@ export class AuthService {
   }
 
   private async createUserByEmail(args): Promise<UserEntity & { id?: string; _id?: Types.ObjectId }> {
-    args.password = await bcrypt.hash(args.password, BCRYPT_SALT_ROUNDS);
+    
     try {
       // return await this.repoUser.create(args);
-
+      
       const user = await this.repoUser.create(args);
-
-      const crmUserData = {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        phone: user.phone,
-      };
-      try {
-        await this.crmService.createUserInCrm(crmUserData);
-      } catch (crmError) {
-        console.error('Failed to create user in CRM:', crmError.message);
-
-      }
-
+      
       return user;
 
 
@@ -259,5 +244,25 @@ export class AuthService {
       }, HttpStatus.UNAUTHORIZED);
     }
     return true;
+  }
+
+  async activateAccount(link: string) {
+    const user = await this.repoUser
+      .findOne({ activationLink: link } );
+
+    if (!user) {
+      throw new NotFoundException('Activation link is invalid or user not found.');
+    }
+
+    user.emailVerified = true;
+
+    await user.save();
+  }
+
+  private createConfirmEmailText(link: string) {
+    return `<p>Добрый день.</p>
+      <p>Для подтверждения аккаунта Rifify перейдите по ссылке: </p>
+      <a href=${link}>${link}</a>
+    `
   }
 }

@@ -6,7 +6,7 @@ import * as modules                                                 from './modu
 import {RedisModule}                                                from 'nestjs-ioredis-tags';
 import {ScheduleModule}                                             from '@nestjs/schedule';
 import { MailchimpModule } from '@mindik/mailchimp-nestjs';
-
+import { MailerModule } from './mailer/mailer.module.js';
 
 @Module({
   imports:[
@@ -21,7 +21,7 @@ import { MailchimpModule } from '@mindik/mailchimp-nestjs';
       }
     ]),
     ScheduleModule.forRoot(),
-    ...Object.values(modules)
+    ...Object.values(modules),
   ],
 
 })

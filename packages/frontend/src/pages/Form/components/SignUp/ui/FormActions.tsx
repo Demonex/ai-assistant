@@ -20,7 +20,7 @@ export const FormActions = (props: FormActionsProps) => {
             <button
                 className="flex w-full justify-center rounded-xl bg-primary_blue px-3 py-3.5 text-caption_m_desk text-white hover:scale-105 transition duration-300"
             >
-                Войти
+                Создать
             </button>
         </div>
 	);

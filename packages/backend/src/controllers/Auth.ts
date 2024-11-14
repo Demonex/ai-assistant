@@ -7,7 +7,8 @@ import {
   Param,
   Post,
   Redirect,
-  Request
+  Request,
+  Res
 } from '@nestjs/common';
 import {AuthRecoverDto, AuthSignInDto, AuthSignUpDto, PayloadSignInDto} from '../dto/Auth.js';
 import {AuthService} from '../services/Auth.js';
@@ -18,7 +19,6 @@ import {ApiBearerAuth, ApiExcludeEndpoint, ApiOperation, ApiResponse, ApiTags} f
 import type {RedirectResponse} from '@nestjs/core/router/router-response-controller.js';
 import {validateDto} from '../middlewares/validateDto.js';
 import {Types} from "mongoose";
-import * as process from 'process';
 
 @ApiTags('auth')
 @Controller('/api')
@@ -105,6 +105,12 @@ export class AuthController {
     await validateDto(AuthSignUpDto, args, request);
     const profile = await this.service.signUpByEmail(args, false);
     return profile;
+  }
+
+  @Get('/rest/auth/activate/:link')
+  async activate(@Param('link') link: string, @Res() res) {
+    await this.service.activateAccount(link);
+    return res.redirect(import.meta.env.VITE_FRONTEND_URL);
   }
 
   @Unauthorized()

@@ -5,9 +5,10 @@ import {UserEntities, UserEntity} from '../entities/User/index.js';
 import {AuthController} from '../controllers/Auth.js';
 import {SmtpService}         from '../services/Smtp.js';
 import { CrmService } from '../services/crm.service';  
+import { MailerModule } from '~/mailer/mailer.module.js';
 
 @Module({
-  imports:[TypegooseModule.forFeature([...UserEntities])],
+  imports:[TypegooseModule.forFeature([...UserEntities]), MailerModule],
   providers:[AuthService,SmtpService, CrmService],
   exports:[AuthService],
   controllers:[AuthController]

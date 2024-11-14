@@ -1,6 +1,7 @@
 import {defineConfig} from 'vite';
 import {VitePluginNode} from 'vite-plugin-node';
 import dirname from 'es-dirname';
+import path from 'path';
 
 const __dirname = dirname();
 
@@ -22,8 +23,12 @@ export default defineConfig({
     alias: [
       {
         find: /@stigma-io\/payload\/dist/,
-        replacement: `${process.cwd()}/node_modules/@stigma-io/payload/src`
-      }
+        replacement: `${process.cwd()}/node_modules/@stigma-io/payload/src`,
+      },
+      {
+        find: '~',
+        replacement: path.resolve(__dirname, 'src'),
+      },
     ]
   },
   optimizeDeps: {

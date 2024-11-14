@@ -43,7 +43,7 @@ export const SignUpPage = () => {
             name,
             email,
             password,
-            concent: policyAccepted
+            consent: policyAccepted
         }
 
         fetchSignUp({data: dto}).catch(console.error);

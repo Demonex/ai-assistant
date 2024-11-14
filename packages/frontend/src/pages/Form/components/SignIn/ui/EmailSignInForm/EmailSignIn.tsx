@@ -62,6 +62,7 @@ export const EmailSignIn = () => {
         if (!data) {
             return;
         }
+
         setProfile(data);
         navigate('/account');
     }, [data, setProfile]);

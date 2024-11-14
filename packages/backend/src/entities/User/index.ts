@@ -146,6 +146,9 @@ export class UserEntity extends _BaseEntity {
   @prop()
   name?: string;
 
+  @prop()
+  activationLink?: string;
+
   @prop({
     default: ['user'],
     type: [String],
