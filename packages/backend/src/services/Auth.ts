@@ -176,12 +176,12 @@ export class AuthService {
   }
 
   private async createUserByEmail(args): Promise<UserEntity & { id?: string; _id?: Types.ObjectId }> {
-    
+
     try {
       // return await this.repoUser.create(args);
-      
+
       const user = await this.repoUser.create(args);
-      
+
       return user;
 
 

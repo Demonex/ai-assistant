@@ -44,18 +44,18 @@ services:
       net.core.somaxconn: 65535
     command: "/bin/sh -c redis-server & echo 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' > /etc/rc.local"
 
-  minio:
-    image: minio/minio
-    ports:
-      - "8090:8080"
-      - "9090:9000"
-    volumes:
-      - media:/data
-    environment:
-      MINIO_ROOT_USER: 8VUKTW1WH9ER56OTO9Y
-      MINIO_ROOT_PASSWORD: LRHKD9EUJ9WQMRHYILNKRJN8O8W
+  # minio:
+  #   image: minio/minio
+  #   ports:
+  #     - "8090:8080"
+  #     - "9090:9000"
+  #   volumes:
+  #     - media:/data
+  #   environment:
+  #     MINIO_ROOT_USER: 8VUKTW1WH9ER56OTO9Y
+  #     MINIO_ROOT_PASSWORD: LRHKD9EUJ9WQMRHYILNKRJN8O8W
 
-    command: server --address ":8080" --console-address ":9000" /data
+  #   command: server --address ":8080" --console-address ":9000" /data
 
 networks:
   default:
