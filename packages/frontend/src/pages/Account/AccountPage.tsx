@@ -4,6 +4,7 @@ import {useLazyFetch} from '../../hooks/useFetch.js';
 import {AccountSettings} from './components/Account/AccountSettings.js';
 import {Subscriptions} from './components/Account/Subscriptions.js';
 import {BACKEND_URL} from '../../constants/index.js';
+import {useAccount} from '../../components/Header/hooks/useAccount.js';
 import SecondaryButton from '../../components/SecondaryButton.js';
 import {SignOutIcon} from '../../assets/SignOutIcon.js';
 import SecondaryCloseIcon from "../../assets/SecondaryCloseIcon.js";
@@ -14,24 +15,14 @@ import Team from "./components/Account/Team.js";
 import ManageNotifications from "./components/Account/ManageNotifications.js";
 import {accountTabs} from "./consts.js";
 import PopupDeleteAccount from "./components/Account/PopupDeleteAccount.js";
-import { useAccount } from '@/components/Header/hooks/useAccount.js';
+import {useAccountSettings} from "./components/hooks/useAccountSettings.js";
 
 export const AccountPage = () => {
   const [location, navigate] = useLocation()
   const {profile} = useAccount();
   const isAuthorized = profile;
 
-  const [{data: signOut}, fetchSignOut] = useLazyFetch({
-    url: `${BACKEND_URL}/auth/sign-out`,
-    method: 'post',
-  });
-
-  const onSubmitSignOut = async () => {
-    await fetchSignOut();
-    clear();
-    navigate('/auth/sign-in');
-  }
-
+  const {onSubmitSignOut} = useAccountSettings();
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   return !isAuthorized ? null : (
@@ -61,7 +52,7 @@ export const AccountPage = () => {
           </Tab.List>
           <Tab.Panels className="w-full flex justify-center">
             <Tab.Panel className="w-full">
-              <AccountSettings />
+              <AccountSettings/>
             </Tab.Panel>
             <Tab.Panel className="w-full">
               <PaymentInfo/>

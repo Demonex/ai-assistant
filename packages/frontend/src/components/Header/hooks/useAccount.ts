@@ -22,10 +22,9 @@ const _useAccount = (): {
     if (!data) {
       return;
     }
-    console.log('reset')
-    console.log("data", data)
     setProfile(data as IProfile);
   }, [data]);
+
 
   return {
     profile,

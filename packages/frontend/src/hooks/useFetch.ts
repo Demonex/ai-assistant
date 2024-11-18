@@ -111,7 +111,6 @@ export const _useLazyFetch = <T = any>(
   return [
     state,
     async (lazyProps: ApiAction<T> = {}) => {
-      // console.log('a', lazyProps, state);
       const {onFailure, onSuccess, ...props} = {...defaultProps, ...lazyProps};
       if(unmount) {
         return;
@@ -122,7 +121,6 @@ export const _useLazyFetch = <T = any>(
         if(unmount) {
           return;
         }
-        // console.log('b', response.data, state);
         dispatch({data: response.data});
         if(onSuccess) onSuccess(response);
         return response;

@@ -7,16 +7,11 @@ import React, {memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, u
 import get from 'lodash.get';
 import set from 'lodash.set';
 import sample from 'lodash.sample';
-import {Switch} from '@headlessui/react';
 import {useArtistAudienceMap} from '../../../hooks/useArtistAudienceMap.js';
 import {findClosest} from '../../../../../utils/findClosest.js';
 import './styles.css';
 import {useSizes} from '../../../../../hooks/useSizes.js';
-import MapIcon from "../../../../../assets/MapIcon.js";
-import GlobeIcon from "../../../../../assets/GlobeIcon.js";
-import InfoIcon from "../../../../../assets/InfoIcon.js";
 import {CountriesTable} from "./CountriesTable.js";
-import {useArtistAudienceSummery} from "../../../hooks/useArtistAudienceSummery.js";
 import LockIcon from "../../../../../assets/LockIcon.js";
 import SecondaryButton from "../../../../../components/SecondaryButton.js";
 import {useSubscriptions} from "../../../../../hooks/useSubscriptions.js";
@@ -323,6 +318,10 @@ export default memo(() => {
       latitude: 45
     };
 
+    //not drugguble if not subscribed
+   /* mapChartRef.current.seriesContainer.draggable = isSubscribed;
+    mapChartRef.current.seriesContainer.resizable = isSubscribed;*/
+
     // clicking on a "sea" will also result a full zoom-out
     mapChartRef.current.seriesContainer.background.events.on('hit', showWorld);
     mapChartRef.current.seriesContainer.background.events.on('over', resetHover);
@@ -406,7 +405,6 @@ export default memo(() => {
     bubbleSeriesRef.current.tooltip.background.cornerRadius = 5;
     bubbleSeriesRef.current.tooltip.fontFamily = '\'Geist\', sans-serif';
     bubbleSeriesRef.current.tooltip.fontSize = 12;
-
     bubbleSeriesRef.current.hiddenState.properties.scale = 1;
     bubbleSeriesRef.current.hiddenState.transitionDuration = 2000;
     bubbleSeriesRef.current.defaultState.transitionDuration = 2000;
@@ -498,46 +496,55 @@ export default memo(() => {
       return longitude;
     });
 
-  }, [mapType, isMobile, isTablet, isLaptop]);
+  }, [mapType, isMobile, isTablet, isLaptop, isSubscribed]);
 
   const enabled = mapType === MAP_TYPE.globe;
   return (
     <div className=' overflow-hidden overflow-y-scroll relative' style={{
       maxHeight: `${mapHeight}px`
     }}>
-      <div className='absolute w-full z-50 px-0 md:px-8 -top-6 md:top-6'>
-        <div
-          className="w-full flex flex-col justify-center items-center gap-6 py-6 px-4 lg:p-8 mt-6  md:py-6 md:my-6 rounded-xl border border-secondary_dark_gray backdrop-blur-md bg-[#0C0C0C80]">
-          <div className=" flex flex-col justify-center items-center gap-4">
-            <div className='flex flex-col md:flex-row items-center gap-4'>
-              <LockIcon className='stroke-yellow min-w-8'/>
-              <h1 className="text-t1Mobile md:text-t1Regular text-light_grey">Просмотр аудитории ограничен</h1>
-            </div>
-            {
-              !profile
-                ? <p className="text-t2Regular text-medium_grey text-center">Войдите или зарегистрируйтесь, чтобы получить
-                  доступ к подписке.</p>
-                :  !isSubscribed && (
-                <p className="text-t2Regular text-medium_grey text-center">Подпишись на артиста, чтобы получить всю
-                  информацию об аудитории!</p>
-              )
 
-            }
-          </div>
-          {
-            !profile
-              ? <SecondaryButton title='Войти' className='border-none bg-primary_blue text-white w-full md:w-fit'/>
-              : !isSubscribed
-                ? <SecondaryButton
-                  title={`Подпишись
+      {
+        !isSubscribed && (
+
+            <div
+              className={`absolute w-full z-50 px-0 md:px-8 -top-6  ${mapType === 'table' ? 'md:top-20' : 'md:top-6'}`}>
+              <div
+                className="w-full flex flex-col justify-center items-center gap-6 py-6 px-4 lg:p-8 mt-6  md:py-6 md:my-6 rounded-xl border border-secondary_dark_gray backdrop-blur-md bg-[#0C0C0C80]">
+                <div className=" flex flex-col justify-center items-center gap-4">
+                  <div className='flex flex-col md:flex-row items-center gap-4'>
+                    <LockIcon className='stroke-yellow min-w-8'/>
+                    <h1 className="text-t1Mobile md:text-t1Regular text-light_grey">Просмотр аудитории ограничен</h1>
+                  </div>
+                  {
+                    !profile
+                      ?
+                      <p className="text-t2Regular text-medium_grey text-center">Войдите или зарегистрируйтесь, чтобы
+                        получить
+                        доступ к подписке.</p>
+                      : !isSubscribed && (
+                      <p className="text-t2Regular text-medium_grey text-center">Подпишись на артиста, чтобы получить всю
+                        информацию об аудитории!</p>
+                    )
+
+                  }
+                </div>
+                {
+                  !profile
+                    ? <SecondaryButton title='Войти' className='border-none bg-primary_blue text-white w-full md:w-fit'/>
+                    : !isSubscribed
+                      ? <SecondaryButton
+                        title={`Подпишись
                               на ${artistProfile?.account.name}`}
-                  className='border-none bg-primary_blue text-white w-full md:w-fit  '/>
-                : null
-          }
+                        className='border-none bg-primary_blue text-white w-full md:w-fit  '/>
+                      : null
+                }
 
-        </div>
-      </div>
-      <div className={`flex w-full h-full flex-col relative lg:bg-popup_gray/50`}>
+              </div>
+            </div>
+        )
+      }
+      <div className={`flex w-full h-full flex-col relative lg:bg-popup_gray/50 min-h-[25rem]`}>
         {
           mapType === 'map'
             ? <div className={`map-container w-full h-full  `} ref={mapRef} style={{

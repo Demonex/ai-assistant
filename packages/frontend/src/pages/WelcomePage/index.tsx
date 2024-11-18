@@ -22,6 +22,7 @@ import BottomBeforeFooter from "./components/BottomBeforeFooter.js";
 import upButton from '/assets/svg/UpButton.svg'
 import {useEffect, useState} from "react";
 import Cookie from "./components/Cookie/index.js";
+import SubscriptionBlock from "./components/Tariffes.js";
 
 export const WelcomePage = () => {
     const [visible, setVisible] = useState(false)
@@ -76,7 +77,7 @@ export const WelcomePage = () => {
                 <Socials/>
                 <Playlists/>
                 <Geography/>
-                <Tariffes/>
+                <SubscriptionBlock/>
                 <LilacCTA/>
                 <FAQ/>
                 <Telegram/>

@@ -58,7 +58,6 @@ const _useSubscriptions = () => {
     return !!subscriptions?.find(({artists}) => artists.includes(artistId));
   }, [subscriptions, artistId]);
 
-  console.log('isSubscribed',isSubscribed)
   return {
     // subscribe,
     // unsubscribe,

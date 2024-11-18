@@ -36,7 +36,7 @@ const NewsList = memo(() => {
     const [post,...news] = docs;
     return (
         <div className='py-5'>
-            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-rows-6 gap-5 lg:gap-10">
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-10">
                 {
                     news.map((item, i) => (
                         <Link to={`media/${post?.id}`} key={i}>

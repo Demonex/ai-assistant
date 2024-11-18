@@ -36,7 +36,6 @@ const _useTrack = ({trackId}: { trackId?: string }): UseTrackReturn => {
   }, [trackId]);
   useEffect(() => {
     const artistIds = trackData?.trackInfo?.artistLinks?.map((artist => artist?.idUnique));
-    console.log('artistIds', artistIds, idArtist);
     if (
       !trackData?.trackInfo?.entityIdUnique
       || !artistIds?.length
@@ -45,7 +44,6 @@ const _useTrack = ({trackId}: { trackId?: string }): UseTrackReturn => {
     }
     setIdFromTrack(trackData.trackInfo.entityIdUnique);
   }, [trackData?.trackInfo?.entityIdUnique, idArtist]);
-
   return {
     idTrack,
     trackData,

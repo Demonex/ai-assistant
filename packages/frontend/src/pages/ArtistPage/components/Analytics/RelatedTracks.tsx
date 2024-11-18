@@ -6,6 +6,7 @@ import {socials} from "../../../../data/consts/socials.js";
 import {Link} from "wouter";
 import {useArtist} from "../../hooks/useArtist.js";
 import InfoIcon from "../../../../assets/InfoIcon.js";
+import {useSizes} from "../../../../hooks/useSizes.js";
 
 const SkeletonRelatedTracks = () => {
   return (
@@ -48,11 +49,13 @@ export const RelatedTracks = memo(() => {
   const {data: trackData, loading: apiTrackDataLoading} = useArtistTrack();
   const getLogo = socials.filter((item, _) => {
     const getSource = trackData?.sourceId;
-    return  item.slug === getSource;
+    return item.slug === getSource;
   });
   const {source} = useArtist();
+  const {width} = useSizes();
   return (
-    <div className="lg:bg-popup_gray/50 rounded-[20px] lg:py-8  lg:px-7 w-full  h-fit  lg:max-w-[38.25rem] 4xl:max-w-[unset]">
+    <div
+      className={`lg:bg-popup_gray/50 rounded-[20px] lg:py-8  lg:px-7  h-fit ${trackData?.trackData?.listData?.length > 2 ? 'w-full' : width > 1680 && width < 1980 ? 'w-full max-w-[38.25rem]' : 'w-full'} `}>
       {
         apiTrackDataLoading === true
           ? <SkeletonRelatedTracks/>
@@ -64,9 +67,9 @@ export const RelatedTracks = memo(() => {
                     className="text-btnText text-light_grey">{relatedTracksItem.headerText}</p>
                   <InfoIcon className='fill-light_grey hover:fill-medium_grey'/>
                 </div>
-                <ul className="w-full  h-full grid gap-4 grid-cols-3 4xl:grid-cols-auto-fit-172">
+                <ul className={`w-full  h-full  gap-4  flex flex-wrap`}>
                   {
-                    relatedTracksItem.relatedTracks?.filter((_, index) => index < 9).map((track, index) => (
+                    relatedTracksItem.relatedTracks?.filter((_, index) => index < 12).map((track, index) => (
                       <div key={index}>
                         <li
                           className="group "

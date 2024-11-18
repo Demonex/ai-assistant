@@ -13,7 +13,6 @@ const PopupDeleteAccount = () => {
   const [location, navigate] = useLocation();
   const {openPopupDeleteAccount, setOpenPopupDeleteAccount} = useAccountSettings();
   const {profile} = useAccount();
-  console.log('openPopupDeleteAccount,', openPopupDeleteAccount);
   const [accountDeleted, setAccountDeleted] = useState(false);
   const [{data: deleteProfile}, fetchDelete] = useLazyFetch({
     url: `${BACKEND_URL}/profile/delete`,

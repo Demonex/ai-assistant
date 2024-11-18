@@ -1,7 +1,7 @@
 
-export const SettingsIcon = ({className}) => {
+export const SettingsIcon = ({className,...props}) => {
   return (
-    <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} {...props}>
       <g clipPath="url(#clip0_2774_46310)">
         <path
           d="M10.0008 13.2008C11.492 13.2008 12.7008 11.992 12.7008 10.5008C12.7008 9.00961 11.492 7.80078 10.0008 7.80078C8.50961 7.80078 7.30078 9.00961 7.30078 10.5008C7.30078 11.992 8.50961 13.2008 10.0008 13.2008Z"

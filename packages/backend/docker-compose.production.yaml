@@ -97,3 +97,4 @@ volumes:
     name: "rifify_mongo-db-config"
   redis:
     name: "rifify_redis"
+

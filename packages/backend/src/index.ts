@@ -17,7 +17,7 @@ Logger.useLogger(
     level: import.meta.env.VITE_LOGGER_LEVEL ? Number(import.meta.env.VITE_LOGGER_LEVEL) : LogLevel.Info
   })
 );
-Logger.info(`Bootstrapping rifify.ru (pid: ${process.pid}) 🚀`);
+Logger.info(`Bootstrapping rifify.me (pid: ${process.pid}) 🚀`);
 DefaultLogger.hideNestBootstrapLogs();
 const expressApp: Express = express();
 const adapter = new ExpressAdapter(expressApp);
@@ -41,9 +41,9 @@ app.useGlobalPipes(new ValidationPipe({
   }
 }));
 SwaggerModule.setup('/api/playground/rest', app, SwaggerModule.createDocument(app, new DocumentBuilder()
-  .setTitle('rifify.ru API')
+  .setTitle('rifify.me API')
   .setDescription(
-    `Backend API for <a href="https://backend.rifify.ru" target="_blank">https://backend.musicstats.ru</a>`
+    `Backend API for <a href="https://backend.rifify.me" target="_blank">https://backend.musicstats.ru</a>`
   )
   .addBearerAuth({
     type: 'http',

@@ -28,8 +28,7 @@ type TabsZoomProps = {
   zoom: Zoom
   setZoom: React.Dispatch<React.SetStateAction<Zoom>>
   currentDataFiltered: any
-  popupChart: boolean
-  setPopupChart: () => void
+  refTabs: { current: any[] }
 }
 
 enum Zoom {
@@ -55,8 +54,7 @@ const TabsZoom = forwardRef<HTMLImageElement, TabsZoomProps>(({
                                                                 zoom,
                                                                 setZoom,
                                                                 currentDataFiltered,
-                                                                popupChart,
-                                                                setPopupChart,
+                                                                refTabs
                                                               }, refSettings) => {
   const {source} = useArtist();
   const tabsParentRef = useRef<HTMLDivElement>(null);
@@ -72,7 +70,8 @@ const TabsZoom = forwardRef<HTMLImageElement, TabsZoomProps>(({
   const handleClickOnTab = (value, index) => {
     if (tabMarkerRef) {
       setZoom(value);
-      setSelectedTab(index)
+      setSelectedTab(index);
+      setOpenZoom(!openZoom);
     }
     return
   }
@@ -123,38 +122,38 @@ const TabsZoom = forwardRef<HTMLImageElement, TabsZoomProps>(({
         width > 1680 || width < 1023
           ?
           <>
-          <div className="flex w-full lg:justify-end items-center select-none gap-8">
-            <div
-              className="relative flex gap-2 h-8 overflow-x-auto"
-              ref={tabsParentRef}>
-              {
-                Object.values(Zoom).map((value, index) => (
-                  <button
-                    key={index}
-                    onClick={() => {
-                      handleClickOnTab(value, index)
-                    }}
-                    className={`relative z-20 items-center gap-2 w-auto h-8 text-sm px-6 py-2 text-caption_m_desk cursor-pointer transition-all whitespace-nowrap border border-solid border-secondary_dark_gray rounded-[30px] ${index === selectedTab ? 'bg-yellow text-[black]' : ''}`}
-                    type="button">
-                    {value}
-                  </button>
-                ))
-              }
-
-              {/*<div
-                        className={`absolute left-0 w-0 z-10 h-full duration-300 ease-out ${activateAnimation ? 'duration-300' : 'duration-0'}`}
-                        ref={tabMarkerRef}>
-                        <div className="w-full h-full rounded-lg bg-vulcan-900 border-2 border-indigo-500 mt-[2px]"/>
-                    </div>*/}
+            <div className="flex w-full lg:justify-end items-center select-none gap-8">
+              <div
+                className="relative flex gap-2 h-8 overflow-x-auto"
+                ref={tabsParentRef}>
+                {
+                  Object.values(Zoom).map((value, index) => (
+                    <button
+                      ref={ref => {
+                        if (refTabs.current.includes(ref)) {
+                          return;
+                        }
+                        refTabs.current.push(ref)
+                      }}
+                      key={index}
+                      onClick={(e) => {
+                        handleClickOnTab(value, index)
+                      }}
+                      className={`relative z-20 items-center gap-2 w-auto h-8  px-6 py-2 text-caption_m_desk cursor-pointer transition-all whitespace-nowrap border border-solid border-secondary_dark_gray rounded-[30px] hover:border-yellow  ${index === selectedTab ? 'bg-yellow text-black  ' : 'text-medium_grey hover:text-white'}`}
+                      type="button">
+                      {value}
+                    </button>
+                  ))
+                }
+              </div>
             </div>
-          </div>
             <ShowOnMobileOnly>
               <p className='text-caption_s_desk text-medium_grey'>Нажмите на график, чтобы увидеть значения</p>
             </ShowOnMobileOnly>
           </>
           : (
             <div className='w-full flex justify-end relative'>
-              <img className='fill-white w-7 h-7' src={settings} ref={refSettings}
+              <img className='fill-white w-7 h-7 cursor-pointer' src={settings} ref={refSettings}
                    onClick={() => setOpenZoom(!openZoom)}/>
               {
                 openZoom && (
@@ -165,10 +164,17 @@ const TabsZoom = forwardRef<HTMLImageElement, TabsZoomProps>(({
                       {
                         Object.values(Zoom).map((value, index) => (
                           <button
+                            ref={ref => {
+                              if (refTabs.current.includes(ref)) {
+                                return;
+                              }
+                              refTabs.current.push(ref)
+                            }}
                             key={index}
                             onClick={() => {
                               setZoom(value);
                               setSelectedTab(index)
+                              setOpenZoom(!openZoom)
                             }}
                             className={`relative z-20 items-center gap-2 w-auto h-8 text-sm px-6 py-2 text-caption_m_desk cursor-pointer transition-all whitespace-nowrap border border-solid border-secondary_dark_gray rounded-[30px] ${index === selectedTab ? 'bg-yellow text-[black]' : ''}`}
                             type="button">
@@ -218,11 +224,12 @@ const CustomTooltip = memo<CustomTooltipProps<number, string>>(({
 export const Chart = forwardRef<any, any>(({setPopupChart, popupChart}, ref) => {
   const {data: chartData} = useArtistChart();
   const refSettings = useRef<HTMLImageElement>(null);
+  const refTabs = useRef<any[]>([]);
   const {isMobile, width} = useSizes();
   const areachartWidth = width - 32
 
   const currentDataFiltered = chartData?.chart?.iconData?.filter((item, index) => (
-    item.secondaryText === 'current' && index < 2
+    (item.secondaryText === 'current' || item.secondaryText === 'total') && index < 2
   ));
   const chartDataGraph: DataType = useMemo(() => {
     const seriesData = get(chartData, 'chart.seriesData', []);
@@ -240,10 +247,16 @@ export const Chart = forwardRef<any, any>(({setPopupChart, popupChart}, ref) => 
         });
       });
       return index === array.length - 1 ? Object.entries<any>(prev).reduce<any>((prev, [time, object = {}]) => {
+        const emptyData = Object.fromEntries(seriesData?.filter(({data}) => data.length)
+          .map(({name}) => name)
+          .filter(name => !(Object.keys(object).includes(name)))
+          .map((name) => [name, 0]) || []
+        )
         return [
           ...prev,
           {
             time: Number(time),
+            ...emptyData,
             ...object
           }
         ];
@@ -277,7 +290,7 @@ export const Chart = forwardRef<any, any>(({setPopupChart, popupChart}, ref) => 
   }, [zoom, chartDataGraph]);
 
   const endDate = useMemo(() => {
-    return DateTime.fromMillis(get(chartDataGraph?.at(-1), 'time', Date.now())).toMillis();
+    return DateTime.fromMillis(get(chartDataGraph?.at?.(-1), 'time', Date.now())).toMillis();
   }, [chartDataGraph]);
 
   const dateFormatter = useCallback((timestamp: any) => {
@@ -303,9 +316,9 @@ export const Chart = forwardRef<any, any>(({setPopupChart, popupChart}, ref) => 
     ];
   }, []);
 
-  const fillTicksData = useCallback((ticks: number[], data: DataType) => {
+  const fillTicksData = useCallback((ticks: number[], data: DataType = []) => {
     const minTick = Math.min(...ticks);
-    return data.filter((item) => {
+    return data.filter?.((item) => {
       return item.time >= minTick;
     });
   }, []);
@@ -336,12 +349,15 @@ export const Chart = forwardRef<any, any>(({setPopupChart, popupChart}, ref) => 
   return (
     <div ref={ref}
          onClick={(e) => {
-           if (e.target === refSettings.current) {
+           if (
+             e.target === refSettings.current
+             || refTabs.current?.includes(e.target)
+           ) {
              return
            }
            setPopupChart?.(true)
          }}
-         className={`relative flex flex-col text-xs gap-4 md:gap-5 py-4 lg:px-8 lg:py-8 rounded-[20px] w-full  h-fit ${popupChart ? 'lg:bg-popup_gray' : 'lg:bg-popup_gray/50 '}`}>
+         className={`relative flex  h-fit xl:min-h-full flex-col text-xs gap-4 md:gap-5 py-4 lg:px-8 lg:py-8 rounded-[20px] w-full  ${popupChart ? 'lg:bg-popup_gray' : 'lg:bg-popup_gray/50 '}`}>
       <>
         <div className="flex flex-col lg:flex-row gap-4">
           {
@@ -349,9 +365,8 @@ export const Chart = forwardRef<any, any>(({setPopupChart, popupChart}, ref) => 
               zoom={zoom}
               setZoom={setZoom}
               currentDataFiltered={currentDataFiltered}
-              setPopupChart={setPopupChart}
-              popupChart={popupChart}
               ref={refSettings}
+              refTabs={refTabs}
             />
           }
         </div>
@@ -408,57 +423,55 @@ export const Chart = forwardRef<any, any>(({setPopupChart, popupChart}, ref) => 
             {
               keys.map((key, index) => {
                 return (
-                  <YAxis
-                    yAxisId={key}
-                    key={index}
-                    dataKey={key}
-                    type="number"
-                    domain={domainY}
-                    stroke="#7B7B7B"
-                    orientation={index === 0 ? 'left' : 'right'}
-                    axisLine={false}
-                    tickLine={false}
-                    tick={!isMobile}
-                    label={
-                      /* <Label className='text-caption_r_desk uppercase absolute'>{key}</Label>*/
-                      !isMobile && (
-                        {
-                          value: key,
-                          angle: index === 0 ? -90 : 90,
-                          position: index === 0 ? 'insideLeft' : 'insideRight',
-                          fill: '#7B7B7B',
-                          offset: index === 0 ? -10 : -10,
-                          style: {
-                            fontSize: 16,
-                            lineHeight: 24,
-                            fontWeight: 400,
+                  <React.Fragment key={index}>
+                    <YAxis
+                      yAxisId={key}
+                      key={index}
+                      dataKey={key}
+                      type="number"
+                      domain={domainY}
+                      stroke="#7B7B7B"
+                      orientation={index === 0 ? 'left' : 'right'}
+                      axisLine={false}
+                      tickLine={false}
+                      tick={!isMobile}
+                      label={
+                        /* <Label className='text-caption_r_desk uppercase absolute'>{key}</Label>*/
+                        !isMobile && (
+                          {
+                            value: key,
+                            angle: index === 0 ? -90 : 90,
+                            position: index === 0 ? 'insideLeft' : 'insideRight',
+                            fill: '#7B7B7B',
+                            offset: index === 0 ? -10 : -10,
+                            style: {
+                              fontSize: 16,
+                              lineHeight: 24,
+                              fontWeight: 400,
+                            }
                           }
-                        }
-                      )
-                    }
-                    dx={index === 0 ? -10 : 10}
-                    tickFormatter={tickYFormatter}
-                  />
+                        )
+                      }
+                      dx={index === 0 ? -10 : 10}
+                      tickFormatter={tickYFormatter}
+                    />
+                    <Area
+                      key={index}
+                      type="monotone"
+                      dataKey={key}
+                      stroke={`url(#Color${index}Stroke)`}
+                      strokeLinejoin="round"
+                      strokeLinecap="round"
+                      strokeWidth={2}
+                      strokeOpacity={1}
+                      fillOpacity={1}
+                      fill={`url(#Color${index})`}
+                      dot={false}
+                      yAxisId={key}
+                    />
+                  </React.Fragment>
                 );
               })
-            }
-            {
-              keys.map((key, index) => (
-                <Area
-                  key={index}
-                  type="monotone"
-                  dataKey={key}
-                  stroke={`url(#Color${index}Stroke)`}
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  strokeWidth={2}
-                  strokeOpacity={1}
-                  fillOpacity={1}
-                  fill={`url(#Color${index})`}
-                  dot={false}
-                  yAxisId={key}
-                />
-              ))
             }
             <Tooltip content={<CustomTooltip/>}/>
           </AreaChart>

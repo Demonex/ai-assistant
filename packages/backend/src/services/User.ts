@@ -17,7 +17,7 @@ export class UserService {
   constructor(
     @Inject(REQUEST) private readonly request: any,
     @InjectModel(UserEntity) private readonly repo: ReturnModelType<typeof UserEntity>,
-    @InjectRedisClient('rifify.ru') private readonly redisClient: Redis
+    @InjectRedisClient('rifify.me') private readonly redisClient: Redis
   ) {
   }
 

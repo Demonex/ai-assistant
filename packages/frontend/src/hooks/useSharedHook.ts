@@ -10,13 +10,10 @@ const useSharedHook = <T>(hook: Function, ...defaults: unknown[]) => {
   }
   const map = get(useSharedHook, 0);
   if (!map.has(hook)) {
-    // console.log('!exist', ...defaults);
     map.set(hook, defaults.length ? () => hook(...defaults) : hook);
   } else {
-    // console.log('exist');
   }
   const hookWithDefaults = map.get(hook);
-  // console.log('hookWithDefaults', hookWithDefaults);
   return useBetween<T>(hookWithDefaults);
 };
 

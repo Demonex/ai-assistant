@@ -34,7 +34,6 @@ const CountryDataPopup = memo(() => {
   const {elementRange} = useSizes(1024, 1920);
   const {isMobile, isTablet} = useSizes();
   const minWidthContainer = elementRange(50, 76.9)
-  console.log('dataPopup', dataPopup)
   return (
     <Transition appear show={openModal} as={Fragment}>
       <Dialog as="div" className="fixed inset-0 z-40 overflow-y-auto" onClose={() => setOpenModal(false)}>

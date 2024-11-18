@@ -17,14 +17,11 @@ import PrimaryButton from "../../../../components/PrimaryButton.js";
 import {ShowOnLaptopToDesktop} from "../../../../components/SowOnLaptopToDeckTop/index.js";
 import {ShowOnMobileToTablet} from "../../../../components/showFromMobileToTablet/index.js";
 import {useManageTable} from "./hooks/useManageTable.js";
-import {useElementRangeSize} from "../../../../hooks/useElementRangeSize.js";
 import GlobeIcon from "../../../../assets/GlobeIcon.js";
 import MapIcon from "../../../../assets/MapIcon.js";
 import InfoIcon from "../../../../assets/InfoIcon.js";
 import {useAccount} from "../../../../components/Header/hooks/useAccount.js";
 import {useSubscriptions} from "../../../../hooks/useSubscriptions.js";
-import {Dialog, Transition} from "@headlessui/react";
-import SecondaryCloseIcon from "../../../../assets/SecondaryCloseIcon.js";
 import CountryDataPopup from "./components/CountryDataPopup.js";
 
 const MapChart = lazy(() => import('./components/MapChart.js'));
@@ -164,7 +161,10 @@ export const AudienceContent = memo(() => {
                               ? <SkeletonChartsTabs/>
                               : <ChartsTabs/>
                           }*/}
-                        <div className='w-full '>
+                        <div className='w-full relative'>
+                          {
+                            !isSubscribed && (<div className='w-full h-full top-0 left-0 absolute z-10'/>)
+                          }
                           <div className='w-full py-4 lg:p-8 flex justify-between lg:bg-popup_gray/50 rounded-t-[20px]'>
                             <div className='flex flex-col lg:flex-row gap-4 lg:gap-10 lg:items-center'>
                               <div style={{

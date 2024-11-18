@@ -105,8 +105,8 @@ const expressPlugins = async (express: Express) => {
     } catch(e) {
       // console.error(e)
     }
-    if(webDomain?.endsWith('.rifify.ru')) {
-      domain = '.rifify.ru';
+    if(webDomain?.endsWith('.rifify.me')) {
+      domain = '.rifify.me';
     }
     const expressSession = session({
       name: import.meta.env.VITE_SESSIONS_KEY,

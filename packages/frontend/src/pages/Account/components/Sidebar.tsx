@@ -38,13 +38,13 @@ const Sidebar = memo(() => {
           </div>
         </div>
         <div>
-          <div className='py-4 flex gap-4 border-b border-[#33333380] items-center'
+          <div className='py-4 flex gap-4 border-b border-[#33333380] items-center cursor-pointer'
                onClick={() => setAccountSettingsType('account')}>
             <AccountIcon className={`${accountSettingsType === 'account' ? 'fill-medium_grey' : 'fill-white'}`}/>
             <p
               className={`text-btnText ${accountSettingsType === 'account' ? 'text-medium_grey' : 'text-white'} `}>Аккаунт</p>
           </div>
-          <div className='py-4 flex gap-4 items-center' onClick={() => setAccountSettingsType('settings')}>
+          <div className='py-4 flex gap-4 items-center cursor-pointer' onClick={() => setAccountSettingsType('settings')}>
             <SettingsIcon className={`${accountSettingsType === 'settings' ? 'stroke-medium_grey' : 'stroke-white'}`}/>
             <p
               className={`text-btnText ${accountSettingsType === 'settings' ? 'text-medium_grey' : 'text-white'} `}>Настройки</p>

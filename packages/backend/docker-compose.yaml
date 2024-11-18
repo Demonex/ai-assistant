@@ -32,6 +32,10 @@ services:
         -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet) -eq 1
       interval: 10s
       start_period: 30s
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   redis:
     image: redis:alpine
@@ -43,6 +47,10 @@ services:
     sysctls:
       net.core.somaxconn: 65535
     command: "/bin/sh -c redis-server & echo 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' > /etc/rc.local"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   # minio:
   #   image: minio/minio

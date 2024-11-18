@@ -1,5 +1,5 @@
-import React, {memo} from 'react';
-import {Route, Switch} from 'wouter';
+import React, {memo, useEffect} from 'react';
+import {Route, Switch, useLocation} from 'wouter';
 import get from 'lodash.get';
 import {ErrorPage} from '../pages/404/Error.js';
 import {MemoComponent} from './MemoComponent.js';
@@ -40,6 +40,16 @@ const routes: {
 ];
 export const App = memo(() => {
   const {width, height} = useSizes();
+
+  const [location] = useLocation();
+
+  useEffect(() => {
+    document.getElementById('app').scrollTo({
+      top: 0,
+      behavior: 'instant'
+    });
+  }, [location]);
+
 
   if(width === 0 || height === 0) {
     return null;

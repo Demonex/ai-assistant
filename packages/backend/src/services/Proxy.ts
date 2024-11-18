@@ -41,7 +41,7 @@ const getHeaders = () => ({
 export class ProxyService {
   constructor(
     @Inject(REQUEST) private readonly request: any,
-    @InjectRedisClient('rifify.ru') private readonly redisClient: Redis,
+    @InjectRedisClient('rifify.me') private readonly redisClient: Redis,
     @InjectModel(LogEntity) private readonly repoLog: ReturnModelType<typeof LogEntity>,
     @InjectModel(SubscriptionEntity) private readonly repoSubscriptions: ReturnModelType<typeof SubscriptionEntity>
   ) {

@@ -28,7 +28,9 @@ import {ShowOnTabletAndDesktop} from "../../../../components/Sizes/ShowOnTabletA
 import {useSubscriptions} from "../../../../hooks/useSubscriptions.js";
 import {useAccount} from "../../../../components/Header/hooks/useAccount.js";
 import LockIcon from "../../../../assets/LockIcon.js";
-
+import {useTrack} from "../../../TrackPage/hooks/useTrack.js";
+import {useArtist} from "../../hooks/useArtist.js";
+import sample from "lodash.sample";
 const toolsButtons = [
   {
     label: 'add',
@@ -64,7 +66,7 @@ const TableItemSocials = memo<{ track: any; social: any }>(({social, track}) => 
         <div className='flex flex-col gap-2 '>
           {
             filtered.map((link, index) => (
-              <div className='flex gap-2 items-center '>
+              <div className='flex gap-2 items-center ' key={index}>
                 <img src={social.tableLogo}/>
                 <a
                   className='text-caption_r_desk text-white truncate'
@@ -141,6 +143,7 @@ const Artists = memo<{ track: any }>(({track}) => {
 
 
 const Catalogue = memo(() => {
+  const {setSource} = useArtist();
   const {
     tracks,
     search,
@@ -182,7 +185,6 @@ const Catalogue = memo(() => {
       index === _index ? {...item, checked} : item
     )))
   }
-
   const handleClickOnTrack = (index, track) => {
     if (!track) {
       return
@@ -199,7 +201,6 @@ const Catalogue = memo(() => {
   });
   const source = (socialsWithAddedIcon.length >= filteredTrackSocials?.length ? socialsWithAddedIcon : filteredTrackSocials);
   const opposite = (socialsWithAddedIcon.length >= filteredTrackSocials?.length ? filteredTrackSocials : socialsWithAddedIcon)
-
   const res = source.map((item, index) => {
       return ({
         ...item,
@@ -325,7 +326,8 @@ const Catalogue = memo(() => {
                 tracks?.filter((_, i) => i < 20).map((track, index) => {
                   return (
                     <tr key={index} className='border-b border-secondary_dark_gray'>
-                      <td className='flex items-center gap-6 p-4 max-w-[430px]'>
+                      <td
+                        className='flex items-center gap-6 p-4 max-w-[430px]'>
                         {
                           !profile || !isSubscribed
                             ? <LockIcon className='stroke-yellow min-w-8'/>
@@ -336,16 +338,20 @@ const Catalogue = memo(() => {
                               type='checkbox'
                               className='min-w-[1.125rem] h-[1.125rem] border border-solid border-secondary_dark_gray rounded-sm bg-black'/>
                         }
-                        <div className='flex gap-4'>
-                          <img src={track.imageUrl} alt={track.title} className='w-11 h-11 rounded-full'/>
-                          <div className='block overflow-hidden w-[130px] md:w-[260px]'>
-                            <p
-                              className={`text-t2Regular  whitespace-nowrap ${track.trackName.length > 30 ? 'ticker-item' : ''}`}
-
-                            > {track.trackName}</p>
-                            <Artists track={track}/>
+                        <Link
+                          to={`/track/${track.idUnique}/${track.baseUrl.split('/').pop()}?source=${sample(track.links).source}`}
+                          onClick={() => setSource(sample(track.links).source)}>
+                          <div className='flex gap-4'>
+                            <img src={track.imageUrl} alt={track.title} className='w-11 h-11 rounded-full'/>
+                            <div className='block overflow-hidden w-[130px] md:w-[260px]'>
+                              <p
+                                className={`text-t2Regular  whitespace-nowrap ${track.trackName.length > 30 ? 'ticker-item' : ''}`}
+                              > {track.trackName}</p>
+                              <Artists track={track}/>
+                            </div>
                           </div>
-                        </div>
+                        </Link>
+
                       </td>
                       <ShowOnTabletAndDesktop>
                         <td

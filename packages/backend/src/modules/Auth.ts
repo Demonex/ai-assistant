@@ -4,7 +4,7 @@ import {AuthService}         from '../services/Auth.js';
 import {UserEntities, UserEntity} from '../entities/User/index.js';
 import {AuthController} from '../controllers/Auth.js';
 import {SmtpService}         from '../services/Smtp.js';
-import { CrmService } from '../services/crm.service';  
+import { CrmService } from '../services/crm.service';
 import { MailerModule } from '~/mailer/mailer.module.js';
 
 @Module({

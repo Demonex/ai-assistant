@@ -19,7 +19,7 @@ const AddTeamMember = memo(({openModalAdd, setOpenModalAdd}: any) => {
         >
           <div className="fixed inset-0 bg-black/85 w-full h-full flex justify-center items-center "/>
         </Transition.Child>
-        <div className="">
+        <div className="w-full h-full flex justify-center items-center">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -32,7 +32,7 @@ const AddTeamMember = memo(({openModalAdd, setOpenModalAdd}: any) => {
             {
               sendRequest
               ? <Dialog.Panel
-                  className=" bg-popup_gray lg:my-20 p-4 md:py-8 lg:p-10 md:px-8  lg:mx-auto lg:rounded-[20px] z-50 relative w-full lg:w-fit max-w-[35rem]"
+                  className="h-full md:h-fit bg-popup_gray lg:my-20 p-4 md:py-8 lg:p-10 md:px-8  lg:mx-auto md:rounded-[20px] z-50 relative w-full lg:w-fit md:max-w-[35rem]"
                 >
                   <div className='w-full flex justify-end cursor-pointer' onClick={() => setOpenModalAdd(false)}>
                     <SecondaryCloseIcon className='stroke-white'/>
@@ -40,12 +40,12 @@ const AddTeamMember = memo(({openModalAdd, setOpenModalAdd}: any) => {
                   <div className='flex flex-col gap-5'>
                     <h1 className='text-t1Semi_deck pb-4'>Приглашение отправлено.</h1>
                     <div className='flex justify-center'>
-                      <SecondaryButton title='Хорошо' className='bg-primary_blue border-none text-white' onClick={() => setOpenModalAdd(false)}/>
+                      <SecondaryButton title='Хорошо' className='bg-primary_blue border-none text-white w-full md:w-fit' onClick={() => setOpenModalAdd(false)}/>
                     </div>
                   </div>
                 </Dialog.Panel>
                 : <Dialog.Panel
-                  className=" bg-popup_gray lg:my-20 p-4 md:py-8 lg:p-10 md:px-8  lg:mx-auto lg:rounded-[20px] z-50 relative w-full lg:w-fit max-w-[35rem]"
+                  className="h-full md:h-fit bg-popup_gray lg:my-20 p-4 md:py-8 lg:p-10 md:px-8 lg:mx-auto md:rounded-[20px] z-50 relative w-full lg:w-fit md:max-w-[35rem]"
                 >
                   <div className='w-full flex justify-end cursor-pointer' onClick={() => setOpenModalAdd(false)}>
                     <SecondaryCloseIcon className='stroke-white'/>

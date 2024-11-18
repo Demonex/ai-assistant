@@ -8,6 +8,7 @@ import {createPortal} from 'react-dom';
 import {useMobileMenu} from "./MobileMenu/hooks/useMobileMenu.js";
 import {BACKEND_URL} from "../../../constants/index.js";
 import {useAccount} from '../hooks/useAccount.js';
+import {clear} from "use-between";
 
 export const DropdownAccountMenu = memo(() => {
   const {profile, setProfile} = useAccount()
@@ -30,7 +31,7 @@ export const DropdownAccountMenu = memo(() => {
 
   const onSignOut = useCallback(async () => {
     await fetchSignOut();
-    setProfile(undefined);
+    clear()
     closeMenu();
     setIsOpen(false);
     navigate('/');

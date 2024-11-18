@@ -26,24 +26,24 @@ export const InstaLogoChart = ({
     <defs>
       <radialGradient id="paint0_radial_1072_28379" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
                       gradientTransform="translate(19.7396 190.757) rotate(-9.46232) scale(391.816 227.677)">
-        <stop stop-color="#FED576"/>
-        <stop offset="0.26" stop-color="#F47133"/>
-        <stop offset="0.61" stop-color="#BC3081"/>
-        <stop offset="1" stop-color="#4C63D2"/>
+        <stop stopColor="#FED576"/>
+        <stop offset="0.26" stopColor="#F47133"/>
+        <stop offset="0.61" stopColor="#BC3081"/>
+        <stop offset="1" stopColor="#4C63D2"/>
       </radialGradient>
       <radialGradient id="paint1_radial_1072_28379" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
                       gradientTransform="translate(19.7399 190.757) rotate(-9.46232) scale(391.816 227.677)">
-        <stop stop-color="#FED576"/>
-        <stop offset="0.26" stop-color="#F47133"/>
-        <stop offset="0.61" stop-color="#BC3081"/>
-        <stop offset="1" stop-color="#4C63D2"/>
+        <stop stopColor="#FED576"/>
+        <stop offset="0.26" stopColor="#F47133"/>
+        <stop offset="0.61" stopColor="#BC3081"/>
+        <stop offset="1" stopColor="#4C63D2"/>
       </radialGradient>
       <radialGradient id="paint2_radial_1072_28379" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
                       gradientTransform="translate(19.7399 190.757) rotate(-9.46232) scale(391.816 227.677)">
-        <stop stop-color="#FED576"/>
-        <stop offset="0.26" stop-color="#F47133"/>
-        <stop offset="0.61" stop-color="#BC3081"/>
-        <stop offset="1" stop-color="#4C63D2"/>
+        <stop stopColor="#FED576"/>
+        <stop offset="0.26" stopColor="#F47133"/>
+        <stop offset="0.61" stopColor="#BC3081"/>
+        <stop offset="1" stopColor="#4C63D2"/>
       </radialGradient>
     </defs>
   </svg>

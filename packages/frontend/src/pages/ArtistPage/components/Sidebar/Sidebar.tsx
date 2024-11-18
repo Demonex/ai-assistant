@@ -110,7 +110,7 @@ export const SidebarMobile = memo(() => {
     <div
       className="mb-[4.5rem] overflow-y-auto mt-[4.375rem] py-6 px-4 relative">
       <button className="absolute left-2 p-2 top-2 z-20" onClick={() => setOpenMobileSidebar(false)}>
-        <ArrowBack/>
+        <ArrowBack className='fill-white'/>
       </button>
       <nav id="nav" className=" relative flex flex-col h-full">
         <div className="relative">

@@ -19,7 +19,6 @@ const AddTrackLink = memo(() => {
   } = useForm();
   const onSubmit = (data) => {
     setIsRequestSent(true);
-    console.log('sbm', data)
   }
   return (
     <>

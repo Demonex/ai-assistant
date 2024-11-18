@@ -11,29 +11,26 @@ const _useTableTrackData = (): {
   loading: boolean
   error?: FetchError<any>
 } => {
-  // const {id, source} = useArtist();
-  // const {idTrack} = useTrack();
-
-
+  const {id, source} = useArtist();
+  const {idTrack} = useTrack();
   const [{data: chartTrackData, loading, error}, fetchData] = useLazyFetch<ChartTrackDataType>({
-    url: `${BACKEND_URL}/proxy/api/v1/analytics_track/0s1vzwo8/chart?idUnique=0lsqj7b2&source=spotify`,
+    url: `${BACKEND_URL}/proxy/api/v1/analytics_track/${idTrack}/tables`,
   });
 
-  // console.log('x', {id, source, idTrack})
   useEffect(() => {
-    /* if (!id || !source || !idTrack) {
+     if (!id || !source || !idTrack) {
        return;
-     }*/
+     }
     fetchData({
-      /*params: {
+      params: {
         idUnique: id,
         source
-      }*/
-      headers: {
+      },
+     /* headers: {
         'authorization': 'Bearer RSxzYxgrUm3NrH_-RwbN'
-      }
+      }*/
     }).catch(console.error);
-  }, [/*id, source, idTrack*/]);
+  }, [id, source, idTrack]);
 
   return {
     chartTrackData,

@@ -35,6 +35,7 @@ export default {
 
       gridTemplateColumns: {
         'auto-fit-290': 'repeat(auto-fit, minmax(300px, 1fr))',
+        'auto-fit-225': 'repeat(auto-fit, minmax(224px, 1fr))',
         'auto-fit-172': 'repeat(auto-fit, minmax(172px, 1fr))',
         'auto-fit-156': 'repeat(auto-fit, minmax(156px, 1fr))',
       },
@@ -132,6 +133,18 @@ export default {
           '1.125rem', {
             lineHeight: '150%',
             fontWeight: '400',
+          }
+        ],
+        t1Sem2_deck: [
+          '1.5rem', {
+            lineHeight: '28.8px',
+            fontWeight: '500',
+          }
+        ],
+        t2Semi_ipad: [
+          '1.25rem', {
+            lineHeight: '4px',
+            fontWeight: '500',
           }
         ],
         btnText: [
