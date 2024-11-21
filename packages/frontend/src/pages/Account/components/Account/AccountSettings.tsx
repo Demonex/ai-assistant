@@ -8,6 +8,7 @@ import {ArrowBack} from "../../../../assets/ArrowBack.js";
 
 export const AccountSettings = () => {
   const {profile} = useAccount();
+
   const {
     onSubmitUpdate,
     handleSubmit,
@@ -15,7 +16,6 @@ export const AccountSettings = () => {
   } = useAccountSettings();
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
-
   return (
     <>
       <h1 className='text-t1Semi_ipad lg:hidden'>Данные аккаунта</h1>

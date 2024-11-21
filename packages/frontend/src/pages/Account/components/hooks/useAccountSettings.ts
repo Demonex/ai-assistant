@@ -4,6 +4,8 @@ import {useLazyFetch} from "../../../../hooks/useFetch.js";
 import {BACKEND_URL} from "../../../../constants/index.js";
 import {useAccount} from "../../../../components/Header/hooks/useAccount.js";
 import {useForm} from "react-hook-form";
+import {clear} from "use-between";
+import { navigate } from "wouter/use-browser-location";
 
 const _useAccountSettings = () => {
   const [accountSettingsType, setAccountSettingsType] = useState('account');
@@ -36,6 +38,15 @@ const _useAccountSettings = () => {
     setValue
   } = useForm();
 
+  const [{data: signOut}, fetchSignOut] = useLazyFetch({
+    url: `${BACKEND_URL}/auth/sign-out`,
+    method: 'post',
+  });
+  const onSubmitSignOut = async () => {
+    await fetchSignOut();
+    clear();
+    navigate('/auth/sign-in');
+  }
   const onSubmitUpdate = async ({avatar, ...data}, e) => {
     const formValues = data;
     if(avatar?.length) {
@@ -56,14 +67,8 @@ const _useAccountSettings = () => {
 
     void fetchUpdateProfile({
       data: changedFields
-    });
+    }).then(({data})=>setProfile(dataUpdatedProfile));
   };
-  useEffect(() => {
-    if(!dataUpdatedProfile) {
-      return;
-    }
-    setProfile(dataUpdatedProfile);
-  }, [dataUpdatedProfile]);
   return {
     accountSettingsType,
     setAccountSettingsType,
@@ -80,6 +85,7 @@ const _useAccountSettings = () => {
     setOpenPopupDeleteAccount,
     mobileRender,
     setMobileRender,
+    onSubmitSignOut
   };
 };
 

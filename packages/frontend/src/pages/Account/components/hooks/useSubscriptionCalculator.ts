@@ -64,7 +64,6 @@ const _useSubscriptionCalculator = () => {
   }, [limit, period, data]);
 
   const handleClick = useCallback((subscription = undefined, artist = undefined) => {
-    console.log('subscription', subscription, artist);
     if (subscription && artist) {
       fetchAddArtist({
         url: `${BACKEND_URL}/subscription/${subscription}/artist/${artist}`

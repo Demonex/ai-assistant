@@ -708,7 +708,6 @@ const Places = memo(() => {
       }
     }).catch(console.error);
   }, [id]);*/
-  console.log('valueAllResults', valueAllResults)
   return (
     <div>
       <ShowOnMobileToTablet>

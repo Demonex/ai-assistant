@@ -38,8 +38,8 @@ export const ShazamLogoChart = ({
     <defs>
       <linearGradient id="paint0_linear_222_5459" x1="85.8845" y1="172.006" x2="85.8845" y2="-96.6897"
                       gradientUnits="userSpaceOnUse">
-        <stop stop-color="#2255FF"/>
-        <stop offset="1" stop-color="#00AAFF"/>
+        <stop stopColor="#2255FF"/>
+        <stop offset="1" stopColor="#00AAFF"/>
       </linearGradient>
     </defs>
   </svg>

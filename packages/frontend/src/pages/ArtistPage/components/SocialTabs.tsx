@@ -6,6 +6,7 @@ import {useChangeTab} from "../hooks/useChangeTab.js";
 import {useSizes} from "../../../hooks/useSizes.js";
 import {is} from "@amcharts/amcharts4/core.js";
 import {navbar} from "../../../data/consts/navbar.js";
+import {useParams, useSearch} from "wouter";
 
 export const Tabs = memo(({}: any) => {
   const {source, setSource, navigation} = useArtist();
@@ -14,16 +15,18 @@ export const Tabs = memo(({}: any) => {
   const handleClick = useCallback((index: number) => {
     setSource(navigation === 'feed' ? get(overviewSources, `${index}.slug`) : get(filteredSources, `${index}.slug`));
     setChangeTab(index);
-  }, [source, overviewSources,filteredSources]);
+  }, [source, overviewSources, filteredSources]);
 
   const {isMobile, isTablet} = useSizes();
+  const location = useSearch();
+  const sourceFromLocation = location.split('=').pop();
   useEffect(() => {
-    setSource(navigation === 'feed' ? overviewSources[0].slug : overviewSources[1].slug)
+    setSource(navigation === 'feed' ? overviewSources[0].slug : navigation === 'analytics' ||  navigation === 'audience' ? overviewSources[1].slug : sourceFromLocation)
   }, []);
   return (
     <>
       <ul
-        className={` flex whitespace-nowrap border-slate-200/5 mb-px overflow-x-auto overflow-y-hidden items-center justify-between flex-1 ${isMobile || isTablet ? 'gap-4' : 'border-b gap-10'}`}>
+        className={`flex whitespace-nowrap border-slate-200/5 mb-px overflow-x-auto overflow-y-hidden items-center justify-between flex-1 ${isMobile || isTablet ? 'gap-4' : 'border-b gap-10'}`}>
         {
           navigation === 'feed'
             ? <>{

@@ -1,9 +1,6 @@
 import SecondaryButton from '../../../../components/SecondaryButton.js';
 import {ChevronYellowIcon} from '../../../../assets/ChevronYellowIcon.js';
 import BasketIcon from '../../../../assets/BasketIcon.js';
-import photo1 from '/assets/jpg/news1.jpg';
-import photo2 from '/assets/jpg/news2.jpg';
-import photo3 from '/assets/jpg/news3.jpg';
 import {Dialog, Disclosure, Transition} from '@headlessui/react';
 import {ReloadIcon} from '../../../../assets/ReloadIcon.js';
 import {useSubscriptionCalculator} from '../hooks/useSubscriptionCalculator.js';
@@ -13,17 +10,13 @@ import {BACKEND_URL} from '../../../../constants/index.js';
 import React, {Fragment, memo, useCallback, useEffect, useMemo, useState} from 'react';
 import {DateTime} from 'luxon';
 import {ArtistProfileType} from '../../../ArtistPage/types.js';
-import get from 'lodash.get';
 import {useOpenModalSearch} from '../../../../hooks/useOpenModalSearch.js';
-import {useArtistProfile} from '../../../ArtistPage/hooks/useArtistProfile.js';
-import {useArtist} from '../../../ArtistPage/hooks/useArtist.js';
 import {useSubscriptions} from '../hooks/useSubscriptions.js';
 import {ShowOnLaptopToDesktop} from "../../../../components/SowOnLaptopToDeckTop/index.js";
 import {ShowOnMobileOnly} from "../../../../components/Sizes/ShowOnMobileOnly/ShowOnMobileOnly.js";
 import ChevronRight from "../../../../assets/ChevronRight.js";
 import {ArrowBack} from "../../../../assets/ArrowBack.js";
-import SecondaryCloseIcon from "../../../../assets/SecondaryCloseIcon.js";
-import {useSizes} from "../../../../hooks/useSizes.js";
+
 
 /*const archive = {
   name: 'Архив',
@@ -91,10 +84,11 @@ const subscriptionTitles = [
 
 const TableItemMobile = memo<{
   item: any
-  artists: any
+  artistsFromSubscriptions: any
   handleAddArtistClick: any
-}>(({item, artists,handleAddArtistClick}) => {
-  const { setSubscriptions, dataUpdateSubscription, fetchUpdateSubscriptions} = useSubscriptions();
+  onRemoveFromArchive: any
+}>(({item, artistsFromSubscriptions, handleAddArtistClick, onRemoveFromArchive}) => {
+  const {subscriptions, setSubscriptions, dataUpdateSubscription, fetchUpdateSubscriptions} = useSubscriptions();
   const [isRenew, setIsRenew] = useState(item.renew);
   const [renderItemContent, setRenderItemContent] = useState(false);
   const onUpdateSubscription = (item) => {
@@ -129,7 +123,7 @@ const TableItemMobile = memo<{
   }, [dataUpdateSubscription]);
 
   const isPackage = item.plan.limit > 1;
-  const artist = artists[item.artists[0]];
+  const artist = artistsFromSubscriptions[item.artists[0]];
 
   const status = 'Активен';
   const [period, periodByMonth] = useMemo(() => {
@@ -178,28 +172,40 @@ const TableItemMobile = memo<{
                           <p className={` text-t2Regular`}>{artist?.name}</p>
                         </>
                     }
-
                   </div>
                   <div className='flex justify-between mt-4'>
-                    <div className='flex gap-3 items-center'>
-                      <input
-                        onClick={() => onUpdateSubscription(item)}
-                        type="checkbox"
-                        className="bg-transparent border border-solid border-secondary_dark_gray rounded-sm"
-                        defaultChecked={item.renew}/>
-                      <p
-                        className={`text-caption_r_desk text-light_grey`}>Автопродление</p>
-                    </div>
-                    <div className='flex gap-4 items-center'>
-                      <ChevronYellowIcon
-                        className={`cursor-pointer ${item.plan.limit > 1 ? 'fill-yellow' : 'fill-medium_grey'}`}/>
-                      <button onClick={(e) => {
-                        e.preventDefault();
-                        onUpdateArchive(item);
-                      }}>
-                        <BasketIcon className={`cursor-pointer fill-white`}/>
-                      </button>
-                    </div>
+                    {
+                      item.archived
+                        ? <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            onRemoveFromArchive(item);
+                          }}
+                          className="w-full flex justify-start cursor-pointer">
+                          <ReloadIcon className="fill-white"/>
+                        </button>
+                        : <>
+                          <div className='flex gap-3 items-center'>
+                            <input
+                              onClick={() => onUpdateSubscription(item)}
+                              type="checkbox"
+                              className="bg-transparent border border-solid border-secondary_dark_gray rounded-sm"
+                              defaultChecked={item.renew}/>
+                            <p
+                              className={`text-caption_r_desk text-light_grey`}>Автопродление</p>
+                          </div>
+                          <div className='flex gap-4 items-center'>
+                            <ChevronYellowIcon
+                              className={`cursor-pointer ${item.plan.limit > 1 ? 'fill-yellow' : 'fill-medium_grey'}`}/>
+                            <button onClick={(e) => {
+                              e.preventDefault();
+                              onUpdateArchive(item);
+                            }}>
+                              <BasketIcon className={`cursor-pointer fill-white`}/>
+                            </button>
+                          </div>
+                        </>
+                    }
                   </div>
                 </div>
                 <ul className='py-4 flex flex-col gap-6 border-b border-secondary_dark_gray/50'>
@@ -233,9 +239,9 @@ const TableItemMobile = memo<{
                           item.artists.map((id, index) => (
                             <li key={index}
                                 className={`flex items-center gap-4 py-4 px-2 border-b border-b-secondary_dark_gray bg-popup_gray/50`}>
-                              <img src={artists[id]?.imageUrl} alt={artists[id]?.name}
+                              <img src={artistsFromSubscriptions[id]?.imageUrl} alt={artistsFromSubscriptions[id]?.name}
                                    className="w-11 h-11 rounded-full"/>
-                              <p className="text-t2Regular">{artists[id]?.name}</p>
+                              <p className="text-t2Regular">{artistsFromSubscriptions[id]?.name}</p>
                             </li>
                           ))
                         }
@@ -266,16 +272,22 @@ const TableItemMobile = memo<{
       <div className='py-4 flex justify-between items-center  border-b border-secondary_dark_gray/50'
            onClick={() => setRenderItemContent(true)}>
         {
-          isPackage ? (
-            <p className={` text-caption_r_desk`}>Лейбл
-              до {item.plan.limit} артистов</p>
-          ) : (
-            <div className='flex gap-2 items-center'>
-              <img src={artist?.imageUrl}
-                   className={`w-11 h-11 rounded-full bg-medium_grey `}/>
-              <p className={` text-t2Regular`}>{artist?.name}</p>
-            </div>
-          )
+          item.archived
+            ? <p className={` text-t2Regular`}>Архив</p>
+            : <>
+              {
+                (isPackage) ? (
+                  <p className={` text-caption_r_desk`}>Лейбл
+                    до {item.plan.limit} артистов</p>
+                ) : (
+                  <div className='flex gap-2 items-center'>
+                    <img src={artist?.imageUrl}
+                         className={`w-11 h-11 rounded-full bg-medium_grey `}/>
+                    <p className={` text-t2Regular`}>{artist?.name}</p>
+                  </div>
+                )
+              }
+            </>
         }
         <ChevronRight className='w-5 h-5 fill-white'/>
       </div>
@@ -284,9 +296,10 @@ const TableItemMobile = memo<{
 })
 const TableItem = memo<{
   item: any
-  artists: any
-}>(({item, artists}) => {
-  const {subscriptions, setSubscriptions, dataUpdateSubscription, fetchUpdateSubscriptions} = useSubscriptions();
+  artistsFromSubscriptions: any
+  onRemoveFromArchive: any
+}>(({item, artistsFromSubscriptions, onRemoveFromArchive}) => {
+  const {setSubscriptions, dataUpdateSubscription, fetchUpdateSubscriptions} = useSubscriptions();
   const [isRenew, setIsRenew] = useState(item.renew);
 
   const onUpdateSubscription = (item) => {
@@ -321,7 +334,7 @@ const TableItem = memo<{
   }, [dataUpdateSubscription]);
 
   const isPackage = item.plan.limit > 1;
-  const artist = artists[item.artists[0]];
+  const artist = artistsFromSubscriptions[item.artists[0]];
 
   const status = 'Активен';
   const [period, periodByMonth] = useMemo(() => {
@@ -359,15 +372,27 @@ const TableItem = memo<{
             )
           }
           <div className='flex gap-6 items-center'>
-            <div className='flex gap-3 items-center'>
-              <input
-                onClick={() => onUpdateSubscription(item)}
-                type="checkbox"
-                className="bg-transparent border border-solid border-secondary_dark_gray rounded-sm"
-                defaultChecked={item.renew}/>
-              <p
-                className={`text-caption_r_desk ${item.plan.limit > 1 ? 'text-black' : 'text-white'}`}>Автопродление</p>
-            </div>
+            {
+              !item.archived
+                ? <div className='flex gap-3 items-center'>
+                  <input
+                    onClick={() => onUpdateSubscription(item)}
+                    type="checkbox"
+                    className="bg-transparent border border-solid border-secondary_dark_gray rounded-sm"
+                    defaultChecked={item.renew}/>
+                  <p
+                    className={`text-caption_r_desk ${item.plan.limit > 1 ? 'text-black' : 'text-white'}`}>Автопродление</p>
+                </div>
+                : <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onRemoveFromArchive(item);
+                  }}
+                  className="w-full flex justify-center cursor-pointer">
+                  <ReloadIcon className="fill-white"/>
+                </button>
+            }
+
             {
               !item.archived && (
                 <div className='flex gap-4 items-center'>
@@ -471,21 +496,25 @@ const TableItem = memo<{
 });
 
 export const Subscriptions = memo(() => {
-  const {subscriptions, setSubscriptions, fetchUpdateSubscriptions, dataUpdateSubscription} = useSubscriptions();
+  const {
+    subscriptions,
+    setSubscriptions,
+    fetchUpdateSubscriptions,
+    dataUpdateSubscription,
+    userSubscriptions,
+    artistsFromSubscriptions
+  } = useSubscriptions();
+
   const {dataAddArtist} = useSubscriptionCalculator();
-  const [{data, loading, error}, fetchSubscriptions] = useLazyFetch({
-    url: `${BACKEND_URL}/profile/subscriptions`,
-    cache: false
-  });
+
   const {
     setSubscription,
     setIsOpenSearchModal,
-    subscriptionOnClick,
     setButtonText,
     setIsShowAll,
     setSubscriptionOnClick
-
   } = useOpenModalSearch();
+
   const onRemoveFromArchive = (item) => {
     fetchUpdateSubscriptions({
       url: `${BACKEND_URL}/subscription/${item.id}/update`,
@@ -506,14 +535,6 @@ export const Subscriptions = memo(() => {
       ];
     }, []));
   }, [dataUpdateSubscription]);
-  const [artists, setArtists] = useState<{
-    [k: string]: any
-  }>({});
-
-  const [_, fetchArtist] = useLazyFetch<ArtistProfileType>({
-    url: `${BACKEND_URL}/proxy/api/v1/managements/get_account_info`
-  });
-  // const artist = subscriptions?.filter((item) => (artists[item.artists[0]]));
 
   useEffect(() => {
     if (!dataAddArtist) {
@@ -526,36 +547,6 @@ export const Subscriptions = memo(() => {
       ];
     }, []));
   }, [dataAddArtist]);
-  useEffect(() => {
-    fetchSubscriptions().catch(console.error);
-  }, []);
-
-  useEffect(() => {
-    setSubscriptions(data);
-  }, [data]);
-
-  const artistsIds = useMemo(() => {
-    return subscriptions?.reduce((prev, next) => {
-      return [...new Set([...prev, ...(next.artists || [])])];
-    }, []) || [];
-  }, [subscriptions]);
-
-  useEffect(() => {
-    if (!artistsIds.length) {
-      return;
-    }
-    artistsIds.forEach((id) => {
-      fetchArtist({
-        params: {
-          idUnique: id
-        }
-      })
-        .then(({data}) => {
-          setArtists((prev) => ({...prev, [id]: data?.account}));
-        })
-        .catch(console.error);
-    });
-  }, [artistsIds]);
 
   const handleAddArtistClick = useCallback((subscription: string = undefined) => {
     setSubscription(subscription);
@@ -576,7 +567,8 @@ export const Subscriptions = memo(() => {
             className="w-fit bg-primary_blue border-none text-white"/>
         </div>
         <div className="hidden md:block ">
-          <div className=" bg-[#272727]/50 rounded-t-[20px] border-b border-b-secondary_dark_gray block overflow-y-auto">
+          <div
+            className=" bg-[#272727]/50 lg:rounded-t-[20px] border-b border-b-secondary_dark_gray block overflow-y-auto">
             <table className="w-full ">
               <thead className="hidden lg:contents">
               <tr>
@@ -596,7 +588,7 @@ export const Subscriptions = memo(() => {
                     ? (
                       <Disclosure key={index}>
                         <Disclosure.Button as="tr" className="bg-yellow text-black cursor-pointer">
-                          <TableItem item={item} artists={artists}/>
+                          <TableItem item={item} artistsFromSubscriptions={artistsFromSubscriptions} onRemoveFromArchive={onRemoveFromArchive}/>
                         </Disclosure.Button>
                         <Transition
                           enter="transition duration-100 ease-out"
@@ -613,9 +605,9 @@ export const Subscriptions = memo(() => {
                                 item.artists.map((id, index) => (
                                   <li key={index}
                                       className={`flex items-center gap-4 py-4 pl-4 border-b border-b-secondary_dark_gray bg-popup_gray/50`}>
-                                    <img src={artists[id]?.imageUrl} alt={artists[id]?.name}
+                                    <img src={artistsFromSubscriptions[id]?.imageUrl} alt={artistsFromSubscriptions[id]?.name}
                                          className="w-11 h-11 rounded-full"/>
-                                    <p className="text-t2Regular">{artists[id]?.name}</p>
+                                    <p className="text-t2Regular">{artistsFromSubscriptions[id]?.name}</p>
                                   </li>
                                 ))
                               }
@@ -641,7 +633,7 @@ export const Subscriptions = memo(() => {
                     )
                     : (
                       <tr className={``} key={index}>
-                        <TableItem item={item} artists={artists}/>
+                        <TableItem item={item} artistsFromSubscriptions={artistsFromSubscriptions} onRemoveFromArchive={onRemoveFromArchive}/>
                       </tr>
                     )
                 ))
@@ -649,24 +641,24 @@ export const Subscriptions = memo(() => {
               {
                 subscriptions?.filter((item) => item.archived).length > 0 && (
                   <Disclosure>
-                    <Disclosure.Button as="tr" className="bg-medium_grey text-black cursor-pointer" >
-                      <td className="p-4 text-start flex items-center gap-2.5 min-w-[20rem] text-t2Regular" >
+                    <Disclosure.Button as="tr" className="bg-medium_grey text-black cursor-pointer">
+                      <td className="p-4 text-start flex items-center gap-2.5 min-w-[20rem] text-t2Regular">
                         <p>Архив</p>
                       </td>
-                     <ShowOnLaptopToDesktop>
-                       {
-                         Array.from({length: 7}).map((_, index) => (
-                           <td key={index}></td>
-                         ))
-                       }
-                     </ShowOnLaptopToDesktop>
+                      <ShowOnLaptopToDesktop>
+                        {
+                          Array.from({length: 7}).map((_, index) => (
+                            <td key={index}></td>
+                          ))
+                        }
+                      </ShowOnLaptopToDesktop>
                     </Disclosure.Button>
                     {
                       subscriptions?.filter((item) => item.archived).map((item, index) => (
                         <Disclosure.Panel className="m-0 p-0" as="tr" key={index}>
-                          <TableItem item={item} artists={artists}/>
+                          <TableItem item={item} artistsFromSubscriptions={artistsFromSubscriptions} onRemoveFromArchive={onRemoveFromArchive}/>
                           <td
-                            className={`p-4 `} colSpan={3}>
+                            className={`p-4 hidden lg:block`} colSpan={3}>
                             <button
                               onClick={(e) => {
                                 e.preventDefault();
@@ -687,15 +679,18 @@ export const Subscriptions = memo(() => {
           </div>
         </div>
         <ShowOnMobileOnly>
-          {
-            subscriptions?.filter((item) => !item.archived).map((item, index) => {
-              return (
-                <div key={index}>
-                  <TableItemMobile item={item} artists={artists} handleAddArtistClick={handleAddArtistClick}/>
-                </div>
-              )
-            })
-          }
+          <ul className='flex flex-col-reverse'>
+            {
+              subscriptions?.map((item, index) => {
+                return (
+                  <div key={index}>
+                    <TableItemMobile item={item} artistsFromSubscriptions={artistsFromSubscriptions} handleAddArtistClick={handleAddArtistClick}
+                                     onRemoveFromArchive={onRemoveFromArchive}/>
+                  </div>
+                )
+              })
+            }
+          </ul>
         </ShowOnMobileOnly>
       </div>
       <SubscriptionsCalculator/>

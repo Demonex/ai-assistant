@@ -1,25 +1,17 @@
 import {useLazyFetch} from '../../hooks/useFetch.js';
 import {BACKEND_URL} from '../../constants/index.js';
+import {useAccount} from '../../components/Header/hooks/useAccount.js';
 import SecondaryButton from '../../components/SecondaryButton.js';
 import {SignOutIcon} from '../../assets/SignOutIcon.js';
 import {clear} from "use-between";
 import PopupDeleteAccount from "./components/Account/PopupDeleteAccount.js";
+import {useAccountSettings} from "./components/hooks/useAccountSettings.js";
 import { useRedirectIfNoProfile } from '@/shared/hooks/useRedirectIfNoProfile.js';
 import { navigate } from 'wouter/use-browser-location';
 import { AccountBody } from './components/Account/AccountBody.js';
 
 export const AccountPage = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [{data: signOut}, fetchSignOut] = useLazyFetch({
-    url: `${BACKEND_URL}/auth/sign-out`,
-    method: 'post',
-  });
-
-  const onSubmitSignOut = async () => {
-    await fetchSignOut();
-    clear();
-    navigate('/auth/sign-in');
-  }
+  const {onSubmitSignOut} = useAccountSettings();
 
   useRedirectIfNoProfile();
 

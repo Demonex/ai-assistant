@@ -29,7 +29,7 @@ export class AuthService {
     private readonly adapterHost: HttpAdapterHost<ExpressAdapter>,
     @InjectModel(UserEntity) private readonly repoUser: ReturnModelType<typeof UserEntity>,
     @Inject(SmtpService) private readonly smtp: SmtpService,
-    @InjectRedisClient('rifify.ru') private readonly redisClient: Redis,
+    @InjectRedisClient('rifify.me') private readonly redisClient: Redis,
     private readonly crmService: CrmService,
     private readonly mailerService: MailerService
   ) {
@@ -176,12 +176,12 @@ export class AuthService {
   }
 
   private async createUserByEmail(args): Promise<UserEntity & { id?: string; _id?: Types.ObjectId }> {
-    
+
     try {
       // return await this.repoUser.create(args);
-      
+
       const user = await this.repoUser.create(args);
-      
+
       return user;
 
 

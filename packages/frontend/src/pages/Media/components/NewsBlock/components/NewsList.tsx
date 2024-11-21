@@ -36,10 +36,10 @@ const NewsList = memo(() => {
     const [post,...news] = docs;
     return (
         <div className='py-5'>
-            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-rows-6 gap-5 lg:gap-10">
+            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-10">
                 {
                     news.map((item, i) => (
-                        <Link to={`media/${post?.id}`} key={i}>
+                        <Link to={`media/${item?.id}`} key={i}>
                             <li className='bg-popup_gray hover:bg-secondary_dark_gray rounded-[16px] p-5 lg:p-8 h-[33.75rem] md:h-[31rem] lg:h-[33.75rem]' key={i}>
                                 <div className='flex flex-col gap-4'>
                                     <div style={{}}

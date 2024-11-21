@@ -8,6 +8,8 @@ import {useArtist} from '../../hooks/useArtist.js';
 import useStateRef from 'react-usestateref';
 import {BACKEND_URL} from "../../../../constants/index.js";
 import InfoIcon from "../../../../assets/InfoIcon.js";
+import {useSizes} from "../../../../hooks/useSizes.js";
+import {Link} from "wouter";
 
 
 const SkeletonTopTracks = memo(() => (
@@ -88,7 +90,7 @@ const WithButtons = memo<{
                   return null;
                 }
                 return (
-                  <div
+                  <Link to={`/track/${track.idUnique}/${track.trackName?.split('/').pop()}?source=${source}`}
                     className="text-white rounded-xl w-full"
                     key={index}>
                     <div className="bg-transparent py-2.5 rounded-xl h-full flex justify-between items-center gap-5">
@@ -98,13 +100,13 @@ const WithButtons = memo<{
                           <p
                             className="text-caption_r_desk whitespace-nowrap truncate">{track.primaryText}</p>
                           <p
-                            className="text-caption_s_desk text-medium_grey capitalize">{track.secondaryText}</p>
+                            className="text-caption_s_desk text-medium_grey capitalize line-clamp-1">{track.secondaryText}</p>
                         </div>
                       </div>
                       <span
                         className="text-caption_m_desk">{track.primaryValue}</span>
                     </div>
-                  </div>
+                  </Link>
                 );
               }
             )
@@ -139,13 +141,9 @@ const WithButtons = memo<{
 
 export const TopTracks = memo(() => {
   const {data: trackData, loading: apiTrackDataLoading} = useArtistTrack();
-  const getLogo = socials.filter((item, _) => {
-    const getSource = trackData?.sourceId;
-    return item.slug === getSource;
-  });
-
+  const {  source} = useArtist();
   return (
-    <div className="w-full  flex flex-col lg:flex-row gap-4 lg:gap-6 mb-[5.5rem]">
+    <div className={`w-full  flex flex-col lg:flex-row gap-4 lg:gap-6 ${trackData?.trackData?.listData?.length > 2 ? 'flex-wrap' : ''} `}>
       {
         apiTrackDataLoading === true
           ? <SkeletonTopTracks/>
@@ -155,7 +153,7 @@ export const TopTracks = memo(() => {
             }
             return (
               <div
-                className="lg:bg-popup_gray/50 rounded-[20px] h-fit  lg:px-7 py-4 lg:py-8  max-w-[30rem] w-full"
+                className={`lg:bg-popup_gray/50 rounded-[20px] h-fit  lg:px-7 py-4 lg:py-8  w-full lg:max-w-[30rem]`}
                 key={index}>
                 <div className="flex items-center gap-3 pb-4 border-b border-dark_grey justify-between">
                   <p
@@ -166,14 +164,14 @@ export const TopTracks = memo(() => {
                   'buttons' in item
                     ? (<WithButtons data={item}/>)
                     : (
-                      <div className="w-full overflow-y-scroll flex flex-col gap-3 mb-5">
+                      <div className="w-full overflow-y-scroll flex flex-col gap-3 mb-5  mt-4">
                         {
                           (item as any).items?.map((track, index) => {
                             return (
-                              <div
+                              <Link to={`/track/${track.idUnique}/${track.trackName?.split('/').pop()}?source=${source}`}
                                 className="text-white rounded-xl w-full"
                                 key={index}>
-                                <div className="bg-transparent p-2 rounded-xl h-full flex justify-between items-center">
+                                <div className="bg-transparent p-2 rounded-xl h-full flex justify-between items-center gap-10">
                                   <div className="flex gap-3 items-start">
                                     <img src={track.imageUrl} alt="" className="w-10 h-10"/>
                                     <div className="flex flex-col gap-1.5 max-w-[9.125rem]">
@@ -188,9 +186,9 @@ export const TopTracks = memo(() => {
                                     </div>
                                   </div>
                                   <span
-                                    className="text-sm xl:text-[1.125rem] text-transparent capitalize text-white font-bold">{track.primaryValue}</span>
+                                    className="text-t1Sem2_deck text-light_grey">{track.primaryValue}</span>
                                 </div>
-                              </div>
+                              </Link>
                             );
                           })
                         }

@@ -6,6 +6,7 @@ import humanNumber from 'human-number';
 import {useSizes} from "../../../../../hooks/useSizes.js";
 import ArrowDropdown from "../../../../../assets/ArrowDropdown.js";
 import {useManageTable} from "../hooks/useManageTable.js";
+import {useSubscriptions} from "../../../../../hooks/useSubscriptions.js";
 
 
 const SkeletonCountriesTable = memo(() => (
@@ -76,7 +77,7 @@ const SkeletonCountriesTable = memo(() => (
   </SkeletonTheme>
 ));
 export const CountriesTable = memo(() => {
-
+  const {isSubscribed} = useSubscriptions()
   const {data: dataMap, mapTabSelected, loading} = useArtistAudienceMap();
   const {searchValue, setSearchValue, setOpenModal, searchRef, setCountryID} = useManageTable();
   const [activeSort, setActiveSort] = useState(1);
@@ -112,10 +113,14 @@ export const CountriesTable = memo(() => {
   const countriesQtyChunk = chunk(countryObject, elementsOnPage);
   const elementsOnPageQtyFrom = page * elementsOnPage - elementsOnPage + 1;
   const elementsOnPageQtyTo = (elementsOnPageQtyFrom - 1) + countriesQtyChunk[page - 1]?.length;
+
   const handleClickTableHeader = (indexHeaderTitle) => {
     setActiveSort(indexHeaderTitle);
   };
   const clickNext = () => {
+    if (!isSubscribed){
+      return;
+    }
     const result = page + 1;
     if (result > countriesQtyChunk?.length) {
       return;
@@ -237,7 +242,7 @@ export const CountriesTable = memo(() => {
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                      className="icon icon-tabler icon-tabler-chevron-left stroke-medium_grey"
                                      width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                   <path d="M15 6l-6 6l6 6"></path>
                                 </svg>
                               </button>

@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import { Logger, LogLevel, ApiLogger } from './api-logger.js';
 
-const DEFAULT_CONTEXT = 'rifify.ru API';
+const DEFAULT_CONTEXT = 'rifify.me API';
 
 export class DefaultLogger implements ApiLogger {
   level: LogLevel = LogLevel.Info;

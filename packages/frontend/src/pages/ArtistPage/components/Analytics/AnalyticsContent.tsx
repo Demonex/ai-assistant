@@ -1,6 +1,6 @@
 import {ShowOnMobileToTablet} from '../../../../components/Sizes/ShowOnMobileToTablet/ShowOnMobileToTablet.js';
 import {Chart} from '../Chart/Chart.js';
-import React, {Fragment, memo, ReactNode, useEffect, useRef, useState} from 'react';
+import React, {Fragment, memo, ReactNode, useEffect, useMemo, useRef, useState} from 'react';
 import {RelatedTracks} from './RelatedTracks.js';
 import {Performance} from './Performance.js';
 import {TopTracks} from './TopTracks.js';
@@ -16,7 +16,11 @@ import {AnalyticsMobile} from "../AnalyticsMobile.js";
 import {useArtistChart} from "../../hooks/useArtistChart.js";
 import {useSubscriptions} from "../../../../hooks/useSubscriptions.js";
 import SecondaryCloseIcon from "../../../../assets/SecondaryCloseIcon.js";
-import {TariffsCards} from "../../../WelcomePage/components/Tariffes.js";
+import {useArtistTrack} from "../../hooks/useArtistTrack.js";
+import RelativeLinksIcon from "../../../../assets/RelativeLinksIcon.js";
+import {Link, useParams} from "wouter";
+import {useArtist} from "../../hooks/useArtist.js";
+import {useArtistProfile} from "../../hooks/useArtistProfile.js";
 
 
 function DialogPanel(props: { className: string, transition: boolean, children: ReactNode }) {
@@ -62,8 +66,9 @@ const TariffsModal = memo(({setOpenTariffsModal, openTariffsModal}: {
               <div className='w-full flex justify-end' onClick={() => setOpenTariffsModal(false)}>
                 <SecondaryCloseIcon className='stroke-white'/>
               </div>
-              <h1 className='py-2 text-t1Semi_deck text-light_grey mb-4'>Оформи подписку и получи доступ ко всем функциям</h1>
-              <TariffsCards/>
+              <h1 className='py-2 text-t1Semi_deck text-light_grey mb-4'>Оформи подписку и получи доступ ко всем
+                функциям</h1>
+              {/*<TariffsCards/>*/}
             </Dialog.Panel>
           </Transition.Child>
         </div>
@@ -72,11 +77,17 @@ const TariffsModal = memo(({setOpenTariffsModal, openTariffsModal}: {
   )
 })
 export const AnalyticsContent = memo(() => {
-  const {data} = useArtistChart();
+  const {data: dataArtist}: any = useArtistProfile();
+  const params = useParams();
+  const {setSource} = useArtist();
+  const artistId = useMemo(() => {
+    return params['id'];
+  }, [params['id']]);
+  const {data: trackData, loading: apiTrackDataLoading} = useArtistTrack();
   const {isSubscribed} = useSubscriptions();
   const {changeTab, setChangeTab} = useChangeTab();
   const [popupChart, setPopupChart] = useState(false);
-  const {is1600} = useSizes();
+  const {width} = useSizes();
   const refChart = useRef(null);
   const refChartContainer = useRef(null);
   const [openTariffsModal, setOpenTariffsModal] = useState(false);
@@ -98,6 +109,7 @@ export const AnalyticsContent = memo(() => {
     }
     // setOpenTariffsModal(true)
   }, []);
+
   return (
     <>
       <ShowOnMobileToTablet>
@@ -127,14 +139,18 @@ export const AnalyticsContent = memo(() => {
                 <button className='min-w-5 h-5'>
                   <ChevronRight color='white' className={``}/>
                 </button>
-                <img className='fill-white w-7 h-7 ' src={settings}/>
+                <Link to={`/share/artist/${artistId}/${params['name']}`}
+                >
+                  <RelativeLinksIcon className='fill-white hover:fill-medium_grey'/>
+                </Link>
               </div>
               <div className="flex gap-6 flex-col items-center h-fit ">
-                <section className={`w-full flex gap-6 mt-6 ${is1600 ? 'flex-row' : 'flex-col'} `}>
+                <section className={`w-full flex gap-6 mt-6 flex-col xl:flex-row`}>
                   <Chart setPopupChart={setPopupChart} popupChart={popupChart}/>
                   <Performance/>
                 </section>
-                <section className={`w-full flex gap-6 mb-24 ${is1600 ? 'flex-row' : 'flex-col'}`}>
+                <section
+                  className={`w-full flex gap-6 mb-24 ${width > 1680 ? 'flex-row' : 'flex-col-reverse'} ${(width > 1680 && trackData?.trackData?.listData?.length > 2) ? 'flex-col-reverse' : 'flex-row'}`}>
                   <RelatedTracks/>
                   <TopTracks/>
                 </section>

@@ -19,7 +19,7 @@ const RemoveTeamMember = memo(({openModalRemove, setOpenModalRemove}: any) => {
         >
           <div className="fixed inset-0 bg-black/85 w-full h-full flex justify-center items-center "/>
         </Transition.Child>
-        <div className="">
+        <div className="w-full h-full flex justify-center items-center">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -32,7 +32,7 @@ const RemoveTeamMember = memo(({openModalRemove, setOpenModalRemove}: any) => {
             {
               sendRequestRemoving
               ? <Dialog.Panel
-                  className=" bg-popup_gray lg:my-20 p-4 md:py-8 lg:p-10 md:px-8  lg:mx-auto lg:rounded-[20px] z-50 relative w-full  max-w-[35rem]"
+                  className="h-full md:h-fit bg-popup_gray lg:my-20 p-4 md:py-8 lg:p-10 md:px-8  lg:mx-auto md:rounded-[20px] z-50 relative w-full  md:max-w-[35rem]"
                 >
                   <div className='w-full flex justify-end cursor-pointer' onClick={() => setOpenModalRemove(false)}>
                     <SecondaryCloseIcon className='stroke-white'/>
@@ -45,7 +45,7 @@ const RemoveTeamMember = memo(({openModalRemove, setOpenModalRemove}: any) => {
                   </div>
                 </Dialog.Panel>
                 : <Dialog.Panel
-                  className=" bg-popup_gray lg:my-20 p-4 md:py-8 lg:p-10 md:px-8  lg:mx-auto lg:rounded-[20px] z-50 relative w-full lg:w-fit max-w-[35rem]"
+                  className="h-full md:h-fit bg-popup_gray lg:my-20 p-4 md:py-8 lg:p-10 md:px-8  md:mx-auto md:rounded-[20px] z-50 relative w-full lg:w-fit md:max-w-[35rem]"
                 >
                   <div className='w-full flex justify-end cursor-pointer' onClick={() => setOpenModalRemove(false)}>
                     <SecondaryCloseIcon className='stroke-white'/>

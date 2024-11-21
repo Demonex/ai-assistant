@@ -7,8 +7,10 @@ import {TaggableCache as RedisTaggable} from 'cache-tags';
 import cookieParser from 'cookie-parser';
 import {get} from 'lodash-es';
 import {REDIS_SESSION_PREFIX} from '../../constants.js';
-// import payloadInit from '@stigma-io/payload';
+import payloadInit from '@stigma-io/payload';
 import {parse} from 'cookie';
+import {default as payloadConfig} from '../../payload/payload.config.js';
+import {default as payloadConfigProduction} from '../../payload/payload.config.production.js';
 
 const RedisTaggableClient: Redis & any = new RedisTaggable({
   host: import.meta.env.VITE_REDIS_HOST || 'localhost',
@@ -18,6 +20,7 @@ const RedisSessionStore = new RedisStore({
   client: RedisTaggableClient,
   prefix: REDIS_SESSION_PREFIX
 });
+
 RedisSessionStore.set = function(sid: string, sess: SessionData, cb?: (_err?: unknown, _data?: any) => any) {
   const $this = this;
   let args = [$this.prefix + sid];
@@ -102,8 +105,8 @@ const expressPlugins = async (express: Express) => {
     } catch(e) {
       // console.error(e)
     }
-    if(webDomain?.endsWith('.rifify.ru')) {
-      domain = '.rifify.ru';
+    if(webDomain?.endsWith('.rifify.me')) {
+      domain = '.rifify.me';
     }
     const expressSession = session({
       name: import.meta.env.VITE_SESSIONS_KEY,
@@ -121,9 +124,10 @@ const expressPlugins = async (express: Express) => {
     });
     expressSession(req, res, next);
   });
-  /*await payloadInit.init({
+  await payloadInit.init({
     secret: import.meta.env.VITE_PAYLOAD_SECRET,
-    express
-  });*/
+    express,
+    config: import.meta.env.VITE_IS_PRODUCTION === 'true' ? payloadConfigProduction : payloadConfig
+  });
 };
 export default expressPlugins;

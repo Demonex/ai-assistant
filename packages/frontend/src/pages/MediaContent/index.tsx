@@ -9,8 +9,6 @@ import ReadMore from './components/ReadMore.js';
 import Telegram from '../WelcomePage/components/Telegram.js';
 import Tariffes from '../WelcomePage/components/Tariffes.js';
 import Bottom from '../WelcomePage/components/Bottom.js';
-import {useParams} from 'wouter';
-import {useNews} from '../Media/hooks/useNews.js';
 
 export const MediaContent = memo(() => {
   const {isMobile} = useSizes();

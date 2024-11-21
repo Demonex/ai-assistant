@@ -45,7 +45,7 @@ export const Performance = memo(() => {
   });
   const filteredData = chartData?.chart?.iconData?.filter((item) => (item.secondaryText === 'total'));
   return (
-    <div className=" flex-col items-center lg:bg-popup_gray/50 rounded-[20px] lg:px-7 lg:py-8 gap-2.5">
+    <div className=" flex-col items-center lg:bg-popup_gray/50 rounded-[20px] lg:px-7 lg:py-8 gap-2.5 w-full lg:max-w-[20.3rem]">
       {
         apiChartDataLoading === true
           ? <SkeletonPerformance/>
@@ -62,7 +62,7 @@ export const Performance = memo(() => {
                     <div
                       className="text-white w-full"
                     >
-                      <div className="bg-transparent py-2 rounded-xl h-full flex justify-between items-center gap-[8.75rem]">
+                      <div className="bg-transparent py-2 rounded-xl h-full flex justify-between items-center gap-10 ">
                         <span className="text-medium_grey text-caption_r_desk">{item.text}</span>
                         <span
                           className="text-t1Semi_mob md:text-t1Semi_deck">{item.count}</span>

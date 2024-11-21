@@ -530,7 +530,6 @@ const RecommendedPlaylists = memo(() => {
   const [selectedFollowersQtyFilter, setSelectedFollowersQtyFilter] = useState(followersQtyFilter[0]);
   const [selectedSongReleaseFilter, setSelectedSongReleaseFilter] = useState(songReleaseFilter[0]);
 
-  console.log('sourceArray', sourceArray)
   return (
     <div className='w-full flex flex-col gap-1'>
       <TrackModal openModal={openModal} setOpenModal={setOpenModal} />

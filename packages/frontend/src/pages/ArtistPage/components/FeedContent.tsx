@@ -181,7 +181,6 @@ export const FeedContent = memo(() => {
         'other': cur
       }
     },{})*/
-  console.log('feedDataFree', feedDataFree)
 
   const fetchFeed = useMemo(() => {
     return isSubscribed ? fetchFeedPaid : fetchFeedFree;

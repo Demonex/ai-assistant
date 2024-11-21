@@ -38,8 +38,6 @@ export const PreviewPanel = memo(() => {
     setIsOpen(false);
     setIsOpenSearchModal(false);
   }, [subscriptionOnClick, artistSelected, subscription]);
-  console.log('artistSelected', artistSelected);
-  console.log('subscription', subscription);
   return (
     <>
       <div className="flex justify-center">

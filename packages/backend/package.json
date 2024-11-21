@@ -22,7 +22,7 @@
     "generate:types": "payload generate:types",
     "build:docker": "docker buildx build --push --platform linux/amd64 -t bardakdev/rifify .",
     "payload": "dotenv -- payload",
-    "dev": "dotenv -- vite --host --force"
+    "dev": "cross-env vite --host"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.433.0",

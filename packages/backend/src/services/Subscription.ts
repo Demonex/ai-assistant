@@ -49,7 +49,7 @@ export class SubscriptionService {
     }
     const login = 'analitica';
     const password = 'A6VeSSiY429wKAhhf9Qw';
-    const description = 'Подписка rifify.ru';
+    const description = 'Подписка rifify.me';
     const getInvoiceId = async () => {
       const invoiceId = generateInvoiceId();
       if (!await this.repoTransactions.exists({invoiceId})) {

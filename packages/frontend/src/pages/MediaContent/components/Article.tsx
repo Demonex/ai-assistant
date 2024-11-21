@@ -52,7 +52,6 @@ const Article = memo(() => {
   useEffect(() => {
     setPost(id);
   }, [id]);
-  console.log('post', post);
 
   /* useEffect(() => {
      if(isPlaying) {

@@ -18,6 +18,12 @@ import {ArrowBack} from "../../../assets/ArrowBack.js";
 import {Subscriptions} from "./Account/Subscriptions.js";
 import { EmailConfirmRequired } from './Account/EmailConfirmRequired.js';
 import { CenteredLoader } from '@/shared/ui/Loader/CenteredLoader.js';
+import Team from "./Account/Team.js";
+import ManageNotifications from "./Account/ManageNotifications.js";
+import ActivityFeed from "./Settings/ActivityFeed.js";
+import Integrations from "./Settings/Integrations.js";
+import {FavoriteSources} from "./Settings/FavoriteSources.js";
+import Notifications from "./Settings/Notifications.js";
 
 const tabs = []
 
@@ -42,7 +48,7 @@ const Menu = () => {
   } = useAccountSettings();
   return (
     <div>
-      <div className='w-full flex gap-6 justify-between pb-6'>
+      <div className='flex-col md:flex-row w-full flex gap-6 justify-between pb-6'>
         <div className='flex gap-6 items-center'>
           <form onSubmit={handleSubmit(onSubmitUpdate)}>
             <SharedFileInput
@@ -111,6 +117,18 @@ const AccountMobileMenu = memo(() => {
             return <PaymentInfo/>
           case 'subscriptions':
             return <Subscriptions/>
+          case 'team':
+            return <Team/>
+          case 'subscriptionsManagement':
+            return  <ManageNotifications/>
+          case 'feed':
+            return  <ActivityFeed/>
+          case 'integrations':
+            return  <Integrations/>
+          case 'favoriteSources':
+            return  <FavoriteSources/>
+          case 'notifications':
+            return  <Notifications/>
         }
       })()}
         </>

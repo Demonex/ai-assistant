@@ -46,7 +46,6 @@ const MobileSwiper = () => {
     searchData,
   } = useSearchData();
   const [swiper, setSwiper] = useState<SwiperClass>(null)
-  console.log('swiper', swiper)
   return (
     <>
       {

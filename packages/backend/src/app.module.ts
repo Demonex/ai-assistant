@@ -14,7 +14,7 @@ import { MailerModule } from './mailer/mailer.module.js';
     MailchimpModule.forRoot(`${import.meta.env.VITE_MAILCHIMP_TRANSACTIONAL_API_KEY}`),
     RedisModule.forRoot([
       {
-        name:'rifify.ru',
+        name:'rifify.me',
         host:import.meta.env.VITE_REDIS_HOST||'localhost',
         port:6379,
         password:''
