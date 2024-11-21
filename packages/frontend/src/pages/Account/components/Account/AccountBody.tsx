@@ -4,8 +4,8 @@ import { EmailConfirmRequired } from './EmailConfirmRequired.js';
 
 export const AccountBody = () => {
   const { profile } = useAccount();
-
-	return (
+	
+  return (
 		<>
 			{profile?.emailVerified ? (
            <AccountTabs />

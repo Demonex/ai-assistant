@@ -93,11 +93,7 @@ export class AuthService {
       name, email, password: hashPassword, consent, activationLink
     });
 
-    await this.mailerService.sendMail({
-      recipients: [email],
-      subject: 'Подтвердите свою почту и начните использовать Rifify',
-      html: this.createConfirmEmailText(`http://localhost:2050/api/rest/auth/activate/${activationLink}`),
-    })
+    await this.sendConfirmEmail(email, activationLink);
 
     this.request.session.user = {
       id: user._id,
@@ -115,6 +111,19 @@ export class AuthService {
     }
     return user;
   }
+
+  async resendEmailConfirm(userId: string) {
+    try {
+      const user = await this.repoUser.findOne({_id: userId});
+      const { email, activationLink } = user;
+      await this.sendConfirmEmail(email, activationLink);
+
+      return { success: true };
+
+    } catch (error) {
+      return { success: false, message: 'Failed to resendEmailConfirm' };
+    }
+  } 
 
   async recover({
                   login: username,
@@ -264,5 +273,13 @@ export class AuthService {
       <p>Для подтверждения аккаунта Rifify перейдите по ссылке: </p>
       <a href=${link}>${link}</a>
     `
+  }
+
+  private async sendConfirmEmail(email: string, activationLink: string) {
+    await this.mailerService.sendMail({
+      recipients: [email],
+      subject: 'Подтвердите свою почту и начните использовать Rifify',
+      html: this.createConfirmEmailText(`${import.meta.env.VITE_BACKEND_URL}/api/rest/auth/activate/${activationLink}`),
+    });
   }
 }

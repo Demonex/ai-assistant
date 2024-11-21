@@ -2,6 +2,7 @@ export type Language = 'en';
 export type Currency = 'usd';
 
 export interface IProfile {
+	id: string;
 	email: string;
 	emailVerified: boolean;
 	language: Language;

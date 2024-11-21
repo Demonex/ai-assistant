@@ -4,6 +4,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  InternalServerErrorException,
   Param,
   Post,
   Redirect,
@@ -19,6 +20,7 @@ import {ApiBearerAuth, ApiExcludeEndpoint, ApiOperation, ApiResponse, ApiTags} f
 import type {RedirectResponse} from '@nestjs/core/router/router-response-controller.js';
 import {validateDto} from '../middlewares/validateDto.js';
 import {Types} from "mongoose";
+import e from 'express';
 
 @ApiTags('auth')
 @Controller('/api')
@@ -111,6 +113,17 @@ export class AuthController {
   async activate(@Param('link') link: string, @Res() res) {
     await this.service.activateAccount(link);
     return res.redirect(import.meta.env.VITE_FRONTEND_URL);
+  }
+
+  @Post('/rest/auth/email/resend/:userId')
+  async resend(@Param('userId') userId: string) {
+    const result = await this.service.resendEmailConfirm(userId);
+
+    if (result.success) {
+      return result;
+    } else {
+      throw new InternalServerErrorException(result.message);
+    }
   }
 
   @Unauthorized()
