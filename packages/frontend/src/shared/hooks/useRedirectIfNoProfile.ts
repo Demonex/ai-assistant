@@ -3,9 +3,9 @@ import { useEffect } from 'react';
 import { navigate } from 'wouter/use-browser-location';
 
 export const useRedirectIfNoProfile = () => {
-	const { profile } = useAccount();
+	const { profile, loading, initializing } = useAccount();
 
 	useEffect(() => {
-        if (!profile) navigate('/auth/sign-in', { replace: true });
-    }, [profile]);
+        if (!initializing && !loading && !profile) navigate('/auth/sign-in', { replace: true });
+    }, [initializing, loading, profile]);
 }

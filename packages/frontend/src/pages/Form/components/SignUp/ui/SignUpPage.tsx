@@ -19,7 +19,6 @@ export const SignUpPage = () => {
     const { setProfile } = useAccount();
     
     const passwordRef = useRef('');
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [sendRegisterLink, setSendRegisterLink] = useState(false);
 
     const {
@@ -47,7 +46,7 @@ export const SignUpPage = () => {
         }
 
         fetchSignUp({data: dto}).catch(console.error);
-        // setSendRegisterLink(true)
+        setSendRegisterLink(true)
     }, [fetchSignUp]);
 
     useEffect(() => {

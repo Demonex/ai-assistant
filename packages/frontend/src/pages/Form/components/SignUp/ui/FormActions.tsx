@@ -1,5 +1,6 @@
 import type { UseFormReset } from 'react-hook-form';
 import type { ISignUpFormInputs } from '../types/types.js';
+import { Button } from '@/shared/ui/Button/Button.js';
 
 interface FormActionsProps {
     reset: UseFormReset<ISignUpFormInputs>;
@@ -10,18 +11,14 @@ export const FormActions = (props: FormActionsProps) => {
 
 	return (
 		<div className='flex flex-col md:flex-row gap-3 md:gap-3.5 mt-2'>
-            <button
+            <Button
                 type='button'
-                className="flex w-full justify-center rounded-xl border border-solid border-medium_grey px-3 py-3.5 text-caption_m_desk text-white hover:scale-105 transition duration-300"
+                variant='secondary'
                 onClick={() => reset()}
             >
                 Отмена
-            </button>
-            <button
-                className="flex w-full justify-center rounded-xl bg-primary_blue px-3 py-3.5 text-caption_m_desk text-white hover:scale-105 transition duration-300"
-            >
-                Создать
-            </button>
+            </Button>
+            <Button>Создать</Button>
         </div>
 	);
 };

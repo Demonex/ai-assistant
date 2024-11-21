@@ -4,12 +4,14 @@ import useFetch from '../../../hooks/useFetch.js';
 import { useEffect, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import type { IProfile } from '../../../entities/account/types/types.js';
+import usePrevious from '@/shared/hooks/usePrevious.js';
 
 const _useAccount = (): {
   profile: IProfile;
   setProfile: Dispatch<SetStateAction<IProfile>>;
   loading?: boolean;
   error?: unknown;
+  initializing: boolean;
 } => {
 
   const [profile, setProfile] = useState<IProfile>();
@@ -18,20 +20,29 @@ const _useAccount = (): {
     cache: false
   });
 
+  const [initializing, setInitializing] = useState(true);
+	const previousLoading = usePrevious(loading);
+
   useEffect(() => {
     if (!data) {
       return;
     }
-    console.log('reset')
-    console.log("data", data)
+
     setProfile(data as IProfile);
   }, [data]);
+
+  useEffect(() => {
+		if (previousLoading === true && loading === false) {
+			setInitializing(false);
+		}
+	}, [loading, previousLoading]);
 
   return {
     profile,
     setProfile,
     loading,
-    error
+    error,
+    initializing,
   };
 };
 

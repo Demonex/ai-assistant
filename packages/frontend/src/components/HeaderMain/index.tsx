@@ -1,7 +1,7 @@
 import {useSizes} from '../../hooks/useSizes.js';
 import PrimaryButton from '../PrimaryButton.js';
 import {ShowOnLaptopToDesktop} from '../SowOnLaptopToDeckTop/index.js';
-import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
+import {memo, useCallback, useState} from 'react';
 import {Link} from 'wouter';
 import {useAccount} from '../Header/hooks/useAccount.js';
 import {useMobileMenu} from '../Header/components/MobileMenu/hooks/useMobileMenu.js';

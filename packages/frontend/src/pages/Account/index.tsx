@@ -1,22 +1,22 @@
 import {memo} from "react";
 import Header from "../../components/HeaderMain/index.js";
-import {useAccount} from "../../components/Header/hooks/useAccount.js";
 import Sidebar from "./components/Sidebar.js";
 import {useAccountSettings} from "./components/hooks/useAccountSettings.js";
 import {AccountPage} from "./AccountPage.js";
 import {useSizes} from "../../hooks/useSizes.js";
 import AccountMobileMenu from "./components/AccountMobileMenu.js";
 import { useRedirectIfNoProfile } from '@/shared/hooks/useRedirectIfNoProfile.js';
-
+import { useAccount } from '@/components/Header/hooks/useAccount.js';
+import { CenteredLoader } from '@/shared/ui/Loader/CenteredLoader.js';
 
 export const UserAccount = memo(() => {
-  const {profile} = useAccount();
   const {accountSettingsType} = useAccountSettings();
   const {isTablet, isMobile} = useSizes();
+  const { profile, loading, initializing } = useAccount();
 
   useRedirectIfNoProfile();
 
-  if (!profile) return null;
+  if (!profile || loading || initializing) return <CenteredLoader />
 
   return (
     <>

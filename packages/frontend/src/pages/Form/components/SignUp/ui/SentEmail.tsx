@@ -1,4 +1,6 @@
+import { Button } from '@/shared/ui/Button/Button.js';
 import sentLetter from "/assets/svg/email-messagesvg.svg";
+import { navigate } from 'wouter/use-browser-location';
 
 export const SentEmail = () => (
 	<div className='flex flex-col gap-5'>
@@ -10,5 +12,10 @@ export const SentEmail = () => (
             <p className='text-t2Regular lg:text-t2Regular text-medium_grey'>Если письма нет, не
                 забудь проверить папку «Спам».</p>
         </div>
+        <Button
+            onClick={() => navigate('/')}
+        >
+                Хорошо
+        </Button>
     </div>
 );

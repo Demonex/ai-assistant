@@ -11,12 +11,13 @@ import {clear} from "use-between";
 import {useLocation} from "wouter";
 import {accountTabs} from "../consts.js";
 import ChevronRight from "../../../assets/ChevronRight.js";
-import {AccountPage} from "../AccountPage.js";
 import {AccountSettings} from "./Account/AccountSettings.js";
 import PopupDeleteAccount from "./Account/PopupDeleteAccount.js";
 import PaymentInfo from "./Account/PaymentInfo.js";
 import {ArrowBack} from "../../../assets/ArrowBack.js";
 import {Subscriptions} from "./Account/Subscriptions.js";
+import { EmailConfirmRequired } from './Account/EmailConfirmRequired.js';
+import { CenteredLoader } from '@/shared/ui/Loader/CenteredLoader.js';
 
 const tabs = []
 
@@ -80,10 +81,17 @@ const Menu = () => {
 }
 const AccountMobileMenu = memo(() => {
   const {mobileRender, setMobileRender} = useAccountSettings();
+  const { profile, loading } = useAccount();
+
+  if (!profile || loading) return <CenteredLoader />;
+
   return (
     <section className='py-6 px-4 md:px-8 w-full '>
       <PopupDeleteAccount/>
-      {
+
+      {profile?.emailVerified ? (
+        <>
+           {
         mobileRender !== '' && (
           <div className='lg:hidden'>
             <div className='flex gap-2.5 items-center pb-6' onClick={() => setMobileRender('')}>
@@ -105,8 +113,10 @@ const AccountMobileMenu = memo(() => {
             return <Subscriptions/>
         }
       })()}
-
-
+        </>
+      ) : (
+        <EmailConfirmRequired />
+      )}
     </section>
   )
 })
