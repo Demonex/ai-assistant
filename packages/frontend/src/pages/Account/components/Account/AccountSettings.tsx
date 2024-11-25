@@ -2,9 +2,10 @@ import {useAccount} from '../../../../components/Header/hooks/useAccount.js';
 import {useAccountSettings} from "../hooks/useAccountSettings.js";
 import shownPassword from "/assets/svg/shown_password.svg";
 import hiddenPassword from "/assets/svg/hidden_password.svg";
-import React, {useState} from "react";
+import {useState} from "react";
 import BasketIcon from "../../../../assets/BasketIcon.js";
-import {ArrowBack} from "../../../../assets/ArrowBack.js";
+// import {ArrowBack} from "../../../../assets/ArrowBack.js";
+import { PopupUpdateAccount } from './PopupUpdateAccount.js';
 
 export const AccountSettings = () => {
   const {profile} = useAccount();
@@ -14,13 +15,26 @@ export const AccountSettings = () => {
     handleSubmit,
     register, setOpenPopupDeleteAccount
   } = useAccountSettings();
+  
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
+
+  const [updateModalOpen, setUpdateModalOpen] = useState(false);
+
+  const handleCloseUpdateModal = () => {
+    setUpdateModalOpen(false);
+  };
+
+  const handleOnConfirm = () => {
+    handleSubmit(onSubmitUpdate)();
+    handleCloseUpdateModal();
+  };
+
   return (
     <>
       <h1 className='text-t1Semi_ipad lg:hidden'>Данные аккаунта</h1>
       <div className=" py-6">
-        <form className="flex flex-col gap-6 w-full md:max-w-[27.8rem]" onSubmit={handleSubmit(onSubmitUpdate)}
+        <form className="flex flex-col gap-6 w-full md:max-w-[27.8rem]"
               autoComplete="off">
           <div className="flex flex-col gap-4">
             <div>
@@ -103,8 +117,9 @@ export const AccountSettings = () => {
           </div>
           <div className="flex flex-col gap-4">
             <button
-              type="submit"
+              type="button"
               className="w-full bg-medium_grey rounded-xl px-5 py-3.5 text-caption_m_desk"
+              onClick={() => setUpdateModalOpen(true)}
             >
               Сохранить изменения
             </button>
@@ -117,6 +132,7 @@ export const AccountSettings = () => {
               Удалить аккаунт
             </button>
           </div>
+          <PopupUpdateAccount open={updateModalOpen} onClose={handleCloseUpdateModal} onConfirm={handleOnConfirm}/>
         </form>
       </div>
     </>

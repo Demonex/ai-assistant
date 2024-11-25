@@ -67,7 +67,10 @@ const _useAccountSettings = () => {
 
     void fetchUpdateProfile({
       data: changedFields
-    }).then(({data})=>setProfile(dataUpdatedProfile));
+    }).then(({data})=> {
+      setProfile(data)}
+    );
+
   };
   return {
     accountSettingsType,
