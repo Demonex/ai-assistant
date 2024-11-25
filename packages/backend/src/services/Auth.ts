@@ -184,41 +184,85 @@ export class AuthService {
     return {redirect: `${import.meta.env.VITE_FRONTEND_URL}/error?code=recover`};
   }
 
+  // private async createUserByEmail(args): Promise<UserEntity & { id?: string; _id?: Types.ObjectId }> {
+
+  //   try {
+  //     // return await this.repoUser.create(args);
+
+  //     const user = await this.repoUser.create(args);
+
+  //     return user;
+
+
+  //   } catch (e) {
+  //     console.error(e.message);
+  //     switch (e.code) {
+  //       case 11000: {
+  //         if ('email' in e.keyValue) throw new HttpException({
+  //           statusCode: HttpStatus.BAD_REQUEST,
+  //           messages: [{
+  //             property: 'email',
+  //             messages: [HttpStatusMessages.EMAIL_ALREADY_EXIST]
+  //           }]
+  //         }, HttpStatus.BAD_REQUEST);
+  //         /*if ('username' in e.keyValue) throw new HttpException({
+  //           statusCode: HttpStatus.BAD_REQUEST,
+  //           messages: [{
+  //             property: 'username',
+  //             messages: [HttpStatusMessages.USERNAME_ALREADY_EXIST]
+  //           }]
+  //         }, HttpStatus.BAD_REQUEST);*/
+  //         break;
+  //       }
+  //     }
+  //     throw new Error('Internal server error');
+  //   }
+  // }
+
   private async createUserByEmail(args): Promise<UserEntity & { id?: string; _id?: Types.ObjectId }> {
-
     try {
-      // return await this.repoUser.create(args);
-
+    
       const user = await this.repoUser.create(args);
-
-      return user;
-
-
-    } catch (e) {
-      console.error(e.message);
-      switch (e.code) {
-        case 11000: {
-          if ('email' in e.keyValue) throw new HttpException({
-            statusCode: HttpStatus.BAD_REQUEST,
-            messages: [{
-              property: 'email',
-              messages: [HttpStatusMessages.EMAIL_ALREADY_EXIST]
-            }]
-          }, HttpStatus.BAD_REQUEST);
-          /*if ('username' in e.keyValue) throw new HttpException({
-            statusCode: HttpStatus.BAD_REQUEST,
-            messages: [{
-              property: 'username',
-              messages: [HttpStatusMessages.USERNAME_ALREADY_EXIST]
-            }]
-          }, HttpStatus.BAD_REQUEST);*/
-          break;
-        }
+  
+   
+      try {
+        await this.crmService.createUserInCrm({
+          firstName: args.name.split(' ')[0] || '',
+          lastName: args.name.split(' ')[1] || '',
+          email: args.email,
+          phone: args.phone || '',
+          supervisors: { users: [{ id: 'user:45' }] }, 
+        });
+  
+        await this.crmService.createTaskInCrm({
+          name: `New Registration - ${args.name}`,
+          description: `Process the registration of ${args.name}.`,
+          project: { id: 7382 }, // ID проекта "Регистрация"
+        });
+      } catch (crmError) {
+        console.error('Error synchronizing with CRM:', crmError.message);
+     
       }
-      throw new Error('Internal server error');
+  
+      return user;
+    } catch (error) {
+      console.error('Error creating user:', error.message);
+  
+
+      if (error.code === 11000 && 'email' in error.keyValue) {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.BAD_REQUEST,
+            messages: [{ property: 'email', messages: ['Email already exists'] }],
+          },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+  
+      throw new HttpException('Internal Server Error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-
+  
   private async getUserByEmailOrUsername(login: string): Promise<UserEntity & { id?: string; _id: Types.ObjectId }> {
     let criteria = {};
     if (isEmail(login)) {
