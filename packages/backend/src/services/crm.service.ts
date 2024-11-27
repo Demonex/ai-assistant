@@ -3,10 +3,11 @@ import axios from 'axios';
 
 @Injectable()
 export class CrmService {
-  async createUserInCrm(userData: any): Promise<any> {
-    const crmUrl = import.meta.env.VITE_CRM_URL;
-    const token = import.meta.env.VITE_CRM_TOKEN;
+  private readonly crmToken = process.env.CRM_TOKEN; 
 
+
+  async createUserInCrm(userData: any): Promise<any> {
+    const crmCreateUserUrl = process.env.CRM_CREATE_USER_URL; 
 
     const crmRequestData = {
       template: { id: 1 },
@@ -31,14 +32,21 @@ export class CrmService {
       ],
       companies: [],
       contacts: [],
-      customFieldData: []
+      customFieldData: [],
+      supervisors: { 
+        users: [
+          {
+            id: "user:45" // Уникальный идентификатор супервизора "Рудольф"
+          }
+        ]
+      }
     };
 
     try {
-      const response = await axios.post(crmUrl, crmRequestData, {
+      const response = await axios.post(crmCreateUserUrl, crmRequestData, {
         headers: {
-        'accept': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          'accept': 'application/json',
+          'Authorization': `Bearer ${this.crmToken}`,
           'Content-Type': 'application/json',
         },
       });
@@ -52,33 +60,43 @@ export class CrmService {
     }
   }
 
-
+ 
   async createTaskInCrm(taskData: any): Promise<any> {
-    const crmCreateTaskUrl = import.meta.env.CRM_CREATE_TASK_URL;
-    const token = import.meta.env.VITE_CRM_TOKEN;
+    const crmCreateTaskUrl = process.env.CRM_CREATE_TASK_URL; 
 
-
+    // Формируем данные для CRM
     const crmTaskData = {
-      name: taskData.name,
-      description: taskData.description || "Process the new user registration",
-      project: taskData.project || { id: 7382 },
+        name: taskData.name, 
+        description: taskData.description || "Передано из Rifify.ru/auto", // Описание
+        project: taskData.project || { id: 7382 }, // ID проекта "Регистрация"
+        assignees: { 
+            users: [
+                { id: "user:45" } // ID пользователя, назначенного на задачу "Рудольф"
+            ]
+        }
     };
 
     try {
-      const response = await axios.post(crmCreateTaskUrl, crmTaskData, {
-        headers: {
-          'accept': 'application/json',
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      return response.data;
+    
+        const response = await axios.post(crmCreateTaskUrl, crmTaskData, {
+            headers: {
+                'accept': 'application/json',
+                'Authorization': `Bearer ${this.crmToken}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+         return response.data;
+
     } catch (error) {
-      console.error('Error creating task in CRM:', error.message);
-      throw new HttpException(
-        'Failed to create task in CRM',
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
+        console.error('Error creating task in CRM:', error.message);
+
+    
+        throw new HttpException(
+            'Failed to create task in CRM',
+            HttpStatus.INTERNAL_SERVER_ERROR
+        );
     }
-  }
+}
+
 }
