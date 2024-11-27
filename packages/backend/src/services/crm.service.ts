@@ -3,11 +3,9 @@ import axios from 'axios';
 
 @Injectable()
 export class CrmService {
-  private readonly crmToken = process.env.CRM_TOKEN; 
-
-
   async createUserInCrm(userData: any): Promise<any> {
-    const crmCreateUserUrl = process.env.CRM_CREATE_USER_URL; 
+    const crmCreateUserUrl = import.meta.env.VITE_CRM_CREATE_USER_URL;
+    const token = import.meta.env.VITE_CRM_TOKEN;
 
     const crmRequestData = {
       template: { id: 1 },
@@ -33,7 +31,7 @@ export class CrmService {
       companies: [],
       contacts: [],
       customFieldData: [],
-      supervisors: { 
+      supervisors: {
         users: [
           {
             id: "user:45" // Уникальный идентификатор супервизора "Рудольф"
@@ -46,7 +44,7 @@ export class CrmService {
       const response = await axios.post(crmCreateUserUrl, crmRequestData, {
         headers: {
           'accept': 'application/json',
-          'Authorization': `Bearer ${this.crmToken}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       });
@@ -60,16 +58,17 @@ export class CrmService {
     }
   }
 
- 
+
   async createTaskInCrm(taskData: any): Promise<any> {
-    const crmCreateTaskUrl = process.env.CRM_CREATE_TASK_URL; 
+    const crmCreateTaskUrl =  import.meta.env.VITE_CRM_CREATE_TASK_URL;
+    const token = import.meta.env.VITE_CRM_TOKEN;
 
     // Формируем данные для CRM
     const crmTaskData = {
-        name: taskData.name, 
+        name: taskData.name,
         description: taskData.description || "Передано из Rifify.ru/auto", // Описание
         project: taskData.project || { id: 7382 }, // ID проекта "Регистрация"
-        assignees: { 
+        assignees: {
             users: [
                 { id: "user:45" } // ID пользователя, назначенного на задачу "Рудольф"
             ]
@@ -77,11 +76,11 @@ export class CrmService {
     };
 
     try {
-    
+
         const response = await axios.post(crmCreateTaskUrl, crmTaskData, {
             headers: {
                 'accept': 'application/json',
-                'Authorization': `Bearer ${this.crmToken}`,
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
             },
         });
@@ -91,7 +90,7 @@ export class CrmService {
     } catch (error) {
         console.error('Error creating task in CRM:', error.message);
 
-    
+
         throw new HttpException(
             'Failed to create task in CRM',
             HttpStatus.INTERNAL_SERVER_ERROR
