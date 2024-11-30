@@ -68,6 +68,7 @@ export class CrmService {
         name: taskData.name,
         description: taskData.description || "Передано из Rifify.ru/auto", // Описание
         project: taskData.project || { id: 7382 }, // ID проекта "Регистрация"
+        template: taskData.template || { id: 7235 }, // ID шаблона "Регистрация"
         assignees: {
             users: [
                 { id: "user:45" } // ID пользователя, назначенного на задачу "Рудольф"

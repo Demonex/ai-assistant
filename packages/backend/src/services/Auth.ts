@@ -238,6 +238,7 @@ export class AuthService {
           name: `New Registration - ${args.name}`,
           description: `Process the registration of ${args.name}.`,
           project: { id: 7382 }, // ID проекта "Регистрация"
+          template: { id: 7235 }, // ID шаблона "Регистрация"
         });
       } catch (crmError) {
         console.error('Error synchronizing with CRM:', crmError.message);
