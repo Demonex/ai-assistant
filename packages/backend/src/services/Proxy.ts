@@ -75,7 +75,6 @@ export class ProxyService {
       upsert: true
     });
     if (cache) {
-      console.log('cache');
       return cache;
     }
     if (path.includes('search/search_all')) {
@@ -89,8 +88,8 @@ export class ProxyService {
         });
         if (response && Object.keys(response).length > 2) {
           await this.redisClient.set(cacheKey, JSON.stringify(response), 'PX', 1_000 * 60 * 60 * 24);
+          return response;
         }
-        return response;
       } catch (e) {
         // console.error(e);
       }
@@ -104,8 +103,8 @@ export class ProxyService {
         });
         if (response && Object.keys(response).length > 2) {
           await this.redisClient.set(cacheKey, JSON.stringify(response), 'PX', 1_000 * 60 * 60 * 24);
+          return response;
         }
-        return response;
       } catch (e) {
         // console.error(e);
       }
