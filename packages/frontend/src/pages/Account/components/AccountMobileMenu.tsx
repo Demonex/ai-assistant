@@ -11,7 +11,7 @@ import {clear} from "use-between";
 import {useLocation} from "wouter";
 import {accountTabs} from "../consts.js";
 import ChevronRight from "../../../assets/ChevronRight.js";
-import {AccountSettings} from "./Account/AccountSettings.js";
+import {AccountSettings} from "./Account/AccountSettings/ui/AccountSettings.js";
 import PopupDeleteAccount from "./Account/PopupDeleteAccount.js";
 import PaymentInfo from "./Account/PaymentInfo.js";
 import {ArrowBack} from "../../../assets/ArrowBack.js";

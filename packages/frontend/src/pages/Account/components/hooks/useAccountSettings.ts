@@ -13,7 +13,7 @@ const _useAccountSettings = () => {
   const [openPopupDeleteAccount, setOpenPopupDeleteAccount] = useState(false);
   const {profile, setProfile} = useAccount();
   const [avatarImage, setAvatarImage] = useState<string>();
-  const [{data: dataUpdatedProfile}, fetchUpdateProfile] = useLazyFetch({
+  const [{data: dataUpdatedProfile, error: updateRequestError}, fetchUpdateProfile] = useLazyFetch({
     url: `${BACKEND_URL}/profile`,
     method: 'put',
     cache: false
@@ -35,7 +35,8 @@ const _useAccountSettings = () => {
     formState: {
       errors
     },
-    setValue
+    setValue,
+    setError
   } = useForm();
 
   const [{data: signOut}, fetchSignOut] = useLazyFetch({
@@ -49,6 +50,7 @@ const _useAccountSettings = () => {
   }
   const onSubmitUpdate = async ({avatar, ...data}, e) => {
     const formValues = data;
+    console.log('update data', data)
     if(avatar?.length) {
       const formDataAvatar = new FormData();
       Array.from(avatar).map((file: any, index) => {
@@ -88,7 +90,9 @@ const _useAccountSettings = () => {
     setOpenPopupDeleteAccount,
     mobileRender,
     setMobileRender,
-    onSubmitSignOut
+    onSubmitSignOut,
+    setError,
+    updateRequestError
   };
 };
 

@@ -1,7 +1,7 @@
 import { Tab } from '@headlessui/react';
 import { accountTabs } from '../../consts.js';
 import { useState } from 'react';
-import { AccountSettings } from './AccountSettings.js';
+import { AccountSettings } from './AccountSettings/ui/AccountSettings.js';
 import PaymentInfo from './PaymentInfo.js';
 import { Subscriptions } from './Subscriptions.js';
 import Team from './Team.js';

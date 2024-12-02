@@ -5,7 +5,9 @@ import {
   IsOptional,
   IsString,
   MaxLength,
-  IsEnum, IsBoolean, Matches
+  IsEnum, IsBoolean, Matches,
+  IsNotEmpty,
+  MinLength
 } from 'class-validator';
 import {ApiPropertyOptional} from '@nestjs/swagger';
 import {USER_LANGUAGES} from '../entities/enums.js';
@@ -17,6 +19,7 @@ export class UpdateProfileDto {
   readonly email?: string;
   @IsOptional()
   @IsString()
+  @IsNotEmpty({ message: 'Логин не может быть пустым' })
   @MaxLength(256)
   @ApiPropertyOptional()
   readonly name?: string;
@@ -28,6 +31,7 @@ export class UpdateProfileDto {
   readonly username?: string;
   @IsOptional()
   @IsString()
+  @MinLength(6)
   @MaxLength(256)
   @ApiPropertyOptional()
   readonly password?: string;

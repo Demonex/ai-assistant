@@ -21,7 +21,7 @@ export const EmailInput = (props: EmailInputProps) => {
                     autoComplete="email"
                     className={`block w-full border-solid  rounded-xl border border-dark_grey p-[.875rem] text-white !bg-[transparent] ${error ? '  ring-0 border-secondary_red focus:border-secondary_red focus:ring-0' : 'focus:ring-0 focus:border-medium_grey'} text-t2Regular md:text-caption_r_desk placeholder:text-medium_grey`}
                     {...register('email', {required: 'Email необходим'})}
-                    placeholder='Введи email или логин'
+                    placeholder='Введи email'
                 />
                 {error && <FormInputError message={error.message} /> }
             </div>
