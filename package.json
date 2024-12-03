@@ -6,7 +6,8 @@
   "scripts": {
     "build:docker:source": "docker buildx build --platform linux/amd64 -t bardakdev/rifify-backend:source -f ng.Dockerfile . --push",
     "build:docker": "docker buildx build --platform linux/amd64 -t bardakdev/rifify-backend . --push",
-    "start:backend": "nr --filter @stigma-io/rifify-backend start"
+    "start:backend": "nr --filter @stigma-io/rifify-backend start",
+    "start:frontend": "npm run dev:client --prefix ./packages/frontend"
   },
   "engines": {
     "node": ">=18.0.0"

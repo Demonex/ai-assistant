@@ -21,7 +21,7 @@ export const RepeatPasswordInput = ({register, error, passwordRef}) => {
                         autoComplete="off"
                         className='w-full bg-[transparent] p-0'
                         {...register('repeatPassword', {
-                            validate: value => (value === passwordRef.current && value.length > 0 || 'Пароли не совпадают'),
+                            validate: value => (value === passwordRef.current || 'Пароли не совпадают'),
                             /*pattern: {
                                 value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                                 message: 'Пароль должен содержать не менее 8 символов, по крайней мере одну заглавную и одну прописную буквы, одну цифру и спецсимвол '
