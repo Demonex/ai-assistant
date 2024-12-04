@@ -1,93 +1,30 @@
-import {Dialog, Transition} from '@headlessui/react';
-import React, {Fragment, memo, useEffect, useMemo, useState} from 'react';
-import {socials} from '../../../data/consts/socials.js';
+import { memo, useEffect, useMemo, useState} from 'react';
 import Skeleton, {SkeletonTheme} from 'react-loading-skeleton';
-import {useArtist} from '../hooks/useArtist.js';
-import {useLazyFetch} from '../../../hooks/useFetch.js';
-import {useArtistProfile} from '../hooks/useArtistProfile.js';
-import {BACKEND_URL} from '../../../constants/index.js';
-import '../../../index.css';
-import {useSubscriptions} from '../../../hooks/useSubscriptions.js';
-import {Tabs} from './SocialTabs.js';
-import ChevronRight from '../../../assets/ChevronRight.js';
+import {useArtist} from '../../../hooks/useArtist.js';
+import {useLazyFetch} from '../../../../../hooks/useFetch.js';
+import {useArtistProfile} from '../../../hooks/useArtistProfile.js';
+import {BACKEND_URL} from '../../../../../constants/index.js';
+import '../../../../../index.css';
+import {useSubscriptions} from '../../../../../hooks/useSubscriptions.js';
+import {Tabs} from '../../SocialTabs.js';
+import ChevronRight from '../../../../../assets/ChevronRight.js';
 import settings from '/assets/svg/settings_icon.svg';
-import {useChangeTab} from '../hooks/useChangeTab.js';
-import {overviewSources} from '../../../data/consts/favoriteSources.js';
-import {navbar} from '../../../data/consts/navbar.js';
-import {ShowOnLaptopToDesktop} from '../../../components/SowOnLaptopToDeckTop/index.js';
-import {ShowOnMobileToTablet} from '../../../components/showFromMobileToTablet/index.js';
-import {useSizes} from '../../../hooks/useSizes.js';
-import {useOpenMobileSidebar} from '../hooks/useOpenMobileSidebar.js';
-import {Sidebar, SidebarMobile} from './Sidebar/Sidebar.js';
-import ArtistMobileHeader from './ArtistMobileHeader.js';
-import PrimaryButton from '../../../components/PrimaryButton.js';
+import {useChangeTab} from '../../../hooks/useChangeTab.js';
+import {overviewSources} from '../../../../../data/consts/favoriteSources.js';
+import {navbar} from '../../../../../data/consts/navbar.js';
+import {ShowOnLaptopToDesktop} from '../../../../../components/SowOnLaptopToDeckTop/index.js';
+import {ShowOnMobileToTablet} from '../../../../../components/showFromMobileToTablet/index.js';
+import {useSizes} from '../../../../../hooks/useSizes.js';
+import {useOpenMobileSidebar} from '../../../hooks/useOpenMobileSidebar.js';
+import {SidebarMobile} from '../../Sidebar/Sidebar.js';
+import ArtistMobileHeader from '../../ArtistMobileHeader.js';
+import PrimaryButton from '../../../../../components/PrimaryButton.js';
 import reload from '/assets/svg/reload_icon.svg';
-import LockIcon from '../../../assets/LockIcon.js';
-import {useAccount} from '../../../components/Header/hooks/useAccount.js';
-import SecondaryButton from '../../../components/SecondaryButton.js';
+import LockIcon from '../../../../../assets/LockIcon.js';
+import {useAccount} from '../../../../../components/Header/hooks/useAccount.js';
+import SecondaryButton from '../../../../../components/SecondaryButton.js';
 import playlistedIcon from '/assets/svg/activity_plylisted_icon.svg'
-
-type PopupProps = {
-  isOpen: boolean
-  setIsOpen: React.Dispatch<React.SetStateAction<PopupProps['isOpen']>>
-}
-
-
-const Popup = memo<PopupProps>(({isOpen, setIsOpen}) => (
-  <Transition
-    show={isOpen}
-    as={Fragment}
-  >
-    <Dialog onClose={() => setIsOpen(false)}
-            className="relative z-50"
-    >
-      <Transition.Child
-        as={Fragment}
-        enter="ease-out duration-300"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave="ease-in duration-200"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-      >
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" aria-hidden="true"/>
-      </Transition.Child>
-
-      <Transition.Child
-        as={Fragment}
-        enter="ease-out duration-300"
-        enterFrom="opacity-0 scale-95"
-        enterTo="opacity-100 scale-100"
-        leave="ease-in duration-200"
-        leaveFrom="opacity-100 scale-100"
-        leaveTo="opacity-0 scale-95"
-      >
-        <div
-          className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 inset-0 flex w-[80%] md:max-w-md  items-center justify-center bg-gradient-to-b from-indigo-500/40 via-indigo-500/30 rounded-xl p-[0.060rem] text-center bg-gray-900 max-h-[15rem]">
-          <Dialog.Panel
-            className="w-full bg-gray-900 px-6 h-full rounded-xl flex flex-col items-start justify-center">
-            <Dialog.Title className="font-bold text-white mb-4 text-xl">You've Found A Premium
-              Feature!&nbsp; 😎</Dialog.Title>
-            <Dialog.Description
-              className="text-sm text-transparent capitalize bg-gradient-to-r from-indigo-300 to-indigo-400 bg-clip-text font-light">
-              Subscribe in order to filter by source type.
-            </Dialog.Description>
-            <div className="w-full flex py-3 justify-end gap-4 mt-8">
-              <button onClick={() => setIsOpen(false)}
-                      className="px-4 py-2 text-white rounded-[8px] border border-indigo-500 text-xs">Cancel
-              </button>
-              <button onClick={() => setIsOpen(false)}
-                      className="px-4 py-2 text-white rounded-[8px] bg-indigo-400 text-xs">Subscribe
-              </button>
-
-            </div>
-          </Dialog.Panel>
-        </div>
-      </Transition.Child>
-
-    </Dialog>
-  </Transition>
-));
+import { Popup } from './Popup/Popup.js';
 
 const SkeletonFeedContent = memo(() => (
   <SkeletonTheme baseColor="#C7D2FE0D"
@@ -148,6 +85,7 @@ const SkeletonLocked = memo(() => (
 
 export const FeedContent = memo(() => {
   const {setSource} = useArtist();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {openMobileSidebar, setOpenMobileSidebar} = useOpenMobileSidebar();
   const {isMobile, isTablet} = useSizes();
   const {profile} = useAccount();
@@ -166,6 +104,7 @@ export const FeedContent = memo(() => {
     url: `${BACKEND_URL}/proxy-paid/v1/collaborators/activities`
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {subscriptions, /*subscribe, unsubscribe, */isSubscribed} = useSubscriptions();
 
 

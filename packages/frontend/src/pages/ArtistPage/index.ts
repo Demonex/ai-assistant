@@ -1,1 +1,1 @@
-export {ArtistPage as default} from './ArtistPage.js';
+export {ArtistPage as default} from './ArtistPage/ui/ArtistPage.js';

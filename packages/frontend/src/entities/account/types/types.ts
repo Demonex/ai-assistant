@@ -9,4 +9,5 @@ export interface IProfile {
 	language: Language;
 	currency: Currency;
 	concent: boolean;
+	photo?: string;
 }
