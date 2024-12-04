@@ -16,7 +16,8 @@
     "ssg": "serve dist/client",
     "format": "prettier --write .",
     "depcheck": "npx depcheck",
-    "build:push": "docker buildx build --platform linux/amd64 --no-cache -t bardakdev/rifify-nginx -f Dockerfile . --no-cache --push"
+    "build:push": "docker buildx build --platform linux/amd64 --no-cache -t bardakdev/rifify-nginx -f Dockerfile . --no-cache --push",
+    "certbot:push": "docker buildx build --platform linux/amd64 --no-cache -t bardakdev/rifify-certbot --no-cache -f certbot.Dockerfile . --no-cache --push"
   },
   "dependencies": {
     "@amcharts/amcharts4": "^4.10.38",

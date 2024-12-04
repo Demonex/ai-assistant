@@ -1,0 +1,13 @@
+# Dockerfile
+FROM ubuntu:22.04
+
+EXPOSE 6000 80
+
+RUN apt-get update
+RUN apt-get -y install certbot
+
+WORKDIR /certbot
+COPY ./docker/generate-certificate.sh /certbot/generate-certificate.sh
+
+# запускаем скрипт генерации
+CMD ["sh", "generate-certificate.sh"]
