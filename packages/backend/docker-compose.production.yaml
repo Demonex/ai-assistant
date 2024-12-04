@@ -33,9 +33,18 @@ services:
     restart: always
     links:
       - backend
+#      - certbot
+    volumes:
+      - certbot:/certbot
     ports:
       - "80:80"
+      - "443:443"
     privileged: true
+
+#  certbot:
+#    image: bardakdev/rifify-certbot
+#    volumes:
+#      - certbot:/certbot
 
   backend:
     image: bardakdev/rifify-backend
@@ -97,4 +106,6 @@ volumes:
     name: "rifify_mongo-db-config"
   redis:
     name: "rifify_redis"
+  certbot:
+    name: "rifify_certbot"
 
