@@ -16,8 +16,8 @@ export default defineConfig({
         port: 2051,
         proxy: {
             '/api': {
-                target: `http://localhost:2050`,
-                // target: `https://backend.rifify.me`,
+                // target: `http://localhost:2050`,
+                target: `https://backend.rifify.me`,
                 changeOrigin: true,
             },
         },

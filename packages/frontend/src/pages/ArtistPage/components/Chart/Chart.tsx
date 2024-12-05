@@ -20,6 +20,7 @@ import {overviewSources} from "../../../../data/consts/favoriteSources.js";
 import {useSizes} from "../../../../hooks/useSizes.js";
 import settings from "/assets/svg/settings_icon.svg";
 import {ShowOnMobileOnly} from "../../../../components/Sizes/ShowOnMobileOnly/ShowOnMobileOnly.js";
+import { useTranslation } from 'react-i18next';
 
 
 type DataType = ({ time: number } & { [k: string]: unknown })[]
@@ -32,12 +33,12 @@ type TabsZoomProps = {
 }
 
 enum Zoom {
-  '1m' = '1 мес',
-  '3m' = '3 мес',
-  '6m' = '6 мес',
+  '1m' = '1 month',
+  '3m' = '3 month',
+  '6m' = '6 month',
   'ytd' = '2024',
-  '1y' = '1 год',
-  'all' = 'Все'
+  '1y' = '1 year',
+  'all' = 'All'
 }
 
 const OFFSET_PERCENT = 10;
@@ -56,6 +57,7 @@ const TabsZoom = forwardRef<HTMLImageElement, TabsZoomProps>(({
                                                                 currentDataFiltered,
                                                                 refTabs
                                                               }, refSettings) => {
+  const { t } = useTranslation();
   const {source} = useArtist();
   const tabsParentRef = useRef<HTMLDivElement>(null);
   const tabMarkerRef = useRef<HTMLDivElement>(null);
@@ -109,7 +111,7 @@ const TabsZoom = forwardRef<HTMLImageElement, TabsZoomProps>(({
             currentDataFiltered?.map((item, index) => (
               <div className="flex flex-col " key={index}>
                 <h1
-                  className={`pl-1 text-caption_s_desk whitespace-nowrap uppercase text-medium_grey border-l-2 ${index === 0 ? 'border-magenta' : 'border-yellow'}`}>{item.text}</h1>
+                  className={`pl-1 text-caption_s_desk whitespace-nowrap uppercase text-medium_grey border-l-2 ${index === 0 ? 'border-magenta' : 'border-yellow'}`}>{t(item.text)}</h1>
                 <h1
                   className="text-t1Semi_deck text-light_grey">{item.count}</h1>
               </div>
@@ -141,7 +143,7 @@ const TabsZoom = forwardRef<HTMLImageElement, TabsZoomProps>(({
                       }}
                       className={`relative z-20 items-center gap-2 w-auto h-8  px-6 py-2 text-caption_m_desk cursor-pointer transition-all whitespace-nowrap border border-solid border-secondary_dark_gray rounded-[30px] hover:border-yellow  ${index === selectedTab ? 'bg-yellow text-black  ' : 'text-medium_grey hover:text-white'}`}
                       type="button">
-                      {value}
+                      {t(value)}
                     </button>
                   ))
                 }
@@ -178,7 +180,7 @@ const TabsZoom = forwardRef<HTMLImageElement, TabsZoomProps>(({
                             }}
                             className={`relative z-20 items-center gap-2 w-auto h-8 text-sm px-6 py-2 text-caption_m_desk cursor-pointer transition-all whitespace-nowrap border border-solid border-secondary_dark_gray rounded-[30px] ${index === selectedTab ? 'bg-yellow text-[black]' : ''}`}
                             type="button">
-                            {value}
+                            {t(value)}
                           </button>
                         ))
                       }
@@ -222,6 +224,7 @@ const CustomTooltip = memo<CustomTooltipProps<number, string>>(({
 });
 
 export const Chart = forwardRef<any, any>(({setPopupChart, popupChart}, ref) => {
+  const { t } = useTranslation();
   const {data: chartData} = useArtistChart();
   const refSettings = useRef<HTMLImageElement>(null);
   const refTabs = useRef<any[]>([]);
@@ -295,7 +298,7 @@ export const Chart = forwardRef<any, any>(({setPopupChart, popupChart}, ref) => 
 
   const dateFormatter = useCallback((timestamp: any) => {
     const date = DateTime.fromMillis(timestamp);
-    return `${date.toFormat('MMM')} '${date.toFormat('yy')}`;
+    return `${t(date.toFormat('MMM'))} '${date.toFormat('yy')}`;
   }, []);
 
   const tickYFormatter = useCallback((value: any) => {
@@ -439,7 +442,7 @@ export const Chart = forwardRef<any, any>(({setPopupChart, popupChart}, ref) => 
                         /* <Label className='text-caption_r_desk uppercase absolute'>{key}</Label>*/
                         !isMobile && (
                           {
-                            value: key,
+                            value: t(key),
                             angle: index === 0 ? -90 : 90,
                             position: index === 0 ? 'insideLeft' : 'insideRight',
                             fill: '#7B7B7B',

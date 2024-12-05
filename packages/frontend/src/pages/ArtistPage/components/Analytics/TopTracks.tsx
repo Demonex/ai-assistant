@@ -1,4 +1,4 @@
-import {memo, useCallback, useState} from 'react';
+import {memo, useCallback, useState } from 'react';
 import Skeleton, {SkeletonTheme} from 'react-loading-skeleton';
 import {useArtistTrack} from '../../hooks/useArtistTrack.js';
 import {socials} from '../../../../data/consts/socials.js';
@@ -10,6 +10,7 @@ import {BACKEND_URL} from "../../../../constants/index.js";
 import InfoIcon from "../../../../assets/InfoIcon.js";
 import {useSizes} from "../../../../hooks/useSizes.js";
 import {Link} from "wouter";
+import { useTranslation } from 'react-i18next';
 
 
 const SkeletonTopTracks = memo(() => (
@@ -46,6 +47,7 @@ const WithButtons = memo<{
 }>(({
       data
     }) => {
+  const { t } = useTranslation();
   const {id, source} = useArtist();
   const [activeButton, setActiveButton, activeButtonStateRef] = useStateRef(0);
   const [{data: dataLoaded, loading, error}, fetchData] = useLazyFetch({
@@ -76,7 +78,7 @@ const WithButtons = memo<{
               <button key={index}
                       className={`whitespace-nowrap text-caption_m_desk px-6 py-2 rounded-[30px] border border-solid transition-colors duration-150 ${index === activeButton ? 'bg-yellow border-transparent text-[black]' : 'bg-transparent border-dark_grey hover:border-yellow hover:text-white text-medium_grey'}`}
                       onClick={() => handleButtonClick(index, buttonId)}>
-                {title}
+                {t(title)}
               </button>
             )
           )
@@ -140,6 +142,7 @@ const WithButtons = memo<{
 });
 
 export const TopTracks = memo(() => {
+  const { t } = useTranslation();
   const {data: trackData, loading: apiTrackDataLoading} = useArtistTrack();
   const {  source} = useArtist();
   return (
@@ -157,7 +160,7 @@ export const TopTracks = memo(() => {
                 key={index}>
                 <div className="flex items-center gap-3 pb-4 border-b border-dark_grey justify-between">
                   <p
-                    className="text-btnText text-light_grey">{item.headerText}</p>
+                    className="text-btnText text-light_grey">{t(item.headerText)}</p>
                   <InfoIcon className='fill-light_grey hover:fill-medium_grey'/>
                 </div>
                 {

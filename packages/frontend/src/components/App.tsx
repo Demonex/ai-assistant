@@ -7,6 +7,7 @@ import '../index.css';
 import {SearchBar} from './Header/components/SearchField/index.js';
 import {useSizes} from '../hooks/useSizes.js';
 import Cookie from '../pages/WelcomePage/components/Cookie/index.js';
+import '../shared/config/i18n/i18n.js';
 
 const PagePathsWithComponents: {
   [k: string]: {

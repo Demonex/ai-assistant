@@ -3,6 +3,7 @@ import Skeleton, {SkeletonTheme} from 'react-loading-skeleton';
 import {useArtistChart} from '../../hooks/useArtistChart.js';
 import {socials} from "../../../../data/consts/socials.js";
 import InfoIcon from "../../../../assets/InfoIcon.js";
+import { useTranslation } from 'react-i18next';
 
 export const SkeletonPerformance = () => {
   return (
@@ -44,6 +45,8 @@ export const Performance = memo(() => {
     return item.slug === getSource;
   });
   const filteredData = chartData?.chart?.iconData?.filter((item) => (item.secondaryText === 'total'));
+  const { t } = useTranslation();
+  
   return (
     <div className=" flex-col items-center lg:bg-popup_gray/50 rounded-[20px] lg:px-7 lg:py-8 gap-2.5 w-full lg:max-w-[20.3rem]">
       {
@@ -52,7 +55,7 @@ export const Performance = memo(() => {
           : <>
             <div className=" flex items-center w-full justify-between pb-4 border-b border-dark_grey mb-4">
               <p
-                className="text-btnText capitalize text-light_grey">статистика</p>
+                className="text-btnText capitalize text-light_grey">{t('performance')}</p>
               <InfoIcon className='fill-light_grey hover:fill-medium_grey'/>
             </div>
             {
@@ -63,7 +66,7 @@ export const Performance = memo(() => {
                       className="text-white w-full"
                     >
                       <div className="bg-transparent py-2 rounded-xl h-full flex justify-between items-center gap-10 ">
-                        <span className="text-medium_grey text-caption_r_desk">{item.text}</span>
+                        <span className="text-medium_grey text-caption_r_desk">{t(item.text)}</span>
                         <span
                           className="text-t1Semi_mob md:text-t1Semi_deck">{item.count}</span>
                       </div>

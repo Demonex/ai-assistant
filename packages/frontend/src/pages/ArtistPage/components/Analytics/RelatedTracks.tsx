@@ -7,6 +7,7 @@ import {Link} from "wouter";
 import {useArtist} from "../../hooks/useArtist.js";
 import InfoIcon from "../../../../assets/InfoIcon.js";
 import {useSizes} from "../../../../hooks/useSizes.js";
+import { useTranslation } from 'react-i18next';
 
 const SkeletonRelatedTracks = () => {
   return (
@@ -46,6 +47,7 @@ const SkeletonRelatedTracks = () => {
 };
 
 export const RelatedTracks = memo(() => {
+  const { t } = useTranslation();
   const {data: trackData, loading: apiTrackDataLoading} = useArtistTrack();
   const getLogo = socials.filter((item, _) => {
     const getSource = trackData?.sourceId;
@@ -64,7 +66,7 @@ export const RelatedTracks = memo(() => {
               <div key={index}>
                 <div className="flex items-center gap-3 justify-between pb-4 border-b border-dark_grey mb-7">
                   <p
-                    className="text-btnText text-light_grey">{relatedTracksItem.headerText}</p>
+                    className="text-btnText text-light_grey">{t(relatedTracksItem.headerText)}</p>
                   <InfoIcon className='fill-light_grey hover:fill-medium_grey'/>
                 </div>
                 <ul className={`w-full  h-full  gap-4  flex flex-wrap`}>
