@@ -55,7 +55,6 @@ export const RelatedTracks = memo(() => {
   });
   const {source} = useArtist();
   const {width} = useSizes();
-  console.log('re',trackData)
   return (
     <div
       className={`lg:bg-popup_gray/50 rounded-[20px] lg:py-8  lg:px-7  h-fit ${trackData?.trackData?.listData?.length > 2 ? 'w-full' : width > 1680 && width < 1980 ? 'w-full max-w-[38.25rem]' : 'w-full'} `}>
