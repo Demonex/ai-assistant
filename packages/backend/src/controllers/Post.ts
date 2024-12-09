@@ -1,7 +1,7 @@
 import { Controller, Get, HttpCode, Param } from "@nestjs/common";
 import { UserLanguage } from "@repo/backend/decorators/user.js";
 import { ApiTags } from "@nestjs/swagger";
-import type { PostService } from "@repo/backend/services/Post";
+import { PostService } from "@repo/backend/services/Post.js";
 
 @ApiTags("post")
 @Controller("/api/rest/post")

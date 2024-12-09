@@ -4,7 +4,7 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
-import type {ProxyService} from "@repo/backend/services/Proxy.js";
+import {ProxyService} from "@repo/backend/services/Proxy.js";
 
 @ApiTags('proxy')
 @Controller('/api/rest/proxy')

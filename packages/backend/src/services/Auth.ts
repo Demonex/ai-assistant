@@ -6,7 +6,6 @@ import type {ReturnModelType} from '@typegoose/typegoose';
 import {InjectRedis} from '@nestjs-modules/ioredis';
 import type {Redis} from 'ioredis';
 import md5 from 'md5';
-import type {ExpressAdapter} from '@nestjs/platform-express';
 import {isEmail} from 'class-validator';
 import {randstr as randomStringGenerator} from 'better-randstr';
 import {BCRYPT_SALT_ROUNDS} from '@repo/backend/constants.js';
@@ -15,15 +14,14 @@ import type {AuthRecoverDto, AuthSignUpDto} from '@repo/backend/dto/Auth.js';
 import {UserEntity, UserEntityDefaultSelect} from '@repo/backend/entities/User/index.js';
 import {SmtpService} from './Smtp.js';
 import type {Types} from 'mongoose';
-import type {CrmService} from '@repo/backend/services/crm.service';
+import {CrmService} from '@repo/backend/services/crm.service.js';
 import {v4 as uuidv4} from 'uuid';
-import type {MailerService} from '@repo/backend/mailer/mailer.service.js';
+import {MailerService} from '@repo/backend/mailer/mailer.service.js';
 
 @Injectable({scope: Scope.REQUEST})
 export class AuthService {
   constructor(
     @Inject(REQUEST) private readonly request: any,
-    private readonly adapterHost: HttpAdapterHost<ExpressAdapter>,
     @InjectModel(UserEntity) private readonly repoUser: ReturnModelType<typeof UserEntity>,
     @Inject(SmtpService) private readonly smtp: SmtpService,
     @InjectRedis() private readonly redisClient: Redis,

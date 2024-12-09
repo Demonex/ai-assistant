@@ -15,11 +15,9 @@ import {Authorized} from '@repo/backend/decorators/auth.js';
 import {UserEmail, UserId} from '@repo/backend/decorators/user.js';
 import {ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags} from '@nestjs/swagger';
 import type {Types} from 'mongoose';
-import type {SubscriptionService} from '@repo/backend/services/Subscription';
-import {UpdateProfileSubscriptionDto} from '@repo/backend/dto/Profile';
-import {HttpStatusMessages} from '@repo/backend/messages/http';
-import type {SubscriptionPurchaseCallbackDto, SubscriptionPurchaseDto, SubscriptionUpdateDto} from '@repo/backend/dto/Subscription';
-import {ParseObjectIdPipe} from '@repo/backend/middlewares/ParseObjectIdPipe';
+import {SubscriptionService} from '@repo/backend/services/Subscription.js';
+import {SubscriptionPurchaseCallbackDto, SubscriptionPurchaseDto, SubscriptionUpdateDto} from '@repo/backend/dto/Subscription.js';
+import {ParseObjectIdPipe} from '@repo/backend/middlewares/ParseObjectIdPipe.js';
 
 @ApiTags('subscription')
 @Controller('/api/rest')

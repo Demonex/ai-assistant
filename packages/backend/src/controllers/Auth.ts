@@ -12,7 +12,7 @@ import {
   Res
 } from '@nestjs/common';
 import {AuthRecoverDto, AuthSignInDto, AuthSignUpDto} from '@repo/backend/dto/Auth.js';
-import type {AuthService} from '@repo/backend/services/Auth.js';
+import {AuthService} from '@repo/backend/services/Auth.js';
 import {Authorized, Unauthorized} from '@repo/backend/decorators/auth.js';
 import {UserId} from '@repo/backend/decorators/user.js';
 import {ApiBearerAuth, ApiExcludeEndpoint, ApiOperation, ApiResponse, ApiTags} from '@nestjs/swagger';

@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
 import type { Types } from "mongoose";
-import type { UserService } from "@repo/backend/services/User.js";
-import type { UpdateProfileDto } from "@repo/backend/dto/Profile.js";
+import { UserService } from "@repo/backend/services/User.js";
+import { UpdateProfileDto } from "@repo/backend/dto/Profile.js";
 import { Authorized } from "@repo/backend/decorators/auth.js";
 import { UserEmail, UserId } from "@repo/backend/decorators/user.js";
 import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiTags } from "@nestjs/swagger";

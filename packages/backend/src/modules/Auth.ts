@@ -4,7 +4,7 @@ import { AuthService } from "@repo/backend/services/Auth.js";
 import { UserEntities } from "@repo/backend/entities/User/index.js";
 import { AuthController } from "@repo/backend/controllers/Auth.js";
 import { SmtpService } from "@repo/backend/services/Smtp.js";
-import { CrmService } from "@repo/backend/services/crm.service";
+import { CrmService } from "@repo/backend/services/crm.service.js";
 import { MailerModule } from "@repo/backend/mailer/mailer.module.js";
 
 @Module({

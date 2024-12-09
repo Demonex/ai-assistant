@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpStatus, Next, Param, Post, Query, Req, Res } from "@nestjs/common";
-import { type AuthByProvider, type ProviderService, SocialProviders } from "@repo/backend/services/Provider.js";
+import { type AuthByProvider, ProviderService, SocialProviders } from "@repo/backend/services/Provider.js";
 import type { NextFunction, Response } from "express";
 import * as passport from "passport";
 import jwt from "jsonwebtoken";

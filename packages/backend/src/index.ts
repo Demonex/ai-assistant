@@ -6,7 +6,6 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AppModule } from "@repo/backend/app.module.js";
 import { Logger, LogLevel } from "@repo/backend/config/logger/api-logger.js";
 import { DefaultLogger } from "@repo/backend/config/logger/default-logger.js";
-import { getErrorMessage } from "@repo/common";
 import type { Express } from "express";
 import express from "express";
 
