@@ -63,6 +63,7 @@ type TrackData = {
         id: number
         idUnique: string
         imageUrl: string
+        previewUrl: string
         popupIdUnique: string
         popupStyle: any
         popupType: any
