@@ -1,8 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { createTransport } from "nodemailer";
-import { SendMailDto } from "@repo/backend/dto/send-mail.dto.js";
-import { type Options } from "nodemailer/lib/mailer";
-import process from "process";
+import type { SendMailDto } from "@repo/backend/dto/send-mail.dto.js";
+import type { Options } from "nodemailer/lib/mailer";
 
 @Injectable()
 export class MailerService {

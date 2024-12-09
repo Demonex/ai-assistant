@@ -99,7 +99,7 @@ export class ProviderService {
                 });
                 return newUser;
             })();
-            this.request.session['user'] = {
+            this.request.session.user = {
                 id: user._id,
                 language: user.language,
                 roles: user.roles

@@ -24,7 +24,6 @@ export class AppModule implements NestModule, OnApplicationShutdown {
     }
   }
 
-  // biome-ignore lint/suspicious/noExplicitAny: <for implement purpose>
   configure(_consumer: MiddlewareConsumer): any {
     //
   }

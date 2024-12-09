@@ -12,10 +12,10 @@ export function getPhone(str?: string | unknown): string | null {
     return phone;
   }
   let phoneDigits = String(str).trim().replace(/\D/g, '');
-  if (RegExp('^89\\d{9}', 'g').test(phoneDigits)) {
+  if (/^89\d{9}/g.test(phoneDigits)) {
     phoneDigits = `7${phoneDigits.substr(1)}`;
   }
-  if (RegExp('^9\\d{8}', 'g').test(phoneDigits)) {
+  if (/^9\d{8}/g.test(phoneDigits)) {
     phoneDigits = `7${phoneDigits}`;
   }
   try {

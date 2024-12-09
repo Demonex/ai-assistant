@@ -7,7 +7,7 @@ import md5 from 'md5';
 import {InjectModel} from 'nestjs-typegoose';
 import LogEntity from '@repo/backend/entities/Log';
 import type {ReturnModelType} from '@typegoose/typegoose';
-import {Types} from 'mongoose';
+import type {Types} from 'mongoose';
 import SubscriptionEntity from '@repo/backend/entities/Subscription';
 
 const getHeaders = () => ({
@@ -27,13 +27,13 @@ const getHeaders = () => ({
   'sec-fetch-dest': 'empty',
   'sec-fetch-mode': 'cors',
   'sec-fetch-site': 'same-site',
-  'user-agent': `Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36`,
+  'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36',
   'x-enigma': String(420 * Date.now() + 69).split('')
     .map(e => e.split('').map((e => e.charCodeAt(0))))
     .map(e =>
       ((x) => x.split('').map((_ => _.charCodeAt(0))))('<img src=\'/getbaited.jpg\' />')
         .reduce<any>(((_, t) => _ ^ t), e))
-    .map(e => ('0' + Number(e).toString(16)).substr(-2))
+    .map(e => (`0${Number(e).toString(16)}`).substr(-2))
     .join('')
 });
 

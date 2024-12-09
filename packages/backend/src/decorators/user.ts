@@ -1,5 +1,5 @@
 import { createParamDecorator, type ExecutionContext } from "@nestjs/common";
-import { Types } from "mongoose";
+import type { Types } from "mongoose";
 import { get } from "lodash-es";
 import { Languages } from "@repo/backend/entities/User/index.js";
 

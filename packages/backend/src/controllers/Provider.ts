@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpStatus, Next, Param, Post, Query, Req, Res } from "@nestjs/common";
-import { type AuthByProvider, ProviderService, SocialProviders } from "@repo/backend/services/Provider.js";
+import { type AuthByProvider, type ProviderService, SocialProviders } from "@repo/backend/services/Provider.js";
 import type { NextFunction, Response } from "express";
 import * as passport from "passport";
 import jwt from "jsonwebtoken";
@@ -12,7 +12,7 @@ import {
   ApiResponse,
   ApiTags,
 } from "@nestjs/swagger";
-import { ExpressRequest } from "@repo/backend/types.js";
+import type { ExpressRequest } from "@repo/backend/types.js";
 import signature from "cookie-signature";
 
 class CallbackResponse {

@@ -1,6 +1,6 @@
 import { InjectModel } from "nestjs-typegoose";
 import type { ReturnModelType } from "@typegoose/typegoose";
-import { Types } from "mongoose";
+import type { Types } from "mongoose";
 import SubscriptionEntity, { SubscriptionEntityDefaultSelect } from "../entities/Subscription";
 import SubscriptionPlanEntity, { SubscriptionPlanEntityDefaultSelect } from "../entities/Subscription/Plan";
 import md5 from "md5";
@@ -9,7 +9,7 @@ import SubscriptionTransactionEntity, {
   SubscriptionTransactionEntityDefaultSelect,
 } from "../entities/Subscription/Transaction";
 import { SUBSCRIPTION_TRANSACTION_STATUS } from "../entities/enums";
-import { SubscriptionUpdateDto } from "../dto/Subscription";
+import type { SubscriptionUpdateDto } from "../dto/Subscription";
 import { HttpException, HttpStatus } from "@nestjs/common";
 import { HttpStatusMessages } from "../messages/http";
 

@@ -8,7 +8,7 @@ import {
   IsEnum, IsBoolean, Matches, IsMongoId
 } from 'class-validator';
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
-import {Types} from 'mongoose';
+import type {Types} from 'mongoose';
 
 export class SubscriptionPurchaseDto {
   @IsMongoId()

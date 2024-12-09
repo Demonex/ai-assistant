@@ -14,12 +14,11 @@ import {
 import {Authorized} from '@repo/backend/decorators/auth.js';
 import {UserEmail, UserId} from '@repo/backend/decorators/user.js';
 import {ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags} from '@nestjs/swagger';
-import {Types} from 'mongoose';
-import {SubscriptionService} from '@repo/backend/services/Subscription';
+import type {Types} from 'mongoose';
+import type {SubscriptionService} from '@repo/backend/services/Subscription';
 import {UpdateProfileSubscriptionDto} from '@repo/backend/dto/Profile';
 import {HttpStatusMessages} from '@repo/backend/messages/http';
-import {SubscriptionPurchaseCallbackDto, SubscriptionPurchaseDto, SubscriptionUpdateDto} from '@repo/backend/dto/Subscription';
-import process from 'process';
+import type {SubscriptionPurchaseCallbackDto, SubscriptionPurchaseDto, SubscriptionUpdateDto} from '@repo/backend/dto/Subscription';
 import {ParseObjectIdPipe} from '@repo/backend/middlewares/ParseObjectIdPipe';
 
 @ApiTags('subscription')

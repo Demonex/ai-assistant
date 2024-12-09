@@ -2,8 +2,8 @@ import {HttpException, HttpStatus, Inject, Injectable, Scope} from '@nestjs/comm
 import {InjectModel} from 'nestjs-typegoose';
 import type {ReturnModelType} from '@typegoose/typegoose';
 import {UserEntity, UserEntityDefaultSelect} from '@repo/backend/entities/User/index.js';
-import {UpdateProfileAvatarDto, UpdateProfileDto} from '@repo/backend/dto/Profile.js';
-import {Types} from 'mongoose';
+import type {UpdateProfileAvatarDto, UpdateProfileDto} from '@repo/backend/dto/Profile.js';
+import type {Types} from 'mongoose';
 import {get} from 'lodash-es';
 import type {Redis} from 'ioredis';
 import {InjectRedis} from '@nestjs-modules/ioredis';
@@ -35,7 +35,8 @@ export class UserService {
           messages: [HttpStatusMessages.UNAUTHORIZED]
         }]
       }, HttpStatus.UNAUTHORIZED);
-    } else if(!id && isAdminRequest) {
+    }
+    if(!id && isAdminRequest) {
       return {user: null};
     }
     const user = await this.findByIdOrEmail(id, email);
@@ -75,7 +76,7 @@ export class UserService {
     const keys = [
       'email',
       'name',
-      'language',
+      'language'
     ];
     const data = Object.fromEntries(
       Object.entries(args).filter(([_, __]) => {
@@ -86,7 +87,7 @@ export class UserService {
       })
     );
     const getUser = () => this.repo.findById(id).select(['email', 'providers']);
-    let userData;
+    let userData: any;
     const {providersSafe} = args;
     if(data.email || (Array.isArray(providersSafe) && providersSafe.length)) {
       userData = await getUser();
@@ -94,12 +95,12 @@ export class UserService {
     if(data.email) {
       const oldEmail = get(userData || (await getUser()), 'email');
       if(data.email !== oldEmail) {
-        data['emailVerified'] = false;
+        data.emailVerified = false;
       }
     }
     if(Array.isArray(providersSafe)) {
       const providers = get(userData || (await getUser()), 'providers');
-      data['providers'] = (Array.isArray(providers) ? providers : []).reduce<string[]>((prev, provider) => {
+      data.providers = (Array.isArray(providers) ? providers : []).reduce<string[]>((prev, provider) => {
         const providerSafe = provider.split('_').shift();
         if(providersSafe.includes(providerSafe)) {
           return [...prev, provider];

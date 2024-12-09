@@ -9,52 +9,52 @@ import {
   Post,
   Redirect,
   Request,
-  Res,
-} from "@nestjs/common";
-import { AuthRecoverDto, AuthSignInDto, AuthSignUpDto } from "@repo/backend/dto/Auth.js";
-import { AuthService } from "@repo/backend/services/Auth.js";
-import { Authorized, Unauthorized } from "@repo/backend/decorators/auth.js";
-import { UserId } from "@repo/backend/decorators/user.js";
-import { ApiBearerAuth, ApiExcludeEndpoint, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
-import type { RedirectResponse } from "@nestjs/core/router/router-response-controller.js";
-import { validateDto } from "@repo/backend/middlewares/validateDto.js";
-import { Types } from "mongoose";
+  Res
+} from '@nestjs/common';
+import {AuthRecoverDto, AuthSignInDto, AuthSignUpDto} from '@repo/backend/dto/Auth.js';
+import type {AuthService} from '@repo/backend/services/Auth.js';
+import {Authorized, Unauthorized} from '@repo/backend/decorators/auth.js';
+import {UserId} from '@repo/backend/decorators/user.js';
+import {ApiBearerAuth, ApiExcludeEndpoint, ApiOperation, ApiResponse, ApiTags} from '@nestjs/swagger';
+import type {RedirectResponse} from '@nestjs/core/router/router-response-controller.js';
+import {validateDto} from '@repo/backend/middlewares/validateDto.js';
+import type {Types} from 'mongoose';
 
-@ApiTags("auth")
-@Controller("/api")
+@ApiTags('auth')
+@Controller('/api')
 export class AuthController {
   constructor(
-    public service: AuthService,
+    public service: AuthService
   ) {
   }
 
-  @ApiBearerAuth("bearer-sid")
-  @ApiOperation({ summary: "sign-out user" })
+  @ApiBearerAuth('bearer-sid')
+  @ApiOperation({summary: 'sign-out user'})
   @Authorized()
-  @Post("/rest/auth/sign-out")
+  @Post('/rest/auth/sign-out')
   @HttpCode(200)
   async signOut(
-    @UserId() userId: Types.ObjectId,
+    @UserId() userId: Types.ObjectId
   ) {
     const result = await this.service.signOut();
     return {
-      success: result,
+      success: result
     };
   }
 
-  @ApiExcludeEndpoint(process.env.ENV !== "development")
+  @ApiExcludeEndpoint(process.env.ENV !== 'development')
   @Authorized()
-  @Post("/admin/user/logout")
+  @Post('/admin/user/logout')
   @HttpCode(200)
   async logOut(@UserId() userId: Types.ObjectId) {
     const result = await this.service.signOut();
     return {
-      success: result,
+      success: result
     };
   }
 
   @Unauthorized()
-  @Post("/rest/auth/email/sign-in")
+  @Post('/rest/auth/email/sign-in')
   @HttpCode(200)
   async signIn(@Request() request: any, @Body() args: AuthSignInDto) {
     await validateDto(AuthSignInDto, args, request);
@@ -63,50 +63,50 @@ export class AuthController {
   }
 
   @Unauthorized()
-  @Post("/rest/auth/email/sign-up")
+  @Post('/rest/auth/email/sign-up')
   async signUp(@Request() request: any, @Body() args: AuthSignUpDto) {
     await validateDto(AuthSignUpDto, args, request);
     const profile = await this.service.signUpByEmail(args, false);
     return profile;
   }
 
-  @Get("/rest/auth/activate/:link")
-  async activate(@Param("link") link: string, @Res() res) {
+  @Get('/rest/auth/activate/:link')
+  async activate(@Param('link') link: string, @Res() res) {
     await this.service.activateAccount(link);
     return res.redirect(process.env.FRONTEND_URL);
   }
 
-  @Post("/rest/auth/email/resend/:userId")
-  async resend(@Param("userId") userId: string) {
+  @Post('/rest/auth/email/resend/:userId')
+  async resend(@Param('userId') userId: string) {
     const result = await this.service.resendEmailConfirm(userId);
 
     if(result.success) {
       return result;
-    } else {
-      throw new InternalServerErrorException(result.message);
     }
+    throw new InternalServerErrorException(result.message);
+
   }
 
   @Unauthorized()
-  @Post("/rest/auth/email/recover")
+  @Post('/rest/auth/email/recover')
   @HttpCode(200)
   async recover(@Request() request: any, @Body() args: AuthRecoverDto) {
     await validateDto(AuthRecoverDto, args, request);
     await this.service.recover(args);
     return {
-      success: true,
+      success: true
     };
   }
 
-  @ApiExcludeEndpoint(process.env.NODE_ENV !== "development")
-  @Get("/rest/auth/email/recover/:code/:state")
-  @Redirect(`${process.env.FRONTEND_URL || "/"}`, HttpStatus.SEE_OTHER)
-  @ApiResponse({ status: HttpStatus.SEE_OTHER })
-  async recoverVerify(@Param("code") recoverCode: string, @Param("state") verifyCode: string): Promise<RedirectResponse> {
-    const url = (await this.service.recover({ recoverCode, verifyCode })).redirect;
+  @ApiExcludeEndpoint(process.env.NODE_ENV !== 'development')
+  @Get('/rest/auth/email/recover/:code/:state')
+  @Redirect(`${process.env.FRONTEND_URL || '/'}`, HttpStatus.SEE_OTHER)
+  @ApiResponse({status: HttpStatus.SEE_OTHER})
+  async recoverVerify(@Param('code') recoverCode: string, @Param('state') verifyCode: string): Promise<RedirectResponse> {
+    const url = (await this.service.recover({recoverCode, verifyCode})).redirect;
     return {
       url,
-      statusCode: HttpStatus.SEE_OTHER,
+      statusCode: HttpStatus.SEE_OTHER
     };
   }
 }

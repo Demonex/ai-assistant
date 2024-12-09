@@ -63,8 +63,8 @@ export function serialize(children: SerializedLexicalNode[] = [], media: {
 
     switch(node.type) {
       case 'linebreak':
-        return `<br>`;
-      case 'link':
+        return '<br>';
+      case 'link': {
         // eslint-disable-next-line no-case-declarations
         const attributes: {
           doc?;
@@ -93,18 +93,19 @@ export function serialize(children: SerializedLexicalNode[] = [], media: {
         }${
           attributes?.nofollow ? ' nofollow' : ''
         }">${serializedChildren}</a>`; //TODO: Check doc link handling
-      case 'list': //TODO handle properly, especially nested lists
+      }
+      case 'list': {//TODO handle properly, especially nested lists
         if(node.listType === 'bullet') {
           return `
 						<ul class="list-disc mb-4 pl-8">
 						  ${serializedChildren}
 						</ul>`;
-        } else {
-          return `
+        }
+        return `
 						<ol class="list-disc mb-4 pl-8">
 						  ${serializedChildren}
 						</ol>`;
-        }
+      }
       case 'listitem':
         return `
 						<li>
