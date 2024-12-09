@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import Axios, {AxiosError, AxiosRequestConfig, AxiosResponse} from 'axios';
+import Axios, {type AxiosError, type AxiosRequestConfig, type AxiosResponse} from 'axios';
 import useSharedHook from './useSharedHook.js';
 import {buildWebStorage, setupCache} from 'axios-cache-interceptor';
 import memoize from 'memoizee';

@@ -1,5 +1,5 @@
 import {lazy, memo, Suspense, useEffect, useMemo} from 'react';
-import {ArtistNavigation, useArtist} from '../../hooks/useArtist.js';
+import {type ArtistNavigation, useArtist} from '../../hooks/useArtist.js';
 import {useParams, useSearch} from 'wouter';
 import {overviewSources} from '../../../../data/consts/favoriteSources.js';
 import Catalogue from '../../components/Catalogue/index.js';

@@ -13,7 +13,7 @@ import tiktok from "/assets/svg/tiktok_logo.svg";
 import traxsourse from "/assets/svg/traxsourse_logo.svg";
 import youtube from "/assets/svg/youtube_logo.svg";
 import CasesNew from "../../assets/CasesNew.js";
-import React from "react";
+import type React from "react";
 import PlatformsNew from "../../assets/PlatformsNew.js";
 import TariffesNew from "../../assets/TariffesNew.js";
 import MediaNew from "../../assets/MediaNew.js";

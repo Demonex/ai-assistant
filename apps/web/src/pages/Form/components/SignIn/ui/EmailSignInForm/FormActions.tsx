@@ -1,5 +1,5 @@
-import { UseFormReset } from 'react-hook-form';
-import { ISignInFormInputs } from '../../types/types.js';
+import type { UseFormReset } from 'react-hook-form';
+import type { ISignInFormInputs } from '../../types/types.js';
 
 interface FormActionsProps {
     reset: UseFormReset<ISignInFormInputs>;

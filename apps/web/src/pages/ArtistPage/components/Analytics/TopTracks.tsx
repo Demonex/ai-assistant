@@ -2,7 +2,7 @@ import {memo, useCallback, useState } from 'react';
 import Skeleton, {SkeletonTheme} from 'react-loading-skeleton';
 import {useArtistTrack} from '../../hooks/useArtistTrack.js';
 import {socials} from '../../../../data/consts/socials.js';
-import {TrackDataType} from '../../types.js';
+import type {TrackDataType} from '../../types.js';
 import useFetch, {useLazyFetch} from '../../../../hooks/useFetch.js';
 import {useArtist} from '../../hooks/useArtist.js';
 import useStateRef from 'react-usestateref';

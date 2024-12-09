@@ -1,4 +1,4 @@
-import React, {ChangeEvent, Fragment, memo, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {type ChangeEvent, Fragment, memo, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {Dialog, Transition} from '@headlessui/react';
 import './styles.css';
 import {Skeleton} from './Skeleton.js';

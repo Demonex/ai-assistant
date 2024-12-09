@@ -152,7 +152,7 @@ const TrackPageContent = memo(() => {
                               {
                                 getCurrentSourceLinks?.map((link, index) => (
                                   <li className="py-3.5 px-5 border-b border-secondary_dark_gray" key={index}>
-                                    <a href={link.url} target="_blank">
+                                    <a href={link.url} target="_blank" rel="noreferrer">
                                       {link.url}
                                     </a>
                                   </li>

@@ -2,7 +2,7 @@ import {useCallback, useEffect, useMemo, useState} from 'react';
 import useSharedHook from '../../../../hooks/useSharedHook.js';
 import {useLazyFetch} from '../../../../hooks/useFetch.js';
 import {BACKEND_URL} from '../../../../constants/index.js';
-import {ArtistProfileType} from "../../../ArtistPage/types.js";
+import type {ArtistProfileType} from "../../../ArtistPage/types.js";
 
 
 const _useSubscriptions = () => {

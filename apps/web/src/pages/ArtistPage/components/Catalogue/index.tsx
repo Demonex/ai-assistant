@@ -72,7 +72,7 @@ const TableItemSocials = memo<{ track: any; social: any }>(({social, track}) => 
                   className='text-caption_r_desk text-white truncate'
                   href={link.url}
                   target='_blank'
-                  key={index}>
+                  key={index} rel="noreferrer">
                   {link.url}
                 </a>
               </div>
@@ -82,7 +82,7 @@ const TableItemSocials = memo<{ track: any; social: any }>(({social, track}) => 
       </div>
     </div>
   ) : Boolean(filtered.length) && (
-    <a href={filtered[0].url} target='_blank' className='flex justify-center items-center cursor-pointer'>
+    <a href={filtered[0].url} target='_blank' className='flex justify-center items-center cursor-pointer' rel="noreferrer">
       <img src={social.tableLogo} className='w-5 h-5' alt=""/>
     </a>
 
@@ -107,7 +107,7 @@ const TableItemSocialsMobile = memo<{ item: any }>(({item}) => {
                     className='text-caption_r_desk text-white truncate'
                     href={link.url}
                     target='_blank'
-                    key={index}>
+                    key={index} rel="noreferrer">
                     {link.url}
                   </a>
                 </div>
@@ -119,7 +119,7 @@ const TableItemSocialsMobile = memo<{ item: any }>(({item}) => {
     </div>
   ) : Boolean(item.links.length) && (
     <div className='w-1/2  flex justify-center'>
-      <a href={item.links[0].url} target='_blank' className='flex justify-center items-center cursor-pointer'>
+      <a href={item.links[0].url} target='_blank' className='flex justify-center items-center cursor-pointer' rel="noreferrer">
         <img src={item.tableLogo} className='w-5 h-5' alt=""/>
       </a>
     </div>

@@ -1,8 +1,8 @@
 import useSharedHook from '../../../hooks/useSharedHook.js';
 import {useEffect} from 'react';
 import {useArtist} from './useArtist.js';
-import {FetchError, useLazyFetch} from '../../../hooks/useFetch.js';
-import {TrackDataType} from '../types.js';
+import {type FetchError, useLazyFetch} from '../../../hooks/useFetch.js';
+import type {TrackDataType} from '../types.js';
 import {BACKEND_URL} from "../../../constants/index.js";
 
 const _useArtistTrack = (): {

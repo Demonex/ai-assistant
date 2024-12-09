@@ -1,4 +1,4 @@
-import {navbar, NavbarTypes} from "../../../data/consts/navbar.js";
+import {navbar, type NavbarTypes} from "../../../data/consts/navbar.js";
 import {memo, useMemo} from "react";
 import {Link} from "wouter";
 

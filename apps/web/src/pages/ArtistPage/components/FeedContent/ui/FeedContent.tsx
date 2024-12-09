@@ -331,7 +331,7 @@ export const FeedContent = memo(() => {
                                         </div>
 
                                         <a href={item.externalUrl || item.activity_url} target="_blank"
-                                           className="flex items-center gap-2.5 text-caption_m_desk whitespace-nowrap">
+                                           className="flex items-center gap-2.5 text-caption_m_desk whitespace-nowrap" rel="noreferrer">
                                           {isMobile ? '' : ' Перейти к треку'}
                                           <ChevronRight color={'white'}
                                                         className={`w-5 h-5`}/>

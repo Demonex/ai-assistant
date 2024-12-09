@@ -1,7 +1,7 @@
 import useSharedHook from '../../../hooks/useSharedHook.js';
 import {useEffect} from 'react';
-import {FetchError, useLazyFetch} from '../../../hooks/useFetch.js';
-import {ChartTrackDataType} from '../types.js';
+import {type FetchError, useLazyFetch} from '../../../hooks/useFetch.js';
+import type {ChartTrackDataType} from '../types.js';
 import {BACKEND_URL} from '../../../constants/index.js';
 import {useArtist} from "../../ArtistPage/hooks/useArtist.js";
 import {useTrack} from "./useTrack.js";

@@ -5,7 +5,7 @@ import { BACKEND_URL } from '@/constants/BackendUrl.js';
 import { useAccount } from '@/components/Header/hooks/useAccount.js';
 import { useLazyFetch } from '@/hooks/useFetch.js';
 import { EmailLoginInput } from './EmailLoginInput.js';
-import { ISignInFormInputs } from '../../types/types.js';
+import type { ISignInFormInputs } from '../../types/types.js';
 import { PasswordInput } from './PasswordInput.js';
 import { RememberMeInput } from './RememberMeInput.js';
 import { FormActions } from './FormActions.js';

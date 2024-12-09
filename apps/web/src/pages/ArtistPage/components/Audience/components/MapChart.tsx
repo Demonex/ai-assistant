@@ -119,7 +119,7 @@ export default memo(() => {
   const minValues = useMemo(() => {
     return dataMap.reduce<Record<string, number>>((prev, next) => {
       Object.entries(next).forEach(([id, value]) => {
-        if (Number(value) < Number(get(prev, id, Infinity))) {
+        if (Number(value) < Number(get(prev, id, Number.POSITIVE_INFINITY))) {
           set(prev, id, value);
         }
       });

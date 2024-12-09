@@ -1,5 +1,6 @@
 import {Dialog, Transition} from '@headlessui/react';
-import React, {Fragment, memo} from 'react';
+import type React from 'react';
+import {Fragment, memo} from 'react';
 import '../../../../../../index.css';
 
 type PopupProps = {

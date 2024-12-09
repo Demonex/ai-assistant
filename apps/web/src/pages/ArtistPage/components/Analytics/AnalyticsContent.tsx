@@ -1,6 +1,6 @@
 import {ShowOnMobileToTablet} from '../../../../components/Sizes/ShowOnMobileToTablet/ShowOnMobileToTablet.js';
 import {Chart} from '../Chart/Chart.js';
-import React, {Fragment, memo, ReactNode, useEffect, useMemo, useRef, useState} from 'react';
+import React, {Fragment, memo, type ReactNode, useEffect, useMemo, useRef, useState} from 'react';
 import {RelatedTracks} from './RelatedTracks.js';
 import {Performance} from './Performance.js';
 import {TopTracks} from './TopTracks.js';

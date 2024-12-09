@@ -4,7 +4,7 @@ import { useState } from 'react';
 import type { MutableRefObject } from 'react';
 import type { FieldError, UseFormRegister } from 'react-hook-form';
 import { FormInputError } from '@/shared/ui/FormUi/FormInputError.js';
-import { IUpdateProfileFormInputs } from '../types/types.js';
+import type { IUpdateProfileFormInputs } from '../types/types.js';
 
 interface PasswordIputProps {
     register: UseFormRegister<IUpdateProfileFormInputs>;

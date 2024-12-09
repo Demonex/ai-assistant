@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from 'react';
-import { SignInMethod } from '../types/types.js';
+import type { Dispatch, SetStateAction } from 'react';
+import type { SignInMethod } from '../types/types.js';
 
 interface SelectSignInMethodProps {
 	signInOption: SignInMethod;

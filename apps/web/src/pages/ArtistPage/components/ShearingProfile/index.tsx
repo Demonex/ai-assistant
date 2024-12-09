@@ -5,7 +5,7 @@ import {ChainIcon} from "../../../../assets/ChainIcon.js";
 import {Link, useParams} from "wouter";
 import {useTrack} from "../../../TrackPage/hooks/useTrack.js";
 import {useLazyFetch} from "../../../../hooks/useFetch.js";
-import {TrackDataType} from "../../../TrackPage/types.js";
+import type {TrackDataType} from "../../../TrackPage/types.js";
 import {BACKEND_URL} from "../../../../constants/index.js";
 import {navbar} from "../../../../data/consts/navbar.js";
 import ChevronRight from "../../../../assets/ChevronRight.js";
@@ -81,7 +81,7 @@ export const ProfileShearingPage = memo(() => {
               {
                 isArtist
                   ? outerLinksArtist?.map((link, index) =>link?.name && (
-                    <a key={index} href={link?.url} target='_blank'>
+                    <a key={index} href={link?.url} target='_blank' rel="noreferrer">
                       <li
                         className='p-4 flex justify-between items-center border-b border-secondary_dark_gray/50 cursor-pointer'>
                         <div className='flex items-center gap-2.5'>
@@ -93,7 +93,7 @@ export const ProfileShearingPage = memo(() => {
                     </a>
                   ))
                   : outerLinksTrack?.map((link, index) => link?.name && (
-                    <a key={index} href={link?.url} target='_blank'>
+                    <a key={index} href={link?.url} target='_blank' rel="noreferrer">
                       <li
                         className='p-4 flex justify-between items-center border-b border-secondary_dark_gray/50 cursor-pointer'>
                         <div className='flex items-center gap-2.5'>

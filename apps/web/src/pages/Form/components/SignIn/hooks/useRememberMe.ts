@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { UseFormSetValue } from 'react-hook-form';
-import { ISignInFormInputs, RememberMeData } from '../types/types.js';
+import type { UseFormSetValue } from 'react-hook-form';
+import type { ISignInFormInputs, RememberMeData } from '../types/types.js';
 
 export const useRememberMe = (setValue: UseFormSetValue<ISignInFormInputs>) => {
 	useEffect(() => {

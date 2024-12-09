@@ -1,4 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
+import type React from 'react';
+import {useEffect, useRef, useState} from 'react';
 import useSharedHook from "../../../../../hooks/useSharedHook.js";
 import {useLazyFetch} from "../../../../../hooks/useFetch.js";
 import {BACKEND_URL} from "../../../../../constants/index.js";

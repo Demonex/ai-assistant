@@ -1,4 +1,4 @@
-import { ButtonVariant } from './Button.types.js';
+import type { ButtonVariant } from './Button.types.js';
 
 export const getVariantStyles = (variant: ButtonVariant) => {
 	let style;

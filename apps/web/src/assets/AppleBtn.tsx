@@ -1,4 +1,4 @@
-import {memo, SVGProps} from "react";
+import {memo, type SVGProps} from "react";
 import {useSizes} from "../hooks/useSizes.js";
 
 interface Props extends SVGProps<SVGSVGElement> {

@@ -1,6 +1,6 @@
 import {Sidebar} from '../../components/Sidebar/Sidebar.js';
 import {memo, useEffect } from 'react';
-import {ArtistNavigation} from '../../hooks/useArtist.js';
+import type {ArtistNavigation} from '../../hooks/useArtist.js';
 import {useParams} from 'wouter';
 
 import Header from '../../../../components/HeaderMain/index.js';

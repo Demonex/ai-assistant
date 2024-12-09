@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FormContainer } from '../../../../../shared/ui/FormUi/FormContainer.js';
 import { SelectSignInMethod } from './SelectSignInMethod.js';
-import { SignInMethod } from '../types/types.js';
+import type { SignInMethod } from '../types/types.js';
 import { EmailSignIn } from './EmailSignInForm/EmailSignIn.js';
 import { ServicesSignIn } from './ServicesSignIn.js';
 import { NoAccount } from './NoAccount.js';

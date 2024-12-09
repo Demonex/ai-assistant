@@ -1,4 +1,5 @@
-import React, {ChangeEvent, FC, forwardRef, ReactNode, useRef} from 'react';
+import type React from 'react';
+import {type ChangeEvent, type FC, forwardRef, type ReactNode, useRef} from 'react'
 import modifyIcon from '/assets/svg/modify_icon.svg';
 import avatarStub from '/assets/svg/avatar_unauthorized.svg'
 import {UploadIcon} from "../assets/UploadIcon.js";

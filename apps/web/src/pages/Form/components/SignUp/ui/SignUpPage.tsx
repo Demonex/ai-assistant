@@ -8,7 +8,7 @@ import { PasswordIput } from './PasswordInput.js';
 import { RepeatPasswordInput } from './RepeatPasswordInput.js';
 import { AcceptPolicyInput } from './AcceptPolicyInput.js';
 import { LoginInput } from './LoginIput.js';
-import { ISignUpFormInputs } from '../types/types.js';
+import type { ISignUpFormInputs } from '../types/types.js';
 import { SentEmail } from './SentEmail.js';
 import { FormActions } from './FormActions.js';
 import { AlreadyRegistered } from './AlreadyRegistered.js';

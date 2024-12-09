@@ -1,4 +1,4 @@
-import {SVGProps} from "react";
+import type {SVGProps} from "react";
 
 export const SvgLogo = ({height,width, fill, ...props}: SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 152 60" {...props}>

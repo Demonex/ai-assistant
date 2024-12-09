@@ -1,6 +1,7 @@
-import {allSources, favoriteSources, overviewSources} from '../../../data/consts/favoriteSources.js';
+import {type allSources, favoriteSources, overviewSources} from '../../../data/consts/favoriteSources.js';
 import useSharedHook from '../../../hooks/useSharedHook.js';
-import React, {useCallback, useState} from 'react';
+import type React from 'react';
+import {useCallback, useState} from 'react';
 import {useArtistProfile} from './useArtistProfile.js';
 
 export type ArtistNavigation = 'feed' | 'analytics' | 'audience' | 'tools' | 'catalogue' | undefined

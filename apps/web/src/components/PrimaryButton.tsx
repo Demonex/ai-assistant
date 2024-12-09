@@ -1,4 +1,5 @@
-import React, {forwardRef, useCallback} from 'react';
+import type React from 'react';
+import {forwardRef, useCallback} from 'react';
 import {useLocation} from 'wouter';
 
 type PrimaryButtonProps = {

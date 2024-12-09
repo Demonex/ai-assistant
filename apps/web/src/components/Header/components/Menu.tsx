@@ -1,5 +1,6 @@
 import {Popover, Transition} from '@headlessui/react';
-import React, {Fragment, memo, ReactElement, useEffect, useRef} from 'react';
+import type React from 'react';
+import {Fragment, memo, type ReactElement, useEffect, useRef} from 'react'
 import type {NavbarTypes} from '../../../data/consts/navbar.js';
 import {navbar} from '../../../data/consts/navbar.js';
 import {Link} from 'wouter';

@@ -186,7 +186,7 @@ const Footer = memo(() => {
                 icons.map((icon, i) => (
                   <a
                     className="w-10 h-10"
-                    key={i} href={icon.link} target='_blank'>{icon.icon}</a>
+                    key={i} href={icon.link} target='_blank' rel="noreferrer">{icon.icon}</a>
                 ))
               }
             </div>
@@ -237,7 +237,7 @@ const Footer = memo(() => {
               : <div className="flex gap-3">
                 {
                   icons.map((icon, i) => (
-                    <a className=" w-10 h-10 cursor-pointer " key={i} href={icon.link} target='_blank'>
+                    <a className=" w-10 h-10 cursor-pointer " key={i} href={icon.link} target='_blank' rel="noreferrer">
                       {icon.icon}
                     </a>
                   ))

@@ -1,5 +1,5 @@
 import { getVariantStyles } from './Button.styles.js';
-import { ButtonProps } from './Button.types.js'
+import type { ButtonProps } from './Button.types.js'
 
 export const Button = (props: ButtonProps) => {
 	const { children, variant='primary', ...rest } = props;

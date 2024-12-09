@@ -1,4 +1,4 @@
-import {Dispatch, SetStateAction, useState} from 'react';
+import {type Dispatch, type SetStateAction, useState} from 'react';
 import useSharedHook from "../../../hooks/useSharedHook.js";
 
 const _useIsSentMessage = (): {

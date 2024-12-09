@@ -1,6 +1,7 @@
 import useSharedHook from "../../../../../hooks/useSharedHook.js";
 
-import React, {useState} from 'react';
+import type React from 'react';
+import {useState} from 'react';
 
 
 const _useMobileMenu = (): {

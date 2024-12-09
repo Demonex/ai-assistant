@@ -1,4 +1,4 @@
-import {memo, SVGProps} from "react";
+import {memo, type SVGProps} from "react";
 
 interface Props extends SVGProps<SVGSVGElement> {
   className?: string

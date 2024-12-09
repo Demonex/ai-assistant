@@ -1,5 +1,6 @@
-import React, {useMemo, memo, useState} from 'react'
-import {NavbarTypes} from "../../../data/consts/navbar.js";
+import type React from 'react'
+import {useMemo, memo, useState} from 'react'
+import type {NavbarTypes} from "../../../data/consts/navbar.js";
 import {Link} from "wouter";
 import {useMobileMenu} from "./MobileMenu/hooks/useMobileMenu.js";
 

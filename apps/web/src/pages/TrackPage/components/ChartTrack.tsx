@@ -9,7 +9,8 @@ import {
 import get from 'lodash.get';
 import set from 'lodash.set';
 import {DateTime} from 'luxon';
-import React, {forwardRef, memo, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import type React from 'react';
+import {forwardRef, memo, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import humanNumber from 'human-number';
 import type {TooltipProps as CustomTooltipProps} from 'recharts/types/component/Tooltip.js';
 import {useWindowSize} from '@uidotdev/usehooks';

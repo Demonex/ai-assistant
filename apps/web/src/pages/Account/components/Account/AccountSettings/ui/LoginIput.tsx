@@ -1,6 +1,6 @@
 import type { FieldError, UseFormRegister } from 'react-hook-form';
 import { FormInputError } from '@/shared/ui/FormUi/FormInputError.js';
-import { IUpdateProfileFormInputs } from '../types/types.js';
+import type { IUpdateProfileFormInputs } from '../types/types.js';
 
 interface LoginInputProps {
     register: UseFormRegister<IUpdateProfileFormInputs>;

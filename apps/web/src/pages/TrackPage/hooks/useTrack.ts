@@ -1,10 +1,11 @@
 import useSharedHook from '../../../hooks/useSharedHook.js';
-import React, {useCallback, useEffect, useState} from 'react';
+import type React from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useLazyFetch} from '../../../hooks/useFetch.js';
 import {BACKEND_URL} from '../../../constants/index.js';
 import {useArtist} from '../../ArtistPage/hooks/useArtist.js';
 import {useParams} from 'wouter';
-import {TrackDataType} from '../types.js';
+import type {TrackDataType} from '../types.js';
 import memoize from 'memoizee';
 import {useBetween} from 'use-between';
 import {useArtistProfile} from '../../ArtistPage/hooks/useArtistProfile.js';
