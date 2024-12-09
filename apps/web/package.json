@@ -15,7 +15,6 @@
     "serve": "cross-env NODE_ENV=production npx node dist/server.mjs",
     "lint": "biome lint src --write",
     "ssg": "serve dist/client",
-    "format": "prettier --write .",
     "depcheck": "npx depcheck",
     "build:push": "docker buildx build --platform linux/amd64 --no-cache -t bardakdev/rifify-nginx -f Dockerfile . --no-cache --push",
     "certbot:push": "docker buildx build --platform linux/amd64 --no-cache -t bardakdev/rifify-certbot --no-cache -f certbot.Dockerfile . --no-cache --push"
