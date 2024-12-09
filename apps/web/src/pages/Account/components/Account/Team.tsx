@@ -120,19 +120,19 @@ const Team = () => {
             <tbody className="divide-y divide-secondary_dark_gray">
             {
               teamMembers.map((item, indexItem) => (
-                <tr className={``} key={indexItem}>
+                <tr className={""} key={indexItem}>
                   <td
-                    className={`p-4 text-caption_r_desk text-light_grey`}>{item.name}</td>
+                    className={"p-4 text-caption_r_desk text-light_grey"}>{item.name}</td>
                   <td className="p-4 text-start flex items-center gap-2.5 text-light_grey text-t2Regular">
                     {item.email}
                   </td>
                   <td
-                    className={`p-4 text-caption_r_desk text-light_grey `}>{item.status}</td>
+                    className={"p-4 text-caption_r_desk text-light_grey "}>{item.status}</td>
                   <td
-                    className={`p-4 text-caption_r_desk text-light_grey`}>{item.role}
+                    className={"p-4 text-caption_r_desk text-light_grey"}>{item.role}
                   </td>
                   <td
-                    className={` text-caption_r_desk text-light_grey `}>{item.type === 'member' && (
+                    className={" text-caption_r_desk text-light_grey "}>{item.type === 'member' && (
                     <div className='flex justify-end pr-8 items-center' onClick={() => setOpenModalRemove(true)}>
                       <BasketIcon
                         className='fill-white hover:fill-medium_grey cursor-pointer'/>

@@ -24,7 +24,7 @@ export const PasswordInput = (props: PasswordIputProps) => {
             </label>
             <div className="mt-1.5">
                 <div
-                    className={`w-full rounded-xl border border-solid border-medium_grey py-2.5 px-3.5  text-white text-caption_r_desk flex justify-between`}>
+                    className={"w-full rounded-xl border border-solid border-medium_grey py-2.5 px-3.5  text-white text-caption_r_desk flex justify-between"}>
                     <input
                         type={showPassword ? 'text' : 'password'}
                         autoComplete="new-password"

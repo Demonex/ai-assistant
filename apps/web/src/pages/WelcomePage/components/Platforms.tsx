@@ -200,7 +200,7 @@ const Platforms = memo(() => {
                                         <img
                                             src={platform.img}
                                             key={index}
-                                            className={`hover:scale-110 cursor-pointer transition duration-300 `}/>
+                                            className={"hover:scale-110 cursor-pointer transition duration-300 "}/>
                                 </Link>
                             )
                         }

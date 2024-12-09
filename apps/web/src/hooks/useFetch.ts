@@ -9,7 +9,7 @@ const fetch = setupCache(Axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_URL || '',
   headers: {
     common: {
-      ['Content-Type']: 'application/json'
+      "Content-Type": 'application/json'
     }
   },
   withCredentials: true

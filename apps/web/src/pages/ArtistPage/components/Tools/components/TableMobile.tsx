@@ -27,7 +27,7 @@ const TableMobile = memo(({data,setOpenTrackInfoModal}: any) => {
                                 {
                                   cell.artistLinks.map((link: any, indexLink: number) => (
                                     <p className='text-caption_s_desk text-medium_grey'
-                                       key={indexLink}>{indexLink === cell.artistLinks.length - 1 ? link.text : link.text + ','}</p>
+                                       key={indexLink}>{indexLink === cell.artistLinks.length - 1 ? link.text : `${link.text},`}</p>
                                   ))
                                 }
                               </div>

@@ -33,7 +33,7 @@ export const FormPage = memo(() => {
                     paddingRight: `${paddingHorizontal}px`,
                     paddingLeft: `${paddingHorizontal}px`,
                 }}
-                className={`w-full h-full z-30 mt-4 md:mt-10 lg:mt-[3.75rem] flex justify-center`}
+                className={"w-full h-full z-30 mt-4 md:mt-10 lg:mt-[3.75rem] flex justify-center"}
             >
                 <div className="flex flex-col gap-4 md:gap-9 items-center w-full md:w-[35rem]">
                     <div className='w-full'>

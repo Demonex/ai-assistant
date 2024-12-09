@@ -35,7 +35,7 @@ const SkeletonCountriesTable = memo(() => (
                 {
                   Array.from({length: 4}).map((headerTitle, indexHeaderTitle) => (
                     <th scope="col"
-                        className={` p-5 text-left uppercase text-xs font-medium cursor-pointer basis-1 `}
+                        className={" p-5 text-left uppercase text-xs font-medium cursor-pointer basis-1 "}
                         key={indexHeaderTitle}>
                       <div className="flex items-center">
                         <Skeleton width="7rem"></Skeleton>
@@ -130,7 +130,7 @@ export const CountriesTable = memo(() => {
 
   const clickBack = () => {
     const result = page - 1;
-    if (page == 1) {
+    if (page === 1) {
       return;
     }
     setPage(result);
@@ -212,13 +212,13 @@ export const CountriesTable = memo(() => {
                                                     <div
                                                       className={`flex items-center  gap-x-4 ${indexObjVal === 0 ? '' : 'justify-center'}`}>
                                                       {
-                                                        itemObjVal['avatar']
-                                                          ? <img src={itemObjVal['avatar']} alt=""
+                                                        itemObjVal.avatar
+                                                          ? <img src={itemObjVal.avatar} alt=""
                                                                  className="h-6 w-6"/>
                                                           : null
                                                       }
                                                       <span
-                                                        className="block text-white text-caption_r_desk">{numbersFormatter(itemObjVal['displayText'])}</span>
+                                                        className="block text-white text-caption_r_desk">{numbersFormatter(itemObjVal.displayText)}</span>
                                                     </div>
                                                   </td>
                                               })

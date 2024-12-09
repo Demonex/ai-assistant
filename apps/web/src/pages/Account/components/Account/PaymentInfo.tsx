@@ -97,16 +97,16 @@ const PaymentInfo = memo(() => {
                 <tbody className="divide-y divide-secondary_dark_gray">
                 {
                   subscriptions.map((item, indexItem) => (
-                    <tr className={``} key={indexItem}>
+                    <tr className={""} key={indexItem}>
                       <td
-                        className={`p-4 text-caption_r_desk `}>{item.prolongDate}</td>
+                        className={"p-4 text-caption_r_desk "}>{item.prolongDate}</td>
                       <td className="p-4 text-start flex items-center gap-2.5 min-w-[15rem] text-t2Regular">
                         {item.name}
                       </td>
                       <td
-                        className={`p-4 text-caption_r_desk `}>{item.sum}</td>
+                        className={"p-4 text-caption_r_desk "}>{item.sum}</td>
                       <td
-                        className={`p-4 text-caption_r_desk `}><DownloadIcon
+                        className={"p-4 text-caption_r_desk "}><DownloadIcon
                         className='fill-white cursor-pointer hover:fill-medium_grey'/>
                       </td>
                     </tr>

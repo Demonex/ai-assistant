@@ -46,8 +46,8 @@ const BottomBeforeFooter = ({tildaColor, children,fillPath}:BottomBeforeFooterPr
                 className='absolute z-10 lg:-bottom-[30%] '
                 style={{
                     minWidth: isMobile || isTablet ? `${tildaSizeMob}px` : '',
-                    top: isMobile ? `0` : ``,
-                    left: isMobile ? `-100%` : isTablet ? '-50%' : `0`,
+                    top: isMobile ? "0" : "",
+                    left: isMobile ? "-100%" : isTablet ? '-50%' : "0",
                 }}
             />
         </div>

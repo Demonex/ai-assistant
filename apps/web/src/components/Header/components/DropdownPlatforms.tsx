@@ -11,7 +11,7 @@ export const DropdownPlatforms = memo<DropdownPlatformsProps>(({
     return (
         <div
             className={`${opened ? `opacity-1 ${'dropdown-transition_end pointer-events-none opacity-0'}` : (opened === false
-                ? `pointer-events-none opacity-0`
+                ? "pointer-events-none opacity-0"
                 : 'opacity-0 pointer-events-none')} absolute top-[135%] left-[100%] z-10 mt-2 origin-top-right flex w-screen max-w-sm md:max-w-3xl -translate-x-1/2 rounded-3xl bg-gradient-to-b from-indigo-500 via-indigo-500/ ring-1 ring-inset ring-white/5 focus:outline-none p-[0.060rem]`}
             role="menu" aria-orientation="vertical" aria-labelledby="menu-button">
             <div

@@ -140,8 +140,8 @@ const TableItemMobile = memo<{
     }
   }, [item.plan]);
   const sum = item.plan.price;
-  const endDate = DateTime.fromISO(item.createdAt).plus({month: periodByMonth}).toFormat(`d/MM/yyyy`);
-  const nextPayment = DateTime.fromISO(item.createdAt).plus({month: periodByMonth}).minus({day: 1}).toFormat(`d/MM/yyyy`);
+  const endDate = DateTime.fromISO(item.createdAt).plus({month: periodByMonth}).toFormat("d/MM/yyyy");
+  const nextPayment = DateTime.fromISO(item.createdAt).plus({month: periodByMonth}).minus({day: 1}).toFormat("d/MM/yyyy");
   return (
     <>
       <Transition appear show={renderItemContent} as={Fragment}>
@@ -164,12 +164,12 @@ const TableItemMobile = memo<{
                   <div className='flex gap-2 items-center'>
                     {
                       isPackage
-                        ? <p className={` text-caption_r_desk`}>Лейбл
+                        ? <p className={" text-caption_r_desk"}>Лейбл
                           до {item.plan.limit} артистов</p>
                         : <>
                           <img src={artist?.imageUrl}
-                               className={`w-11 h-11 rounded-full bg-medium_grey `}/>
-                          <p className={` text-t2Regular`}>{artist?.name}</p>
+                               className={"w-11 h-11 rounded-full bg-medium_grey "}/>
+                          <p className={" text-t2Regular"}>{artist?.name}</p>
                         </>
                     }
                   </div>
@@ -192,7 +192,7 @@ const TableItemMobile = memo<{
                               className="bg-transparent border border-solid border-secondary_dark_gray rounded-sm"
                               defaultChecked={item.renew}/>
                             <p
-                              className={`text-caption_r_desk text-light_grey`}>Автопродление</p>
+                              className={"text-caption_r_desk text-light_grey"}>Автопродление</p>
                           </div>
                           <div className='flex gap-4 items-center'>
                             <ChevronYellowIcon
@@ -201,7 +201,7 @@ const TableItemMobile = memo<{
                               e.preventDefault();
                               onUpdateArchive(item);
                             }}>
-                              <BasketIcon className={`cursor-pointer fill-white`}/>
+                              <BasketIcon className={"cursor-pointer fill-white"}/>
                             </button>
                           </div>
                         </>
@@ -238,7 +238,7 @@ const TableItemMobile = memo<{
                         {
                           item.artists.map((id, index) => (
                             <li key={index}
-                                className={`flex items-center gap-4 py-4 px-2 border-b border-b-secondary_dark_gray bg-popup_gray/50`}>
+                                className={"flex items-center gap-4 py-4 px-2 border-b border-b-secondary_dark_gray bg-popup_gray/50"}>
                               <img src={artistsFromSubscriptions[id]?.imageUrl} alt={artistsFromSubscriptions[id]?.name}
                                    className="w-11 h-11 rounded-full"/>
                               <p className="text-t2Regular">{artistsFromSubscriptions[id]?.name}</p>
@@ -246,7 +246,7 @@ const TableItemMobile = memo<{
                           ))
                         }
                         <li
-                          className={`flex w-full items-center gap-4 py-4 pl-4 bg-[#0C0C0C] cursor-pointer border-b border-secondary_dark_gray/50`}
+                          className={"flex w-full items-center gap-4 py-4 pl-4 bg-[#0C0C0C] cursor-pointer border-b border-secondary_dark_gray/50"}
                           onClick={() => handleAddArtistClick(item.id)}
                         >
                           <div
@@ -273,17 +273,17 @@ const TableItemMobile = memo<{
            onClick={() => setRenderItemContent(true)}>
         {
           item.archived
-            ? <p className={` text-t2Regular`}>Архив</p>
+            ? <p className={" text-t2Regular"}>Архив</p>
             : <>
               {
                 (isPackage) ? (
-                  <p className={` text-caption_r_desk`}>Лейбл
+                  <p className={" text-caption_r_desk"}>Лейбл
                     до {item.plan.limit} артистов</p>
                 ) : (
                   <div className='flex gap-2 items-center'>
                     <img src={artist?.imageUrl}
-                         className={`w-11 h-11 rounded-full bg-medium_grey `}/>
-                    <p className={` text-t2Regular`}>{artist?.name}</p>
+                         className={"w-11 h-11 rounded-full bg-medium_grey "}/>
+                    <p className={" text-t2Regular"}>{artist?.name}</p>
                   </div>
                 )
               }
@@ -351,8 +351,8 @@ const TableItem = memo<{
     }
   }, [item.plan]);
   const sum = item.plan.price;
-  const endDate = DateTime.fromISO(item.createdAt).plus({month: periodByMonth}).toFormat(`d/MM/yyyy`);
-  const nextPayment = DateTime.fromISO(item.createdAt).plus({month: periodByMonth}).minus({day: 1}).toFormat(`d/MM/yyyy`);
+  const endDate = DateTime.fromISO(item.createdAt).plus({month: periodByMonth}).toFormat("d/MM/yyyy");
+  const nextPayment = DateTime.fromISO(item.createdAt).plus({month: periodByMonth}).minus({day: 1}).toFormat("d/MM/yyyy");
 
   return (
     <>
@@ -478,7 +478,7 @@ const TableItem = memo<{
           {
             !item.archived && (
               <td
-                className={`p-4 flex items-center gap-4`}>
+                className={"p-4 flex items-center gap-4"}>
                 <ChevronYellowIcon className={`cursor-pointer ${item.plan.limit > 1 ? 'fill-black' : 'fill-yellow'}`}/>
                 <button onClick={(e) => {
                   e.preventDefault();
@@ -604,7 +604,7 @@ export const Subscriptions = memo(() => {
                               {
                                 item.artists.map((id, index) => (
                                   <li key={index}
-                                      className={`flex items-center gap-4 py-4 pl-4 border-b border-b-secondary_dark_gray bg-popup_gray/50`}>
+                                      className={"flex items-center gap-4 py-4 pl-4 border-b border-b-secondary_dark_gray bg-popup_gray/50"}>
                                     <img src={artistsFromSubscriptions[id]?.imageUrl} alt={artistsFromSubscriptions[id]?.name}
                                          className="w-11 h-11 rounded-full"/>
                                     <p className="text-t2Regular">{artistsFromSubscriptions[id]?.name}</p>
@@ -612,7 +612,7 @@ export const Subscriptions = memo(() => {
                                 ))
                               }
                               <li
-                                className={`flex items-center gap-4 py-4 pl-4 bg-[#0C0C0C] w-fit cursor-pointer`}
+                                className={"flex items-center gap-4 py-4 pl-4 bg-[#0C0C0C] w-fit cursor-pointer"}
                                 onClick={() => handleAddArtistClick(item.id)}
                               >
                                 <div
@@ -632,7 +632,7 @@ export const Subscriptions = memo(() => {
                       </Disclosure>
                     )
                     : (
-                      <tr className={``} key={index}>
+                      <tr className={""} key={index}>
                         <TableItem item={item} artistsFromSubscriptions={artistsFromSubscriptions} onRemoveFromArchive={onRemoveFromArchive}/>
                       </tr>
                     )
@@ -658,7 +658,7 @@ export const Subscriptions = memo(() => {
                         <Disclosure.Panel className="m-0 p-0" as="tr" key={index}>
                           <TableItem item={item} artistsFromSubscriptions={artistsFromSubscriptions} onRemoveFromArchive={onRemoveFromArchive}/>
                           <td
-                            className={`p-4 hidden lg:block`} colSpan={3}>
+                            className={"p-4 hidden lg:block"} colSpan={3}>
                             <button
                               onClick={(e) => {
                                 e.preventDefault();

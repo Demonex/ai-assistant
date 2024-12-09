@@ -1,7 +1,6 @@
 import {useBetween} from 'use-between';
 import get from 'lodash.get';
 import set from 'lodash.set';
-import memoize from "memoizee";
 
 
 const useSharedHook = <T>(hook: Function, ...defaults: unknown[]) => {

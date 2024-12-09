@@ -78,7 +78,7 @@ const TabsZoom = forwardRef<HTMLImageElement, TabsZoomProps>(({
     const selectedIndex = Object.values(Zoom).indexOf(zoom);
     if (!tabsParentRef.current
       || !tabMarkerRef.current
-      || selectedIndex == -1) {
+      || selectedIndex === -1) {
       return;
     }
     const buttons = Array.from(tabsParentRef.current.childNodes as NodeListOf<HTMLDivElement>);
@@ -190,7 +190,7 @@ const CustomTooltip = memo<CustomTooltipProps<number, string>>(({
     return null;
   }
   const date = new Date(payload[0].payload.time);
-  const formattedDate = DateTime.fromJSDate(date).setLocale('ru').toFormat(`ccc d/MM/yyyy`);
+  const formattedDate = DateTime.fromJSDate(date).setLocale('ru').toFormat("ccc d/MM/yyyy");
   return (
     <div className="flex flex-col bg-popup_gray text-white p-2 rounded-md gap-2">
       <p
@@ -263,10 +263,9 @@ export const ChartTrack = memo(() => {
       case Zoom['1m']: {
         return DateTime.now().minus({month: 1}).toMillis();
       }
-      case Zoom['ytd']: {
+      case Zoom.ytd: {
         return DateTime.now().startOf('year').toMillis();
       }
-      case Zoom.all:
       default: {
         return DateTime.fromMillis(get(chartDataGraph?.at(0), 'time', Date.now())).toMillis();
       }

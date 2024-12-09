@@ -134,7 +134,7 @@ const Artists = memo<{ track: any }>(({track}) => {
       {
         artistsList.map((artist, index) => (
           <p key={index}
-             className='text-caption_s_desk text-medium_grey whitespace-nowrap'>{index !== artistsList.length - 1 ? artist + ',' : artist}</p>
+             className='text-caption_s_desk text-medium_grey whitespace-nowrap'>{index !== artistsList.length - 1 ? `${artist},` : artist}</p>
         ))
       }
     </div>
@@ -451,13 +451,13 @@ const Catalogue = memo(() => {
                     <img src={clickedTrack?.imageUrl}
                          className='w-[6.25rem] h-[6.25rem] md:w-[7.5rem] md:h-[7.5rem] rounded-full'/>
                     <div className='flex flex-col gap-2'>
-                      <h1 className={`text-t1Mobile md:text-t1Regular  `}>{clickedTrack?.trackName}</h1>
+                      <h1 className={"text-t1Mobile md:text-t1Regular  "}>{clickedTrack?.trackName}</h1>
                       <p className='text-t2Regular text-medium_grey'>
                         {
                           clickedTrack?.artistLinks?.map((item, i) => {
                             return (
                               <span
-                                key={i}>{i !== clickedTrack.artistLinks.length - 1 ? item.text + ',' : item.text}</span>
+                                key={i}>{i !== clickedTrack.artistLinks.length - 1 ? `${item.text},` : item.text}</span>
                             )
                           })
                         }

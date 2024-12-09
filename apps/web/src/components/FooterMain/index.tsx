@@ -200,7 +200,7 @@ const Footer = memo(() => {
                   {
                     platform.list.map((item, i) => (
                       <Link to={item.link} key={i} onClick={scrollToTop}>
-                        <p className={`capitalize text-t2Regular hover:text-medium_grey cursor-pointer`}
+                        <p className={"capitalize text-t2Regular hover:text-medium_grey cursor-pointer"}
                         > {item.name}</p>
                       </Link>
 

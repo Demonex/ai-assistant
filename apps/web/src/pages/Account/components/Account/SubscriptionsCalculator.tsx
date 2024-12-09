@@ -22,8 +22,7 @@ const SubscriptionsCalculator = memo(() => {
 
   const periodByMonth = useMemo(() => {
     switch (plan?.period) {
-      default:
-      case 'month': {
+      default: {
         return 1;
       }
       case 'half-year': {

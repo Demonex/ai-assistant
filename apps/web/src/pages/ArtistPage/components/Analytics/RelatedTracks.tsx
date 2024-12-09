@@ -69,7 +69,7 @@ export const RelatedTracks = memo(() => {
                     className="text-btnText text-light_grey">{t(relatedTracksItem.headerText)}</p>
                   <InfoIcon className='fill-light_grey hover:fill-medium_grey'/>
                 </div>
-                <ul className={`w-full  h-full  gap-4  flex flex-wrap`}>
+                <ul className={"w-full  h-full  gap-4  flex flex-wrap"}>
                   {
                     relatedTracksItem.relatedTracks?.filter((_, index) => index < 12).map((track, index) => (
                       <div key={index}>

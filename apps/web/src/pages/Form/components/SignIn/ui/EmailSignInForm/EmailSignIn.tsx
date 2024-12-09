@@ -49,7 +49,7 @@ export const EmailSignIn = () => {
 
         error?.response.data.messages.forEach((item, index) => {
 
-            setError(`emailLogin`, {
+            setError("emailLogin", {
                 message: 'Учётная запись не найдена'
             }, {
                 shouldFocus: index === 0

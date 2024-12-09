@@ -48,7 +48,7 @@ const TableItemMobile = memo<{
       <div className='grid grid-cols-7 gap-4'>
         {
           value.cells.filter((_, index) => index > 0 ).map((cell, index) => cell.displayText && (
-            <div className={`   `} key={index}>
+            <div className={"   "} key={index}>
               <div className='flex gap-4 items-center '>
                 {
                   cell.avatar && (
@@ -104,11 +104,11 @@ const TrackTable = memo(() => {
   const clickBack = () => {
     const result = page - 1;
     const resultIndex = chunkedRowsIndex - 1;
-    if (page == 1) {
+    if (page === 1) {
       return;
     }
     setPage(result);
-    if (page == 1) {
+    if (page === 1) {
       return;
     }
     setChunkedRowsIndex(resultIndex)
@@ -227,7 +227,7 @@ const TrackTable = memo(() => {
           {
             chunkedRows[chunkedRowsIndex].map((value, index) => (
               <li
-                className={`flex flex-col gap-4 text-btnText whitespace-nowrap text-start py-4 border-b border-secondary_dark_gray/50`}
+                className={"flex flex-col gap-4 text-btnText whitespace-nowrap text-start py-4 border-b border-secondary_dark_gray/50"}
                 key={index}>
                 {
                   <div className='flex gap-4 items-center'>

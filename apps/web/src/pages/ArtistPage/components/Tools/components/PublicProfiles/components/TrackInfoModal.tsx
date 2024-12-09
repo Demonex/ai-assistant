@@ -137,7 +137,7 @@ const TrackInfoModal = memo(({setOpenTrackInfoModal, openTrackInfoModal}: any, a
                     {
                       popupData.popupInfo.metadata.map((item, index) => (
                         <p key={index}
-                           className='text-t2Regular text-light_grey'>{index !== popupData.popupInfo.metadata.length - 1 ? item.displayText + ',' : item.displayText}</p>
+                           className='text-t2Regular text-light_grey'>{index !== popupData.popupInfo.metadata.length - 1 ? `${item.displayText},` : item.displayText}</p>
                       ))
                     }
                   </div>

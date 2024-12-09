@@ -146,7 +146,7 @@ export const Menu = memo<MenuProps>(({title, items, icon, link}) => {
         return (
             <a className="flex flex-row items-center cursor-pointer" href={link}>
                 <p style={{fontSize: `${secundaryText}px`, lineHeight: '27px'}}
-                   className={`font-medium capitalize  whitespace-nowrap hover:text-medium_grey`}>
+                   className={"font-medium capitalize  whitespace-nowrap hover:text-medium_grey"}>
                     {title}
                 </p>
             </a>
@@ -166,14 +166,14 @@ export const Menu = memo<MenuProps>(({title, items, icon, link}) => {
                             onMouseLeave={onMouseLeave.bind(null, open)}
                         >
                             <div style={{
-                                height: `20px`,
-                                minWidth: `20px`
+                                height: "20px",
+                                minWidth: "20px"
                             }}
                             >
                                 {icon}
                             </div>
                             <p style={{fontSize: `${secundaryText}px`, lineHeight: '27px'}}
-                               className={`font-medium capitalize  whitespace-nowrap group-hover:text-medium_grey`}>
+                               className="font-medium capitalize  whitespace-nowrap group-hover:text-medium_grey">
                                 {title}
                             </p>
                         </Popover.Button>

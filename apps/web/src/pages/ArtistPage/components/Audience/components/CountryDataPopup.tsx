@@ -96,14 +96,14 @@ const CountryDataPopup = memo(() => {
                         <th className='flex items-center gap-2 w-[65%]'>
                           <p className='text-btnText'>Название трека</p>
                           <ArrowDropdown
-                            className={`fill-white`}/>
+                            className={"fill-white"}/>
                         </th>
                         {
                           dataPopup?.popupInfo?.listDataHeaders?.map((item, index) => (
                             <th className='flex flex-1 items-center gap-2 px-3 whitespace-nowrap'>
                               <p className='text-btnText' key={index}>{item}</p>
                               <ArrowDropdown
-                                className={`fill-white`}/>
+                                className={"fill-white"}/>
                             </th>
                           ))
                         }

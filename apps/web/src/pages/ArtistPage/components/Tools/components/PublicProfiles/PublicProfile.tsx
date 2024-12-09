@@ -723,7 +723,7 @@ const TableRows = memo(({item, indexItem, setOpenTrackInfoModal}: any) => {
                         cell.artistLinks && (
                           cell.artistLinks.map((artist: any, index: number) => (
                             <p className='text-caption_s_desk text-medium_grey'
-                               key={index}>{index !== cell.artistLinks.length - 1 ? artist.text + ',' : artist.text}</p>
+                               key={index}>{index !== cell.artistLinks.length - 1 ? `${artist.text},` : artist.text}</p>
                           ))
                         )
                       }

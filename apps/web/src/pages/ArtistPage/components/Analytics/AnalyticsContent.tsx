@@ -81,8 +81,8 @@ export const AnalyticsContent = memo(() => {
   const params = useParams();
   const {setSource} = useArtist();
   const artistId = useMemo(() => {
-    return params['id'];
-  }, [params['id']]);
+    return params.id;
+  }, [params.id]);
   const {data: trackData, loading: apiTrackDataLoading} = useArtistTrack();
   const {isSubscribed} = useSubscriptions();
   const {changeTab, setChangeTab} = useChangeTab();
@@ -133,19 +133,19 @@ export const AnalyticsContent = memo(() => {
               <div className="flex min-w-full items-center gap-4">
                 <button className='min-w-5 h-5'>
                   <ChevronRight color={changeTab === 0 || changeTab === undefined ? '#7B7B7B' : 'white'}
-                                className={`rotate-[180deg]`}/>
+                                className={"rotate-[180deg]"}/>
                 </button>
                 <Tabs/>
                 <button className='min-w-5 h-5'>
-                  <ChevronRight color='white' className={``}/>
+                  <ChevronRight color='white' className={""}/>
                 </button>
-                <Link to={`/share/artist/${artistId}/${params['name']}`}
+                <Link to={`/share/artist/${artistId}/${params.name}`}
                 >
                   <RelativeLinksIcon className='fill-white hover:fill-medium_grey'/>
                 </Link>
               </div>
               <div className="flex gap-6 flex-col items-center h-fit ">
-                <section className={`w-full flex gap-6 mt-6 flex-col xl:flex-row`}>
+                <section className={"w-full flex gap-6 mt-6 flex-col xl:flex-row"}>
                   <Chart setPopupChart={setPopupChart} popupChart={popupChart}/>
                   <Performance/>
                 </section>

@@ -87,30 +87,30 @@ const AddSubscription = memo(() => {
                       <tbody className="divide-y divide-secondary_dark_gray">
                       {
                         subscriptions.map((item, indexItem) => (
-                          <tr className={``} key={indexItem}>
+                          <tr className={""} key={indexItem}>
                             <td
-                              className={`p-4 text-caption_r_desk `}>
+                              className={"p-4 text-caption_r_desk "}>
                               <input type='radio' className='bg-popup_gray border border-solid border-secondary_dark_gray' name='subscriptions' />
                             </td>
                             <td className="p-4 text-start flex items-center gap-2.5 min-w-[15rem] text-t2Regular">
                               {item.name}
                             </td>
                             <td
-                              className={`p-4 text-caption_r_desk `}>{item.period}</td>
+                              className={"p-4 text-caption_r_desk "}>{item.period}</td>
                             <td
-                              className={`p-4 text-caption_r_desk `}>{item.endDate}</td>
+                              className={"p-4 text-caption_r_desk "}>{item.endDate}</td>
                             <td
-                              className={`p-4 text-caption_r_desk `}>{item.availableSlots}
+                              className={"p-4 text-caption_r_desk "}>{item.availableSlots}
                             </td>
                           </tr>
                         ))
                       }
                       <tr>
                         <td
-                          className={`p-4 text-caption_r_desk `}>
+                          className={"p-4 text-caption_r_desk "}>
                           <input type='radio' className='bg-popup_gray border border-solid border-secondary_dark_gray' name='subscriptions'/>
                         </td>
-                        <td className={`p-4 text-t2Regular `}>Новая подписка</td>
+                        <td className={"p-4 text-t2Regular "}>Новая подписка</td>
                       </tr>
                       </tbody>
                     </table>

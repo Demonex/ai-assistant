@@ -25,7 +25,7 @@ const RequestSent = memo(() => {
                     <p className='text-caption_s_desk text-medium_grey'>
                       {
                         track?.artistLinks.map((artist, indexArtist) => (
-                          <span>{indexArtist !== track?.artistLinks - 1 ? artist.text + ', ' : artist.text}</span>
+                          <span>{indexArtist !== track?.artistLinks - 1 ? `${artist.text}, ` : artist.text}</span>
                         ))
                       }
                     </p>

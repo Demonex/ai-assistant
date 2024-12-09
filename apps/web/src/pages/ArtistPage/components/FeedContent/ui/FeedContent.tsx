@@ -203,13 +203,13 @@ export const FeedContent = memo(() => {
                     <ShowOnLaptopToDesktop>
                       <button className="min-w-5 h-5">
                         <ChevronRight color={changeTab === 0 || changeTab === undefined ? '#7B7B7B' : 'white'}
-                                      className={`rotate-[180deg]`}/>
+                                      className={"rotate-[180deg]"}/>
                       </button>
                     </ShowOnLaptopToDesktop>
                     <Tabs/>
                     <ShowOnLaptopToDesktop>
                       <button className="min-w-5 h-5">
-                        <ChevronRight color="white" className={``}/>
+                        <ChevronRight color="white" className={""}/>
                       </button>
                     </ShowOnLaptopToDesktop>
                     <img className="fill-white w-7 h-7 " src={settings}/>
@@ -334,7 +334,7 @@ export const FeedContent = memo(() => {
                                            className="flex items-center gap-2.5 text-caption_m_desk whitespace-nowrap" rel="noreferrer">
                                           {isMobile ? '' : ' Перейти к треку'}
                                           <ChevronRight color={'white'}
-                                                        className={`w-5 h-5`}/>
+                                                        className={"w-5 h-5"}/>
                                         </a>
                                       </div>
                                     </div>

@@ -61,7 +61,7 @@ export const NewPassword = memo(() => {
                                 </label>
                                 <div className="mt-1.5">
                                     <div
-                                        className={`flex w-full rounded-xl border border-dark_grey p-[.875rem]  focus:ring-0 focus:border-medium_grey`}>
+                                        className={"flex w-full rounded-xl border border-dark_grey p-[.875rem]  focus:ring-0 focus:border-medium_grey"}>
                                         <input
                                             type={showPassword ? 'text' : 'password'}
                                             autoComplete="current-password"

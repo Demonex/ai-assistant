@@ -12,7 +12,7 @@ export const navigations: Navigation = [
     title: 'Активность',
     svg: (active) => (
       <div
-        className={` group-hover:fill-medium_grey`}>
+        className={" group-hover:fill-medium_grey"}>
         <svg  viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg" className='w-10 h-10 lg:w-5 lg:h-5'>
           <g clipPath="url(#clip0_3001_26935)">
             <path
@@ -34,7 +34,7 @@ export const navigations: Navigation = [
     title: 'Аналитика',
     svg: (active) => (
       <div
-        className={` group-hover:fill-medium_grey`}>
+        className={" group-hover:fill-medium_grey"}>
         <svg viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg" className='w-10 h-10 lg:w-5 lg:h-5'>
           <path
             d="M3.8 10.6348C3.58783 10.6348 3.38434 10.7191 3.23431 10.8691C3.08429 11.0191 3 11.2226 3 11.4348V17.8348C3 18.0469 3.08429 18.2504 3.23431 18.4005C3.38434 18.5505 3.58783 18.6348 3.8 18.6348C4.01217 18.6348 4.21566 18.5505 4.36569 18.4005C4.51571 18.2504 4.6 18.0469 4.6 17.8348V11.4348C4.6 11.2226 4.51571 11.0191 4.36569 10.8691C4.21566 10.7191 4.01217 10.6348 3.8 10.6348ZM7.8 2.63477C7.58783 2.63477 7.38434 2.71905 7.23431 2.86908C7.08429 3.01911 7 3.22259 7 3.43477V17.8348C7 18.0469 7.08429 18.2504 7.23431 18.4005C7.38434 18.5505 7.58783 18.6348 7.8 18.6348C8.01217 18.6348 8.21566 18.5505 8.36569 18.4005C8.51571 18.2504 8.6 18.0469 8.6 17.8348V3.43477C8.6 3.22259 8.51571 3.01911 8.36569 2.86908C8.21566 2.71905 8.01217 2.63477 7.8 2.63477ZM15.8 13.8348C15.5878 13.8348 15.3843 13.9191 15.2343 14.0691C15.0843 14.2191 15 14.4226 15 14.6348V17.8348C15 18.0469 15.0843 18.2504 15.2343 18.4005C15.3843 18.5505 15.5878 18.6348 15.8 18.6348C16.0122 18.6348 16.2157 18.5505 16.3657 18.4005C16.5157 18.2504 16.6 18.0469 16.6 17.8348V14.6348C16.6 14.4226 16.5157 14.2191 16.3657 14.0691C16.2157 13.9191 16.0122 13.8348 15.8 13.8348ZM11.8 7.43477C11.5878 7.43477 11.3843 7.51905 11.2343 7.66908C11.0843 7.81911 11 8.02259 11 8.23477V17.8348C11 18.0469 11.0843 18.2504 11.2343 18.4005C11.3843 18.5505 11.5878 18.6348 11.8 18.6348C12.0122 18.6348 12.2157 18.5505 12.3657 18.4005C12.5157 18.2504 12.6 18.0469 12.6 17.8348V8.23477C12.6 8.02259 12.5157 7.81911 12.3657 7.66908C12.2157 7.51905 12.0122 7.43477 11.8 7.43477Z"
@@ -50,7 +50,7 @@ export const navigations: Navigation = [
     title: 'Аудитория',
     svg: (active) => (
       <div
-        className={` group-hover:fill-medium_grey`}>
+        className={" group-hover:fill-medium_grey"}>
         <svg className='w-10 h-10 lg:w-5 lg:h-5' viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clipPath="url(#clip0_3001_18622)">
             <path fillRule="evenodd" clipRule="evenodd"
@@ -72,7 +72,7 @@ export const navigations: Navigation = [
     title: 'Инструменты',
     svg: (active) => (
       <div
-        className={` group-hover:fill-medium_grey`}>
+        className="group-hover:fill-medium_grey">
         <svg className='w-10 h-10 lg:w-5 lg:h-5' viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clipPath="url(#clip0_3001_27511)">
             <g clipPath="url(#clip1_3001_27511)">
@@ -100,7 +100,7 @@ export const navigations: Navigation = [
     title: 'Каталог',
     svg: (active) => (
       <div
-        className={` group-hover:fill-medium_grey`}>
+        className={" group-hover:fill-medium_grey"}>
         <svg className='w-10 h-10 lg:w-5 lg:h-5' viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M3 2.63477V5.37762C3 6.01768 3 6.33771 3.12456 6.58218C3.23414 6.79722 3.40897 6.97206 3.62401 7.08163C3.86848 7.20619 4.18851 7.20619 4.82857 7.20619H7"

@@ -20,7 +20,7 @@ export const EmailInput = (props: EmailInputProps) => {
                 <input
                     type="email"
                     autoComplete="off"
-                    className={`w-full rounded-xl border border-solid border-medium_grey py-2.5 px-3.5 bg-[transparent] text-white text-caption_r_desk`}
+                    className={"w-full rounded-xl border border-solid border-medium_grey py-2.5 px-3.5 bg-[transparent] text-white text-caption_r_desk"}
                     {...register('email', {maxLength: 256})}
                     defaultValue={defaultValue}
                 />

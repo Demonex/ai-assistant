@@ -40,7 +40,7 @@ export const ProfileShearingPage = memo(() => {
       name: result[0]?.name
     }
   })
-  const isArtist = params['artist'] === 'artist'
+  const isArtist = params.artist === 'artist'
   console.log('data', artistData)
   console.log('isArtist', isArtist)
 

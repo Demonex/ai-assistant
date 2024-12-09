@@ -31,7 +31,7 @@ const Header = memo(() => {
            style={{gap: `${gapHeader}rem`}}
       >
         <Link to="/" style={{
-          minWidth: isMobile || isTablet ? `${logoWidthMobile}px` : ``
+          minWidth: isMobile || isTablet ? `${logoWidthMobile}px` : ""
         }}>
           <LogoNew width={`${logoWidth}px`}/>
         </Link>

@@ -129,7 +129,7 @@ export const AudienceContent = memo(() => {
                   <ShowOnLaptopToDesktop>
                     <button className='min-w-5 h-5'>
                       <ChevronRight color={changeTab === 0 || changeTab === undefined ? '#7B7B7B' : 'white'}
-                                    className={`rotate-[180deg]`}/>
+                                    className={"rotate-[180deg]"}/>
                     </button>
                   </ShowOnLaptopToDesktop>
                   <div
@@ -138,7 +138,7 @@ export const AudienceContent = memo(() => {
                   </div>
                   <ShowOnLaptopToDesktop>
                     <button className='min-w-5 h-5'>
-                      <ChevronRight color='white' className={``}/>
+                      <ChevronRight color='white' className={""}/>
                     </button>
                   </ShowOnLaptopToDesktop>
 

@@ -34,7 +34,7 @@ const AccentArticle = memo(() => {
                 <div style={{
                   backgroundColor: news.color
                 }}
-                     className={`py-1 px-2.5 rounded-md text-[black] w-fit`}>
+                     className={"py-1 px-2.5 rounded-md text-[black] w-fit"}>
                   <span>{news.type}</span>
                 </div>
                 <div className="flex flex-col gap-4">
@@ -58,7 +58,7 @@ const AccentArticle = memo(() => {
             <div className="w-full h-full bg-cover bg-no-repeat bg-center rounded-[16px]"
                  style={{
                    backgroundImage: `url(${post?.preview?.url})`,
-                   minHeight: isMobile || isTablet ? `${imageSizeMobile}px` : ``
+                   minHeight: isMobile || isTablet ? `${imageSizeMobile}px` : ""
                  }}/>
           </div>
         </div>

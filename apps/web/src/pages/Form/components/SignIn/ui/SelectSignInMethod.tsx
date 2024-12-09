@@ -22,7 +22,7 @@ export const SelectSignInMethod = (props: SelectSignInMethodProps) => {
             > Через соцсети
             </button>
             <div style={{
-                height: `42px`,
+                height: "42px",
                 // display: !switcherHeight ? 'none' : undefined
             }}
                  className={`w-1/2 absolute bg-primary_blue h-full rounded-[22px]  ${signInOption === 'socials' ? '-left-1 top-1 translate-x-full transition duration-300' : 'left-1 top-1  transition duration-200'}`}/>

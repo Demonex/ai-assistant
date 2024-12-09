@@ -28,18 +28,18 @@ export const usePreventAutofill = <T = HTMLInputElement>({
 
   const handleFocus = useCallback<React.FocusEventHandler<T>>((e) => {
     setReadOnly(false);
-    onFocus && onFocus(e);
+    onFocus?.(e);
   }, [onFocus]);
 
   const handleTouchStart = useCallback<React.TouchEventHandler<T>>((e) => {
     setReadOnly(false);
-    onTouchStart && onTouchStart(e);
+    onTouchStart?.(e);
   }, [onFocus]);
 
   const handleContextMenu = useCallback<React.MouseEventHandler<T>>((e) => {
     e.preventDefault();
     e.stopPropagation();
-    onContextMenu && onContextMenu(e);
+    onContextMenu?.(e);
   }, [onFocus]);
 
   return {

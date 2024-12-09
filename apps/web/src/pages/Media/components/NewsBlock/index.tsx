@@ -14,7 +14,7 @@ const NewsBlock = memo(() => {
         <div
             className='w-full flex flex-col'
             style={{
-                marginTop: isMobile ? `68px` : `103px`,
+                marginTop: isMobile ? "68px" : "103px",
                 // marginBottom: `${marginVertical}px`,
                 paddingLeft:isMobile ? `${paddingHorizontalMobile}px` : `${paddingHorizontal}px`,
                 paddingRight: isMobile ? `${paddingHorizontalMobile}px` : `${paddingHorizontal}px`,

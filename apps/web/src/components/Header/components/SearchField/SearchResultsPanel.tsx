@@ -36,8 +36,8 @@ export const SearchResultsPanel = memo<SearchResultsPanelProps>(({closeModal}) =
       return prev;
     }
     const indexItem = group.items.findIndex(item => item.selected) - 1;
-    const indexGroup = indexItem === -1 ? (_indexGroup - 1 == -1 ? array.length - 1 : _indexGroup - 1) : _indexGroup;
-    return [indexGroup, indexItem == -1 ? array[indexGroup].items.length - 1 : indexItem];
+    const indexGroup = indexItem === -1 ? (_indexGroup - 1 === -1 ? array.length - 1 : _indexGroup - 1) : _indexGroup;
+    return [indexGroup, indexItem === -1 ? array[indexGroup].items.length - 1 : indexItem];
   }, []), [searchData]);
 
   const [nextIndexGroup, nextIndexItem] = useMemo<[number, number]>(() => searchData.reduce<any>((prev, group, _indexGroup, array) => {
@@ -106,7 +106,7 @@ export const SearchResultsPanel = memo<SearchResultsPanelProps>(({closeModal}) =
             <div key={index}>
               {
                 Array.isArray(value) && value.filter(_ => _).map((item, indexItem) => (
-                  <div className={`py-3 px-5 border-b border-secondary_dark_gray hover:bg-gradient-to-r from-[#3272FB] to-[#5A31FF] group`}
+                  <div className="py-3 px-5 border-b border-secondary_dark_gray hover:bg-gradient-to-r from-[#3272FB] to-[#5A31FF] group"
                        onMouseEnter={() => onHover(selectedTab, indexItem)}
                        key={indexItem}
                   >

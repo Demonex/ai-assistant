@@ -11,7 +11,7 @@ export const DropdownDownload = memo<DropdownDownloadProps>(({
     return (
         <div
             className={`${opened ? `opacity-1 ${'dropdown-transition_end'}` : (opened === false
-                ? `pointer-events-none opacity-0`
+                ? "pointer-events-none opacity-0"
                 : 'opacity-0 pointer-events-none')} absolute top-[135%] left-[35%] z-10 mt-2 flex w-screen max-w-sm -translate-x-1/2 rounded-3xl bg-gradient-to-b from-indigo-500 via-indigo-500/ ring-1 ring-inset ring-white/5 focus:outline-none p-[0.060rem]`}
             role="menu" aria-orientation="vertical" aria-labelledby="menu-button">
             <div className="w-screen max-w-3xl bg-gray-900 rounded-3xl flex-auto overflow-hidden text-sm shadow-lg">

@@ -182,11 +182,11 @@ const TrackPageContent = memo(() => {
                 <div className="flex min-w-full items-center gap-4 ">
                   <button className="min-w-5 h-5">
                     <ChevronRight color={changeTab === 0 || changeTab === undefined ? '#7B7B7B' : 'white'}
-                                  className={`rotate-[180deg]`}/>
+                                  className={"rotate-[180deg]"}/>
                   </button>
                   <Tabs/>
                   <button className="min-w-5 h-5">
-                    <ChevronRight color="white" className={``}/>
+                    <ChevronRight color="white" className={""}/>
                   </button>
                   <SettingsIcon className="stroke-white"/>
                 </div>

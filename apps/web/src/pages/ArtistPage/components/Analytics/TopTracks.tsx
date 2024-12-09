@@ -156,7 +156,7 @@ export const TopTracks = memo(() => {
             }
             return (
               <div
-                className={`lg:bg-popup_gray/50 rounded-[20px] h-fit  lg:px-7 py-4 lg:py-8  w-full lg:max-w-[30rem]`}
+                className={"lg:bg-popup_gray/50 rounded-[20px] h-fit  lg:px-7 py-4 lg:py-8  w-full lg:max-w-[30rem]"}
                 key={index}>
                 <div className="flex items-center gap-3 pb-4 border-b border-dark_grey justify-between">
                   <p

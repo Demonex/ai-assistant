@@ -47,7 +47,7 @@ const Article = memo(() => {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const {['media-content']: id} = useParams<{ 'media-content': string }>();
+  const {"media-content": id} = useParams<{ 'media-content': string }>();
   const {setPost, post, loading} = useNews();
   useEffect(() => {
     setPost(id);

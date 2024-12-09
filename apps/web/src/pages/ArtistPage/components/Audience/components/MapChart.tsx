@@ -182,7 +182,7 @@ export default memo(() => {
     polygonSeriesRef.current.hideTooltip();
 
     // if the same country is clicked show world
-    if (currentPolygonRef.current == mapPolygon) {
+    if (currentPolygonRef.current === mapPolygon) {
       currentPolygonRef.current.isActive = false;
       currentPolygonRef.current = undefined;
       return showWorld();
@@ -431,7 +431,7 @@ export default memo(() => {
 
     // this is needed for the tooltip to point to the top of the circle instead of the middle
     imageTemplate.adapter.add('tooltipY', (_, {children}) => {
-      return -children.getIndex(0)['radius'];
+      return -children.getIndex(0).radius;
     });
 
     // When hovered, circles become non-opaque
@@ -479,9 +479,8 @@ export default memo(() => {
       if (polygon) {
         target.disabled = false;
         return polygon.visualLatitude;
-      } else {
-        target.disabled = true;
       }
+        target.disabled = true;
       return latitude;
     });
 
@@ -490,9 +489,8 @@ export default memo(() => {
       if (polygon) {
         target.disabled = false;
         return polygon.visualLongitude;
-      } else {
-        target.disabled = true;
       }
+        target.disabled = true;
       return longitude;
     });
 
@@ -544,10 +542,10 @@ export default memo(() => {
             </div>
         )
       }
-      <div className={`flex w-full h-full flex-col relative lg:bg-popup_gray/50 min-h-[25rem]`}>
+      <div className={"flex w-full h-full flex-col relative lg:bg-popup_gray/50 min-h-[25rem]"}>
         {
           mapType === 'map'
-            ? <div className={`map-container w-full h-full  `} ref={mapRef} style={{
+            ? <div className={"map-container w-full h-full  "} ref={mapRef} style={{
               height: `${mapHeight}px`
             }}/>
             : <CountriesTable/>

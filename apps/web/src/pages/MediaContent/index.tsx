@@ -19,7 +19,7 @@ export const MediaContent = memo(() => {
       <div
         className="w-full flex flex-col items-center max-w-[880px] m-auto px-4 md:px-8"
         style={{
-          marginTop: isMobile ? `68px` : `103px`
+          marginTop: isMobile ? "68px" : "103px"
         }}
       >
         <PathToArticle/>

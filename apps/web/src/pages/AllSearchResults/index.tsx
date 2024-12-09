@@ -139,7 +139,7 @@ export const AllSearchResults = memo(() => {
             {
               searchData?.sort((a, b) => a.title.localeCompare(b.title)).map((items, indexObject) => (
                 <div
-                  className={`py-6 px-8 lg:px-9 rounded-[1.25rem] bg-popup_gray/50 w-full flex flex-col gap-6  `}
+                  className={"py-6 px-8 lg:px-9 rounded-[1.25rem] bg-popup_gray/50 w-full flex flex-col gap-6  "}
                   key={indexObject}
                 >
                   <div className='w-full flex justify-between items-center'>

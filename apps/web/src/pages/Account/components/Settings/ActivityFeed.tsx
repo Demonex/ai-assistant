@@ -34,7 +34,7 @@ const FilterParameters = memo(({currentArtist, filterLevel, setFilterLevel,setOp
           ? <div className='flex gap-6 items-center'>
             <div className='flex gap-4 items-center w-[12rem]'>
               <img src={currentArtist?.imageUrl} alt='' className='w-11 h-11 rounded-full'/>
-              <p className={`text-caption_r_desk truncate`}>{currentArtist?.name}</p>
+              <p className={"text-caption_r_desk truncate"}>{currentArtist?.name}</p>
             </div>
             <SecondaryButton
               className='bg-primary_blue border-none text-white flex-row-reverse gap-2 py-3.5 px-5 hidden md:flex'

@@ -100,8 +100,7 @@ export const SharedFileInput: FC<SharedFileInputProps> = forwardRef(({
         <div
         >
           {
-            <>
-              {!currentImage ? (
+            !currentImage ? (
                 <div className='relative '>
                   <img src={avatarStub} alt='avatar'
                        className="w-[7.5rem] min-h-[7.5rem] rounded-[2rem]"/>
@@ -120,8 +119,7 @@ export const SharedFileInput: FC<SharedFileInputProps> = forwardRef(({
                     <p className='text-caption_s_desk'>Сменить</p>
                   </div>
                 </div>
-              )}
-            </>
+              )
           }
         </div>
       </label>

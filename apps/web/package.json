@@ -13,7 +13,7 @@
     "prerender": "cross-env NODE_ENV=production yarn swc prerender.mts -d dist && NODE_ENV=production node -r node-window-polyfill/register dist/prerender.js",
     "build:clean": "rm -rf dist/client/assets/tailwind",
     "serve": "cross-env NODE_ENV=production npx node dist/server.mjs",
-    "lint": "biome lint src --fix",
+    "lint": "biome lint src --write",
     "ssg": "serve dist/client",
     "format": "prettier --write .",
     "depcheck": "npx depcheck",

@@ -788,7 +788,7 @@ const Places = memo(() => {
                     {
                       tabIndex === undefined
                         ? generalSearchData.map((item, index) => (
-                          <div className={`py-3 px-5 border-b border-secondary_dark_gray `}
+                          <div className={"py-3 px-5 border-b border-secondary_dark_gray "}
                                key={index}
                           >
                             <Link
@@ -825,7 +825,7 @@ const Places = memo(() => {
                             <div key={index} className='mt-4'>
                               {
                                 Array.isArray(data) && data.filter(_ => _).map((item, indexItem) => (
-                                  <div className={`py-3 px-5 border-b border-secondary_dark_gray `}
+                                  <div className={"py-3 px-5 border-b border-secondary_dark_gray "}
                                        key={indexItem}
                                   >
                                     <Link
