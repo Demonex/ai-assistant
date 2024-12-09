@@ -323,7 +323,7 @@ export const FeedContent = memo(() => {
                                         <div className="items-center flex gap-4 ">
                                           <img className="w-11 h-11 rounded-full"
                                                src={item.avatarFullpath || item.avatar}
-                                               alt="Jese Leos image"/>
+                                               alt="Jese Leos"/>
                                           <div className="max-w-[180px] 2xl:max-w-full">
                                             <div className="text-t2Regular truncate">{item.trackName}</div>
                                             <div className="text-caption_s_desk text-medium_grey">{item.artistName}</div>

@@ -100,8 +100,8 @@ const CountryDataPopup = memo(() => {
                         </th>
                         {
                           dataPopup?.popupInfo?.listDataHeaders?.map((item, index) => (
-                            <th className='flex flex-1 items-center gap-2 px-3 whitespace-nowrap'>
-                              <p className='text-btnText' key={index}>{item}</p>
+                            <th key={index} className='flex flex-1 items-center gap-2 px-3 whitespace-nowrap'>
+                              <p className='text-btnText'>{item}</p>
                               <ArrowDropdown
                                 className={"fill-white"}/>
                             </th>

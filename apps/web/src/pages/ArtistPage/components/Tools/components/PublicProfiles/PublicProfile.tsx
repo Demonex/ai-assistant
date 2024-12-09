@@ -976,7 +976,7 @@ const PublicProfile = memo(() => {
                 <tbody className="divide-y divide-secondary_dark_gray">
                 {
                   tableRows.map((item, indexItem) => (
-                    <TableRows item={item} index={indexItem} search={search}
+                    <TableRows key={indexItem} item={item} index={indexItem} search={search}
                                setOpenTrackInfoModal={setOpenTrackInfoModal}/>
                   ))
                 }

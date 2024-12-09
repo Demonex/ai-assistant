@@ -101,7 +101,7 @@ const TableItemSocialsMobile = memo<{ item: any }>(({item}) => {
           <div className='flex flex-col gap-2 '>
             {
               item.links.map((link, index) => (
-                <div className='flex gap-2 items-center '>
+                <div key={index} className='flex gap-2 items-center '>
                   <img src={item.tableLogo}/>
                   <a
                     className='text-caption_r_desk text-white truncate'
