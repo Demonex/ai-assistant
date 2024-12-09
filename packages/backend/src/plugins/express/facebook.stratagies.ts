@@ -1,16 +1,16 @@
 import {Injectable} from '@nestjs/common';
 import {PassportStrategy} from '@nestjs/passport';
 import {Strategy} from 'passport-facebook';
-import {AuthByProvider, ProviderService} from '../../services/Provider.js';
+import {type AuthByProvider, ProviderService} from '../../services/Provider.js';
 
 @Injectable()
 export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
     constructor(providerService: ProviderService) {
         super(
             {
-                clientID: import.meta.env.VITE_FACEBOOK_AUTH_CLIENT_ID,
-                clientSecret: import.meta.env.VITE_FACEBOOK_AUTH_CLIENT_SECRET,
-                callbackURL: import.meta.env.VITE_FACEBOOK_AUTH_REDIRECT_URI,
+                clientID: process.env.FACEBOOK_AUTH_CLIENT_ID,
+                clientSecret: process.env.FACEBOOK_AUTH_CLIENT_SECRET,
+                callbackURL: process.env.FACEBOOK_AUTH_REDIRECT_URI,
                 passReqToCallback: true,
                 scope: ['email']
             },

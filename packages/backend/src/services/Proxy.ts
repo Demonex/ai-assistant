@@ -1,14 +1,14 @@
 import {HttpException, HttpStatus, Inject, Injectable, Scope} from '@nestjs/common';
 import {REQUEST} from '@nestjs/core';
 import got from 'got';
-import {InjectRedisClient} from 'nestjs-ioredis-tags';
+import {InjectRedis} from '@nestjs-modules/ioredis';
 import type {Redis} from 'ioredis';
 import md5 from 'md5';
 import {InjectModel} from 'nestjs-typegoose';
-import LogEntity from '../entities/Log';
+import LogEntity from '@repo/backend/entities/Log';
 import type {ReturnModelType} from '@typegoose/typegoose';
 import {Types} from 'mongoose';
-import SubscriptionEntity from '../entities/Subscription';
+import SubscriptionEntity from '@repo/backend/entities/Subscription';
 
 const getHeaders = () => ({
   'accept': 'application/json',
@@ -41,7 +41,7 @@ const getHeaders = () => ({
 export class ProxyService {
   constructor(
     @Inject(REQUEST) private readonly request: any,
-    @InjectRedisClient('rifify.me') private readonly redisClient: Redis,
+    @InjectRedis() private readonly redisClient: Redis,
     @InjectModel(LogEntity) private readonly repoLog: ReturnModelType<typeof LogEntity>,
     @InjectModel(SubscriptionEntity) private readonly repoSubscriptions: ReturnModelType<typeof SubscriptionEntity>
   ) {

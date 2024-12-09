@@ -3,7 +3,7 @@ import {HttpAdapterHost, REQUEST} from '@nestjs/core';
 import bcrypt from 'bcrypt';
 import {InjectModel} from 'nestjs-typegoose';
 import type {ReturnModelType} from '@typegoose/typegoose';
-import {InjectRedisClient} from 'nestjs-ioredis-tags';
+import {InjectRedis} from '@nestjs-modules/ioredis';
 import type {Redis} from 'ioredis';
 import md5 from 'md5';
 import type {ExpressAdapter} from '@nestjs/platform-express';
@@ -11,15 +11,15 @@ import {IS_UUID, isEmail} from 'class-validator';
 import {
   randstr as randomStringGenerator
 } from 'better-randstr';
-import {BCRYPT_SALT_ROUNDS} from '../constants.js';
-import {HttpStatusMessages} from '../messages/http.js';
-import {AuthRecoverDto, AuthSignUpDto} from '../dto/Auth.js';
-import {UserEntity, UserEntityDefaultSelect} from '../entities/User/index.js';
+import {BCRYPT_SALT_ROUNDS} from '@repo/backend/constants.js';
+import {HttpStatusMessages} from '@repo/backend/messages/http.js';
+import {AuthRecoverDto, AuthSignUpDto} from '@repo/backend/dto/Auth.js';
+import {UserEntity, UserEntityDefaultSelect} from '@repo/backend/entities/User/index.js';
 import {SmtpService} from './Smtp.js';
 import {Types} from 'mongoose';
-import { CrmService } from '../services/crm.service';
+import { CrmService } from '@repo/backend/services/crm.service';
 import { v4 as uuidv4 } from 'uuid';
-import { MailerService } from '~/mailer/mailer.service.js';
+import { MailerService } from '@repo/backend/mailer/mailer.service.js';
 import { NotFoundException } from '@nestjs/common';
 
 @Injectable({scope: Scope.REQUEST})
@@ -29,7 +29,7 @@ export class AuthService {
     private readonly adapterHost: HttpAdapterHost<ExpressAdapter>,
     @InjectModel(UserEntity) private readonly repoUser: ReturnModelType<typeof UserEntity>,
     @Inject(SmtpService) private readonly smtp: SmtpService,
-    @InjectRedisClient('rifify.me') private readonly redisClient: Redis,
+    @InjectRedis() private readonly redisClient: Redis,
     private readonly crmService: CrmService,
     private readonly mailerService: MailerService
   ) {
@@ -123,7 +123,7 @@ export class AuthService {
     } catch (error) {
       return { success: false, message: 'Failed to resendEmailConfirm' };
     }
-  } 
+  }
 
   async recover({
                   login: username,
@@ -135,12 +135,12 @@ export class AuthService {
   }): Promise<{ redirect: string }> {
     const user = username ? (await this.repoUser.findOne(isEmail(username) ? {email: username} : {username})) : null;
     if (!user && !(recoverCode && verifyCode)) {
-      return {redirect: `${import.meta.env.VITE_FRONTEND_URL}/error?code=recover`};
+      return {redirect: `${process.env.FRONTEND_URL}/error?code=recover`};
     }
     const recoverExistRequest = (user ? md5(`${user.id}:email:recover`) : recoverCode) as string;
     const recoverExist = await this.redisClient.get(recoverExistRequest);
     if (user && recoverExist) {
-      return {redirect: `${import.meta.env.VITE_FRONTEND_URL}/error?code=recover`};
+      return {redirect: `${process.env.FRONTEND_URL}/error?code=recover`};
     } else if (!recoverExist && user) {
       const recoverExistRequestVerify = md5(`${user.id}:email:recover:${randomStringGenerator()}`);
       await this.redisClient.set(
@@ -170,18 +170,18 @@ export class AuthService {
       const {user, recoverExistRequestVerify} = JSON.parse(recoverExist);
       if (verifyCode === recoverExistRequestVerify) {
         /*if(this.request.session.user&&this.request.session.user.id!==user.id){
-          return {redirect:`${import.meta.env.VITE_FRONTEND_URL}/error?code=recover`};
+          return {redirect:`${process.env.FRONTEND_URL}/error?code=recover`};
         }*/
         this.request.session.user = user;
         await this.redisClient.del(recoverExistRequest);
         return {
-          redirect: `${import.meta.env.VITE_FRONTEND_URL}/user/restorePassword`
+          redirect: `${process.env.FRONTEND_URL}/user/restorePassword`
         };
       } else {
-        return {redirect: `${import.meta.env.VITE_FRONTEND_URL}/error?code=recover`};
+        return {redirect: `${process.env.FRONTEND_URL}/error?code=recover`};
       }
     }
-    return {redirect: `${import.meta.env.VITE_FRONTEND_URL}/error?code=recover`};
+    return {redirect: `${process.env.FRONTEND_URL}/error?code=recover`};
   }
 
   // private async createUserByEmail(args): Promise<UserEntity & { id?: string; _id?: Types.ObjectId }> {
@@ -221,19 +221,19 @@ export class AuthService {
 
   private async createUserByEmail(args): Promise<UserEntity & { id?: string; _id?: Types.ObjectId }> {
     try {
-    
+
       const user = await this.repoUser.create(args);
-  
-   
+
+
       try {
         await this.crmService.createUserInCrm({
           firstName: args.name.split(' ')[0] || '',
           lastName: args.name.split(' ')[1] || '',
           email: args.email,
           phone: args.phone || '',
-          supervisors: { users: [{ id: 'user:45' }] }, 
+          supervisors: { users: [{ id: 'user:45' }] },
         });
-  
+
         await this.crmService.createTaskInCrm({
           name: `New Registration - ${args.name}`,
           description: `Process the registration of ${args.name}.`,
@@ -242,13 +242,13 @@ export class AuthService {
         });
       } catch (crmError) {
         console.error('Error synchronizing with CRM:', crmError.message);
-     
+
       }
-  
+
       return user;
     } catch (error) {
       console.error('Error creating user:', error.message);
-  
+
 
       if (error.code === 11000 && 'email' in error.keyValue) {
         throw new HttpException(
@@ -259,11 +259,11 @@ export class AuthService {
           HttpStatus.BAD_REQUEST,
         );
       }
-  
+
       throw new HttpException('Internal Server Error', HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-  
+
   private async getUserByEmailOrUsername(login: string): Promise<UserEntity & { id?: string; _id: Types.ObjectId }> {
     let criteria = {};
     if (isEmail(login)) {
@@ -324,7 +324,7 @@ export class AuthService {
     await this.mailerService.sendMail({
       recipients: [email],
       subject: 'Подтвердите свою почту и начните использовать Rifify',
-      html: this.createConfirmEmailText(`${import.meta.env.VITE_BACKEND_URL}/api/rest/auth/activate/${activationLink}`),
+      html: this.createConfirmEmailText(`${process.env.BACKEND_URL}/api/rest/auth/activate/${activationLink}`),
     });
   }
 }

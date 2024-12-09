@@ -1,31 +1,32 @@
-import { Injectable } from '@nestjs/common';
-import * as nodemailer from 'nodemailer';
-import { SendMailDto } from './dto/send-mail.dto';
-import Mail from 'nodemailer/lib/mailer';
+import { Injectable } from "@nestjs/common";
+import { createTransport } from "nodemailer";
+import { SendMailDto } from "@repo/backend/dto/send-mail.dto.js";
+import { type Options } from "nodemailer/lib/mailer";
+import process from "process";
 
 @Injectable()
 export class MailerService {
-	mailTransport() {
-		const transporter = nodemailer.createTransport({
-			host: import.meta.env.VITE_EMAIL_HOST,
-      port: import.meta.env.VITE_EMAIL_PORT,
+  mailTransport() {
+    const transporter = createTransport({
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
       secure: true,
-	  		auth: {
-			    user: import.meta.env.VITE_EMAIL_USERNAME,
-				  pass: import.meta.env.VITE_EMAIL_PASSWORD,
-	    },
-		});
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
+      }
+    } as any);
 
     return transporter;
-	}
+  }
 
   async sendMail(dto: SendMailDto) {
     const { recipients, subject, html } = dto;
 
     const transport = this.mailTransport();
 
-    const options: Mail.Options = {
-      from: import.meta.env.VITE_EMAIL_USERNAME,
+    const options: Options = {
+      from: process.env.EMAIL_USERNAME,
       to: recipients,
       subject,
       html,
@@ -33,8 +34,8 @@ export class MailerService {
 
     try {
       await transport.sendMail(options);
-    } catch (error) {
-      console.log('Mailer, sendMail: ', error?.message)
+    } catch(error) {
+      console.log("Mailer, sendMail: ", error?.message);
     }
   }
 }

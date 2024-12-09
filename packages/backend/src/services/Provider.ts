@@ -1,9 +1,8 @@
 import {Inject, Injectable, Scope} from '@nestjs/common';
-import UserEntity, {UserEntityDefaultSelect} from '../entities/User/index.js';
+import UserEntity, {UserEntityDefaultSelect} from '@repo/backend/entities/User/index.js';
 import type {ReturnModelType} from '@typegoose/typegoose';
 import {InjectModel} from 'nestjs-typegoose';
-// import {ExpressRequest} from '../types';
-import AppleAuth, {AppleAuthAccessToken} from 'apple-auth';
+import AppleAuth, {type AppleAuthAccessToken} from 'apple-auth';
 import {get} from "lodash-es";
 import {REQUEST} from "@nestjs/core";
 
@@ -30,20 +29,20 @@ export class ProviderService {
         @InjectModel(UserEntity) private readonly repoUser: ReturnModelType<typeof UserEntity>,
     ) {
         this.appleAuth = new AppleAuth({
-            client_id: import.meta.env.VITE_APPLE_AUTH_SERVICE_ID,
-            team_id: import.meta.env.VITE_APPLE_AUTH_TEAM_ID,
-            key_id: import.meta.env.VITE_APPLE_AUTH_KEY_ID,
-            redirect_uri: import.meta.env.VITE_APPLE_AUTH_REDIRECT_URI,
+            client_id: process.env.APPLE_AUTH_SERVICE_ID,
+            team_id: process.env.APPLE_AUTH_TEAM_ID,
+            key_id: process.env.APPLE_AUTH_KEY_ID,
+            redirect_uri: process.env.APPLE_AUTH_REDIRECT_URI,
             scope: "name email"
-        }, import.meta.env.VITE_APPLE_AUTH_KEY_SECRET, 'text')
+        }, process.env.APPLE_AUTH_KEY_SECRET, 'text')
 
         this.appleAuthIos = new AppleAuth({
-            client_id: import.meta.env.VITE_APPLE_AUTH_APP_ID,
-            team_id: import.meta.env.VITE_APPLE_AUTH_TEAM_ID,
-            key_id: import.meta.env.VITE_APPLE_AUTH_KEY_ID,
-            redirect_uri: import.meta.env.VITE_APPLE_AUTH_REDIRECT_URI,
+            client_id: process.env.APPLE_AUTH_APP_ID,
+            team_id: process.env.APPLE_AUTH_TEAM_ID,
+            key_id: process.env.APPLE_AUTH_KEY_ID,
+            redirect_uri: process.env.APPLE_AUTH_REDIRECT_URI,
             scope: "name email"
-        }, import.meta.env.VITE_APPLE_AUTH_KEY_SECRET, 'text')
+        }, process.env.APPLE_AUTH_KEY_SECRET, 'text')
     }
 
     async authByProvider(

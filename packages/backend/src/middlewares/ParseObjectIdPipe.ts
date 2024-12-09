@@ -1,6 +1,6 @@
-import {PipeTransform, Injectable, HttpException, HttpStatus} from '@nestjs/common';
+import {type PipeTransform, Injectable, HttpException, HttpStatus} from '@nestjs/common';
 import {ObjectId} from 'mongodb';
-import {HttpStatusMessages} from '../messages/http';
+import {HttpStatusMessages} from '@repo/backend/messages/http';
 
 @Injectable()
 export class ParseObjectIdPipe implements PipeTransform<any, ObjectId> {

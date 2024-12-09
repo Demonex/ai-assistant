@@ -1,0 +1,4 @@
+*
+!docker
+!dist/server/app
+!dist/static

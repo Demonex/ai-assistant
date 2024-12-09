@@ -1,6 +1,6 @@
 import {modelOptions, prop} from '@typegoose/typegoose';
-import {_BaseEntity} from '../../_BaseEntity.js';
-import {defaultModelOptions, defaultSchemaOptions} from '../../../mongoose.config.js';
+import {_BaseEntity} from '@repo/backend/entities/_BaseEntity.js';
+import {defaultModelOptions, defaultSchemaOptions} from '@repo/backend/mongoose.config.js';
 
 
 @modelOptions({
@@ -29,7 +29,7 @@ export class PostMediaEntity extends _BaseEntity {
   mimeType!: string;
 
   get url(): string {
-    return `${import.meta.env.VITE_SERVER_URL}/post-media/${encodeURI(this.filename)}`;
+    return `${process.env.SERVER_URL}/post-media/${encodeURI(this.filename)}`;
   }
 }
 

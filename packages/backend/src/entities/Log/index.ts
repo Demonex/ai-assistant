@@ -1,6 +1,6 @@
-import {index, modelOptions, prop} from '@typegoose/typegoose';
-import {_BaseEntity} from '../_BaseEntity.js';
-import {defaultModelOptions, defaultSchemaOptions} from '../../mongoose.config.js';
+import { index, modelOptions, prop } from "@typegoose/typegoose";
+import { _BaseEntity } from "@repo/backend/entities/_BaseEntity.js";
+import { defaultModelOptions, defaultSchemaOptions } from "@repo/backend/mongoose.config.js";
 
 
 @modelOptions({
@@ -10,26 +10,26 @@ import {defaultModelOptions, defaultSchemaOptions} from '../../mongoose.config.j
     toJSON: {
       ...defaultSchemaOptions.toJSON,
       virtuals: true,
-      transform: (doc, {_id, createdAt, updatedAt, ...rest}) => ({
+      transform: (doc, { _id, createdAt, updatedAt, ...rest }) => ({
         id: _id,
         createdAt,
         updatedAt,
-        ...rest
-      })
+        ...rest,
+      }),
     },
-    collection: 'log'
+    collection: "log",
 
   },
   options: {
-    customName: 'log'
-  }
+    customName: "log",
+  },
 })
 @index(
-  {ip: 1, request: 1},
+  { ip: 1, request: 1 },
   {
     unique: true,
-    background: true
-  }
+    background: true,
+  },
 )
 export class LogEntity extends _BaseEntity {
   @prop()
@@ -42,10 +42,10 @@ export class LogEntity extends _BaseEntity {
 
 
 export const LogEntityDefaultSelect = [
-  'id',
-  'ip',
-  'request',
-  'count',
+  "id",
+  "ip",
+  "request",
+  "count",
 ];
 
 export default LogEntity;

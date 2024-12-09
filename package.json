@@ -1,32 +1,24 @@
 {
-  "name": "rifify",
+  "name": "monorepo",
+  "description": "TS monorepo setup",
   "version": "0.0.0-development",
-  "license": "GNU LGPL",
   "private": true,
+  "license": "GNU LGPL",
   "scripts": {
-    "build:docker:source": "docker buildx build --platform linux/amd64 -t bardakdev/rifify-backend:source -f ng.Dockerfile . --push",
-    "build:docker": "docker buildx build --platform linux/amd64 -t bardakdev/rifify-backend . --push",
-    "start:backend": "nr --filter @stigma-io/rifify-backend start",
-    "start:frontend": "npm run dev:client --prefix ./packages/frontend"
+    "pnpm:devPreinstall": "git submodule update --init --recursive --remote",
+    "compile": "turbo run compile",
+    "build": "turbo run build --filter=@repo/backend",
+    "clean": "turbo run clean",
+    "dev:admin": "turbo daemon clean && turbo --parallel watch build dev --log-prefix=none --filter=@repo/admin",
+    "dev:backend": "turbo daemon clean && turbo --parallel watch build dev --log-prefix=none --filter=@repo/backend",
+    "dev:web": "turbo daemon clean && turbo run dev --log-prefix=none --filter=@repo/web",
+    "lint": "turbo run lint --parallel",
+    "test": "turbo run test -- --watch false"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
-  },
-  "resolutions": {
-    "typescript": "5.4.5",
-    "mongoose": "6.13.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "@types/react": "18.2.48",
-    "@types/react-dom": "18.2.18",
-    "punycode": "2.3.0",
-    "whatwg-url": "13.0.0",
-    "sass": "1.77.1"
+  "devDependencies": {
+    "turbo": "2.3.3",
+    "typescript": "5.7.2",
+    "vitest": "2.1.8"
   },
   "packageManager": "pnpm@9.12.3+sha512.cce0f9de9c5a7c95bef944169cc5dfe8741abfb145078c0d508b868056848a87c81e626246cb60967cbd7fd29a6c062ef73ff840d96b3c86c40ac92cf4a813ee"
 }

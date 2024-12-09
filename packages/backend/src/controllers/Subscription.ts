@@ -11,16 +11,16 @@ import {
   Put,
   Redirect
 } from '@nestjs/common';
-import {Authorized} from '../decorators/auth.js';
-import {UserEmail, UserId} from '../decorators/user.js';
+import {Authorized} from '@repo/backend/decorators/auth.js';
+import {UserEmail, UserId} from '@repo/backend/decorators/user.js';
 import {ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags} from '@nestjs/swagger';
 import {Types} from 'mongoose';
-import {SubscriptionService} from '../services/Subscription';
-import {UpdateProfileSubscriptionDto} from '../dto/Profile';
-import {HttpStatusMessages} from '../messages/http';
-import {SubscriptionPurchaseCallbackDto, SubscriptionPurchaseDto, SubscriptionUpdateDto} from '../dto/Subscription';
+import {SubscriptionService} from '@repo/backend/services/Subscription';
+import {UpdateProfileSubscriptionDto} from '@repo/backend/dto/Profile';
+import {HttpStatusMessages} from '@repo/backend/messages/http';
+import {SubscriptionPurchaseCallbackDto, SubscriptionPurchaseDto, SubscriptionUpdateDto} from '@repo/backend/dto/Subscription';
 import process from 'process';
-import {ParseObjectIdPipe} from '../middlewares/ParseObjectIdPipe';
+import {ParseObjectIdPipe} from '@repo/backend/middlewares/ParseObjectIdPipe';
 
 @ApiTags('subscription')
 @Controller('/api/rest')
@@ -51,7 +51,7 @@ export class SubscriptionController {
   @ApiBearerAuth('bearer-sid')
   @ApiOperation({summary: 'purchase callback'})
   @Post('subscription/purchase/callback')
-  @Redirect(`${import.meta.env.VITE_FRONTEND_URL || '/'}/account`, HttpStatus.SEE_OTHER)
+  @Redirect(`${process.env.FRONTEND_URL || '/'}/account`, HttpStatus.SEE_OTHER)
   @ApiResponse({status: HttpStatus.SEE_OTHER})
   async purchaseCallback(
     @Body() body: SubscriptionPurchaseCallbackDto

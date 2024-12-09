@@ -1,13 +1,13 @@
 import {HttpException, HttpStatus, Inject, Injectable, Scope} from '@nestjs/common';
 import {InjectModel} from 'nestjs-typegoose';
 import type {ReturnModelType} from '@typegoose/typegoose';
-import {UserEntity, UserEntityDefaultSelect} from '../entities/User/index.js';
-import {UpdateProfileAvatarDto, UpdateProfileDto} from '../dto/Profile.js';
+import {UserEntity, UserEntityDefaultSelect} from '@repo/backend/entities/User/index.js';
+import {UpdateProfileAvatarDto, UpdateProfileDto} from '@repo/backend/dto/Profile.js';
 import {Types} from 'mongoose';
 import {get} from 'lodash-es';
 import type {Redis} from 'ioredis';
-import {InjectRedisClient} from 'nestjs-ioredis-tags';
-import {HttpStatusMessages} from '../messages/http.js';
+import {InjectRedis} from '@nestjs-modules/ioredis';
+import {HttpStatusMessages} from '@repo/backend/messages/http.js';
 import {REQUEST} from '@nestjs/core';
 // import payload from '@stigma-io/payload';
 // import payload from '@stigma-io/payload';
@@ -17,7 +17,7 @@ export class UserService {
   constructor(
     @Inject(REQUEST) private readonly request: any,
     @InjectModel(UserEntity) private readonly repo: ReturnModelType<typeof UserEntity>,
-    @InjectRedisClient('rifify.me') private readonly redisClient: Redis
+    @InjectRedis() private readonly redisClient: Redis
   ) {
   }
 

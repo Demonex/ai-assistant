@@ -1,0 +1,25 @@
+{
+	"extends": "@repo/config-typescript/library.json",
+	"references": [
+		{
+			"path": "../../packages/common"
+		}
+	],
+	"compilerOptions": {
+		"paths": {
+			"@repo/auth/*": ["./src/*"]
+		},
+		"target": "ESNext",
+		"module": "ESNext",
+		"noLib": false,
+		"emitDecoratorMetadata": true,
+		"checkJs": true,
+		"noEmit": false,
+		"strict": false,
+		"moduleResolution": "bundler",
+		"lib": ["esnext"],
+		"forceConsistentCasingInFileNames": true,
+		"experimentalDecorators": true,
+		"allowSyntheticDefaultImports": true
+	}
+}

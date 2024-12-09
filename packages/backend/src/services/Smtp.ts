@@ -5,7 +5,7 @@ import mailchimp    from '@mailchimp/mailchimp_transactional';
 export class SmtpService{
   private mailchimp;
   constructor(){
-    this.mailchimp=mailchimp(`${import.meta.env.VITE_MAILCHIMP_TRANSACTIONAL_API_KEY}`);
+    this.mailchimp=mailchimp(`${process.env.MAILCHIMP_TRANSACTIONAL_API_KEY}`);
   }
   async sendEmail(type: string,args: any){
     switch(type){
@@ -28,7 +28,7 @@ export class SmtpService{
                 },
                 {
                   name:'LINK',
-                  content:`${import.meta.env.VITE_SERVER_URL}/api/rest/auth/email/recover/${recoverExistRequest}/${recoverExistRequestVerify}`
+                  content:`${process.env.SERVER_URL}/api/rest/auth/email/recover/${recoverExistRequest}/${recoverExistRequestVerify}`
                 }
               ]
             }

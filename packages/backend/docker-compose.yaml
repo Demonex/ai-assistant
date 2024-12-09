@@ -1,12 +1,5 @@
 services:
 
-#  backend:
-#    build:
-#      dockerfile: Dockerfile
-#      context: .
-#    ports:
-#      - 2050:2050
-
   mongo:
     privileged: true
     image: bardakdev/mongo
@@ -52,18 +45,18 @@ services:
         max-size: "10m"
         max-file: "3"
 
-  # minio:
-  #   image: minio/minio
-  #   ports:
-  #     - "8090:8080"
-  #     - "9090:9000"
-  #   volumes:
-  #     - media:/data
-  #   environment:
-  #     MINIO_ROOT_USER: 8VUKTW1WH9ER56OTO9Y
-  #     MINIO_ROOT_PASSWORD: LRHKD9EUJ9WQMRHYILNKRJN8O8W
+  minio:
+    image: minio/minio
+    ports:
+      - "8090:8080"
+      - "9090:9000"
+    volumes:
+      - media:/data
+    environment:
+      MINIO_ROOT_USER: 8VUKTW1WH9ER56OTO9Y
+      MINIO_ROOT_PASSWORD: LRHKD9EUJ9WQMRHYILNKRJN8O8W
 
-  #   command: server --address ":8080" --console-address ":9000" /data
+    command: server --address ":8080" --console-address ":9000" /data
 
 networks:
   default:

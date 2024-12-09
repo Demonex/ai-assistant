@@ -1,6 +1,6 @@
-import {modelOptions, prop} from '@typegoose/typegoose';
-import {_BaseEntity} from '../../_BaseEntity.js';
-import {defaultModelOptions, defaultSchemaOptions} from '../../../mongoose.config.js';
+import { modelOptions, prop } from "@typegoose/typegoose";
+import { _BaseEntity } from "@repo/backend/entities/_BaseEntity.js";
+import { defaultModelOptions, defaultSchemaOptions } from "@repo/backend/mongoose.config.js";
 
 
 @modelOptions({
@@ -10,33 +10,33 @@ import {defaultModelOptions, defaultSchemaOptions} from '../../../mongoose.confi
     toJSON: {
       ...defaultSchemaOptions.toJSON,
       virtuals: true,
-      transform: (doc, {_id, createdAt, updatedAt, ...rest}) => ({
+      transform: (doc, { _id, createdAt, updatedAt, ...rest }) => ({
         id: _id,
         createdAt,
         updatedAt,
-        ...rest
-      })
+        ...rest,
+      }),
     },
-    collection: 'user-media-avatar'
-  }
+    collection: "user-media-avatar",
+  },
 })
 export class UserAvatarEntity extends _BaseEntity {
-  @prop({required: true})
+  @prop({ required: true })
   filename!: string;
-  @prop({required: true})
+  @prop({ required: true })
   filesize!: number;
-  @prop({required: true})
+  @prop({ required: true })
   mimeType!: string;
 
   get url(): string {
-    return `${import.meta.env.VITE_SERVER_URL}/user-media-avatar/${encodeURI(this.filename)}`;
+    return `${process.env.SERVER_URL}/user-media-avatar/${encodeURI(this.filename)}`;
   }
 }
 
 export const UserAvatarEntityDefaultSelect = [
-  'id',
-  'filename',
-  'filesize',
-  'mimeType'
+  "id",
+  "filename",
+  "filesize",
+  "mimeType",
 ];
 export default UserAvatarEntity;

@@ -4,10 +4,10 @@ import {
   HttpCode, HttpException, HttpStatus, Param, Query
 } from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
-import {ProxyService} from '../services/Proxy.js';
-import {HttpStatusMessages} from '../messages/http';
-import {UserEmail, UserId} from '../decorators/user';
-import {Authorized} from '../decorators/auth';
+import {ProxyService} from '@repo/backend/services/Proxy.js';
+import {HttpStatusMessages} from '@repo/backend/messages/http';
+import {UserEmail, UserId} from '@repo/backend/decorators/user';
+import {Authorized} from '@repo/backend/decorators/auth';
 import {Types} from 'mongoose';
 
 @ApiTags('proxy')

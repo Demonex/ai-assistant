@@ -1,0 +1,26 @@
+{
+  "name": "@repo/config-typescript",
+  "description": "Opinionated reusable TypeScript configurations",
+  "version": "0.0.0",
+  "license": "MIT",
+  "keywords": [
+    "typescript",
+    "config",
+    "configuration",
+    "strict",
+    "reusable",
+    "base",
+    "nextjs",
+    "library",
+    "service"
+  ],
+  "files": [
+    "base.json",
+    "library.json",
+    "nextjs.json",
+    "react-library.json",
+    "service.json",
+    "single-library.json",
+    "single-react-library.json"
+  ]
+}

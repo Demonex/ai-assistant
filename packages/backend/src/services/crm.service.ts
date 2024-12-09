@@ -4,8 +4,8 @@ import axios from 'axios';
 @Injectable()
 export class CrmService {
   async createUserInCrm(userData: any): Promise<any> {
-    const crmCreateUserUrl = import.meta.env.VITE_CRM_CREATE_USER_URL;
-    const token = import.meta.env.VITE_CRM_TOKEN;
+    const crmCreateUserUrl = process.env.CRM_CREATE_USER_URL;
+    const token = process.env.CRM_TOKEN;
 
     const crmRequestData = {
       template: { id: 1 },
@@ -60,8 +60,8 @@ export class CrmService {
 
 
   async createTaskInCrm(taskData: any): Promise<any> {
-    const crmCreateTaskUrl =  import.meta.env.VITE_CRM_CREATE_TASK_URL;
-    const token = import.meta.env.VITE_CRM_TOKEN;
+    const crmCreateTaskUrl =  process.env.CRM_CREATE_TASK_URL;
+    const token = process.env.CRM_TOKEN;
 
     // Формируем данные для CRM
     const crmTaskData = {

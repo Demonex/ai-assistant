@@ -1,11 +1,10 @@
-import {index, modelOptions, prop, plugin} from '@typegoose/typegoose';
-import type {Ref} from '@typegoose/typegoose';
-import {_BaseEntity} from '../_BaseEntity.js';
-import {defaultModelOptions, defaultSchemaOptions} from '../../mongoose.config.js';
-import {getEmail} from '../../utils';
-import UserAvatarEntity from './Media/Avatar.js';
-
-import autopopulate from 'mongoose-autopopulate';
+import type { Ref } from "@typegoose/typegoose";
+import { index, modelOptions, plugin, prop } from "@typegoose/typegoose";
+import { _BaseEntity } from "@repo/backend/entities/_BaseEntity.js";
+import { defaultModelOptions, defaultSchemaOptions } from "@repo/backend/mongoose.config.js";
+import { getEmail } from "@repo/backend/utils";
+import UserAvatarEntity from "@repo/backend/entities/User/Media/Avatar.js";
+import autopopulate from "mongoose-autopopulate";
 
 class SubscriptionStripe {
   @prop()
@@ -13,7 +12,7 @@ class SubscriptionStripe {
 }
 
 class Subscription {
-  @prop({_id: false})
+  @prop({ _id: false })
   public stripe?: SubscriptionStripe;
 }
 
@@ -44,13 +43,13 @@ class Params {
 }
 
 export enum Languages {
-  EN = 'en',
-  RU = 'ru'
+  EN = "en",
+  RU = "ru"
 }
 
 export enum Currencies {
-  USD = 'usd',
-  RUB = 'rub'
+  USD = "usd",
+  RUB = "rub"
 }
 
 // @plugin(autopopulate)
@@ -62,83 +61,83 @@ export enum Currencies {
     toJSON: {
       ...defaultSchemaOptions.toJSON,
       virtuals: true,
-      transform: (doc, {_id, createdAt, updatedAt, providers, password, roles, ...rest}) => ({
+      transform: (doc, { _id, createdAt, updatedAt, providers, password, roles, ...rest }) => ({
         id: _id,
         createdAt,
         updatedAt,
-        ...rest
-      })
+        ...rest,
+      }),
     },
-    collection: 'user',
+    collection: "user",
 
   },
   options: {
-    customName: 'user'
-  }
+    customName: "user",
+  },
 })
 @index(
-  {email: 1},
+  { email: 1 },
   {
     unique: true,
     // lowercase:true,
     sparse: true,
     // trim:true,
-    background: true
-  }
+    background: true,
+  },
 )
 @index(
-  {providers: 1},
+  { providers: 1 },
   {
     unique: false,
-    background: true
-  }
+    background: true,
+  },
 )
 export class UserEntity extends _BaseEntity {
   @prop({
     set: (str: string) => str ? getEmail(str) : undefined,
-    get: (str: string) => str || null
+    get: (str: string) => str || null,
   })
   email?: string;
   @prop({
-    default: false
+    default: false,
   })
   emailVerified?: boolean;
 
   @prop({
     default: null,
-    select: false
+    select: false,
   })
   password?: string;
   @prop({
     enum: Languages,
     default: Languages.EN,
-    addNullToEnum: true
+    addNullToEnum: true,
   })
   language?: Languages;
   @prop({
     enum: Currencies,
     default: Currencies.USD,
-    addNullToEnum: true
+    addNullToEnum: true,
   })
   currency?: Currencies;
   @prop({
-    _id: false
+    _id: false,
   })
   subscription?: Subscription;
-  @prop({default: false})
+  @prop({ default: false })
   consent?: boolean;
   @prop({
     default: [],
     type: [String],
     select: false,
     set: (ar: string[] | undefined) => Array.isArray(ar) ? [...new Set(ar)] : [],
-    get: (ar: string[] | undefined) => ar
+    get: (ar: string[] | undefined) => ar,
   })
   providers?: string[];
 
   get providersSafe(): string[] {
     return Array.isArray(this.providers) ? this.providers.reduce<string[]>((prev, provider) => {
-      const providerSafe = provider.split('_').shift();
+      const providerSafe = provider.split("_").shift();
       return providerSafe ? [...prev, providerSafe] : prev;
     }, []) : [];
   }
@@ -150,45 +149,45 @@ export class UserEntity extends _BaseEntity {
   activationLink?: string;
 
   @prop({
-    default: ['user'],
+    default: ["user"],
     type: [String],
     set: (ar: string[] | undefined) =>
       Array.isArray(ar) ? ar.map((str) => str.toLowerCase().trim()) : [],
-    get: (ar: string[] | undefined) => ar
+    get: (ar: string[] | undefined) => ar,
   })
   roles?: string[];
   @prop({
     default: [],
-    type: () => Ban
+    type: () => Ban,
   })
   bans?: Ban[];
 
   @prop({
     ref: () => UserAvatarEntity,
     autopopulate: {
-      select: ['_id', 'mimeType', 'filename', 'url']
-    }
+      select: ["_id", "mimeType", "filename", "url"],
+    },
   })
   avatar?: Ref<UserAvatarEntity>;
 
   @prop({
     default: {},
     _id: false,
-    type: () => Params
+    type: () => Params,
   })
   params?: Params;
 }
 
 
 export const UserEntityDefaultSelect = [
-  'id',
-  'email',
-  'name',
-  'avatar',
-  'emailVerified',
-  'language',
-  'currency',
-  'providers',
+  "id",
+  "email",
+  "name",
+  "avatar",
+  "emailVerified",
+  "language",
+  "currency",
+  "providers",
 ];
 
 export const UserEntities = [

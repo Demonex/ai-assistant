@@ -1,36 +1,36 @@
-import {Injectable}                     from '@nestjs/common';
-import {PassportStrategy}               from '@nestjs/passport';
-import {Strategy}                       from 'passport-google-oauth20';
-import {AuthByProvider,ProviderService} from '../../services/Provider.js';
+import { Injectable } from "@nestjs/common";
+import { PassportStrategy } from "@nestjs/passport";
+import { Strategy } from "passport-google-oauth20";
+import { type AuthByProvider, ProviderService } from "@repo/backend/services/Provider.js";
 
 @Injectable()
-export class GoogleStrategy extends PassportStrategy(Strategy,'google'){
-  constructor(providerService: ProviderService){
+export class GoogleStrategy extends PassportStrategy(Strategy, "google") {
+  constructor(providerService: ProviderService) {
     super({
-        clientID:import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID,
-        clientSecret:import.meta.env.VITE_GOOGLE_AUTH_CLIENT_SECRET,
-        callbackURL:import.meta.env.VITE_GOOGLE_AUTH_REDIRECT_URI,
-        scope:['email','profile'],
-        passReqToCallback:true
+        clientID: process.env.GOOGLE_AUTH_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
+        callbackURL: process.env.GOOGLE_AUTH_REDIRECT_URI,
+        scope: ["email", "profile"],
+        passReqToCallback: true,
       },
-      (async(
+      (async (
         req,
         access,
         refresh,
         profile,
-        done
+        done,
       ) => {
-        const user: AuthByProvider={
+        const user: AuthByProvider = {
           // firstName:profile._json.given_name,
           // lastName:profile._json.family_name,
-          email:profile._json.email,
-          emailVerified:profile._json.email_verified
+          email: profile._json.email,
+          emailVerified: profile._json.email_verified,
         };
         return providerService
-          .authByProvider(`G_${profile._json.sub}`,user)
-          .then(result => done(null,result))
-          .catch(error => done(error));
-      })
+        .authByProvider(`G_${profile._json.sub}`, user)
+        .then(result => done(null, result))
+        .catch(error => done(error));
+      }),
     );
   }
 }

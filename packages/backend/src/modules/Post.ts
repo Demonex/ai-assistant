@@ -1,9 +1,9 @@
 import {Module} from '@nestjs/common';
 import {TypegooseModule} from 'nestjs-typegoose';
-import PostEntity from '../entities/Post';
-import {PostController} from '../controllers/Post';
-import {PostService} from '../services/Post';
-import PostMediaEntity from '../entities/Post/Media';
+import PostEntity from '@repo/backend/entities/Post';
+import {PostController} from '@repo/backend/controllers/Post';
+import {PostService} from '@repo/backend/services/Post';
+import PostMediaEntity from '@repo/backend/entities/Post/Media';
 
 @Module({
   imports: [TypegooseModule.forFeature([

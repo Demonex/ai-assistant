@@ -5,12 +5,12 @@ import {
   IsOptional,
   IsString,
   MaxLength,
-  IsEnum, IsBoolean, Matches,
+  IsEnum, Matches,
   IsNotEmpty,
   MinLength
 } from 'class-validator';
 import {ApiPropertyOptional} from '@nestjs/swagger';
-import {USER_LANGUAGES} from '../entities/enums.js';
+import {USER_LANGUAGES} from '@repo/backend/entities/enums.js';
 
 export class UpdateProfileDto {
   @IsOptional()
@@ -59,7 +59,7 @@ export class UpdateProfileDto {
 export class UpdateProfileAvatarDto {
   @IsOptional()
   @ApiPropertyOptional({
-    type: 'file',
+    // type: 'file',
     format: 'binary'
   })
   readonly file?: any;

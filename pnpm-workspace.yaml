@@ -1,4 +1,6 @@
 packages:
-  - 'packages/*'
-  - 'libs/payload/packages/*'
-  - 'libs/typegoose-cursor-pagination'
+  - "apps/*"
+  - "packages/*"
+  - "packages/**/*"
+  - "services/*"
+  - "libs/*"

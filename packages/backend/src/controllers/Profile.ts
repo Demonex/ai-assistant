@@ -1,47 +1,33 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  Param,
-  Post,
-  Put,
-  Request,
-  UploadedFile,
-  UseInterceptors
-} from '@nestjs/common';
-import {Types} from 'mongoose';
-import {get} from 'lodash-es';
-import {UserService} from '../services/User.js';
-import {UpdateProfileAvatarDto, UpdateProfileDto} from '../dto/Profile.js';
-import {Authorized} from '../decorators/auth.js';
-import {UserEmail, UserId} from '../decorators/user.js';
-import {ApiBearerAuth, ApiConsumes, ApiExcludeEndpoint, ApiOperation, ApiParam, ApiTags} from '@nestjs/swagger';
-import {validateDto} from '../middlewares/validateDto.js';
-import {FileInterceptor} from '@nestjs/platform-express';
+import { Body, Controller, Delete, Get, HttpCode, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Types } from "mongoose";
+import { UserService } from "@repo/backend/services/User.js";
+import { UpdateProfileDto } from "@repo/backend/dto/Profile.js";
+import { Authorized } from "@repo/backend/decorators/auth.js";
+import { UserEmail, UserId } from "@repo/backend/decorators/user.js";
+import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { FileInterceptor } from "@nestjs/platform-express";
 
-@ApiTags('profile')
-@Controller('/api/rest/profile')
+@ApiTags("profile")
+@Controller("/api/rest/profile")
 export class ProfileController {
   constructor(
-    public service: UserService
+    public service: UserService,
   ) {
   }
 
-  @ApiBearerAuth('bearer-sid')
-  @ApiOperation({summary: 'get profile'})
+  @ApiBearerAuth("bearer-sid")
+  @ApiOperation({ summary: "get profile" })
   @Get()
   @HttpCode(200)
   async meAdmin(
     @UserId() id?: Types.ObjectId,
-    @UserEmail() email?: string
+    @UserEmail() email?: string,
   ) {
     return this.service.me(id, email);
   }
 
-  @ApiBearerAuth('bearer-sid')
-  @ApiOperation({summary: 'update profile'})
+  @ApiBearerAuth("bearer-sid")
+  @ApiOperation({ summary: "update profile" })
   @Authorized()
   @Put()
   async update(
@@ -50,12 +36,12 @@ export class ProfileController {
     return this.service.findByIdAndUpdate(id, args);
   }
 
-  @ApiBearerAuth('bearer-sid')
-  @ApiOperation({summary: 'avatar update in profile'})
+  @ApiBearerAuth("bearer-sid")
+  @ApiOperation({ summary: "avatar update in profile" })
   @Authorized()
-  @Post('avatar/update')
+  @Post("avatar/update")
   @UseInterceptors(
-    FileInterceptor('file' /*{
+    FileInterceptor("file" /*{
       limits: {
         fieldNameSize: 100,
         fieldSize: 1000000,
@@ -64,20 +50,20 @@ export class ProfileController {
         files: 1,
         headerPairs: 2000
       }
-    }*/)
+    }*/),
   )
-  @ApiConsumes('multipart/form-data')
+  @ApiConsumes("multipart/form-data")
   async updateAvatar(
     @UserId() id: Types.ObjectId,
-    @UploadedFile('file') file) {
+    @UploadedFile("file") file) {
     // console.log('avatar update', get(request, 'headers.authorization'), get(request, 'session.id'), id);
-    return this.service.findByIdAndUpdateAvatar(id, {file});
+    return this.service.findByIdAndUpdateAvatar(id, { file });
   }
 
-  @ApiBearerAuth('bearer-sid')
-  @ApiOperation({summary: 'delete user profile'})
+  @ApiBearerAuth("bearer-sid")
+  @ApiOperation({ summary: "delete user profile" })
   @Authorized()
-  @Delete('delete')
+  @Delete("delete")
   async profileDelete(
     @UserId() userId: Types.ObjectId) {
     return this.service.findByIdAndDelete(userId);

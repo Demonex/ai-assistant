@@ -1,15 +1,14 @@
-import {Ref, Severity} from '@typegoose/typegoose';
-import {modelOptions, plugin, prop} from '@typegoose/typegoose';
-import {_BaseEntity} from '../_BaseEntity.js';
-import {defaultModelOptions, defaultSchemaOptions} from '../../mongoose.config.js';
-import autopopulate from 'mongoose-autopopulate';
-import paginationPlugin from '@stigma-io/typegoose-cursor-pagination';
-import PostMediaEntity from './Media';
-import {USER_LANGUAGES} from '../enums';
+import { modelOptions, plugin, prop, type Ref, Severity } from "@typegoose/typegoose";
+import { _BaseEntity } from "@repo/backend/entities/_BaseEntity.js";
+import { defaultModelOptions, defaultSchemaOptions } from "@repo/backend/mongoose.config.js";
+import autopopulate from "mongoose-autopopulate";
+import paginationPlugin from "@stigma-io/typegoose-cursor-pagination";
+import PostMediaEntity from "@repo/backend/entities/Post/Media";
+import { USER_LANGUAGES } from "@repo/backend/entities/enums";
 
 export enum POST_STATUSES {
-  PUBLISHED = 'published',
-  DRAFT = 'draft'
+  PUBLISHED = "published",
+  DRAFT = "draft"
 }
 
 type LocalizedField<T> = {
@@ -26,29 +25,29 @@ type LocalizedField<T> = {
     toJSON: {
       ...defaultSchemaOptions.toJSON,
       virtuals: true,
-      transform: (doc, {_id, createdAt, updatedAt, ...rest}) => ({
+      transform: (doc, { _id, createdAt, updatedAt, ...rest }) => ({
         id: _id,
         createdAt,
         updatedAt,
-        ...rest
-      })
+        ...rest,
+      }),
     },
-    collection: 'post'
+    collection: "post",
 
   },
   options: {
-    customName: 'post',
+    customName: "post",
     allowMixed: Severity.ALLOW,
-  }
+  },
 })
 export class PostEntity extends _BaseEntity {
   @prop({
     required: true,
-    enum: POST_STATUSES
+    enum: POST_STATUSES,
   })
   _status!: POST_STATUSES;
 
-  @prop({required: true})
+  @prop({ required: true })
   title!: LocalizedField<string>;
 
   @prop()
@@ -57,8 +56,8 @@ export class PostEntity extends _BaseEntity {
   @prop({
     ref: () => PostMediaEntity,
     autopopulate: {
-      select: ['_id', 'mimeType', 'filename', 'url']
-    }
+      select: ["_id", "mimeType", "filename", "url"],
+    },
   })
   preview?: Ref<PostMediaEntity>;
 
@@ -68,11 +67,11 @@ export class PostEntity extends _BaseEntity {
 
 
 export const PostEntityDefaultSelect = [
-  'id',
-  'createdAt',
-  'title',
-  'description',
-  'preview',
+  "id",
+  "createdAt",
+  "title",
+  "description",
+  "preview",
 ];
 
 export default PostEntity;
