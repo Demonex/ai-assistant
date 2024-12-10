@@ -21,8 +21,8 @@ services:
     ports:
       - "27017:27017"
     healthcheck:
-      test: test $$(echo "rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo:27017'}]}).ok || rs.status().ok" | mongo
-        -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet) -eq 1
+      test: |
+        test $$(mongosh --quiet -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --eval "try { rs.initiate({ _id: 'rs0', members: [ { _id: 0, host: 'mongo:27017' } ] }).ok } catch (_) { rs.status().ok }") -eq 1
       interval: 10s
       start_period: 30s
     logging:
@@ -70,4 +70,4 @@ volumes:
   redis:
     name: "rf_redis"
   media:
-    name: "rfa_media"
+    name: "rf_media"
