@@ -104,6 +104,16 @@ export class UserEntity extends _BaseEntity {
   emailVerified?: boolean;
 
   @prop({
+    default: undefined,
+  })
+  resetToken?: string;
+
+  @prop({
+    default: undefined,
+  })
+  resetTokenExpires?: Date;
+
+  @prop({
     default: null,
     select: false,
   })

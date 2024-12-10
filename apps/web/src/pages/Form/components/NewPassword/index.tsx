@@ -2,16 +2,18 @@ import {memo, useCallback, useState} from "react";
 import capitalize from "lodash.capitalize";
 import {Link} from "wouter";
 import {useForm} from "react-hook-form";
-import {useLazyFetch} from "../../../../hooks/useFetch.js";
 import {BACKEND_URL} from "../../../../constants/index.js";
 import shownPassword from "/assets/svg/shown_password.svg";
 import hiddenPassword from "/assets/svg/hidden_password.svg";
+import { useSearch } from "wouter";
 
 export const NewPassword = memo(() => {
     const [passwordChanged, setPasswordChanged] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordRepeat, setShowPasswordRepeat] = useState(false);
     const [comparePassword, setComparePassword] = useState('');
+    const queryString = useSearch();
+
     const {
         register, handleSubmit, formState: {
             errors
@@ -20,16 +22,33 @@ export const NewPassword = memo(() => {
         clearErrors,
         setValue,
     } = useForm({criteriaMode: 'all'});
-    const [{data, error}, fetchSignUp] = useLazyFetch({
-        url: `${BACKEND_URL}/auth/email/sign-up`,
-        method: 'post',
-        cache: false
-    });
-    const onSubmit = useCallback(data => {
-        console.log('data', data)
-        // fetchSignUp({data}).catch(console.error);
 
-    }, []);
+    const onSubmit = useCallback(async ({ password })=> {
+        const params = new URLSearchParams(queryString);
+    
+        const response = await fetch(`${BACKEND_URL}/auth/email/reset-password`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              token: params.get("token"),
+              email: params.get("email"),
+              newPassword: password,
+            }),
+          });
+    
+          const { data } = await response.json();
+
+          console.log(data)
+          if (data?.success) {
+            setPasswordChanged(true);
+          }
+        },
+        [queryString]
+
+   );
+   
     return (
         <div
             className="p-0 md:p-10 shadow rounded-2xl  md:bg-popup_gray w-full flex flex-col gap-4 md:gap-5 mb-[7.5rem] lg:mb-[unset]">

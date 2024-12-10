@@ -1,4 +1,4 @@
-import {IsBoolean, IsEmail, IsOptional, IsString, MaxLength, MinLength} from 'class-validator';
+import {IsBoolean, IsEmail, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength} from 'class-validator';
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 
 export class AuthSignInDto {
@@ -45,4 +45,42 @@ export class AuthRecoverDto {
   @MaxLength(256)
   @ApiProperty({required: true})
   readonly login?: string;
+}
+
+export class RequestPasswordResetDto {
+  @ApiProperty({
+    description: "Email of the user requesting a password reset",
+    example: "user@example.com",
+  })
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+}
+
+export class ResetPasswordDto {
+  @ApiProperty({
+    description: "Token received in the password reset email",
+    example: "abcd1234token",
+  })
+  @IsNotEmpty()
+  @IsString()
+  token: string;
+
+  @ApiProperty({
+    description: "Email of the user resetting the password",
+    example: "user@example.com",
+  })
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+  @ApiProperty({
+    description: "New password for the user",
+    example: "newsecurepassword",
+    minLength: 8,
+  })
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(8)
+  newPassword: string;
 }
