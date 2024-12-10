@@ -1,157 +1,190 @@
-import {HttpException, HttpStatus, Inject, Injectable, NotFoundException, Scope} from '@nestjs/common';
-import {type HttpAdapterHost, REQUEST} from '@nestjs/core';
-import bcrypt from 'bcrypt';
-import {InjectModel} from 'nestjs-typegoose';
-import type {ReturnModelType} from '@typegoose/typegoose';
-import {InjectRedis} from '@nestjs-modules/ioredis';
-import type {Redis} from 'ioredis';
-import md5 from 'md5';
-import {isEmail} from 'class-validator';
-import {randstr as randomStringGenerator} from 'better-randstr';
-import {BCRYPT_SALT_ROUNDS} from '@repo/backend/constants.js';
-import {HttpStatusMessages} from '@repo/backend/messages/http.js';
-import type {AuthRecoverDto, AuthSignUpDto} from '@repo/backend/dto/Auth.js';
-import {UserEntity, UserEntityDefaultSelect} from '@repo/backend/entities/User/index.js';
-import {SmtpService} from './Smtp.js';
-import type {Types} from 'mongoose';
-import {CrmService} from '@repo/backend/services/crm.service.js';
-import {v4 as uuidv4} from 'uuid';
-import {MailerService} from '@repo/backend/mailer/mailer.service.js';
+import {
+	HttpException,
+	HttpStatus,
+	Inject,
+	Injectable,
+	NotFoundException,
+	Scope,
+} from "@nestjs/common";
+import { type HttpAdapterHost, REQUEST } from "@nestjs/core";
+import bcrypt from "bcrypt";
+import { InjectModel } from "nestjs-typegoose";
+import type { ReturnModelType } from "@typegoose/typegoose";
+import { InjectRedis } from "@nestjs-modules/ioredis";
+import type { Redis } from "ioredis";
+import md5 from "md5";
+import { isEmail } from "class-validator";
+import { randstr as randomStringGenerator } from "better-randstr";
+import { BCRYPT_SALT_ROUNDS } from "@repo/backend/constants.js";
+import { HttpStatusMessages } from "@repo/backend/messages/http.js";
+import type { AuthRecoverDto, AuthSignUpDto } from "@repo/backend/dto/Auth.js";
+import {
+	UserEntity,
+	UserEntityDefaultSelect,
+} from "@repo/backend/entities/User/index.js";
+import { SmtpService } from "./Smtp.js";
+import type { Types } from "mongoose";
+import { CrmService } from "@repo/backend/services/crm.service.js";
+import { v4 as uuidv4 } from "uuid";
+import { MailerService } from "@repo/backend/mailer/mailer.service.js";
 
-@Injectable({scope: Scope.REQUEST})
+@Injectable({ scope: Scope.REQUEST })
 export class AuthService {
-  constructor(
-    @Inject(REQUEST) private readonly request: any,
-    @InjectModel(UserEntity) private readonly repoUser: ReturnModelType<typeof UserEntity>,
-    @Inject(SmtpService) private readonly smtp: SmtpService,
-    @InjectRedis() private readonly redisClient: Redis,
-    private readonly crmService: CrmService,
-    private readonly mailerService: MailerService
-  ) {
-  }
+	constructor(
+		@Inject(REQUEST) private readonly request: any,
+		@InjectModel(UserEntity)
+		private readonly repoUser: ReturnModelType<typeof UserEntity>,
+		@Inject(SmtpService) private readonly smtp: SmtpService,
+		@InjectRedis() private readonly redisClient: Redis,
+		private readonly crmService: CrmService,
+		private readonly mailerService: MailerService,
+	) {}
 
-  async signOut(userId?: Types.ObjectId): Promise<boolean> {
-    try {
-      return await new Promise((resolve, reject) => {
-        this.request.session.destroy((err) => err ? reject(err) : resolve(true));
-      });
-    } catch(err) {
-      console.error(err.message);
-      //
-    }
-    return false;
-  }
+	async signOut(userId?: Types.ObjectId): Promise<boolean> {
+		try {
+			return await new Promise((resolve, reject) => {
+				this.request.session.destroy((err) =>
+					err ? reject(err) : resolve(true),
+				);
+			});
+		} catch (err) {
+			console.error(err.message);
+			//
+		}
+		return false;
+	}
 
-  async signInByEmail(args: any): Promise<UserEntity> {
-    const keys = ['email', 'password'];
-    const {
-      email,
-      password: passwordCheck
-    } = Object.fromEntries(Object.entries(args).filter(([_, __]) => keys.includes(_))) as any;
-    const user = await this.getUserByEmailOrUsername(email);
-    if(user.password) {
-      await this.verifyUserPassword(user.password, passwordCheck);
-    } else {
-      throw new HttpException({
-        statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
-        messages: [{
-          messages: [HttpStatusMessages.INTERNAL_SERVER_ERROR]
-        }]
-      }, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-    this.request.session.user = {
-      id: user._id,
-      language: user.language,
-      roles: user.roles,
-      email: user.email
-    };
-    return user as UserEntity;
-  }
+	async signInByEmail(args: any): Promise<UserEntity> {
+		const keys = ["email", "password"];
+		const { email, password: passwordCheck } = Object.fromEntries(
+			Object.entries(args).filter(([_, __]) => keys.includes(_)),
+		) as any;
+		const user = await this.getUserByEmailOrUsername(email);
+		if (user.password) {
+			await this.verifyUserPassword(user.password, passwordCheck);
+		} else {
+			throw new HttpException(
+				{
+					statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
+					messages: [
+						{
+							messages: [HttpStatusMessages.INTERNAL_SERVER_ERROR],
+						},
+					],
+				},
+				HttpStatus.INTERNAL_SERVER_ERROR,
+			);
+		}
+		this.request.session.user = {
+			id: user._id,
+			language: user.language,
+			roles: user.roles,
+			email: user.email,
+		};
+		return user as UserEntity;
+	}
 
-  async signUpByEmail(args: AuthSignUpDto, ipRegLimit = true): Promise<UserEntity> {
-    const ipReg = `ip.reg:${this.request.ip}`;
-    const counter = await this.redisClient.get(ipReg);
-    if(ipRegLimit) {
-      // console.log(ipReg,counter);
-      if(counter && Number(counter) > 10) {
-        throw new HttpException({
-          statusCode: HttpStatus.TOO_MANY_REQUESTS
-        }, HttpStatus.TOO_MANY_REQUESTS);
-      }
-    }
+	async signUpByEmail(
+		args: AuthSignUpDto,
+		ipRegLimit = true,
+	): Promise<UserEntity> {
+		const ipReg = `ip.reg:${this.request.ip}`;
+		const counter = await this.redisClient.get(ipReg);
+		if (ipRegLimit) {
+			// console.log(ipReg,counter);
+			if (counter && Number(counter) > 10) {
+				throw new HttpException(
+					{
+						statusCode: HttpStatus.TOO_MANY_REQUESTS,
+					},
+					HttpStatus.TOO_MANY_REQUESTS,
+				);
+			}
+		}
 
-    const {name, email, password, consent} = args;
-    const hashPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
-    const activationLink = uuidv4();
+		const { name, email, password, consent } = args;
+		const hashPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
+		const activationLink = uuidv4();
 
-    const user = await this.createUserByEmail({
-      name, email, password: hashPassword, consent, activationLink
-    });
+		const user = await this.createUserByEmail({
+			name,
+			email,
+			password: hashPassword,
+			consent,
+			activationLink,
+		});
 
-    await this.sendConfirmEmail(email, activationLink);
+		await this.sendConfirmEmail(email, activationLink);
 
-    this.request.session.user = {
-      id: user._id,
-      language: user.language,
-      roles: user.roles
-    };
+		this.request.session.user = {
+			id: user._id,
+			language: user.language,
+			roles: user.roles,
+		};
 
-    if(ipRegLimit) {
-      await this.redisClient.set(
-        ipReg,
-        `${1 + (counter ? Number(counter) : 0)}`,
-        'PX',
-        24 * 60 * 60 * 1000
-      );
-    }
-    return user;
-  }
+		if (ipRegLimit) {
+			await this.redisClient.set(
+				ipReg,
+				`${1 + (counter ? Number(counter) : 0)}`,
+				"PX",
+				24 * 60 * 60 * 1000,
+			);
+		}
+		return user;
+	}
 
-  async resendEmailConfirm(userId: string) {
-    try {
-      const user = await this.repoUser.findOne({_id: userId});
-      const {email, activationLink} = user;
-      await this.sendConfirmEmail(email, activationLink);
+	async resendEmailConfirm(userId: string) {
+		try {
+			const user = await this.repoUser.findOne({ _id: userId });
+			const { email, activationLink } = user;
+			await this.sendConfirmEmail(email, activationLink);
 
-      return {success: true};
+			return { success: true };
+		} catch (error) {
+			return { success: false, message: "Failed to resendEmailConfirm" };
+		}
+	}
 
-    } catch(error) {
-      return {success: false, message: 'Failed to resendEmailConfirm'};
-    }
-  }
-
-  async recover({
-                  login: username,
-                  recoverCode,
-                  verifyCode
-                }: AuthRecoverDto & {
-    recoverCode?: string;
-    verifyCode?: string;
-  }): Promise<{ redirect: string }> {
-    const user = username ? (await this.repoUser.findOne(isEmail(username) ? {email: username} : {username})) : null;
-    if(!user && !(recoverCode && verifyCode)) {
-      return {redirect: `${process.env.FRONTEND_URL}/error?code=recover`};
-    }
-    const recoverExistRequest = (user ? md5(`${user.id}:email:recover`) : recoverCode) as string;
-    const recoverExist = await this.redisClient.get(recoverExistRequest);
-    if(user && recoverExist) {
-      return {redirect: `${process.env.FRONTEND_URL}/error?code=recover`};
-    }
-    if(!recoverExist && user) {
-      const recoverExistRequestVerify = md5(`${user.id}:email:recover:${randomStringGenerator()}`);
-      await this.redisClient.set(
-        recoverExistRequest,
-        JSON.stringify({
-          user: user,
-          recoverExistRequestVerify
-        }),
-        'PX',
-        24 * 60 * 60 * 1000
-      );
-      try {
-        console.log('smtp');
-        //language by user
-        /*this.smtp
+	async recover({
+		login: username,
+		recoverCode,
+		verifyCode,
+	}: AuthRecoverDto & {
+		recoverCode?: string;
+		verifyCode?: string;
+	}): Promise<{ redirect: string }> {
+		const user = username
+			? await this.repoUser.findOne(
+					isEmail(username) ? { email: username } : { username },
+				)
+			: null;
+		if (!user && !(recoverCode && verifyCode)) {
+			return { redirect: `${process.env.FRONTEND_URL}/error?code=recover` };
+		}
+		const recoverExistRequest = (
+			user ? md5(`${user.id}:email:recover`) : recoverCode
+		) as string;
+		const recoverExist = await this.redisClient.get(recoverExistRequest);
+		if (user && recoverExist) {
+			return { redirect: `${process.env.FRONTEND_URL}/error?code=recover` };
+		}
+		if (!recoverExist && user) {
+			const recoverExistRequestVerify = md5(
+				`${user.id}:email:recover:${randomStringGenerator()}`,
+			);
+			await this.redisClient.set(
+				recoverExistRequest,
+				JSON.stringify({
+					user: user,
+					recoverExistRequestVerify,
+				}),
+				"PX",
+				24 * 60 * 60 * 1000,
+			);
+			try {
+				console.log("smtp");
+				//language by user
+				/*this.smtp
           .sendEmail('recover-by-email',{
             appeal:`${user.firstName||user.username||''}`,
             email:user.email,
@@ -159,167 +192,187 @@ export class AuthService {
             recoverExistRequestVerify
           })
           .then();*/
-      } catch(e) {
-        console.error(e.message);
-      }
-    } else if(recoverExist && verifyCode) {
-      const {user, recoverExistRequestVerify} = JSON.parse(recoverExist);
-      if(verifyCode === recoverExistRequestVerify) {
-        /*if(this.request.session.user&&this.request.session.user.id!==user.id){
+			} catch (e) {
+				console.error(e.message);
+			}
+		} else if (recoverExist && verifyCode) {
+			const { user, recoverExistRequestVerify } = JSON.parse(recoverExist);
+			if (verifyCode === recoverExistRequestVerify) {
+				/*if(this.request.session.user&&this.request.session.user.id!==user.id){
           return {redirect:`${process.env.FRONTEND_URL}/error?code=recover`};
         }*/
-        this.request.session.user = user;
-        await this.redisClient.del(recoverExistRequest);
-        return {
-          redirect: `${process.env.FRONTEND_URL}/user/restorePassword`
-        };
-      }
-      return {redirect: `${process.env.FRONTEND_URL}/error?code=recover`};
-    }
-    return {redirect: `${process.env.FRONTEND_URL}/error?code=recover`};
-  }
+				this.request.session.user = user;
+				await this.redisClient.del(recoverExistRequest);
+				return {
+					redirect: `${process.env.FRONTEND_URL}/user/restorePassword`,
+				};
+			}
+			return { redirect: `${process.env.FRONTEND_URL}/error?code=recover` };
+		}
+		return { redirect: `${process.env.FRONTEND_URL}/error?code=recover` };
+	}
 
-  // private async createUserByEmail(args): Promise<UserEntity & { id?: string; _id?: Types.ObjectId }> {
+	// private async createUserByEmail(args): Promise<UserEntity & { id?: string; _id?: Types.ObjectId }> {
 
-  //   try {
-  //     // return await this.repoUser.create(args);
+	//   try {
+	//     // return await this.repoUser.create(args);
 
-  //     const user = await this.repoUser.create(args);
+	//     const user = await this.repoUser.create(args);
 
-  //     return user;
+	//     return user;
 
+	//   } catch (e) {
+	//     console.error(e.message);
+	//     switch (e.code) {
+	//       case 11000: {
+	//         if ('email' in e.keyValue) throw new HttpException({
+	//           statusCode: HttpStatus.BAD_REQUEST,
+	//           messages: [{
+	//             property: 'email',
+	//             messages: [HttpStatusMessages.EMAIL_ALREADY_EXIST]
+	//           }]
+	//         }, HttpStatus.BAD_REQUEST);
+	//         /*if ('username' in e.keyValue) throw new HttpException({
+	//           statusCode: HttpStatus.BAD_REQUEST,
+	//           messages: [{
+	//             property: 'username',
+	//             messages: [HttpStatusMessages.USERNAME_ALREADY_EXIST]
+	//           }]
+	//         }, HttpStatus.BAD_REQUEST);*/
+	//         break;
+	//       }
+	//     }
+	//     throw new Error('Internal server error');
+	//   }
+	// }
 
-  //   } catch (e) {
-  //     console.error(e.message);
-  //     switch (e.code) {
-  //       case 11000: {
-  //         if ('email' in e.keyValue) throw new HttpException({
-  //           statusCode: HttpStatus.BAD_REQUEST,
-  //           messages: [{
-  //             property: 'email',
-  //             messages: [HttpStatusMessages.EMAIL_ALREADY_EXIST]
-  //           }]
-  //         }, HttpStatus.BAD_REQUEST);
-  //         /*if ('username' in e.keyValue) throw new HttpException({
-  //           statusCode: HttpStatus.BAD_REQUEST,
-  //           messages: [{
-  //             property: 'username',
-  //             messages: [HttpStatusMessages.USERNAME_ALREADY_EXIST]
-  //           }]
-  //         }, HttpStatus.BAD_REQUEST);*/
-  //         break;
-  //       }
-  //     }
-  //     throw new Error('Internal server error');
-  //   }
-  // }
+	private async createUserByEmail(
+		args,
+	): Promise<UserEntity & { id?: string; _id?: Types.ObjectId }> {
+		try {
+			const user = await this.repoUser.create(args);
 
-  private async createUserByEmail(args): Promise<UserEntity & { id?: string; _id?: Types.ObjectId }> {
-    try {
+			try {
+				await this.crmService.createUserInCrm({
+					firstName: args.name.split(" ")[0] || "",
+					lastName: args.name.split(" ")[1] || "",
+					email: args.email,
+					phone: args.phone || "",
+					supervisors: { users: [{ id: "user:45" }] },
+				});
 
-      const user = await this.repoUser.create(args);
+				await this.crmService.createTaskInCrm({
+					name: `New Registration - ${args.name}`,
+					description: `Process the registration of ${args.name}.`,
+					project: { id: 7382 }, // ID проекта "Регистрация"
+					template: { id: 7235 }, // ID шаблона "Регистрация"
+				});
+			} catch (crmError) {
+				console.error("Error synchronizing with CRM:", crmError.message);
+			}
 
+			return user;
+		} catch (error) {
+			console.error("Error creating user:", error.message);
 
-      try {
-        await this.crmService.createUserInCrm({
-          firstName: args.name.split(' ')[0] || '',
-          lastName: args.name.split(' ')[1] || '',
-          email: args.email,
-          phone: args.phone || '',
-          supervisors: {users: [{id: 'user:45'}]}
-        });
+			if (error.code === 11000 && "email" in error.keyValue) {
+				throw new HttpException(
+					{
+						statusCode: HttpStatus.BAD_REQUEST,
+						messages: [
+							{ property: "email", messages: ["Email already exists"] },
+						],
+					},
+					HttpStatus.BAD_REQUEST,
+				);
+			}
 
-        await this.crmService.createTaskInCrm({
-          name: `New Registration - ${args.name}`,
-          description: `Process the registration of ${args.name}.`,
-          project: {id: 7382}, // ID проекта "Регистрация"
-          template: {id: 7235} // ID шаблона "Регистрация"
-        });
-      } catch(crmError) {
-        console.error('Error synchronizing with CRM:', crmError.message);
+			throw new HttpException(
+				"Internal Server Error",
+				HttpStatus.INTERNAL_SERVER_ERROR,
+			);
+		}
+	}
 
-      }
+	private async getUserByEmailOrUsername(
+		login: string,
+	): Promise<UserEntity & { id?: string; _id: Types.ObjectId }> {
+		const criteria: { [k: string]: unknown } = {};
+		if (isEmail(login)) {
+			criteria.email = login;
+		} else if (login) {
+			criteria.username = login;
+		} else {
+			throw new Error("Internal Server Error");
+		}
+		const user = await this.repoUser
+			.findOne(criteria)
+			.select([...UserEntityDefaultSelect, "password", "roles"]);
+		if (!user) {
+			throw new HttpException(
+				{
+					statusCode: HttpStatus.UNAUTHORIZED,
+					messages: [
+						{
+							messages: [HttpStatusMessages.UNAUTHORIZED],
+						},
+					],
+				},
+				HttpStatus.UNAUTHORIZED,
+			);
+		}
+		return user;
+	}
 
-      return user;
-    } catch(error) {
-      console.error('Error creating user:', error.message);
+	async verifyUserPassword(
+		password: string,
+		passwordCheck: string,
+	): Promise<boolean> {
+		const passwordMatches = await bcrypt.compare(passwordCheck, password);
+		if (!passwordMatches) {
+			throw new HttpException(
+				{
+					statusCode: HttpStatus.UNAUTHORIZED,
+					messages: [
+						{
+							messages: [HttpStatusMessages.UNAUTHORIZED],
+						},
+					],
+				},
+				HttpStatus.UNAUTHORIZED,
+			);
+		}
+		return true;
+	}
 
+	async activateAccount(link: string) {
+		const user = await this.repoUser.findOne({ activationLink: link });
 
-      if(error.code === 11000 && 'email' in error.keyValue) {
-        throw new HttpException(
-          {
-            statusCode: HttpStatus.BAD_REQUEST,
-            messages: [{property: 'email', messages: ['Email already exists']}]
-          },
-          HttpStatus.BAD_REQUEST
-        );
-      }
+		if (!user) {
+			throw new NotFoundException(
+				"Activation link is invalid or user not found.",
+			);
+		}
 
-      throw new HttpException('Internal Server Error', HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
+		user.emailVerified = true;
 
-  private async getUserByEmailOrUsername(login: string): Promise<UserEntity & { id?: string; _id: Types.ObjectId }> {
-    const criteria: { [k: string]: unknown } = {};
-    if(isEmail(login)) {
-      criteria.email = login;
-    } else if(login) {
-      criteria.username = login;
-    } else {
-      throw new Error('Internal Server Error');
-    }
-    const user = await this.repoUser
-    .findOne(criteria)
-    .select([...UserEntityDefaultSelect, 'password', 'roles']);
-    if(!user) {
-      throw new HttpException({
-        statusCode: HttpStatus.UNAUTHORIZED,
-        messages: [{
-          messages: [HttpStatusMessages.UNAUTHORIZED]
-        }]
-      }, HttpStatus.UNAUTHORIZED);
-    }
-    return user;
-  }
+		await user.save();
+	}
 
-  async verifyUserPassword(password: string, passwordCheck: string): Promise<boolean> {
-    const passwordMatches = await bcrypt.compare(passwordCheck, password);
-    if(!passwordMatches) {
-      throw new HttpException({
-        statusCode: HttpStatus.UNAUTHORIZED,
-        messages: [{
-          messages: [HttpStatusMessages.UNAUTHORIZED]
-        }]
-      }, HttpStatus.UNAUTHORIZED);
-    }
-    return true;
-  }
-
-  async activateAccount(link: string) {
-    const user = await this.repoUser
-    .findOne({activationLink: link});
-
-    if(!user) {
-      throw new NotFoundException('Activation link is invalid or user not found.');
-    }
-
-    user.emailVerified = true;
-
-    await user.save();
-  }
-
-  private createConfirmEmailText(link: string) {
-    return `<p>Добрый день.</p>
+	private createConfirmEmailText(link: string) {
+		return `<p>Добрый день.</p>
       <p>Для подтверждения аккаунта Rifify перейдите по ссылке: </p>
       <a href=${link}>${link}</a>
     `;
-  }
+	}
 
-  private async sendConfirmEmail(email: string, activationLink: string) {
-    await this.mailerService.sendMail({
-      recipients: [email],
-      subject: 'Подтвердите свою почту и начните использовать Rifify',
-      html: this.createConfirmEmailText(`${process.env.BACKEND_URL}/api/rest/auth/activate/${activationLink}`)
-    });
-  }
+	private async sendConfirmEmail(email: string, activationLink: string) {
+		await this.mailerService.sendMail({
+			recipients: [email],
+			subject: "Подтвердите свою почту и начните использовать Rifify",
+			html: this.createConfirmEmailText(
+				`${process.env.BACKEND_URL}/api/rest/auth/activate/${activationLink}`,
+			),
+		});
+	}
 }

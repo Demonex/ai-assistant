@@ -1,132 +1,136 @@
-import escapeHTML from 'escape-html';
+import escapeHTML from "escape-html";
 import {
-  IS_BOLD,
-  IS_CODE,
-  IS_ITALIC,
-  IS_STRIKETHROUGH,
-  IS_SUBSCRIPT,
-  IS_SUPERSCRIPT,
-  IS_UNDERLINE
-} from './RichTextNodeFormat';
-import type {SerializedLexicalNode} from './types';
+	IS_BOLD,
+	IS_CODE,
+	IS_ITALIC,
+	IS_STRIKETHROUGH,
+	IS_SUBSCRIPT,
+	IS_SUPERSCRIPT,
+	IS_UNDERLINE,
+} from "./RichTextNodeFormat";
+import type { SerializedLexicalNode } from "./types";
 
 function getLinkForPage(doc) {
-  return 'implement this';
+	return "implement this";
 }
 
-export function serialize(children: SerializedLexicalNode[] = [], media: {
-  [k: string]: { url?: string }
-} = {}): string[] {
-  return children
-  .map((node): string | null => {
-    if(node.type === 'text') {
-      //isText
-      let text = `${escapeHTML(node.text)}`;
+export function serialize(
+	children: SerializedLexicalNode[] = [],
+	media: {
+		[k: string]: { url?: string };
+	} = {},
+): string[] {
+	return children
+		.map((node): string | null => {
+			if (node.type === "text") {
+				//isText
+				let text = `${escapeHTML(node.text)}`;
 
-      if(node.format & IS_BOLD) {
-        text = `<strong>${text}</strong>`;
-      }
-      if(node.format & IS_ITALIC) {
-        text = `<em>${text}</em>`;
-      }
+				if (node.format & IS_BOLD) {
+					text = `<strong>${text}</strong>`;
+				}
+				if (node.format & IS_ITALIC) {
+					text = `<em>${text}</em>`;
+				}
 
-      if(node.format & IS_STRIKETHROUGH) {
-        text = `<span class="line-through">${text}</span>`;
-      }
+				if (node.format & IS_STRIKETHROUGH) {
+					text = `<span class="line-through">${text}</span>`;
+				}
 
-      if(node.format & IS_UNDERLINE) {
-        text = `<span class="underline">${text}</span>`;
-      }
+				if (node.format & IS_UNDERLINE) {
+					text = `<span class="underline">${text}</span>`;
+				}
 
-      if(node.format & IS_CODE) {
-        text = `<code>${text}</code>`;
-      }
+				if (node.format & IS_CODE) {
+					text = `<code>${text}</code>`;
+				}
 
-      if(node.format & IS_SUBSCRIPT) {
-        text = `<sub>${text}</sub>`;
-      }
+				if (node.format & IS_SUBSCRIPT) {
+					text = `<sub>${text}</sub>`;
+				}
 
-      if(node.format & IS_SUPERSCRIPT) {
-        text = `<sup>${text}</sup>`;
-      }
+				if (node.format & IS_SUPERSCRIPT) {
+					text = `<sup>${text}</sup>`;
+				}
 
-      return `${text}`;
-    }
+				return `${text}`;
+			}
 
-    if(!node) {
-      return null;
-    }
+			if (!node) {
+				return null;
+			}
 
-    const serializedChildren = node.children
-      ? serialize(node.children).join('')
-      : null;
+			const serializedChildren = node.children
+				? serialize(node.children).join("")
+				: null;
 
-    switch(node.type) {
-      case 'linebreak':
-        return '<br>';
-      case 'link': {
-        // eslint-disable-next-line no-case-declarations
-        const attributes: {
-          doc?;
-          linkType?: 'custom' | 'internal';
-          newTab?: boolean;
-          nofollow?: boolean;
-          rel?: string;
-          sponsored?: boolean;
-          url?: string;
-        } = node.attributes;
+			switch (node.type) {
+				case "linebreak":
+					return "<br>";
+				case "link": {
+					// eslint-disable-next-line no-case-declarations
+					const attributes: {
+						doc?;
+						linkType?: "custom" | "internal";
+						newTab?: boolean;
+						nofollow?: boolean;
+						rel?: string;
+						sponsored?: boolean;
+						url?: string;
+					} = node.attributes;
 
-        if(attributes.linkType === 'custom') {
-          return `<a href="${attributes.url}"${
-            attributes.newTab ? ' target=_"blank"' : ''
-          } rel="${attributes?.rel ?? ''}${
-            attributes?.sponsored ? ' sponsored' : ''
-          }${
-            attributes?.nofollow ? ' nofollow' : ''
-          }">${serializedChildren}</a>`;
-        }
+					if (attributes.linkType === "custom") {
+						return `<a href="${attributes.url}"${
+							attributes.newTab ? ' target=_"blank"' : ""
+						} rel="${attributes?.rel ?? ""}${
+							attributes?.sponsored ? " sponsored" : ""
+						}${
+							attributes?.nofollow ? " nofollow" : ""
+						}">${serializedChildren}</a>`;
+					}
 
-        return `<a href="${getLinkForPage(attributes.doc)}"${
-          attributes.newTab ? ' target=_"blank"' : ''
-        } rel="${attributes?.rel ?? ''}${
-          attributes?.sponsored ? ' sponsored' : ''
-        }${
-          attributes?.nofollow ? ' nofollow' : ''
-        }">${serializedChildren}</a>`; //TODO: Check doc link handling
-      }
-      case 'list': {//TODO handle properly, especially nested lists
-        if(node.listType === 'bullet') {
-          return `
+					return `<a href="${getLinkForPage(attributes.doc)}"${
+						attributes.newTab ? ' target=_"blank"' : ""
+					} rel="${attributes?.rel ?? ""}${
+						attributes?.sponsored ? " sponsored" : ""
+					}${
+						attributes?.nofollow ? " nofollow" : ""
+					}">${serializedChildren}</a>`; //TODO: Check doc link handling
+				}
+				case "list": {
+					//TODO handle properly, especially nested lists
+					if (node.listType === "bullet") {
+						return `
 						<ul class="list-disc mb-4 pl-8">
 						  ${serializedChildren}
 						</ul>`;
-        }
-        return `
+					}
+					return `
 						<ol class="list-disc mb-4 pl-8">
 						  ${serializedChildren}
 						</ol>`;
-      }
-      case 'listitem':
-        return `
+				}
+				case "listitem":
+					return `
 						<li>
 						  ${serializedChildren}
 						</li>`;
-      case 'heading':
-        return `
+				case "heading":
+					return `
 								<${node.tag} class="text-[2rem] font-medium leading-[110%]">
 								  ${serializedChildren}
 								</${node.tag}>`;
-      case 'upload': {
-        switch(node.relationTo) {
-          case 'post-media': {
-            return `<img src="${media[node.value.id]?.url}"/>`;
-          }
-        }
-        return null;
-      }
-      default: //Probably just a normal paragraph
-        return `<p class="text-t2Regular text-light_grey mb-4">${serializedChildren ? serializedChildren : '<br>'}</p>`;
-    }
-  })
-  .filter((node) => node !== null) as string[];
+				case "upload": {
+					switch (node.relationTo) {
+						case "post-media": {
+							return `<img src="${media[node.value.id]?.url}"/>`;
+						}
+					}
+					return null;
+				}
+				default: //Probably just a normal paragraph
+					return `<p class="text-t2Regular text-light_grey mb-4">${serializedChildren ? serializedChildren : "<br>"}</p>`;
+			}
+		})
+		.filter((node) => node !== null) as string[];
 }

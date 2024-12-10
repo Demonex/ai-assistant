@@ -8,10 +8,9 @@ import { CrmService } from "@repo/backend/services/crm.service.js";
 import { MailerModule } from "@repo/backend/mailer/mailer.module.js";
 
 @Module({
-  imports: [TypegooseModule.forFeature([...UserEntities]), MailerModule],
-  providers: [AuthService, SmtpService, CrmService],
-  exports: [AuthService],
-  controllers: [AuthController],
+	imports: [TypegooseModule.forFeature([...UserEntities]), MailerModule],
+	providers: [AuthService, SmtpService, CrmService],
+	exports: [AuthService],
+	controllers: [AuthController],
 })
-export class AuthModule {
-}
+export class AuthModule {}

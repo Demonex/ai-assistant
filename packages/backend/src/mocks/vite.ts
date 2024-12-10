@@ -1,1 +1,1 @@
-export const mergeConfig = () => {}
+export const mergeConfig = () => {};

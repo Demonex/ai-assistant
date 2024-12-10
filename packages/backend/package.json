@@ -8,6 +8,7 @@
 		"test": "vitest",
 		"build": "tsup-node",
 		"lint": "biome lint src",
+		"format": "biome format src --write",
 		"dev": "pnpm run docker-compose & pnpm run clean && wait-on dist/build.info && node --no-deprecation --trace-warnings --enable-source-maps --watch -r dotenv/config dist/index.js",
 		"serve": "node --trace-warnings -r dotenv/config dist/index.js",
 		"clean": "del-cli dist",

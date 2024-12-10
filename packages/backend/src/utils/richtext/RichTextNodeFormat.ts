@@ -26,14 +26,14 @@ export const IS_SUPERSCRIPT = 1 << 6;
 export const IS_HIGHLIGHT = 1 << 7;
 
 export const IS_ALL_FORMATTING =
-  IS_BOLD |
-  IS_ITALIC |
-  IS_STRIKETHROUGH |
-  IS_UNDERLINE |
-  IS_CODE |
-  IS_SUBSCRIPT |
-  IS_SUPERSCRIPT |
-  IS_HIGHLIGHT;
+	IS_BOLD |
+	IS_ITALIC |
+	IS_STRIKETHROUGH |
+	IS_UNDERLINE |
+	IS_CODE |
+	IS_SUBSCRIPT |
+	IS_SUPERSCRIPT |
+	IS_HIGHLIGHT;
 
 export const IS_DIRECTIONLESS = 1;
 export const IS_UNMERGEABLE = 1 << 1;
@@ -47,20 +47,20 @@ export const IS_ALIGN_START = 5;
 export const IS_ALIGN_END = 6;
 
 export const TEXT_TYPE_TO_FORMAT: Record<TextFormatType | string, number> = {
-  bold: IS_BOLD,
-  code: IS_CODE,
-  italic: IS_ITALIC,
-  strikethrough: IS_STRIKETHROUGH,
-  subscript: IS_SUBSCRIPT,
-  superscript: IS_SUPERSCRIPT,
-  underline: IS_UNDERLINE,
+	bold: IS_BOLD,
+	code: IS_CODE,
+	italic: IS_ITALIC,
+	strikethrough: IS_STRIKETHROUGH,
+	subscript: IS_SUBSCRIPT,
+	superscript: IS_SUPERSCRIPT,
+	underline: IS_UNDERLINE,
 };
 
 export type TextFormatType =
-  | 'bold'
-  | 'underline'
-  | 'strikethrough'
-  | 'italic'
-  | 'code'
-  | 'subscript'
-  | 'superscript';
+	| "bold"
+	| "underline"
+	| "strikethrough"
+	| "italic"
+	| "code"
+	| "subscript"
+	| "superscript";

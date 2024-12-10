@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
-import { MailerService } from '@repo/backend/mailer/mailer.service';
+import { Module } from "@nestjs/common";
+import { MailerService } from "@repo/backend/mailer/mailer.service";
 
 @Module({
-  controllers: [],
-  providers: [MailerService],
-  exports: [MailerService]
+	controllers: [],
+	providers: [MailerService],
+	exports: [MailerService],
 })
 export class MailerModule {}

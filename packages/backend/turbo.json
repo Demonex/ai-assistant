@@ -2,7 +2,9 @@
 	"extends": ["//"],
 	"tasks": {
 		"build": {
-			"dependsOn": [],
+			"dependsOn": [
+				"@repo/auth#build"
+			],
 			"outputs": ["dist/**"]
 		},
 		"dev": {

@@ -1,4 +1,4 @@
 export enum FlowDtoType {
-  ios = 'ios',
-  web = 'web',
+	ios = "ios",
+	web = "web",
 }
