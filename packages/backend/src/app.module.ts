@@ -20,7 +20,7 @@ import { ScheduleModule } from "@nestjs/schedule";
 		}),
 		ScheduleModule.forRoot(),
 		...Object.values(modules),
-	],
+	]
 })
 export class AppModule implements NestModule, OnApplicationShutdown {
 	onApplicationShutdown(signal?: string): void {
