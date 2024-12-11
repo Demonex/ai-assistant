@@ -19,6 +19,7 @@ import { ScheduleModule } from "@nestjs/schedule";
 			url: "redis://localhost:6379",
 		}),
 		ScheduleModule.forRoot(),
+
 		...Object.values(modules)
 	],
 })
