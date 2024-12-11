@@ -1,1 +1,1 @@
-export { FeedContentLazy as FeedContent } from './ui/FeedContentLazy.js';
+export { FeedContentLazy as FeedContent } from "./ui/FeedContentLazy.js";

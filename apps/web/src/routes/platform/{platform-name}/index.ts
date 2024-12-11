@@ -1,1 +1,1 @@
-export {PlatformPage as default} from '../../../pages/PlatformPage/index.js'
+export { PlatformPage as default } from "../../../pages/PlatformPage/index.js";

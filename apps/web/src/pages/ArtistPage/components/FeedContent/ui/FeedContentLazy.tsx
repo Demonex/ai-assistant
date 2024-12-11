@@ -1,3 +1,3 @@
-import { lazy } from 'react';
+import { lazy } from "react";
 
-export const FeedContentLazy = lazy(() => import('./FeedContent.js'));
+export const FeedContentLazy = lazy(() => import("./FeedContent.js"));

@@ -1,1 +1,1 @@
-export {AllSearchResults as default} from '../pages/AllSearchResults/index.js';
+export { AllSearchResults as default } from "../pages/AllSearchResults/index.js";

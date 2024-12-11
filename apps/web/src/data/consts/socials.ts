@@ -17,109 +17,101 @@ import musicbrainz from "/assets/svg/musicbrainz.svg";
 import songshare from "/assets/svg/songshareLogo.svg";
 import twitter from "/assets/svg/twitterLogo.svg";
 
-
-
-
 export const socials = [
-    {
-        name: 'overview',
-        logo: '',
-        slug: 'overview',
-
-    },
-    {
-        name: 'instagram',
-        logo: instagram,
-        slug: 'instagram',
-    },
-   /* {
+	{
+		name: "overview",
+		logo: "",
+		slug: "overview",
+	},
+	{
+		name: "instagram",
+		logo: instagram,
+		slug: "instagram",
+	},
+	/* {
         name: 'musicbrainz',
         logo: musicbrainz,
         slug: 'musicbrainz'
     },*/
-   /* {
+	/* {
         name: 'songkick',
         logo: songkick,
         slug: 'songkick'
     },*/
-  /*  {
+	/*  {
         name: 'bandsintown',
         logo: bandsintown,
         slug: 'bandsintown'
     },*/
-  /*  {
+	/*  {
         name: 'facebook',
         logo: facebook,
         slug: 'facebook'
     },*/
-    {
-        name: 'youtube',
-        logo: youtube,
-        slug: 'youtube'
-    },
-    {
-        name: 'Apple Music',
-        logo: applemusic,
-        slug: 'apple_music'
-    },
-    {
-        name: 'spotify',
-        logo: spotify,
-        slug: 'spotify'
-    },
-    {
-        name: 'tiktok',
-        logo: tiktok,
-        slug: 'tiktok'
-    },
-    {
-        name: 'amazon',
-        logo: amazon,
-        slug: 'amazon'
-    },
-   /* {
+	{
+		name: "youtube",
+		logo: youtube,
+		slug: "youtube",
+	},
+	{
+		name: "Apple Music",
+		logo: applemusic,
+		slug: "apple_music",
+	},
+	{
+		name: "spotify",
+		logo: spotify,
+		slug: "spotify",
+	},
+	{
+		name: "tiktok",
+		logo: tiktok,
+		slug: "tiktok",
+	},
+	{
+		name: "amazon",
+		logo: amazon,
+		slug: "amazon",
+	},
+	/* {
         name: 'songshare',
         logo: songshare,
         slug: 'songshare'
     },*/
-    { name: 'shazam',
-        logo: shazam,
-        slug: 'shazam'
-    },
-    {
-        name: 'deezer',
-        logo: deezer,
-        slug: 'deezer'
-    },
-   /* {
+	{ name: "shazam", logo: shazam, slug: "shazam" },
+	{
+		name: "deezer",
+		logo: deezer,
+		slug: "deezer",
+	},
+	/* {
         name: 'twitter',
         logo: twitter,
         slug: 'twitter'
     },*/
-    {
-        name: 'beatport',
-        logo: beatport,
-        slug: 'beatport'
-    },
-    {
-        name: 'tidal',
-        logo: tidal,
-        slug: 'tidal'
-    },
-    {
-        name: 'tracklist',
-        logo: tracklist,
-        slug: 'tracklist'
-    },
-    {
-        name: 'soundcloud',
-        logo: soundcloud,
-        slug: 'soundcloud'
-    },
-    {
-        name: 'iTunes',
-        logo: applemusic,
-        slug: 'itunes',
-    },
-
-]
+	{
+		name: "beatport",
+		logo: beatport,
+		slug: "beatport",
+	},
+	{
+		name: "tidal",
+		logo: tidal,
+		slug: "tidal",
+	},
+	{
+		name: "tracklist",
+		logo: tracklist,
+		slug: "tracklist",
+	},
+	{
+		name: "soundcloud",
+		logo: soundcloud,
+		slug: "soundcloud",
+	},
+	{
+		name: "iTunes",
+		logo: applemusic,
+		slug: "itunes",
+	},
+];

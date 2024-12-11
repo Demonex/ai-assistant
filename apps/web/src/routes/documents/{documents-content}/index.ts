@@ -1,1 +1,1 @@
-export {Documents as default} from '../../../pages/Documents/index.js'
+export { Documents as default } from "../../../pages/Documents/index.js";

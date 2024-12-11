@@ -1,1 +1,1 @@
-export { ArtistPage } from './ui/ArtistPage.js';
+export { ArtistPage } from "./ui/ArtistPage.js";

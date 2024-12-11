@@ -1,67 +1,82 @@
-import imgTalents from '/assets/png/talentsNew.png'
-import yellowMarker from '/assets/png/yellowMarker2.png'
-import {useElementRangeSize} from "../../../hooks/useElementRangeSize.js";
-import {useSizes} from "../../../hooks/useSizes.js";
-import {memo} from "react";
-import {SvgLogo} from "../../../assets/Logo.js";
+import imgTalents from "/assets/png/talentsNew.png";
+import yellowMarker from "/assets/png/yellowMarker2.png";
+import { useElementRangeSize } from "../../../hooks/useElementRangeSize.js";
+import { useSizes } from "../../../hooks/useSizes.js";
+import { memo } from "react";
+import { SvgLogo } from "../../../assets/Logo.js";
 
 const Talents = memo(() => {
-    const {h1Size, h1SizeMobile, marginVertical, paddingHorizontal} = useElementRangeSize();
-    const {elementRange, isMobile, isTablet} = useSizes();
-    const {elementRange: elementRangeMobile} = useSizes(320, 768);
-    const imgKnowSize = elementRange(708, 887);
-    const imgKnowSizeMobile = elementRangeMobile(350, 708);
-    const markerSize = elementRange(115, 230);
-    const markerRight = elementRange(10, 40);
+	const { h1Size, h1SizeMobile, marginVertical, paddingHorizontal } =
+		useElementRangeSize();
+	const { elementRange, isMobile, isTablet } = useSizes();
+	const { elementRange: elementRangeMobile } = useSizes(320, 768);
+	const imgKnowSize = elementRange(708, 887);
+	const imgKnowSizeMobile = elementRangeMobile(350, 708);
+	const markerSize = elementRange(115, 230);
+	const markerRight = elementRange(10, 40);
 
-    const buttonTextSize = elementRangeMobile(12, 24);
-    const buttonPaddingVertical = elementRangeMobile(10, 28);
-    const buttonPaddingHorizontal = elementRangeMobile(12, 48);
-    const buttonBorderRadius = elementRangeMobile(10, 18);
-    const raitingInfoPaddingHorizontal = elementRangeMobile(16, 32);
-    const raitingInfoPaddingVertical = elementRangeMobile(14, 28);
-    const raitingPoints = elementRangeMobile(28, 56);
-    const textSize = elementRangeMobile(14, 30);
-    const logoSize = elementRangeMobile(28, 56);
-    const gapRating = elementRangeMobile(14, 28);
-    const marginTopRating = elementRangeMobile(40, 100);
+	const buttonTextSize = elementRangeMobile(12, 24);
+	const buttonPaddingVertical = elementRangeMobile(10, 28);
+	const buttonPaddingHorizontal = elementRangeMobile(12, 48);
+	const buttonBorderRadius = elementRangeMobile(10, 18);
+	const raitingInfoPaddingHorizontal = elementRangeMobile(16, 32);
+	const raitingInfoPaddingVertical = elementRangeMobile(14, 28);
+	const raitingPoints = elementRangeMobile(28, 56);
+	const textSize = elementRangeMobile(14, 30);
+	const logoSize = elementRangeMobile(28, 56);
+	const gapRating = elementRangeMobile(14, 28);
+	const marginTopRating = elementRangeMobile(40, 100);
 
-    return (
-        <div
-            style={{
-                marginTop: `${marginVertical}px`,
-                marginBottom: `${marginVertical}px`,
-                paddingLeft:`${paddingHorizontal}px`,
-                paddingRight:`${paddingHorizontal}px`,
-            }}
-            className='w-full flex flex-col lg:flex-row-reverse justify-between items-center gap-[3.125rem]'>
-            <div className='w-full lg:w-fit'>
-                <h1
-                    style={{
-                        fontSize: isTablet || isMobile ? `${h1SizeMobile}px` : `${h1Size}px`,
-                    }}
-                    className='font-bold lg:font-black text-h2Desctop w-full lg:w-fit '>Лови новые<br/> таланты
-                    и&nbsp;подписывай их{isTablet || isMobile ? null : <br/>} на свой
-                    <span
-                        style={{
-                            fontSize: isTablet || isMobile ? `${h1SizeMobile}px` : `${h1Size}px`,
-                            position:'relative'
-                        }}>
-                        &nbsp;лейбл
-                        <img
-                            style={{
-                                width: `${markerSize}px`,
-                            }}
-                            src={yellowMarker}
-                            className='absolute right-0'/>
-                    </span>
-                </h1>
-            </div>
-            <div className=''>
-                <img src={imgTalents} style={{
-                    width: isMobile || isTablet ? `${imgKnowSizeMobile}px` : `${imgKnowSize}px`
-                }}/>
-                {/*{
+	return (
+		<div
+			style={{
+				marginTop: `${marginVertical}px`,
+				marginBottom: `${marginVertical}px`,
+				paddingLeft: `${paddingHorizontal}px`,
+				paddingRight: `${paddingHorizontal}px`,
+			}}
+			className="w-full flex flex-col lg:flex-row-reverse justify-between items-center gap-[3.125rem]"
+		>
+			<div className="w-full lg:w-fit">
+				<h1
+					style={{
+						fontSize:
+							isTablet || isMobile ? `${h1SizeMobile}px` : `${h1Size}px`,
+					}}
+					className="font-bold lg:font-black text-h2Desctop w-full lg:w-fit "
+				>
+					Лови новые
+					<br /> таланты и&nbsp;подписывай их
+					{isTablet || isMobile ? null : <br />} на свой
+					<span
+						style={{
+							fontSize:
+								isTablet || isMobile ? `${h1SizeMobile}px` : `${h1Size}px`,
+							position: "relative",
+						}}
+					>
+						&nbsp;лейбл
+						<img
+							style={{
+								width: `${markerSize}px`,
+							}}
+							src={yellowMarker}
+							className="absolute right-0"
+						/>
+					</span>
+				</h1>
+			</div>
+			<div className="">
+				<img
+					src={imgTalents}
+					style={{
+						width:
+							isMobile || isTablet
+								? `${imgKnowSizeMobile}px`
+								: `${imgKnowSize}px`,
+					}}
+				/>
+				{/*{
                 isMobile || isTablet
                     ?
                     <>
@@ -114,8 +129,8 @@ const Talents = memo(() => {
                         width: `${imgKnowSize}px`
                     }}/>
             }*/}
-            </div>
-        </div>
-    )
-})
-export default Talents
+			</div>
+		</div>
+	);
+});
+export default Talents;

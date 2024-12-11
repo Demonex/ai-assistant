@@ -1,5 +1,5 @@
-export type Language = 'en';
-export type Currency = 'usd';
+export type Language = "en";
+export type Currency = "usd";
 
 export interface IProfile {
 	id: string;

@@ -1,23 +1,16 @@
 import type React from "react";
-import {memo} from "react";
-import {useSizes} from "../../../hooks/useSizes.js";
+import { memo } from "react";
+import { useSizes } from "../../../hooks/useSizes.js";
 
 type MobileOnlyProps = {
-    children: React.ReactNode
-}
-export const ShowOnMobileOnly = memo<MobileOnlyProps>(({
-                                                           children
-                                                       }) => {
-    const {isMobile} = useSizes();
+	children: React.ReactNode;
+};
+export const ShowOnMobileOnly = memo<MobileOnlyProps>(({ children }) => {
+	const { isMobile } = useSizes();
 
-    if (!isMobile) {
-        return null
-    }
+	if (!isMobile) {
+		return null;
+	}
 
-    return (
-        <>
-            {children}
-        </>
-    )
-
-})
+	return <>{children}</>;
+});

@@ -1,14 +1,14 @@
-import {Link} from "wouter";
-import React, {memo} from "react";
-import {useElementRangeSize} from "../../../hooks/useElementRangeSize.js";
-import {useSizes} from "../../../hooks/useSizes.js";
+import { Link } from "wouter";
+import React, { memo } from "react";
+import { useElementRangeSize } from "../../../hooks/useElementRangeSize.js";
+import { useSizes } from "../../../hooks/useSizes.js";
 import SecondaryButton from "../../../components/SecondaryButton.js";
 
 const ReadMore = memo(() => {
-    const {isMobile} = useSizes();
-    const {paddingHorizontal, h1Size, h1SizeMobile} = useElementRangeSize();
+	const { isMobile } = useSizes();
+	const { paddingHorizontal, h1Size, h1SizeMobile } = useElementRangeSize();
 
-    return null/*(
+	return null; /*(
         <div className='w-full bg-popup_gray pt-[3.75rem] pb-10 mt-10 md:mt-20'>
             <div className='m-auto'
                  style={{
@@ -57,5 +57,5 @@ const ReadMore = memo(() => {
             </div>
         </div>
     )*/
-})
-export default ReadMore
+});
+export default ReadMore;

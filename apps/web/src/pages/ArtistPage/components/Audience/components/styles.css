@@ -1,7 +1,6 @@
 .map-container > div {
-    overflow: visible !important;
+	overflow: visible !important;
 }
 .flag-covering {
-    background-size:100% 100%;
-
+	background-size: 100% 100%;
 }

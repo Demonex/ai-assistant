@@ -13,32 +13,32 @@ import HeroManagers from "./components/HeroManagers.js";
 import VioletInterraption from "../VioletInterraption.js";
 import TrackPosition from "../TrackPosition.js";
 import Geography from "../../../WelcomePage/components/Geography.js";
-import {memo} from "react";
+import { memo } from "react";
 import BottomManagers from "./components/BottomManagers.js";
 import LilacCTACustomers from "../LilacCTACustomers.js";
 
 const Managers = memo(() => {
-   return (
-       <>
-           <div className='w-full flex flex-col h-[100vh] items-center '>
-               <Header/>
-               <div className='flex flex-col items-center px-auto max-w-[1920px] w-full bg-[#0C0C0C] z-10'>
-                   <HeroManagers/>
-                   <Platforms/>
-                   <ArtistInfo/>
-                   <VioletInterraption/>
-                   <TrackPosition/>
-                   <Geography/>
-                   <Tariffes/>
-                   <LilacCTACustomers/>
-                   <FAQ/>
-                   <Telegram/>
-                   <BottomManagers/>
-               </div>
-               <BottomBeforeFooter tildaColor='#125BFF'/>
-               <Footer/>
-           </div>
-       </>
-   )
-})
-export default Managers
+	return (
+		<>
+			<div className="w-full flex flex-col h-[100vh] items-center ">
+				<Header />
+				<div className="flex flex-col items-center px-auto max-w-[1920px] w-full bg-[#0C0C0C] z-10">
+					<HeroManagers />
+					<Platforms />
+					<ArtistInfo />
+					<VioletInterraption />
+					<TrackPosition />
+					<Geography />
+					<Tariffes />
+					<LilacCTACustomers />
+					<FAQ />
+					<Telegram />
+					<BottomManagers />
+				</div>
+				<BottomBeforeFooter tildaColor="#125BFF" />
+				<Footer />
+			</div>
+		</>
+	);
+});
+export default Managers;

@@ -1,1 +1,1 @@
-export {FormPage as default} from '../../../pages/Form/index.js'
+export { FormPage as default } from "../../../pages/Form/index.js";

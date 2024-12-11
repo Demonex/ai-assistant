@@ -1,7 +1,6 @@
-import React, {memo} from 'react';
+import React, { memo } from "react";
 
-export const MemoComponent = (Component) => memo(() => {
-  return (
-    <Component/>
-  );
-});
+export const MemoComponent = (Component) =>
+	memo(() => {
+		return <Component />;
+	});

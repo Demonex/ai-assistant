@@ -1,1 +1,1 @@
-export {UserAccount as default} from '../pages/Account/index.js';
+export { UserAccount as default } from "../pages/Account/index.js";

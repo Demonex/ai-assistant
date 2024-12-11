@@ -1,1 +1,1 @@
-export {MediaContent as default} from '../../../pages/MediaContent/index.js';
+export { MediaContent as default } from "../../../pages/MediaContent/index.js";
