@@ -2,17 +2,18 @@ import { InjectModel } from "nestjs-typegoose";
 import PostEntity, {
 	POST_STATUSES,
 	PostEntityDefaultSelect,
-} from "@repo/backend/entities/Post";
+} from "@repo/backend/entities/Post/index.js";
 // import { type PaginateModel } from "@stigma-io/typegoose-cursor-pagination";
-import { serialize } from "@repo/backend/utils/richtext/NewRichTextParser";
-import type { SerializedLexicalNode } from "@repo/backend/utils/richtext/types";
+import { serialize } from "@repo/backend/utils/richtext/NewRichTextParser.js";
+import type { SerializedLexicalNode } from "@repo/backend/utils/richtext/types.js";
 import type { ReturnModelType } from "@typegoose/typegoose";
-import PostMediaEntity from "@repo/backend/entities/Post/Media";
+import PostMediaEntity from "@repo/backend/entities/Post/Media/index.js";
+import type {PaginateModel} from '@stigma-io/typegoose-cursor-pagination';
 
 export class PostService {
 	constructor(
 		@InjectModel(PostEntity)
-		private readonly repoPost: ReturnModelType<typeof PostEntity>,
+		private readonly repoPost: PaginateModel<PostEntity, typeof PostEntity>,
 		@InjectModel(PostMediaEntity)
 		private readonly repoPostMedia: ReturnModelType<typeof PostMediaEntity>,
 	) {}

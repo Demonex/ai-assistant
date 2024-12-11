@@ -31,7 +31,7 @@ export class PostMediaEntity extends _BaseEntity {
 	mimeType!: string;
 
 	get url(): string {
-		return `${process.env.SERVER_URL}/post-media/${encodeURI(this.filename)}`;
+		return `${process.env.BACKEND_URL}/post-media/${encodeURI(this.filename)}`;
 	}
 }
 

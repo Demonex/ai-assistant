@@ -12,8 +12,8 @@ import {
 } from "@repo/backend/mongoose.config.js";
 import autopopulate from "mongoose-autopopulate";
 import paginationPlugin from "@stigma-io/typegoose-cursor-pagination";
-import PostMediaEntity from "@repo/backend/entities/Post/Media";
-import { USER_LANGUAGES } from "@repo/backend/entities/enums";
+import PostMediaEntity from "@repo/backend/entities/Post/Media/index.js";
+import { USER_LANGUAGES } from "@repo/backend/entities/enums.js";
 
 export enum POST_STATUSES {
 	PUBLISHED = "published",
@@ -26,7 +26,7 @@ type LocalizedField<T> = {
 };
 
 @plugin(paginationPlugin)
-@plugin(autopopulate)
+@plugin<any>(autopopulate)
 @modelOptions({
 	...defaultModelOptions,
 	schemaOptions: {

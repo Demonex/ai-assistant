@@ -7,8 +7,8 @@ import {
 	IS_SUBSCRIPT,
 	IS_SUPERSCRIPT,
 	IS_UNDERLINE,
-} from "./RichTextNodeFormat";
-import type { SerializedLexicalNode } from "./types";
+} from "@repo/backend/utils/richtext/RichTextNodeFormat.js";
+import type { SerializedLexicalNode } from "@repo/backend/utils/richtext/types.js";
 
 function getLinkForPage(doc) {
 	return "implement this";

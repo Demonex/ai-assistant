@@ -5,7 +5,7 @@ import {
 	HttpStatus,
 } from "@nestjs/common";
 import { ObjectId } from "mongodb";
-import { HttpStatusMessages } from "@repo/backend/messages/http";
+import { HttpStatusMessages } from "@repo/backend/messages/http.js";
 
 @Injectable()
 export class ParseObjectIdPipe implements PipeTransform<any, ObjectId> {

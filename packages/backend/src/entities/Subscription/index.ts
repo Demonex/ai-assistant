@@ -1,16 +1,16 @@
 import { plugin } from "@typegoose/typegoose";
 import type { Ref } from "@typegoose/typegoose";
 import { index, modelOptions, prop } from "@typegoose/typegoose";
-import { _BaseEntity } from "../_BaseEntity.js";
+import { _BaseEntity } from "@repo/backend/entities/_BaseEntity.js";
 import {
 	defaultModelOptions,
 	defaultSchemaOptions,
-} from "../../mongoose.config.js";
-import UserEntity from "../User";
-import SubscriptionPlanEntity from "./Plan";
+} from "@repo/backend/mongoose.config.js";
+import UserEntity from "@repo/backend/entities/User/index.js";
+import SubscriptionPlanEntity from "@repo/backend/entities/Subscription/Plan/index.js";
 import autopopulate from "mongoose-autopopulate";
 
-@plugin(autopopulate)
+@plugin<any>(autopopulate)
 @modelOptions({
 	...defaultModelOptions,
 	schemaOptions: {

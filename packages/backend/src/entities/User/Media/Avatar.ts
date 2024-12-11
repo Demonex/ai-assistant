@@ -31,7 +31,7 @@ export class UserAvatarEntity extends _BaseEntity {
 	mimeType!: string;
 
 	get url(): string {
-		return `${process.env.SERVER_URL}/user-media-avatar/${encodeURI(this.filename)}`;
+		return `${process.env.BACKEND_URL}/user-media-avatar/${encodeURI(this.filename)}`;
 	}
 }
 

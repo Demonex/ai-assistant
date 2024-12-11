@@ -5,7 +5,7 @@ import {
 	defaultModelOptions,
 	defaultSchemaOptions,
 } from "@repo/backend/mongoose.config.js";
-import { getEmail } from "@repo/backend/utils";
+import { getEmail } from "@repo/backend/utils/index.js";
 import UserAvatarEntity from "@repo/backend/entities/User/Media/Avatar.js";
 import autopopulate from "mongoose-autopopulate";
 
@@ -54,8 +54,7 @@ export enum Currencies {
 	RUB = "rub",
 }
 
-// @plugin(autopopulate)
-@plugin(autopopulate)
+@plugin<any>(autopopulate)
 @modelOptions({
 	...defaultModelOptions,
 	schemaOptions: {

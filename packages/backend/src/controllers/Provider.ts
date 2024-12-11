@@ -155,7 +155,7 @@ export class ProviderController {
 		@Body() body: any,
 	) {
 		const end = () => {
-			res.redirect(HttpStatus.SEE_OTHER, `${process.env.SERVER_URL}/admin`);
+			res.redirect(HttpStatus.SEE_OTHER, `${process.env.BACKEND_URL}/admin`);
 		};
 		try {
 			if (provider !== "apple") return end();

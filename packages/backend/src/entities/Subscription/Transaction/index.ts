@@ -1,13 +1,13 @@
 import { index, modelOptions, prop } from "@typegoose/typegoose";
 import type { Ref } from "@typegoose/typegoose";
-import { _BaseEntity } from "../../_BaseEntity.js";
+import { _BaseEntity } from "@repo/backend/entities/_BaseEntity.js";
 import {
 	defaultModelOptions,
 	defaultSchemaOptions,
-} from "../../../mongoose.config.js";
-import UserEntity from "../../User";
-import SubscriptionEntity from "../index";
-import SubscriptionPlanEntity from "../Plan";
+} from "@repo/backend/mongoose.config.js";
+import UserEntity from "@repo/backend/entities/User/index.js";
+import SubscriptionEntity from "@repo/backend/entities/Subscription/index.js";
+import SubscriptionPlanEntity from "@repo/backend/entities/Subscription/Plan/index.js";
 
 enum SUBSCRIPTION_TRANSACTION_STATUS {
 	SUCCESS = "success",

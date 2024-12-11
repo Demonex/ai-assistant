@@ -19,7 +19,7 @@ const expressPlugins = (express: Express) => {
 	express.set("trust proxy", true);
 	express.use(
 		cors({
-			origin: [`${process.env.SERVER_URL}`, `${process.env.FRONTEND_URL}`],
+			origin: [`${process.env.BACKEND_URL}`, `${process.env.FRONTEND_URL}`],
 			allowedHeaders: [
 				"Origin",
 				"Keep-Alive",
@@ -63,7 +63,7 @@ const expressPlugins = (express: Express) => {
 		return next();
 	});
 	express.use((req, res, next) => {
-		let domain = process.env.SERVER_COOKIE_HOST || process.env.SERVER_HOST;
+		let domain = process.env.BACKEND_COOKIE_HOST || process.env.BACKEND_HOST;
 		let webDomain: string = undefined;
 		try {
 			webDomain = new URL(req.headers.referer || req.headers.origin).hostname;

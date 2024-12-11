@@ -2,7 +2,7 @@ import {
 	type ApiLogger,
 	LogLevel,
 	Logger,
-} from "@repo/backend/config/logger/api-logger";
+} from "@repo/backend/config/logger/api-logger.js";
 import chalk from "chalk";
 
 const DEFAULT_CONTEXT = "repo.dev API";

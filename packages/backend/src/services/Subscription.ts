@@ -3,19 +3,19 @@ import type { ReturnModelType } from "@typegoose/typegoose";
 import type { Types } from "mongoose";
 import SubscriptionEntity, {
 	SubscriptionEntityDefaultSelect,
-} from "../entities/Subscription";
+} from "@repo/backend/entities/Subscription/index.js";
 import SubscriptionPlanEntity, {
 	SubscriptionPlanEntityDefaultSelect,
-} from "../entities/Subscription/Plan";
+} from "@repo/backend/entities/Subscription/Plan/index.js";
 import md5 from "md5";
 import { get } from "lodash-es";
 import SubscriptionTransactionEntity, {
 	SubscriptionTransactionEntityDefaultSelect,
-} from "../entities/Subscription/Transaction";
-import { SUBSCRIPTION_TRANSACTION_STATUS } from "../entities/enums";
-import type { SubscriptionUpdateDto } from "../dto/Subscription";
+} from "@repo/backend/entities/Subscription/Transaction/index.js";
+import { SUBSCRIPTION_TRANSACTION_STATUS } from "@repo/backend/entities/enums.js";
+import type { SubscriptionUpdateDto } from "@repo/backend/dto/Subscription.js";
 import { HttpException, HttpStatus } from "@nestjs/common";
-import { HttpStatusMessages } from "../messages/http";
+import { HttpStatusMessages } from "@repo/backend/messages/http.js";
 
 const generateInvoiceId = () => Math.floor(Math.random() * 2_147_483_647);
 
@@ -93,7 +93,7 @@ export class SubscriptionService {
 	async update(
 		user: Types.ObjectId,
 		subscription: Types.ObjectId,
-		data: Pick<SubscriptionUpdateDto, "renew" | "archived">,
+		data: SubscriptionUpdateDto,
 	): Promise<any> {
 		return this.repo.findOneAndUpdate(
 			{

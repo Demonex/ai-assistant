@@ -1,9 +1,9 @@
 import { index, modelOptions, prop } from "@typegoose/typegoose";
-import { _BaseEntity } from "../../_BaseEntity.js";
+import { _BaseEntity } from "@repo/backend/entities/_BaseEntity.js";
 import {
 	defaultModelOptions,
 	defaultSchemaOptions,
-} from "../../../mongoose.config.js";
+} from "@repo/backend/mongoose.config.js";
 
 enum SUBSCRIPTION_PLAN_PERIOD {
 	MONTH = "month",

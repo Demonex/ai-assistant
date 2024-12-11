@@ -37,7 +37,7 @@ export class SmtpService {
 											},
 											{
 												name: "LINK",
-												content: `${process.env.SERVER_URL}/api/rest/auth/email/recover/${recoverExistRequest}/${recoverExistRequestVerify}`,
+												content: `${process.env.BACKEND_URL}/api/rest/auth/email/recover/${recoverExistRequest}/${recoverExistRequestVerify}`,
 											},
 										],
 									},
