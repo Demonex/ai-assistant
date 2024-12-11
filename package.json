@@ -6,6 +6,7 @@
   "license": "GNU LGPL",
   "scripts": {
     "pnpm:devPreinstall": "git submodule update --init --recursive --remote",
+    "postinstall": "lefthook install",
     "compile": "turbo run compile",
     "build": "turbo run build --filter=@repo/backend",
     "clean": "turbo run clean",
