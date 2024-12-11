@@ -6,4 +6,4 @@ pre-commit:
       run: pnpm run lint
     format:
       glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
-      run: pnpm run format
+      run: git stash -k && pnpm run format && git stash pop
