@@ -1,18 +1,13 @@
 import {memo, useCallback, useState} from "react";
-import LogoNew from "../../../../assets/LogoNew.js";
 import sentLetter from "/assets/svg/email-messagesvg.svg";
 import capitalize from "lodash.capitalize";
-import RRR from "/assets/svg/RRRRR.svg";
-import {useElementRangeSize} from "../../../../hooks/useElementRangeSize.js";
-import {useSizes} from "../../../../hooks/useSizes.js";
 import {useForm} from "react-hook-form";
-import {useLazyFetch} from "../../../../hooks/useFetch.js";
 import {BACKEND_URL} from "../../../../constants/index.js";
-import {Link, useLocation, useParams} from "wouter";
+import {Link} from "wouter";
+import { useMutation } from '@/shared/hooks/useMutation.js';
+import { CenteredLoader } from '@/shared/ui/Loader/CenteredLoader.js';
 
 export const PasswordRecovery = memo(() => {
-    const {paddingHorizontal} = useElementRangeSize();
-    const {isMobile} = useSizes();
     const [sendRecoveryLink, setSendRecoveryLink] = useState(false);
     const {
         register, handleSubmit, formState: {
@@ -22,16 +17,17 @@ export const PasswordRecovery = memo(() => {
         clearErrors,
         setValue,
     } = useForm({criteriaMode: 'all'});
-    const [{data, error}, fetchSignUp] = useLazyFetch({
-        url: `${BACKEND_URL}/auth/email/sign-up`,
-        method: 'post',
-        cache: false
-    });
-    const onSubmit = useCallback(data => {
-        console.log('data', data)
-        // fetchSignUp({data}).catch(console.error);
-        setSendRecoveryLink(true);
-    }, []);
+
+    const [requestPasswordReset, { isLoading }] = useMutation(`${BACKEND_URL}/auth/request-password-reset`, {
+        onSuccess: () => setSendRecoveryLink(true),
+        onError: () => setError('email', { message: 'Произошла ошибка'}),
+    })
+
+    const onSubmit = useCallback(async ({email}) => {
+        await requestPasswordReset({email});
+    }, [requestPasswordReset])
+
+    if (isLoading) return <CenteredLoader />
 
     return (
 
