@@ -11,10 +11,10 @@ import { InjectRedis } from "@nestjs-modules/ioredis";
 import type { Redis } from "ioredis";
 import md5 from "md5";
 import { InjectModel } from "nestjs-typegoose";
-import LogEntity from "@repo/backend/entities/Log";
+import LogEntity from "@repo/backend/entities/Log/index.js";
 import type { ReturnModelType } from "@typegoose/typegoose";
 import type { Types } from "mongoose";
-import SubscriptionEntity from "@repo/backend/entities/Subscription";
+import SubscriptionEntity from "@repo/backend/entities/Subscription/index.js";
 
 const getHeaders = () => ({
 	accept: "application/json",
