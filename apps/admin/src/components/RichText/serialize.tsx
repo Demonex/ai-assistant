@@ -159,7 +159,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
               )
             }
             case 'link': {
-              const fields = node.fields
+              // const fields = node.fields
 
               return null/*(
                 <CMSLink

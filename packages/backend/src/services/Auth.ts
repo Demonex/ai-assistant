@@ -17,7 +17,7 @@ import type {Types} from 'mongoose';
 import {CrmService} from '@repo/backend/services/crm.service.js';
 import {v4 as uuidv4} from 'uuid';
 import {MailerService} from '@repo/backend/mailer/mailer.service.js';
-import * as crypto from "crypto";
+import {randomBytes} from "node:crypto";
 
 @Injectable({ scope: Scope.REQUEST })
 export class AuthService {
@@ -383,16 +383,16 @@ export class AuthService {
   async requestPasswordReset(email: string) {
     const user = await this.repoUser.findOne({ email });
     if (!user) throw new Error("User not found");
-    
-	const token = crypto.randomBytes(32).toString("hex");
+
+	const token = randomBytes(32).toString("hex");
     const tokenHash = await bcrypt.hash(token, 10);
     const expiration = new Date();
     expiration.setHours(expiration.getHours() + 1);
-    
+
 	user.resetToken = tokenHash;
     user.resetTokenExpires = expiration;
 	await user.save();
-    
+
 	const resetLink = `${process.env.FRONTEND_URL}/auth/new-password?token=${token}&email=${email}`;
     await this.sendResetPasswordEmail(email, resetLink);
   }
