@@ -8,7 +8,7 @@ import { serialize } from "@repo/backend/utils/richtext/NewRichTextParser.js";
 import type { SerializedLexicalNode } from "@repo/backend/utils/richtext/types.js";
 import type { ReturnModelType } from "@typegoose/typegoose";
 import PostMediaEntity from "@repo/backend/entities/Post/Media/index.js";
-import type {PaginateModel} from '@stigma-io/typegoose-cursor-pagination';
+import type { PaginateModel } from "@stigma-io/typegoose-cursor-pagination";
 
 export class PostService {
 	constructor(

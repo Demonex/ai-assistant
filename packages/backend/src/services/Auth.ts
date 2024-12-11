@@ -1,23 +1,33 @@
-import {HttpException, HttpStatus, Inject, Injectable, NotFoundException, Scope} from '@nestjs/common';
-import {type HttpAdapterHost, REQUEST} from '@nestjs/core';
-import bcrypt from 'bcrypt';
-import {InjectModel} from 'nestjs-typegoose';
-import type {ReturnModelType} from '@typegoose/typegoose';
-import {InjectRedis} from '@nestjs-modules/ioredis';
-import type {Redis} from 'ioredis';
-import md5 from 'md5';
-import {isEmail} from 'class-validator';
-import {randstr as randomStringGenerator} from 'better-randstr';
-import {BCRYPT_SALT_ROUNDS} from '@repo/backend/constants.js';
-import {HttpStatusMessages} from '@repo/backend/messages/http.js';
-import type {AuthRecoverDto, AuthSignUpDto} from '@repo/backend/dto/Auth.js';
-import {UserEntity, UserEntityDefaultSelect} from '@repo/backend/entities/User/index.js';
-import {SmtpService} from './Smtp.js';
-import type {Types} from 'mongoose';
-import {CrmService} from '@repo/backend/services/crm.service.js';
-import {v4 as uuidv4} from 'uuid';
-import {MailerService} from '@repo/backend/mailer/mailer.service.js';
-import {randomBytes} from "node:crypto";
+import {
+	HttpException,
+	HttpStatus,
+	Inject,
+	Injectable,
+	NotFoundException,
+	Scope,
+} from "@nestjs/common";
+import { type HttpAdapterHost, REQUEST } from "@nestjs/core";
+import bcrypt from "bcrypt";
+import { InjectModel } from "nestjs-typegoose";
+import type { ReturnModelType } from "@typegoose/typegoose";
+import { InjectRedis } from "@nestjs-modules/ioredis";
+import type { Redis } from "ioredis";
+import md5 from "md5";
+import { isEmail } from "class-validator";
+import { randstr as randomStringGenerator } from "better-randstr";
+import { BCRYPT_SALT_ROUNDS } from "@repo/backend/constants.js";
+import { HttpStatusMessages } from "@repo/backend/messages/http.js";
+import type { AuthRecoverDto, AuthSignUpDto } from "@repo/backend/dto/Auth.js";
+import {
+	UserEntity,
+	UserEntityDefaultSelect,
+} from "@repo/backend/entities/User/index.js";
+import { SmtpService } from "./Smtp.js";
+import type { Types } from "mongoose";
+import { CrmService } from "@repo/backend/services/crm.service.js";
+import { v4 as uuidv4 } from "uuid";
+import { MailerService } from "@repo/backend/mailer/mailer.service.js";
+import { randomBytes } from "node:crypto";
 
 @Injectable({ scope: Scope.REQUEST })
 export class AuthService {
@@ -355,71 +365,73 @@ export class AuthService {
       <p>Для подтверждения аккаунта Rifify перейдите по ссылке: </p>
       <a href=${link}>${link}</a>
     `;
-  }
+	}
 
-  private createResetEmailText(link: string) {
-    return `<p>Добрый день.</p>
+	private createResetEmailText(link: string) {
+		return `<p>Добрый день.</p>
     <p>Для восстановления пароля перейдите по ссылке:</p>
     <a href=${link}>${link}</a>
     `;
 	}
 
-  private async sendConfirmEmail(email: string, activationLink: string) {
-    await this.mailerService.sendMail({
-      recipients: [email],
-      subject: 'Подтвердите свою почту и начните использовать Rifify',
-      html: this.createConfirmEmailText(`${process.env.BACKEND_URL}/api/rest/auth/activate/${activationLink}`)
-    });
-  }
+	private async sendConfirmEmail(email: string, activationLink: string) {
+		await this.mailerService.sendMail({
+			recipients: [email],
+			subject: "Подтвердите свою почту и начните использовать Rifify",
+			html: this.createConfirmEmailText(
+				`${process.env.BACKEND_URL}/api/rest/auth/activate/${activationLink}`,
+			),
+		});
+	}
 
-  private async sendResetPasswordEmail(email: string, link: string) {
-    await this.mailerService.sendMail({
-      recipients: [email],
-      subject: "Восстановление пароля rifify",
-      html: this.createResetEmailText(link),
-    });
-  }
+	private async sendResetPasswordEmail(email: string, link: string) {
+		await this.mailerService.sendMail({
+			recipients: [email],
+			subject: "Восстановление пароля rifify",
+			html: this.createResetEmailText(link),
+		});
+	}
 
-  async requestPasswordReset(email: string) {
-    const user = await this.repoUser.findOne({ email });
-    if (!user) throw new Error("User not found");
+	async requestPasswordReset(email: string) {
+		const user = await this.repoUser.findOne({ email });
+		if (!user) throw new Error("User not found");
 
-	const token = randomBytes(32).toString("hex");
-    const tokenHash = await bcrypt.hash(token, 10);
-    const expiration = new Date();
-    expiration.setHours(expiration.getHours() + 1);
+		const token = randomBytes(32).toString("hex");
+		const tokenHash = await bcrypt.hash(token, 10);
+		const expiration = new Date();
+		expiration.setHours(expiration.getHours() + 1);
 
-	user.resetToken = tokenHash;
-    user.resetTokenExpires = expiration;
-	await user.save();
+		user.resetToken = tokenHash;
+		user.resetTokenExpires = expiration;
+		await user.save();
 
-	const resetLink = `${process.env.FRONTEND_URL}/auth/new-password?token=${token}&email=${email}`;
-    await this.sendResetPasswordEmail(email, resetLink);
-  }
+		const resetLink = `${process.env.FRONTEND_URL}/auth/new-password?token=${token}&email=${email}`;
+		await this.sendResetPasswordEmail(email, resetLink);
+	}
 
-  async resetPassword(
-    token: string,
-    email: string,
-    newPassword: string
-  ): Promise<void> {
-    const user = await this.repoUser.findOne({ email });
-    if (!user || !user.resetToken || !user.resetTokenExpires) {
-      throw new Error("Invalid or expired reset token");
-    }
+	async resetPassword(
+		token: string,
+		email: string,
+		newPassword: string,
+	): Promise<void> {
+		const user = await this.repoUser.findOne({ email });
+		if (!user || !user.resetToken || !user.resetTokenExpires) {
+			throw new Error("Invalid or expired reset token");
+		}
 
-    if (user.resetTokenExpires < new Date()) {
-      throw new Error("Invalid or expired reset token");
-    }
+		if (user.resetTokenExpires < new Date()) {
+			throw new Error("Invalid or expired reset token");
+		}
 
-    const isTokenValid = await bcrypt.compare(token, user.resetToken);
-    if (!isTokenValid || user.resetTokenExpires < new Date()) {
-      throw new Error("Invalid or expired reset token");
-    }
+		const isTokenValid = await bcrypt.compare(token, user.resetToken);
+		if (!isTokenValid || user.resetTokenExpires < new Date()) {
+			throw new Error("Invalid or expired reset token");
+		}
 
-    const hashedPassword = await bcrypt.hash(newPassword, BCRYPT_SALT_ROUNDS);
-    user.password = hashedPassword;
-    user.resetToken = undefined;
-    user.resetTokenExpires = undefined;
-    await user.save();
-  }
+		const hashedPassword = await bcrypt.hash(newPassword, BCRYPT_SALT_ROUNDS);
+		user.password = hashedPassword;
+		user.resetToken = undefined;
+		user.resetTokenExpires = undefined;
+		await user.save();
+	}
 }

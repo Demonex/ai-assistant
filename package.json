@@ -13,7 +13,7 @@
     "dev:backend": "turbo daemon clean && turbo --parallel watch build dev --log-prefix=none --filter=@repo/backend",
     "dev:web": "turbo daemon clean && turbo run dev --log-prefix=none --filter=@repo/web",
     "lint": "turbo run lint --parallel",
-    "format": "turbo run lint --parallel",
+    "format": "turbo run format --parallel",
     "test": "turbo run test -- --watch false"
   },
   "devDependencies": {

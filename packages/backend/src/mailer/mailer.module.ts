@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-import { MailerService } from '@repo/backend/mailer/mailer.service.js';
+import { MailerService } from "@repo/backend/mailer/mailer.service.js";
 
 @Module({
 	controllers: [],

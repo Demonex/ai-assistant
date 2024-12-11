@@ -96,25 +96,25 @@ export enum Currencies {
 	},
 )
 export class UserEntity extends _BaseEntity {
-  @prop({
-    set: (str: string) => str ? getEmail(str) : undefined,
-    get: (str: string) => str || null,
-  })
-  email?: string;
-  @prop({
-    default: false,
-  })
-  emailVerified?: boolean;
+	@prop({
+		set: (str: string) => (str ? getEmail(str) : undefined),
+		get: (str: string) => str || null,
+	})
+	email?: string;
+	@prop({
+		default: false,
+	})
+	emailVerified?: boolean;
 
-  @prop({
-    default: undefined,
-  })
-  resetToken?: string;
+	@prop({
+		default: undefined,
+	})
+	resetToken?: string;
 
-  @prop({
-    default: undefined,
-  })
-  resetTokenExpires?: Date;
+	@prop({
+		default: undefined,
+	})
+	resetTokenExpires?: Date;
 
 	@prop({
 		default: null,
