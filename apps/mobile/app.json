@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "newArchEnabled": true,
+    "name": "Rifify",
+    "slug": "ri-fi-fy",
+    "version": "1",
+    "orientation": "portrait",
+    "icon": "./assets/images/r-logo.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0C0C0C"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "rifify.grand.bangladesh.glory.bd.online.app.mobile.mwc.jaya9",
+      "versionCode": 1
+    },
+    "plugins": [
+      [
+        "expo-router",
+        {
+          "origin": false
+        }
+      ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+      }
+    }
+  }
+}
