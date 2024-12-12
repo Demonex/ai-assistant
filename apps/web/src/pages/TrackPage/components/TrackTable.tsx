@@ -50,6 +50,7 @@ const tableData = {
 	isRestricted: false,
 	hasAccess: true,
 };
+
 const filter = [
 	{ title: "Все" },
 	{ title: "Текущие" },
@@ -90,17 +91,20 @@ const TableItemMobile = memo<{
 	titles: any;
 }>(({ value, titles }) => {
 	return (
-		<div className="flex flex-col gap-2">
-			<div className="grid grid-cols-7 gap-4">
+		<div className="flex flex-col gap-2 overflow-x-auto">
+			<div className="flex  md:grid grid-cols-7 gap-4">
 				{titles
 					.filter((_, index) => index > 0 && index !== value.cells.length - 1)
 					.map((title, index) => (
-						<p className="text-caption_r_desk text-light_grey" key={index}>
+						<p
+							className="min-w-[7rem] md:w-[unset] text-caption_r_desk text-light_grey"
+							key={index}
+						>
 							{title.name}
 						</p>
 					))}
 			</div>
-			<div className="grid grid-cols-7 gap-4">
+			<div className="flex  md:grid grid-cols-7 gap-4">
 				{value.cells
 					.filter((_, index) => index > 0)
 					.map(
@@ -116,7 +120,7 @@ const TableItemMobile = memo<{
 											/>
 										)}
 										<p
-											className={`text-t2Regular truncate ${index === 0 ? "text-white" : "text-light_grey"}`}
+											className={`w-[7rem] md:w-[unset] text-t2Regular truncate ${index === 0 ? "text-white" : "text-light_grey"}`}
 										>
 											{cell.displayText}
 										</p>
@@ -133,7 +137,6 @@ const TrackTable = memo(() => {
 	const [searchValue, setSearchValue] = useState("");
 
 	const [chunkedRowsIndex, setChunkedRowsIndex] = useState(0);
-	const [dataType, setDataType] = useState("table");
 	const [dataTrackType, setDataTrackType] = useState(0);
 	const [filterType, setFilterType] = useState(0);
 
@@ -177,25 +180,8 @@ const TrackTable = memo(() => {
 		setChunkedRowsIndex(resultIndex);
 	};
 	return (
-		<div className="w-full flex flex-col gap-4 justify-center relative mb-[100px]  py-8 lg:p-8 lg:bg-popup_gray/50 rounded-[20px]">
-			<div className="w-full pb-4 border-secondary_dark_gray border-b">
-				<h1 className="text-btnText text-light_grey">Детали и локации</h1>
-			</div>
+		<div className="w-full flex flex-col gap-4 justify-center relative mb-[100px]">
 			<div className="py-2 flex justify-between gap-4 lg:gap-10 flex-wrap">
-				<div className=" flex justify-between border border-yellow rounded-[30px] overflow-hidden text-caption_m_desk">
-					<button
-						onClick={() => setDataType("table")}
-						className={`w-full py-2 px-6 transition-all  ${dataType === "table" ? "bg-yellow text-black" : ""}`}
-					>
-						<span>Детали</span>
-					</button>
-					<button
-						onClick={() => setDataType("map")}
-						className={`w-full py-2 px-6 ${dataType === "map" ? "bg-yellow text-black" : ""}`}
-					>
-						<span>Локации</span>
-					</button>
-				</div>
 				<ul className="flex gap-4 flex-wrap">
 					{tableData.tableData.map((type, index) => (
 						<li
@@ -254,7 +240,7 @@ const TrackTable = memo(() => {
 				</div>
 			</div>
 			<div>
-				<div className="py-2.5 px-3.5 border border-solid border-secondary_dark_gray rounded-xl flex gap-2 items-center w-full max-w-[20rem]">
+				<div className="py-2.5 px-3.5 border border-solid border-secondary_dark_gray rounded-xl flex gap-2 items-center w-full max-w-[20rem] md:hidden">
 					<SearchIcon className="w-5 h-5 fill-medium_grey" />
 					<input
 						onChange={(e) => setSearchValue(e.target.value)}
@@ -282,7 +268,7 @@ const TrackTable = memo(() => {
 							</tr>
 						</thead>
 						<tbody className="divide-y divide-secondary_dark_gray">
-							{chunkedRows[chunkedRowsIndex].map((value, index) => (
+							{chunkedRows[chunkedRowsIndex]?.map((value, index) => (
 								<tr
 									className={`py-8 px-3 text-btnText whitespace-nowrap text-start  ${index === 0 ? "min-w-[15rem]" : ""}`}
 									key={index}
@@ -296,7 +282,7 @@ const TrackTable = memo(() => {
 			</div>
 			<ShowOnMobileToTablet>
 				<ul>
-					{chunkedRows[chunkedRowsIndex].map((value, index) => (
+					{chunkedRows[chunkedRowsIndex]?.map((value, index) => (
 						<li
 							className={
 								"flex flex-col gap-4 text-btnText whitespace-nowrap text-start py-4 border-b border-secondary_dark_gray/50"

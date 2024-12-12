@@ -77,6 +77,7 @@ const SkeletonDataSummary = memo(() => (
 	</SkeletonTheme>
 ));
 export const AudienceContent = memo(() => {
+	const { data: dataAudienceMap } = useArtistAudienceMap();
 	const { elementRange: elementRangeLaptop } = useSizes(1420, 1920);
 	const { changeTab } = useChangeTab();
 	const { source: sourceSlug, setSource } = useArtist();
@@ -248,10 +249,12 @@ export const AudienceContent = memo(() => {
 											</div>
 											<Suspense
 												fallback={
-													<div className="map-container w-full h-full" />
+													<div className="map-container w-full h-full " />
 												}
 											>
-												<MapChart />
+												<div className="bg-popup_gray/50">
+													<MapChart data={dataAudienceMap} />
+												</div>
 											</Suspense>
 											<div className="flex w-full justify-between items-center  md:p-8 lg:bg-popup_gray/50 rounded-b-[20px]">
 												<div className="flex items-center gap-4 ">

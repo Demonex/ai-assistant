@@ -12,7 +12,6 @@ import React, {
 	useCallback,
 	useEffect,
 	useMemo,
-	useRef,
 	useState,
 } from "react";
 import { Link, useParams, useSearch } from "wouter";
@@ -22,9 +21,13 @@ import PlusIcon from "../../../assets/PlusIcon.js";
 import BasketIcon from "../../../assets/BasketIcon.js";
 import ShareIcon from "../../../assets/ShareIcon.js";
 import RelativeLinksIcon from "../../../assets/RelativeLinksIcon.js";
+import settings from "*.svg";
 import { useChangeTab } from "../../ArtistPage/hooks/useChangeTab.js";
 import { SettingsIcon } from "../../../assets/Settings.js";
-import { Popover, Transition } from "@headlessui/react";
+import { Dialog, Popover, Transition } from "@headlessui/react";
+import SecondaryCloseIcon from "../../../assets/SecondaryCloseIcon.js";
+import SecondaryButton from "../../../components/SecondaryButton.js";
+import MapChart from "../../ArtistPage/components/Audience/components/MapChart.js";
 
 const TrackPageContent = memo(() => {
 	const params =
@@ -37,18 +40,19 @@ const TrackPageContent = memo(() => {
 		return params["id-track"];
 	}, [params["id-track"]]);
 	const { setParams, name } = useArtist();
-	const { trackData, idTrack, idArtist, source, setIdTrack } = useTrack({
-		trackId,
-	});
+	const { trackData, idTrack, idArtist, source, setIdTrack, trackMapData } =
+		useTrack({ trackId });
 	const { source: currentSource } = useArtist();
 	const [location, navigate, goBack] = useLocationWithGoBack();
 	const { changeTab } = useChangeTab();
 	const [showLinks, setShowLinks] = useState(false);
-	const refPlaySong = useRef<HTMLAudioElement>(null);
-	const [isPlaying, setIsPlaying] = useState<boolean>();
-	const getCurrentSourceLinks = trackData?.links.filter((source) => {
+	const [dataType, setDataType] = useState("table");
+
+	const getCurrentSourceLinks = trackData?.links?.filter((source) => {
 		return source.source === String(currentSource);
 	});
+	console.log("trackMapData", trackMapData);
+	console.log("trackData", trackData);
 
 	const goBackConditional = useCallback(() => {
 		if (window?.history?.length > 2) {
@@ -98,17 +102,6 @@ const TrackPageContent = memo(() => {
 		setSource(source);
 	}, [idTrack, idArtist, source]);
 
-	useEffect(() => {
-		if (isPlaying === undefined || !refPlaySong.current) {
-			return;
-		}
-		if (refPlaySong.current.paused) {
-			void refPlaySong.current.play();
-		} else {
-			refPlaySong.current.pause();
-		}
-	}, [isPlaying, refPlaySong.current]);
-
 	return (
 		<div className="flex lg:pl-[15.25rem]  lg:px-4 overflow-x-hidden flex-col items-center w-full relative  lg:mb-[unset] mt-[4.25rem] md:mt-[5.25rem] lg:mt-[6rem]">
 			<main className="h-full relative z-20 pt-6 w-full px-4 md:px-6 lg:pl-6 lg:pr-2 flex flex-col gap-4 ">
@@ -120,11 +113,6 @@ const TrackPageContent = memo(() => {
 						<button onClick={goBackConditional}>
 							<ChevronRight className="fill-white w-5 h-5 md:w-10 md:h-10 rotate-180" />
 						</button>
-						<audio
-							src={trackData?.trackInfo?.previewUrl}
-							ref={refPlaySong}
-							onEnded={() => setIsPlaying(false)}
-						/>
 						<div className="min-w-[3.75rem] h-[3.75rem] md:min-w-20 md:h-20 rounded-[12px] overflow-hidden">
 							<div
 								style={{
@@ -134,7 +122,6 @@ const TrackPageContent = memo(() => {
 									width: "100%",
 									height: "100%",
 								}}
-								onClick={() => setIsPlaying((prev) => !prev)}
 							/>
 						</div>
 						<div className="flex flex-col items-start w-full  gap-2 ">
@@ -146,7 +133,7 @@ const TrackPageContent = memo(() => {
 							</p>
 						</div>
 					</div>
-					<div className="flex w-full justify-center md:justify-end lg:items-center gap-8">
+					<div className="flex w-full justify-start md:justify-end lg:items-center gap-8">
 						<div className="relative ">
 							<Popover>
 								{({ open }) => (
@@ -204,7 +191,7 @@ const TrackPageContent = memo(() => {
 				</header>
 				<section className="h-full mb-16 relative">
 					<div className="h-full relative z-10">
-						<div className="h-full flex  mb-6 flex-col overflow-y-scroll pb-[100px]">
+						<div className="h-full flex  mb-6 flex-col overflow-y-scroll pb-[100px] overflow-x-hidden md:overflow-x-[unset]">
 							<div className="py-4 lg:pt-2 border-b border-secondary_dark_gray/50 lg:border-none">
 								<div className="flex min-w-full items-center gap-4 ">
 									<button className="min-w-5 h-5">
@@ -235,7 +222,35 @@ const TrackPageContent = memo(() => {
 								<Performance />
 							</div>
 							<div className="w-full h-auto">
-								<TrackTable />
+								<div className="w-full rounded-[20px]  py-8 lg:p-8 lg:bg-popup_gray/50 flex flex-col gap-6">
+									<div className="w-full pb-4 border-secondary_dark_gray border-b">
+										<h1 className="text-btnText text-light_grey">
+											Детали и локации
+										</h1>
+									</div>
+									<div className=" flex justify-between border border-yellow rounded-[30px] overflow-hidden text-caption_m_desk w-fit">
+										<button
+											onClick={() => setDataType("table")}
+											className={`w-full py-2 px-6 transition-all  ${dataType === "table" ? "bg-yellow text-black" : ""}`}
+										>
+											<span>Детали</span>
+										</button>
+										<button
+											onClick={() => setDataType("map")}
+											className={`w-full py-2 px-6 ${dataType === "map" ? "bg-yellow text-black" : ""}`}
+										>
+											<span>Локации</span>
+										</button>
+									</div>
+									{dataType === "table" ? (
+										<TrackTable />
+									) : (
+										<div className="relative">
+											<div className="absolute w-full h-full z-30" />
+											<MapChart data={trackMapData} />
+										</div>
+									)}
+								</div>
 							</div>
 						</div>
 					</div>

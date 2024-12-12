@@ -26,6 +26,7 @@ import HeroItunes from "./components/HeroItunes.js";
 import HeroTidal from "./components/HeroTidal.js";
 import HeroInstagram from "./components/HeroInstagram.js";
 import HeroTikTok from "./components/HeroTikTok.js";
+import HeroYandex from "./components/HeroYandex.js";
 
 export const PlatformPage = () => {
 	const params = useParams();
@@ -60,6 +61,8 @@ export const PlatformPage = () => {
 				return <HeroInstagram />;
 			case "tiktok":
 				return <HeroTikTok />;
+			case "yandex":
+				return <HeroYandex />;
 		}
 	};
 	const tildaColor = () => {
@@ -88,6 +91,8 @@ export const PlatformPage = () => {
 				return "#125BFF";
 			case "tiktok":
 				return "#FF004F";
+			case "yandex":
+				return "#FED42B";
 		}
 	};
 	return (
@@ -118,8 +123,8 @@ export const PlatformPage = () => {
 								id="gradient"
 								gradientTransform="rotate(45)"
 							>
-								<stop offset="0%" stop-color="#BC3081" />
-								<stop offset="50%" stop-color="#F47133" />
+								<stop offset="0%" stopColor="#BC3081" />
+								<stop offset="50%" stopColor="#F47133" />
 							</linearGradient>
 						</>
 					) : (

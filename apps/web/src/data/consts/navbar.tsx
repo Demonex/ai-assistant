@@ -12,6 +12,7 @@ import tidal from "/assets/svg/tidal_logo.svg";
 import tiktok from "/assets/svg/tiktok_logo.svg";
 import traxsourse from "/assets/svg/traxsourse_logo.svg";
 import youtube from "/assets/svg/youtube_logo.svg";
+import yandex from "/assets/svg/yandex_logo.svg";
 import CasesNew from "../../assets/CasesNew.js";
 import type React from "react";
 import PlatformsNew from "../../assets/PlatformsNew.js";
@@ -144,6 +145,13 @@ export const navbar: NavbarTypes = [
 						link: "/platform/tiktok",
 						slug: "tiktok",
 						color: "#67C4CE",
+					},
+					{
+						name: "Yandex",
+						logo: yandex,
+						link: "/platform/yandex",
+						slug: "yandex",
+						color: "#FED42B",
 					},
 				],
 			},

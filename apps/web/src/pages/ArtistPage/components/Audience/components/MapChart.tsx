@@ -54,8 +54,8 @@ const colors = {
 	tooltipStroke: color("#070707"),
 };
 
-export default memo(() => {
-	const { data, mapTabSelected, mapButtonSelected } = useArtistAudienceMap();
+export default memo(({ data }: { data: any }) => {
+	const { mapTabSelected, mapButtonSelected } = useArtistAudienceMap();
 	const { isMobile, isTablet, isLaptop } = useSizes();
 	const { mapType, setMapType } = useManageTable();
 	const mapRef = useRef<HTMLDivElement>(null);
@@ -106,7 +106,7 @@ export default memo(() => {
 				color: "#1ED760",
 			},
 		];
-		const result = data?.mapStats?.reduce<any>(
+		const result = data?.mapStats?.reduce(
 			(result, { data: { columns, rows } }, i) => {
 				columns.forEach(({ id, showInMap }, index) => {
 					if (!showInMap) {
@@ -380,7 +380,7 @@ export default memo(() => {
 
 		//not drugguble if not subscribed
 		/* mapChartRef.current.seriesContainer.draggable = isSubscribed;
-    mapChartRef.current.seriesContainer.resizable = isSubscribed;*/
+     mapChartRef.current.seriesContainer.resizable = isSubscribed;*/
 
 		// clicking on a "sea" will also result a full zoom-out
 		mapChartRef.current.seriesContainer.background.events.on("hit", showWorld);
@@ -578,7 +578,7 @@ export default memo(() => {
 	const enabled = mapType === MAP_TYPE.globe;
 	return (
 		<div
-			className=" overflow-hidden overflow-y-scroll relative"
+			className=" overflow-hidden overflow-y-scroll relative "
 			style={{
 				maxHeight: `${mapHeight}px`,
 			}}
@@ -624,11 +624,7 @@ export default memo(() => {
 					</div>
 				</div>
 			)}
-			<div
-				className={
-					"flex w-full h-full flex-col relative lg:bg-popup_gray/50 min-h-[25rem]"
-				}
-			>
+			<div className={"flex w-full h-full flex-col relative  min-h-[25rem]"}>
 				{mapType === "map" ? (
 					<div
 						className={"map-container w-full h-full  "}

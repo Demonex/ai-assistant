@@ -128,7 +128,7 @@ const TabsZoom = forwardRef<HTMLImageElement, TabsZoomProps>(
 								>
 									{item.text}
 								</h1>
-								<h1 className="text-t1Semi_deck text-light_grey">
+								<h1 className="text-t1Semi_mob md:text-t1Semi_deck text-light_grey">
 									{item.count}
 								</h1>
 							</div>
@@ -229,9 +229,11 @@ const CustomTooltip = memo<CustomTooltipProps<number, string>>(
 
 export const ChartTrack = memo(() => {
 	const { chartTrackData } = useChartTrackData();
-
 	const { width } = useWindowSize();
-
+	const { isMobile } = useSizes();
+	const responsiveContainerRef = useRef(null);
+	const mobileChartMargin =
+		width - Number(responsiveContainerRef?.current?.offsetWidth);
 	const currentDataFiltered = chartTrackData?.chart.iconData.filter(
 		(item, index) =>
 			(item.secondaryText === "current" || item.secondaryText === "total") &&
@@ -373,128 +375,115 @@ export const ChartTrack = memo(() => {
 				.map((item) => item.name) || []
 		);
 	}, [chartTrackData]);
-
+	console.log("width", width, responsiveContainerRef);
 	return (
 		<div className="relative flex flex-col  px-4 xl:p-8 lg:bg-popup_gray/50 py-4 rounded-[20px] w-full gap-6 h-fit 2xl:min-h-full">
-			{width < 660 ? (
-				<ChartStub />
-			) : (
-				<>
-					<div className="flex flex-col lg:flex-row gap-4 w-full justify-end mb-2 ">
-						{
-							<TabsZoom
-								zoom={zoom}
-								setZoom={setZoom}
-								currentDataFiltered={currentDataFiltered}
-							/>
-						}
-					</div>
-					<ResponsiveContainer
-						width="100%"
-						aspect={3 / 1}
-						height="fit-content"
-						maxHeight={500}
-						//aspect or height={300}
-					>
-						<AreaChart
-							data={filledData}
-							margin={{
-								top: 0,
-								right: 20,
-								left: 20,
-								bottom: 0,
-							}}
-						>
-							<defs>
-								<linearGradient id="Color0" x1="0" y1="0" x2="0" y2="1">
-									<stop offset="0%" stopColor="#E4FF29" stopOpacity={0.1} />
-									<stop offset="100%" stopColor="#E4FF29" stopOpacity={0} />
-								</linearGradient>
-								<linearGradient
-									id="Color0Stroke"
-									x1="1"
-									y1="0.5"
-									x2="0"
-									y2="0.5"
-								>
-									<stop offset="0%" stopColor="#E4FF29" />
-									<stop offset="100%" stopColor="#E4FF29" />
-								</linearGradient>
-								<linearGradient id="Color1" x1="0." y1="0" x2="0" y2="1">
-									<stop offset="5%" stopColor="#A51BC8" stopOpacity={0.2} />
-									<stop offset="95%" stopColor="#A51BC8" stopOpacity={0} />
-								</linearGradient>
-								<linearGradient
-									id="Color1Stroke"
-									x1="1"
-									y1="0.5"
-									x2="0"
-									y2="0.5"
-								>
-									<stop offset="5%" stopColor="#A51BC8" />
-									<stop offset="95%" stopColor="#A51BC8" />
-								</linearGradient>
-							</defs>
-							<XAxis
-								dataKey="time"
-								stroke="#6b7280"
-								tickFormatter={dateFormatter}
-								scale="time"
+			<div className="flex flex-col lg:flex-row gap-4 w-full justify-end mb-2 ">
+				{
+					<TabsZoom
+						zoom={zoom}
+						setZoom={setZoom}
+						currentDataFiltered={currentDataFiltered}
+					/>
+				}
+			</div>
+			<ResponsiveContainer
+				ref={responsiveContainerRef}
+				width="100%"
+				aspect={3 / 1}
+				height="fit-content"
+				maxHeight={500}
+				//aspect or height={300}
+			>
+				<AreaChart
+					data={filledData}
+					margin={{
+						top: 0,
+						right: isMobile ? -mobileChartMargin : 20,
+						left: isMobile ? -mobileChartMargin : 20,
+						bottom: 0,
+					}}
+				>
+					<defs>
+						<linearGradient id="Color0" x1="0" y1="0" x2="0" y2="1">
+							<stop offset="0%" stopColor="#E4FF29" stopOpacity={0.1} />
+							<stop offset="100%" stopColor="#E4FF29" stopOpacity={0} />
+						</linearGradient>
+						<linearGradient id="Color0Stroke" x1="1" y1="0.5" x2="0" y2="0.5">
+							<stop offset="0%" stopColor="#E4FF29" />
+							<stop offset="100%" stopColor="#E4FF29" />
+						</linearGradient>
+						<linearGradient id="Color1" x1="0." y1="0" x2="0" y2="1">
+							<stop offset="5%" stopColor="#A51BC8" stopOpacity={0.2} />
+							<stop offset="95%" stopColor="#A51BC8" stopOpacity={0} />
+						</linearGradient>
+						<linearGradient id="Color1Stroke" x1="1" y1="0.5" x2="0" y2="0.5">
+							<stop offset="5%" stopColor="#A51BC8" />
+							<stop offset="95%" stopColor="#A51BC8" />
+						</linearGradient>
+					</defs>
+					<XAxis
+						dataKey="time"
+						stroke="#6b7280"
+						tickFormatter={dateFormatter}
+						scale="time"
+						type="number"
+						domain={domainX}
+						ticks={ticks}
+						axisLine={false}
+						tickLine={false}
+						interval="equidistantPreserveStart"
+						padding="no-gap"
+						textAnchor="middle"
+						dy={10}
+						tick={!isMobile}
+					/>
+					{keys.map((key, index) => {
+						return (
+							<YAxis
+								yAxisId={key}
+								key={index}
+								dataKey={key}
 								type="number"
-								domain={domainX}
-								ticks={ticks}
+								domain={domainY}
+								stroke="#6b7280"
+								orientation={index === 0 ? "left" : "right"}
 								axisLine={false}
 								tickLine={false}
-								interval="equidistantPreserveStart"
-								padding="no-gap"
-								textAnchor="middle"
-								dy={10}
+								tick={!isMobile}
+								label={
+									!isMobile && {
+										value: key,
+										angle: index === 0 ? -90 : 90,
+										position: index === 0 ? "insideLeft" : "insideRight",
+										fill: "#7B7B7B",
+										offset: index === 0 ? -10 : -10,
+									}
+								}
+								dx={index === 0 ? -10 : 10}
+								tickFormatter={tickYFormatter}
 							/>
-							{keys.map((key, index) => {
-								return (
-									<YAxis
-										yAxisId={key}
-										key={index}
-										dataKey={key}
-										type="number"
-										domain={domainY}
-										stroke="#6b7280"
-										orientation={index === 0 ? "left" : "right"}
-										axisLine={false}
-										tickLine={false}
-										label={{
-											value: key,
-											angle: index === 0 ? -90 : 90,
-											position: index === 0 ? "insideLeft" : "insideRight",
-											fill: "#7B7B7B",
-											offset: index === 0 ? -10 : -10,
-										}}
-										dx={index === 0 ? -10 : 10}
-										tickFormatter={tickYFormatter}
-									/>
-								);
-							})}
-							{keys.map((key, index) => (
-								<Area
-									key={index}
-									type="monotone"
-									dataKey={key}
-									stroke={`url(#Color${index}Stroke)`}
-									strokeLinejoin="round"
-									strokeLinecap="round"
-									strokeWidth={2}
-									strokeOpacity={1}
-									fillOpacity={1}
-									fill={`url(#Color${index})`}
-									dot={false}
-									yAxisId={key}
-								/>
-							))}
-							<Tooltip content={<CustomTooltip />} />
-						</AreaChart>
-					</ResponsiveContainer>
-				</>
-			)}
+						);
+					})}
+					{keys.map((key, index) => (
+						<Area
+							key={index}
+							type="monotone"
+							dataKey={key}
+							stroke={`url(#Color${index}Stroke)`}
+							strokeLinejoin="round"
+							strokeLinecap="round"
+							strokeWidth={2}
+							strokeOpacity={1}
+							fillOpacity={1}
+							fill={`url(#Color${index})`}
+							dot={false}
+							yAxisId={key}
+						/>
+					))}
+					<Tooltip content={<CustomTooltip />} />
+				</AreaChart>
+			</ResponsiveContainer>
 		</div>
 	);
 });
