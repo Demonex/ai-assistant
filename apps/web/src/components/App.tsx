@@ -6,7 +6,6 @@ import { MemoComponent } from "./MemoComponent.js";
 import "../index.css";
 import { SearchBar } from "./Header/components/SearchField/index.js";
 import { useSizes } from "../hooks/useSizes.js";
-import Cookie from "../pages/WelcomePage/components/Cookie/index.js";
 import "../shared/config/i18n/i18n.js";
 
 const PagePathsWithComponents: {
@@ -70,7 +69,6 @@ export const App = memo(() => {
 	return (
 		<>
 			{/*<TurnOffDefaultPropsWarning/>*/}
-			<Cookie />
 			<Switch>
 				{routes.map(({ path, component: RouteComp }, index) => {
 					return <Route path={path} component={RouteComp as any} key={index} />;

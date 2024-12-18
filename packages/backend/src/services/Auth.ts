@@ -28,6 +28,9 @@ import { CrmService } from "@repo/backend/services/crm.service.js";
 import { v4 as uuidv4 } from "uuid";
 import { MailerService } from "@repo/backend/mailer/mailer.service.js";
 import { randomBytes } from "node:crypto";
+import { Repository } from "typeorm";
+import { UserEntityPG } from "../entities/User/index-pg";
+import { InjectRepository } from "@nestjs/typeorm";
 
 @Injectable({ scope: Scope.REQUEST })
 export class AuthService {
@@ -35,6 +38,8 @@ export class AuthService {
 		@Inject(REQUEST) private readonly request: any,
 		@InjectModel(UserEntity)
 		private readonly repoUser: ReturnModelType<typeof UserEntity>,
+		@InjectRepository(UserEntityPG)
+		private readonly repoUserPG: Repository<UserEntityPG>,
 		@Inject(SmtpService) private readonly smtp: SmtpService,
 		@InjectRedis() private readonly redisClient: Redis,
 		private readonly crmService: CrmService,
@@ -77,9 +82,9 @@ export class AuthService {
 			);
 		}
 		this.request.session.user = {
-			id: user._id,
-			language: user.language,
-			roles: user.roles,
+			id: user.id,
+			language: user.language || "en",
+			roles: user.roles?.map(({ value }) => value),
 			email: user.email,
 		};
 		return user as UserEntity;
@@ -115,12 +120,12 @@ export class AuthService {
 			activationLink,
 		});
 
-		await this.sendConfirmEmail(email, activationLink);
+		// await this.sendConfirmEmail(email, activationLink);
 
 		this.request.session.user = {
 			id: user._id,
 			language: user.language,
-			roles: user.roles,
+			roles: user.roles?.map(({ value }) => value),
 		};
 
 		if (ipRegLimit) {
@@ -247,31 +252,11 @@ export class AuthService {
 	//   }
 	// }
 
-	private async createUserByEmail(
-		args,
-	): Promise<UserEntity & { id?: string; _id?: Types.ObjectId }> {
+	private async createUserByEmail(args): Promise<any> {
 		try {
-			const user = await this.repoUser.create(args);
+			const user = await this.repoUserPG.save(args);
 
-			try {
-				await this.crmService.createUserInCrm({
-					firstName: args.name.split(" ")[0] || "",
-					lastName: args.name.split(" ")[1] || "",
-					email: args.email,
-					phone: args.phone || "",
-					supervisors: { users: [{ id: "user:45" }] },
-				});
-
-				await this.crmService.createTaskInCrm({
-					name: `New Registration - ${args.name}`,
-					description: `Process the registration of ${args.name}.`,
-					project: { id: 7382 }, // ID проекта "Регистрация"
-					template: { id: 7235 }, // ID шаблона "Регистрация"
-				});
-			} catch (crmError) {
-				console.error("Error synchronizing with CRM:", crmError.message);
-			}
-
+			console.log("user", user);
 			return user;
 		} catch (error) {
 			console.error("Error creating user:", error.message);
@@ -295,9 +280,7 @@ export class AuthService {
 		}
 	}
 
-	private async getUserByEmailOrUsername(
-		login: string,
-	): Promise<UserEntity & { id?: string; _id: Types.ObjectId }> {
+	private async getUserByEmailOrUsername(login: string): Promise<any> {
 		const criteria: { [k: string]: unknown } = {};
 		if (isEmail(login)) {
 			criteria.email = login;
@@ -306,9 +289,9 @@ export class AuthService {
 		} else {
 			throw new Error("Internal Server Error");
 		}
-		const user = await this.repoUser
-			.findOne(criteria)
-			.select([...UserEntityDefaultSelect, "password", "roles"]);
+		const user = await this.repoUserPG.findOne({
+			where: criteria,
+		});
 		if (!user) {
 			throw new HttpException(
 				{
@@ -322,6 +305,7 @@ export class AuthService {
 				HttpStatus.UNAUTHORIZED,
 			);
 		}
+		console.log("user", user);
 		return user;
 	}
 

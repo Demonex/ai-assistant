@@ -186,33 +186,8 @@ const Header = memo(() => {
 						minWidth: isMobile || isTablet ? `${logoWidthMobile}px` : "",
 					}}
 				>
-					<LogoNew width={`${logoWidth}px`} />
+					Logo
 				</Link>
-				<ShowOnLaptopToDesktop>
-					<ol
-						className=" w-full flex items-center "
-						style={{ gap: `${gapTabs}rem` }}
-					>
-						{navbar.map((item, index) => (
-							<Menu
-								key={index}
-								title={item.title}
-								items={item.content}
-								icon={item.icon}
-								link={item.link}
-							/>
-						))}
-						{!profile && (
-							<PrimaryButton
-								title="Попробовать бесплатно"
-								to="/auth/sign-up"
-								titleClassName="text-btnText whitespace-nowrap"
-								className="hidden xl:block ml-2 rounded-[12px] hover:scale-105 transition-all duration-300 bg-primary_blue py-4 px-8"
-								isIcon={false}
-							/>
-						)}
-					</ol>
-				</ShowOnLaptopToDesktop>
 				<div className="account flex-grow flex w-fit items-center justify-end gap-[1.5rem] xl:gap-[2.5rem] 4xl:gap-[3.44rem] ">
 					{profile ? <Authorised /> : <Unauthorised />}
 				</div>

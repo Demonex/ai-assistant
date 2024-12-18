@@ -21,6 +21,9 @@ import type { Redis } from "ioredis";
 import { InjectRedis } from "@nestjs-modules/ioredis";
 import { HttpStatusMessages } from "@repo/backend/messages/http.js";
 import { REQUEST } from "@nestjs/core";
+import { InjectRepository } from "@nestjs/typeorm";
+import { UserEntityPG } from "../entities/User/index-pg";
+import { Repository } from "typeorm";
 // import payload from '@stigma-io/payload';
 // import payload from '@stigma-io/payload';
 
@@ -30,6 +33,8 @@ export class UserService {
 		@Inject(REQUEST) private readonly request: any,
 		@InjectModel(UserEntity)
 		private readonly repo: ReturnModelType<typeof UserEntity>,
+		@InjectRepository(UserEntityPG)
+		private readonly repoUserPG: Repository<UserEntityPG>,
 		@InjectRedis() private readonly redisClient: Redis,
 	) {}
 
@@ -215,29 +220,26 @@ export class UserService {
 	}
 
 	async findByIdOrEmail(
-		_id: Types.ObjectId,
+		_id: number,
 		email?: string,
 		fields: (keyof UserEntity)[] = [],
 	): Promise<any | null> {
 		if (!_id && !email) return null;
-		const select = await this.repo
-			.findOne(
+		const select = await this.repoUserPG.findOne({
+			where:
 				_id && email
-					? {
-							$or: [
-								{
-									_id,
-								},
-								{
-									email,
-								},
-							],
-						}
+					? [
+							{
+								id: _id,
+							},
+							{
+								email,
+							},
+						]
 					: _id
-						? { _id }
+						? { id: _id }
 						: { email },
-			)
-			.select([...UserEntityDefaultSelect, ...fields]);
+		});
 		return select;
 	}
 }

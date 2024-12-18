@@ -58,16 +58,49 @@ services:
 
     command: server --address ":8080" --console-address ":9000" /data
 
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root123
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.admin
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    restart: unless-stopped
+    links:
+      - postgres
+
 networks:
   default:
     name: "rf"
 
 volumes:
   mongo-db:
-    name: "rf_mongo-db"
+    name: "sc_mongo-db"
   mongo-db-config:
-    name: "rf_mongo-db-config"
+    name: "sc_mongo-db-config"
   redis:
-    name: "rf_redis"
+    name: "sc_redis"
   media:
-    name: "rf_media"
+    name: "sc_media"
+  postgres:
+    name: "sc_media"
+  pgadmin:
+    name: "sc_pgadmin"

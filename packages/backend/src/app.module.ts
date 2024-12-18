@@ -10,9 +10,22 @@ import { TypegooseModule } from "nestjs-typegoose";
 import { RedisModule } from "@nestjs-modules/ioredis";
 import { MONGO_CONFIG, MONGO_URI } from "./mongoose.config.js";
 import { ScheduleModule } from "@nestjs/schedule";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { UserEntityPG } from "./entities/User/index-pg";
+import { UserRolesPG } from "./entities/User/roles-pg";
 
 @Module({
 	imports: [
+		TypeOrmModule.forRoot({
+			type: "postgres",
+			host: "localhost",
+			port: 5432,
+			username: "root",
+			password: "root123",
+			database: "sigma-chat",
+			entities: [UserEntityPG, UserRolesPG],
+			synchronize: false,
+		}),
 		TypegooseModule.forRoot(`${MONGO_URI}`, MONGO_CONFIG),
 		RedisModule.forRoot({
 			type: "single",

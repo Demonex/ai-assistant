@@ -11,8 +11,8 @@ export interface Config {
     user: UserAuthOperations;
   };
   collections: {
-    post: Post;
-    'post-media': PostMedia;
+    tenant: Tenant;
+    'tenant-media': TenantMedia;
     user: User;
     'user-media-avatar': UserMediaAvatar;
     'payload-locked-documents': PayloadLockedDocument;
@@ -21,8 +21,8 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    post: PostSelect<false> | PostSelect<true>;
-    'post-media': PostMediaSelect<false> | PostMediaSelect<true>;
+    tenant: TenantSelect<false> | TenantSelect<true>;
+    'tenant-media': TenantMediaSelect<false> | TenantMediaSelect<true>;
     user: UserSelect<false> | UserSelect<true>;
     'user-media-avatar': UserMediaAvatarSelect<false> | UserMediaAvatarSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -30,7 +30,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   globals: {};
   globalsSelect: {};
@@ -63,38 +63,23 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "post".
+ * via the `definition` "tenant".
  */
-export interface Post {
-  id: string;
+export interface Tenant {
+  id: number;
   title: string;
   description?: string | null;
-  preview?: (string | null) | PostMedia;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  preview?: (number | null) | TenantMedia;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "post-media".
+ * via the `definition` "tenant-media".
  */
-export interface PostMedia {
-  id: string;
+export interface TenantMedia {
+  id: number;
   alt?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -113,11 +98,13 @@ export interface PostMedia {
  * via the `definition` "user".
  */
 export interface User {
-  id: string;
+  id: number;
   name?: string | null;
-  avatar?: (string | null) | UserMediaAvatar;
+  avatar?: (number | null) | UserMediaAvatar;
+  roles?: ('admin' | 'user')[] | null;
   username?: string | null;
   email?: string | null;
+  password?: string | null;
   wallet?: {
     balance?: number | null;
   };
@@ -132,7 +119,7 @@ export interface User {
  * via the `definition` "user-media-avatar".
  */
 export interface UserMediaAvatar {
-  id: string;
+  id: number;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -150,28 +137,28 @@ export interface UserMediaAvatar {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
-        relationTo: 'post';
-        value: string | Post;
+        relationTo: 'tenant';
+        value: number | Tenant;
       } | null)
     | ({
-        relationTo: 'post-media';
-        value: string | PostMedia;
+        relationTo: 'tenant-media';
+        value: number | TenantMedia;
       } | null)
     | ({
         relationTo: 'user';
-        value: string | User;
+        value: number | User;
       } | null)
     | ({
         relationTo: 'user-media-avatar';
-        value: string | UserMediaAvatar;
+        value: number | UserMediaAvatar;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'user';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -181,10 +168,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'user';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -204,7 +191,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -212,22 +199,21 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "post_select".
+ * via the `definition` "tenant_select".
  */
-export interface PostSelect<T extends boolean = true> {
+export interface TenantSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   preview?: T;
-  content?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "post-media_select".
+ * via the `definition` "tenant-media_select".
  */
-export interface PostMediaSelect<T extends boolean = true> {
+export interface TenantMediaSelect<T extends boolean = true> {
   alt?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -248,8 +234,10 @@ export interface PostMediaSelect<T extends boolean = true> {
 export interface UserSelect<T extends boolean = true> {
   name?: T;
   avatar?: T;
+  roles?: T;
   username?: T;
   email?: T;
+  password?: T;
   wallet?:
     | T
     | {

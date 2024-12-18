@@ -1,17 +1,17 @@
 // storage-adapter-import-placeholder
-import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { s3Storage } from "@stigma.io/payloadcms-storage-s3";
 // import sharp from 'sharp' // sharp-import
 import path from "node:path";
 import { buildConfig } from "payload";
 import { fileURLToPath } from "node:url";
+import { postgresAdapter } from "@payloadcms/db-postgres";
 
 import { user } from "./collections/user";
 import { defaultLexical } from "@/fields/defaultLexical";
 import { getServerSideURL } from "./utilities/getURL";
 import { userMediaAvatar } from "@/collections/user/media/avatar";
-import { postMedia } from "@/collections/post/media";
-import { post } from "@/collections/post";
+import { tenantMedia } from "@/collections/tenant/media";
+import { tenant } from "src/collections/tenant";
 // import Logo from "@/components/Logo/Logo";
 // import Icon from "@/components/Logo/Icon";
 
@@ -19,8 +19,10 @@ const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 export default buildConfig({
-  db: mongooseAdapter({
-    url: process.env.MONGO_CONNECTION_STRING || "",
+  db: postgresAdapter({
+    pool: {
+      connectionString: String(process.env.DATABASE_URI),
+    },
   }),
   admin: {
     meta: {
@@ -81,7 +83,7 @@ export default buildConfig({
     admin: "/admin",
   },
   serverURL: `http://localhost:${process.env.PORT || 2055}`,
-  collections: [post, postMedia, user, userMediaAvatar],
+  collections: [tenant, tenantMedia, user, userMediaAvatar],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [],
   plugins: [
@@ -90,8 +92,8 @@ export default buildConfig({
         [userMediaAvatar.slug]: {
           bucket: process.env.S3_BUCKET_USER_AVATAR,
         },
-        [postMedia.slug]: {
-          bucket: process.env.S3_BUCKET_POST_MEDIA,
+        [tenantMedia.slug]: {
+          bucket: process.env.S3_BUCKET_TENANT_MEDIA,
         },
       },
       config: {

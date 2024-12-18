@@ -19,7 +19,7 @@
     "serve": "cross-env node server.js"
   },
   "dependencies": {
-    "@payloadcms/db-mongodb": "3.2.2",
+    "@payloadcms/db-postgres": "^3.8.0",
     "@payloadcms/next": "3.2.2",
     "@payloadcms/richtext-lexical": "3.2.2",
     "@payloadcms/ui": "3.2.2",

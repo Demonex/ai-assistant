@@ -39,16 +39,12 @@ export const FormPage = memo(() => {
 			>
 				<div className="flex flex-col gap-4 md:gap-9 items-center w-full md:w-[35rem]">
 					<div className="w-full">
-						<Link to="/">
-							<LogoNew width={isMobile ? 85 : 105} />
-						</Link>
+						<Link to="/">Logo</Link>
 					</div>
 					{renderContent()}
 				</div>
 			</section>
-			<div className="w-full absolute hidden md:block">
-				<img src={RRR} className=" h-screen" />
-			</div>
+			<div className="w-full absolute hidden md:block"></div>
 		</div>
 	);
 });

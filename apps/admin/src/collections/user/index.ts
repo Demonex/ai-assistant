@@ -31,7 +31,7 @@ export const user: CollectionConfig = {
         name: "redis-sessions",
         authenticate: async ({ headers }) => {
           const sid = parse(headers.get("cookie") || "")?.sid;
-          if(!sid) {
+          if (!sid) {
             return {
               user: null,
             };
@@ -43,8 +43,7 @@ export const user: CollectionConfig = {
             ? JSON.parse(await RedisSessionStore.get(`${process.env.REDIS_SESSION_PREFIX}:${key}`) || "null")?.user ?? null
             : null;
 
-
-          if(userCache) {
+          if (userCache) {
             userCache["collection"] = user.slug;
           }
 
@@ -77,13 +76,23 @@ export const user: CollectionConfig = {
                 {
                   name: "avatar",
                   type: "upload",
-                  relationTo: userMediaAvatar.slug as 'user-media-avatar',
+                  relationTo: userMediaAvatar.slug as "user-media-avatar",
                   admin: {
                     width: "30%",
                     components: {
                       // Cell: AvatarCell
                     },
                   },
+                },
+                {
+                  name: "roles",
+                  type: "select",
+                  hasMany: true,
+                  unique: true,
+                  options:[
+                    'admin',
+                    'user',
+                  ]
                 },
               ],
             },
@@ -102,6 +111,13 @@ export const user: CollectionConfig = {
                   type: "text",
                   admin: {
                     width: "50%",
+                  },
+                },
+                {
+                  name: "password",
+                  type: "text",
+                  admin: {
+                    hidden: true,
                   },
                 },
               ],

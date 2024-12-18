@@ -6,7 +6,6 @@ import PrimaryButton from "../../../PrimaryButton.js";
 import { useOpenModalSearch } from "../../../../hooks/useOpenModalSearch.js";
 import { useMobileMenu } from "../MobileMenu/hooks/useMobileMenu.js";
 import { useSearchData } from "../../hooks/useSearchData.js";
-import { useSubscriptionCalculator } from "../../../../pages/Account/components/hooks/useSubscriptionCalculator.js";
 
 export const PreviewPanel = memo(() => {
 	// const {data} = useContext(SearchResultsContext);
@@ -27,28 +26,7 @@ export const PreviewPanel = memo(() => {
 		buttonText,
 		subscription,
 	} = useOpenModalSearch();
-	const {
-		setOpenModal,
-		setArtistId,
-		handleClick: handeSubscriptionClick,
-	} = useSubscriptionCalculator();
 	const { setIsOpen } = useMobileMenu();
-	const handleClick = useCallback(
-		(e) => {
-			if (subscriptionOnClick) {
-				e.preventDefault();
-				setArtistId(artistSelected?.id);
-				if (!subscription) {
-					setOpenModal(true);
-				} else {
-					handeSubscriptionClick(subscription, artistSelected?.id);
-				}
-			}
-			setIsOpen(false);
-			setIsOpenSearchModal(false);
-		},
-		[subscriptionOnClick, artistSelected, subscription],
-	);
 	return (
 		<>
 			<div className="flex justify-center">
