@@ -1,6 +1,6 @@
 [submodule "libs/typegoose-cursor-pagination"]
 	path = libs/typegoose-cursor-pagination
-	url = git@github.com:stigma-io/typegoose-cursor-pagination.git
+	url = https://github.com/stigma-io/typegoose-cursor-pagination.git
 [submodule "libs/payloadcms-storage-s3"]
 	path = libs/payloadcms-storage-s3
-	url = git@github.com:stigma-io/payloadcms-storage-s3.git
+	url = https://github.com/stigma-io/payloadcms-storage-s3.git
