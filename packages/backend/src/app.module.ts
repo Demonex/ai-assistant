@@ -13,9 +13,22 @@ import { ScheduleModule } from "@nestjs/schedule";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserEntityPG } from "@repo/backend/entities/User/index-pg.js";
 import { UserRolesPG } from "@repo/backend/entities/User/roles-pg.js";
+import { MikroOrmModule } from "@mikro-orm/nestjs";
+import { PostgreSqlDriver } from "@mikro-orm/postgresql";
+import { UserEntityMO } from "@repo/backend/entities/User/index-mo.js";
+import { UserRolesEntityMO } from "@repo/backend/entities/User/roles-mo.js";
 
 @Module({
 	imports: [
+		MikroOrmModule.forRoot({
+			entities: [UserEntityMO, UserRolesEntityMO],
+			dbName: "sigma-chat",
+			driver: PostgreSqlDriver,
+			host: "localhost",
+			port: 5432,
+			user: "root",
+			password: "root123",
+		}),
 		TypeOrmModule.forRoot({
 			type: "postgres",
 			host: process.env.DATABASE_HOST,
