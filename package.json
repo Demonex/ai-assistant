@@ -12,7 +12,7 @@
     "clean": "turbo run clean",
     "predev:*": "mkdirp .turbo/daemon",
     "dev:admin": "pnpm run predev:* && turbo daemon clean && turbo --parallel watch build dev --log-prefix=none --filter=@repo/admin",
-    "dev:backend": "pnpm run predev:* && turbo daemon clean && turbo --parallel watch dev --log-prefix=none --filter=@repo/backend",
+    "dev:backend": "pnpm run predev:* && turbo daemon clean && turbo watch build --log-prefix=none --filter=@repo/backend & turbo run dev --log-prefix=none --filter=@repo/backend",
     "dev:web": "pnpm run predev:* && turbo daemon clean && turbo run dev --log-prefix=none --filter=@repo/web",
     "lint": "turbo run lint --parallel",
     "format": "turbo run format --parallel",
