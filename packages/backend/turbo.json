@@ -1,16 +1,20 @@
 {
-	"extends": ["//"],
+	"extends": [
+		"//"
+	],
 	"tasks": {
 		"build": {
 			"dependsOn": [
-				"@repo/auth#build"
+				// "@repo/auth#build"
 			],
-			"outputs": ["dist/**"]
+			"outputs": [
+				"dist/**"
+			]
 		},
 		"dev": {
 			"cache": false,
 			"persistent": true,
-			"dependsOn": []
+			"dependsOn": ["build"]
 		},
 		"format": {
 			"cache": false
