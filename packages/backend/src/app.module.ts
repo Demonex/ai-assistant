@@ -6,9 +6,7 @@ import {
 } from "@nestjs/common";
 import { Logger } from "@repo/backend/config/logger/api-logger.js";
 import * as modules from "@repo/backend/modules.exported.js";
-import { TypegooseModule } from "nestjs-typegoose";
 import { RedisModule } from "@nestjs-modules/ioredis";
-import { MONGO_CONFIG, MONGO_URI } from "@repo/backend/mongoose.config.js";
 import { ScheduleModule } from "@nestjs/schedule";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { PostgreSqlDriver } from "@mikro-orm/postgresql";

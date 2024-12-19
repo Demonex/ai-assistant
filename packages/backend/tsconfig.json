@@ -1,37 +1,41 @@
 {
-	"extends": "@repo/config-typescript/service.json",
-	"references": [
-		{
-			"path": "../common"
-		},
-		{
-			"path": "../../services/auth"
-		},
-		{
-			"path": "../../libs/typegoose-cursor-pagination"
-		}
-	],
-	"compilerOptions": {
-		"paths": {
-			"@repo/backend/*": ["./src/*"]
-		},
-		"target": "ESNext",
-		"module": "NodeNext",
-		"noLib": false,
-		"emitDecoratorMetadata": true,
-		"allowJs": true,
-		"checkJs": true,
-		"noEmit": false,
-		"strict": false,
-		"moduleResolution": "NodeNext",
-		"lib": ["esnext"],
-		"forceConsistentCasingInFileNames": true,
-		"experimentalDecorators": true,
-		"allowSyntheticDefaultImports": true
-	},
-	"include": [
-		"${configDir}/src",
-		"${configDir}/src/**/*.json",
-		"${configDir}/*.ts"
-	]
+  "extends": "@repo/config-typescript/service.json",
+  "references": [
+    {
+      "path": "../common"
+    },
+    {
+      "path": "../../services/auth"
+    },
+    {
+      "path": "../../libs/typegoose-cursor-pagination"
+    }
+  ],
+  "compilerOptions": {
+    "paths": {
+      "@repo/backend/*": [
+        "./src/*"
+      ]
+    },
+    "target": "ESNext",
+    "module": "NodeNext",
+    "noLib": false,
+    "emitDecoratorMetadata": true,
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": false,
+    "strict": false,
+    "moduleResolution": "NodeNext",
+    "lib": [
+      "esnext"
+    ],
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "${configDir}/src",
+    "${configDir}/src/**/*.json",
+    "${configDir}/*.ts"
+  ]
 }
