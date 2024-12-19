@@ -10,9 +10,6 @@ import { TypegooseModule } from "nestjs-typegoose";
 import { RedisModule } from "@nestjs-modules/ioredis";
 import { MONGO_CONFIG, MONGO_URI } from "@repo/backend/mongoose.config.js";
 import { ScheduleModule } from "@nestjs/schedule";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { UserEntityPG } from "@repo/backend/entities/User/index-pg.js";
-import { UserRolesPG } from "@repo/backend/entities/User/roles-pg.js";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { PostgreSqlDriver } from "@mikro-orm/postgresql";
 import { UserEntityMO } from "@repo/backend/entities/User/index-mo.js";
@@ -22,24 +19,13 @@ import { UserRolesEntityMO } from "@repo/backend/entities/User/roles-mo.js";
 	imports: [
 		MikroOrmModule.forRoot({
 			entities: [UserEntityMO, UserRolesEntityMO],
-			dbName: "sigma-chat",
 			driver: PostgreSqlDriver,
-			host: "localhost",
-			port: 5432,
-			user: "root",
-			password: "root123",
-		}),
-		TypeOrmModule.forRoot({
-			type: "postgres",
+			dbName: process.env.DATABASE_NAME,
 			host: process.env.DATABASE_HOST,
 			port: Number.parseInt(process.env.DATABASE_PORT),
-			username: process.env.DATABASE_USERNAME,
+			user: process.env.DATABASE_USERNAME,
 			password: process.env.DATABASE_PASSWORD,
-			database: process.env.DATABASE_NAME,
-			entities: [UserEntityPG, UserRolesPG],
-			synchronize: false,
 		}),
-		TypegooseModule.forRoot(`${MONGO_URI}`, MONGO_CONFIG),
 		RedisModule.forRoot({
 			type: "single",
 			url: "redis://localhost:6379",

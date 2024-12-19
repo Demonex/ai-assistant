@@ -77,6 +77,7 @@ export class AuthController {
 		const profile = await this.service.signUpByEmail(args, false);
 		return profile;
 	}
+	/*
 
 	@Get("/rest/auth/activate/:link")
 	async activate(@Param("link") link: string, @Res() res) {
@@ -93,7 +94,8 @@ export class AuthController {
 		}
 		throw new InternalServerErrorException(result.message);
 	}
-
+*/
+	/*
 	@Unauthorized()
 	@Post("/rest/auth/email/recover")
 	@HttpCode(200)
@@ -103,8 +105,8 @@ export class AuthController {
 		return {
 			success: true,
 		};
-	}
-
+	}*/
+	/*
 	@ApiOperation({ summary: "Request password reset link" })
 	@ApiResponse({ status: 201, description: "Password reset link sent" })
 	@ApiResponse({ status: 400, description: "Invalid email address" })
@@ -121,8 +123,8 @@ export class AuthController {
 		} catch (error) {
 			throw new BadRequestException(error.message);
 		}
-	}
-
+	}*/
+	/*
 	@Post("/rest/auth/email/reset-password")
 	@ApiOperation({ summary: "Reset password" })
 	@ApiResponse({ status: 201, description: "Password successfully reset" })
@@ -135,8 +137,8 @@ export class AuthController {
 		} catch (error) {
 			throw new BadRequestException(error.message);
 		}
-	}
-
+	}*/
+	/*
 	@ApiExcludeEndpoint(process.env.NODE_ENV !== "development")
 	@Get("/rest/auth/email/recover/:code/:state")
 	@Redirect(`${process.env.FRONTEND_URL || "/"}`, HttpStatus.SEE_OTHER)
@@ -151,5 +153,5 @@ export class AuthController {
 			url,
 			statusCode: HttpStatus.SEE_OTHER,
 		};
-	}
+	}*/
 }

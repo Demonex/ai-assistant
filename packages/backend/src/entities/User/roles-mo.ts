@@ -1,11 +1,11 @@
 import { Entity, PrimaryKey, ManyToMany, Property } from "@mikro-orm/core";
 
-@Entity()
+@Entity({ tableName: "user_roles" })
 export class UserRolesEntityMO {
 	@PrimaryKey()
 	id!: number;
 
-	@Property()
+	@Property({ hidden: true })
 	parent_id!: number;
 
 	@Property()

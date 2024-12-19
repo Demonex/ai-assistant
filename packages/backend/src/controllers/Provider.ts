@@ -69,7 +69,7 @@ export class ProviderController {
 		}
 		return { url: null };
 	}
-
+	/*
 	@ApiOperation({ summary: "return authorized token" })
 	@Get(":provider(google|facebook|apple)/callback")
 	@ApiParam({
@@ -145,8 +145,8 @@ export class ProviderController {
 				})(req, res, next);
 			}
 		}
-	}
-
+	}*/
+	/*
 	@ApiExcludeEndpoint(process.env.NODE_ENV !== "development")
 	@Post(":provider(google|facebook|apple)/callback")
 	async handleOauthCallbackPost(
@@ -177,5 +177,5 @@ export class ProviderController {
 			console.error(e);
 		}
 		return end();
-	}
+	}*/
 }

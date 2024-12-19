@@ -26,11 +26,7 @@ export class ProviderService {
 	private appleAuth: AppleAuth;
 	private appleAuthIos: AppleAuth;
 
-	constructor(
-		@Inject(REQUEST) private readonly request: any,
-		@InjectModel(UserEntity)
-		private readonly repoUser: ReturnModelType<typeof UserEntity>,
-	) {
+	constructor(@Inject(REQUEST) private readonly request: any) {
 		this.appleAuth = new AppleAuth(
 			{
 				client_id: process.env.APPLE_AUTH_SERVICE_ID,
@@ -55,7 +51,7 @@ export class ProviderService {
 			"text",
 		);
 	}
-
+	/*
 	async authByProvider(
 		provider: string,
 		{ name, email, emailVerified }: AuthByProvider,
@@ -126,7 +122,7 @@ export class ProviderService {
 			});
 		}
 		return undefined;
-	}
+	}*/
 
 	async appleGetRedirectUrl() {
 		return this.appleAuth.loginURL();
