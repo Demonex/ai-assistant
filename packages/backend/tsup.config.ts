@@ -25,5 +25,6 @@ export default defineConfig({
   },
   onSuccess: async () => {
     writeFileSync(`${import.meta.dirname}/dist/build.info`, new Date().toISOString(), "utf-8");
+    console.info("build success");
   },
 });

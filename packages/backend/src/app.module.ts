@@ -12,7 +12,7 @@ import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { PostgreSqlDriver } from "@mikro-orm/postgresql";
 import { UserEntityMO } from "@repo/backend/entities/User/index.js";
 import { UserRolesEntityMO } from "@repo/backend/entities/User/roles.js";
-
+console.log(1);
 @Module({
 	imports: [
 		MikroOrmModule.forRoot({
