@@ -13,6 +13,9 @@ import { PostgreSqlDriver } from "@mikro-orm/postgresql";
 import { UserEntityMO } from "@repo/backend/entities/User/index.js";
 import { UserRolesEntityMO } from "@repo/backend/entities/User/roles.js";
 console.log(1);
+
+// tenant admin (user wih checkbox tenant)
+
 @Module({
 	imports: [
 		MikroOrmModule.forRoot({
