@@ -1,0 +1,15 @@
+@import '~@payloadcms/ui/scss';
+
+.field-label {
+
+  &__drawer-toggler {
+    position: relative;
+    margin-left: 0.5rem;
+    font-size: 11px;
+  }
+
+  &__tooltip {
+    font-size: 13px;
+    transform: translate3d(calc(var(--caret-size) * -1), calc(var(--caret-size) * -1),0);
+  }
+}

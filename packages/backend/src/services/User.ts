@@ -7,10 +7,6 @@ import {
 } from "@nestjs/common";
 import { InjectModel } from "nestjs-typegoose";
 import type { ReturnModelType } from "@typegoose/typegoose";
-import {
-	UserEntity,
-	UserEntityDefaultSelect,
-} from "@repo/backend/entities/User/index.js";
 import type {
 	UpdateProfileAvatarDto,
 	UpdateProfileDto,
@@ -21,9 +17,8 @@ import type { Redis } from "ioredis";
 import { InjectRedis } from "@nestjs-modules/ioredis";
 import { HttpStatusMessages } from "@repo/backend/messages/http.js";
 import { REQUEST } from "@nestjs/core";
-import { MikroORM } from "@mikro-orm/core";
-import { EntityManager } from "@mikro-orm/postgresql";
-import { UserEntityMO } from "@repo/backend/entities/User/index.js";
+import { MikroORM, EntityManager } from "@mikro-orm/core";
+import { UserEntity } from "@repo/backend/entities/User/index.js";
 
 @Injectable({ scope: Scope.REQUEST })
 export class UserService {
@@ -222,8 +217,8 @@ export class UserService {
 	): Promise<any | null> {
 		if (!_id && !email) return null;
 
-		const select = await this.em.findOne<UserEntityMO>(
-			UserEntityMO,
+		const select = await this.em.findOne<UserEntity>(
+			UserEntity,
 			_id && email
 				? [
 						{

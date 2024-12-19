@@ -8,25 +8,19 @@ import {
 } from "@nestjs/common";
 import { REQUEST } from "@nestjs/core";
 import bcrypt from "bcrypt";
-import { InjectModel } from "nestjs-typegoose";
-import type { ReturnModelType } from "@typegoose/typegoose";
 import { InjectRedis } from "@nestjs-modules/ioredis";
 import type { Redis } from "ioredis";
-import md5 from "md5";
 import { isEmail } from "class-validator";
 import { randstr as randomStringGenerator } from "better-randstr";
 import { BCRYPT_SALT_ROUNDS } from "@repo/backend/constants.js";
 import { HttpStatusMessages } from "@repo/backend/messages/http.js";
 import type { AuthRecoverDto, AuthSignUpDto } from "@repo/backend/dto/Auth.js";
-import { UserEntity } from "@repo/backend/entities/User/index.js";
 import { SmtpService } from "./Smtp.js";
 import type { Types } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 import { MailerService } from "@repo/backend/mailer/mailer.service.js";
-import { randomBytes } from "node:crypto";
-import { MikroORM } from "@mikro-orm/core";
-import { EntityManager } from "@mikro-orm/postgresql";
-import { UserEntityMO } from "@repo/backend/entities/User/index";
+import { MikroORM, EntityManager } from "@mikro-orm/core";
+import { UserEntity } from "@repo/backend/entities/User/index.js";
 
 @Injectable({ scope: Scope.REQUEST })
 export class AuthService {
@@ -247,7 +241,7 @@ export class AuthService {
 
 	private async createUserByEmail(args): Promise<any> {
 		try {
-			const user = this.em.create<UserEntityMO>(UserEntityMO, args);
+			const user = this.em.create<UserEntity>(UserEntity, args);
 			await this.em.persistAndFlush(user);
 			return user;
 		} catch (error) {
@@ -281,7 +275,7 @@ export class AuthService {
 		} else {
 			throw new Error("Internal Server Error");
 		}
-		const user = await this.em.findOne<UserEntityMO>(UserEntityMO, criteria);
+		const user = await this.em.findOne<UserEntity>(UserEntity, criteria);
 		if (!user) {
 			throw new HttpException(
 				{

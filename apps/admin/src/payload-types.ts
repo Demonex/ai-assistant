@@ -70,6 +70,10 @@ export interface Tenant {
   title: string;
   description?: string | null;
   preview?: (number | null) | TenantMedia;
+  superadmins?: (number | User)[] | null;
+  admins?: (number | User)[] | null;
+  collections?: (number | User)[] | null;
+  models?: (number | User)[] | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -205,6 +209,10 @@ export interface TenantSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   preview?: T;
+  superadmins?: T;
+  admins?: T;
+  collections?: T;
+  models?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

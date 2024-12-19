@@ -22,7 +22,7 @@ export const user: CollectionConfig = {
       "email",
       "language",
     ],
-    useAsTitle: "name",
+    useAsTitle: "email",
   },
   auth: {
     disableLocalStrategy: true,

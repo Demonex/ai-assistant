@@ -10,16 +10,15 @@ import { RedisModule } from "@nestjs-modules/ioredis";
 import { ScheduleModule } from "@nestjs/schedule";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { PostgreSqlDriver } from "@mikro-orm/postgresql";
-import { UserEntityMO } from "@repo/backend/entities/User/index.js";
-import { UserRolesEntityMO } from "@repo/backend/entities/User/roles.js";
-console.log(1);
-
-// tenant admin (user wih checkbox tenant)
+import { UserEntity } from "@repo/backend/entities/User/index.js";
+import { UserRolesEntity } from "@repo/backend/entities/User/roles.js";
+import { TenantEntity } from "./entities/Tenant";
+import { TenantRelsEntity } from "./entities/Tenant/rels";
 
 @Module({
 	imports: [
 		MikroOrmModule.forRoot({
-			entities: [UserEntityMO, UserRolesEntityMO],
+			entities: [UserEntity, UserRolesEntity, TenantEntity, TenantRelsEntity],
 			driver: PostgreSqlDriver,
 			dbName: process.env.DATABASE_NAME,
 			host: process.env.DATABASE_HOST,
