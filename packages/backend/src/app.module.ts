@@ -12,8 +12,8 @@ import { MONGO_CONFIG, MONGO_URI } from "@repo/backend/mongoose.config.js";
 import { ScheduleModule } from "@nestjs/schedule";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { PostgreSqlDriver } from "@mikro-orm/postgresql";
-import { UserEntityMO } from "@repo/backend/entities/User/index-mo.js";
-import { UserRolesEntityMO } from "@repo/backend/entities/User/roles-mo.js";
+import { UserEntityMO } from "@repo/backend/entities/User/index.js";
+import { UserRolesEntityMO } from "@repo/backend/entities/User/roles.js";
 
 @Module({
 	imports: [

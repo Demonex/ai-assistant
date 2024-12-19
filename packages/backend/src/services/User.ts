@@ -23,7 +23,7 @@ import { HttpStatusMessages } from "@repo/backend/messages/http.js";
 import { REQUEST } from "@nestjs/core";
 import { MikroORM } from "@mikro-orm/core";
 import { EntityManager } from "@mikro-orm/postgresql";
-import { UserEntityMO } from "../entities/User/index-mo";
+import { UserEntityMO } from "@repo/backend/entities/User/index.js";
 
 @Injectable({ scope: Scope.REQUEST })
 export class UserService {

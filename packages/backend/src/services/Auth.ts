@@ -26,7 +26,7 @@ import { MailerService } from "@repo/backend/mailer/mailer.service.js";
 import { randomBytes } from "node:crypto";
 import { MikroORM } from "@mikro-orm/core";
 import { EntityManager } from "@mikro-orm/postgresql";
-import { UserEntityMO } from "@repo/backend/entities/User/index-mo";
+import { UserEntityMO } from "@repo/backend/entities/User/index";
 
 @Injectable({ scope: Scope.REQUEST })
 export class AuthService {
