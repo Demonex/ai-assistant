@@ -5,10 +5,7 @@ import Redis from "ioredis";
 import defaultAccess from "@/utilities/defaultAccess";
 import { userMediaAvatar } from "@/collections/user/media/avatar";
 
-const RedisSessionStore = new Redis({
-  host: process.env.REDIS_HOST || "localhost",
-  port: 6379,
-});
+const RedisSessionStore = new Redis(`redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:6379`);
 
 export const user: CollectionConfig = {
   slug: "user",
