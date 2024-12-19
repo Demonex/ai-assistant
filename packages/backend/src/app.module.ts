@@ -26,12 +26,12 @@ import { UserRolesEntityMO } from "@repo/backend/entities/User/roles.js";
 		}),
 		RedisModule.forRoot({
 			type: "single",
-			// url: `redis://${process.env.REDIS_HOST}:6379`,
-			options: {
-				host: process.env.REDIS_HOST,
-				port: Number.parseInt(process.env.REDIS_PORT),
-				password: process.env.REDIS_PASSWORD,
-			},
+			url: `redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:6379`,
+			// options: {
+			// 	host: process.env.REDIS_HOST,
+			// 	port: Number.parseInt(process.env.REDIS_PORT),
+			// 	password: process.env.REDIS_PASSWORD,
+			// },
 		}),
 		ScheduleModule.forRoot(),
 		...Object.values(modules),

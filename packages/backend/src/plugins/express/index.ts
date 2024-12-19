@@ -6,10 +6,9 @@ import { Redis } from "ioredis";
 import cookieParser from "cookie-parser";
 import { REDIS_SESSION_PREFIX } from "@repo/backend/constants.js";
 
-const redisClient = new Redis({
-	host: process.env.REDIS_HOST || "localhost",
-	port: 6379,
-});
+const redisClient = new Redis(
+	`redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:6379`,
+);
 const RedisSessionStore = new RedisStore({
 	client: redisClient,
 	prefix: REDIS_SESSION_PREFIX,
