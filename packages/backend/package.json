@@ -6,7 +6,7 @@
 	"scripts": {
 		"compile": "tsc --noEmit",
 		"test": "vitest",
-		"build": "pnpm run clean && tsup-node",
+		"build": "del-cli -f dist/build.info && tsup-node",
 		"lint": "biome lint --write src",
 		"format": "biome format --write src",
 		"dev": "wait-on dist/build.info && node --no-deprecation --trace-warnings --enable-source-maps --watch -r dotenv/config dist/index.js",
