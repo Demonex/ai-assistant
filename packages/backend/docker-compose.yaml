@@ -39,7 +39,7 @@ services:
       - redis:/data
     sysctls:
       net.core.somaxconn: 65535
-    command: "/bin/sh -c redis-server --requirepass redis123 & echo 'echo never > 
+    command: "/bin/sh -c 'redis-server --requirepass redis123' & echo 'echo never > 
     /sys/kernel/mm/transparent_hugepage/enabled' > /etc/rc
     .local"
     logging:
