@@ -1,34 +1,34 @@
 services:
 
-  mongo:
-    privileged: true
-    image: bardakdev/mongo
-    container_name: mongo
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root123
-      - MONGO_INITDB_DATABASE=rifify
-      - MONGO_REPLICA_SET_NAME=rs0
-    volumes:
-      - mongo-db:/data/db
-      - mongo-db-config:/data/configdb
-
-    command: [ --replSet, rs0, --bind_ip_all, --port, "27017", --keyFile, "/opt/keyfile" ]
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    ports:
-      - "27017:27017"
-    healthcheck:
-      test: |
-        test $$(mongosh --quiet -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --eval "try { rs.initiate({ _id: 'rs0', members: [ { _id: 0, host: 'mongo:27017' } ] }).ok } catch (_) { rs.status().ok }") -eq 1
-      interval: 10s
-      start_period: 30s
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "3"
+#  mongo:
+#    privileged: true
+#    image: bardakdev/mongo
+#    container_name: mongo
+#    environment:
+#      - PUID=1000
+#      - PGID=1000
+#      - MONGO_INITDB_ROOT_USERNAME=root
+#      - MONGO_INITDB_ROOT_PASSWORD=root123
+#      - MONGO_INITDB_DATABASE=rifify
+#      - MONGO_REPLICA_SET_NAME=rs0
+#    volumes:
+#      - mongo-db:/data/db
+#      - mongo-db-config:/data/configdb
+#
+#    command: [ --replSet, rs0, --bind_ip_all, --port, "27017", --keyFile, "/opt/keyfile" ]
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#    ports:
+#      - "27017:27017"
+#    healthcheck:
+#      test: |
+#        test $$(mongosh --quiet -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --eval "try { rs.initiate({ _id: 'rs0', members: [ { _id: 0, host: 'mongo:27017' } ] }).ok } catch (_) { rs.status().ok }") -eq 1
+#      interval: 10s
+#      start_period: 30s
+#    logging:
+#      options:
+#        max-size: "10m"
+#        max-file: "3"
 
   redis:
     image: redis:alpine
@@ -39,7 +39,9 @@ services:
       - redis:/data
     sysctls:
       net.core.somaxconn: 65535
-    command: "/bin/sh -c redis-server & echo 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' > /etc/rc.local"
+    command: "/bin/sh -c redis-server --requirepass redis123 & echo 'echo never > 
+    /sys/kernel/mm/transparent_hugepage/enabled' > /etc/rc
+    .local"
     logging:
       options:
         max-size: "10m"

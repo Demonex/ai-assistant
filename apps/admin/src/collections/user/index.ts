@@ -86,14 +86,9 @@ export const user: CollectionConfig = {
                   type: "select",
                   hasMany: true,
                   unique: true,
-                  options:[
-                    'superadmin',
-                    'tenant:admin',
-                    'docCollection:admin',
-                    'docCollection:admin',
-                    'user:admin',
-                    'model:admin',
-                  ]
+                  options: [
+                    "admin",
+                  ],
                 },
               ],
             },

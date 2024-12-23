@@ -105,7 +105,7 @@ export interface User {
   id: number;
   name?: string | null;
   avatar?: (number | null) | UserMediaAvatar;
-  roles?: ('superadmin' | 'tenant:admin' | 'docCollection:admin' | 'user:admin' | 'model:admin')[] | null;
+  roles?: 'admin'[] | null;
   username?: string | null;
   email?: string | null;
   password?: string | null;
