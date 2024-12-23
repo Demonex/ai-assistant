@@ -7,6 +7,8 @@
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation cross-env next dev -p 2055",
+    "lint": "biome lint --write src",
+    "format": "biome format --write src",
     "dev:prod": "cross-env NODE_OPTIONS=--no-deprecation rm -rf .next && pnpm build && pnpm start",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
@@ -47,6 +49,8 @@
     "tailwindcss-animate": "1.0.7"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@repo/config-biome": "workspace:*",
     "@tailwindcss/typography": "0.5.15",
     "@types/cookie-signature": "1.1.2",
     "@types/node": "22.10.2",
