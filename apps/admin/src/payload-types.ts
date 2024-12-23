@@ -15,6 +15,9 @@ export interface Config {
     'tenant-media': TenantMedia;
     user: User;
     'user-media-avatar': UserMediaAvatar;
+    model: Model;
+    neuro: Neuro;
+    collection: Collection;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -25,6 +28,9 @@ export interface Config {
     'tenant-media': TenantMediaSelect<false> | TenantMediaSelect<true>;
     user: UserSelect<false> | UserSelect<true>;
     'user-media-avatar': UserMediaAvatarSelect<false> | UserMediaAvatarSelect<true>;
+    model: ModelSelect<false> | ModelSelect<true>;
+    neuro: NeuroSelect<false> | NeuroSelect<true>;
+    collection: CollectionSelect<false> | CollectionSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -138,6 +144,84 @@ export interface UserMediaAvatar {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "model".
+ */
+export interface Model {
+  id: number;
+  tenant: number | Tenant;
+  title: string;
+  description?: string | null;
+  type: 'llm' | 'embedding' | 'reranker';
+  settings:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "neuro".
+ */
+export interface Neuro {
+  id: number;
+  title: string;
+  description?: string | null;
+  settings:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  model?: (number | null) | Model;
+  'model-settings'?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collection".
+ */
+export interface Collection {
+  id: number;
+  embedding: number | Neuro;
+  llm: number | Neuro;
+  reranker: number | Neuro;
+  title: string;
+  description?: string | null;
+  settings:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -158,6 +242,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'user-media-avatar';
         value: number | UserMediaAvatar;
+      } | null)
+    | ({
+        relationTo: 'model';
+        value: number | Model;
+      } | null)
+    | ({
+        relationTo: 'neuro';
+        value: number | Neuro;
+      } | null)
+    | ({
+        relationTo: 'collection';
+        value: number | Collection;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -273,6 +369,49 @@ export interface UserMediaAvatarSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "model_select".
+ */
+export interface ModelSelect<T extends boolean = true> {
+  tenant?: T;
+  title?: T;
+  description?: T;
+  type?: T;
+  settings?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "neuro_select".
+ */
+export interface NeuroSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  settings?: T;
+  model?: T;
+  'model-settings'?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collection_select".
+ */
+export interface CollectionSelect<T extends boolean = true> {
+  embedding?: T;
+  llm?: T;
+  reranker?: T;
+  title?: T;
+  description?: T;
+  settings?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

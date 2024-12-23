@@ -11,7 +11,10 @@ import { defaultLexical } from "@/fields/defaultLexical";
 import { getServerSideURL } from "./utilities/getURL";
 import { userMediaAvatar } from "@/collections/user/media/avatar";
 import { tenantMedia } from "@/collections/tenant/media";
-import { tenant } from "src/collections/tenant";
+import { tenant } from "./collections/tenant";
+import { model } from "./collections/model";
+import { neuro } from "./collections/neuro";
+import { collection } from "./collections/collection";
 // import Logo from "@/components/Logo/Logo";
 // import Icon from "@/components/Logo/Icon";
 
@@ -83,7 +86,7 @@ export default buildConfig({
     admin: "/admin",
   },
   serverURL: `http://localhost:${process.env.PORT || 2055}`,
-  collections: [tenant, tenantMedia, user, userMediaAvatar],
+  collections: [tenant, tenantMedia, user, userMediaAvatar, model, neuro, collection],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [],
   plugins: [
