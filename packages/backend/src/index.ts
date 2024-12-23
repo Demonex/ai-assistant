@@ -12,7 +12,7 @@ import { DefaultLogger } from "@repo/backend/config/logger/default-logger.js";
 import type { Express } from "express";
 import express from "express";
 import expressPlugins from "@repo/backend/plugins/express/index.js";
-console.log(3);
+process.on("warning", (e) => console.warn(e.stack));
 Logger.useLogger(
 	new DefaultLogger({
 		level: process.env.LOGGER_LEVEL

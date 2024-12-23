@@ -3,7 +3,7 @@ import { get } from "lodash-es";
 
 export const UserId = createParamDecorator(
 	(key: string, ctx: ExecutionContext): number => {
-		return get(ctx.switchToHttp().getRequest<any>(), "session.user.id");
+		return Number(get(ctx.switchToHttp().getRequest<any>(), "session.user.id"));
 	},
 );
 export const UserEmail = createParamDecorator(

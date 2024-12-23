@@ -1,8 +1,8 @@
 import { Entity, PrimaryKey, ManyToMany, Property } from "@mikro-orm/core";
-import { UserRolesEntityMO } from "@repo/backend/entities/User/roles.js";
+import { UserRolesEntity } from "@repo/backend/entities/User/roles.js";
 
 @Entity({ tableName: "user" })
-export class UserEntityMO {
+export class UserEntity {
 	@PrimaryKey()
 	id!: number;
 
@@ -12,11 +12,11 @@ export class UserEntityMO {
 	@Property({ hidden: true })
 	password!: string;
 
-	@ManyToMany(() => UserRolesEntityMO, undefined, {
+	@ManyToMany(() => UserRolesEntity, undefined, {
 		joinColumn: "id",
 		referenceColumnName: "id",
 		inverseJoinColumn: "parent_id",
 		eager: true,
 	})
-	roles: UserRolesEntityMO[];
+	roles: UserRolesEntity[];
 }
