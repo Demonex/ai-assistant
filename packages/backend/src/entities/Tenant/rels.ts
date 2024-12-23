@@ -5,7 +5,7 @@ export class TenantRelsEntity {
 	@PrimaryKey()
 	id!: number;
 
-	@Property()
+	@Property({ hidden: true })
 	parent_id!: number;
 
 	@Property()
