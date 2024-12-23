@@ -1,13 +1,13 @@
-import type { Express } from "express";
+import type Express from "express";
 import cors from "cors";
 import session from "express-session";
 import { RedisStore } from "connect-redis";
-import { Redis } from "ioredis";
+import Redis from "ioredis";
 import cookieParser from "cookie-parser";
 import { REDIS_SESSION_PREFIX } from "@repo/backend/constants.js";
 
 const redisClient = new Redis(
-	`redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:6379`,
+	`redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
 );
 const RedisSessionStore = new RedisStore({
 	client: redisClient,
@@ -89,7 +89,7 @@ const expressPlugins = (express: Express) => {
 				sameSite: "lax",
 			},
 		});
-		expressSession(req, res, next);
+		(expressSession as any)(req, res, next);
 	});
 };
 export default expressPlugins;

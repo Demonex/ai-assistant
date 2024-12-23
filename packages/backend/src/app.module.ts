@@ -28,7 +28,7 @@ import { TenantRelsEntity } from "./entities/Tenant/rels";
 		}),
 		RedisModule.forRoot({
 			type: "single",
-			url: `redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:6379`,
+			url: `redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
 			// options: {
 			// 	host: process.env.REDIS_HOST,
 			// 	port: Number.parseInt(process.env.REDIS_PORT),
