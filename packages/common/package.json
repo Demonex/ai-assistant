@@ -11,7 +11,7 @@
 		"coverage": "vitest run --coverage "
 	},
 	"dependencies": {
-		"remeda": "2.17.4"
+		"remeda": "2.19.0"
 	},
 	"devDependencies": {
 		"@repo/config-biome": "workspace:*",
