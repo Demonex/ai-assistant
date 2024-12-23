@@ -5,7 +5,7 @@ import Redis from "ioredis";
 import defaultAccess from "@/utilities/defaultAccess";
 import { userMediaAvatar } from "@/collections/user/media/avatar";
 
-const RedisSessionStore = new Redis(`redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:6379`);
+const RedisSessionStore = new Redis(`redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`);
 
 export const user: CollectionConfig = {
   slug: "user",
@@ -87,8 +87,12 @@ export const user: CollectionConfig = {
                   hasMany: true,
                   unique: true,
                   options:[
-                    'admin',
-                    'user',
+                    'superadmin',
+                    'tenant:admin',
+                    'docCollection:admin',
+                    'docCollection:admin',
+                    'user:admin',
+                    'model:admin',
                   ]
                 },
               ],
