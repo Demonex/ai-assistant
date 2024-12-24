@@ -15,6 +15,8 @@ import { tenant } from "./collections/tenant";
 import { model } from "./collections/model";
 import { neuro } from "./collections/neuro";
 import { collection } from "./collections/collection";
+import { provider } from "./collections/provider";
+import { doc } from "./collections/doc";
 // import Logo from "@/components/Logo/Logo";
 // import Icon from "@/components/Logo/Icon";
 
@@ -94,6 +96,8 @@ export default buildConfig({
 		model,
 		neuro,
 		collection,
+		provider,
+		doc,
 	],
 	cors: [getServerSideURL()].filter(Boolean),
 	globals: [],

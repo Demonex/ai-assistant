@@ -18,6 +18,8 @@ export interface Config {
 		model: Model;
 		neuro: Neuro;
 		collection: Collection;
+		provider: Provider;
+		doc: Doc;
 		"payload-locked-documents": PayloadLockedDocument;
 		"payload-preferences": PayloadPreference;
 		"payload-migrations": PayloadMigration;
@@ -33,6 +35,8 @@ export interface Config {
 		model: ModelSelect<false> | ModelSelect<true>;
 		neuro: NeuroSelect<false> | NeuroSelect<true>;
 		collection: CollectionSelect<false> | CollectionSelect<true>;
+		provider: ProviderSelect<false> | ProviderSelect<true>;
+		doc: DocSelect<false> | DocSelect<true>;
 		"payload-locked-documents":
 			| PayloadLockedDocumentsSelect<false>
 			| PayloadLockedDocumentsSelect<true>;
@@ -221,6 +225,57 @@ export interface Collection {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "provider".
+ */
+export interface Provider {
+	id: number;
+	tenant: number | Tenant;
+	title: string;
+	description?: string | null;
+	type: "minio, confluence";
+	settings:
+		| {
+				[k: string]: unknown;
+		  }
+		| unknown[]
+		| string
+		| number
+		| boolean
+		| null;
+	updatedAt: string;
+	createdAt: string;
+	_status?: ("draft" | "published") | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "doc".
+ */
+export interface Doc {
+	id: number;
+	collection: number | Collection;
+	provider: number | Provider;
+	title: string;
+	description?: string | null;
+	state: "created, loaded, indexed";
+	"file-name": string;
+	"mime-type": "pdf, pptx, docx";
+	created: string;
+	updated: string;
+	meta:
+		| {
+				[k: string]: unknown;
+		  }
+		| unknown[]
+		| string
+		| number
+		| boolean
+		| null;
+	updatedAt: string;
+	createdAt: string;
+	_status?: ("draft" | "published") | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -253,6 +308,14 @@ export interface PayloadLockedDocument {
 		| ({
 				relationTo: "collection";
 				value: number | Collection;
+		  } | null)
+		| ({
+				relationTo: "provider";
+				value: number | Provider;
+		  } | null)
+		| ({
+				relationTo: "doc";
+				value: number | Doc;
 		  } | null);
 	globalSlug?: string | null;
 	user: {
@@ -407,6 +470,39 @@ export interface CollectionSelect<T extends boolean = true> {
 	embedding?: T;
 	llm?: T;
 	reranker?: T;
+	updatedAt?: T;
+	createdAt?: T;
+	_status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "provider_select".
+ */
+export interface ProviderSelect<T extends boolean = true> {
+	tenant?: T;
+	title?: T;
+	description?: T;
+	type?: T;
+	settings?: T;
+	updatedAt?: T;
+	createdAt?: T;
+	_status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "doc_select".
+ */
+export interface DocSelect<T extends boolean = true> {
+	collection?: T;
+	provider?: T;
+	title?: T;
+	description?: T;
+	state?: T;
+	"file-name"?: T;
+	"mime-type"?: T;
+	created?: T;
+	updated?: T;
+	meta?: T;
 	updatedAt?: T;
 	createdAt?: T;
 	_status?: T;
