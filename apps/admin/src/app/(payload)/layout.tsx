@@ -19,7 +19,6 @@ const serverFunction: ServerFunctionClient = async (args) =>
 		config,
 		importMap,
 	});
-
 const Layout = ({ children }: Args) => (
 	<RootLayout
 		config={config}
