@@ -8,8 +8,8 @@ export const doc: CollectionConfig = {
 	slug: "doc",
 	access: defaultAccess,
 	admin: {
-		defaultColumns: ["title", "description", "preview"],
-		useAsTitle: "title",
+		defaultColumns: ["name", "description", "preview"],
+		useAsTitle: "name",
 	},
 	fields: [
 		{
@@ -25,42 +25,17 @@ export const doc: CollectionConfig = {
 			required: true,
 		},
 		{
-			name: "title",
+			name: "name",
 			type: "text",
 			required: true,
 			localized: true,
 		},
 		{
-			name: "description",
-			type: "text",
-			localized: true,
-		},
-		{
-			name: "state",
-			type: "select",
-			options: ["created, loaded, indexed"],
-			required: true,
-		},
-		{
-			name: "file-name",
-			type: "text",
-			required: true,
-		},
-		{
-			name: "mime-type",
+			name: "type",
 			type: "select",
 			options: ["pdf, pptx, docx"],
 			required: true,
-		},
-		{
-			name: "created",
-			type: "date",
-			required: true,
-		},
-		{
-			name: "updated",
-			type: "date",
-			required: true,
+			enumName: "type",
 		},
 		{
 			name: "meta",

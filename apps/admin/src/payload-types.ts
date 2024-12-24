@@ -246,13 +246,8 @@ export interface Doc {
   id: number;
   collection: number | Collection;
   provider: number | Provider;
-  title: string;
-  description?: string | null;
-  state: 'created, loaded, indexed';
-  'file-name': string;
-  'mime-type': 'pdf, pptx, docx';
-  created: string;
-  updated: string;
+  name: string;
+  type: 'pdf, pptx, docx';
   meta:
     | {
         [k: string]: unknown;
@@ -487,13 +482,8 @@ export interface ProviderSelect<T extends boolean = true> {
 export interface DocSelect<T extends boolean = true> {
   collection?: T;
   provider?: T;
-  title?: T;
-  description?: T;
-  state?: T;
-  'file-name'?: T;
-  'mime-type'?: T;
-  created?: T;
-  updated?: T;
+  name?: T;
+  type?: T;
   meta?: T;
   updatedAt?: T;
   createdAt?: T;
