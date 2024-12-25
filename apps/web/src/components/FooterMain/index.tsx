@@ -1,3 +1,7 @@
+import VkSmm from "@/assets/VkSmm.js";
+import ZenSmm from "@/assets/ZenSmm.js";
+import YoutubeSmm from "@/assets/YoutubeSmm.js";
+
 const icons = [
 	{
 		name: "vk",

@@ -7,7 +7,7 @@ export const HomePage = memo(() => {
 		<div className="general_parent w-full h-full flex flex-col items-center">
 			<Header />
 			<div className="flex-1"></div>
-			<Footer />
+			{/* <Footer /> */}
 		</div>
 	);
 });
