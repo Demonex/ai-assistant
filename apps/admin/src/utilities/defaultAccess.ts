@@ -1,5 +1,5 @@
 const isAdmin = ({ req: { user } }) => {
-	return user?.roles?.includes?.("admin") ?? false;
+	return user?.superadmin ?? false;
 };
 const defaultAccess = {
 	admin: isAdmin,

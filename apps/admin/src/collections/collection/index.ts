@@ -2,6 +2,8 @@ import type { CollectionConfig } from "payload";
 
 import defaultAccess from "@/utilities/defaultAccess";
 import { neuro } from "@/collections/neuro";
+import { MODEL_TYPE } from "../model";
+import { group } from "../group";
 
 export const collection: CollectionConfig = {
 	slug: "collection",
@@ -27,18 +29,37 @@ export const collection: CollectionConfig = {
 			type: "relationship",
 			relationTo: neuro.slug as "neuro",
 			required: true,
+			filterOptions: {
+				"model.type": {
+					equals: MODEL_TYPE.embedding,
+				},
+			},
 		},
 		{
 			name: "llm",
 			type: "relationship",
 			relationTo: neuro.slug as "neuro",
 			required: true,
+			filterOptions: {
+				"model.type": {
+					equals: MODEL_TYPE.llm,
+				},
+			},
 		},
 		{
 			name: "reranker",
 			type: "relationship",
 			relationTo: neuro.slug as "neuro",
 			required: true,
+			filterOptions: {
+				"model.type": {
+					equals: MODEL_TYPE.reranker,
+				},
+			},
+		},
+		{
+			name: "settings",
+			type: "json",
 		},
 	],
 	versions: {

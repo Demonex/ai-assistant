@@ -31,16 +31,19 @@ export const doc: CollectionConfig = {
 			localized: true,
 		},
 		{
+			name: "description",
+			type: "text",
+			localized: true,
+		},
+		{
 			name: "type",
 			type: "select",
-			options: ["pdf, pptx, docx"],
+			options: ["pdf", "pptx", "docx"],
 			required: true,
-			enumName: "type",
 		},
 		{
 			name: "meta",
 			type: "json",
-			required: true,
 		},
 	],
 	versions: {

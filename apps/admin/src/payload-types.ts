@@ -6,6 +6,18 @@
  * and re-run `payload generate:types` to regenerate this file.
  */
 
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "title".
+ */
+export type Title =
+  | {
+      collection: number | Collection;
+      permissions: 'r' | 'rw' | 'rwd';
+      id?: string | null;
+    }[]
+  | null;
+
 export interface Config {
   auth: {
     user: UserAuthOperations;
@@ -20,6 +32,7 @@ export interface Config {
     collection: Collection;
     provider: Provider;
     doc: Doc;
+    group: Group;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -35,6 +48,7 @@ export interface Config {
     collection: CollectionSelect<false> | CollectionSelect<true>;
     provider: ProviderSelect<false> | ProviderSelect<true>;
     doc: DocSelect<false> | DocSelect<true>;
+    group: GroupSelect<false> | GroupSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -80,10 +94,6 @@ export interface Tenant {
   title: string;
   description?: string | null;
   preview?: (number | null) | TenantMedia;
-  superadmins?: (number | User)[] | null;
-  admins?: (number | User)[] | null;
-  collections?: (number | User)[] | null;
-  models?: (number | User)[] | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -114,17 +124,11 @@ export interface TenantMedia {
 export interface User {
   id: number;
   name?: string | null;
-  avatar?: (number | null) | UserMediaAvatar;
-  roles?: 'admin'[] | null;
   username?: string | null;
   email?: string | null;
+  superadmin?: boolean | null;
   password?: string | null;
-  wallet?: {
-    balance?: number | null;
-  };
-  location?: string | null;
-  bio?: string | null;
-  language?: ('en' | 'ru') | null;
+  avatar?: (number | null) | UserMediaAvatar;
   updatedAt: string;
   createdAt: string;
 }
@@ -156,7 +160,7 @@ export interface Model {
   title: string;
   description?: string | null;
   type: 'llm' | 'embedding' | 'reranker';
-  settings:
+  settings?:
     | {
         [k: string]: unknown;
       }
@@ -211,6 +215,15 @@ export interface Collection {
   embedding: number | Neuro;
   llm: number | Neuro;
   reranker: number | Neuro;
+  settings?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -224,7 +237,7 @@ export interface Provider {
   tenant: number | Tenant;
   title: string;
   description?: string | null;
-  type: 'minio, confluence';
+  type: 'minio' | 'confluence';
   settings:
     | {
         [k: string]: unknown;
@@ -247,8 +260,9 @@ export interface Doc {
   collection: number | Collection;
   provider: number | Provider;
   name: string;
-  type: 'pdf, pptx, docx';
-  meta:
+  description?: string | null;
+  type: 'pdf' | 'pptx' | 'docx';
+  meta?:
     | {
         [k: string]: unknown;
       }
@@ -257,6 +271,22 @@ export interface Doc {
     | number
     | boolean
     | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "group".
+ */
+export interface Group {
+  id: number;
+  tenant: number | Tenant;
+  users: (number | User)[];
+  groupPermissions: ('admin' | 'collection' | 'model' | 'group')[];
+  title: string;
+  description?: string | null;
+  collectionPermissions?: Title;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -303,6 +333,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'doc';
         value: number | Doc;
+      } | null)
+    | ({
+        relationTo: 'group';
+        value: number | Group;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -354,10 +388,6 @@ export interface TenantSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   preview?: T;
-  superadmins?: T;
-  admins?: T;
-  collections?: T;
-  models?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -386,19 +416,11 @@ export interface TenantMediaSelect<T extends boolean = true> {
  */
 export interface UserSelect<T extends boolean = true> {
   name?: T;
-  avatar?: T;
-  roles?: T;
   username?: T;
   email?: T;
+  superadmin?: T;
   password?: T;
-  wallet?:
-    | T
-    | {
-        balance?: T;
-      };
-  location?: T;
-  bio?: T;
-  language?: T;
+  avatar?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -457,6 +479,7 @@ export interface CollectionSelect<T extends boolean = true> {
   embedding?: T;
   llm?: T;
   reranker?: T;
+  settings?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -483,11 +506,36 @@ export interface DocSelect<T extends boolean = true> {
   collection?: T;
   provider?: T;
   name?: T;
+  description?: T;
   type?: T;
   meta?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "group_select".
+ */
+export interface GroupSelect<T extends boolean = true> {
+  tenant?: T;
+  users?: T;
+  groupPermissions?: T;
+  title?: T;
+  description?: T;
+  collectionPermissions?: T | TitleSelect<T>;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "title_select".
+ */
+export interface TitleSelect<T extends boolean = true> {
+  collection?: T;
+  permissions?: T;
+  id?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

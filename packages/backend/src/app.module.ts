@@ -11,14 +11,13 @@ import { ScheduleModule } from "@nestjs/schedule";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { PostgreSqlDriver } from "@mikro-orm/postgresql";
 import { UserEntity } from "@repo/backend/entities/User/index.js";
-import { UserRolesEntity } from "@repo/backend/entities/User/roles.js";
 import { TenantEntity } from "./entities/Tenant";
 import { TenantRelsEntity } from "./entities/Tenant/rels";
 
 @Module({
 	imports: [
 		MikroOrmModule.forRoot({
-			entities: [UserEntity, UserRolesEntity, TenantEntity, TenantRelsEntity],
+			entities: [UserEntity, TenantEntity, TenantRelsEntity],
 			driver: PostgreSqlDriver,
 			dbName: process.env.DATABASE_NAME,
 			host: process.env.DATABASE_HOST,

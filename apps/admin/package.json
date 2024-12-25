@@ -43,6 +43,7 @@
     "next": "15.1.2",
     "payload": "3.11.0",
     "prism-react-renderer": "2.4.0",
+    "prompts": "^2.4.2",
     "react": "19.0.0-rc.1",
     "react-dom": "19.0.0-rc.1",
     "tailwind-merge": "2.5.5",

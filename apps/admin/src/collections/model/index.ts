@@ -3,6 +3,12 @@ import type { CollectionConfig } from "payload";
 import defaultAccess from "@/utilities/defaultAccess";
 import { tenant } from "@/collections/tenant";
 
+export enum MODEL_TYPE {
+	llm = "llm",
+	embedding = "embedding",
+	reranker = "reranker",
+}
+
 export const model: CollectionConfig = {
 	slug: "model",
 	access: defaultAccess,
@@ -31,13 +37,12 @@ export const model: CollectionConfig = {
 		{
 			name: "type",
 			type: "select",
-			options: ["llm", "embedding", "reranker"],
+			options: Object.values(MODEL_TYPE),
 			required: true,
 		},
 		{
 			name: "settings",
 			type: "json",
-			required: true,
 		},
 	],
 	versions: {

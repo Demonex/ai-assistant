@@ -15,7 +15,7 @@ export const user: CollectionConfig = {
 	admin: {
 		hideAPIURL: true,
 		defaultColumns: ["avatar", "name", "username", "email", "language"],
-		useAsTitle: "email",
+		useAsTitle: "name",
 	},
 	auth: {
 		disableLocalStrategy: true,
@@ -53,106 +53,48 @@ export const user: CollectionConfig = {
 	},
 	fields: [
 		{
-			type: "tabs",
-			tabs: [
-				{
-					label: "Info",
-					description: "Basic info of user.",
-					fields: [
-						{
-							type: "row",
-							fields: [
-								{
-									name: "name",
-									type: "text",
-									admin: {
-										width: "70%",
-									},
-								},
-								{
-									name: "avatar",
-									type: "upload",
-									relationTo: userMediaAvatar.slug as "user-media-avatar",
-									admin: {
-										width: "30%",
-										components: {
-											// Cell: AvatarCell
-										},
-									},
-								},
-								{
-									name: "roles",
-									type: "select",
-									hasMany: true,
-									unique: true,
-									options: ["admin"],
-								},
-							],
-						},
-						{
-							type: "row",
-							fields: [
-								{
-									name: "username",
-									type: "text",
-									admin: {
-										width: "50%",
-									},
-								},
-								{
-									name: "email",
-									type: "text",
-									admin: {
-										width: "50%",
-									},
-								},
-								{
-									name: "password",
-									type: "text",
-									admin: {
-										hidden: true,
-									},
-								},
-							],
-						},
-					],
-				},
-				{
-					label: "Subscriptions",
-					description: "Subscriptions & Payment",
-					fields: [
-						{
-							name: "wallet",
-							type: "group",
-							fields: [
-								{
-									name: "balance",
-									type: "number",
-								},
-							],
-						},
-					],
-				},
-				{
-					label: "Extra",
-					description: "Additional params & UI settings",
-					fields: [
-						{
-							name: "location",
-							type: "text",
-						},
-						{
-							name: "bio",
-							type: "textarea",
-						},
-						{
-							name: "language",
-							type: "select",
-							options: ["en", "ru"],
-						},
-					],
-				},
-			],
+			name: "name",
+			type: "text",
+		},
+		{
+			name: "username",
+			type: "text",
+		},
+		{
+			name: "email",
+			type: "email",
+		},
+		// {
+		// 	name: "reset password token",
+		// 	type: "text",
+		// },
+		// {
+		// 	name: "confirmation token",
+		// 	type: "text",
+		// },
+		// {
+		// 	name: "confirmed",
+		// 	type: "checkbox",
+		// },
+		// {
+		// 	name: "blocked",
+		// 	type: "checkbox",
+		// },
+		{
+			name: "superadmin",
+			type: "checkbox",
+		},
+		{
+			name: "password",
+			type: "text",
+			admin: {
+				// hidden: true,
+			},
+		},
+		{
+			name: "avatar",
+			type: "upload",
+			relationTo: userMediaAvatar.slug as "user-media-avatar",
 		},
 	],
 	timestamps: true,

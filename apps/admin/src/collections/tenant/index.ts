@@ -29,50 +29,6 @@ export const tenant: CollectionConfig = {
 			type: "upload",
 			relationTo: tenantMedia.slug as "tenant-media",
 		},
-		{
-			name: "superadmins",
-			type: "relationship",
-			hasMany: true,
-			relationTo: user.slug as "user",
-			admin: {
-				components: {
-					Label: "@/components/FieldLabelTooltip/index",
-				} as any,
-			},
-		},
-		{
-			name: "admins",
-			type: "relationship",
-			hasMany: true,
-			relationTo: user.slug as "user",
-			admin: {
-				components: {
-					Label: "@/components/FieldLabelTooltip/index",
-				} as any,
-			},
-		},
-		{
-			name: "collections",
-			type: "relationship",
-			hasMany: true,
-			relationTo: user.slug as "user",
-			admin: {
-				components: {
-					Label: "@/components/FieldLabelTooltip/index",
-				} as any,
-			},
-		},
-		{
-			name: "models",
-			type: "relationship",
-			hasMany: true,
-			relationTo: user.slug as "user",
-			admin: {
-				components: {
-					Label: "@/components/FieldLabelTooltip/index",
-				} as any,
-			},
-		},
 	],
 	versions: {
 		drafts: {

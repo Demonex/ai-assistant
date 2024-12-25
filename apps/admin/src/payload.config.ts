@@ -17,6 +17,7 @@ import { neuro } from "./collections/neuro";
 import { collection } from "./collections/collection";
 import { provider } from "./collections/provider";
 import { doc } from "./collections/doc";
+import { group } from "./collections/group";
 // import Logo from "@/components/Logo/Logo";
 // import Icon from "@/components/Logo/Icon";
 
@@ -98,6 +99,7 @@ export default buildConfig({
 		collection,
 		provider,
 		doc,
+		group,
 	],
 	cors: [getServerSideURL()].filter(Boolean),
 	globals: [],
