@@ -6,9 +6,6 @@
     },
     {
       "path": "../../services/auth"
-    },
-    {
-      "path": "../../libs/typegoose-cursor-pagination"
     }
   ],
   "compilerOptions": {
