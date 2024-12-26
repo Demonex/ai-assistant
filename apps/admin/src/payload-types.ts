@@ -6,18 +6,6 @@
  * and re-run `payload generate:types` to regenerate this file.
  */
 
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "title".
- */
-export type Title =
-  | {
-      collection: number | Collection;
-      permissions: 'r' | 'rw' | 'rwd';
-      id?: string | null;
-    }[]
-  | null;
-
 export interface Config {
   auth: {
     user: UserAuthOperations;
@@ -156,19 +144,9 @@ export interface UserMediaAvatar {
  */
 export interface Model {
   id: number;
-  tenant: number | Tenant;
   title: string;
-  description?: string | null;
   type: 'llm' | 'embedding' | 'reranker';
-  settings?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
+  tenant: number | Tenant;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -180,18 +158,8 @@ export interface Model {
 export interface Neuro {
   id: number;
   title: string;
-  description?: string | null;
-  settings:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
   model?: (number | null) | Model;
-  'model-settings'?:
+  modelSettings?:
     | {
         [k: string]: unknown;
       }
@@ -211,18 +179,24 @@ export interface Neuro {
 export interface Collection {
   id: number;
   title: string;
-  description?: string | null;
   embedding: number | Neuro;
   llm: number | Neuro;
   reranker: number | Neuro;
-  settings?:
+  providers?:
     | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
+        provider: number | Provider;
+        enabled?: boolean | null;
+        settings?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        id?: string | null;
+      }[]
     | null;
   updatedAt: string;
   createdAt: string;
@@ -257,23 +231,21 @@ export interface Provider {
  */
 export interface Doc {
   id: number;
+  name: string;
   collection: number | Collection;
   provider: number | Provider;
-  name: string;
-  description?: string | null;
-  type: 'pdf' | 'pptx' | 'docx';
-  meta?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -282,11 +254,16 @@ export interface Doc {
 export interface Group {
   id: number;
   tenant: number | Tenant;
+  title: string;
   users: (number | User)[];
   groupPermissions: ('admin' | 'collection' | 'model' | 'group')[];
-  title: string;
-  description?: string | null;
-  collectionPermissions?: Title;
+  collectionPermissions?:
+    | {
+        collection: number | Collection;
+        permissions: 'r' | 'rw' | 'rwd';
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -446,11 +423,9 @@ export interface UserMediaAvatarSelect<T extends boolean = true> {
  * via the `definition` "model_select".
  */
 export interface ModelSelect<T extends boolean = true> {
-  tenant?: T;
   title?: T;
-  description?: T;
   type?: T;
-  settings?: T;
+  tenant?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -461,10 +436,8 @@ export interface ModelSelect<T extends boolean = true> {
  */
 export interface NeuroSelect<T extends boolean = true> {
   title?: T;
-  description?: T;
-  settings?: T;
   model?: T;
-  'model-settings'?: T;
+  modelSettings?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -475,11 +448,17 @@ export interface NeuroSelect<T extends boolean = true> {
  */
 export interface CollectionSelect<T extends boolean = true> {
   title?: T;
-  description?: T;
   embedding?: T;
   llm?: T;
   reranker?: T;
-  settings?: T;
+  providers?:
+    | T
+    | {
+        provider?: T;
+        enabled?: T;
+        settings?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -503,15 +482,21 @@ export interface ProviderSelect<T extends boolean = true> {
  * via the `definition` "doc_select".
  */
 export interface DocSelect<T extends boolean = true> {
+  name?: T;
   collection?: T;
   provider?: T;
-  name?: T;
-  description?: T;
-  type?: T;
-  meta?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -519,23 +504,19 @@ export interface DocSelect<T extends boolean = true> {
  */
 export interface GroupSelect<T extends boolean = true> {
   tenant?: T;
+  title?: T;
   users?: T;
   groupPermissions?: T;
-  title?: T;
-  description?: T;
-  collectionPermissions?: T | TitleSelect<T>;
+  collectionPermissions?:
+    | T
+    | {
+        collection?: T;
+        permissions?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "title_select".
- */
-export interface TitleSelect<T extends boolean = true> {
-  collection?: T;
-  permissions?: T;
-  id?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

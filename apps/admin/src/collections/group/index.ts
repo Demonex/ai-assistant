@@ -33,10 +33,16 @@ export const group: CollectionConfig = {
 			required: true,
 		},
 		{
+			name: "title",
+			type: "text",
+			required: true,
+			localized: true,
+		},
+		{
 			name: "users",
 			type: "relationship",
-			hasMany: true,
 			relationTo: user.slug as "user",
+			hasMany: true,
 			required: true,
 		},
 		{
@@ -47,24 +53,12 @@ export const group: CollectionConfig = {
 			required: true,
 		},
 		{
-			name: "title",
-			type: "text",
-			required: true,
-			localized: true,
-		},
-		{
-			name: "description",
-			type: "text",
-			localized: true,
-		},
-		{
-			name: "collectionPermissions", // required
-			type: "array", // required
-			label: "Collection permissions",
-			interfaceName: "title",
+			name: "collectionPermissions",
+			type: "array",
+			label: "Permissions for specific collections",
 			labels: {
-				singular: "collection-permission",
-				plural: "Collection Permissions",
+				singular: "permissions for collectiontiontiontion",
+				plural: "permissions for collections",
 			},
 			fields: [
 				{

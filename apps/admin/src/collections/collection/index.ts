@@ -4,12 +4,14 @@ import defaultAccess from "@/utilities/defaultAccess";
 import { neuro } from "@/collections/neuro";
 import { MODEL_TYPE } from "../model";
 import { group } from "../group";
+import { provider } from "../provider";
+import { doc } from "../doc";
 
 export const collection: CollectionConfig = {
 	slug: "collection",
 	access: defaultAccess,
 	admin: {
-		defaultColumns: ["title", "description", "preview"],
+		defaultColumns: ["title", "embedding", "llm", "reranker", "providers"],
 		useAsTitle: "title",
 	},
 	fields: [
@@ -17,11 +19,6 @@ export const collection: CollectionConfig = {
 			name: "title",
 			type: "text",
 			required: true,
-			localized: true,
-		},
-		{
-			name: "description",
-			type: "text",
 			localized: true,
 		},
 		{
@@ -58,8 +55,40 @@ export const collection: CollectionConfig = {
 			},
 		},
 		{
-			name: "settings",
-			type: "json",
+			name: "providers",
+			type: "array",
+			label: "Providers",
+			labels: {
+				singular: "provider",
+				plural: "providers",
+			},
+			fields: [
+				{
+					name: "provider",
+					type: "relationship",
+					relationTo: provider.slug as "provider",
+					required: true,
+				},
+				{
+					name: "enabled",
+					type: "checkbox",
+					defaultValue: false,
+				},
+				{
+					name: "settings",
+					type: "json",
+				},
+				// {
+				//   name: "upload",
+				//   type: "upload",
+				//   relationTo: doc.slug as 'doc',
+				// },
+			],
+			admin: {
+				components: {
+					RowLabel: "@/components/ArrayRowLabel/index#ArrayRowLabel",
+				},
+			},
 		},
 	],
 	versions: {

@@ -13,25 +13,14 @@ export const model: CollectionConfig = {
 	slug: "model",
 	access: defaultAccess,
 	admin: {
-		defaultColumns: ["title", "description", "preview"],
+		defaultColumns: ["title", "type", "tenant"],
 		useAsTitle: "title",
 	},
 	fields: [
 		{
-			name: "tenant",
-			type: "relationship",
-			relationTo: tenant.slug as "tenant",
-			required: true,
-		},
-		{
 			name: "title",
 			type: "text",
 			required: true,
-			localized: true,
-		},
-		{
-			name: "description",
-			type: "text",
 			localized: true,
 		},
 		{
@@ -41,8 +30,10 @@ export const model: CollectionConfig = {
 			required: true,
 		},
 		{
-			name: "settings",
-			type: "json",
+			name: "tenant",
+			type: "relationship",
+			relationTo: tenant.slug as "tenant",
+			required: true,
 		},
 	],
 	versions: {

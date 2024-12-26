@@ -13,6 +13,12 @@ export const doc: CollectionConfig = {
 	},
 	fields: [
 		{
+			name: "name",
+			type: "text",
+			required: true,
+			localized: true,
+		},
+		{
 			name: "collection",
 			type: "relationship",
 			relationTo: collection.slug as "collection",
@@ -24,27 +30,6 @@ export const doc: CollectionConfig = {
 			relationTo: provider.slug as "provider",
 			required: true,
 		},
-		{
-			name: "name",
-			type: "text",
-			required: true,
-			localized: true,
-		},
-		{
-			name: "description",
-			type: "text",
-			localized: true,
-		},
-		{
-			name: "type",
-			type: "select",
-			options: ["pdf", "pptx", "docx"],
-			required: true,
-		},
-		{
-			name: "meta",
-			type: "json",
-		},
 	],
 	versions: {
 		drafts: {
@@ -53,5 +38,12 @@ export const doc: CollectionConfig = {
 			},
 		},
 		maxPerDoc: 50,
+	},
+	upload: {
+		// from the imageSizes below, the admin UI will show this size for previewing
+		// staticDir tell Payload where to store files to and allows them to be served
+		// staticDir: path.resolve(__dirname, '../../../media'),
+		// limit the types of files allowed and request validation
+		mimeTypes: ["image/*"],
 	},
 };

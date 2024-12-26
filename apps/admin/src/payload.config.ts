@@ -112,6 +112,9 @@ export default buildConfig({
 				[tenantMedia.slug]: {
 					bucket: process.env.S3_BUCKET_TENANT_MEDIA,
 				},
+				[doc.slug]: {
+					bucket: process.env.S3_BUCKET_TENANT_DOC,
+				},
 			},
 			config: {
 				credentials: {
