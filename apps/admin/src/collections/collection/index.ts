@@ -1,5 +1,4 @@
 import type { CollectionConfig } from "payload";
-
 import defaultAccess from "@/utilities/defaultAccess";
 import { neuro } from "@/collections/neuro";
 import { MODEL_TYPE } from "../model";

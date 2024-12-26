@@ -11,6 +11,6 @@ export class UserEntity {
 	@Property({ hidden: true })
 	password!: string;
 
-	@Property()
+	@Property({ nullable: true })
 	superadmin: boolean;
 }

@@ -28,7 +28,8 @@
    "correctness": {
     "useExhaustiveDependencies": "off",
     "noEmptyPattern": "off",
-    "noChildrenProp": "off"
+    "noChildrenProp": "off",
+	"useJsxKeyInIterable":"off"
    },
    "style": {
     "useSelfClosingElements": "off"

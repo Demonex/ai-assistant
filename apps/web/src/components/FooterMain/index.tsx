@@ -1,3 +1,16 @@
+import { useSizes } from "../../hooks/useSizes.js";
+import { useElementRangeSize } from "../../hooks/useElementRangeSize.js";
+import { memo } from "react";
+import YoutubeSmm from "../../assets/YoutubeSmm.js";
+import VkSmm from "../../assets/VkSmm.js";
+import ZenSmm from "../../assets/ZenSmm.js";
+import TGSmm from "../../assets/TGSmm.js";
+import AppleBtn from "../../assets/AppleBtn.js";
+import RustoreBtn from "../../assets/RustoreBtn.js";
+import GoogleBtn from "../../assets/GoogleBtn.js";
+import { Link, useLocation } from "wouter";
+import RutubeSmm from "../../assets/RutubeSmm.js";
+
 const icons = [
 	{
 		name: "vk",

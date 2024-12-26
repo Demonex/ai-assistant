@@ -4,10 +4,7 @@
     "alwaysStrict": false,
     "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"],
-    },
+    "baseUrl": "src",
     "checkJs": true,
     "declaration": false,
     "declarationMap": false,
@@ -28,14 +25,38 @@
     "sourceMap": false,
     "target": "ESNext",
     "resolveJsonModule": true,
-    "noUnusedLocals": false
+    "noUnusedLocals": false,
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+      "assets/*": [
+        "assets/*"
+      ],
+      "components/*": [
+        "components/*"
+      ],
+      "constants/*": [
+        "constants/*"
+      ],
+      "hooks/*": [
+        "hooks/*"
+      ],
+      "pages/*": [
+        "pages/*"
+      ],
+      "utils/*": [
+        "utils/*"
+      ]
+    }
   },
   "include": [
-    "src",
+    "src/**/*",
     "types/*",
     "server.ts",
     "prerender.cts",
-    "*.ts",
-    "node_modules/vite/types/*"
+    "node_modules/vite/types/*",
+    "types.d.ts",
+    "vite-env.d.ts",
   ]
 }
