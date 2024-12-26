@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import { memo, useEffect } from "react";
 import { Route, Switch, useLocation } from "wouter";
 import get from "lodash.get";
 import { ErrorPage } from "../pages/404/Error.js";
@@ -7,6 +7,7 @@ import "../index.css";
 import { SearchBar } from "./Header/components/SearchField/index.js";
 import { useSizes } from "../hooks/useSizes.js";
 import "../shared/config/i18n/i18n.js";
+import { ThemeProvider } from "./theme-provider.js";
 
 const PagePathsWithComponents: {
 	[k: string]: {
@@ -69,12 +70,16 @@ export const App = memo(() => {
 	return (
 		<>
 			{/*<TurnOffDefaultPropsWarning/>*/}
-			<Switch>
-				{routes.map(({ path, component: RouteComp }, index) => {
-					return <Route path={path} component={RouteComp as any} key={index} />;
-				})}
-			</Switch>
-			<SearchBar />
+			<ThemeProvider>
+				<Switch>
+					{routes.map(({ path, component: RouteComp }, index) => {
+						return (
+							<Route path={path} component={RouteComp as any} key={index} />
+						);
+					})}
+				</Switch>
+				<SearchBar />
+			</ThemeProvider>
 		</>
 	);
 });
