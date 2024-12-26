@@ -1,5 +1,4 @@
 import type { CollectionConfig } from "payload";
-
 import defaultAccess from "@/utilities/defaultAccess";
 import { neuro } from "@/collections/neuro";
 import { MODEL_TYPE } from "../model";
@@ -78,11 +77,11 @@ export const collection: CollectionConfig = {
 					name: "settings",
 					type: "json",
 				},
-				// {
-				//   name: "upload",
-				//   type: "upload",
-				//   relationTo: doc.slug as 'doc',
-				// },
+				{
+					name: "upload",
+					type: "upload",
+					relationTo: doc.slug as "doc",
+				},
 			],
 			admin: {
 				components: {

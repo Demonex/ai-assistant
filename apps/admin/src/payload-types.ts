@@ -195,6 +195,7 @@ export interface Collection {
           | number
           | boolean
           | null;
+        upload?: (number | null) | Doc;
         id?: string | null;
       }[]
     | null;
@@ -457,6 +458,7 @@ export interface CollectionSelect<T extends boolean = true> {
         provider?: T;
         enabled?: T;
         settings?: T;
+        upload?: T;
         id?: T;
       };
   updatedAt?: T;
