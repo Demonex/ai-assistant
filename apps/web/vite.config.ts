@@ -1,5 +1,6 @@
 import {defineConfig} from 'vite';
 import react from '@vitejs/plugin-react-swc';
+import tsconfigPaths from 'vite-tsconfig-paths';
 import {networkInterfaces} from 'os'
 import path from "path";
 
@@ -22,7 +23,10 @@ export default defineConfig({
             },
         },
     },
-    plugins: [react()],
+    plugins: [
+        tsconfigPaths(),
+      react()
+    ],
     resolve: {
         alias: {
           '@': path.resolve(__dirname, 'src'),

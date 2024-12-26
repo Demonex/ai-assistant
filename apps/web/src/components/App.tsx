@@ -1,85 +1,71 @@
-import { memo, useEffect } from "react";
-import { Route, Switch, useLocation } from "wouter";
-import get from "lodash.get";
-import { ErrorPage } from "../pages/404/Error.js";
-import { MemoComponent } from "./MemoComponent.js";
-import "../index.css";
+import React, { memo, Suspense, useCallback, useEffect, useMemo } from "react";
+import { Route, Router, Switch, useLocation } from "wouter";
 import { SearchBar } from "./Header/components/SearchField/index.js";
 import { useSizes } from "../hooks/useSizes.js";
+import { useRouterApp, useRouterBlock } from "@/hooks/useRouter.js";
+import { useBrowserLocation } from "wouter/use-browser-location";
+
 import "../shared/config/i18n/i18n.js";
-import { ThemeProvider } from "./theme-provider.js";
+import "../index.css";
 
-const PagePathsWithComponents: {
-	[k: string]: {
-		default: any;
-	};
-} = import.meta.glob("../routes/**/*.ts", { eager: true });
-
-const routes: {
-	path?: string;
-	component: any;
-}[] = [
-	...Object.keys(PagePathsWithComponents).map((_path: string) => {
-		const name = get(_path.match(/\.\.\/routes\/(.*)\.ts$/), 1, "");
-		const path = name === "index" ? "/" : `/${name}`;
-		const pathAbsoluteArr = path
-			.replace(/\|/g, "/")
-			.split("/")
-			.filter((_, index) => index > 0);
-		const isSubRoot =
-			pathAbsoluteArr.length > 1 && pathAbsoluteArr.at(-1) === "index";
-		const pathAbsolute = (
-			isSubRoot
-				? pathAbsoluteArr
-						.filter((_, index) => {
-							return index < pathAbsoluteArr.length - 1;
-						})
-						.join("/")
-				: pathAbsoluteArr.join("/")
-		)
-			.replace(/}/g, "")
-			.replace(/\{/g, ":");
-		return {
-			path: pathAbsolute || "/",
-			component: MemoComponent(PagePathsWithComponents[_path].default),
-		};
-	}),
-	{
-		component: {
-			path: undefined,
-			component: MemoComponent(ErrorPage),
-		},
-	},
-];
 export const App = memo(() => {
-	const { width, height } = useSizes();
+	const [location, setLocation] = useLocation();
+	const { router, setRouter } = useRouterApp();
 
-	const [location] = useLocation();
+	const { routerAppListeners } = useRouterBlock();
+	const route = useMemo(() => {
+		return router.routes.reduce<(typeof router.routes)[number]>(
+			(_route, route) => {
+				return (route.path.length > 1
+					? router.location?.startsWith(route.path)
+					: router.location === route.path) && route.finished
+					? route
+					: route.path === router.prevLocation && !_route
+						? route
+						: _route;
+			},
+			undefined,
+		);
+	}, [router]);
+
+	const hook: any = useCallback(
+		(opts = {}) => {
+			const [path, navigate] = useBrowserLocation(opts);
+			return [
+				path,
+				async (...args: any[]) => {
+					const params = args as [any];
+					await Promise.all(routerAppListeners.map((fn) => fn()));
+					return navigate(...params);
+				},
+			];
+		},
+		[routerAppListeners],
+	);
 
 	useEffect(() => {
-		document.getElementById("app").scrollTo({
-			top: 0,
-			behavior: "instant",
-		});
+		if (router.location === location) {
+			return;
+		}
+		setRouter((prev) => ({ ...prev, location, setLocation }));
 	}, [location]);
 
-	if (width === 0 || height === 0) {
+	const Component = useMemo(() => {
+		return (
+			route?.component ||
+			router.routes.find(({ path }) => path === "*" /*404 page*/)?.component
+		);
+	}, [route]);
+
+	if (!router.location) {
 		return null;
 	}
 
+	console.log(Component);
+
 	return (
-		<>
-			{/*<TurnOffDefaultPropsWarning/>*/}
-			<ThemeProvider>
-				<Switch>
-					{routes.map(({ path, component: RouteComp }, index) => {
-						return (
-							<Route path={path} component={RouteComp as any} key={index} />
-						);
-					})}
-				</Switch>
-				<SearchBar />
-			</ThemeProvider>
-		</>
+		<Router hook={hook}>
+			<Suspense fallback={""}>{Component && <Component />}</Suspense>
+		</Router>
 	);
 });
