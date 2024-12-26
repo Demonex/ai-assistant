@@ -20,6 +20,7 @@ export interface Config {
     collection: Collection;
     provider: Provider;
     doc: Doc;
+    group: Group;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -35,6 +36,7 @@ export interface Config {
     collection: CollectionSelect<false> | CollectionSelect<true>;
     provider: ProviderSelect<false> | ProviderSelect<true>;
     doc: DocSelect<false> | DocSelect<true>;
+    group: GroupSelect<false> | GroupSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -80,10 +82,6 @@ export interface Tenant {
   title: string;
   description?: string | null;
   preview?: (number | null) | TenantMedia;
-  superadmins?: (number | User)[] | null;
-  admins?: (number | User)[] | null;
-  collections?: (number | User)[] | null;
-  models?: (number | User)[] | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -114,17 +112,11 @@ export interface TenantMedia {
 export interface User {
   id: number;
   name?: string | null;
-  avatar?: (number | null) | UserMediaAvatar;
-  roles?: 'admin'[] | null;
   username?: string | null;
   email?: string | null;
+  superadmin?: boolean | null;
   password?: string | null;
-  wallet?: {
-    balance?: number | null;
-  };
-  location?: string | null;
-  bio?: string | null;
-  language?: ('en' | 'ru') | null;
+  avatar?: (number | null) | UserMediaAvatar;
   updatedAt: string;
   createdAt: string;
 }
@@ -152,19 +144,9 @@ export interface UserMediaAvatar {
  */
 export interface Model {
   id: number;
-  tenant: number | Tenant;
   title: string;
-  description?: string | null;
   type: 'llm' | 'embedding' | 'reranker';
-  settings:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
+  tenant: number | Tenant;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -176,18 +158,8 @@ export interface Model {
 export interface Neuro {
   id: number;
   title: string;
-  description?: string | null;
-  settings:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
   model?: (number | null) | Model;
-  'model-settings'?:
+  modelSettings?:
     | {
         [k: string]: unknown;
       }
@@ -207,10 +179,25 @@ export interface Neuro {
 export interface Collection {
   id: number;
   title: string;
-  description?: string | null;
   embedding: number | Neuro;
   llm: number | Neuro;
   reranker: number | Neuro;
+  providers?:
+    | {
+        provider: number | Provider;
+        enabled?: boolean | null;
+        settings?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -224,7 +211,7 @@ export interface Provider {
   tenant: number | Tenant;
   title: string;
   description?: string | null;
-  type: 'minio, confluence';
+  type: 'minio' | 'confluence';
   settings:
     | {
         [k: string]: unknown;
@@ -244,18 +231,38 @@ export interface Provider {
  */
 export interface Doc {
   id: number;
+  name: string;
   collection: number | Collection;
   provider: number | Provider;
-  name: string;
-  type: 'pdf, pptx, docx';
-  meta:
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "group".
+ */
+export interface Group {
+  id: number;
+  tenant: number | Tenant;
+  title: string;
+  users: (number | User)[];
+  groupPermissions: ('admin' | 'collection' | 'model' | 'group')[];
+  collectionPermissions?:
     | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
+        collection: number | Collection;
+        permissions: 'r' | 'rw' | 'rwd';
+        id?: string | null;
+      }[]
     | null;
   updatedAt: string;
   createdAt: string;
@@ -303,6 +310,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'doc';
         value: number | Doc;
+      } | null)
+    | ({
+        relationTo: 'group';
+        value: number | Group;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -354,10 +365,6 @@ export interface TenantSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   preview?: T;
-  superadmins?: T;
-  admins?: T;
-  collections?: T;
-  models?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -386,19 +393,11 @@ export interface TenantMediaSelect<T extends boolean = true> {
  */
 export interface UserSelect<T extends boolean = true> {
   name?: T;
-  avatar?: T;
-  roles?: T;
   username?: T;
   email?: T;
+  superadmin?: T;
   password?: T;
-  wallet?:
-    | T
-    | {
-        balance?: T;
-      };
-  location?: T;
-  bio?: T;
-  language?: T;
+  avatar?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -424,11 +423,9 @@ export interface UserMediaAvatarSelect<T extends boolean = true> {
  * via the `definition` "model_select".
  */
 export interface ModelSelect<T extends boolean = true> {
-  tenant?: T;
   title?: T;
-  description?: T;
   type?: T;
-  settings?: T;
+  tenant?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -439,10 +436,8 @@ export interface ModelSelect<T extends boolean = true> {
  */
 export interface NeuroSelect<T extends boolean = true> {
   title?: T;
-  description?: T;
-  settings?: T;
   model?: T;
-  'model-settings'?: T;
+  modelSettings?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -453,10 +448,17 @@ export interface NeuroSelect<T extends boolean = true> {
  */
 export interface CollectionSelect<T extends boolean = true> {
   title?: T;
-  description?: T;
   embedding?: T;
   llm?: T;
   reranker?: T;
+  providers?:
+    | T
+    | {
+        provider?: T;
+        enabled?: T;
+        settings?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -480,11 +482,38 @@ export interface ProviderSelect<T extends boolean = true> {
  * via the `definition` "doc_select".
  */
 export interface DocSelect<T extends boolean = true> {
+  name?: T;
   collection?: T;
   provider?: T;
-  name?: T;
-  type?: T;
-  meta?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "group_select".
+ */
+export interface GroupSelect<T extends boolean = true> {
+  tenant?: T;
+  title?: T;
+  users?: T;
+  groupPermissions?: T;
+  collectionPermissions?:
+    | T
+    | {
+        collection?: T;
+        permissions?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

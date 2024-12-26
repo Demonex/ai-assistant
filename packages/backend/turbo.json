@@ -12,8 +12,10 @@
 		},
 		"dev": {
 			"cache": false,
-			"persistent": true,
-			"dependsOn": []
+			"persistent": true
+		},
+		"docker-compose": {
+			"cache": false
 		},
 		"format": {
 			"cache": false

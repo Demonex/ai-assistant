@@ -3,20 +3,20 @@ import type { CollectionConfig } from "payload";
 import defaultAccess from "@/utilities/defaultAccess";
 import { tenant } from "@/collections/tenant";
 
+export enum MODEL_TYPE {
+	llm = "llm",
+	embedding = "embedding",
+	reranker = "reranker",
+}
+
 export const model: CollectionConfig = {
 	slug: "model",
 	access: defaultAccess,
 	admin: {
-		defaultColumns: ["title", "description", "preview"],
+		defaultColumns: ["title", "type", "tenant"],
 		useAsTitle: "title",
 	},
 	fields: [
-		{
-			name: "tenant",
-			type: "relationship",
-			relationTo: tenant.slug as "tenant",
-			required: true,
-		},
 		{
 			name: "title",
 			type: "text",
@@ -24,19 +24,15 @@ export const model: CollectionConfig = {
 			localized: true,
 		},
 		{
-			name: "description",
-			type: "text",
-			localized: true,
-		},
-		{
 			name: "type",
 			type: "select",
-			options: ["llm", "embedding", "reranker"],
+			options: Object.values(MODEL_TYPE),
 			required: true,
 		},
 		{
-			name: "settings",
-			type: "json",
+			name: "tenant",
+			type: "relationship",
+			relationTo: tenant.slug as "tenant",
 			required: true,
 		},
 	],

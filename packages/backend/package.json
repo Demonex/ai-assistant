@@ -30,7 +30,6 @@
 		"@nestjs/typeorm": "^10.0.2",
 		"@repo/auth": "workspace:*",
 		"@repo/common": "workspace:*",
-		"@stigma-io/typegoose-cursor-pagination": "workspace:*",
 		"@typegoose/typegoose": "12.9.1",
 		"apple-auth": "1.0.9",
 		"awesome-phonenumber": "6.4.0",

@@ -7,7 +7,7 @@ export const neuro: CollectionConfig = {
 	slug: "neuro",
 	access: defaultAccess,
 	admin: {
-		defaultColumns: ["title", "description", "preview"],
+		defaultColumns: ["title", "model", "modelSettings"],
 		useAsTitle: "title",
 	},
 	fields: [
@@ -18,22 +18,12 @@ export const neuro: CollectionConfig = {
 			localized: true,
 		},
 		{
-			name: "description",
-			type: "text",
-			localized: true,
-		},
-		{
-			name: "settings",
-			type: "json",
-			required: true,
-		},
-		{
 			name: "model",
 			type: "relationship",
 			relationTo: model.slug as "model",
 		},
 		{
-			name: "model-settings",
+			name: "modelSettings",
 			type: "json",
 		},
 	],

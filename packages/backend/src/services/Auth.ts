@@ -71,7 +71,7 @@ export class AuthService {
 		this.request.session.user = {
 			id: user.id,
 			language: user.language || "en",
-			roles: user.roles?.map(({ value }) => value),
+			superadmin: Boolean(user.superadmin),
 			email: user.email,
 		};
 		return user as UserEntity;
@@ -112,7 +112,7 @@ export class AuthService {
 		this.request.session.user = {
 			id: user.id,
 			language: user.language,
-			roles: user.roles?.map(({ value }) => value),
+			superadmin: Boolean(user.supearadmin),
 		};
 
 		if (ipRegLimit) {

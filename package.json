@@ -11,13 +11,19 @@
     "build": "turbo run build --filter=@repo/backend",
     "clean": "turbo run clean",
     "predev:*": "mkdirp .turbo/daemon",
-    "dev:admin": "pnpm run predev:* && turbo daemon clean && turbo --parallel dev --log-prefix=none --filter=@repo/admin",
-    "dev:backend:watch": "turbo --parallel watch build --log-prefix=none --filter=@repo/backend",
-    "dev:backend": "turbo --parallel run dev --log-prefix=none --filter=@repo/backend",
-    "dev:web": "pnpm run predev:* && turbo daemon clean && turbo run dev --log-prefix=none --filter=@repo/web",
     "lint": "turbo run lint --parallel",
     "format": "turbo run format --parallel",
-    "test": "turbo run test -- --watch false"
+    "test": "turbo run test -- --watch false",
+
+    "dev:admin": "pnpm run predev:* && turbo daemon clean && turbo --parallel --ui=tui dev --log-prefix=none --filter=@repo/admin",
+    "dev:admin:types": "pnpm run predev:* && turbo daemon clean && turbo --parallel --ui=tui generate:types --log-prefix=none --filter=@repo/admin",
+    "dev:admin:imports": "pnpm run predev:* && turbo daemon clean && turbo --parallel --ui=tui generate:importmap --log-prefix=none --filter=@repo/admin",
+
+    "dev:backend": "turbo --parallel run dev --log-prefix=none --filter=@repo/backend",
+    "dev:backend:watch": "turbo --parallel watch build --log-prefix=none --filter=@repo/backend",
+    "dev:backend:docker": "turbo --parallel run docker-compose --log-prefix=none --filter=@repo/backend",
+
+    "dev:web": "pnpm run predev:* && turbo daemon clean && turbo run dev --log-prefix=none --filter=@repo/web"
   },
   "devDependencies": {
     "lefthook": "1.10.0",

@@ -31,7 +31,7 @@ export const provider: CollectionConfig = {
 		{
 			name: "type",
 			type: "select",
-			options: ["minio, confluence"],
+			options: ["minio", "confluence"],
 			required: true,
 		},
 		{
