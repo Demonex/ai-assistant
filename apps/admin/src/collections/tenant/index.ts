@@ -9,7 +9,7 @@ export const tenant: CollectionConfig = {
 	slug: "tenant",
 	access: defaultAccess,
 	admin: {
-		defaultColumns: ["title", "description", "preview"],
+		defaultColumns: ["title", "description"],
 		useAsTitle: "title",
 	},
 	fields: [
@@ -38,4 +38,5 @@ export const tenant: CollectionConfig = {
 		},
 		maxPerDoc: 50,
 	},
+	timestamps: true,
 };

@@ -22,7 +22,7 @@ export const group: CollectionConfig = {
 	slug: "group",
 	access: defaultAccess,
 	admin: {
-		defaultColumns: ["title", "description", "preview"],
+		defaultColumns: ["title", "users", "groupPermissions"],
 		useAsTitle: "title",
 	},
 	fields: [
@@ -39,11 +39,16 @@ export const group: CollectionConfig = {
 			localized: true,
 		},
 		{
+			name: "admins",
+			type: "relationship",
+			relationTo: user.slug as "user",
+			hasMany: true,
+		},
+		{
 			name: "users",
 			type: "relationship",
 			relationTo: user.slug as "user",
 			hasMany: true,
-			required: true,
 		},
 		{
 			name: "groupPermissions",
@@ -57,7 +62,7 @@ export const group: CollectionConfig = {
 			type: "array",
 			label: "Permissions for specific collections",
 			labels: {
-				singular: "permissions for collectiontiontiontion",
+				singular: "permissions for collection",
 				plural: "permissions for collections",
 			},
 			fields: [

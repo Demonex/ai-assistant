@@ -11,8 +11,8 @@ import { ScheduleModule } from "@nestjs/schedule";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { PostgreSqlDriver } from "@mikro-orm/postgresql";
 import { UserEntity } from "@repo/backend/entities/User/index.js";
-import { TenantEntity } from "./entities/Tenant";
-import { TenantRelsEntity } from "./entities/Tenant/rels";
+import { TenantEntity } from "./entities/Tenant/index.js";
+import { TenantRelsEntity } from "./entities/Tenant/rels.js";
 
 @Module({
 	imports: [
@@ -28,11 +28,6 @@ import { TenantRelsEntity } from "./entities/Tenant/rels";
 		RedisModule.forRoot({
 			type: "single",
 			url: `redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
-			// options: {
-			// 	host: process.env.REDIS_HOST,
-			// 	port: Number.parseInt(process.env.REDIS_PORT),
-			// 	password: process.env.REDIS_PASSWORD,
-			// },
 		}),
 		ScheduleModule.forRoot(),
 		...Object.values(modules),

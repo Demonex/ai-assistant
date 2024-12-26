@@ -3,9 +3,7 @@ import type { CollectionConfig } from "payload";
 import defaultAccess from "@/utilities/defaultAccess";
 import { neuro } from "@/collections/neuro";
 import { MODEL_TYPE } from "../model";
-import { group } from "../group";
 import { provider } from "../provider";
-import { doc } from "../doc";
 
 export const collection: CollectionConfig = {
 	slug: "collection",
@@ -78,17 +76,13 @@ export const collection: CollectionConfig = {
 					name: "settings",
 					type: "json",
 				},
-				// {
-				//   name: "upload",
-				//   type: "upload",
-				//   relationTo: doc.slug as 'doc',
-				// },
-			],
-			admin: {
-				components: {
-					RowLabel: "@/components/ArrayRowLabel/index#ArrayRowLabel",
+				{
+					name: "docs",
+					type: "upload",
+					relationTo: "doc",
+					hasMany: true,
 				},
-			},
+			],
 		},
 	],
 	versions: {

@@ -13,8 +13,8 @@ export const user: CollectionConfig = {
 	slug: "user",
 	access: defaultAccess,
 	admin: {
-		hideAPIURL: true,
-		defaultColumns: ["avatar", "name", "username", "email", "language"],
+		// hideAPIURL: true,
+		defaultColumns: ["name", "username", "email", "superadmin"],
 		useAsTitle: "name",
 	},
 	auth: {
@@ -88,7 +88,7 @@ export const user: CollectionConfig = {
 			name: "password",
 			type: "text",
 			admin: {
-				// hidden: true,
+				hidden: true,
 			},
 		},
 		{

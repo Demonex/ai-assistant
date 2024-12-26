@@ -144,9 +144,9 @@ export interface UserMediaAvatar {
  */
 export interface Model {
   id: number;
+  tenant: number | Tenant;
   title: string;
   type: 'llm' | 'embedding' | 'reranker';
-  tenant: number | Tenant;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -195,6 +195,7 @@ export interface Collection {
           | number
           | boolean
           | null;
+        docs?: (number | Doc)[] | null;
         id?: string | null;
       }[]
     | null;
@@ -212,15 +213,6 @@ export interface Provider {
   title: string;
   description?: string | null;
   type: 'minio' | 'confluence';
-  settings:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -255,7 +247,8 @@ export interface Group {
   id: number;
   tenant: number | Tenant;
   title: string;
-  users: (number | User)[];
+  admins?: (number | User)[] | null;
+  users?: (number | User)[] | null;
   groupPermissions: ('admin' | 'collection' | 'model' | 'group')[];
   collectionPermissions?:
     | {
@@ -423,9 +416,9 @@ export interface UserMediaAvatarSelect<T extends boolean = true> {
  * via the `definition` "model_select".
  */
 export interface ModelSelect<T extends boolean = true> {
+  tenant?: T;
   title?: T;
   type?: T;
-  tenant?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -457,6 +450,7 @@ export interface CollectionSelect<T extends boolean = true> {
         provider?: T;
         enabled?: T;
         settings?: T;
+        docs?: T;
         id?: T;
       };
   updatedAt?: T;
@@ -472,7 +466,6 @@ export interface ProviderSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   type?: T;
-  settings?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -505,6 +498,7 @@ export interface DocSelect<T extends boolean = true> {
 export interface GroupSelect<T extends boolean = true> {
   tenant?: T;
   title?: T;
+  admins?: T;
   users?: T;
   groupPermissions?: T;
   collectionPermissions?:

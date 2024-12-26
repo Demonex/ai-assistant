@@ -1,14 +1,23 @@
 import type { CollectionConfig } from "payload";
 
-import defaultAccess from "@/utilities/defaultAccess";
+// import defaultAccess from "@/utilities/defaultAccess";
+import { isAdmin } from "@/utilities/defaultAccess";
 import { collection } from "@/collections/collection";
 import { provider } from "@/collections/provider";
 
+const docAccess = {
+	admin: isAdmin,
+	create: isAdmin,
+	read: () => true,
+	update: isAdmin,
+	delete: isAdmin,
+};
+
 export const doc: CollectionConfig = {
 	slug: "doc",
-	access: defaultAccess,
+	access: docAccess,
 	admin: {
-		defaultColumns: ["name", "description", "preview"],
+		defaultColumns: ["name", "collection", "provider"],
 		useAsTitle: "name",
 	},
 	fields: [
@@ -39,11 +48,5 @@ export const doc: CollectionConfig = {
 		},
 		maxPerDoc: 50,
 	},
-	upload: {
-		// from the imageSizes below, the admin UI will show this size for previewing
-		// staticDir tell Payload where to store files to and allows them to be served
-		// staticDir: path.resolve(__dirname, '../../../media'),
-		// limit the types of files allowed and request validation
-		mimeTypes: ["image/*"],
-	},
+	upload: {},
 };

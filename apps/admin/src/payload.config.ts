@@ -107,13 +107,13 @@ export default buildConfig({
 		s3Storage({
 			collections: {
 				[userMediaAvatar.slug]: {
-					bucket: process.env.S3_BUCKET_USER_AVATAR,
+					bucket: process.env.S3_BUCKET_USER_MEDIA,
 				},
 				[tenantMedia.slug]: {
 					bucket: process.env.S3_BUCKET_TENANT_MEDIA,
 				},
 				[doc.slug]: {
-					bucket: process.env.S3_BUCKET_TENANT_DOC,
+					bucket: process.env.S3_BUCKET_DOC_FILE,
 				},
 			},
 			config: {

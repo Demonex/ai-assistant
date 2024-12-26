@@ -1,4 +1,4 @@
-const isAdmin = ({ req: { user } }) => {
+export const isAdmin = ({ req: { user } }) => {
 	return user?.superadmin ?? false;
 };
 const defaultAccess = {

@@ -7,7 +7,7 @@ export const provider: CollectionConfig = {
 	slug: "provider",
 	access: defaultAccess,
 	admin: {
-		defaultColumns: ["title", "description", "preview"],
+		defaultColumns: ["title", "description", "type"],
 		useAsTitle: "title",
 	},
 	fields: [
@@ -32,11 +32,6 @@ export const provider: CollectionConfig = {
 			name: "type",
 			type: "select",
 			options: ["minio", "confluence"],
-			required: true,
-		},
-		{
-			name: "settings",
-			type: "json",
 			required: true,
 		},
 	],
