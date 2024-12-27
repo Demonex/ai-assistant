@@ -31,8 +31,7 @@
     "allowSyntheticDefaultImports": true
   },
   "include": [
-    "${configDir}/src/**/*.ts",
-    "${configDir}/src/*.ts",
+    "${configDir}/src",
     "${configDir}/*.ts"
   ]
 }
