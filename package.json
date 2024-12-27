@@ -21,6 +21,8 @@
 
     "dev:backend": "turbo --parallel run dev --log-prefix=none --filter=@repo/backend",
     "dev:backend:watch": "turbo --parallel watch build --log-prefix=none --filter=@repo/backend",
+    "dev:backend:all": "pnpm run dev:backend & pnpm run dev:backend:watch",
+
     "dev:backend:docker": "turbo --parallel run docker-compose --log-prefix=none --filter=@repo/backend",
 
     "dev:web": "pnpm run predev:* && turbo daemon clean && turbo run dev --log-prefix=none --filter=@repo/web"
