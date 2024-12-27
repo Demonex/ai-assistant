@@ -4,6 +4,7 @@ import session from "express-session";
 import { RedisStore } from "connect-redis";
 import Redis from "ioredis";
 import cookieParser from "cookie-parser";
+import memoize from "memoizee";
 import { REDIS_SESSION_PREFIX } from "@repo/backend/constants.js";
 
 const redisClient = new Redis(
@@ -13,6 +14,28 @@ const RedisSessionStore = new RedisStore({
 	client: redisClient,
 	prefix: REDIS_SESSION_PREFIX,
 });
+
+const expressSession = memoize(
+	(domain = "") =>
+		session({
+			name: process.env.SESSIONS_KEY,
+			store: RedisSessionStore,
+			secret: process.env.COOKIE_SECRET,
+			resave: false,
+			saveUninitialized: false,
+			cookie: {
+				httpOnly: true,
+				maxAge: 30 * 24 * 60 * 60 * 1000,
+				domain,
+				// secure: true
+				sameSite: "lax",
+			},
+		}),
+	{
+		length: 1,
+		primitive: true,
+	},
+);
 const expressPlugins = (express: Express) => {
 	express.disable("x-powered-by");
 	express.set("trust proxy", true);
@@ -72,24 +95,7 @@ const expressPlugins = (express: Express) => {
 		} catch (e) {
 			// console.error(e)
 		}
-		if (webDomain?.endsWith(".rifify.me")) {
-			domain = ".rifify.me";
-		}
-		const expressSession = session({
-			name: process.env.SESSIONS_KEY,
-			store: RedisSessionStore,
-			secret: process.env.COOKIE_SECRET,
-			resave: false,
-			saveUninitialized: false,
-			cookie: {
-				httpOnly: true,
-				maxAge: 30 * 24 * 60 * 60 * 1000,
-				domain,
-				// secure: true
-				sameSite: "lax",
-			},
-		});
-		(expressSession as any)(req, res, next);
+		expressSession(domain)(req, res, next);
 	});
 };
 export default expressPlugins;
