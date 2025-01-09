@@ -1,12 +1,11 @@
 import React, { memo, Suspense, useCallback, useEffect, useMemo } from "react";
-import { Route, Router, Switch, useLocation } from "wouter";
-import { SearchBar } from "./Header/components/SearchField/index.js";
-import { useSizes } from "../hooks/useSizes.js";
+import { Router, useLocation } from "wouter";
 import { useRouterApp, useRouterBlock } from "@/hooks/useRouter.js";
 import { useBrowserLocation } from "wouter/use-browser-location";
 
 import "../shared/config/i18n/i18n.js";
 import "../index.css";
+import { ThemeProvider } from "./theme-provider.js";
 
 export const App = memo(() => {
 	const [location, setLocation] = useLocation();
@@ -47,6 +46,7 @@ export const App = memo(() => {
 		if (router.location === location) {
 			return;
 		}
+		console.log(location);
 		setRouter((prev) => ({ ...prev, location, setLocation }));
 	}, [location]);
 
@@ -65,7 +65,9 @@ export const App = memo(() => {
 
 	return (
 		<Router hook={hook}>
-			<Suspense fallback={""}>{Component && <Component />}</Suspense>
+			<ThemeProvider>
+				<Suspense fallback={""}>{Component && <Component />}</Suspense>
+			</ThemeProvider>
 		</Router>
 	);
 });

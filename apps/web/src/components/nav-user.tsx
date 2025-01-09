@@ -26,6 +26,7 @@ import {
 	useSidebar,
 } from "@/components/ui/sidebar.js";
 import { ModeToggle } from "./mode-toggle.js";
+import { useRoute } from "wouter";
 
 export function NavUser({
 	user,
@@ -102,7 +103,7 @@ export function NavUser({
 						<DropdownMenuSeparator />
 						<DropdownMenuItem>
 							<LogOut />
-							Log out
+							<span onClick={() => console.log("переход")}>Log out</span>
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>

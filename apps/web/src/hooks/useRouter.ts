@@ -22,6 +22,10 @@ const routes = [
 		component: lazyWithPreload(() => import("pages/Home/index.js")),
 	},
 	{
+		path: "/login",
+		component: lazyWithPreload(() => import("pages/Auth/auth/Login.js")),
+	},
+	{
 		path: "*",
 		component: lazyWithPreload(() => import("pages/NotFound/index.js")),
 	},
