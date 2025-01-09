@@ -80,7 +80,7 @@ export const collection: CollectionConfig = {
 				{
 					name: "upload",
 					type: "upload",
-					relationTo: doc.slug as "doc",
+					relationTo: "doc",
 				},
 			],
 			admin: {
