@@ -16,20 +16,26 @@ type RouteApp = {
 	finished?: boolean;
 };
 
-const routes = [
+const routesShared = [
 	{
 		path: "/",
 		component: lazyWithPreload(() => import("pages/Home/index.js")),
 	},
 	{
-		path: "/login",
-		component: lazyWithPreload(() => import("pages/Auth/auth/Login.js")),
-	},
-	{
 		path: "*",
 		component: lazyWithPreload(() => import("pages/NotFound/index.js")),
 	},
-];
+] satisfies RouteApp[];
+
+const routesAuthorized = [...routesShared] satisfies RouteApp[];
+
+const routesUnAuthorized = [
+	...routesShared,
+	{
+		path: "/sign-in",
+		component: lazyWithPreload(() => import("pages/Auth/SignIn.js")),
+	},
+] satisfies RouteApp[];
 
 type RouterAppListener = () => Function | Promise<any>;
 
@@ -89,7 +95,7 @@ const _useRouterApp = () => {
 	}>({
 		location: undefined,
 		prevLocation: undefined,
-		routes,
+		routes: routesShared,
 	});
 	const { isAuthorized } = useProfile();
 
@@ -229,6 +235,13 @@ const _useRouterApp = () => {
 			}
 		}
 	}, [router.location, isAuthorized]);
+
+	useEffect(() => {
+		setRouter((router) => ({
+			...router,
+			routes: isAuthorized ? routesAuthorized : routesUnAuthorized,
+		}));
+	}, [isAuthorized]);
 
 	return {
 		router: router,

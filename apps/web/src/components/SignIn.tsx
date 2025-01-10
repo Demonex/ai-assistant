@@ -1,19 +1,43 @@
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils.js";
+import { Button } from "@/components/ui/button.js";
 import {
 	Card,
 	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "@/components/ui/card.js";
+import { Input } from "@/components/ui/input.js";
+import { Label } from "@/components/ui/label.js";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { useProfile } from "@/hooks/useProfile.js";
+import { useEffect } from "react";
+import { useLocation } from "wouter";
 
-export function LoginForm({
+type Inputs = {
+	email: string;
+	password: string;
+};
+export function SignIn({
 	className,
 	...props
 }: React.ComponentPropsWithoutRef<"div">) {
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors },
+	} = useForm<Inputs>();
+
+	const { handleSignIn } = useProfile();
+
+	const onSubmit: SubmitHandler<Inputs> = async (data) => {
+		await handleSignIn(data);
+		navigate("/");
+	};
+
+	const [, navigate] = useLocation();
+
 	return (
 		<div className={cn("flex flex-col gap-6", className)} {...props}>
 			<Card>
@@ -24,7 +48,7 @@ export function LoginForm({
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
-					<form>
+					<form onSubmit={handleSubmit(onSubmit)}>
 						<div className="flex flex-col gap-6">
 							<div className="grid gap-2">
 								<Label htmlFor="email">Email</Label>
@@ -32,7 +56,9 @@ export function LoginForm({
 									id="email"
 									type="email"
 									placeholder="m@example.com"
-									required
+									{...register("email", {
+										required: true,
+									})}
 								/>
 							</div>
 							<div className="grid gap-2">
@@ -45,7 +71,13 @@ export function LoginForm({
 										Forgot your password?
 									</a>
 								</div>
-								<Input id="password" type="password" required />
+								<Input
+									id="password"
+									type="password"
+									{...register("password", {
+										required: true,
+									})}
+								/>
 							</div>
 							<Button type="submit" className="w-full">
 								Login

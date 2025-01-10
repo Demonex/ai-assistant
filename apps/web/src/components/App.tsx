@@ -46,7 +46,6 @@ export const App = memo(() => {
 		if (router.location === location) {
 			return;
 		}
-		console.log(location);
 		setRouter((prev) => ({ ...prev, location, setLocation }));
 	}, [location]);
 
@@ -60,8 +59,6 @@ export const App = memo(() => {
 	if (!router.location) {
 		return null;
 	}
-
-	console.log(Component);
 
 	return (
 		<Router hook={hook}>

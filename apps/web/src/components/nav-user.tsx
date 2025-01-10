@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/sidebar.js";
 import { ModeToggle } from "./mode-toggle.js";
 import { useRoute } from "wouter";
+import { useProfile } from "@/hooks/useProfile.js";
 
 export function NavUser({
 	user,
@@ -38,6 +39,8 @@ export function NavUser({
 	};
 }) {
 	const { isMobile } = useSidebar();
+
+	const { handleSignOut } = useProfile();
 
 	return (
 		<SidebarMenu>
@@ -101,9 +104,9 @@ export function NavUser({
 							<ModeToggle />
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>
+						<DropdownMenuItem onClick={() => handleSignOut()}>
 							<LogOut />
-							<span onClick={() => console.log("переход")}>Log out</span>
+							<span>Log out</span>
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
