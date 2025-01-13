@@ -13,10 +13,10 @@ const TAGS = [
 	<DialogBox />,
 ];
 
-const ScrollAreaDemo = () => (
+const ScrollAreaDemo = ({ onOpenDialogWindow }) => (
 	<ScrollArea.Root className="ScrollAreaRoot">
 		<ScrollArea.Viewport className="ScrollAreaViewport">
-			<div className="block min-w-0 divide-y">
+			<div className="block min-w-0 divide-y" onClick={onOpenDialogWindow}>
 				{TAGS.map((tag, id) => (
 					<div className="Tag" key={id}>
 						{tag}
