@@ -1,11 +1,4 @@
-import {
-	Entity,
-	PrimaryKey,
-	ManyToMany,
-	Property,
-	OneToOne,
-	ManyToOne,
-} from "@mikro-orm/core";
+import { Entity, PrimaryKey, Property, OneToOne } from "@mikro-orm/core";
 import { ProviderEntity } from "../Provider/index.js";
 
 @Entity({ tableName: "collection_providers" })
@@ -19,9 +12,6 @@ export class CollectionProvidersEntity {
 	@Property()
 	enabled!: boolean;
 
-	@Property()
-	provider_id!: number;
-
-	@ManyToOne()
-	providerS: ProviderEntity;
+	@OneToOne(() => ProviderEntity, { fieldName: "provider_id" })
+	provider!: ProviderEntity;
 }

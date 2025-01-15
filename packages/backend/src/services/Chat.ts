@@ -64,8 +64,7 @@ export class ChatService {
 				id: collectionId,
 			},
 			{
-				populate: ["providers", "providers.provider"],
-
+				populate: ["providers"],
 				populateWhere: PopulateHint.INFER,
 			},
 		);
