@@ -18,6 +18,7 @@ import { collection } from "./collections/collection";
 import { provider } from "./collections/provider";
 import { doc } from "./collections/doc";
 import { group } from "./collections/group";
+import { chatMessage } from "./collections/chatMessage";
 // import Logo from "@/components/Logo/Logo";
 // import Icon from "@/components/Logo/Icon";
 
@@ -100,6 +101,7 @@ export default buildConfig({
 		provider,
 		doc,
 		group,
+		chatMessage,
 	],
 	cors: [getServerSideURL()].filter(Boolean),
 	globals: [],

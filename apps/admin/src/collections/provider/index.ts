@@ -21,12 +21,10 @@ export const provider: CollectionConfig = {
 			name: "title",
 			type: "text",
 			required: true,
-			localized: true,
 		},
 		{
 			name: "description",
 			type: "text",
-			localized: true,
 		},
 		{
 			name: "type",

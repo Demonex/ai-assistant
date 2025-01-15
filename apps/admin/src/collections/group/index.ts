@@ -36,7 +36,6 @@ export const group: CollectionConfig = {
 			name: "title",
 			type: "text",
 			required: true,
-			localized: true,
 		},
 		{
 			name: "admins",

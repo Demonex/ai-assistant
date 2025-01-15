@@ -33,7 +33,6 @@ export const tenantMedia: CollectionConfig = {
 		{
 			name: "alt",
 			label: "Alt Text",
-			localized: true,
 			type: "text",
 		},
 	],

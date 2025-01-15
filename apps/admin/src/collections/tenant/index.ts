@@ -17,12 +17,10 @@ export const tenant: CollectionConfig = {
 			name: "title",
 			type: "text",
 			required: true,
-			localized: true,
 		},
 		{
 			name: "description",
 			type: "text",
-			localized: true,
 		},
 		{
 			name: "preview",

@@ -13,11 +13,25 @@ import { PostgreSqlDriver } from "@mikro-orm/postgresql";
 import { UserEntity } from "@repo/backend/entities/User/index.js";
 import { TenantEntity } from "./entities/Tenant/index.js";
 import { TenantRelsEntity } from "./entities/Tenant/rels.js";
+import { ChatMessageEntity } from "./entities/Chat/index.js";
+import { CollectionEntity } from "./entities/Collection/index.js";
+import { DocEntity } from "./entities/Doc/index.js";
+import { ProviderEntity } from "./entities/Provider/index.js";
+import { CollectionProvidersEntity } from "./entities/Collection/collection-providers.js";
 
 @Module({
 	imports: [
 		MikroOrmModule.forRoot({
-			entities: [UserEntity, TenantEntity, TenantRelsEntity],
+			entities: [
+				UserEntity,
+				TenantEntity,
+				TenantRelsEntity,
+				ChatMessageEntity,
+				CollectionEntity,
+				DocEntity,
+				ProviderEntity,
+				CollectionProvidersEntity,
+			],
 			driver: PostgreSqlDriver,
 			dbName: process.env.DATABASE_NAME,
 			host: process.env.DATABASE_HOST,

@@ -25,7 +25,6 @@ export const doc: CollectionConfig = {
 			name: "name",
 			type: "text",
 			required: true,
-			localized: true,
 		},
 		{
 			name: "collection",

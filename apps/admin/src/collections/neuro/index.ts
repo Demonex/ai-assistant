@@ -15,7 +15,6 @@ export const neuro: CollectionConfig = {
 			name: "title",
 			type: "text",
 			required: true,
-			localized: true,
 		},
 		{
 			name: "model",

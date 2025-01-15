@@ -32,7 +32,7 @@ import {
 import type { RedirectResponse } from "@nestjs/core/router/router-response-controller.js";
 import { validateDto } from "@repo/backend/middlewares/validateDto.js";
 import type { Types } from "mongoose";
-import { TenantService } from "../services/Tenant";
+import { TenantService } from "../services/Tenant.js";
 
 @ApiTags("tenant")
 @Controller("/api/tenant")

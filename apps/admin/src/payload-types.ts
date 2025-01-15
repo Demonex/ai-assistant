@@ -21,6 +21,7 @@ export interface Config {
     provider: Provider;
     doc: Doc;
     group: Group;
+    chatMessage: ChatMessage;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -37,6 +38,7 @@ export interface Config {
     provider: ProviderSelect<false> | ProviderSelect<true>;
     doc: DocSelect<false> | DocSelect<true>;
     group: GroupSelect<false> | GroupSelect<true>;
+    chatMessage: ChatMessageSelect<false> | ChatMessageSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -263,6 +265,27 @@ export interface Group {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chatMessage".
+ */
+export interface ChatMessage {
+  id: number;
+  user: number | User;
+  collection: number | Collection;
+  message:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  createdAt: string;
+  updatedAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -307,6 +330,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'group';
         value: number | Group;
+      } | null)
+    | ({
+        relationTo: 'chatMessage';
+        value: number | ChatMessage;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -510,6 +537,18 @@ export interface GroupSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "chatMessage_select".
+ */
+export interface ChatMessageSelect<T extends boolean = true> {
+  user?: T;
+  collection?: T;
+  message?: T;
+  createdAt?: T;
+  updatedAt?: T;
   _status?: T;
 }
 /**

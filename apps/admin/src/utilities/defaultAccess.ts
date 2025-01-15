@@ -4,7 +4,7 @@ export const isAdmin = ({ req: { user } }) => {
 const defaultAccess = {
 	admin: isAdmin,
 	create: isAdmin,
-	read: () => true,
+	read: isAdmin,
 	update: isAdmin,
 	delete: isAdmin,
 };

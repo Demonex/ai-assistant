@@ -16,7 +16,6 @@ export const collection: CollectionConfig = {
 			name: "title",
 			type: "text",
 			required: true,
-			localized: true,
 		},
 		{
 			name: "embedding",
