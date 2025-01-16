@@ -1,6 +1,6 @@
 import { Entity, Enum, PrimaryKey, Property } from "@mikro-orm/core";
 
-enum PROVIDER_TYPE {
+export enum PROVIDER_TYPE {
 	minio = "minio",
 	confluence = "confluence",
 }
@@ -12,6 +12,11 @@ export class ProviderEntity {
 
 	@Property()
 	title: string;
+
+	@Property({ type: "jsonb" })
+	settings: {
+		[key: string]: unknown;
+	};
 
 	@Enum({
 		nativeEnumName: "enum_provider_type",

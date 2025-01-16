@@ -32,6 +32,10 @@ export const provider: CollectionConfig = {
 			options: ["minio", "confluence"],
 			required: true,
 		},
+		{
+			name: "settings",
+			type: "json",
+		},
 	],
 	versions: {
 		drafts: {

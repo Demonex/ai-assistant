@@ -215,6 +215,15 @@ export interface Provider {
   title: string;
   description?: string | null;
   type: 'minio' | 'confluence';
+  settings?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -493,6 +502,7 @@ export interface ProviderSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   type?: T;
+  settings?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

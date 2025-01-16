@@ -12,6 +12,11 @@ export class CollectionProvidersEntity {
 	@Property()
 	enabled!: boolean;
 
-	@OneToOne(() => ProviderEntity, { fieldName: "provider_id" })
+	@OneToOne({ fieldName: "provider_id" })
 	provider!: ProviderEntity;
+
+	@Property({ type: "jsonb" })
+	settings: {
+		[key: string]: unknown;
+	};
 }

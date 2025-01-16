@@ -1,12 +1,6 @@
 import { Inject, Injectable, Scope } from "@nestjs/common";
-import UserEntity, {
-	UserEntityDefaultSelect,
-} from "@repo/backend/entities/User/index.js";
-import type { ReturnModelType } from "@typegoose/typegoose";
-import { InjectModel } from "nestjs-typegoose";
-import AppleAuth, { type AppleAuthAccessToken } from "apple-auth";
-import { get } from "lodash-es";
 import { REQUEST } from "@nestjs/core";
+import AppleAuth, { type AppleAuthAccessToken } from "apple-auth";
 
 export enum SocialProviders {
 	google = "google",
