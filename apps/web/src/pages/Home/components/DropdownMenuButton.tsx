@@ -14,7 +14,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu.js";
 
-export function DropdownMenuDemo() {
+export function DropdownMenuButton() {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
