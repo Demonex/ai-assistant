@@ -8,9 +8,7 @@ import { CollectionEntity } from "../entities/Collection/index.js";
 import { PROVIDER_TYPE } from "../entities/Provider/index.js";
 import { getHandleUpload } from "../utils/handleUpload.js";
 import { promiseMap } from "../utils/index.js";
-import got from "got";
-import FormData from "form-data";
-import type { LangFlowService } from "./Flow.js";
+import { LangFlowService } from "./Flow.js";
 
 @Injectable()
 export class ChatService {
@@ -118,12 +116,15 @@ export class ChatService {
 		await promiseMap(data.media, async (media) => {
 			// console.log(await upload({ file: media }));
 
-			const response = await this.flowService.uploadFile(media);
-			console.log(
-				"RESPONSE2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
-
-				await this.flowService.updateConfigFile(response),
-			);
+			const { file_path } = await this.flowService.uploadFile(media);
+			await this.flowService.updateConfigFile({
+				nodeId: "File-9WG0R",
+				file_path,
+				originalname: media.originalname,
+			});
+			await this.flowService.buildFlow({
+				stop_component_id: "QdrantVectorStoreComponent-1MYTE",
+			});
 		});
 
 		console.log(id, JSON.stringify(collection, null, 2), data);

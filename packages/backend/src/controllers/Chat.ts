@@ -22,11 +22,15 @@ import { UserId } from "@repo/backend/decorators/user.js";
 import { ChatService } from "@repo/backend/services/Chat.js";
 import { ChatMessageDto, ChatUploadMediaDto } from "../dto/Chat.js";
 import { HttpStatusMessages } from "../messages/http.js";
+import { LangFlowService } from "../services/Flow.js";
 
 @ApiTags("chat")
 @Controller("/api/rest")
 export class ChatController {
-	constructor(public service: ChatService) {}
+	constructor(
+		private readonly chatService: ChatService,
+		private readonly flowService: LangFlowService,
+	) {}
 
 	@ApiBearerAuth("bearer-sid")
 	@ApiOperation({ summary: "get chats" })
@@ -34,14 +38,14 @@ export class ChatController {
 	@Get("/chats")
 	@HttpCode(200)
 	async getChats(@UserId() userId: number) {
-		return this.service.chats(userId);
+		return this.chatService.chats(userId);
 	}
 
 	@Authorized()
 	@Get("/chat/:id")
 	@HttpCode(200)
 	async getChat(@UserId() userId: number, @Param("id") chatId: number) {
-		return this.service.chat(userId, chatId);
+		return this.chatService.chat(userId, chatId);
 	}
 
 	@Authorized()
@@ -53,12 +57,26 @@ export class ChatController {
 		@Param("id") chatId: number,
 		@Body() data: ChatMessageDto,
 	) {
-		const result = await this.service.messageCreate(userId, chatId, data);
+		const stop_component_id = "ChatOutput-qOZpZ";
+
+		const result = await this.chatService.messageCreate(userId, chatId, data);
+		await this.flowService.updateConfigChatInput({
+			nodeId: "ChatInput-nGvxC",
+			value: data.raw,
+		});
+		const response = await this.flowService.buildFlow({ stop_component_id });
+
+		const resultNode = response.find(({ event, data }) => {
+			return (
+				event === "end_vertex" && data.build_data?.id === stop_component_id
+			);
+		});
+
 		return {
 			success: result,
+			response: resultNode.data.build_data.data.results.message.data.text,
 		};
 	}
-
 	// @ApiOperation({ summary: "avatar update in profile" })
 	// @UseInterceptors(
 	// 	FileInterceptor(
@@ -77,7 +95,7 @@ export class ChatController {
 	// @ApiConsumes("multipart/form-data")
 	// async updateAvatar(@UserId() id: Types.ObjectId, @UploadedFile("file") file) {
 	// 	// console.log('avatar update', get(request, 'headers.authorization'), get(request, 'session.id'), id);
-	// 	return this.service.findByIdAndUpdateAvatar(id, { file });
+	// 	return this.chatService.findByIdAndUpdateAvatar(id, { file });
 	// }
 
 	@Authorized()
@@ -104,6 +122,6 @@ export class ChatController {
 		@UploadedFiles() media: ChatUploadMediaDto["media"],
 	) {
 		data.media = media;
-		return this.service.uploadMedia(id, chatId, data);
+		return this.chatService.uploadMedia(id, chatId, data);
 	}
 }

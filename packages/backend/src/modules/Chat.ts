@@ -5,8 +5,8 @@ import { LangFlowService } from "../services/Flow.js";
 
 @Module({
 	imports: [],
-	providers: [ChatService],
-	exports: [ChatService, LangFlowService],
+	providers: [ChatService, LangFlowService],
+	exports: [ChatService],
 	controllers: [ChatController],
 })
 export class ChatModule {}
