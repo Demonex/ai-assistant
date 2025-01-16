@@ -3,14 +3,12 @@ import { useEffect, useState } from "react";
 import { AvatarDemo } from "./AvatarDemo.js";
 import { DropdownMenuButton } from "./DropdownMenuButton.js";
 import { DragAndDrop } from "./DragAndDrop.js";
+import Uppy from "@uppy/core";
 
 export const DialogWindow = ({ onReturnToMenu }) => {
 	const [dropDown, setDropDown] = useState(false);
-	const [uppy] = useState(DragAndDrop);
-
-	useEffect(() => {
-		uppy.setOptions({ meta: {} });
-	}, [uppy]);
+	const [isDragging, setIsDragging] = useState(false);
+	const uppy = new Uppy();
 
 	return (
 		<div className="flex-grow">
@@ -579,7 +577,7 @@ export const DialogWindow = ({ onReturnToMenu }) => {
 				)}
 				{!dropDown && (
 					<div className="grid place-items-center min-h-screen">
-						{/* <DragAndDrop /> */}
+						<DragAndDrop />
 					</div>
 				)}
 			</div>
