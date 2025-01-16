@@ -8,6 +8,7 @@ import { CollectionEntity } from "../entities/Collection/index.js";
 import { PROVIDER_TYPE } from "../entities/Provider/index.js";
 import { getHandleUpload } from "../utils/handleUpload.js";
 import { promiseMap } from "../utils/index.js";
+import { LangFlowService } from "./Flow.js";
 
 @Injectable()
 export class ChatService {
@@ -15,6 +16,7 @@ export class ChatService {
 		@InjectRedis() private readonly redisClient: Redis,
 		private readonly orm: MikroORM,
 		private readonly em: EntityManager,
+		private readonly flowService: LangFlowService,
 	) {}
 
 	async chats(userId: ChatMessageEntity["user"]["id"]) {
@@ -112,10 +114,22 @@ export class ChatService {
 		});
 
 		await promiseMap(data.media, async (media) => {
-			console.log(await upload({ file: media }));
+			// console.log(await upload({ file: media }));
+
+			const { file_path } = await this.flowService.uploadFile(media);
+			await this.flowService.updateConfigFile({
+				nodeId: "File-9WG0R",
+				file_path,
+				originalname: media.originalname,
+			});
+			await this.flowService.buildFlow({
+				stop_component_id: "QdrantVectorStoreComponent-1MYTE",
+			});
 		});
 
 		console.log(id, JSON.stringify(collection, null, 2), data);
+
+		// http://10.199.20.10:7860/api/v1/files/upload/2fdcf711-a6eb-43c6-8a41-291e45c8b2a1
 
 		return collection;
 	}

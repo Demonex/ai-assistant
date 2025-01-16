@@ -1,4 +1,4 @@
-import { Entity, PrimaryKey, ManyToMany, Property } from "@mikro-orm/core";
+import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
 
 @Entity({ tableName: "user" })
 export class UserEntity {
