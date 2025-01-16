@@ -1,5 +1,5 @@
 import { AvatarDemo } from "./AvatarDemo.js";
-import { DropdownMenuCircle } from "./DropdownMenuCircle.js";
+import { DropdownMenuButton } from "./DropdownMenuButton.js";
 
 export const DialogBox = () => {
 	return (
@@ -37,7 +37,7 @@ export const DialogBox = () => {
 				</div>
 			</div>
 			<div className="absolute bottom-0 end-0 top-0 flex items-center bg-gradient-to-l from-50% px-4 opacity-0 group-hover:opacity-100 from-muted">
-				<DropdownMenuCircle />
+				<DropdownMenuButton />
 			</div>
 		</div>
 	);

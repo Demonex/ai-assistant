@@ -1,7 +1,6 @@
-import { DropdownMenuDemo } from "./DropdownMenuDemo.js";
 import { AvatarDemo } from "./AvatarDemo.js";
 import { Input } from "@/components/ui/input.js";
-import { DropdownMenuCircle } from "./DropdownMenuCircle.js";
+import { DropdownMenuButton } from "./DropdownMenuButton.js";
 import ScrollAreaDemo from "./ScrollArea.js";
 import { DialogWindow } from "./DialogWindow.js";
 import { useState } from "react";
@@ -25,7 +24,6 @@ export const TrashComponent = () => {
 								<h3 className="text-lg leading-none tracking-tight font-bold">
 									Chats
 								</h3>
-								<DropdownMenuDemo />
 							</div>
 						</div>
 						<div className="p-0">
@@ -91,7 +89,7 @@ export const TrashComponent = () => {
 														</div>
 													</div>
 													<div className="absolute bottom-0 end-0 top-0 flex items-center bg-gradient-to-l from-50% px-4 opacity-0 group-hover:opacity-100 from-muted">
-														<DropdownMenuCircle />
+														<DropdownMenuButton />
 													</div>
 												</div>
 												<div className="group relative flex min-w-0 cursor-pointer items-center gap-4 px-6 py-4 hover:bg-muted">
@@ -132,7 +130,7 @@ export const TrashComponent = () => {
 														</div>
 													</div>
 													<div className="absolute bottom-0 end-0 top-0 flex items-center bg-gradient-to-l from-50% px-4 opacity-0 group-hover:opacity-100 from-muted">
-														<DropdownMenuCircle />
+														<DropdownMenuButton />
 													</div>
 												</div>
 												<ScrollAreaDemo
