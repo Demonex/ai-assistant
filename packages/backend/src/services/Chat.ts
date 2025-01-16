@@ -8,6 +8,8 @@ import { CollectionEntity } from "../entities/Collection/index.js";
 import { PROVIDER_TYPE } from "../entities/Provider/index.js";
 import { getHandleUpload } from "../utils/handleUpload.js";
 import { promiseMap } from "../utils/index.js";
+import got from "got";
+import FormData from "form-data";
 
 @Injectable()
 export class ChatService {
@@ -112,10 +114,32 @@ export class ChatService {
 		});
 
 		await promiseMap(data.media, async (media) => {
-			console.log(await upload({ file: media }));
+			// console.log(await upload({ file: media }));
+
+			const form = new FormData();
+			form.append("file", media.buffer, {
+				contentType: "multipart/form-data",
+			});
+
+			console.log(
+				await got.post(
+					"http://10.199.20.10:7860/api/v1/files/upload/2fdcf711-a6eb-43c6-8a41-291e45c8b2a1",
+					{
+						method: "POST",
+						body: form,
+						headers: {
+							authorization:
+								"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxZmQ0ZTkwNS1kODc1LTQwZjEtODdmNS0xM2NiYWRlNjY4M2YiLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY4NTU0MzM5fQ.hdWCV_FBjKPvbqBL6HB1IKrVbq1y2wtI0hVvKuDEAmQ",
+						},
+					},
+				),
+				"GOT WORKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+			);
 		});
 
 		console.log(id, JSON.stringify(collection, null, 2), data);
+
+		// http://10.199.20.10:7860/api/v1/files/upload/2fdcf711-a6eb-43c6-8a41-291e45c8b2a1
 
 		return collection;
 	}
