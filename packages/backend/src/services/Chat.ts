@@ -10,6 +10,7 @@ import { getHandleUpload } from "../utils/handleUpload.js";
 import { promiseMap } from "../utils/index.js";
 import got from "got";
 import FormData from "form-data";
+import type { LangFlowService } from "./Flow.js";
 
 @Injectable()
 export class ChatService {
@@ -17,6 +18,7 @@ export class ChatService {
 		@InjectRedis() private readonly redisClient: Redis,
 		private readonly orm: MikroORM,
 		private readonly em: EntityManager,
+		private readonly flowService: LangFlowService,
 	) {}
 
 	async chats(userId: ChatMessageEntity["user"]["id"]) {
@@ -116,24 +118,11 @@ export class ChatService {
 		await promiseMap(data.media, async (media) => {
 			// console.log(await upload({ file: media }));
 
-			const form = new FormData();
-			form.append("file", media.buffer, {
-				contentType: "multipart/form-data",
-			});
-
+			const response = await this.flowService.uploadFile(media);
 			console.log(
-				await got.post(
-					"http://10.199.20.10:7860/api/v1/files/upload/2fdcf711-a6eb-43c6-8a41-291e45c8b2a1",
-					{
-						method: "POST",
-						body: form,
-						headers: {
-							authorization:
-								"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxZmQ0ZTkwNS1kODc1LTQwZjEtODdmNS0xM2NiYWRlNjY4M2YiLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY4NTU0MzM5fQ.hdWCV_FBjKPvbqBL6HB1IKrVbq1y2wtI0hVvKuDEAmQ",
-						},
-					},
-				),
-				"GOT WORKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+				"RESPONSE2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+
+				await this.flowService.updateConfigFile(response),
 			);
 		});
 
