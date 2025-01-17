@@ -1,7 +1,7 @@
 import { AvatarDemo } from "./AvatarDemo.js";
 import { DropdownMenuButton } from "./DropdownMenuButton.js";
 
-export const DialogBox = () => {
+export const MessageItem = () => {
 	return (
 		<div className="group relative flex min-w-0 cursor-pointer items-center gap-4 px-6 py-4 hover:bg-muted">
 			<span className="relative flex shrink-0 overflow-hidden rounded-full h-12 w-12 border">

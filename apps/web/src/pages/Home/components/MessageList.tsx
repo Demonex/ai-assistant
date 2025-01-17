@@ -1,19 +1,9 @@
 import * as ScrollArea from "@radix-ui/react-scroll-area";
-import { DialogBox } from "./DialogBox.js";
+import { MessageItem } from "./MessageItem.js";
 
-const TAGS = [
-	<DialogBox />,
-	<DialogBox />,
-	<DialogBox />,
-	<DialogBox />,
-	<DialogBox />,
-	<DialogBox />,
-	<DialogBox />,
-	<DialogBox />,
-	<DialogBox />,
-];
+const TAGS = new Array(9).fill(<MessageItem />);
 
-const ScrollAreaDemo = ({ onOpenDialogWindow }) => (
+const MessageList = ({ onOpenDialogWindow }) => (
 	<ScrollArea.Root className="ScrollAreaRoot">
 		<ScrollArea.Viewport className="ScrollAreaViewport">
 			<div className="block min-w-0 divide-y" onClick={onOpenDialogWindow}>
@@ -34,4 +24,4 @@ const ScrollAreaDemo = ({ onOpenDialogWindow }) => (
 	</ScrollArea.Root>
 );
 
-export default ScrollAreaDemo;
+export default MessageList;
