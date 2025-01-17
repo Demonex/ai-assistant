@@ -1,9 +1,22 @@
+import { memo, useMemo } from "react";
+import { useChats } from "../hooks/useChats.js";
 import { AvatarDemo } from "./AvatarDemo.js";
 import { DropdownMenuButton } from "./DropdownMenuButton.js";
 
-export const MessageItem = () => {
+export const MessageItem = memo<{
+	title: string;
+	id: number;
+}>(({ title }) => {
+	const { setActiveChat, id, activeChat } = useChats();
+	console.log("activeChat", activeChat);
 	return (
-		<div className="group relative flex min-w-0 cursor-pointer items-center gap-4 px-6 py-4 hover:bg-muted">
+		<div
+			className="group relative flex min-w-0 cursor-pointer items-center gap-4 px-6 py-4 hover:bg-muted"
+			onClick={() => {
+				console.log("click", setActiveChat);
+				setActiveChat(id);
+			}}
+		>
 			<span className="relative flex shrink-0 overflow-hidden rounded-full h-12 w-12 border">
 				<div className="w-3 h-3 absolute rounded-full end-0 bottom-0 bg-green-400" />
 				<span className="flex h-full w-full items-center justify-center rounded-full bg-muted">
@@ -12,7 +25,7 @@ export const MessageItem = () => {
 			</span>
 			<div className="min-w-0 flex-grow">
 				<div className="flex justify-between">
-					<span className="font-semibold">Ealasaid Bohlje</span>
+					<span className="font-semibold">{title}</span>
 					<span className="text-sm text-muted-foreground">10 days</span>
 				</div>
 				<div className="flex items-center gap-2">
@@ -41,4 +54,4 @@ export const MessageItem = () => {
 			</div>
 		</div>
 	);
-};
+});

@@ -1,8 +1,14 @@
 import { memo } from "react";
 import { Input } from "@/components/ui/input.js";
 import MessageList from "./MessageList.js";
+import { useFetch } from "use-mono-hook";
+import { useChats } from "../hooks/useChats.js";
 
 export const Sidebar = memo(() => {
+	const { chats } = useChats();
+
+	console.log("chats", chats);
+
 	return (
 		<div className="w-full lg:w-96">
 			<div className="shadow-base rounded-lg border bg-card text-card-foreground">

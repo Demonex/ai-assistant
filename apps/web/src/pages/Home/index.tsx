@@ -11,7 +11,7 @@ export const HomePage = memo(() => {
 		if (isAuthorized || loading) {
 			return;
 		}
-		navigate("/sign-in");
+		// navigate("/sign-in");
 	}, [isAuthorized, loading]);
 
 	if (!isAuthorized) {
