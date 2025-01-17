@@ -114,7 +114,7 @@ export class ChatService {
 		});
 
 		await promiseMap(data.media, async (media) => {
-			// console.log(await upload({ file: media }));
+			await upload({ file: media });
 
 			const { file_path } = await this.flowService.uploadFile(media);
 			await this.flowService.updateConfigFile({

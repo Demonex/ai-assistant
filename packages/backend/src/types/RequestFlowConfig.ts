@@ -75,7 +75,7 @@ interface CustomFields {
 	template?: string[];
 }
 
-type Metadata = {}
+type Metadata = {};
 
 interface Output {
 	types: string[];
@@ -931,7 +931,7 @@ interface Metadata2 {
 	_input_type: string;
 }
 
-type Value = {}
+type Value = {};
 
 interface Mirostat {
 	tool_mode: boolean;

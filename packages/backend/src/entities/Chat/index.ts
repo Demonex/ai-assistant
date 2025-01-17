@@ -18,7 +18,7 @@ export class ChatMessageEntity {
 		// joinColumn: 'collection_id',
 		orphanRemoval: true,
 	})
-	user: UserEntity;
+	user?: UserEntity;
 
 	@OneToOne({
 		// joinColumn: 'collection_id',

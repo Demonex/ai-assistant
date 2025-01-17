@@ -3,6 +3,8 @@ import {
 	Controller,
 	Get,
 	HttpCode,
+	HttpException,
+	HttpStatus,
 	NotAcceptableException,
 	Param,
 	Post,
@@ -72,9 +74,18 @@ export class ChatController {
 			);
 		});
 
+		if (!resultNode) {
+			throw new HttpException("Node Not Found", HttpStatus.BAD_REQUEST);
+		}
+
+		const AIResponse =
+			resultNode.data.build_data.data.results.message.data.text;
+
+		await this.chatService.messageCreate(null, chatId, { raw: AIResponse });
+
 		return {
 			success: result,
-			response: resultNode.data.build_data.data.results.message.data.text,
+			response: AIResponse,
 		};
 	}
 	// @ApiOperation({ summary: "avatar update in profile" })
