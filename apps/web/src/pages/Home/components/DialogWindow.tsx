@@ -8,7 +8,7 @@ import Uppy from "@uppy/core";
 const DND = () => {
 	return (
 		<div className="grid place-items-center min-h-screen">
-			<DragAndDrop />
+			{/*<DragAndDrop />*/}
 		</div>
 	);
 };
