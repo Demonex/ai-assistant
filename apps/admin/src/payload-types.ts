@@ -291,7 +291,6 @@ export interface ChatMessage {
     | null;
   createdAt: string;
   updatedAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -559,7 +558,6 @@ export interface ChatMessageSelect<T extends boolean = true> {
   message?: T;
   createdAt?: T;
   updatedAt?: T;
-  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
