@@ -13,7 +13,7 @@ import {
 	SidebarProvider,
 	SidebarTrigger,
 } from "@/components/ui/sidebar.js";
-import { TrashComponent } from "../TrashComponent.js";
+import { ChatComponent } from "../ChatComponent.js";
 
 export function DashboardPage() {
 	return (
@@ -41,7 +41,7 @@ export function DashboardPage() {
 						</BreadcrumbList>
 					</Breadcrumb>
 				</header>
-				<TrashComponent />
+				<ChatComponent />
 			</SidebarInset>
 		</SidebarProvider>
 	);

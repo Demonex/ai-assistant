@@ -35,6 +35,9 @@ export default defineConfig({
     build: {
         minify: true,
     },
+    optimizeDeps:{
+        force: true
+    }
     /*experimental: {
       renderBuiltUrl(filename: string) {
         return 'https://musicstats.ru/' + filename;

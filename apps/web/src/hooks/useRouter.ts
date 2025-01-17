@@ -3,10 +3,12 @@ import {
 	type LazyExoticComponent,
 	useCallback,
 	useEffect,
+	useMemo,
 	useState,
 } from "react";
-import { useBetween } from "use-between";
-import { lazyWithPreload } from "utils/lazyWithPreload.js";
+import { lazyWithPreload } from "@/utils/lazyWithPreload.js";
+import { useLocation } from "wouter";
+import { createMonoHook } from "use-mono-hook";
 import { useProfile } from "hooks/useProfile.js";
 
 type RouteApp = {
@@ -37,53 +39,9 @@ const routesUnAuthorized = [
 	},
 ] satisfies RouteApp[];
 
-type RouterAppListener = () => Function | Promise<any>;
-
-const _useRouterBlock = () => {
-	const [routerAppListeners, setRouterAppListeners] = useState<
-		RouterAppListener[]
-	>([]);
-	return {
-		routerAppListeners,
-		setRouterAppListeners,
-	};
-};
-export const useRouterBlock = () =>
-	useBetween<ReturnType<typeof _useRouterBlock>>(_useRouterBlock);
-
-export const useRouterBlocker = () => {
-	const { setRouterAppListeners } = useRouterBlock();
-	const [unblockPage, setUnblockPage] =
-		useState<(value: any | PromiseLike<any>) => void>();
-
-	const beforeUnload = useCallback((e: BeforeUnloadEvent) => {
-		e.preventDefault();
-	}, []);
-	const fn = useCallback(
-		() =>
-			new Promise((resolve) => {
-				setUnblockPage(() => resolve);
-			}),
-		[],
-	);
-
-	useEffect(() => {
-		setRouterAppListeners((prev) => [...prev, fn]);
-		addEventListener("beforeunload", beforeUnload, { capture: true });
-		return () => {
-			setRouterAppListeners((prev) => {
-				return prev.filter((_) => _ !== fn);
-			});
-			removeEventListener("beforeunload", beforeUnload, { capture: true });
-		};
-	}, [fn, beforeUnload]);
-
-	return {
-		unblockPage,
-	};
-};
-
 const _useRouterApp = () => {
+	const { isAuthorized } = useProfile();
+	const [location, setLocation] = useLocation();
 	const [router, setRouter] = useState<{
 		location: string;
 		setLocation?: <S = any>(
@@ -95,9 +53,23 @@ const _useRouterApp = () => {
 	}>({
 		location: undefined,
 		prevLocation: undefined,
-		routes: routesShared,
+		routes: routesUnAuthorized,
 	});
-	const { isAuthorized } = useProfile();
+
+	const route = useMemo(() => {
+		return router.routes.reduce<(typeof router.routes)[number]>(
+			(_route, route) => {
+				return (route.path.length > 1
+					? router.location?.startsWith(route.path)
+					: router.location === route.path) && route.finished
+					? route
+					: route.path === router.prevLocation && !_route
+						? route
+						: _route;
+			},
+			undefined,
+		);
+	}, [router]);
 
 	useEffect(() => {
 		if (!router.location || router.location === router.prevLocation) {
@@ -152,6 +124,20 @@ const _useRouterApp = () => {
 			});
 	}, [router.routes]);
 
+	useEffect(() => {
+		if (router.location === location) {
+			return;
+		}
+		setRouter((prev) => ({ ...prev, location, setLocation }));
+	}, [location]);
+
+	const Component = useMemo(() => {
+		return (
+			route?.component ||
+			router.routes.find(({ path }) => path === "*" /*404 page*/)?.component
+		);
+	}, [route]);
+
 	const preloadPage = useCallback(async (path: string) => {
 		const page = router.routes.find((router) => router.path === path);
 
@@ -181,62 +167,6 @@ const _useRouterApp = () => {
 	}, []);
 
 	useEffect(() => {
-		switch (router.location) {
-			case "/": {
-				if (isAuthorized) {
-					// void preloadPage('/dashboard');
-					void preloadPage("/wallet");
-					void preloadPage("/stores");
-				} else {
-					void preloadPage("/auth");
-				}
-				break;
-			}
-			case "/auth": {
-				if (isAuthorized) {
-					router?.setLocation("/wallet");
-				} else {
-					void preloadPage("/");
-					// void preloadPage('/dashboard');
-					void preloadPage("/wallet");
-					void preloadPage("/stores");
-				}
-				break;
-			}
-			case "/html/dashboard": {
-				if (!isAuthorized) {
-					router?.setLocation("/auth");
-				} else {
-					void preloadPage("/");
-					void preloadPage("/wallet");
-					void preloadPage("/stores");
-				}
-				break;
-			}
-			case "/wallet": {
-				if (!isAuthorized) {
-					router?.setLocation("/auth");
-				} else {
-					void preloadPage("/");
-					// void preloadPage('/html/dashboard');
-					void preloadPage("/stores");
-				}
-				break;
-			}
-			case "/stores": {
-				if (!isAuthorized) {
-					router?.setLocation("/auth");
-				} else {
-					void preloadPage("/");
-					// void preloadPage('/dashboard');
-					void preloadPage("/wallet");
-				}
-				break;
-			}
-		}
-	}, [router.location, isAuthorized]);
-
-	useEffect(() => {
 		setRouter((router) => ({
 			...router,
 			routes: isAuthorized ? routesAuthorized : routesUnAuthorized,
@@ -244,11 +174,13 @@ const _useRouterApp = () => {
 	}, [isAuthorized]);
 
 	return {
+		route,
 		router: router,
 		setRouter,
 		preloadPage,
+		Component,
 	};
 };
 
-export const useRouterApp = () =>
-	useBetween<ReturnType<typeof _useRouterApp>>(_useRouterApp);
+export const useRouterApp =
+	createMonoHook<typeof _useRouterApp>(_useRouterApp).useHook;

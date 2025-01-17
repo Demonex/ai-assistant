@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useBetween, clear } from "use-between";
-import useFetch, { useLazyFetch } from "./useFetch.js";
+import { useFetch, createMonoHook, useLazyFetch } from "use-mono-hook";
 
 const _useProfile = () => {
 	const { data, error, loading } = useFetch({
@@ -8,14 +7,16 @@ const _useProfile = () => {
 		cache: false,
 	});
 
-	const [
-		{ data: dataSignIn, error: errorSignIn, loading: loadingSignIn },
-		fetchSignIn,
-	] = useLazyFetch({
+	const requestSignIn = useLazyFetch({
 		url: `${import.meta.env.VITE_BACKEND_URL}/auth/email/sign-in`,
 		method: "post",
 		cache: false,
 	});
+
+	const [
+		{ data: dataSignIn, error: errorSignIn, loading: loadingSignIn },
+		fetchSignIn,
+	] = requestSignIn;
 
 	const [
 		{ data: dataSignOut, error: errorSignOut, loading: loadingSignOut },
@@ -62,6 +63,14 @@ const _useProfile = () => {
 		},
 		[],
 	);
+
+	console.log({
+		isAuthorized,
+		profile,
+		handleSignOut,
+		handleSignIn,
+		loading,
+	});
 	return {
 		isAuthorized,
 		profile,
@@ -71,5 +80,5 @@ const _useProfile = () => {
 	};
 };
 
-export const useProfile = () =>
-	useBetween<ReturnType<typeof _useProfile>>(_useProfile);
+export const useProfile =
+	createMonoHook<typeof _useProfile>(_useProfile).useHook;
