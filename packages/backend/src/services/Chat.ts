@@ -39,7 +39,7 @@ export class ChatService {
 	async messageCreate(
 		userId: ChatMessageEntity["user"]["id"],
 		chatId: CollectionEntity["id"],
-		{ raw }: ChatMessageDto,
+		{ raw, from_bot = false }: ChatMessageDto,
 	) {
 		try {
 			const chatMessage = this.em.create<ChatMessageEntity>(ChatMessageEntity, {
@@ -48,6 +48,7 @@ export class ChatService {
 				message: {
 					raw,
 				},
+				from_bot,
 			});
 			await this.em.persistAndFlush(chatMessage);
 

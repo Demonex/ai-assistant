@@ -28,6 +28,14 @@ export const chatMessage: CollectionConfig = {
 			required: true,
 		},
 		{
+			name: "fromBot",
+			type: "checkbox",
+			required: true,
+			admin: {
+				hidden: true,
+			},
+		},
+		{
 			name: "createdAt",
 			type: "date",
 			required: true,

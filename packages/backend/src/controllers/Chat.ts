@@ -78,14 +78,17 @@ export class ChatController {
 			throw new HttpException("Node Not Found", HttpStatus.BAD_REQUEST);
 		}
 
-		const AIResponse =
+		const aiResponse =
 			resultNode.data.build_data.data.results.message.data.text;
 
-		await this.chatService.messageCreate(null, chatId, { raw: AIResponse });
+		await this.chatService.messageCreate(userId, chatId, {
+			raw: aiResponse,
+			from_bot: true,
+		});
 
 		return {
 			success: result,
-			response: AIResponse,
+			response: aiResponse,
 		};
 	}
 	// @ApiOperation({ summary: "avatar update in profile" })

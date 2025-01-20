@@ -5,6 +5,9 @@ export class ChatMessageDto {
 	@IsString()
 	@ApiProperty()
 	readonly raw: string;
+
+	@ApiProperty()
+	readonly from_bot: boolean;
 }
 
 export class ChatUploadMediaDto {

@@ -289,6 +289,7 @@ export interface ChatMessage {
     | number
     | boolean
     | null;
+  fromBot: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -556,6 +557,7 @@ export interface ChatMessageSelect<T extends boolean = true> {
   user?: T;
   collection?: T;
   message?: T;
+  fromBot?: T;
   createdAt?: T;
   updatedAt?: T;
 }

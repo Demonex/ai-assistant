@@ -14,11 +14,14 @@ export class ChatMessageEntity {
 		[k: string]: unknown;
 	};
 
+	@Property()
+	from_bot: boolean;
+
 	@OneToOne({
 		// joinColumn: 'collection_id',
 		orphanRemoval: true,
 	})
-	user?: UserEntity;
+	user: UserEntity;
 
 	@OneToOne({
 		// joinColumn: 'collection_id',
