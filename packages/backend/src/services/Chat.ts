@@ -9,6 +9,10 @@ import { PROVIDER_TYPE } from "../entities/Provider/index.js";
 import { getHandleUpload } from "../utils/handleUpload.js";
 import { promiseMap } from "../utils/index.js";
 import { LangFlowService } from "./Flow.js";
+import { GroupEntity } from "../entities/Group/index.js";
+import { GROUP_PERMISSION } from "../entities/Group/group-group-permissions.js";
+
+type HintType = "users" | "groupPermissions" | "groupCollectionPermissions";
 
 @Injectable()
 export class ChatService {
@@ -20,9 +24,43 @@ export class ChatService {
 	) {}
 
 	async chats(userId: ChatMessageEntity["user"]["id"]) {
-		const chats = await this.em.find<CollectionEntity>(CollectionEntity, {});
+		const groups = await this.em.find<GroupEntity, HintType>(
+			GroupEntity,
+			{
+				users: {
+					user: {
+						id: userId,
+					},
+				},
+			},
+			{
+				populate: ["users", "groupPermissions", "groupCollectionPermissions"],
+				populateWhere: "infer",
+			},
+		);
 
-		return chats;
+		const isAdminOrGroupPermission = groups.some((group) => {
+			return group.groupPermissions
+				.map(
+					(entity) =>
+						entity.permission === GROUP_PERMISSION.admin ||
+						entity.permission === GROUP_PERMISSION.group,
+				)
+				.some((el) => !!el);
+		});
+
+		if (isAdminOrGroupPermission) {
+			return await this.em.findAll<CollectionEntity>(CollectionEntity);
+		}
+
+		const collectionKeys = groups.flatMap((group) => {
+			return group.groupCollectionPermissions.map((perm) => perm.collection.id);
+		});
+
+		return await this.em.find<CollectionEntity>(
+			CollectionEntity,
+			collectionKeys,
+		);
 	}
 
 	async chat(
