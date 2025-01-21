@@ -1,13 +1,11 @@
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { MessageItem } from "./MessageItem.js";
-import { useChats } from "../hooks/useChats.js";
 
-const MessageList = ({ onOpenDialogWindow }) => {
-	const { chats } = useChats();
+const MessageList = ({ chats }) => {
 	return (
 		<ScrollArea.Root className="ScrollAreaRoot">
 			<ScrollArea.Viewport className="ScrollAreaViewport">
-				<div className="block min-w-0 divide-y" onClick={onOpenDialogWindow}>
+				<div className="block min-w-0 divide-y">
 					{chats?.map((chat) => (
 						<div className="Tag" key={chat.id}>
 							<MessageItem title={chat.title} id={chat.id} />

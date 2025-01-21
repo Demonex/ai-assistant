@@ -1,26 +1,28 @@
 import { memo, useMemo } from "react";
 import { useChats } from "../hooks/useChats.js";
-import { AvatarDemo } from "./AvatarDemo.js";
+import { AvatarComponent } from "./AvatarComponent.js";
 import { DropdownMenuButton } from "./DropdownMenuButton.js";
 
 export const MessageItem = memo<{
 	title: string;
 	id: number;
-}>(({ title }) => {
-	const { setActiveChat, id, activeChat } = useChats();
-	console.log("activeChat", activeChat);
+}>(({ title, id }) => {
+	const { setActiveChat, message, loadng } = useChats();
+	if (loadng) {
+		return <div>ждем</div>;
+	}
+
 	return (
 		<div
 			className="group relative flex min-w-0 cursor-pointer items-center gap-4 px-6 py-4 hover:bg-muted"
 			onClick={() => {
-				console.log("click", setActiveChat);
-				setActiveChat(id);
+				setActiveChat({ id, title });
 			}}
 		>
 			<span className="relative flex shrink-0 overflow-hidden rounded-full h-12 w-12 border">
 				<div className="w-3 h-3 absolute rounded-full end-0 bottom-0 bg-green-400" />
 				<span className="flex h-full w-full items-center justify-center rounded-full bg-muted">
-					<AvatarDemo />
+					<AvatarComponent />
 				</span>
 			</span>
 			<div className="min-w-0 flex-grow">
@@ -29,21 +31,6 @@ export const MessageItem = memo<{
 					<span className="text-sm text-muted-foreground">10 days</span>
 				</div>
 				<div className="flex items-center gap-2">
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						width={24}
-						height={24}
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						strokeWidth={2}
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						className="lucide lucide-check-check h-4 w-4 flex-shrink-0 text-green-500"
-					>
-						<path d="M18 6 7 17l-5-5" />
-						<path d="m22 10-7.5 7.5L13 16" />
-					</svg>
 					<span className="truncate text-start text-muted-foreground">
 						I might be 10 minutes late. Sorry!
 					</span>
