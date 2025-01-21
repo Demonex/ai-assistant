@@ -104,7 +104,7 @@ export function NavUser({
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem>
-							<LogOut onClick={() => console.log("click")} />
+							<LogOut />
 							Log out
 						</DropdownMenuItem>
 					</DropdownMenuContent>

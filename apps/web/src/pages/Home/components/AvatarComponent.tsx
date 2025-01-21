@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar.js";
 
-export function AvatarDemo() {
+export function AvatarComponent() {
 	return (
 		<Avatar>
 			<AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />

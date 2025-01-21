@@ -1,13 +1,25 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import { Input } from "@/components/ui/input.js";
 import MessageList from "./MessageList.js";
-import { useFetch } from "use-mono-hook";
 import { useChats } from "../hooks/useChats.js";
 
 export const Sidebar = memo(() => {
 	const { chats } = useChats();
+	const [inputValue, setInputValue] = useState("");
 
-	console.log("chats", chats);
+	let filteredChats = chats;
+
+	const handleInputChange = (event) => {
+		setInputValue(event.target.value);
+	};
+
+	if (inputValue) {
+		filteredChats = chats.filter((item) =>
+			item.title !== null
+				? item.title.toLowerCase().includes(inputValue.toLowerCase())
+				: null,
+		);
+	}
 
 	return (
 		<div className="w-full lg:w-96">
@@ -21,7 +33,11 @@ export const Sidebar = memo(() => {
 				</div>
 				<div className="p-0">
 					<div className="relative flex items-center px-6 py-3">
-						<Input type="text" placeholder="Charts search..." />
+						<Input
+							type="text"
+							placeholder="Charts search..."
+							onChange={handleInputChange}
+						/>
 					</div>
 					<div className="flex h-[calc(100vh_-_13rem)] lg:h-[calc(100vh_-_15.8rem)] lg:pt-4">
 						<div
@@ -44,7 +60,7 @@ export const Sidebar = memo(() => {
 							>
 								<div data-radix-scroll-area-content>
 									<div className="block min-w-0 divide-y">
-										<MessageList onOpenDialogWindow={() => {}} />
+										<MessageList chats={filteredChats} />
 									</div>
 								</div>
 							</div>

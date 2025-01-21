@@ -1,22 +1,109 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useFetch, createMonoHook, useLazyFetch } from "use-mono-hook";
 
-const _useChats = () => {
+type UserType = {
+	id: number;
+	name: string;
+};
+
+type MessageType = {
+	user: UserType | null;
+	messages: {
+		raw: string;
+	};
+};
+
+const _useChats = (id: number) => {
 	const { data: chats } = useFetch({
 		url: "/api/rest/chats",
 	});
 
-	const [activeChat, setActiveChat] = useState<number>();
-	console.log("a", activeChat);
+	const [activeChat, setActiveChat] = useState<{
+		id: number;
+	}>();
+
+	const [messages, setMessages] = useState<MessageType[]>();
+
+	const reqMessage = useLazyFetch({
+		url: "/api/rest/chat/{activeChat.id}",
+	});
+
+	const [{ data: messagesData }, fetchMessages] = reqMessage || [{}];
+
+	const [{ data: messageSend, loading }, fetchSendMessage] = useLazyFetch({
+		url: "/api/rest/chat/{activeChat.id}/message",
+		method: "post",
+	});
+
+	////////////////////////////////////////////////////////////////////////////////////
+
+	const [{ data: uploadFile }, fetchUploadFile] = useLazyFetch({
+		url: "api/rest/chat/{id}/upload",
+		method: "post",
+	});
+	////////////////////////////////////////////////////////////////////////////////////
+
+	useEffect(() => {
+		if (!activeChat?.id || !fetchMessages) {
+			return;
+		}
+
+		fetchMessages({
+			url: `/api/rest/chat/${activeChat.id}`,
+		});
+	}, [activeChat?.id, fetchMessages]);
+
+	useEffect(() => {
+		if (!messagesData) {
+			return;
+		}
+
+		setMessages(messagesData);
+	}, [messagesData]);
+
+	const sendMessage = useCallback(
+		({ message }) => {
+			fetchSendMessage({
+				url: `/api/rest/chat/${activeChat.id}/message`,
+				data: {
+					raw: message,
+				},
+			});
+		},
+		[activeChat?.id, fetchSendMessage],
+	);
+
+	useEffect(() => {
+		if (!messageSend) {
+			return;
+		}
+
+		setMessages((prev) => [
+			...prev,
+			{
+				...messageSend.success,
+				from_bot: true,
+				message: {
+					...messageSend.success.message,
+					raw: messageSend.response,
+				},
+			},
+		]);
+	}, [messageSend]);
+
 	return {
 		chats,
 		activeChat,
 		setActiveChat,
+		messages,
+		sendMessage,
+		loading,
 	};
 };
 
 export const useChats = createMonoHook<typeof _useChats>(_useChats, {
 	defaults: {
 		chats: [],
+		messages: [],
 	},
 }).useHook;
