@@ -15,8 +15,14 @@ const DND = () => {
 };
 
 export const DialogWindow = () => {
-	const { messages, activeChat, setActiveChat, sendMessage, loading } =
-		useChats();
+	const {
+		messages,
+		setMessages,
+		activeChat,
+		setActiveChat,
+		sendMessage,
+		loading,
+	} = useChats();
 	const [message, setMessage] = useState("");
 	const { register, handleSubmit, reset } = useForm();
 	const id = useId();
@@ -24,7 +30,14 @@ export const DialogWindow = () => {
 	const messagesEndRef = useRef(null);
 
 	const onSubmit = () => {
-		messages.push({ id: id, from_bot: false, message: { raw: message } });
+		setMessages([
+			...messages,
+			{
+				id: id,
+				from_bot: false,
+				message: { raw: message },
+			},
+		]);
 
 		sendMessage({ message });
 		setMessage("");

@@ -95,6 +95,7 @@ const _useChats = (id: number) => {
 		chats,
 		activeChat,
 		setActiveChat,
+		setMessages,
 		messages,
 		sendMessage,
 		loading,

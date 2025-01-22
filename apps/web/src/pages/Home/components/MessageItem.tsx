@@ -7,14 +7,11 @@ export const MessageItem = memo<{
 	title: string;
 	id: number;
 }>(({ title, id }) => {
-	const { setActiveChat, message, loadng } = useChats();
-	if (loadng) {
-		return <div>ждем</div>;
-	}
+	const { activeChat, setActiveChat } = useChats();
 
 	return (
 		<div
-			className="group relative flex min-w-0 cursor-pointer items-center gap-4 px-6 py-4 hover:bg-muted"
+			className={`group relative flex min-w-0 cursor-pointer items-center gap-4 px-6 py-4 hover:bg-muted ${activeChat?.id === id ? "bg-[rgb(39,39,42)] text-white" : "bg-transparent"}`}
 			onClick={() => {
 				setActiveChat({ id, title });
 			}}
