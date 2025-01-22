@@ -87,7 +87,7 @@ export class ChatController {
 		});
 
 		return {
-			success: result,
+			success: true,
 			response: aiResponse,
 		};
 	}

@@ -1,4 +1,5 @@
-import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
+import { Entity, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
+import { GroupUsersEntity } from "../Group/group-users.js";
 
 @Entity({ tableName: "user" })
 export class UserEntity {
@@ -13,4 +14,7 @@ export class UserEntity {
 
 	@Property({ nullable: true })
 	superadmin: boolean;
+
+	@OneToMany(() => GroupUsersEntity, "user")
+	groups: GroupUsersEntity[];
 }
