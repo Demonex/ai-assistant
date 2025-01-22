@@ -26,8 +26,9 @@ import {
 	useSidebar,
 } from "@/components/ui/sidebar.js";
 import { ModeToggle } from "./mode-toggle.js";
-import { useRoute } from "wouter";
 import { useProfile } from "@/hooks/useProfile.js";
+import { useEffect, useState } from "react";
+import { useTheme } from "./theme-provider.js";
 
 export function NavUser({
 	user,
@@ -39,8 +40,17 @@ export function NavUser({
 	};
 }) {
 	const { isMobile } = useSidebar();
-
+	const { theme, setTheme } = useTheme();
 	const { handleSignOut } = useProfile();
+	const [darkTheme, setDarkTheme] = useState(theme);
+
+	useEffect(() => {
+		setTheme(darkTheme);
+	}, [darkTheme]);
+
+	const toggleTheme = () => {
+		darkTheme === "dark" ? setDarkTheme("light") : setDarkTheme("dark");
+	};
 
 	return (
 		<SidebarMenu>
@@ -101,7 +111,10 @@ export function NavUser({
 								<Bell />
 								Notifications
 							</DropdownMenuItem>
-							<ModeToggle />
+							<DropdownMenuItem onClick={toggleTheme}>
+								<ModeToggle darkTheme={darkTheme} />
+								<span>Theme</span>
+							</DropdownMenuItem>
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem onClick={() => handleSignOut()}>
