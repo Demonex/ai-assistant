@@ -1,4 +1,4 @@
-import { EntityManager, MikroORM } from "@mikro-orm/core";
+import { EntityManager } from "@mikro-orm/core";
 import { InjectRedis } from "@nestjs-modules/ioredis";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { ChatMessageEntity } from "@repo/backend/entities/Chat/index.js";
@@ -18,7 +18,6 @@ type HintType = "users" | "groupPermissions" | "groupCollectionPermissions";
 export class ChatService {
 	constructor(
 		@InjectRedis() private readonly redisClient: Redis,
-		private readonly orm: MikroORM,
 		private readonly em: EntityManager,
 		private readonly flowService: LangFlowService,
 	) {}

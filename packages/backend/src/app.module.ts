@@ -46,6 +46,7 @@ import { GroupCollectionPermissionsEntity } from "./entities/Group/group-collect
 			port: Number.parseInt(process.env.DATABASE_PORT),
 			user: process.env.DATABASE_USERNAME,
 			password: process.env.DATABASE_PASSWORD,
+			allowGlobalContext: true,
 		}),
 		RedisModule.forRoot({
 			type: "single",
