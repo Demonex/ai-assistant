@@ -6,7 +6,7 @@ export default defineConfig({
   format: ["esm"],
   target: "node23",
   splitting: false,
-  clean: true,
+  clean: false,
   sourcemap: true,
   silent: true,
   /**
