@@ -2,16 +2,18 @@ import { memo, useMemo } from "react";
 import { useChats } from "../hooks/useChats.js";
 import { AvatarComponent } from "./AvatarComponent.js";
 import { DropdownMenuButton } from "./DropdownMenuButton.js";
+import { useTheme } from "@/components/theme-provider.js";
 
 export const MessageItem = memo<{
 	title: string;
 	id: number;
 }>(({ title, id }) => {
 	const { activeChat, setActiveChat } = useChats();
+	const { theme } = useTheme();
 
 	return (
 		<div
-			className={`group relative flex min-w-0 cursor-pointer items-center gap-4 px-6 py-4 hover:bg-muted ${activeChat?.id === id ? "bg-[rgb(39,39,42)] text-white" : "bg-transparent"}`}
+			className={`group relative flex min-w-0 cursor-pointer items-center gap-4 px-6 py-4 hover:bg-muted ${theme === "dark" ? (activeChat?.id === id ? "bg-[rgb(39,39,42)] text-white" : "bg-transparent") : "bg-[rgb(229, 231, 235)] text-black"}`}
 			onClick={() => {
 				setActiveChat({ id, title });
 			}}
