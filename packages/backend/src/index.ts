@@ -12,6 +12,7 @@ import { DefaultLogger } from "@repo/backend/config/logger/default-logger.js";
 import type { Express } from "express";
 import express from "express";
 import expressPlugins from "@repo/backend/plugins/express/index.js";
+
 process.on("warning", (e) => console.warn(e.stack));
 Logger.useLogger(
 	new DefaultLogger({
@@ -20,6 +21,7 @@ Logger.useLogger(
 			: LogLevel.Info,
 	}),
 );
+
 Logger.info(`Bootstrapping repo.dev (pid: ${process.pid}) 🚀`);
 DefaultLogger.hideNestBootstrapLogs();
 const expressApp: Express = express();
@@ -76,7 +78,7 @@ SwaggerModule.setup(
 	),
 );
 
-await app.listen(
+const server = await app.listen(
 	Number.parseInt(String(process.env.PORT)) || 2050,
 	"0.0.0.0",
 	() => {
@@ -97,3 +99,11 @@ function logWelcomeMessage() {
 	);
 	Logger.info("=================================================");
 }
+
+process.on("SIGTERM", async () => {
+	if (!server || process.env.NODE_ENV !== "development") {
+		return;
+	}
+	await server.close(); // to demonex: try to commit this line and see if any effect
+	process.exit(0); // Force exit
+});
