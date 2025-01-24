@@ -2,6 +2,7 @@ import { memo, useState } from "react";
 import { Input } from "@/components/ui/input.js";
 import MessageList from "./MessageList.js";
 import { useChats } from "../hooks/useChats.js";
+import { FormNewCollection } from "./FormNewCollection.js";
 
 export const Sidebar = memo(() => {
 	const { chats } = useChats();
@@ -21,6 +22,10 @@ export const Sidebar = memo(() => {
 		);
 	}
 
+	const openForm = () => {
+		console.log("click");
+	};
+
 	return (
 		<div className="w-full lg:w-96">
 			<div className="shadow-base rounded-lg border bg-card text-card-foreground">
@@ -29,6 +34,7 @@ export const Sidebar = memo(() => {
 						<h3 className="text-lg leading-none tracking-tight font-bold">
 							Chats
 						</h3>
+						<FormNewCollection />
 					</div>
 				</div>
 				<div className="p-0">
