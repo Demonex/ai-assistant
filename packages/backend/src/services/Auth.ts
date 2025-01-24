@@ -16,9 +16,8 @@ import { BCRYPT_SALT_ROUNDS } from "@repo/backend/constants.js";
 import { HttpStatusMessages } from "@repo/backend/messages/http.js";
 import type { AuthRecoverDto, AuthSignUpDto } from "@repo/backend/dto/Auth.js";
 import { SmtpService } from "./Smtp.js";
-import type { Types } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
-import { MikroORM, EntityManager } from "@mikro-orm/core";
+import { EntityManager } from "@mikro-orm/core";
 import { UserEntity } from "@repo/backend/entities/User/index.js";
 
 @Injectable({ scope: Scope.REQUEST })
@@ -27,11 +26,10 @@ export class AuthService {
 		@Inject(REQUEST) private readonly request: any,
 		@Inject(SmtpService) private readonly smtp: SmtpService,
 		@InjectRedis() private readonly redisClient: Redis,
-		private readonly orm: MikroORM,
 		private readonly em: EntityManager,
 	) {}
 
-	async signOut(userId?: Types.ObjectId): Promise<boolean> {
+	async signOut(): Promise<boolean> {
 		try {
 			return await new Promise((resolve, reject) => {
 				this.request.session.destroy((err) =>

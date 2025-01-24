@@ -31,7 +31,6 @@ import {
 } from "@nestjs/swagger";
 import type { RedirectResponse } from "@nestjs/core/router/router-response-controller.js";
 import { validateDto } from "@repo/backend/middlewares/validateDto.js";
-import type { Types } from "mongoose";
 
 @ApiTags("auth")
 @Controller("/api")
@@ -43,7 +42,7 @@ export class AuthController {
 	@Authorized()
 	@Post("/rest/auth/sign-out")
 	@HttpCode(200)
-	async signOut(@UserId() userId: Types.ObjectId) {
+	async signOut(@UserId() userId: number) {
 		const result = await this.service.signOut();
 		return {
 			success: result,
@@ -54,7 +53,7 @@ export class AuthController {
 	@Authorized()
 	@Post("/admin/user/logout")
 	@HttpCode(200)
-	async logOut(@UserId() userId: Types.ObjectId) {
+	async logOut(@UserId() userId: number) {
 		const result = await this.service.signOut();
 		return {
 			success: result,

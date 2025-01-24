@@ -9,7 +9,6 @@ import {
 	UploadedFile,
 	UseInterceptors,
 } from "@nestjs/common";
-import type { Types } from "mongoose";
 import { UserService } from "@repo/backend/services/User.js";
 import { UpdateProfileDto } from "@repo/backend/dto/Profile.js";
 import { Authorized } from "@repo/backend/decorators/auth.js";
@@ -31,7 +30,7 @@ export class ProfileController {
 	@ApiOperation({ summary: "get profile" })
 	@Get()
 	@HttpCode(200)
-	async me(@UserId() id?: Types.ObjectId, @UserEmail() email?: string) {
+	async me(@UserId() id?: number, @UserEmail() email?: string) {
 		return this.service.me(id, email);
 	}
 	/*

@@ -17,7 +17,6 @@ import {
 } from "@repo/backend/services/Provider.js";
 import type { NextFunction, Response } from "express";
 import * as passport from "passport";
-import jwt from "jsonwebtoken";
 import {
 	ApiExcludeEndpoint,
 	ApiOperation,
@@ -28,7 +27,6 @@ import {
 	ApiTags,
 } from "@nestjs/swagger";
 import type { ExpressRequest } from "@repo/backend/types.js";
-import signature from "cookie-signature";
 
 class CallbackResponse {
 	@ApiProperty()
@@ -40,7 +38,7 @@ class CallbackResponse {
 export class ProviderController {
 	constructor(private readonly providerService: ProviderService) {}
 
-	@Get(":provider(google|facebook|apple)")
+	@Get(":provider")
 	async handleOauthRequest(
 		@Req() req: ExpressRequest,
 		@Res() res: Response,
@@ -59,7 +57,7 @@ export class ProviderController {
 	}
 
 	@ApiExcludeEndpoint(process.env.NODE_ENV !== "development")
-	@Get(":provider(apple)/link")
+	@Get(":provider/link")
 	async getOauthLink(@Param("provider") provider: SocialProviders) {
 		switch (provider) {
 			case "apple": {

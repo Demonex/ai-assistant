@@ -11,13 +11,12 @@ import type {
 	UpdateProfileAvatarDto,
 	UpdateProfileDto,
 } from "@repo/backend/dto/Profile.js";
-import type { Types } from "mongoose";
 import { get } from "lodash-es";
 import type { Redis } from "ioredis";
 import { InjectRedis } from "@nestjs-modules/ioredis";
 import { HttpStatusMessages } from "@repo/backend/messages/http.js";
 import { REQUEST } from "@nestjs/core";
-import { MikroORM, EntityManager } from "@mikro-orm/core";
+import { EntityManager } from "@mikro-orm/core";
 import { UserEntity } from "@repo/backend/entities/User/index.js";
 
 @Injectable({ scope: Scope.REQUEST })
@@ -25,7 +24,6 @@ export class UserService {
 	constructor(
 		@Inject(REQUEST) private readonly request: any,
 		@InjectRedis() private readonly redisClient: Redis,
-		private readonly orm: MikroORM,
 		private readonly em: EntityManager,
 	) {}
 	/*
@@ -34,7 +32,7 @@ export class UserService {
     return this.repo.findById(id).select(UserEntityDefaultSelect);
   }*/
 
-	async me(id?: Types.ObjectId, email?: string) {
+	async me(id: number, email?: string) {
 		const isAdminRequest = String(
 			get(this.request, "headers.referer", ""),
 		).includes("/admin");
