@@ -4,6 +4,7 @@ import { unsign } from "cookie-signature";
 import Redis from "ioredis";
 import defaultAccess from "@/utilities/defaultAccess";
 import { userMediaAvatar } from "@/collections/user/media/avatar";
+import { tenant } from "../tenant";
 
 const RedisSessionStore = new Redis(
 	`redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
@@ -14,7 +15,7 @@ export const user: CollectionConfig = {
 	access: defaultAccess,
 	admin: {
 		// hideAPIURL: true,
-		defaultColumns: ["name", "username", "email", "superadmin"],
+		defaultColumns: ["name", "currentTenant", "email", "superadmin"],
 		useAsTitle: "name",
 	},
 	auth: {
@@ -83,6 +84,11 @@ export const user: CollectionConfig = {
 		{
 			name: "superadmin",
 			type: "checkbox",
+		},
+		{
+			name: "currentTenant",
+			type: "relationship",
+			relationTo: tenant.slug as "tenant",
 		},
 		{
 			name: "password",

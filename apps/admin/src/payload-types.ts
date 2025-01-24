@@ -117,6 +117,7 @@ export interface User {
   username?: string | null;
   email?: string | null;
   superadmin?: boolean | null;
+  currentTenant?: (number | null) | Tenant;
   password?: string | null;
   avatar?: (number | null) | UserMediaAvatar;
   updatedAt: string;
@@ -289,7 +290,15 @@ export interface ChatMessage {
     | number
     | boolean
     | null;
-  fromBot: boolean;
+  response?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -425,6 +434,7 @@ export interface UserSelect<T extends boolean = true> {
   username?: T;
   email?: T;
   superadmin?: T;
+  currentTenant?: T;
   password?: T;
   avatar?: T;
   updatedAt?: T;
@@ -557,7 +567,7 @@ export interface ChatMessageSelect<T extends boolean = true> {
   user?: T;
   collection?: T;
   message?: T;
-  fromBot?: T;
+  response?: T;
   createdAt?: T;
   updatedAt?: T;
 }
