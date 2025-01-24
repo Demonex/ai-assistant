@@ -14,7 +14,6 @@ import {
 import { FilesInterceptor } from "@nestjs/platform-express";
 import {
 	ApiBearerAuth,
-	ApiBody,
 	ApiConsumes,
 	ApiOperation,
 	ApiTags,
@@ -53,7 +52,7 @@ export class ChatController {
 	@Authorized()
 	@Post("/chat/:id/message")
 	@HttpCode(200)
-	@ApiBody({ type: () => ChatMessageDto })
+	// @ApiBody({ type: () => ChatMessageDto })
 	async sendMessage(
 		@UserId() userId: number,
 		@Param("id") chatId: number,
@@ -61,14 +60,20 @@ export class ChatController {
 	) {
 		const stop_component_id = "ChatOutput-qOZpZ";
 
-		const result = await this.chatService.messageCreate(userId, chatId, data);
+		const { id: messageId } = await this.chatService.messageCreate(
+			userId,
+			chatId,
+			data,
+		);
 		await this.flowService.updateConfigChatInput({
 			nodeId: "ChatInput-nGvxC",
 			value: data.raw,
 		});
-		const response = await this.flowService.buildFlow({ stop_component_id });
+		const flowResponse = await this.flowService.buildFlow({
+			stop_component_id,
+		});
 
-		const resultNode = response.find(({ event, data }) => {
+		const resultNode = flowResponse.find(({ event, data }) => {
 			return (
 				event === "end_vertex" && data.build_data?.id === stop_component_id
 			);
@@ -81,9 +86,11 @@ export class ChatController {
 		const aiResponse =
 			resultNode.data.build_data.data.results.message.data.text;
 
-		await this.chatService.messageCreate(userId, chatId, {
-			raw: aiResponse,
-			from_bot: true,
+		await this.chatService.messagePatch(messageId, {
+			response: {
+				raw: aiResponse,
+				score: 5,
+			},
 		});
 
 		return {

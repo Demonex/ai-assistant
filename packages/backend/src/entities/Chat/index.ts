@@ -1,4 +1,10 @@
-import { Entity, OneToOne, PrimaryKey, Property } from "@mikro-orm/core";
+import {
+	DateType,
+	Entity,
+	OneToOne,
+	PrimaryKey,
+	Property,
+} from "@mikro-orm/core";
 import { CollectionEntity } from "@repo/backend/entities/Collection/index.js";
 import { UserEntity } from "@repo/backend/entities/User/index.js";
 
@@ -14,17 +20,23 @@ export class ChatMessageEntity {
 		[k: string]: unknown;
 	};
 
+	@Property({
+		type: "jsonb",
+		nullable: true,
+	})
+	response: {
+		[k: string]: unknown;
+	};
+
 	@Property()
-	from_bot: boolean;
+	created_at: DateType;
 
 	@OneToOne({
-		// joinColumn: 'collection_id',
 		orphanRemoval: true,
 	})
 	user: UserEntity;
 
 	@OneToOne({
-		// joinColumn: 'collection_id',
 		orphanRemoval: true,
 	})
 	collection: CollectionEntity;

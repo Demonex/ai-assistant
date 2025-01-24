@@ -5,12 +5,13 @@ import { ChatMessageEntity } from "@repo/backend/entities/Chat/index.js";
 import type { Redis } from "ioredis";
 import type { ChatMessageDto } from "../dto/Chat.js";
 import { CollectionEntity } from "../entities/Collection/index.js";
+import { GROUP_PERMISSION } from "../entities/Group/group-group-permissions.js";
+import { GroupEntity } from "../entities/Group/index.js";
 import { PROVIDER_TYPE } from "../entities/Provider/index.js";
+import { UserEntity } from "../entities/User/index.js";
 import { getHandleUpload } from "../utils/handleUpload.js";
 import { promiseMap } from "../utils/index.js";
 import { LangFlowService } from "./Flow.js";
-import { GroupEntity } from "../entities/Group/index.js";
-import { GROUP_PERMISSION } from "../entities/Group/group-group-permissions.js";
 
 type HintType = "users" | "groupPermissions" | "groupCollectionPermissions";
 
@@ -23,6 +24,17 @@ export class ChatService {
 	) {}
 
 	async chats(userId: ChatMessageEntity["user"]["id"]) {
+		const user = await this.em.findOneOrFail<UserEntity, HintType>(
+			UserEntity,
+			{
+				id: userId,
+			},
+			{
+				populate: ["currentTenant"],
+				populateWhere: "infer",
+			},
+		);
+
 		const groups = await this.em.find<GroupEntity, HintType>(
 			GroupEntity,
 			{
@@ -30,6 +42,9 @@ export class ChatService {
 					user: {
 						id: userId,
 					},
+				},
+				tenant: {
+					id: user.currentTenant.id,
 				},
 			},
 			{
@@ -49,17 +64,33 @@ export class ChatService {
 		});
 
 		if (isAdminOrGroupPermission) {
-			return await this.em.findAll<CollectionEntity>(CollectionEntity);
+			return await this.em.find<CollectionEntity>(CollectionEntity, {
+				providers: {
+					provider: {
+						tenant: {
+							id: user.currentTenant.id,
+						},
+					},
+				},
+			});
 		}
 
 		const collectionKeys = groups.flatMap((group) => {
 			return group.groupCollectionPermissions.map((perm) => perm.collection.id);
 		});
 
-		return await this.em.find<CollectionEntity>(
-			CollectionEntity,
-			collectionKeys,
-		);
+		return await this.em.find<CollectionEntity>(CollectionEntity, {
+			id: {
+				$in: collectionKeys,
+			},
+			providers: {
+				provider: {
+					tenant: {
+						id: user.currentTenant.id,
+					},
+				},
+			},
+		});
 	}
 
 	async chat(
@@ -76,18 +107,45 @@ export class ChatService {
 	async messageCreate(
 		userId: ChatMessageEntity["user"]["id"],
 		chatId: CollectionEntity["id"],
-		{ raw, from_bot = false }: ChatMessageDto,
+		chatMessageDto: ChatMessageDto,
 	) {
 		try {
 			const chatMessage = this.em.create<ChatMessageEntity>(ChatMessageEntity, {
 				user: userId,
 				collection: chatId,
 				message: {
-					raw,
+					raw: chatMessageDto.raw,
 				},
-				from_bot,
+				response: chatMessageDto.response,
+				created_at: chatMessageDto.created_at,
 			});
 			await this.em.persistAndFlush(chatMessage);
+
+			return chatMessage;
+		} catch (error) {
+			console.error("Error creating chatMessage:", error);
+
+			throw new HttpException(
+				"Internal Server Error",
+				HttpStatus.INTERNAL_SERVER_ERROR,
+			);
+		}
+	}
+
+	async messagePatch(
+		messageId: ChatMessageEntity["id"],
+		chatMessageDto: Partial<ChatMessageDto>,
+	) {
+		try {
+			const chatMessage = await this.em.findOne<ChatMessageEntity>(
+				ChatMessageEntity,
+				{
+					id: messageId,
+				},
+			);
+
+			chatMessage.response = chatMessageDto.response;
+			await this.em.flush();
 
 			return chatMessage;
 		} catch (error) {
