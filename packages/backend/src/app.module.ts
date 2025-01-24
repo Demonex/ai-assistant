@@ -12,7 +12,6 @@ import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { PostgreSqlDriver } from "@mikro-orm/postgresql";
 import { UserEntity } from "@repo/backend/entities/User/index.js";
 import { TenantEntity } from "./entities/Tenant/index.js";
-import { TenantRelsEntity } from "./entities/Tenant/rels.js";
 import { ChatMessageEntity } from "./entities/Chat/index.js";
 import { CollectionEntity } from "./entities/Collection/index.js";
 import { DocEntity } from "./entities/Doc/index.js";
@@ -29,7 +28,6 @@ import { GroupCollectionPermissionsEntity } from "./entities/Group/group-collect
 			entities: [
 				UserEntity,
 				TenantEntity,
-				TenantRelsEntity,
 				ChatMessageEntity,
 				CollectionEntity,
 				DocEntity,

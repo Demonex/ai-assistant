@@ -1,5 +1,4 @@
-import { Entity, PrimaryKey, ManyToMany, Property } from "@mikro-orm/core";
-import { TenantRelsEntity } from "@repo/backend/entities/Tenant/rels.js";
+import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
 
 @Entity({ tableName: "tenant" })
 export class TenantEntity {
@@ -7,15 +6,8 @@ export class TenantEntity {
 	id!: number;
 
 	@Property()
-	name?: string;
+	title?: string;
 
 	@Property()
 	description?: string;
-
-	@ManyToMany(() => TenantRelsEntity, undefined, {
-		joinColumn: "parent_id",
-		referenceColumnName: "id",
-		inverseJoinColumn: "id",
-	})
-	rels: TenantRelsEntity[];
 }

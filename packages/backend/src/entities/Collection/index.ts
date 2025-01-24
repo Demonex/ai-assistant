@@ -1,13 +1,6 @@
-import {
-	Entity,
-	ManyToMany,
-	OneToMany,
-	PrimaryKey,
-	Property,
-} from "@mikro-orm/core";
-import { ProviderEntity } from "../Provider/index.js";
-import { CollectionProvidersEntity } from "./collection-providers.js";
+import { Entity, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
 import { GroupCollectionPermissionsEntity } from "../Group/group-collection-permissions.js";
+import { CollectionProvidersEntity } from "./collection-providers.js";
 
 @Entity({ tableName: "collection" })
 export class CollectionEntity {
