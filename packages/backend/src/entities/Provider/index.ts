@@ -1,5 +1,13 @@
-import { Entity, Enum, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
+import {
+	Entity,
+	Enum,
+	ManyToOne,
+	OneToMany,
+	PrimaryKey,
+	Property,
+} from "@mikro-orm/core";
 import { CollectionProvidersEntity } from "../Collection/collection-providers.js";
+import { TenantEntity } from "../Tenant/index.js";
 
 export enum PROVIDER_TYPE {
 	minio = "minio",
@@ -21,8 +29,11 @@ export class ProviderEntity {
 
 	@Enum({
 		nativeEnumName: "enum_provider_type",
-	}) // or @Enum({ items: () => MyEnum1 })
+	})
 	type: PROVIDER_TYPE;
+
+	@ManyToOne(() => TenantEntity, { name: "tenant_id" })
+	tenant: TenantEntity;
 
 	@OneToMany(() => CollectionProvidersEntity, "provider")
 	providers: CollectionProvidersEntity[];

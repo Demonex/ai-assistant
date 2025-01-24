@@ -1,7 +1,14 @@
-import { Entity, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
+import {
+	Entity,
+	ManyToOne,
+	OneToMany,
+	PrimaryKey,
+	Property,
+} from "@mikro-orm/core";
 import { GroupCollectionPermissionsEntity } from "./group-collection-permissions.js";
 import { GroupPermissionsEntity } from "./group-group-permissions.js";
 import { GroupUsersEntity } from "./group-users.js";
+import { TenantEntity } from "../Tenant/index.js";
 
 @Entity({ tableName: "group" })
 export class GroupEntity {
@@ -10,6 +17,9 @@ export class GroupEntity {
 
 	@Property()
 	title: string;
+
+	@ManyToOne(() => TenantEntity, { name: "tenant_id" })
+	tenant: TenantEntity;
 
 	@OneToMany(() => GroupUsersEntity, "group")
 	users: GroupUsersEntity[];
