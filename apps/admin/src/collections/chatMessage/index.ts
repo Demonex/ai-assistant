@@ -1,10 +1,7 @@
-import type { CollectionConfig } from "payload";
 import defaultAccess from "@/utilities/defaultAccess";
-import { neuro } from "@/collections/neuro";
-import { MODEL_TYPE } from "../model";
-import { provider } from "../provider";
-import { user } from "../user";
+import type { CollectionConfig } from "payload";
 import { collection } from "../collection";
+import { user } from "../user";
 
 export const chatMessage: CollectionConfig = {
 	slug: "chatMessage",
@@ -28,12 +25,9 @@ export const chatMessage: CollectionConfig = {
 			required: true,
 		},
 		{
-			name: "fromBot",
-			type: "checkbox",
-			required: true,
-			admin: {
-				hidden: true,
-			},
+			name: "response",
+			type: "json",
+			admin: {},
 		},
 		{
 			name: "createdAt",
