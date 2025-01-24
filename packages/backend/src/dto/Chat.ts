@@ -14,6 +14,7 @@ export class ChatMessageDto {
 	};
 
 	@IsDateString()
+	@IsOptional()
 	@ApiProperty()
 	readonly created_at: string;
 }

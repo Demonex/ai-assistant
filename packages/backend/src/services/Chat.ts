@@ -39,13 +39,9 @@ export class ChatService {
 			GroupEntity,
 			{
 				users: {
-					user: {
-						id: userId,
-					},
+					user: userId,
 				},
-				tenant: {
-					id: user.currentTenant.id,
-				},
+				tenant: user.currentTenant.id,
 			},
 			{
 				populate: ["users", "groupPermissions", "groupCollectionPermissions"],
@@ -53,23 +49,22 @@ export class ChatService {
 			},
 		);
 
-		const isAdminOrGroupPermission = groups.some((group) => {
+		const isAdminOrCollectionPermission = groups.some((group) => {
 			return group.groupPermissions
 				.map(
 					(entity) =>
 						entity.permission === GROUP_PERMISSION.admin ||
-						entity.permission === GROUP_PERMISSION.group,
+						entity.permission === GROUP_PERMISSION.collection,
 				)
 				.some((el) => !!el);
 		});
 
-		if (isAdminOrGroupPermission) {
+		if (isAdminOrCollectionPermission) {
 			return await this.em.find<CollectionEntity>(CollectionEntity, {
 				providers: {
+					enabled: true,
 					provider: {
-						tenant: {
-							id: user.currentTenant.id,
-						},
+						tenant: user.currentTenant.id,
 					},
 				},
 			});
@@ -84,10 +79,9 @@ export class ChatService {
 				$in: collectionKeys,
 			},
 			providers: {
+				enabled: true,
 				provider: {
-					tenant: {
-						id: user.currentTenant.id,
-					},
+					tenant: user.currentTenant.id,
 				},
 			},
 		});
@@ -109,6 +103,58 @@ export class ChatService {
 		chatId: CollectionEntity["id"],
 		chatMessageDto: ChatMessageDto,
 	) {
+		const user = await this.em.findOneOrFail<UserEntity, HintType>(
+			UserEntity,
+			{
+				id: userId,
+			},
+			{
+				populate: ["currentTenant"],
+				populateWhere: "infer",
+			},
+		);
+
+		const groups = await this.em.find<GroupEntity, HintType>(
+			GroupEntity,
+			{
+				users: {
+					user: userId,
+				},
+				tenant: user.currentTenant.id,
+			},
+			{
+				populate: ["users", "groupPermissions", "groupCollectionPermissions"],
+				populateWhere: "infer",
+			},
+		);
+
+		const isAdminOrCollectionPermission = groups.some((group) => {
+			return group.groupPermissions
+				.map(
+					(entity) =>
+						entity.permission === GROUP_PERMISSION.admin ||
+						entity.permission === GROUP_PERMISSION.collection,
+				)
+				.some((el) => !!el);
+		});
+
+		if (!isAdminOrCollectionPermission) {
+			const collectionKeys = groups.flatMap((group) => {
+				return group.groupCollectionPermissions.map(
+					(perm) => perm.collection.id,
+				);
+			});
+
+			if (!collectionKeys.includes(chatId)) {
+				console.error("Error creating chatMessage: 404");
+
+				throw new HttpException(
+					"Internal Server Error",
+					HttpStatus.INTERNAL_SERVER_ERROR,
+				);
+			}
+		}
+
 		try {
 			const chatMessage = this.em.create<ChatMessageEntity>(ChatMessageEntity, {
 				user: userId,
@@ -117,7 +163,7 @@ export class ChatService {
 					raw: chatMessageDto.raw,
 				},
 				response: chatMessageDto.response,
-				created_at: chatMessageDto.created_at,
+				created_at: chatMessageDto.created_at || new Date(),
 			});
 			await this.em.persistAndFlush(chatMessage);
 
@@ -158,14 +204,66 @@ export class ChatService {
 		}
 	}
 
-	async uploadMedia(id, collectionId, data) {
+	async uploadMedia(userId, chatId, data) {
+		const user = await this.em.findOneOrFail<UserEntity, HintType>(
+			UserEntity,
+			{
+				id: userId,
+			},
+			{
+				populate: ["currentTenant"],
+				populateWhere: "infer",
+			},
+		);
+
+		const groups = await this.em.find<GroupEntity, HintType>(
+			GroupEntity,
+			{
+				users: {
+					user: userId,
+				},
+				tenant: user.currentTenant.id,
+			},
+			{
+				populate: ["users", "groupPermissions", "groupCollectionPermissions"],
+				populateWhere: "infer",
+			},
+		);
+
+		const isAdminOrCollectionPermission = groups.some((group) => {
+			return group.groupPermissions
+				.map(
+					(entity) =>
+						entity.permission === GROUP_PERMISSION.admin ||
+						entity.permission === GROUP_PERMISSION.collection,
+				)
+				.some((el) => !!el);
+		});
+
+		if (!isAdminOrCollectionPermission) {
+			const collectionKeys = groups.flatMap((group) => {
+				return group.groupCollectionPermissions.map(
+					(perm) => perm.collection.id,
+				);
+			});
+
+			if (!collectionKeys.includes(chatId)) {
+				console.error("Error uploading media: 404");
+
+				throw new HttpException(
+					"Internal Server Error",
+					HttpStatus.INTERNAL_SERVER_ERROR,
+				);
+			}
+		}
+
 		const collection = await this.em.findOne<
 			CollectionEntity,
 			"providers" | "providers.provider"
 		>(
 			CollectionEntity,
 			{
-				id: collectionId,
+				id: chatId,
 				providers: {
 					enabled: true,
 					provider: {
@@ -222,8 +320,6 @@ export class ChatService {
 				stop_component_id: "QdrantVectorStoreComponent-1MYTE",
 			});
 		});
-
-		console.log(id, JSON.stringify(collection, null, 2), data);
 
 		// http://10.199.20.10:7860/api/v1/files/upload/2fdcf711-a6eb-43c6-8a41-291e45c8b2a1
 
