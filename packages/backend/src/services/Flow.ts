@@ -1,54 +1,21 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import FormData from "form-data";
 import got from "got";
-import type { RequestFlowConfig } from "../types/RequestFlowConfig.js";
 
 @Injectable()
 export class LangFlowService {
-	private config: RequestFlowConfig;
-	private endpoint = "http://10.199.20.10:7860";
-	private flowId = "2fdcf711-a6eb-43c6-8a41-291e45c8b2a1";
+	private endpoint = "http://10.199.20.10:7862";
 	private authorization =
-		"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxZmQ0ZTkwNS1kODc1LTQwZjEtODdmNS0xM2NiYWRlNjY4M2YiLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY4NTU0MzM5fQ.hdWCV_FBjKPvbqBL6HB1IKrVbq1y2wtI0hVvKuDEAmQ";
+		"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlZWU3ZGU1OS1hZWZhLTQzNGItYjhiMy03YTkxMWFlZjJkODciLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY5NjA1NTM1fQ.JvS26u_1-R4NWieeKGWshIaNFfFaxA8CNxcdt3GhMYM";
+	// private authorization =
+	// 	"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxZmQ0ZTkwNS1kODc1LTQwZjEtODdmNS0xM2NiYWRlNjY4M2YiLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY4NTU0MzM5fQ.hdWCV_FBjKPvbqBL6HB1IKrVbq1y2wtI0hVvKuDEAmQ";
 
-	async getConfig() {
-		return got.get<RequestFlowConfig>(
-			`${this.endpoint}/api/v1/flows/${this.flowId}`,
-			{
-				headers: {
-					authorization: this.authorization,
-				},
-				responseType: "json",
-				resolveBodyOnly: true,
-			},
-		);
-	}
-
-	async updateConfigFile({ file_path, nodeId, originalname }) {
-		const config = await this.getConfig();
-		const node = config.data.nodes.find(({ id }) => id === nodeId);
-		if (!node) {
-			throw new HttpException("Node Not Found", HttpStatus.BAD_REQUEST);
-		}
-		node.data.node.template.path.file_path = file_path;
-		node.data.node.template.path.value = originalname;
-
-		return got.patch(`${this.endpoint}/api/v1/flows/${this.flowId}`, {
-			json: config,
-			headers: {
-				authorization: this.authorization,
-			},
-			responseType: "json",
-			resolveBodyOnly: true,
-		});
-	}
-
-	async uploadFile(media) {
+	async uploadFile({ flowId, media }) {
 		const form = new FormData();
 		form.append("file", media.buffer, media.originalname);
 
 		return got.post<{ flowId: string; file_path: string }>(
-			`${this.endpoint}/api/v1/files/upload/${this.flowId}`,
+			`${this.endpoint}/api/v1/files/upload/${flowId}`,
 			{
 				method: "POST",
 				body: form,
@@ -61,68 +28,29 @@ export class LangFlowService {
 		);
 	}
 
-	async buildFlow({ stop_component_id }) {
-		const {
-			data: { edges, nodes },
-		} = await this.getConfig();
-		const response: {
-			event: string;
-			data: {
-				build_data?: { id: string; valid: boolean; [k: string]: any };
-				[k: string]: unknown;
-			};
-		}[] = (
-			await got.post(`${this.endpoint}/api/v1/build/${this.flowId}/flow`, {
-				searchParams: {
-					stop_component_id,
-					log_builds: true,
-				},
-				json: {
-					edges,
-					nodes,
-				},
+	async runFlow({
+		flowId,
+		payload,
+	}: { flowId: string; payload?: { [key: string]: unknown } }) {
+		const result: any = await got.post(
+			`${this.endpoint}/api/v1/run/${flowId}?stream=false`,
+			{
+				method: "POST",
 				headers: {
-					authorization: this.authorization,
+					Authorization: this.authorization,
+					"Content-Type": "application/json",
 				},
-				responseType: "text",
+				body: JSON.stringify({
+					input_value: payload.message,
+					output_type: "chat",
+					input_type: "chat",
+					tweaks: payload.tweaks,
+				}),
+				responseType: "json",
 				resolveBodyOnly: true,
-			})
-		)
-			.split("\n")
-			.reduce((result, line) => {
-				if (line === "") {
-					return result;
-				}
-				result.push(JSON.parse(line));
-				return result;
-			}, []);
-		const buildNode = response.find(({ event, data }) => {
-			return (
-				event === "end_vertex" && data.build_data?.id === stop_component_id
-			);
-		});
-		if (!buildNode.data.build_data.valid) {
-			throw new HttpException("Build flow node faild", HttpStatus.BAD_REQUEST);
-		}
-		console.log("buildNode", buildNode);
-		return response;
-	}
-
-	async updateConfigChatInput({ value, nodeId }) {
-		const config = await this.getConfig();
-		const node = config.data.nodes.find(({ id }) => id === nodeId);
-		if (!node) {
-			throw new HttpException("Node Not Found", HttpStatus.BAD_REQUEST);
-		}
-		node.data.node.template.input_value.value = value;
-
-		return got.patch(`${this.endpoint}/api/v1/flows/${this.flowId}`, {
-			json: config,
-			headers: {
-				authorization: this.authorization,
 			},
-			responseType: "json",
-			resolveBodyOnly: true,
-		});
+		);
+
+		return result.outputs[0].outputs[0]?.results.message.text;
 	}
 }

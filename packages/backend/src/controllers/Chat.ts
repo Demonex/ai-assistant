@@ -52,50 +52,34 @@ export class ChatController {
 	@Authorized()
 	@Post("/chat/:id/message")
 	@HttpCode(200)
-	// @ApiBody({ type: () => ChatMessageDto })
 	async sendMessage(
 		@UserId() userId: number,
 		@Param("id") chatId: number,
 		@Body() data: ChatMessageDto,
 	) {
-		const stop_component_id = "ChatOutput-qOZpZ";
-
 		const { id: messageId } = await this.chatService.messageCreate(
 			userId,
 			chatId,
 			data,
 		);
-		await this.flowService.updateConfigChatInput({
-			nodeId: "ChatInput-nGvxC",
-			value: data.raw,
-		});
-		const flowResponse = await this.flowService.buildFlow({
-			stop_component_id,
-		});
 
-		const resultNode = flowResponse.find(({ event, data }) => {
-			return (
-				event === "end_vertex" && data.build_data?.id === stop_component_id
-			);
+		const flowResponse = await this.flowService.runFlow({
+			flowId: "ec5c0e73-e348-4f1a-bc89-c0ed21167097",
+			payload: {
+				message: data.raw,
+			},
 		});
-
-		if (!resultNode) {
-			throw new HttpException("Node Not Found", HttpStatus.BAD_REQUEST);
-		}
-
-		const aiResponse =
-			resultNode.data.build_data.data.results.message.data.text;
 
 		await this.chatService.messagePatch(messageId, {
 			response: {
-				raw: aiResponse,
+				raw: flowResponse,
 				score: 5,
 			},
 		});
 
 		return {
 			success: true,
-			response: aiResponse,
+			response: flowResponse,
 		};
 	}
 	// @ApiOperation({ summary: "avatar update in profile" })
@@ -122,7 +106,6 @@ export class ChatController {
 	@Authorized()
 	@Post("/chat/:id/upload")
 	@ApiConsumes("multipart/form-data")
-	// @ApiParam({name: 'id', type: Number})
 	@UseInterceptors(
 		FilesInterceptor("media", 500, {
 			fileFilter: (_, file, callback) => {

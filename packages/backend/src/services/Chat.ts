@@ -290,8 +290,6 @@ export class ChatService {
 			throw new HttpException("Provider not found", HttpStatus.BAD_REQUEST);
 		}
 
-		console.log(settings.bucket, provider.settings.bucket);
-
 		const upload = getHandleUpload({
 			bucket:
 				(settings.bucket as string) || (provider.settings.bucket as string),
@@ -308,20 +306,29 @@ export class ChatService {
 		});
 
 		await promiseMap(data.media, async (media) => {
-			await upload({ file: media });
+			const flowId = "e37720bf-bb8e-487d-9138-3bd1869c8330";
 
-			const { file_path } = await this.flowService.uploadFile(media);
-			await this.flowService.updateConfigFile({
-				nodeId: "File-9WG0R",
-				file_path,
-				originalname: media.originalname,
+			upload({ file: media });
+
+			const { file_path } = await this.flowService.uploadFile({
+				flowId,
+				media,
 			});
-			await this.flowService.buildFlow({
-				stop_component_id: "QdrantVectorStoreComponent-1MYTE",
+
+			await this.flowService.runFlow({
+				flowId,
+				payload: {
+					tweaks: {
+						"File-Asmj7": {
+							path: `${file_path}`,
+							concurrency_multithreading: 4,
+							silent_errors: false,
+							use_multithreading: false,
+						},
+					},
+				},
 			});
 		});
-
-		// http://10.199.20.10:7860/api/v1/files/upload/2fdcf711-a6eb-43c6-8a41-291e45c8b2a1
 
 		return collection;
 	}
