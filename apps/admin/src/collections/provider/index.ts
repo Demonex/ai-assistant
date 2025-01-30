@@ -3,9 +3,13 @@ import type { CollectionConfig } from "payload";
 import defaultAccess from "@/utilities/defaultAccess";
 import { tenant } from "@/collections/tenant";
 
+const providerAccess = {
+	...defaultAccess,
+};
+
 export const provider: CollectionConfig = {
 	slug: "provider",
-	access: defaultAccess,
+	access: providerAccess,
 	admin: {
 		defaultColumns: ["title", "description", "type"],
 		useAsTitle: "title",

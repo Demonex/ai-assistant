@@ -3,9 +3,13 @@ import type { CollectionConfig } from "payload";
 import defaultAccess from "@/utilities/defaultAccess";
 import { model } from "@/collections/model";
 
+const neuroAccess = {
+	...defaultAccess,
+};
+
 export const neuro: CollectionConfig = {
 	slug: "neuro",
-	access: defaultAccess,
+	access: neuroAccess,
 	admin: {
 		defaultColumns: ["title", "model", "modelSettings"],
 		useAsTitle: "title",

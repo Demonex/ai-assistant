@@ -3,9 +3,13 @@ import type { CollectionConfig } from "payload";
 import { collection } from "../collection";
 import { user } from "../user";
 
+const chatMessageAccess = {
+	...defaultAccess,
+};
+
 export const chatMessage: CollectionConfig = {
 	slug: "chatMessage",
-	access: defaultAccess,
+	access: chatMessageAccess,
 	fields: [
 		{
 			name: "user",

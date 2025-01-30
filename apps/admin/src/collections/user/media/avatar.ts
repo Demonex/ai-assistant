@@ -1,6 +1,10 @@
 import type { CollectionConfig } from "payload";
 import defaultAccess from "@/utilities/defaultAccess";
 
+const userMediaAccess = {
+	...defaultAccess,
+};
+
 export const userMediaAvatar: CollectionConfig = {
 	slug: "user-media-avatar",
 	hooks: {
@@ -13,7 +17,7 @@ export const userMediaAvatar: CollectionConfig = {
 			},
 		],
 	},
-	access: defaultAccess,
+	access: userMediaAccess,
 	admin: {
 		hideAPIURL: true,
 		useAsTitle: "filename",

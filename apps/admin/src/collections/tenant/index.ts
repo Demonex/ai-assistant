@@ -1,13 +1,15 @@
 import type { CollectionConfig } from "payload";
 
-import defaultAccess from "@/utilities/defaultAccess";
 import { tenantMedia } from "@/collections/tenant/media";
-import { user } from "@/collections/user";
-import type { TFunction } from "@payloadcms/translations";
+import defaultAccess from "@/utilities/defaultAccess";
+
+const tenantAccess = {
+	...defaultAccess,
+};
 
 export const tenant: CollectionConfig = {
 	slug: "tenant",
-	access: defaultAccess,
+	access: tenantAccess,
 	admin: {
 		defaultColumns: ["title", "description"],
 		useAsTitle: "title",

@@ -1,4 +1,4 @@
-import type { CollectionConfig } from "payload";
+import type { CollectionAfterChangeHook, CollectionConfig } from "payload";
 import { parse } from "cookie";
 import { unsign } from "cookie-signature";
 import Redis from "ioredis";
@@ -10,9 +10,13 @@ const RedisSessionStore = new Redis(
 	`redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
 );
 
+const userAccess = {
+	...defaultAccess,
+};
+
 export const user: CollectionConfig = {
 	slug: "user",
-	access: defaultAccess,
+	access: userAccess,
 	admin: {
 		// hideAPIURL: true,
 		defaultColumns: ["name", "currentTenant", "email", "superadmin"],
@@ -84,6 +88,40 @@ export const user: CollectionConfig = {
 		{
 			name: "superadmin",
 			type: "checkbox",
+			hooks: {
+				afterChange: [
+					async ({ value, previousValue, req }) => {
+						if (value === previousValue) {
+							return;
+						}
+
+						const sid = parse(req.headers.get("cookie") || "")?.sid;
+						if (!sid) {
+							return {
+								user: null,
+							};
+						}
+
+						const key = unsign(sid.slice(2), process.env.COOKIE_SECRET);
+
+						const userCache = key
+							? (JSON.parse(
+									(await RedisSessionStore.get(
+										`${process.env.REDIS_SESSION_PREFIX}:${key}`,
+									)) || "null",
+								)?.user ?? null)
+							: null;
+
+						if (userCache) {
+							userCache.superadmin = value;
+						}
+
+						return {
+							user: userCache,
+						};
+					},
+				],
+			},
 		},
 		{
 			name: "currentTenant",

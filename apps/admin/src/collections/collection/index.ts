@@ -4,9 +4,13 @@ import { neuro } from "@/collections/neuro";
 import { MODEL_TYPE } from "../model";
 import { provider } from "../provider";
 
+const collectionAccess = {
+	...defaultAccess,
+};
+
 export const collection: CollectionConfig = {
 	slug: "collection",
-	access: defaultAccess,
+	access: collectionAccess,
 	admin: {
 		defaultColumns: ["title", "embedding", "llm", "reranker", "providers"],
 		useAsTitle: "title",

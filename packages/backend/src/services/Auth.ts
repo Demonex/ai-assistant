@@ -67,7 +67,7 @@ export class AuthService {
 		this.request.session.user = {
 			id: user.id,
 			language: user.language || "en",
-			superadmin: Boolean(user.superadmin),
+			// superadmin: Boolean(user.superadmin),
 			email: user.email,
 		};
 		return user as UserEntity;
@@ -108,7 +108,7 @@ export class AuthService {
 		this.request.session.user = {
 			id: user.id,
 			language: user.language,
-			superadmin: Boolean(user.supearadmin),
+			// // superadmin: Boolean(user.superadmin),
 		};
 
 		if (ipRegLimit) {

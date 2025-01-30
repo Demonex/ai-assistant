@@ -1,6 +1,10 @@
 import type { CollectionConfig } from "payload";
 import defaultAccess from "@/utilities/defaultAccess";
 
+const tenantMediaAccess = {
+	...defaultAccess,
+};
+
 export const tenantMedia: CollectionConfig = {
 	slug: "tenant-media",
 	hooks: {
@@ -13,7 +17,7 @@ export const tenantMedia: CollectionConfig = {
 			},
 		],
 	},
-	access: defaultAccess,
+	access: tenantMediaAccess,
 	admin: {
 		hideAPIURL: true,
 		useAsTitle: "filename",

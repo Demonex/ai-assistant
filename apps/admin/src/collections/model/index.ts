@@ -9,9 +9,13 @@ export enum MODEL_TYPE {
 	reranker = "reranker",
 }
 
+const modelAccess = {
+	...defaultAccess,
+};
+
 export const model: CollectionConfig = {
 	slug: "model",
-	access: defaultAccess,
+	access: modelAccess,
 	admin: {
 		defaultColumns: ["title", "type"],
 		useAsTitle: "title",

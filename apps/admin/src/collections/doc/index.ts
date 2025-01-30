@@ -1,16 +1,12 @@
 import type { CollectionConfig } from "payload";
 
 // import defaultAccess from "@/utilities/defaultAccess";
-import { isAdmin } from "@/utilities/defaultAccess";
+import defaultAccess from "@/utilities/defaultAccess";
 import { collection } from "@/collections/collection";
 import { provider } from "@/collections/provider";
 
 const docAccess = {
-	admin: isAdmin,
-	create: isAdmin,
-	read: () => true,
-	update: isAdmin,
-	delete: isAdmin,
+	...defaultAccess,
 };
 
 export const doc: CollectionConfig = {

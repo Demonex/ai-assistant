@@ -18,9 +18,13 @@ export enum COLLECTION_PERMISSIONS {
 	read_write_delete = "rwd",
 }
 
+const groupAccess = {
+	...defaultAccess,
+};
+
 export const group: CollectionConfig = {
 	slug: "group",
-	access: defaultAccess,
+	access: groupAccess,
 	admin: {
 		defaultColumns: ["title", "users", "groupPermissions"],
 		useAsTitle: "title",
