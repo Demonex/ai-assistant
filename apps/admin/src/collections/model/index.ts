@@ -2,12 +2,7 @@ import type { CollectionConfig } from "payload";
 
 import defaultAccess from "@/utilities/defaultAccess";
 import { tenant } from "@/collections/tenant";
-
-export enum MODEL_TYPE {
-	llm = "llm",
-	embedding = "embedding",
-	reranker = "reranker",
-}
+import { MODEL_TYPE } from "@/types/types";
 
 const modelAccess = {
 	...defaultAccess,

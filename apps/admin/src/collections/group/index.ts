@@ -4,19 +4,7 @@ import defaultAccess from "@/utilities/defaultAccess";
 import { tenant } from "@/collections/tenant";
 import { user } from "@/collections/user";
 import { collection } from "../collection";
-
-export enum GROUP_PERMISSIONS {
-	admin = "admin",
-	collection = "collection",
-	model = "model",
-	group = "group",
-}
-
-export enum COLLECTION_PERMISSIONS {
-	read = "r",
-	read_write = "rw",
-	read_write_delete = "rwd",
-}
+import { COLLECTION_PERMISSIONS, GROUP_PERMISSIONS } from "@/types/types";
 
 const groupAccess = {
 	...defaultAccess,
