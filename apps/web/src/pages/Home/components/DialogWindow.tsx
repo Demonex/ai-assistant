@@ -127,7 +127,7 @@ export const DialogWindow = () => {
 									<div className="flex flex-col items-start space-y-10 py-8">
 										{messages?.map((message) => (
 											<Fragment key={message.id}>
-												{!message.from_bot && (
+												{message.message && (
 													<div className="max-w-screen-sm self-end">
 														<div className="flex items-center gap-2">
 															<div className="shadow-base rounded-lg border bg-card text-card-foreground order-1">
@@ -143,12 +143,12 @@ export const DialogWindow = () => {
 														</div>
 													</div>
 												)}
-												{message.from_bot && (
+												{message.response && (
 													<div className="max-w-screen-sm">
 														<div className="flex items-center gap-2">
 															<div className="shadow-base rounded-lg border bg-card text-card-foreground">
 																<div className="inline-flex p-4">
-																	{message.message.raw}
+																	{message.response.raw}
 																</div>
 															</div>
 														</div>
