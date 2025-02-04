@@ -1,5 +1,7 @@
-import * as React from "react";
-import { Command, File, Inbox } from "lucide-react";
+import { type ComponentProps, useState, useMemo, useEffect } from "react";
+import { Command, Inbox, UserRoundCog } from "lucide-react";
+
+import { useProfile } from "@/hooks/useProfile.js";
 
 import { NavUser } from "@/components/nav-user.js";
 import {
@@ -15,34 +17,45 @@ import {
 	useSidebar,
 } from "@/components/ui/sidebar.js";
 
-// This is sample data
-const data = {
-	user: {
-		name: "shadcn",
-		email: "m@example.com",
-		avatar: "/avatars/shadcn.jpg",
-	},
-	navMain: [
-		{
-			title: "Inbox",
-			url: "#",
-			icon: Inbox,
-			isActive: true,
-		},
-		{
-			title: "Drafts",
-			url: "#",
-			icon: File,
-			isActive: false,
-		},
-	],
-};
-
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 	// Note: I'm using state to show active item.
 	// IRL you should use the url/router.
-	const [activeItem, setActiveItem] = React.useState(data.navMain[0]);
+	const [nav, setNav] = useState([
+		{
+			id: Date.now(),
+			title: "Inbox",
+			url: "",
+			icon: Inbox,
+			isActive: true,
+			isAdmin: false,
+		},
+	]);
 	const { setOpen } = useSidebar();
+	const { profile } = useProfile();
+
+	const toggleMenuItem = (id: number) => {
+		setNav((prev) => prev.map((el) => ({ ...el, isActive: el.id === id })));
+		setOpen(true);
+	};
+
+	useEffect(() => {
+		setNav((prev) => {
+			if (profile.superadmin && !prev.some((item) => item.isAdmin)) {
+				return [
+					...prev,
+					{
+						id: Date.now(),
+						title: "Admin",
+						url: "http://localhost:2055/admin",
+						icon: UserRoundCog,
+						isActive: false,
+						isAdmin: true,
+					},
+				];
+			}
+			return prev;
+		});
+	}, [profile.superadmin]);
 
 	return (
 		<Sidebar>
@@ -70,26 +83,34 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 						</SidebarMenuItem>
 					</SidebarMenu>
 				</SidebarHeader>
+
 				<SidebarContent>
 					<SidebarGroup>
 						<SidebarGroupContent className="px-1.5 md:px-0">
 							<SidebarMenu>
-								{data.navMain.map((item) => (
-									<SidebarMenuItem key={item.title}>
+								{nav.map((item) => (
+									<SidebarMenuItem key={item.id}>
 										<SidebarMenuButton
 											tooltip={{
 												children: item.title,
 												hidden: false,
 											}}
-											onClick={() => {
-												setActiveItem(item);
-												setOpen(true);
-											}}
-											isActive={activeItem.title === item.title}
+											onClick={() => toggleMenuItem(item.id)}
+											isActive={item.isActive}
 											className="px-2.5 md:px-2"
+											asChild={item.isAdmin}
 										>
-											<item.icon />
-											<span>{item.title}</span>
+											{item.isAdmin ? (
+												<a href={item.url}>
+													<item.icon />
+													<span>{item.title}</span>
+												</a>
+											) : (
+												<>
+													<item.icon />
+													<span>{item.title}</span>
+												</>
+											)}
 										</SidebarMenuButton>
 									</SidebarMenuItem>
 								))}
@@ -97,8 +118,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 						</SidebarGroupContent>
 					</SidebarGroup>
 				</SidebarContent>
+
 				<SidebarFooter>
-					<NavUser user={data.user} />
+					<NavUser />
 				</SidebarFooter>
 			</Sidebar>
 		</Sidebar>
