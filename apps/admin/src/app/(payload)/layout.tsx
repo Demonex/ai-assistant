@@ -8,6 +8,8 @@ import type React from "react";
 
 import { importMap } from "./admin/importMap.js";
 import "./custom.scss";
+import { useEffect } from "react";
+import { RootChange } from "../../components/RootChange";
 
 type Args = {
 	children: React.ReactNode;
@@ -21,14 +23,18 @@ const serverFunction: ServerFunctionClient = async function (args) {
 		importMap,
 	});
 };
-const Layout = ({ children }: Args) => (
-	<RootLayout
-		config={config}
-		importMap={importMap}
-		serverFunction={serverFunction}
-	>
-		{children}
-	</RootLayout>
-);
+
+const Layout = ({ children }: Args) => {
+	return (
+		<RootLayout
+			config={config}
+			importMap={importMap}
+			serverFunction={serverFunction}
+		>
+			<RootChange />
+			{children}
+		</RootLayout>
+	);
+};
 
 export default Layout;

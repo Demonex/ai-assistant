@@ -5,6 +5,7 @@ export default {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
+    "./node_modules/@shadcn/ui/dist/**/*.js",
   ],
   darkMode: ['selector', '[data-theme="dark"]'],
   plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],

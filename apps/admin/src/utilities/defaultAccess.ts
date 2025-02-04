@@ -7,6 +7,7 @@ export const isSuperAdmin = async ({ req }) => {
 	const payload = await getPayload({
 		config,
 	});
+
 	const user = await payload.findByID({
 		collection: "user",
 		id: req.user.id,
@@ -15,8 +16,11 @@ export const isSuperAdmin = async ({ req }) => {
 		},
 	});
 
-	// return user?.superadmin ?? false;
-	return true;
+	if (!user?.superadmin) {
+		return { result: false };
+	}
+
+	return { result: true, user, payload };
 };
 
 export const checkPermissions =
@@ -45,7 +49,7 @@ export const checkPermissions =
 			collection: "group",
 			where: {
 				tenant: {
-					equals: (user.currentTenant as Tenant).id,
+					equals: req.headers.get("x-tenant"),
 				},
 				or: [
 					{

@@ -22,8 +22,8 @@ export class UserEntity {
 	@Property({ nullable: true })
 	superadmin: boolean;
 
-	@ManyToOne(() => TenantEntity, { name: "current_tenant_id" })
-	currentTenant: TenantEntity;
+	// @ManyToOne(() => TenantEntity, { name: "current_tenant_id" })
+	// currentTenant: TenantEntity;
 
 	@OneToMany(() => GroupUsersEntity, "user")
 	groups: GroupUsersEntity[];

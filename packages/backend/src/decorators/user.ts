@@ -6,6 +6,16 @@ export const UserId = createParamDecorator(
 		return Number(get(ctx.switchToHttp().getRequest<any>(), "session.user.id"));
 	},
 );
+export const TenantId = createParamDecorator(
+	(key: string, ctx: ExecutionContext): number => {
+		const res = Number(
+			get(ctx.switchToHttp().getRequest<any>(), "headers.x-tenant"),
+		);
+		console.log(res);
+
+		return res;
+	},
+);
 export const UserEmail = createParamDecorator(
 	(key: string, ctx: ExecutionContext): number | undefined => {
 		return get(ctx.switchToHttp().getRequest<any>(), "session.user.email");
