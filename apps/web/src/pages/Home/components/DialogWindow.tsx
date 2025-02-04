@@ -8,20 +8,23 @@ import { Spinner } from "./Spinner.js";
 import { useDropzone } from "react-dropzone";
 import { messageMockData } from "@/DataBase.js";
 
-const DND = () => {
-	const onDrop = (acceptedFiles) => {
-		console.log(acceptedFiles); // Здесь можно обработать файлы
-	};
+// const DND = () => {
+//   const onDrop = (acceptedFiles) => {
+//     console.log(acceptedFiles); // Здесь можно обработать файлы
+//   };
 
-	const { getRootProps, getInputProps } = useDropzone({ onDrop });
+//   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
-	return (
-		<div {...getRootProps()} className="border-2 border-dashed p-4 text-center">
-			<input {...getInputProps()} />
-			<p>Перетащите файлы сюда или кликните для выбора</p>
-		</div>
-	);
-};
+//   return (
+//     <div
+//       {...getRootProps()}
+//       className="absolute right-0 left-0 top-20 w-full h-full border-2 border-dashed p-4 text-center h-full flex items-center justify-center bg-black"
+//     >
+//       <input {...getInputProps()} />
+//       <p>Перетащите файлы сюда</p>
+//     </div>
+//   );
+// };
 
 export const DialogWindow = () => {
 	//////////тоже сменить let на const, когда все будет работать хорошо
@@ -86,6 +89,33 @@ export const DialogWindow = () => {
 	}
 	////////////////////////////////////////////////////////Заглушка///////////////////////////////////
 
+	////////////////////////////////////////////////////////DragAndDrop///////////////////////////////////
+
+	const [isOverlay, setIsOverlay] = useState(false);
+
+	const handleDragEnter = (e) => {
+		e.preventDefault();
+		setIsOverlay(true);
+	};
+
+	const handleDragOver = (e) => {
+		e.preventDefault();
+	};
+
+	const handleDragLeave = (e) => {
+		e.preventDefault();
+		setIsOverlay(false);
+	};
+
+	const handleDrop = (e) => {
+		e.preventDefault();
+		setIsOverlay(false);
+
+		console.log(e.dataTransfer.files);
+	};
+
+	////////////////////////////////////////////////////////DragAndDrop///////////////////////////////////
+
 	return (
 		<div className="flex-grow">
 			<div className="fixed inset-0 flex flex-col bg-background p-4 lg:relative lg:bg-transparent lg:p-0">
@@ -122,13 +152,25 @@ export const DialogWindow = () => {
 						</div>
 						<DropdownMenuButton />
 					</div>
+
+					{/*--------------------------------------------------DragAndDrop------------------------------------------------------------*/}
 					<div
 						dir="ltr"
 						className="overflow-hidden relative h-screen w-full py-4 lg:h-[calc(100vh_-_13.8rem)]"
-						style={{
-							position: "relative",
-						}}
+						onDragEnter={handleDragEnter}
 					>
+						{isOverlay && (
+							<div
+								onDragOver={handleDragOver}
+								onDrop={handleDrop}
+								onDragLeave={handleDragLeave}
+								className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center text-white"
+							>
+								Отпустите файл сюда!
+							</div>
+						)}
+						{/*------------------------------------------------DragAndDrop--------------------------------------------------------------*/}
+
 						<style
 							dangerouslySetInnerHTML={{
 								__html:
@@ -671,7 +713,6 @@ export const DialogWindow = () => {
 						</div>
 					</div>
 				</>
-				<DND />
 			</div>
 		</div>
 	);
