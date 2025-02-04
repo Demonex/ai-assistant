@@ -35,6 +35,7 @@ export const DialogWindow = () => {
 			{
 				id: id,
 				from_bot: false,
+				created_at: new Date().toString(),
 				message: { raw: message },
 			},
 		]);
@@ -67,6 +68,8 @@ export const DialogWindow = () => {
 	useEffect(() => {
 		scrollToBottom();
 	}, [messages]);
+
+	console.log(messages, "message");
 
 	return (
 		<div className="flex-grow">
@@ -138,7 +141,7 @@ export const DialogWindow = () => {
 														</div>
 														<div className="flex items-center gap-2 justify-end">
 															<time className="mt-1 flex items-center text-sm text-muted-foreground justify-end">
-																05:21 PM
+																{message.created_at.slice(10, 16)}
 															</time>
 														</div>
 													</div>
@@ -154,7 +157,7 @@ export const DialogWindow = () => {
 														</div>
 														<div className="flex items-center gap-2">
 															<time className="mt-1 flex items-center text-sm text-muted-foreground">
-																05:23 PM
+																{message.created_at.slice(10, 16)}
 															</time>
 														</div>
 													</div>
