@@ -5,11 +5,19 @@ import { DropdownMenuButton } from "./DropdownMenuButton.js";
 import { DragAndDrop } from "./DragAndDrop.js";
 import { useChats } from "../hooks/useChats.js";
 import { Spinner } from "./Spinner.js";
+import { useDropzone } from "react-dropzone";
 
 const DND = () => {
+	const onDrop = (acceptedFiles) => {
+		console.log(acceptedFiles); // Здесь можно обработать файлы
+	};
+
+	const { getRootProps, getInputProps } = useDropzone({ onDrop });
+
 	return (
-		<div className="grid place-items-center min-h-screen">
-			<DragAndDrop />
+		<div {...getRootProps()} className="border-2 border-dashed p-4 text-center">
+			<input {...getInputProps()} />
+			<p>Перетащите файлы сюда или кликните для выбора</p>
 		</div>
 	);
 };
@@ -654,7 +662,7 @@ export const DialogWindow = () => {
 						</div>
 					</div>
 				</>
-				{/* <DND /> */}
+				<DND />
 			</div>
 		</div>
 	);

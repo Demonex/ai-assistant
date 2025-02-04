@@ -98,7 +98,7 @@ export function NavUser({
 								Notifications
 							</DropdownMenuItem>
 							<DropdownMenuItem>
-								<ModeToggle />
+								{/* <ModeToggle /> */}
 								Тема
 							</DropdownMenuItem>
 						</DropdownMenuGroup>

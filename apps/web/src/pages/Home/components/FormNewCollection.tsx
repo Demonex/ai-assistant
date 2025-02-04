@@ -33,44 +33,44 @@ export function FormNewCollection() {
 						<path d="M8 12h8"></path>
 						<path d="M12 8v8"></path>
 					</svg>
-					<span>Add</span>
+					<span>Добавить</span>
 				</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
-					<DialogTitle>Creating a new document collection</DialogTitle>
+					<DialogTitle>Добавить новую коллекцию документов</DialogTitle>
 				</DialogHeader>
 				<div className="grid gap-4 py-4">
 					<div className="grid grid-cols-4 items-center gap-4">
 						<Label htmlFor="name" className="text-right">
-							Name
+							Имя
 						</Label>
 						<Input id="name" className="col-span-3" />
 					</div>
 					<div className="grid grid-cols-4 items-center gap-4">
 						<Label htmlFor="description" className="text-right">
-							Description
+							Описание
 						</Label>
 						<Input id="description" className="col-span-3" />
 					</div>
 					<div className="grid grid-cols-4 items-center gap-4">
 						<Label htmlFor="LLM-model" className="text-right">
-							LLM-model
+							LLM-модель
 						</Label>
-						<SelectComponent placeholder={"Select LLM-Model"} />
+						<SelectComponent placeholder={"Выберите LLM-модель"} />
 					</div>
 					<div className="grid grid-cols-4 items-center gap-4">
 						<Label htmlFor="Embending-model" className="text-right">
-							Embending-model
+							Embending-модель
 						</Label>
-						<SelectComponent placeholder={"Select Embending-Model"} />
+						<SelectComponent placeholder={"Выберите Embending-модель"} />
 					</div>
 					<div className="grid grid-cols-4 items-center gap-4">
 						<FormFineTuning />
 					</div>
 				</div>
 				<DialogFooter>
-					<Button type="submit">Save changes</Button>
+					<Button type="submit">Сохраить</Button>
 				</DialogFooter>
 			</DialogContent>
 		</Dialog>

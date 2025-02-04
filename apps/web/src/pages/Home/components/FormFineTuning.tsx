@@ -18,12 +18,12 @@ export function FormFineTuning() {
 		<Dialog>
 			<DialogTrigger asChild>
 				<Button variant="outline" className="col-span-4">
-					Fine tuning
+					Тонкая настройка
 				</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
-					<DialogTitle>Find tuning</DialogTitle>
+					<DialogTitle>Тонкая настройка</DialogTitle>
 				</DialogHeader>
 				<div className="grid gap-4 py-4">
 					<div className="items-center gap-4">
@@ -93,7 +93,7 @@ export function FormFineTuning() {
 					</div>
 				</div>
 				<DialogFooter>
-					<Button type="submit">Save changes</Button>
+					<Button type="submit">Сохранить</Button>
 				</DialogFooter>
 			</DialogContent>
 		</Dialog>
