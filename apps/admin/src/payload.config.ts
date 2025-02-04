@@ -55,6 +55,7 @@ export default buildConfig({
 				Logo: "@/components/Logo/Logo#LogoComponent",
 				Icon: "@/components/Logo/Logo#IconComponent",
 			},
+			actions: ["@/components/CustomHeaderAction"],
 		},
 		importMap: {
 			baseDir: path.resolve(dirname),
