@@ -21,6 +21,7 @@ export const isSuperAdmin = async ({ req }) => {
 	}
 
 	return { result: true, user, payload };
+	//   return true;
 };
 
 export const checkPermissions =

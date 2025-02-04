@@ -6,6 +6,7 @@ import { DragAndDrop } from "./DragAndDrop.js";
 import { useChats } from "../hooks/useChats.js";
 import { Spinner } from "./Spinner.js";
 import { useDropzone } from "react-dropzone";
+import { messageMockData } from "@/DataBase.js";
 
 const DND = () => {
 	const onDrop = (acceptedFiles) => {
@@ -23,7 +24,8 @@ const DND = () => {
 };
 
 export const DialogWindow = () => {
-	const {
+	//////////тоже сменить let на const, когда все будет работать хорошо
+	let {
 		messages,
 		setMessages,
 		activeChat,
@@ -77,7 +79,12 @@ export const DialogWindow = () => {
 		scrollToBottom();
 	}, [messages]);
 
-	console.log(messages, "message");
+	////////////////////////////////////////////////////////Заглушка///////////////////////////////////
+
+	if (!messages) {
+		messages = messageMockData;
+	}
+	////////////////////////////////////////////////////////Заглушка///////////////////////////////////
 
 	return (
 		<div className="flex-grow">
@@ -149,7 +156,7 @@ export const DialogWindow = () => {
 														</div>
 														<div className="flex items-center gap-2 justify-end">
 															<time className="mt-1 flex items-center text-sm text-muted-foreground justify-end">
-																{message.created_at.slice(10, 16)}
+																{message.created_at.slice(16, 21)}
 															</time>
 														</div>
 													</div>
@@ -165,7 +172,7 @@ export const DialogWindow = () => {
 														</div>
 														<div className="flex items-center gap-2">
 															<time className="mt-1 flex items-center text-sm text-muted-foreground">
-																{message.created_at.slice(10, 16)}
+																{message.created_at.slice(16, 21)}
 															</time>
 														</div>
 													</div>
@@ -593,7 +600,9 @@ export const DialogWindow = () => {
 								onSubmit={handleSubmit(onSubmit)}
 							>
 								<input
-									{...register("message", { required: "Message is required" })}
+									{...register("message", {
+										required: "Message is required",
+									})}
 									placeholder="Enter message..."
 									onChange={handleInputChange}
 									onKeyDown={handleKeyDown}
