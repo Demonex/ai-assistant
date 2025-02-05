@@ -1,5 +1,5 @@
-import { type ComponentProps, useState, useMemo, useEffect } from "react";
-import { Command, Inbox, UserRoundCog } from "lucide-react";
+import { type ComponentProps, useState, useEffect } from "react";
+import { Command, MessageCircleMore, UserRoundCog } from "lucide-react";
 
 import { useProfile } from "@/hooks/useProfile.js";
 
@@ -17,15 +17,18 @@ import {
 	useSidebar,
 } from "@/components/ui/sidebar.js";
 
-export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
+interface AppSidebarProps extends ComponentProps<typeof Sidebar> {
+	handleAdmin?: (value: boolean) => void;
+}
+
+export function AppSidebar({ handleAdmin, ...props }: AppSidebarProps) {
 	// Note: I'm using state to show active item.
 	// IRL you should use the url/router.
 	const [nav, setNav] = useState([
 		{
 			id: Date.now(),
-			title: "Inbox",
-			url: "",
-			icon: Inbox,
+			title: "Chats",
+			icon: MessageCircleMore,
 			isActive: true,
 			isAdmin: false,
 		},
@@ -33,8 +36,14 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 	const { setOpen } = useSidebar();
 	const { profile } = useProfile();
 
-	const toggleMenuItem = (id: number) => {
-		setNav((prev) => prev.map((el) => ({ ...el, isActive: el.id === id })));
+	const toggleMenuItem = (item) => {
+		setNav((prev) =>
+			prev.map((el) => ({ ...el, isActive: el.id === item.id })),
+		);
+
+		if (profile.superadmin && item.isAdmin) handleAdmin(true);
+		else handleAdmin(false);
+
 		setOpen(true);
 	};
 
@@ -46,7 +55,6 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 					{
 						id: Date.now(),
 						title: "Admin",
-						url: "http://localhost:2055/admin",
 						icon: UserRoundCog,
 						isActive: false,
 						isAdmin: true,
@@ -95,22 +103,12 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
 												children: item.title,
 												hidden: false,
 											}}
-											onClick={() => toggleMenuItem(item.id)}
+											onClick={() => toggleMenuItem(item)}
 											isActive={item.isActive}
 											className="px-2.5 md:px-2"
-											asChild={item.isAdmin}
 										>
-											{item.isAdmin ? (
-												<a href={item.url}>
-													<item.icon />
-													<span>{item.title}</span>
-												</a>
-											) : (
-												<>
-													<item.icon />
-													<span>{item.title}</span>
-												</>
-											)}
+											<item.icon />
+											<span>{item.title}</span>
 										</SidebarMenuButton>
 									</SidebarMenuItem>
 								))}
