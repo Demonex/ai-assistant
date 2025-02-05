@@ -3,12 +3,21 @@ import { Input } from "@/components/ui/input.js";
 import MessageList from "./MessageList.js";
 import { useChats } from "../hooks/useChats.js";
 import { FormNewCollection } from "./FormNewCollection.js";
+import { collectionMockData } from "@/DataBase.js";
 
 export const Sidebar = memo(() => {
 	const { chats } = useChats();
 	const [inputValue, setInputValue] = useState("");
 
 	let filteredChats = chats;
+
+	////////////////////////////////////////////////////////Заглушка///////////////////////////////////
+
+	if (!chats) {
+		filteredChats = collectionMockData;
+	}
+
+	////////////////////////////////////////////////////////Заглушка///////////////////////////////////
 
 	const handleInputChange = (event) => {
 		setInputValue(event.target.value);
@@ -21,10 +30,6 @@ export const Sidebar = memo(() => {
 				: null,
 		);
 	}
-
-	const openForm = () => {
-		console.log("click");
-	};
 
 	return (
 		<div className="w-full lg:w-96">
