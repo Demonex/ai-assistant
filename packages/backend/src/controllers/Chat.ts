@@ -19,7 +19,7 @@ import {
 	ApiTags,
 } from "@nestjs/swagger";
 import { Authorized } from "@repo/backend/decorators/auth.js";
-import { UserId } from "@repo/backend/decorators/user.js";
+import { TenantId, UserId } from "@repo/backend/decorators/user.js";
 import { ChatService } from "@repo/backend/services/Chat.js";
 import { ChatMessageDto, ChatUploadMediaDto } from "../dto/Chat.js";
 import { HttpStatusMessages } from "../messages/http.js";
@@ -38,8 +38,8 @@ export class ChatController {
 	@Authorized()
 	@Get("/chats")
 	@HttpCode(200)
-	async getChats(@UserId() userId: number) {
-		return this.chatService.chats(userId);
+	async getChats(@UserId() userId: number, @TenantId() currentTenant: number) {
+		return this.chatService.chats(userId, currentTenant);
 	}
 
 	@Authorized()

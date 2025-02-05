@@ -1,5 +1,11 @@
-import { createParamDecorator, type ExecutionContext } from "@nestjs/common";
+import {
+	createParamDecorator,
+	HttpException,
+	HttpStatus,
+	type ExecutionContext,
+} from "@nestjs/common";
 import { get } from "lodash-es";
+import { HttpStatusMessages } from "../messages/http.js";
 
 export const UserId = createParamDecorator(
 	(key: string, ctx: ExecutionContext): number => {
@@ -11,7 +17,12 @@ export const TenantId = createParamDecorator(
 		const res = Number(
 			get(ctx.switchToHttp().getRequest<any>(), "headers.x-tenant"),
 		);
-		console.log(res);
+		if (Number.isNaN(res)) {
+			throw new HttpException(
+				HttpStatusMessages.BAD_REQUEST,
+				HttpStatus.BAD_REQUEST,
+			);
+		}
 
 		return res;
 	},

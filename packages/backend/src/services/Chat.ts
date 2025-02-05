@@ -23,17 +23,10 @@ export class ChatService {
 		private readonly flowService: LangFlowService,
 	) {}
 
-	async chats(userId: ChatMessageEntity["user"]["id"]) {
-		const user = await this.em.findOneOrFail<UserEntity, HintType>(
-			UserEntity,
-			{
-				id: userId,
-			},
-			{
-				populate: ["currentTenant"],
-				populateWhere: "infer",
-			},
-		);
+	async chats(userId: ChatMessageEntity["user"]["id"], currentTenant) {
+		const user = await this.em.findOneOrFail<UserEntity, HintType>(UserEntity, {
+			id: userId,
+		});
 
 		const groups = await this.em.find<GroupEntity, HintType>(
 			GroupEntity,
@@ -41,7 +34,6 @@ export class ChatService {
 				users: {
 					user: userId,
 				},
-				tenant: user.currentTenant.id,
 			},
 			{
 				populate: ["users", "groupPermissions", "groupCollectionPermissions"],
@@ -49,24 +41,23 @@ export class ChatService {
 			},
 		);
 
-		const isAdminOrCollectionPermission = groups.some((group) => {
-			return group.groupPermissions
-				.map(
-					(entity) =>
-						entity.permission === GROUP_PERMISSION.admin ||
-						entity.permission === GROUP_PERMISSION.collection,
-				)
-				.some((el) => !!el);
-		});
+		const isAdminOrCollectionPermission =
+			user?.superadmin ||
+			groups.some((group) => {
+				console.log(group);
+
+				return group.groupPermissions
+					.map(
+						(entity) =>
+							entity.permission === GROUP_PERMISSION.admin ||
+							entity.permission === GROUP_PERMISSION.collection,
+					)
+					.some((el) => !!el);
+			});
 
 		if (isAdminOrCollectionPermission) {
 			return await this.em.find<CollectionEntity>(CollectionEntity, {
-				providers: {
-					enabled: true,
-					provider: {
-						tenant: user.currentTenant.id,
-					},
-				},
+				tenant: currentTenant,
 			});
 		}
 
@@ -74,17 +65,18 @@ export class ChatService {
 			return group.groupCollectionPermissions.map((perm) => perm.collection.id);
 		});
 
-		return await this.em.find<CollectionEntity>(CollectionEntity, {
-			id: {
-				$in: collectionKeys,
-			},
-			providers: {
-				enabled: true,
-				provider: {
-					tenant: user.currentTenant.id,
+		return await this.em.find<CollectionEntity>(
+			CollectionEntity,
+			{
+				id: {
+					$in: collectionKeys,
 				},
+				tenant: currentTenant,
 			},
-		});
+			{
+				exclude: ["tenant"],
+			},
+		);
 	}
 
 	async chat(
@@ -103,16 +95,9 @@ export class ChatService {
 		chatId: CollectionEntity["id"],
 		chatMessageDto: ChatMessageDto,
 	) {
-		const user = await this.em.findOneOrFail<UserEntity, HintType>(
-			UserEntity,
-			{
-				id: userId,
-			},
-			{
-				populate: ["currentTenant"],
-				populateWhere: "infer",
-			},
-		);
+		const user = await this.em.findOneOrFail<UserEntity, HintType>(UserEntity, {
+			id: userId,
+		});
 
 		const groups = await this.em.find<GroupEntity, HintType>(
 			GroupEntity,
@@ -120,7 +105,6 @@ export class ChatService {
 				users: {
 					user: userId,
 				},
-				tenant: user.currentTenant.id,
 			},
 			{
 				populate: ["users", "groupPermissions", "groupCollectionPermissions"],
@@ -128,15 +112,17 @@ export class ChatService {
 			},
 		);
 
-		const isAdminOrCollectionPermission = groups.some((group) => {
-			return group.groupPermissions
-				.map(
-					(entity) =>
-						entity.permission === GROUP_PERMISSION.admin ||
-						entity.permission === GROUP_PERMISSION.collection,
-				)
-				.some((el) => !!el);
-		});
+		const isAdminOrCollectionPermission =
+			user?.superadmin ||
+			groups.some((group) => {
+				return group.groupPermissions
+					.map(
+						(entity) =>
+							entity.permission === GROUP_PERMISSION.admin ||
+							entity.permission === GROUP_PERMISSION.collection,
+					)
+					.some((el) => !!el);
+			});
 
 		if (!isAdminOrCollectionPermission) {
 			const collectionKeys = groups.flatMap((group) => {
@@ -205,16 +191,9 @@ export class ChatService {
 	}
 
 	async uploadMedia(userId, chatId, data) {
-		const user = await this.em.findOneOrFail<UserEntity, HintType>(
-			UserEntity,
-			{
-				id: userId,
-			},
-			{
-				populate: ["currentTenant"],
-				populateWhere: "infer",
-			},
-		);
+		const user = await this.em.findOneOrFail<UserEntity, HintType>(UserEntity, {
+			id: userId,
+		});
 
 		const groups = await this.em.find<GroupEntity, HintType>(
 			GroupEntity,
@@ -222,7 +201,6 @@ export class ChatService {
 				users: {
 					user: userId,
 				},
-				tenant: user.currentTenant.id,
 			},
 			{
 				populate: ["users", "groupPermissions", "groupCollectionPermissions"],

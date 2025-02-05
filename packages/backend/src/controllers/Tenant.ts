@@ -4,7 +4,7 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { TenantService } from "../services/Tenant.js";
 
 @ApiTags("tenant")
-@Controller("/api/tenant")
+@Controller("/api/tenants")
 export class TenantController {
 	constructor(public service: TenantService) {}
 
@@ -12,7 +12,7 @@ export class TenantController {
 	@ApiOperation({ summary: "get tenant" })
 	@Get()
 	@HttpCode(200)
-	async me(@UserId() id?: number, @UserEmail() email?: string) {
+	async getTenants(@UserId() id?: number) {
 		return this.service.tenants(id);
 	}
 }
