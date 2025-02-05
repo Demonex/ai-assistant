@@ -2,29 +2,9 @@ import { Fragment, useEffect, useId, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AvatarComponent } from "./AvatarComponent.js";
 import { DropdownMenuButton } from "./DropdownMenuButton.js";
-import { DragAndDrop } from "./DragAndDrop.js";
 import { useChats } from "../hooks/useChats.js";
 import { Spinner } from "./Spinner.js";
-import { useDropzone } from "react-dropzone";
 import { messageMockData } from "@/DataBase.js";
-
-// const DND = () => {
-//   const onDrop = (acceptedFiles) => {
-//     console.log(acceptedFiles); // Здесь можно обработать файлы
-//   };
-
-//   const { getRootProps, getInputProps } = useDropzone({ onDrop });
-
-//   return (
-//     <div
-//       {...getRootProps()}
-//       className="absolute right-0 left-0 top-20 w-full h-full border-2 border-dashed p-4 text-center h-full flex items-center justify-center bg-black"
-//     >
-//       <input {...getInputProps()} />
-//       <p>Перетащите файлы сюда</p>
-//     </div>
-//   );
-// };
 
 export const DialogWindow = () => {
 	//////////тоже сменить let на const, когда все будет работать хорошо
@@ -650,7 +630,7 @@ export const DialogWindow = () => {
 									onKeyDown={handleKeyDown}
 									className="flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent pe-32 !text-base !shadow-transsparent !ring-transparent lg:pe-56"
 								/>
-								<div className="absolute end-4 flex items-center">
+								<div className=" end-4 flex items-center">
 									<div className="block lg:hidden">
 										<button
 											className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-11 w-11 rounded-full p-0"
