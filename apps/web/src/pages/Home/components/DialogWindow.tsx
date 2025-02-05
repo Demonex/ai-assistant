@@ -178,7 +178,7 @@ export const DialogWindow = () => {
 														</div>
 														<div className="flex items-center gap-2 justify-end">
 															<time className="mt-1 flex items-center text-sm text-muted-foreground justify-end">
-																{message.created_at.slice(16, 21)}
+																{message.created_at?.slice(16, 21)}
 															</time>
 														</div>
 													</div>
@@ -194,7 +194,7 @@ export const DialogWindow = () => {
 														</div>
 														<div className="flex items-center gap-2">
 															<time className="mt-1 flex items-center text-sm text-muted-foreground">
-																{message.created_at.slice(16, 21)}
+																{message.created_at?.slice(16, 21)}
 															</time>
 														</div>
 													</div>
