@@ -3,15 +3,10 @@ import defaultAccess, { checkPermissions } from "@/utilities/defaultAccess";
 import type { CollectionConfig } from "payload";
 import { GROUP_PERMISSIONS, MODEL_TYPE } from "@/types/types";
 import { provider } from "../provider";
+import { tenant } from "../tenant";
 
 const collectionAccess = {
 	...defaultAccess,
-	create: checkPermissions(GROUP_PERMISSIONS.collection),
-	read: checkPermissions(GROUP_PERMISSIONS.collection),
-	update: checkPermissions(GROUP_PERMISSIONS.collection, {
-		groupAdminValidation: true,
-	}),
-	delete: checkPermissions(GROUP_PERMISSIONS.collection),
 };
 
 export const collection: CollectionConfig = {
@@ -25,6 +20,12 @@ export const collection: CollectionConfig = {
 		{
 			name: "title",
 			type: "text",
+			required: true,
+		},
+		{
+			name: "tenant",
+			type: "relationship",
+			relationTo: tenant.slug as "tenant",
 			required: true,
 		},
 		{

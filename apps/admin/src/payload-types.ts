@@ -117,7 +117,6 @@ export interface User {
   username?: string | null;
   email?: string | null;
   superadmin?: boolean | null;
-  currentTenant?: (number | null) | Tenant;
   password?: string | null;
   avatar?: (number | null) | UserMediaAvatar;
   updatedAt: string;
@@ -182,6 +181,7 @@ export interface Neuro {
 export interface Collection {
   id: number;
   title: string;
+  tenant: number | Tenant;
   embedding: number | Neuro;
   llm: number | Neuro;
   reranker: number | Neuro;
@@ -434,7 +434,6 @@ export interface UserSelect<T extends boolean = true> {
   username?: T;
   email?: T;
   superadmin?: T;
-  currentTenant?: T;
   password?: T;
   avatar?: T;
   updatedAt?: T;
@@ -487,6 +486,7 @@ export interface NeuroSelect<T extends boolean = true> {
  */
 export interface CollectionSelect<T extends boolean = true> {
   title?: T;
+  tenant?: T;
   embedding?: T;
   llm?: T;
   reranker?: T;

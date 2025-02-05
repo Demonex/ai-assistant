@@ -31,7 +31,7 @@ const Layout = ({ children }: Args) => {
 			importMap={importMap}
 			serverFunction={serverFunction}
 		>
-			<RootChange />
+			{/* <RootChange /> */}
 			{children}
 		</RootLayout>
 	);

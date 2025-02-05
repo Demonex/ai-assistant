@@ -8,14 +8,11 @@ import { COLLECTION_PERMISSIONS, GROUP_PERMISSIONS } from "@/types/types";
 
 const groupAccess = {
 	...defaultAccess,
-	read: ({ req: { user } }) => {
-		return {};
-	},
 };
 
 export const group: CollectionConfig = {
 	slug: "group",
-	// access: groupAccess,
+	access: groupAccess,
 	admin: {
 		defaultColumns: ["title", "users", "groupPermissions"],
 		useAsTitle: "title",

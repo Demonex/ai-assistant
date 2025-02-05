@@ -37,7 +37,6 @@ export const checkPermissions =
 			id: req.user.id,
 			select: {
 				superadmin: true,
-				currentTenant: true,
 			},
 		});
 
@@ -95,9 +94,9 @@ export const isAuthorized = ({ req: { user } }) => {
 
 const defaultAccess = {
 	admin: isAuthorized,
-	create: isSuperAdmin,
-	read: isSuperAdmin,
-	update: isSuperAdmin,
-	delete: isSuperAdmin,
+	create: isAuthorized,
+	read: isAuthorized,
+	update: isAuthorized,
+	delete: isAuthorized,
 };
 export default defaultAccess;

@@ -19,7 +19,7 @@ export const user: CollectionConfig = {
 	access: userAccess,
 	admin: {
 		// hideAPIURL: true,
-		defaultColumns: ["name", "currentTenant", "email", "superadmin"],
+		defaultColumns: ["name", "email", "superadmin"],
 		useAsTitle: "name",
 	},
 	auth: {
@@ -68,6 +68,7 @@ export const user: CollectionConfig = {
 		{
 			name: "email",
 			type: "email",
+			unique: true,
 		},
 		// {
 		// 	name: "reset password token",
@@ -122,11 +123,6 @@ export const user: CollectionConfig = {
 					},
 				],
 			},
-		},
-		{
-			name: "currentTenant",
-			type: "relationship",
-			relationTo: tenant.slug as "tenant",
 		},
 		{
 			name: "password",
