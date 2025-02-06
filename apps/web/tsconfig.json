@@ -47,6 +47,9 @@
       ],
       "utils/*": [
         "utils/*"
+      ],
+      "helpers/*": [
+        "helpers/*"
       ]
     }
   },
