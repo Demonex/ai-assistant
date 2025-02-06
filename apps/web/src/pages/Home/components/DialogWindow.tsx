@@ -1,8 +1,8 @@
 import { Fragment, useEffect, useId, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import useLocalTimeFormat from "@/hooks/useLocalTimeFormat.js";
 import { AvatarComponent } from "./AvatarComponent.js";
 import { DropdownMenuButton } from "./DropdownMenuButton.js";
+import { formatLocalTime } from "helpers/index.js";
 import { useChats } from "../hooks/useChats.js";
 import { Spinner } from "./Spinner.js";
 import { jsPDF } from "jspdf";
@@ -196,7 +196,7 @@ export const DialogWindow = () => {
 														</div>
 														<div className="flex items-center gap-2 justify-end">
 															<time className="mt-1 flex items-center text-sm text-muted-foreground justify-end">
-																{useLocalTimeFormat(message.created_at)}
+																{formatLocalTime(message.created_at)}
 															</time>
 														</div>
 													</div>
@@ -212,7 +212,7 @@ export const DialogWindow = () => {
 														</div>
 														<div className="flex items-center gap-2">
 															<time className="mt-1 flex items-center text-sm text-muted-foreground">
-																{useLocalTimeFormat(message.created_at)}
+																{formatLocalTime(message.created_at)}
 															</time>
 														</div>
 													</div>
