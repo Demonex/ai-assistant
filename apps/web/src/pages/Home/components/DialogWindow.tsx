@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useId, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import useLocalTimeFormat from "@/hooks/useLocalTimeFormat.js";
 import { AvatarComponent } from "./AvatarComponent.js";
 import { DropdownMenuButton } from "./DropdownMenuButton.js";
 import { useChats } from "../hooks/useChats.js";
@@ -163,7 +164,7 @@ export const DialogWindow = () => {
 								onDragLeave={handleDragLeave}
 								className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center text-white"
 							>
-								Отпустите файл сюда!
+								Перенесите файл сюда (DOC, DOCX, PDF, TXT)
 							</div>
 						)}
 						{/*------------------------------------------------DragAndDrop--------------------------------------------------------------*/}
@@ -195,7 +196,7 @@ export const DialogWindow = () => {
 														</div>
 														<div className="flex items-center gap-2 justify-end">
 															<time className="mt-1 flex items-center text-sm text-muted-foreground justify-end">
-																{message.created_at.slice(10, 16)}
+																{useLocalTimeFormat(message.created_at)}
 															</time>
 														</div>
 													</div>
@@ -211,7 +212,7 @@ export const DialogWindow = () => {
 														</div>
 														<div className="flex items-center gap-2">
 															<time className="mt-1 flex items-center text-sm text-muted-foreground">
-																{message.created_at.slice(10, 16)}
+																{useLocalTimeFormat(message.created_at)}
 															</time>
 														</div>
 													</div>
