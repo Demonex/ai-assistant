@@ -22,6 +22,7 @@ export const DialogWindow = () => {
 	const { register, handleSubmit, reset } = useForm();
 	const id = useId();
 	const messagesEndRef = useRef(null);
+	const fileInputRef = useRef(null);
 
 	const onSubmit = () => {
 		setMessages([
@@ -64,6 +65,7 @@ export const DialogWindow = () => {
 
 	////////////////////////////////////////////////////////DragAndDrop///////////////////////////////////
 
+	const [isFileUpload, setIsFileUpload] = useState(false);
 	const [files, setFiles] = useState(null);
 	const [isOverlay, setIsOverlay] = useState(false);
 
@@ -81,148 +83,137 @@ export const DialogWindow = () => {
 		setIsOverlay(false);
 	};
 
-	const handleDrop = async (e) => {
+	const handleDrop = (e) => {
 		e.preventDefault();
 		setIsOverlay(false);
 
-		const droppedFiles = Array.from(e.dataTransfer.files);
-
-		const fileDataUrls = await Promise.all(
-			droppedFiles.map((file) => {
-				return new Promise((resolve) => {
-					const reader = new FileReader();
-					reader.onloadend = () => resolve(reader.result);
-					reader.readAsDataURL(file);
-				});
-			}),
-		);
-
-		generatePDF(fileDataUrls);
+		if (e.dataTransfer.files) {
+			setFiles(e.dataTransfer.files);
+			setIsFileUpload(true);
+		}
 
 		console.log(e.dataTransfer.files);
 	};
 
-	const generatePDF = (fileDataUrls) => {
-		const doc = new jsPDF();
+	const handleButtonClick = () => {
+		fileInputRef.current?.click();
+	};
 
-		fileDataUrls.forEach((dataUrl, index) => {
-			doc.addImage(dataUrl, "PNG", 10, 10 + index * 30, 20, 20);
-		});
-
-		doc.save("files.pdf");
+	const handleCloseDocument = () => {
+		setFiles(null);
+		setIsFileUpload(false);
 	};
 
 	////////////////////////////////////////////////////////DragAndDrop///////////////////////////////////
 
 	return (
 		<div className="flex-grow">
-			<div className="fixed inset-0 flex flex-col bg-background p-4 lg:relative lg:bg-transparent lg:p-0">
-				<>
-					<div className="flex justify-between gap-4">
-						<div className="flex gap-4">
-							<button
-								onClick={onReturnToMenu}
-								className="items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md flex h-10 w-10 p-0 lg:hidden"
-							>
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									width={24}
-									height={24}
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									strokeWidth={2}
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									className="lucide lucide-arrow-left h-4 w-4"
-								>
-									<path d="m12 19-7-7 7-7" />
-									<path d="M19 12H5" />
-								</svg>
-							</button>
-							<span className="relative flex shrink-0 overflow-hidden rounded-full h-12 w-12 border">
-								<div className="w-3 h-3 absolute rounded-full end-0 bottom-0 bg-green-400" />
-								<AvatarComponent />
-							</span>
-							<div className="flex flex-col">
-								<span className="font-semibold">{activeChat?.title}</span>
-							</div>
-						</div>
-						<DropdownMenuButton />
-					</div>
-
-					{/*--------------------------------------------------DragAndDrop------------------------------------------------------------*/}
-					<div
-						dir="ltr"
-						className="overflow-hidden relative h-screen w-full py-4 lg:h-[calc(100vh_-_13.8rem)]"
-						onDragEnter={handleDragEnter}
-					>
-						{isOverlay && (
-							<div
-								onDragOver={handleDragOver}
-								onDrop={handleDrop}
-								onDragLeave={handleDragLeave}
-								className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center text-white"
-							>
-								Перенесите файл сюда (DOC, DOCX, PDF, TXT)
-							</div>
-						)}
-						{/*------------------------------------------------DragAndDrop--------------------------------------------------------------*/}
-
-						<style
-							dangerouslySetInnerHTML={{
-								__html:
-									"\n[data-radix-scroll-area-viewport] {\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n  -webkit-overflow-scrolling: touch;\n}\n[data-radix-scroll-area-viewport]::-webkit-scrollbar {\n  display: none;\n}\n:where([data-radix-scroll-area-viewport]) {\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n}\n:where([data-radix-scroll-area-content]) {\n  flex-grow: 1;\n}\n",
-							}}
-						/>
-						<div
-							data-radix-scroll-area-viewport
-							className="h-full w-full rounded-[inherit]"
-							style={{ overflow: "hidden scroll" }}
+			<div className="fixed inset-0 flex flex-col bg-background p-4 lg:relative lg:bg-transparent lg:p-0 lg:max-h-[90%]">
+				<div className="flex justify-between gap-4">
+					<div className="flex gap-4">
+						<button
+							onClick={onReturnToMenu}
+							className="items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md flex h-10 w-10 p-0 lg:hidden"
 						>
-							<div data-radix-scroll-area-content>
-								<div>
-									<div className="flex flex-col items-start space-y-10 py-8">
-										{messages?.map((message) => (
-											<Fragment key={message.id}>
-												{message.message && (
-													<div className="max-w-screen-sm self-end">
-														<div className="flex items-center gap-2">
-															<div className="shadow-base rounded-lg border bg-card text-card-foreground order-1">
-																<div className="inline-flex p-4">
-																	{message.message.raw}
-																</div>
-															</div>
-														</div>
-														<div className="flex items-center gap-2 justify-end">
-															<time className="mt-1 flex items-center text-sm text-muted-foreground justify-end">
-																{formatLocalTime(message.created_at)}
-															</time>
-														</div>
-													</div>
-												)}
-												{message.response && (
-													<div className="max-w-screen-sm">
-														<div className="flex items-center gap-2">
-															<div className="shadow-base rounded-lg border bg-card text-card-foreground">
-																<div className="inline-flex p-4">
-																	{message.response.raw}
-																</div>
-															</div>
-														</div>
-														<div className="flex items-center gap-2">
-															<time className="mt-1 flex items-center text-sm text-muted-foreground">
-																{formatLocalTime(message.created_at)}
-															</time>
-														</div>
-													</div>
-												)}
-												<div ref={messagesEndRef} />
-											</Fragment>
-										))}
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								width={24}
+								height={24}
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth={2}
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								className="lucide lucide-arrow-left h-4 w-4"
+							>
+								<path d="m12 19-7-7 7-7" />
+								<path d="M19 12H5" />
+							</svg>
+						</button>
+						<span className="relative flex shrink-0 overflow-hidden rounded-full h-12 w-12 border">
+							<div className="w-3 h-3 absolute rounded-full end-0 bottom-0 bg-green-400" />
+							<AvatarComponent />
+						</span>
+						<div className="flex flex-col">
+							<span className="font-semibold">{activeChat?.title}</span>
+						</div>
+					</div>
+					<DropdownMenuButton />
+				</div>
 
-										<>
-											{/* <div className="max-w-screen-sm">
+				{/*--------------------------------------------------DragAndDrop------------------------------------------------------------*/}
+				<div
+					dir="ltr"
+					className="overflow-hidden relative h-screen w-full py-4 lg:h-[calc(100vh_-_13.8rem)]"
+					onDragEnter={handleDragEnter}
+				>
+					{isOverlay && (
+						<div
+							onDragOver={handleDragOver}
+							onDrop={handleDrop}
+							onDragLeave={handleDragLeave}
+							className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center text-white"
+						>
+							Перенесите файл сюда (DOC, DOCX, PDF, TXT)
+						</div>
+					)}
+					{/*------------------------------------------------DragAndDrop--------------------------------------------------------------*/}
+
+					<style
+						dangerouslySetInnerHTML={{
+							__html:
+								"\n[data-radix-scroll-area-viewport] {\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n  -webkit-overflow-scrolling: touch;\n}\n[data-radix-scroll-area-viewport]::-webkit-scrollbar {\n  display: none;\n}\n:where([data-radix-scroll-area-viewport]) {\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n}\n:where([data-radix-scroll-area-content]) {\n  flex-grow: 1;\n}\n",
+						}}
+					/>
+					<div
+						data-radix-scroll-area-viewport
+						className="h-full w-full rounded-[inherit]"
+						style={{ overflow: "hidden scroll" }}
+					>
+						<div data-radix-scroll-area-content>
+							<div>
+								<div className="flex flex-col items-start space-y-10 py-8">
+									{messages?.map((message) => (
+										<Fragment key={message.id}>
+											{message.message && (
+												<div className="max-w-screen-sm self-end">
+													<div className="flex items-center gap-2">
+														<div className="shadow-base rounded-lg border bg-card text-card-foreground order-1">
+															<div className="inline-flex p-4">
+																{message.message.raw}
+															</div>
+														</div>
+													</div>
+													<div className="flex items-center gap-2 justify-end">
+														<time className="mt-1 flex items-center text-sm text-muted-foreground justify-end">
+															{formatLocalTime(message.created_at)}
+														</time>
+													</div>
+												</div>
+											)}
+											{message.response && (
+												<div className="max-w-screen-sm">
+													<div className="flex items-center gap-2">
+														<div className="shadow-base rounded-lg border bg-card text-card-foreground">
+															<div className="inline-flex p-4">
+																{message.response.raw}
+															</div>
+														</div>
+													</div>
+													<div className="flex items-center gap-2">
+														<time className="mt-1 flex items-center text-sm text-muted-foreground">
+															{formatLocalTime(message.created_at)}
+														</time>
+													</div>
+												</div>
+											)}
+											<div ref={messagesEndRef} />
+										</Fragment>
+									))}
+
+									<>
+										{/* <div className="max-w-screen-sm">
                       <div className="flex items-center gap-2">
                         <div className="shadow-base rounded-lg border bg-card text-card-foreground">
                           <div className="inline-flex p-4">
@@ -236,7 +227,7 @@ export const DialogWindow = () => {
                         </time>
                       </div>
                     </div> */}
-											{/* <div className="max-w-screen-sm">
+										{/* <div className="max-w-screen-sm">
                       <div className="flex items-center gap-2">
                         <div className="shadow-base rounded-lg border bg-card text-card-foreground">
                           <div className="inline-flex items-center p-4">
@@ -627,90 +618,142 @@ export const DialogWindow = () => {
                         </svg>
                       </div>
                     </div> */}
-										</>
-									</div>
+									</>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div className="shadow-base rounded-lg border bg-card text-card-foreground">
-						<div>
-							<form
-								className="w-full relative flex items-center p-2 lg:p-4"
-								onSubmit={handleSubmit(onSubmit)}
+				</div>
+
+				<div className="shadow-base rounded-lg border bg-card text-card-foreground">
+					{isFileUpload && (
+						<div className="flex flex-wrap gap-2 p-2 lg:p-4 lg:pb-1">
+							<div
+								aria-label="document-1738765831781.pdf"
+								className="relative flex w-40 cursor-pointer rounded-md border border-slate-100 text-xs shadow shadow-slate-200"
+								title="document-1738765831781.pdf"
 							>
-								<input
-									{...register("message", {
-										required: "Message is required",
-									})}
-									placeholder="Enter message..."
-									onChange={handleInputChange}
-									onKeyDown={handleKeyDown}
-									className="flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent pe-32 !text-base !shadow-transsparent !ring-transparent lg:pe-56"
-								/>
-								<div className=" end-4 flex items-center">
-									<div className="block lg:hidden">
-										<button
-											className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-11 w-11 rounded-full p-0"
-											type="button"
-											id="radix-:ri:"
-											aria-haspopup="menu"
-											aria-expanded="false"
-											data-state="closed"
-										>
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												width={24}
-												height={24}
-												viewBox="0 0 24 24"
-												fill="none"
-												stroke="currentColor"
-												strokeWidth={2}
-												strokeLinecap="round"
-												strokeLinejoin="round"
-												className="lucide lucide-circle-plus h-4 w-4"
-											>
-												<circle cx={12} cy={12} r={10} />
-												<path d="M8 12h8" />
-												<path d="M12 8v8" />
-											</svg>
-										</button>
-									</div>
-									<div className="hidden lg:block">
-										<button
-											className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-11 w-11 rounded-full p-0"
-											data-state="closed"
-										>
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												width={24}
-												height={24}
-												viewBox="0 0 24 24"
-												fill="none"
-												stroke="currentColor"
-												strokeWidth={2}
-												strokeLinecap="round"
-												strokeLinejoin="round"
-												className="lucide lucide-paperclip h-4 w-4"
-											>
-												<path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
-											</svg>
-										</button>
-									</div>
-									{!loading && (
-										<button
-											type="submit"
-											className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 ms-3"
-										>
-											Send
-										</button>
-									)}
-									{loading && <Spinner />}
+								<div
+									aria-hidden="true"
+									className="grid h-12 w-12 flex-shrink-0 place-items-center truncate rounded-bl-md rounded-tl-md bg-[hsl(224.52deg_75%_48.63%)] font-medium uppercase text-white"
+								>
+									pdf
 								</div>
-							</form>
+								<div className="min-w-0 px-3 py-2">
+									<p className="truncate" title="document-1738765831781.pdf">
+										{files[0].name}
+									</p>
+									<div className="text-gray-500">
+										{Math.floor(files[0].size / 1024)} KB
+									</div>
+									<div
+										onClick={handleCloseDocument}
+										className="absolute right-0 top-0 z-10 -translate-y-2 translate-x-2 cursor-pointer rounded-full bg-white p-1 shadow shadow-slate-200 hover:bg-stone-100"
+									>
+										<span>
+											<svg
+												aria-hidden="true"
+												className="h-2 w-2 fill-stone-500"
+												preserveAspectRatio="none"
+												viewBox="0 0 1024 1024"
+											>
+												<path
+													clipRule="evenodd"
+													d="M587.19 506.246l397.116-397.263a52.029 52.029 0 0 0 0-73.143l-2.194-2.194a51.98 51.98 0 0 0-73.143 0l-397.068 397.8-397.068-397.8a51.98 51.98 0 0 0-73.143 0l-2.146 2.194a51.054 51.054 0 0 0 0 73.143l397.069 397.263L39.544 903.461a52.029 52.029 0 0 0 0 73.142l2.146 2.195a51.98 51.98 0 0 0 73.143 0L511.9 581.583l397.068 397.215a51.98 51.98 0 0 0 73.143 0l2.194-2.146a52.029 52.029 0 0 0 0-73.143L587.19 506.246z"
+													fillRule="evenodd"
+												/>
+											</svg>
+										</span>
+									</div>
+								</div>
+							</div>
 						</div>
+					)}
+					<div>
+						<form
+							className="w-full relative flex items-center p-2 lg:p-4"
+							onSubmit={handleSubmit(onSubmit)}
+						>
+							<input
+								{...register("message", {
+									required: "Message is required",
+								})}
+								placeholder="Enter message..."
+								onChange={handleInputChange}
+								onKeyDown={handleKeyDown}
+								className="flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent pe-32 !text-base !shadow-transsparent !ring-transparent lg:pe-56"
+							/>
+							<div
+								className=" end-4 flex items-center"
+								onClick={handleButtonClick}
+							>
+								<div className="block lg:hidden">
+									<input
+										type="file"
+										ref={fileInputRef}
+										onChange={handleDrop}
+										style={{ display: "none" }}
+									/>
+									<button
+										className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-11 w-11 rounded-full p-0"
+										type="button"
+										id="radix-:ri:"
+										aria-haspopup="menu"
+										aria-expanded="false"
+										data-state="closed"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width={24}
+											height={24}
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											strokeWidth={2}
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											className="lucide lucide-circle-plus h-4 w-4"
+										>
+											<circle cx={12} cy={12} r={10} />
+											<path d="M8 12h8" />
+											<path d="M12 8v8" />
+										</svg>
+									</button>
+								</div>
+								<div className="hidden lg:block">
+									<button
+										className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-11 w-11 rounded-full p-0"
+										data-state="closed"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											width={24}
+											height={24}
+											viewBox="0 0 24 24"
+											fill="none"
+											stroke="currentColor"
+											strokeWidth={2}
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											className="lucide lucide-paperclip h-4 w-4"
+										>
+											<path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+										</svg>
+									</button>
+								</div>
+								{!loading && (
+									<button
+										type="submit"
+										className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 ms-3"
+									>
+										Send
+									</button>
+								)}
+								{loading && <Spinner />}
+							</div>
+						</form>
 					</div>
-				</>
+				</div>
 			</div>
 		</div>
 	);
