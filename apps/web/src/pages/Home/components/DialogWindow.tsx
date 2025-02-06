@@ -4,11 +4,12 @@ import { AvatarComponent } from "./AvatarComponent.js";
 import { DropdownMenuButton } from "./DropdownMenuButton.js";
 import { useChats } from "../hooks/useChats.js";
 import { Spinner } from "./Spinner.js";
+import { jsPDF } from "jspdf";
 import { messageMockData } from "@/DataBase.js";
 
 export const DialogWindow = () => {
 	//////////тоже сменить let на const, когда все будет работать хорошо
-	let {
+	const {
 		messages,
 		setMessages,
 		activeChat,
@@ -19,7 +20,6 @@ export const DialogWindow = () => {
 	const [message, setMessage] = useState("");
 	const { register, handleSubmit, reset } = useForm();
 	const id = useId();
-
 	const messagesEndRef = useRef(null);
 
 	const onSubmit = () => {
@@ -27,7 +27,6 @@ export const DialogWindow = () => {
 			...messages,
 			{
 				id: id,
-				from_bot: false,
 				created_at: new Date().toString(),
 				message: { raw: message },
 			},
@@ -62,15 +61,9 @@ export const DialogWindow = () => {
 		scrollToBottom();
 	}, [messages]);
 
-	////////////////////////////////////////////////////////Заглушка///////////////////////////////////
-
-	if (!messages) {
-		messages = messageMockData;
-	}
-	////////////////////////////////////////////////////////Заглушка///////////////////////////////////
-
 	////////////////////////////////////////////////////////DragAndDrop///////////////////////////////////
 
+	const [files, setFiles] = useState(null);
 	const [isOverlay, setIsOverlay] = useState(false);
 
 	const handleDragEnter = (e) => {
@@ -87,11 +80,35 @@ export const DialogWindow = () => {
 		setIsOverlay(false);
 	};
 
-	const handleDrop = (e) => {
+	const handleDrop = async (e) => {
 		e.preventDefault();
 		setIsOverlay(false);
 
+		const droppedFiles = Array.from(e.dataTransfer.files);
+
+		const fileDataUrls = await Promise.all(
+			droppedFiles.map((file) => {
+				return new Promise((resolve) => {
+					const reader = new FileReader();
+					reader.onloadend = () => resolve(reader.result);
+					reader.readAsDataURL(file);
+				});
+			}),
+		);
+
+		generatePDF(fileDataUrls);
+
 		console.log(e.dataTransfer.files);
+	};
+
+	const generatePDF = (fileDataUrls) => {
+		const doc = new jsPDF();
+
+		fileDataUrls.forEach((dataUrl, index) => {
+			doc.addImage(dataUrl, "PNG", 10, 10 + index * 30, 20, 20);
+		});
+
+		doc.save("files.pdf");
 	};
 
 	////////////////////////////////////////////////////////DragAndDrop///////////////////////////////////
@@ -178,7 +195,7 @@ export const DialogWindow = () => {
 														</div>
 														<div className="flex items-center gap-2 justify-end">
 															<time className="mt-1 flex items-center text-sm text-muted-foreground justify-end">
-																{message.created_at.slice(16, 21)}
+																{message.created_at.slice(10, 16)}
 															</time>
 														</div>
 													</div>
@@ -194,7 +211,7 @@ export const DialogWindow = () => {
 														</div>
 														<div className="flex items-center gap-2">
 															<time className="mt-1 flex items-center text-sm text-muted-foreground">
-																{message.created_at.slice(16, 21)}
+																{message.created_at.slice(10, 16)}
 															</time>
 														</div>
 													</div>
