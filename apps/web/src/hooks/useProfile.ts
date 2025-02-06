@@ -27,48 +27,30 @@ const _useProfile = () => {
 		cache: false,
 	});
 
-	// const [profile, setProfile] = useState(null);
-	const [profile, setProfile] = useState(() => {
-		const savedProfile = localStorage.getItem("profile");
-		return savedProfile ? JSON.parse(savedProfile) : null;
-	});
+	const [profile, setProfile] = useState(null);
 
 	const isAuthorized = useMemo(() => !!profile, [profile]);
 
-	// useEffect(() => {
-	// 	if (!data) {
-	// 		return;
-	// 	}
-	// 	setProfile(data);
-	// }, [data]);
-
-	// useEffect(() => {
-	// 	if (!dataSignIn) {
-	// 		return;
-	// 	}
-	// 	setProfile(dataSignIn);
-	// }, [dataSignIn]);
 	useEffect(() => {
-		if (data || dataSignIn) {
-			setProfile(data || dataSignIn);
-			localStorage.setItem("profile", JSON.stringify(data || dataSignIn));
+		if (!data) {
+			return;
 		}
-	}, [data, dataSignIn]);
+		setProfile(data);
+	}, [data]);
 
-	// const handleSignOut = useCallback(async () => {
-	// 	await fetchSignOut({
-	// 		url: `${import.meta.env.VITE_BACKEND_URL}/auth/sign-out`,
-	// 		data: data,
-	// 	});
-	// 	setProfile(null);
-	// }, []);
+	useEffect(() => {
+		if (!dataSignIn) {
+			return;
+		}
+		setProfile(dataSignIn);
+	}, [dataSignIn]);
+
 	const handleSignOut = useCallback(async () => {
 		await fetchSignOut({
 			url: `${import.meta.env.VITE_BACKEND_URL}/auth/sign-out`,
 			data: data,
 		});
 		setProfile(null);
-		localStorage.removeItem("profile");
 	}, []);
 
 	const handleSignIn = useCallback(
