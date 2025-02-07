@@ -5,7 +5,6 @@ import { DropdownMenuButton } from "./DropdownMenuButton.js";
 import { formatLocalTime } from "helpers/index.js";
 import { useChats } from "../hooks/useChats.js";
 import { Spinner } from "./Spinner.js";
-import { jsPDF } from "jspdf";
 import { messageMockData } from "@/DataBase.js";
 
 export const DialogWindow = () => {
@@ -65,8 +64,7 @@ export const DialogWindow = () => {
 
 	////////////////////////////////////////////////////////DragAndDrop///////////////////////////////////
 
-	const [isFileUpload, setIsFileUpload] = useState(false);
-	const [files, setFiles] = useState(null);
+	const [files, setFiles] = useState([]);
 	const [isOverlay, setIsOverlay] = useState(false);
 
 	const handleDragEnter = (e) => {
@@ -87,12 +85,13 @@ export const DialogWindow = () => {
 		e.preventDefault();
 		setIsOverlay(false);
 
-		if (e.dataTransfer.files) {
-			setFiles(e.dataTransfer.files);
-			setIsFileUpload(true);
+		const data = e.dataTransfer?.files || e.target.files;
+
+		if (data.length) {
+			setFiles(data);
 		}
 
-		console.log(e.dataTransfer.files);
+		console.log(data);
 	};
 
 	const handleButtonClick = () => {
@@ -100,15 +99,15 @@ export const DialogWindow = () => {
 	};
 
 	const handleCloseDocument = () => {
-		setFiles(null);
-		setIsFileUpload(false);
+		setFiles([]);
+		fileInputRef.current.value = "";
 	};
 
 	////////////////////////////////////////////////////////DragAndDrop///////////////////////////////////
 
 	return (
 		<div className="flex-grow">
-			<div className="fixed inset-0 flex flex-col bg-background p-4 lg:relative lg:bg-transparent lg:p-0 lg:max-h-[90%]">
+			<div className="fixed inset-0 flex flex-col bg-background p-4 lg:relative lg:bg-transparent lg:p-0">
 				<div className="flex justify-between gap-4">
 					<div className="flex gap-4">
 						<button
@@ -625,19 +624,30 @@ export const DialogWindow = () => {
 					</div>
 				</div>
 
-				<div className="shadow-base rounded-lg border bg-card text-card-foreground">
-					{isFileUpload && (
-						<div className="flex flex-wrap gap-2 p-2 lg:p-4 lg:pb-1">
+				<div
+					style={
+						files.length
+							? {
+									borderTop: 0,
+									borderTopLeftRadius: 0,
+									borderTopRightRadius: 0,
+								}
+							: {}
+					}
+					className="relative shadow-base rounded-lg border bg-card text-card-foreground"
+				>
+					{files.length > 0 && (
+						<div className="absolute -left-px -right-px bottom-full border border-b-0 rounded-l-lg rounded-r-lg flex flex-wrap gap-2 p-2 lg:p-4 lg:pb-1">
 							<div
 								aria-label="document-1738765831781.pdf"
-								className="relative flex w-40 cursor-pointer rounded-md border border-slate-100 text-xs shadow shadow-slate-200"
+								className="relative flex w-40 rounded-md border border-slate-100 text-xs shadow shadow-slate-200"
 								title="document-1738765831781.pdf"
 							>
 								<div
 									aria-hidden="true"
 									className="grid h-12 w-12 flex-shrink-0 place-items-center truncate rounded-bl-md rounded-tl-md bg-[hsl(224.52deg_75%_48.63%)] font-medium uppercase text-white"
 								>
-									pdf
+									{files[0].name.split(".").pop()}
 								</div>
 								<div className="min-w-0 px-3 py-2">
 									<p className="truncate" title="document-1738765831781.pdf">
@@ -720,7 +730,7 @@ export const DialogWindow = () => {
 										</svg>
 									</button>
 								</div>
-								<div className="hidden lg:block">
+								<div className="hidden lg:block ml-3">
 									<button
 										className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-11 w-11 rounded-full p-0"
 										data-state="closed"
