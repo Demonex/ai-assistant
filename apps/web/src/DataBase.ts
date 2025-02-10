@@ -50,4 +50,13 @@ export const messageMockData = [
 		response: { raw: "Биба Бобович" },
 		created_at: new Date().toString(),
 	},
+	{
+		id: 6,
+		message: { raw: "Find file please!" },
+		file: {
+			name: "text.docx",
+			size: 50000,
+		},
+		created_at: new Date().toString(),
+	},
 ];

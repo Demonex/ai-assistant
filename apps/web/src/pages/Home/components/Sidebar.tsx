@@ -23,6 +23,8 @@ export const Sidebar = memo(() => {
 		);
 	}
 
+	// filteredChats = collectionMockData;
+
 	return (
 		<div className="w-full lg:w-96">
 			<div className="shadow-base h-full rounded-lg border bg-card text-card-foreground">

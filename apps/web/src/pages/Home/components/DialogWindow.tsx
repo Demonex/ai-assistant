@@ -8,7 +8,6 @@ import { Spinner } from "./Spinner.js";
 import { messageMockData } from "@/DataBase.js";
 
 export const DialogWindow = () => {
-	//////////тоже сменить let на const, когда все будет работать хорошо
 	const {
 		messages,
 		setMessages,
@@ -62,8 +61,6 @@ export const DialogWindow = () => {
 		scrollToBottom();
 	}, [messages]);
 
-	////////////////////////////////////////////////////////DragAndDrop///////////////////////////////////
-
 	const [files, setFiles] = useState([]);
 	const [isOverlay, setIsOverlay] = useState(false);
 
@@ -85,7 +82,7 @@ export const DialogWindow = () => {
 		e.preventDefault();
 		setIsOverlay(false);
 
-		const data = e.dataTransfer?.files || e.target.files;
+		const data = e.dataTransfer?.files || e.target?.files;
 
 		if (data.length) {
 			setFiles(data);
@@ -102,8 +99,6 @@ export const DialogWindow = () => {
 		setFiles([]);
 		fileInputRef.current.value = "";
 	};
-
-	////////////////////////////////////////////////////////DragAndDrop///////////////////////////////////
 
 	return (
 		<div className="flex-grow">
@@ -141,7 +136,6 @@ export const DialogWindow = () => {
 					<DropdownMenuButton />
 				</div>
 
-				{/*--------------------------------------------------DragAndDrop------------------------------------------------------------*/}
 				<div
 					dir="ltr"
 					className="overflow-hidden relative h-screen w-full py-4 lg:h-[calc(100vh_-_13.8rem)]"
@@ -157,7 +151,6 @@ export const DialogWindow = () => {
 							Перенесите файл сюда (DOC, DOCX, PDF, TXT)
 						</div>
 					)}
-					{/*------------------------------------------------DragAndDrop--------------------------------------------------------------*/}
 
 					<style
 						dangerouslySetInnerHTML={{
@@ -173,6 +166,7 @@ export const DialogWindow = () => {
 						<div data-radix-scroll-area-content>
 							<div>
 								<div className="flex flex-col items-start space-y-10 py-8">
+									{/* {messageMockData?.map((message) => ( */}
 									{messages?.map((message) => (
 										<Fragment key={message.id}>
 											{message.message && (
@@ -182,8 +176,53 @@ export const DialogWindow = () => {
 															<div className="inline-flex p-4">
 																{message.message.raw}
 															</div>
+
+															{message.file && (
+																<div className="flex items-center gap-2">
+																	<div className="shadow-base rounded-lg bg-card text-card-foreground">
+																		<div className="inline-flex items-center p-4">
+																			<svg
+																				className="lucide lucide-file me-4 h-8 w-8 opacity-50"
+																				fill="none"
+																				height="24"
+																				stroke="currentColor"
+																				strokeLinecap="round"
+																				strokeLinejoin="round"
+																				strokeWidth="1.5"
+																				viewBox="0 0 24 24"
+																				width="24"
+																				xmlns="http://www.w3.org/2000/svg"
+																			>
+																				<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+																				<path d="M14 2v4a2 2 0 0 0 2 2h4" />
+																			</svg>
+																			<div className="flex flex-col gap-2">
+																				<div>
+																					{message.file.name}
+																					<span className="ms-2 text-sm text-muted-foreground">
+																						(
+																						{Math.floor(
+																							message.file.size / 1024,
+																						)}{" "}
+																						KB)
+																					</span>
+																				</div>
+																				<div className="flex gap-2">
+																					<button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
+																						Скачать
+																					</button>
+																					<button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
+																						Открыть
+																					</button>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															)}
 														</div>
 													</div>
+
 													<div className="flex items-center gap-2 justify-end">
 														<time className="mt-1 flex items-center text-sm text-muted-foreground justify-end">
 															{formatLocalTime(message.created_at)}
@@ -637,7 +676,7 @@ export const DialogWindow = () => {
 					className="relative shadow-base rounded-lg border bg-card text-card-foreground"
 				>
 					{files.length > 0 && (
-						<div className="absolute -left-px -right-px bottom-full border border-b-0 rounded-l-lg rounded-r-lg flex flex-wrap gap-2 p-2 lg:p-4 lg:pb-1">
+						<div className="absolute -left-px -right-px bg-background bottom-full border border-b-0 rounded-b-none rounded-l-lg rounded-r-lg flex flex-wrap gap-2 p-2 lg:p-4 lg:pb-1">
 							<div
 								aria-label="document-1738765831781.pdf"
 								className="relative flex w-40 rounded-md border border-slate-100 text-xs shadow shadow-slate-200"
