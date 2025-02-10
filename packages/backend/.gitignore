@@ -4,4 +4,5 @@ node_modules
 .env
 .next
 .idea
-
+.env.*
+!.env.example
