@@ -13,6 +13,16 @@ import type { Express } from "express";
 import express from "express";
 import expressPlugins from "@repo/backend/plugins/express/index.js";
 
+import { networkInterfaces } from "node:os";
+
+const interfaces = Object.values(
+	Object.fromEntries(Object.entries(networkInterfaces())),
+);
+
+const network = Object.values(networkInterfaces()).reduce((prev, next) => {
+	return prev ?? next.find(({ family }) => family === "IPv4")?.address;
+}, undefined);
+
 process.on("warning", (e) => console.warn(e.stack));
 Logger.useLogger(
 	new DefaultLogger({
@@ -80,7 +90,7 @@ SwaggerModule.setup(
 
 const server = await app.listen(
 	Number.parseInt(String(process.env.PORT)) || 2050,
-	"0.0.0.0",
+	process.env.BACKEND_HOST,
 	() => {
 		DefaultLogger.restoreOriginalLogLevel();
 		logWelcomeMessage();
@@ -95,7 +105,7 @@ function logWelcomeMessage() {
 		`BACKEND (v: ${version}) now running on port ${Number.parseInt(String(process.env.PORT)) || 2050} ✨`,
 	);
 	Logger.info(
-		`SWAGGER: http://localhost:${Number.parseInt(String(process.env.PORT))}/api/playground/rest`,
+		`SWAGGER: http://${process.env.BACKEND_HOST}:${Number.parseInt(String(process.env.PORT))}/api/playground/rest`,
 	);
 	Logger.info("=================================================");
 }

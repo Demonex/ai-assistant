@@ -15,7 +15,7 @@ export const UserId = createParamDecorator(
 export const TenantId = createParamDecorator(
 	(key: string, ctx: ExecutionContext): number => {
 		const res = Number(
-			get(ctx.switchToHttp().getRequest<any>(), "headers.x-tenant"),
+			get(ctx.switchToHttp().getRequest<any>(), "headers.x-tenant", 1),
 		);
 		if (Number.isNaN(res)) {
 			throw new HttpException(
