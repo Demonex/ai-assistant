@@ -1,5 +1,5 @@
 export const formatLocalTime = (
-	date: Date,
+	date: Date | string,
 	formatOptions: Intl.DateTimeFormatOptions = {
 		hour: "2-digit",
 		minute: "2-digit",

@@ -5,6 +5,7 @@ import { DropdownMenuButton } from "./DropdownMenuButton.js";
 import { formatLocalTime } from "helpers/index.js";
 import { useChats } from "../hooks/useChats.js";
 import { Spinner } from "./Spinner.js";
+import ReactMarkdown from "react-markdown";
 import { messageMockData } from "@/DataBase.js";
 
 export const DialogWindow = () => {
@@ -19,8 +20,12 @@ export const DialogWindow = () => {
 	const [message, setMessage] = useState("");
 	const { register, handleSubmit, reset } = useForm();
 	const id = useId();
+	const wrapperRef = useRef(null);
 	const messagesEndRef = useRef(null);
 	const fileInputRef = useRef(null);
+	const textMessageRef = useRef(null);
+	const textResponseRef = useRef(null);
+	const textareaRef = useRef(null);
 
 	const onSubmit = () => {
 		setMessages([
@@ -104,16 +109,50 @@ export const DialogWindow = () => {
 		fileInputRef.current.value = "";
 	};
 
-	const openOrDownloadFile = (e) => {
-		console.log(e);
+	const openOrDownloadFile = () => {
 		const fileURL = URL.createObjectURL(files[0]);
 		window.open(fileURL, "_blank");
 		URL.revokeObjectURL(fileURL);
 	};
 
+	const handleTextarea = () => {
+		const textarea = textareaRef.current;
+		textarea.style.height = "auto";
+		textarea.style.height = `${textarea.scrollHeight}px`;
+	};
+
+	useEffect(() => {
+		const textarea = textareaRef.current;
+		const wrapper = wrapperRef.current;
+
+		if (textarea || wrapper) {
+			textarea.style.height = "auto";
+			textarea.style.height = `${textarea.scrollHeight}px`;
+
+			wrapper.style.maxHeight = `${wrapper.scrollHeight}px`;
+		}
+	}, []);
+
+	useEffect(() => {
+		if (textMessageRef.current && textResponseRef.current) {
+			const style = document.createElement("style");
+
+			style.textContent = `
+        .markdown-content * { all: revert !important; }
+        .markdown-content *:last-child { margin: 0 !important; }
+      `;
+
+			textMessageRef.current.appendChild(style);
+			textResponseRef.current.appendChild(style);
+		}
+	}, []);
+
 	return (
 		<div className="flex-grow">
-			<div className="fixed inset-0 flex flex-col bg-background p-4 lg:relative lg:bg-transparent lg:p-0">
+			<div
+				ref={wrapperRef}
+				className="fixed inset-0 flex flex-col bg-background p-4 lg:relative lg:bg-transparent lg:p-0"
+			>
 				<div className="flex justify-between gap-4">
 					<div className="flex gap-4">
 						<button
@@ -149,7 +188,7 @@ export const DialogWindow = () => {
 
 				<div
 					dir="ltr"
-					className="overflow-hidden relative h-screen w-full py-4 lg:h-[calc(100vh_-_13.8rem)]"
+					className="overflow-hidden relative h-screen w-full py-4 lg:h-[calc(100vh_-_15rem)]"
 					onDragEnter={handleDragEnter}
 				>
 					{isOverlay && (
@@ -177,15 +216,20 @@ export const DialogWindow = () => {
 						<div data-radix-scroll-area-content>
 							<div>
 								<div className="flex flex-col items-start space-y-10 py-8">
-									{messageMockData?.map((message) => (
-										//   {messages?.map((message) => (
+									{/* {messageMockData?.map((message) => ( */}
+									{messages?.map((message) => (
 										<Fragment key={message.id}>
 											{message.message && (
 												<div className="max-w-screen-sm self-end">
 													<div className="flex items-center gap-2">
 														<div className="shadow-base rounded-lg border bg-card text-card-foreground order-1">
 															<div className="inline-flex p-4">
-																{message.message.raw}
+																<span ref={textMessageRef}>
+																	<ReactMarkdown
+																		className="markdown-content"
+																		children={message.message.raw}
+																	/>
+																</span>
 															</div>
 
 															{message.file && (
@@ -252,7 +296,12 @@ export const DialogWindow = () => {
 													<div className="flex items-center gap-2">
 														<div className="shadow-base rounded-lg border bg-card text-card-foreground">
 															<div className="inline-flex p-4">
-																{message.response.raw}
+																<span ref={textResponseRef}>
+																	<ReactMarkdown
+																		className="markdown-content"
+																		children={message.response.raw}
+																	/>
+																</span>
 															</div>
 															{message.file && (
 																<div className="flex items-center gap-2">
@@ -786,14 +835,16 @@ export const DialogWindow = () => {
 							className="w-full relative flex items-center p-2 lg:p-4"
 							onSubmit={handleSubmit(onSubmit)}
 						>
-							<input
+							<textarea
 								{...register("message", {
 									required: "Message is required",
 								})}
+								ref={textareaRef}
+								onInput={handleTextarea}
 								placeholder="Enter message..."
 								onChange={handleInputChange}
 								onKeyDown={handleKeyDown}
-								className="flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent pe-32 !text-base !shadow-transsparent !ring-transparent lg:pe-56"
+								className="flex h-10 w-full resize-none overflow-hidden max-h-[150px] rounded-md border bg-background px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent pe-32 !text-base !shadow-transsparent !ring-transparent lg:pe-56"
 							/>
 							<div className="end-4 flex items-center">
 								<div className="relative ml-3">
