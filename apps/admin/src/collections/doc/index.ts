@@ -38,9 +38,48 @@ export const doc: CollectionConfig = {
 			required: true,
 		},
 	],
-	versions: false,
-	upload: {
-		displayPreview: true,
-		adminThumbnail: "hello",
+	versions: {
+		drafts: {
+			autosave: {
+				interval: 100, // We set this interval for optimal live preview
+			},
+		},
+		maxPerDoc: 50,
+	},
+	upload: {},
+	hooks: {
+		beforeChange: [
+			async ({ data, user, operation, req: { headers, payload }, context }) => {
+				switch (operation) {
+					case "create" /*case "update":*/: {
+						const referer = headers.get("referer");
+						if (!referer) {
+							throw new Error("referer not found");
+						}
+						const collectionId = referer.split("/").at(-1) as string;
+						if (!referer) {
+							throw new Error("referer not found");
+						}
+						const collection = await payload.findByID({
+							collection: "collection",
+							id: collectionId,
+							draft: true,
+							user,
+						});
+						data.name = data.filename;
+						data.collection = collectionId;
+						const [provider] = collection.providers;
+						if (provider.length !== 24) {
+							data.provider = provider.id;
+						}
+						console.log("data", data);
+						console.log("collectionId", collectionId);
+						console.log("collection", collection);
+						console.log("provider", provider);
+						break;
+					}
+				}
+			},
+		],
 	},
 };

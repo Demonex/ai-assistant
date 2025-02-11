@@ -82,8 +82,8 @@ const _useChats = (id: number) => {
 			...prev,
 			{
 				...messageSend.success,
-				from_bot: true,
-				message: {
+				created_at: new Date().toString(),
+				response: {
 					...messageSend.success.message,
 					raw: messageSend.response,
 				},

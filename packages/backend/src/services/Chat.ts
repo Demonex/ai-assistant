@@ -208,15 +208,17 @@ export class ChatService {
 			},
 		);
 
-		const isAdminOrCollectionPermission = groups.some((group) => {
-			return group.groupPermissions
-				.map(
-					(entity) =>
-						entity.permission === GROUP_PERMISSION.admin ||
-						entity.permission === GROUP_PERMISSION.collection,
-				)
-				.some((el) => !!el);
-		});
+		const isAdminOrCollectionPermission =
+			user?.superadmin ||
+			groups.some((group) => {
+				return group.groupPermissions
+					.map(
+						(entity) =>
+							entity.permission === GROUP_PERMISSION.admin ||
+							entity.permission === GROUP_PERMISSION.collection,
+					)
+					.some((el) => !!el);
+			});
 
 		if (!isAdminOrCollectionPermission) {
 			const collectionKeys = groups.flatMap((group) => {

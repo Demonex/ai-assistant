@@ -20,7 +20,8 @@ export class LangFlowService {
 				method: "POST",
 				body: form,
 				headers: {
-					authorization: this.authorization,
+					// authorization: this.authorization,
+					"x-api-key": "sk-nJL5Mhq1M0_5_Y-pVCAZwQFtU6aM7fu5UbkOiBPW5ec",
 				},
 				responseType: "json",
 				resolveBodyOnly: true,
@@ -37,8 +38,9 @@ export class LangFlowService {
 			{
 				method: "POST",
 				headers: {
-					Authorization: this.authorization,
+					// Authorization: this.authorization,
 					"Content-Type": "application/json",
+					"x-api-key": "sk-nJL5Mhq1M0_5_Y-pVCAZwQFtU6aM7fu5UbkOiBPW5ec",
 				},
 				body: JSON.stringify({
 					input_value: payload.message,

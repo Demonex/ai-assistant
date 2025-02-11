@@ -57,7 +57,10 @@ export function FormFineTuning() {
 						</Label>
 					</div>
 					<div className="items-center gap-4">
-						<Textarea placeholder="Ответь на вопрос при условии контекста" />
+						<Textarea
+							style={{ maxHeight: "100px" }}
+							placeholder="Ответь на вопрос при условии контекста"
+						/>
 					</div>
 					<div className="items-center gap-4">
 						<Label htmlFor="description" className="text-right">

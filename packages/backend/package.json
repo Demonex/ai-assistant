@@ -10,7 +10,7 @@
     "lint": "biome lint --write src",
     "format": "biome format --write src",
     "dev": "pnpm run clean && wait-on dist/build.info && node --no-deprecation --trace-warnings --enable-source-maps --watch -r dotenv/config dist/index.js",
-    "serve": "node --trace-warnings -r dotenv/config dist/index.js",
+    "serve:office": "node --trace-warnings -r dotenv/config dist/index.js dotenv_config_path=.env.office",
     "clean": "del-cli dist/build.info",
     "docker-compose": "docker-compose up -d --remove-orphans",
     "coverage": "vitest run --coverage",

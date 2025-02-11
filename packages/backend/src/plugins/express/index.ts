@@ -16,8 +16,8 @@ const RedisSessionStore = new RedisStore({
 });
 
 const expressSession = memoize(
-	(domain = "") =>
-		session({
+	(domain = "") => {
+		return session({
 			name: process.env.SESSIONS_KEY,
 			store: RedisSessionStore,
 			secret: process.env.COOKIE_SECRET,
@@ -30,7 +30,8 @@ const expressSession = memoize(
 				// secure: true
 				sameSite: "lax",
 			},
-		}),
+		});
+	},
 	{
 		length: 1,
 		primitive: true,

@@ -11,14 +11,6 @@ export const Sidebar = memo(() => {
 
 	let filteredChats = chats;
 
-	////////////////////////////////////////////////////////Заглушка///////////////////////////////////
-
-	if (!chats) {
-		filteredChats = collectionMockData;
-	}
-
-	////////////////////////////////////////////////////////Заглушка///////////////////////////////////
-
 	const handleInputChange = (event) => {
 		setInputValue(event.target.value);
 	};
@@ -31,9 +23,11 @@ export const Sidebar = memo(() => {
 		);
 	}
 
+	filteredChats = collectionMockData;
+
 	return (
 		<div className="w-full lg:w-96">
-			<div className="shadow-base rounded-lg border bg-card text-card-foreground">
+			<div className="shadow-base h-full rounded-lg border bg-card text-card-foreground">
 				<div className="flex flex-col space-y-1.5 p-6 py-4 lg:py-6">
 					<div className="flex items-center justify-between">
 						<h3 className="text-lg leading-none tracking-tight font-bold">

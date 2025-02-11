@@ -63,24 +63,28 @@ export class ChatController {
 			data,
 		);
 
-		const flowResponse = await this.flowService.runFlow({
-			flowId: "ec5c0e73-e348-4f1a-bc89-c0ed21167097",
-			payload: {
-				message: data.raw,
-			},
-		});
+		try {
+			const flowResponse = await this.flowService.runFlow({
+				flowId: "ec5c0e73-e348-4f1a-bc89-c0ed21167097",
+				payload: {
+					message: data.raw,
+				},
+			});
 
-		await this.chatService.messagePatch(messageId, {
-			response: {
-				raw: flowResponse,
-				score: 5,
-			},
-		});
+			await this.chatService.messagePatch(messageId, {
+				response: {
+					raw: flowResponse,
+					score: 5,
+				},
+			});
 
-		return {
-			success: true,
-			response: flowResponse,
-		};
+			return {
+				success: true,
+				response: flowResponse,
+			};
+		} catch (e) {
+			console.error(e);
+		}
 	}
 	// @ApiOperation({ summary: "avatar update in profile" })
 	// @UseInterceptors(
