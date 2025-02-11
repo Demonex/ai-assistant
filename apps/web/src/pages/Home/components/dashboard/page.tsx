@@ -46,7 +46,7 @@ export function DashboardPage() {
 						<SidebarTrigger className="-ml-1" />
 						<Separator orientation="vertical" className="mr-2 h-4" />
 						<Breadcrumb>
-							<BreadcrumbList>
+							{/* <BreadcrumbList>
 								<BreadcrumbItem className="hidden md:block">
 									<BreadcrumbLink href="#">All Inboxes</BreadcrumbLink>
 								</BreadcrumbItem>
@@ -54,7 +54,7 @@ export function DashboardPage() {
 								<BreadcrumbItem>
 									<BreadcrumbPage>Inbox</BreadcrumbPage>
 								</BreadcrumbItem>
-							</BreadcrumbList>
+							</BreadcrumbList> */}
 						</Breadcrumb>
 					</header>
 					<ChatComponent />

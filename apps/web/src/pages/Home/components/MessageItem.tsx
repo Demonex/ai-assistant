@@ -27,12 +27,6 @@ export const MessageItem = memo<{
 			<div className="min-w-0 flex-grow">
 				<div className="flex justify-between">
 					<span className="font-semibold">{title}</span>
-					<span className="text-sm text-muted-foreground">10 days</span>
-				</div>
-				<div className="flex items-center gap-2">
-					<span className="truncate text-start text-muted-foreground">
-						I might be 10 minutes late. Sorry!
-					</span>
 				</div>
 			</div>
 			<div className="absolute bottom-0 end-0 top-0 flex items-center bg-gradient-to-l from-50% px-4 opacity-0 group-hover:opacity-100 from-muted">
