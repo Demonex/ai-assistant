@@ -21,6 +21,9 @@ export const doc: CollectionConfig = {
 			name: "name",
 			type: "text",
 			required: true,
+			defaultValue: ({ user, locale, req }) => {
+				console.log(user, locale, req.query, req.id, req.body, req.payload);
+			},
 		},
 		{
 			name: "collection",
@@ -36,5 +39,8 @@ export const doc: CollectionConfig = {
 		},
 	],
 	versions: false,
-	upload: {},
+	upload: {
+		displayPreview: true,
+		adminThumbnail: "hello",
+	},
 };

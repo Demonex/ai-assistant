@@ -2,14 +2,12 @@
 /* DO NOT MODIFY IT BECAUSE IT COULD BE REWRITTEN AT ANY TIME. */
 import config from "@payload-config";
 import "@payloadcms/next/css";
-import type { ServerFunctionClient } from "payload";
 import { handleServerFunctions, RootLayout } from "@payloadcms/next/layouts";
+import type { ServerFunctionClient } from "payload";
 import type React from "react";
 
 import { importMap } from "./admin/importMap.js";
 import "./custom.scss";
-import { useEffect } from "react";
-import { RootChange } from "../../components/RootChange";
 
 type Args = {
 	children: React.ReactNode;
@@ -22,6 +20,23 @@ const serverFunction: ServerFunctionClient = async function (args) {
 		config,
 		importMap,
 	});
+};
+
+const originalFetch = global.fetch;
+
+global.fetch = async (url, options = {}) => {
+	console.log(url);
+
+	const defaultOptions = {
+		credentials: "include", // Always include credentials (cookies, etc.)
+	};
+
+	const combinedOptions = {
+		...defaultOptions,
+		...options, // Allow overriding other options if needed
+	};
+
+	return originalFetch(url, combinedOptions as any);
 };
 
 const Layout = ({ children }: Args) => {

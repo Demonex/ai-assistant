@@ -11,15 +11,13 @@ import {
 import config from "@payload-config";
 import { getPayload } from "payload";
 
+import { getCookie, setCookie } from "cookies-next/client";
+
 const HeaderAction = ({ docs }) => {
-	const [tenant, setTenant] = useState("");
+	const [tenant, setTenant] = useState(getCookie("tenant") || "");
 
 	useEffect(() => {
-		if (typeof window === "undefined" || !tenant) {
-			return;
-		}
-
-		localStorage?.setItem("tenant", tenant);
+		tenant && setCookie("tenant", tenant);
 	}, [tenant]);
 
 	return (
@@ -32,6 +30,7 @@ const HeaderAction = ({ docs }) => {
 			<SelectTrigger className="w-[180px]">
 				<SelectValue placeholder="Tenant" />
 			</SelectTrigger>
+
 			<SelectContent>
 				{docs.map((doc) => {
 					return (
