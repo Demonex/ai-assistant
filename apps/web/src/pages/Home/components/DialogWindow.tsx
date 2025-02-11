@@ -29,6 +29,10 @@ export const DialogWindow = () => {
 				id: id,
 				created_at: new Date().toString(),
 				message: { raw: message },
+				// file: {
+				//   name: "text.docx",
+				//   size: 50000,
+				// },
 			},
 		]);
 
@@ -100,6 +104,13 @@ export const DialogWindow = () => {
 		fileInputRef.current.value = "";
 	};
 
+	const openOrDownloadFile = (e) => {
+		console.log(e);
+		const fileURL = URL.createObjectURL(files[0]);
+		window.open(fileURL, "_blank");
+		URL.revokeObjectURL(fileURL);
+	};
+
 	return (
 		<div className="flex-grow">
 			<div className="fixed inset-0 flex flex-col bg-background p-4 lg:relative lg:bg-transparent lg:p-0">
@@ -166,8 +177,8 @@ export const DialogWindow = () => {
 						<div data-radix-scroll-area-content>
 							<div>
 								<div className="flex flex-col items-start space-y-10 py-8">
-									{/* {messageMockData?.map((message) => ( */}
-									{messages?.map((message) => (
+									{messageMockData?.map((message) => (
+										//   {messages?.map((message) => (
 										<Fragment key={message.id}>
 											{message.message && (
 												<div className="max-w-screen-sm self-end">
@@ -177,6 +188,72 @@ export const DialogWindow = () => {
 																{message.message.raw}
 															</div>
 
+															{message.file && (
+																<div
+																	onClick={openOrDownloadFile}
+																	className="flex items-center gap-2 cursor-pointer"
+																>
+																	<div className="shadow-base rounded-lg bg-card text-card-foreground">
+																		<div className="inline-flex items-center p-4">
+																			<svg
+																				className="lucide lucide-file me-4 h-8 w-8 opacity-50"
+																				fill="none"
+																				height="24"
+																				stroke="currentColor"
+																				strokeLinecap="round"
+																				strokeLinejoin="round"
+																				strokeWidth="1.5"
+																				viewBox="0 0 24 24"
+																				width="24"
+																				xmlns="http://www.w3.org/2000/svg"
+																			>
+																				<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+																				<path d="M14 2v4a2 2 0 0 0 2 2h4" />
+																			</svg>
+																			<div className="flex flex-col gap-2">
+																				<div>
+																					{message.file.name}
+																					<span className="ms-2 text-sm text-muted-foreground">
+																						(
+																						{Math.floor(
+																							message.file.size / 1024,
+																						)}{" "}
+																						KB)
+																					</span>
+																				</div>
+																				{/* <div className="flex gap-2">
+                                          <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
+                                            Скачать
+                                          </button>
+                                          <button
+                                            onClick={openOrDownloadFile}
+                                            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+                                          >
+                                            Открыть
+                                          </button>
+                                        </div> */}
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															)}
+														</div>
+													</div>
+
+													<div className="flex items-center gap-2 justify-end">
+														<time className="mt-1 flex items-center text-sm text-muted-foreground justify-end">
+															{formatLocalTime(message.created_at)}
+														</time>
+													</div>
+												</div>
+											)}
+											{message.response && (
+												<div className="max-w-screen-sm">
+													<div className="flex items-center gap-2">
+														<div className="shadow-base rounded-lg border bg-card text-card-foreground">
+															<div className="inline-flex p-4">
+																{message.response.raw}
+															</div>
 															{message.file && (
 																<div className="flex items-center gap-2">
 																	<div className="shadow-base rounded-lg bg-card text-card-foreground">
@@ -211,7 +288,10 @@ export const DialogWindow = () => {
 																					<button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
 																						Скачать
 																					</button>
-																					<button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
+																					<button
+																						onClick={openOrDownloadFile}
+																						className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+																					>
 																						Открыть
 																					</button>
 																				</div>
@@ -220,23 +300,6 @@ export const DialogWindow = () => {
 																	</div>
 																</div>
 															)}
-														</div>
-													</div>
-
-													<div className="flex items-center gap-2 justify-end">
-														<time className="mt-1 flex items-center text-sm text-muted-foreground justify-end">
-															{formatLocalTime(message.created_at)}
-														</time>
-													</div>
-												</div>
-											)}
-											{message.response && (
-												<div className="max-w-screen-sm">
-													<div className="flex items-center gap-2">
-														<div className="shadow-base rounded-lg border bg-card text-card-foreground">
-															<div className="inline-flex p-4">
-																{message.response.raw}
-															</div>
 														</div>
 													</div>
 													<div className="flex items-center gap-2">

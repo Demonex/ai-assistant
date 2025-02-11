@@ -1,5 +1,7 @@
 //Файл используется, как заглушка для отображений коллекций и сообщений в этой коллекции
 
+import { response } from "express";
+
 //Вывод списка доступных коллекций
 //Используется в Sidebar.tsx
 export const collectionMockData = [
@@ -37,7 +39,11 @@ export const messageMockData = [
 	},
 	{
 		id: 3,
-		response: { raw: "Биба Бобович" },
+		response: { raw: "response" },
+		file: {
+			name: "text.docx",
+			size: 50000,
+		},
 		created_at: new Date().toString(),
 	},
 	{
