@@ -92,6 +92,14 @@ export const collection: CollectionConfig = {
 					type: "upload",
 					relationTo: "doc",
 					hasMany: true,
+					// hooks: {
+					// 	afterChange: [
+					// 		async ({ data, doc, req }) => {
+					// 			const payload = req.payload;
+
+					// 		},
+					// 	]
+					// }
 				},
 			],
 		},

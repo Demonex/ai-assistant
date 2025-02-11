@@ -21,8 +21,9 @@ export const doc: CollectionConfig = {
 			name: "name",
 			type: "text",
 			required: true,
-			defaultValue: ({ user, locale, req }) => {
-				console.log(user, locale, req.query, req.id, req.body, req.payload);
+			defaultValue: ({ req }) => {
+				// console.log(user, locale, req.query, req.id, req.body, req.payload);
+				console.log(req.doc_collection);
 			},
 		},
 		{
@@ -67,11 +68,10 @@ export const doc: CollectionConfig = {
 							user,
 						});
 						data.name = data.filename;
-						data.collection = collectionId;
+						data.collection = Number(collectionId);
 						const [provider] = collection.providers;
-						if (provider.length !== 24) {
-							data.provider = provider.id;
-						}
+						data.provider = provider.provider.id;
+
 						console.log("data", data);
 						console.log("collectionId", collectionId);
 						console.log("collection", collection);
