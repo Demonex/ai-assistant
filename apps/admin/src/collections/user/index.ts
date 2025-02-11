@@ -16,7 +16,7 @@ const userAccess = {
 
 export const user: CollectionConfig = {
 	slug: "user",
-	access: userAccess,
+	access: defaultAccess,
 	admin: {
 		// hideAPIURL: true,
 		defaultColumns: ["name", "email", "superadmin"],

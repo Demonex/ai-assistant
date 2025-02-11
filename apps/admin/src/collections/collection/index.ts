@@ -1,12 +1,14 @@
+import { getCollectionAccess } from "@/access/collection";
 import { neuro } from "@/collections/neuro";
-import defaultAccess, { checkPermissions } from "@/utilities/defaultAccess";
+import { MODEL_TYPE } from "@/types/types";
+import defaultAccess from "@/utilities/defaultAccess";
 import type { CollectionConfig } from "payload";
-import { GROUP_PERMISSIONS, MODEL_TYPE } from "@/types/types";
 import { provider } from "../provider";
 import { tenant } from "../tenant";
 
 const collectionAccess = {
 	...defaultAccess,
+	// ...getCollectionAccess()
 };
 
 export const collection: CollectionConfig = {
@@ -18,14 +20,14 @@ export const collection: CollectionConfig = {
 	},
 	fields: [
 		{
-			name: "title",
-			type: "text",
-			required: true,
-		},
-		{
 			name: "tenant",
 			type: "relationship",
 			relationTo: tenant.slug as "tenant",
+			required: true,
+		},
+		{
+			name: "title",
+			type: "text",
 			required: true,
 		},
 		{
@@ -94,12 +96,5 @@ export const collection: CollectionConfig = {
 			],
 		},
 	],
-	versions: {
-		drafts: {
-			autosave: {
-				interval: 100, // We set this interval for optimal live preview
-			},
-		},
-		maxPerDoc: 50,
-	},
+	versions: false,
 };

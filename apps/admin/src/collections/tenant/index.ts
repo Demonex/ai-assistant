@@ -30,13 +30,6 @@ export const tenant: CollectionConfig = {
 			relationTo: tenantMedia.slug as "tenant-media",
 		},
 	],
-	versions: {
-		drafts: {
-			autosave: {
-				interval: 100, // We set this interval for optimal live preview
-			},
-		},
-		maxPerDoc: 50,
-	},
+	versions: false,
 	timestamps: true,
 };
