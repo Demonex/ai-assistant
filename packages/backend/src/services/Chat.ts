@@ -12,6 +12,7 @@ import { UserEntity } from "../entities/User/index.js";
 import { getHandleUpload } from "../utils/handleUpload.js";
 import { promiseMap } from "../utils/index.js";
 import { LangFlowService } from "./Flow.js";
+import { DocEntity } from "../entities/Doc/index.js";
 
 type HintType = "users" | "groupPermissions" | "groupCollectionPermissions";
 
@@ -272,15 +273,15 @@ export class ChatService {
 
 		const upload = getHandleUpload({
 			bucket:
-				(settings.bucket as string) || (provider.settings.bucket as string),
+				(settings?.bucket as string) || (provider.settings?.bucket as string),
 			acl: "public-read",
 			getStorageClient: () => ({
 				credentials: {
-					accessKeyId: provider.settings.login as string,
-					secretAccessKey: provider.settings.password as string,
+					accessKeyId: provider.settings?.login as string,
+					secretAccessKey: provider.settings?.password as string,
 				},
 				region: process.env.S3_REGION,
-				endpoint: provider.settings.endpoint as string,
+				endpoint: provider.settings?.endpoint as string,
 				forcePathStyle: true,
 			}),
 		});
@@ -290,17 +291,38 @@ export class ChatService {
 
 			upload({ file: media });
 
-			const { file_path } = await this.flowService.uploadFile({
+			const { file_path: filePath } = await this.flowService.uploadFile({
 				flowId,
 				media,
 			});
+
+			const vectorFilePath = `/app/data/.cache/langflow/${filePath}`;
+
+			try {
+				const doc = this.em.create<DocEntity>(DocEntity, {
+					filename: media.originalname,
+					filesize: media.size,
+					mimeType: media.mimetype,
+					collection: chatId,
+					provider: provider.id,
+					vectorFilePath,
+				});
+				await this.em.persistAndFlush(doc);
+			} catch (error) {
+				console.error("Error creating doc:", error);
+
+				throw new HttpException(
+					"Internal Server Error",
+					HttpStatus.INTERNAL_SERVER_ERROR,
+				);
+			}
 
 			await this.flowService.runFlow({
 				flowId,
 				payload: {
 					tweaks: {
 						"File-Asmj7": {
-							path: `${file_path}`,
+							path: `${filePath}`,
 							concurrency_multithreading: 4,
 							silent_errors: false,
 							use_multithreading: false,

@@ -18,8 +18,6 @@ export const getHandleUpload = ({
 }: Args): any => {
 	return async ({ file }) => {
 		const fileKey = file.originalname;
-		console.log(file, fileKey);
-
 		const fileBufferOrStream = file.buffer;
 
 		if (file.buffer.length > 0 && file.buffer.length < multipartThreshold) {

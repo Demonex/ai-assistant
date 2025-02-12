@@ -235,12 +235,11 @@ export interface Provider {
  */
 export interface Doc {
   id: number;
-  name: string;
+  vectorFilePath?: string | null;
   collection: number | Collection;
   provider: number | Provider;
   updatedAt: string;
   createdAt: string;
-  _status?: ('draft' | 'published') | null;
   url?: string | null;
   thumbnailURL?: string | null;
   filename?: string | null;
@@ -522,12 +521,11 @@ export interface ProviderSelect<T extends boolean = true> {
  * via the `definition` "doc_select".
  */
 export interface DocSelect<T extends boolean = true> {
-  name?: T;
+  vectorFilePath?: T;
   collection?: T;
   provider?: T;
   updatedAt?: T;
   createdAt?: T;
-  _status?: T;
   url?: T;
   thumbnailURL?: T;
   filename?: T;

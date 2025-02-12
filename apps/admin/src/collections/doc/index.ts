@@ -13,14 +13,14 @@ export const doc: CollectionConfig = {
 	slug: "doc",
 	access: docAccess,
 	admin: {
-		defaultColumns: ["name", "collection", "provider"],
-		useAsTitle: "name",
+		defaultColumns: ["filename", "collection", "provider"],
+		useAsTitle: "filename",
+		hidden: true,
 	},
 	fields: [
 		{
-			name: "name",
+			name: "vectorFilePath",
 			type: "text",
-			required: true,
 		},
 		{
 			name: "collection",
@@ -35,13 +35,5 @@ export const doc: CollectionConfig = {
 			required: true,
 		},
 	],
-	versions: {
-		drafts: {
-			autosave: {
-				interval: 100, // We set this interval for optimal live preview
-			},
-		},
-		maxPerDoc: 50,
-	},
 	upload: {},
 };
