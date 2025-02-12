@@ -1,4 +1,10 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from "@mikro-orm/core";
+import {
+	Entity,
+	ManyToOne,
+	PrimaryKey,
+	Property,
+	type Rel,
+} from "@mikro-orm/core";
 import { CollectionEntity } from "../Collection/index.js";
 import { ProviderEntity } from "../Provider/index.js";
 
@@ -20,8 +26,8 @@ export class DocEntity {
 	mimeType: string;
 
 	@ManyToOne(() => CollectionEntity, { name: "collection_id" })
-	collection!: CollectionEntity;
+	collection!: Rel<CollectionEntity>;
 
 	@ManyToOne(() => ProviderEntity, { name: "provider_id" })
-	provider!: ProviderEntity;
+	provider!: Rel<ProviderEntity>;
 }

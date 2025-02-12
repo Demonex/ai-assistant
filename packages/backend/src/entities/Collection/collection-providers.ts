@@ -4,6 +4,7 @@ import {
 	Property,
 	OneToOne,
 	ManyToOne,
+	type Rel,
 } from "@mikro-orm/core";
 import { ProviderEntity } from "../Provider/index.js";
 import { CollectionEntity } from "./index.js";
@@ -14,10 +15,10 @@ export class CollectionProvidersEntity {
 	id!: number;
 
 	@ManyToOne(() => CollectionEntity, { name: "_parent_id" })
-	collection!: CollectionEntity;
+	collection!: Rel<CollectionEntity>;
 
 	@ManyToOne(() => ProviderEntity, { name: "provider_id" })
-	provider!: ProviderEntity;
+	provider!: Rel<ProviderEntity>;
 
 	@Property()
 	enabled!: boolean;

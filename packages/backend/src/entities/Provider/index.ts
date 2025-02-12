@@ -5,6 +5,7 @@ import {
 	OneToMany,
 	PrimaryKey,
 	Property,
+	type Rel,
 } from "@mikro-orm/core";
 import { CollectionProvidersEntity } from "../Collection/collection-providers.js";
 import { TenantEntity } from "../Tenant/index.js";
@@ -33,7 +34,7 @@ export class ProviderEntity {
 	type: PROVIDER_TYPE;
 
 	@ManyToOne(() => TenantEntity, { name: "tenant_id" })
-	tenant: TenantEntity;
+	tenant: Rel<TenantEntity>;
 
 	@OneToMany(() => CollectionProvidersEntity, "provider")
 	providers: CollectionProvidersEntity[];

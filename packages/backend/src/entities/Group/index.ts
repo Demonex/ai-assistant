@@ -4,6 +4,7 @@ import {
 	OneToMany,
 	PrimaryKey,
 	Property,
+	type Rel,
 } from "@mikro-orm/core";
 import { GroupCollectionPermissionsEntity } from "./group-collection-permissions.js";
 import { GroupPermissionsEntity } from "./group-group-permissions.js";
@@ -19,7 +20,7 @@ export class GroupEntity {
 	title: string;
 
 	@ManyToOne(() => TenantEntity, { name: "tenant_id" })
-	tenant: TenantEntity;
+	tenant: Rel<TenantEntity>;
 
 	@OneToMany(() => GroupUsersEntity, "group")
 	users: GroupUsersEntity[];
