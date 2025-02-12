@@ -89,6 +89,23 @@ services:
     links:
       - postgres
 
+  gotenberg:
+    image: gotenberg/gotenberg:8
+    ports:
+      - "3000:3000"  
+    environment:
+      
+      GOTENBERG_API_BASIC_AUTH_USERNAME: "root"
+      GOTENBERG_API_BASIC_AUTH_PASSWORD: "root123" 
+     
+      GOTENBERG_API_PORT: "3000"  
+      GOTENBERG_API_ENABLE_BASIC_AUTH: "true"  
+      GOTENBERG_API_BODY_LIMIT: "5GB"  
+
+    command:
+      - "gotenberg"
+      - "--api-enable-basic-auth"  
+
 networks:
   default:
     name: "rf"

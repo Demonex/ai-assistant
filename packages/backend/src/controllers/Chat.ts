@@ -113,12 +113,12 @@ export class ChatController {
 	@UseInterceptors(
 		FilesInterceptor("media", 500, {
 			fileFilter: (_, file, callback) => {
-				if (!file.mimetype.match(/(^image|video|text)(\/)[a-zA-Z0-9_]*/)) {
-					return callback(
-						new NotAcceptableException(HttpStatusMessages.FILE_NOT_ALLOWED),
-						false,
-					);
-				}
+				// if (!file.mimetype.match(/(^image|video|text)(\/)[a-zA-Z0-9_]*/)) {
+				// 	return callback(
+				// 		new NotAcceptableException(HttpStatusMessages.FILE_NOT_ALLOWED),
+				// 		false,
+				// 	);
+				// }
 				return callback(null, true);
 			},
 		}),

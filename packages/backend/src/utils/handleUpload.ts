@@ -43,6 +43,6 @@ export const getHandleUpload = ({
 			queueSize: 4,
 		});
 
-		return await parallelUploadS3.done();
+		return { result: await parallelUploadS3.done(), fileKey };
 	};
 };

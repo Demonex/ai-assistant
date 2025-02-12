@@ -13,6 +13,7 @@ import { getHandleUpload } from "../utils/handleUpload.js";
 import { promiseMap } from "../utils/index.js";
 import { LangFlowService } from "./Flow.js";
 import { DocEntity } from "../entities/Doc/index.js";
+import { GotenbergService } from "./Gotenberg.js";
 
 type HintType = "users" | "groupPermissions" | "groupCollectionPermissions";
 
@@ -22,6 +23,7 @@ export class ChatService {
 		@InjectRedis() private readonly redisClient: Redis,
 		private readonly em: EntityManager,
 		private readonly flowService: LangFlowService,
+		private readonly gotenbergService: GotenbergService,
 	) {}
 
 	async chats(userId: ChatMessageEntity["user"]["id"], currentTenant) {
@@ -287,9 +289,12 @@ export class ChatService {
 		});
 
 		await promiseMap(data.media, async (media) => {
-			const flowId = "e37720bf-bb8e-487d-9138-3bd1869c8330";
+			console.log(await upload({ file: media }));
+			const mediaPDF = await this.gotenbergService.convertFromS3({ media });
 
-			upload({ file: media });
+			console.log(mediaPDF);
+
+			const flowId = "e37720bf-bb8e-487d-9138-3bd1869c8330";
 
 			const { file_path: filePath } = await this.flowService.uploadFile({
 				flowId,
