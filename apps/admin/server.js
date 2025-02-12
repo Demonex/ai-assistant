@@ -3,7 +3,7 @@ import next from "next";
 import cookieParser from "cookie-parser";
 
 const port = process.env.PORT || 2055;
-const app = next({ dev: false });
+const app = next({ dev: process.env.NODE_ENV === "development" });
 const handle = app.getRequestHandler();
 
 await app.prepare();
