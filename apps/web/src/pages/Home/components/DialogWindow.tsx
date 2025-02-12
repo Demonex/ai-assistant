@@ -5,6 +5,7 @@ import { DropdownMenuButton } from "./DropdownMenuButton.js";
 import { formatLocalTime } from "helpers/index.js";
 import { useChats } from "../hooks/useChats.js";
 import { Spinner } from "./Spinner.js";
+import ReactMarkdown from "react-markdown";
 import { messageMockData } from "@/DataBase.js";
 
 export const DialogWindow = () => {
@@ -19,8 +20,12 @@ export const DialogWindow = () => {
 	const [message, setMessage] = useState("");
 	const { register, handleSubmit, reset } = useForm();
 	const id = useId();
+	const wrapperRef = useRef(null);
 	const messagesEndRef = useRef(null);
 	const fileInputRef = useRef(null);
+	const textMessageRef = useRef(null);
+	const textResponseRef = useRef(null);
+	const textareaRef = useRef(null);
 
 	const onSubmit = () => {
 		setMessages([
@@ -29,6 +34,10 @@ export const DialogWindow = () => {
 				id: id,
 				created_at: new Date().toString(),
 				message: { raw: message },
+				// file: {
+				//   name: "text.docx",
+				//   size: 50000,
+				// },
 			},
 		]);
 
@@ -100,9 +109,50 @@ export const DialogWindow = () => {
 		fileInputRef.current.value = "";
 	};
 
+	const openOrDownloadFile = () => {
+		const fileURL = URL.createObjectURL(files[0]);
+		window.open(fileURL, "_blank");
+		URL.revokeObjectURL(fileURL);
+	};
+
+	const handleTextarea = () => {
+		const textarea = textareaRef.current;
+		textarea.style.height = "auto";
+		textarea.style.height = `${textarea.scrollHeight}px`;
+	};
+
+	useEffect(() => {
+		const textarea = textareaRef.current;
+		const wrapper = wrapperRef.current;
+
+		if (textarea || wrapper) {
+			textarea.style.height = "auto";
+			textarea.style.height = `${textarea.scrollHeight}px`;
+
+			wrapper.style.maxHeight = `${wrapper.scrollHeight}px`;
+		}
+	}, []);
+
+	useEffect(() => {
+		if (textMessageRef.current && textResponseRef.current) {
+			const style = document.createElement("style");
+
+			style.textContent = `
+        .markdown-content * { all: revert !important; }
+        .markdown-content *:last-child { margin: 0 !important; }
+      `;
+
+			textMessageRef.current.appendChild(style);
+			textResponseRef.current.appendChild(style);
+		}
+	}, []);
+
 	return (
 		<div className="flex-grow">
-			<div className="fixed inset-0 flex flex-col bg-background p-4 lg:relative lg:bg-transparent lg:p-0">
+			<div
+				ref={wrapperRef}
+				className="fixed inset-0 flex flex-col bg-background p-4 lg:relative lg:bg-transparent lg:p-0"
+			>
 				<div className="flex justify-between gap-4">
 					<div className="flex gap-4">
 						<button
@@ -138,7 +188,7 @@ export const DialogWindow = () => {
 
 				<div
 					dir="ltr"
-					className="overflow-hidden relative h-screen w-full py-4 lg:h-[calc(100vh_-_13.8rem)]"
+					className="overflow-hidden relative h-screen w-full py-4 lg:h-[calc(100vh_-_15rem)]"
 					onDragEnter={handleDragEnter}
 				>
 					{isOverlay && (
@@ -174,9 +224,85 @@ export const DialogWindow = () => {
 													<div className="flex items-center gap-2">
 														<div className="shadow-base rounded-lg border bg-card text-card-foreground order-1">
 															<div className="inline-flex p-4">
-																{message.message.raw}
+																<span ref={textMessageRef}>
+																	<ReactMarkdown
+																		className="markdown-content"
+																		children={message.message.raw}
+																	/>
+																</span>
 															</div>
 
+															{message.file && (
+																<div
+																	onClick={openOrDownloadFile}
+																	className="flex items-center gap-2 cursor-pointer"
+																>
+																	<div className="shadow-base rounded-lg bg-card text-card-foreground">
+																		<div className="inline-flex items-center p-4">
+																			<svg
+																				className="lucide lucide-file me-4 h-8 w-8 opacity-50"
+																				fill="none"
+																				height="24"
+																				stroke="currentColor"
+																				strokeLinecap="round"
+																				strokeLinejoin="round"
+																				strokeWidth="1.5"
+																				viewBox="0 0 24 24"
+																				width="24"
+																				xmlns="http://www.w3.org/2000/svg"
+																			>
+																				<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
+																				<path d="M14 2v4a2 2 0 0 0 2 2h4" />
+																			</svg>
+																			<div className="flex flex-col gap-2">
+																				<div>
+																					{message.file.name}
+																					<span className="ms-2 text-sm text-muted-foreground">
+																						(
+																						{Math.floor(
+																							message.file.size / 1024,
+																						)}{" "}
+																						KB)
+																					</span>
+																				</div>
+																				{/* <div className="flex gap-2">
+                                          <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
+                                            Скачать
+                                          </button>
+                                          <button
+                                            onClick={openOrDownloadFile}
+                                            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+                                          >
+                                            Открыть
+                                          </button>
+                                        </div> */}
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															)}
+														</div>
+													</div>
+
+													<div className="flex items-center gap-2 justify-end">
+														<time className="mt-1 flex items-center text-sm text-muted-foreground justify-end">
+															{formatLocalTime(message.created_at)}
+														</time>
+													</div>
+												</div>
+											)}
+											{message.response && (
+												<div className="max-w-screen-sm">
+													<div className="flex items-center gap-2">
+														<div className="shadow-base rounded-lg border bg-card text-card-foreground">
+															<div className="inline-flex p-4">
+																<span ref={textResponseRef}>
+																	<ReactMarkdown
+																		className="markdown-content"
+																		children={message.response.raw}
+																	/>
+																</span>
+															</div>
 															{message.file && (
 																<div className="flex items-center gap-2">
 																	<div className="shadow-base rounded-lg bg-card text-card-foreground">
@@ -211,7 +337,10 @@ export const DialogWindow = () => {
 																					<button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
 																						Скачать
 																					</button>
-																					<button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
+																					<button
+																						onClick={openOrDownloadFile}
+																						className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+																					>
 																						Открыть
 																					</button>
 																				</div>
@@ -220,23 +349,6 @@ export const DialogWindow = () => {
 																	</div>
 																</div>
 															)}
-														</div>
-													</div>
-
-													<div className="flex items-center gap-2 justify-end">
-														<time className="mt-1 flex items-center text-sm text-muted-foreground justify-end">
-															{formatLocalTime(message.created_at)}
-														</time>
-													</div>
-												</div>
-											)}
-											{message.response && (
-												<div className="max-w-screen-sm">
-													<div className="flex items-center gap-2">
-														<div className="shadow-base rounded-lg border bg-card text-card-foreground">
-															<div className="inline-flex p-4">
-																{message.response.raw}
-															</div>
 														</div>
 													</div>
 													<div className="flex items-center gap-2">
@@ -723,14 +835,16 @@ export const DialogWindow = () => {
 							className="w-full relative flex items-center p-2 lg:p-4"
 							onSubmit={handleSubmit(onSubmit)}
 						>
-							<input
+							<textarea
 								{...register("message", {
 									required: "Message is required",
 								})}
+								ref={textareaRef}
+								onInput={handleTextarea}
 								placeholder="Enter message..."
 								onChange={handleInputChange}
 								onKeyDown={handleKeyDown}
-								className="flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent pe-32 !text-base !shadow-transsparent !ring-transparent lg:pe-56"
+								className="flex h-10 w-full resize-none overflow-hidden max-h-[150px] rounded-md border bg-background px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent pe-32 !text-base !shadow-transsparent !ring-transparent lg:pe-56"
 							/>
 							<div className="end-4 flex items-center">
 								<div className="relative ml-3">

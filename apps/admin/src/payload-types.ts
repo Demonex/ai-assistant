@@ -86,7 +86,6 @@ export interface Tenant {
   preview?: (number | null) | TenantMedia;
   updatedAt: string;
   createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -151,7 +150,6 @@ export interface Model {
   type: 'llm' | 'embedding' | 'reranker';
   updatedAt: string;
   createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -172,7 +170,6 @@ export interface Neuro {
     | null;
   updatedAt: string;
   createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -180,8 +177,8 @@ export interface Neuro {
  */
 export interface Collection {
   id: number;
-  title: string;
   tenant: number | Tenant;
+  title: string;
   embedding: number | Neuro;
   llm: number | Neuro;
   reranker: number | Neuro;
@@ -204,7 +201,6 @@ export interface Collection {
     | null;
   updatedAt: string;
   createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -227,7 +223,6 @@ export interface Provider {
     | null;
   updatedAt: string;
   createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -270,7 +265,6 @@ export interface Group {
     | null;
   updatedAt: string;
   createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -404,7 +398,6 @@ export interface TenantSelect<T extends boolean = true> {
   preview?: T;
   updatedAt?: T;
   createdAt?: T;
-  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -465,7 +458,6 @@ export interface ModelSelect<T extends boolean = true> {
   type?: T;
   updatedAt?: T;
   createdAt?: T;
-  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -477,15 +469,14 @@ export interface NeuroSelect<T extends boolean = true> {
   modelSettings?: T;
   updatedAt?: T;
   createdAt?: T;
-  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collection_select".
  */
 export interface CollectionSelect<T extends boolean = true> {
-  title?: T;
   tenant?: T;
+  title?: T;
   embedding?: T;
   llm?: T;
   reranker?: T;
@@ -500,7 +491,6 @@ export interface CollectionSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
-  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -514,7 +504,6 @@ export interface ProviderSelect<T extends boolean = true> {
   settings?: T;
   updatedAt?: T;
   createdAt?: T;
-  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -555,7 +544,6 @@ export interface GroupSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
-  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
