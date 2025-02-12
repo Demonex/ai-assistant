@@ -145,7 +145,7 @@ export const DialogWindow = () => {
 			textMessageRef.current.appendChild(style);
 			textResponseRef.current.appendChild(style);
 		}
-	}, []);
+	}, [messages]);
 
 	return (
 		<div className="flex-grow">
