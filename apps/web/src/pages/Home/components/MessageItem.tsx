@@ -11,8 +11,6 @@ export const MessageItem = memo<{
 	const { activeChat, setActiveChat } = useChats();
 	const { theme } = useTheme();
 
-	console.log(activeChat);
-
 	return (
 		<div
 			className={`group relative flex min-w-0 cursor-pointer items-center gap-4 px-6 py-4 hover:bg-muted ${theme === "dark" ? (activeChat?.id === id ? "bg-[rgb(39,39,42)] text-white" : "bg-transparent") : activeChat?.id === id ? "bg-[rgb(244,244,244)] text-black" : "bg-transparent"}`}
@@ -31,9 +29,9 @@ export const MessageItem = memo<{
 					<span className="font-semibold">{title}</span>
 				</div>
 			</div>
-			<div className="absolute bottom-0 end-0 top-0 flex items-center bg-gradient-to-l from-50% px-4 opacity-0 group-hover:opacity-100 from-muted">
-				<DropdownMenuButton />
-			</div>
+			{/* <div className="absolute bottom-0 end-0 top-0 flex items-center bg-gradient-to-l from-50% px-4 opacity-0 group-hover:opacity-100 from-muted">
+        <DropdownMenuButton />
+      </div> */}
 		</div>
 	);
 });

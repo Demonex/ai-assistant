@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useId, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AvatarComponent } from "./AvatarComponent.js";
-import { DropdownMenuButton } from "./DropdownMenuButton.js";
+// import { DropdownMenuButton } from "./DropdownMenuButton.js";
 import { formatLocalTime } from "helpers/index.js";
 import { useChats } from "../hooks/useChats.js";
 import { Spinner } from "./Spinner.js";
@@ -59,16 +59,15 @@ export const DialogWindow = () => {
 	};
 
 	const scrollToBottom = () => {
-		messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+		messagesEndRef.current?.scrollIntoView({
+			behavior: "smooth",
+			block: "nearest",
+		});
 	};
 
 	const onReturnToMenu = () => {
 		setActiveChat(false);
 	};
-
-	useEffect(() => {
-		scrollToBottom();
-	}, [messages]);
 
 	const [files, setFiles] = useState([]);
 	const [isOverlay, setIsOverlay] = useState(false);
@@ -145,6 +144,8 @@ export const DialogWindow = () => {
 			textMessageRef.current.appendChild(style);
 			textResponseRef.current.appendChild(style);
 		}
+
+		setTimeout(() => scrollToBottom());
 	}, [messages]);
 
 	return (
@@ -183,7 +184,7 @@ export const DialogWindow = () => {
 							<span className="font-semibold">{activeChat?.title}</span>
 						</div>
 					</div>
-					<DropdownMenuButton />
+					{/* <DropdownMenuButton /> */}
 				</div>
 
 				<div
@@ -196,7 +197,7 @@ export const DialogWindow = () => {
 							onDragOver={handleDragOver}
 							onDrop={handleDrop}
 							onDragLeave={handleDragLeave}
-							className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center text-white"
+							className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-90 flex items-center justify-center text-white"
 						>
 							Перенесите файл сюда (DOC, DOCX, PDF, TXT)
 						</div>
@@ -788,7 +789,7 @@ export const DialogWindow = () => {
 					className="relative shadow-base rounded-lg border bg-card text-card-foreground"
 				>
 					{files.length > 0 && (
-						<div className="absolute -left-px -right-px bg-background bottom-full border border-b-0 rounded-b-none rounded-l-lg rounded-r-lg flex flex-wrap gap-2 p-2 lg:p-4 lg:pb-1">
+						<div className="absolute -left-px -right-px bg-background bottom-full border border-b-0 rounded-b-none rounded-tl-md rounded-tr-md  flex flex-wrap gap-2 p-2 lg:p-4 lg:pb-1">
 							<div
 								aria-label="document-1738765831781.pdf"
 								className="relative flex w-40 rounded-md border border-slate-100 text-xs shadow shadow-slate-200"
@@ -844,7 +845,7 @@ export const DialogWindow = () => {
 								placeholder="Enter message..."
 								onChange={handleInputChange}
 								onKeyDown={handleKeyDown}
-								className="flex h-10 w-full resize-none overflow-hidden max-h-[150px] rounded-md border bg-background px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent pe-32 !text-base !shadow-transsparent !ring-transparent lg:pe-56"
+								className="flex w-full resize-none overflow-auto max-h-[150px] rounded-md border-none bg-background p-0 text-sm placeholder:text-muted-foreground focus:border-none focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent !text-base !shadow-transsparent !ring-transparent"
 							/>
 							<div className="end-4 flex items-center">
 								<div className="relative ml-3">
