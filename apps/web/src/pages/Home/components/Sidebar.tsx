@@ -45,13 +45,7 @@ export const Sidebar = memo(() => {
 						/>
 					</div>
 					<div className="flex h-[calc(100vh_-_13rem)] lg:h-[calc(100vh_-_15.8rem)] lg:pt-4">
-						<div
-							dir="ltr"
-							className="relative overflow-hidden w-full min-w-0"
-							style={{
-								position: "relative",
-							}}
-						>
+						<div dir="ltr" className="relative overflow-hidden w-full min-w-0">
 							<style
 								dangerouslySetInnerHTML={{
 									__html:
