@@ -8,6 +8,7 @@ import { Spinner } from "./Spinner.js";
 import { messageMockData } from "@/DataBase.js";
 import { AccordionComponent } from "./AccordionComponent.js";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
+import { ToastComponent } from "./ToastComponent.js";
 
 export const DialogWindow = () => {
 	const {
@@ -17,8 +18,12 @@ export const DialogWindow = () => {
 		setActiveChat,
 		sendMessage,
 		loading,
+		sendUploadFile,
+		statusUpload,
 	} = useChats();
 	const [message, setMessage] = useState("");
+	const [files, setFiles] = useState([]);
+	const [isOverlay, setIsOverlay] = useState(false);
 	const { register, handleSubmit, reset } = useForm();
 	const id = useId();
 	const wrapperRef = useRef(null);
@@ -27,22 +32,24 @@ export const DialogWindow = () => {
 	const textareaRef = useRef(null);
 
 	const onSubmit = () => {
-		setMessages([
-			...messages,
-			{
-				id: id,
-				created_at: new Date().toString(),
-				message: { raw: message },
-				// file: {
-				//   name: "text.docx",
-				//   size: 50000,
-				// },
-			},
-		]);
+		if (files) {
+			sendUploadFile({ files });
+			setFiles(null);
+			reset();
+		} else {
+			setMessages([
+				...messages,
+				{
+					id: id,
+					created_at: new Date().toString(),
+					message: { raw: message },
+				},
+			]);
 
-		sendMessage({ message });
-		setMessage("");
-		reset();
+			sendMessage({ message });
+			setMessage("");
+			reset();
+		}
 	};
 
 	const handleInputChange = (event) => {
@@ -68,9 +75,6 @@ export const DialogWindow = () => {
 		setActiveChat(false);
 	};
 
-	const [files, setFiles] = useState([]);
-	const [isOverlay, setIsOverlay] = useState(false);
-
 	const handleDragEnter = (e) => {
 		e.preventDefault();
 		setIsOverlay(true);
@@ -94,8 +98,6 @@ export const DialogWindow = () => {
 		if (data.length) {
 			setFiles(data);
 		}
-
-		console.log(data);
 	};
 
 	const handlePinFileButton = () => {
@@ -128,6 +130,21 @@ export const DialogWindow = () => {
 	useEffect(() => {
 		setTimeout(() => scrollToBottom());
 	}, [messages]);
+
+	const [isUpload, setIsUpload] = useState(false);
+
+	useEffect(() => {
+		let timer;
+
+		if (statusUpload === "success") {
+			setIsUpload(true);
+			timer = setTimeout(() => {
+				setIsUpload(false);
+			}, 4000);
+		}
+
+		() => clearTimeout(timer);
+	}, [statusUpload]);
 
 	return (
 		<div className="flex-grow">
@@ -198,9 +215,10 @@ export const DialogWindow = () => {
 						<div data-radix-scroll-area-content>
 							<div>
 								<div className="flex flex-col items-start space-y-10 py-8">
-									{/* {messageMockData?.map((message) => ( */}
-									{messages?.map((message) => (
+									{messageMockData?.map((message) => (
+										//   {messages?.map((message) => (
 										<Fragment key={message.id}>
+											{/* <ToastComponent /> */}
 											{message.message && (
 												<div className="max-w-screen-sm self-end">
 													<div className="flex items-center gap-2">
@@ -658,6 +676,12 @@ export const DialogWindow = () => {
 					</div>
 				</div>
 
+				{isUpload && (
+					<div className="bg-black absolut font-bold">
+						Файл успешно отправлен. Обработка займет некоторое время, после
+						информация будет доступна.
+					</div>
+				)}
 				<div className="relative shadow-base rounded-lg border bg-card text-card-foreground">
 					<div>
 						<form
