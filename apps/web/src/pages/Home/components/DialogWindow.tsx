@@ -5,8 +5,9 @@ import { AvatarComponent } from "./AvatarComponent.js";
 import { formatLocalTime } from "helpers/index.js";
 import { useChats } from "../hooks/useChats.js";
 import { Spinner } from "./Spinner.js";
-import ReactMarkdown from "react-markdown";
 import { messageMockData } from "@/DataBase.js";
+import { AccordionComponent } from "./AccordionComponent.js";
+import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 
 export const DialogWindow = () => {
 	const {
@@ -23,8 +24,6 @@ export const DialogWindow = () => {
 	const wrapperRef = useRef(null);
 	const messagesEndRef = useRef(null);
 	const fileInputRef = useRef(null);
-	const textMessageRef = useRef(null);
-	const textResponseRef = useRef(null);
 	const textareaRef = useRef(null);
 
 	const onSubmit = () => {
@@ -108,12 +107,6 @@ export const DialogWindow = () => {
 		fileInputRef.current.value = "";
 	};
 
-	const openOrDownloadFile = () => {
-		const fileURL = URL.createObjectURL(files[0]);
-		window.open(fileURL, "_blank");
-		URL.revokeObjectURL(fileURL);
-	};
-
 	const handleTextarea = () => {
 		const textarea = textareaRef.current;
 		textarea.style.height = "auto";
@@ -133,18 +126,6 @@ export const DialogWindow = () => {
 	}, []);
 
 	useEffect(() => {
-		if (textMessageRef.current && textResponseRef.current) {
-			const style = document.createElement("style");
-
-			style.textContent = `
-        .markdown-content * { all: revert !important; }
-        .markdown-content *:last-child { margin: 0 !important; }
-      `;
-
-			textMessageRef.current.appendChild(style);
-			textResponseRef.current.appendChild(style);
-		}
-
 		setTimeout(() => scrollToBottom());
 	}, [messages]);
 
@@ -217,71 +198,18 @@ export const DialogWindow = () => {
 						<div data-radix-scroll-area-content>
 							<div>
 								<div className="flex flex-col items-start space-y-10 py-8">
-									{/* {messageMockData?.map((message) => ( */}
-									{messages?.map((message) => (
+									{messageMockData?.map((message) => (
+										// {messages?.map((message) => (
 										<Fragment key={message.id}>
 											{message.message && (
 												<div className="max-w-screen-sm self-end">
 													<div className="flex items-center gap-2">
 														<div className="shadow-base rounded-lg border bg-card text-card-foreground order-1">
 															<div className="inline-flex p-4">
-																<span ref={textMessageRef}>
-																	<ReactMarkdown
-																		className="markdown-content"
-																		children={message.message.raw}
-																	/>
-																</span>
+																<ReactMarkdownComponent
+																	textMarkdown={message.message.raw}
+																/>
 															</div>
-
-															{message.file && (
-																<div
-																	onClick={openOrDownloadFile}
-																	className="flex items-center gap-2 cursor-pointer"
-																>
-																	<div className="shadow-base rounded-lg bg-card text-card-foreground">
-																		<div className="inline-flex items-center p-4">
-																			<svg
-																				className="lucide lucide-file me-4 h-8 w-8 opacity-50"
-																				fill="none"
-																				height="24"
-																				stroke="currentColor"
-																				strokeLinecap="round"
-																				strokeLinejoin="round"
-																				strokeWidth="1.5"
-																				viewBox="0 0 24 24"
-																				width="24"
-																				xmlns="http://www.w3.org/2000/svg"
-																			>
-																				<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
-																				<path d="M14 2v4a2 2 0 0 0 2 2h4" />
-																			</svg>
-																			<div className="flex flex-col gap-2">
-																				<div>
-																					{message.file.name}
-																					<span className="ms-2 text-sm text-muted-foreground">
-																						(
-																						{Math.floor(
-																							message.file.size / 1024,
-																						)}{" "}
-																						KB)
-																					</span>
-																				</div>
-																				{/* <div className="flex gap-2">
-                                          <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
-                                            Скачать
-                                          </button>
-                                          <button
-                                            onClick={openOrDownloadFile}
-                                            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
-                                          >
-                                            Открыть
-                                          </button>
-                                        </div> */}
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															)}
 														</div>
 													</div>
 
@@ -292,73 +220,27 @@ export const DialogWindow = () => {
 													</div>
 												</div>
 											)}
-											{message.response && (
-												<div className="max-w-screen-sm">
-													<div className="flex items-center gap-2">
-														<div className="shadow-base rounded-lg border bg-card text-card-foreground">
-															<div className="inline-flex p-4">
-																<span ref={textResponseRef}>
-																	<ReactMarkdown
-																		className="markdown-content"
-																		children={message.response.raw}
+											{message.response &&
+												(Array.isArray(message.response.raw) ? (
+													<AccordionComponent items={message.response.raw} />
+												) : (
+													<div className="max-w-screen-sm">
+														<div className="flex items-center gap-2">
+															<div className="shadow-base rounded-lg border bg-card text-card-foreground">
+																<div className="inline-flex p-4">
+																	<ReactMarkdownComponent
+																		textMarkdown={message.response.raw}
 																	/>
-																</span>
-															</div>
-															{message.file && (
-																<div className="flex items-center gap-2">
-																	<div className="shadow-base rounded-lg bg-card text-card-foreground">
-																		<div className="inline-flex items-center p-4">
-																			<svg
-																				className="lucide lucide-file me-4 h-8 w-8 opacity-50"
-																				fill="none"
-																				height="24"
-																				stroke="currentColor"
-																				strokeLinecap="round"
-																				strokeLinejoin="round"
-																				strokeWidth="1.5"
-																				viewBox="0 0 24 24"
-																				width="24"
-																				xmlns="http://www.w3.org/2000/svg"
-																			>
-																				<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
-																				<path d="M14 2v4a2 2 0 0 0 2 2h4" />
-																			</svg>
-																			<div className="flex flex-col gap-2">
-																				<div>
-																					{message.file.name}
-																					<span className="ms-2 text-sm text-muted-foreground">
-																						(
-																						{Math.floor(
-																							message.file.size / 1024,
-																						)}{" "}
-																						KB)
-																					</span>
-																				</div>
-																				<div className="flex gap-2">
-																					<button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
-																						Скачать
-																					</button>
-																					<button
-																						onClick={openOrDownloadFile}
-																						className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
-																					>
-																						Открыть
-																					</button>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
 																</div>
-															)}
+															</div>
+														</div>
+														<div className="flex items-center gap-2">
+															<time className="mt-1 flex items-center text-sm text-muted-foreground">
+																{formatLocalTime(message.created_at)}
+															</time>
 														</div>
 													</div>
-													<div className="flex items-center gap-2">
-														<time className="mt-1 flex items-center text-sm text-muted-foreground">
-															{formatLocalTime(message.created_at)}
-														</time>
-													</div>
-												</div>
-											)}
+												))}
 											<div ref={messagesEndRef} />
 										</Fragment>
 									))}
@@ -776,77 +658,62 @@ export const DialogWindow = () => {
 					</div>
 				</div>
 
-				<div
-					style={
-						files.length
-							? {
-									borderTop: 0,
-									borderTopLeftRadius: 0,
-									borderTopRightRadius: 0,
-								}
-							: {}
-					}
-					className="relative shadow-base rounded-lg border bg-card text-card-foreground"
-				>
-					{files.length > 0 && (
-						<div className="absolute -left-px -right-px bg-background bottom-full border border-b-0 rounded-b-none rounded-tl-md rounded-tr-md  flex flex-wrap gap-2 p-2 lg:p-4 lg:pb-1">
-							<div
-								aria-label="document-1738765831781.pdf"
-								className="relative flex w-40 rounded-md border border-slate-100 text-xs shadow shadow-slate-200"
-								title="document-1738765831781.pdf"
-							>
-								<div
-									aria-hidden="true"
-									className="grid h-12 w-12 flex-shrink-0 place-items-center truncate rounded-bl-md rounded-tl-md bg-[hsl(224.52deg_75%_48.63%)] font-medium uppercase text-white"
-								>
-									{files[0].name.split(".").pop()}
-								</div>
-								<div className="min-w-0 px-3 py-2">
-									<p className="truncate" title="document-1738765831781.pdf">
-										{files[0].name}
-									</p>
-									<div className="text-gray-500">
-										{Math.floor(files[0].size / 1024)} KB
-									</div>
-									<div
-										onClick={handleCloseDocument}
-										className="absolute right-0 top-0 z-10 -translate-y-2 translate-x-2 cursor-pointer rounded-full bg-white p-1 shadow shadow-slate-200 hover:bg-stone-100"
-									>
-										<span>
-											<svg
-												aria-hidden="true"
-												className="h-2 w-2 fill-stone-500"
-												preserveAspectRatio="none"
-												viewBox="0 0 1024 1024"
-											>
-												<path
-													clipRule="evenodd"
-													d="M587.19 506.246l397.116-397.263a52.029 52.029 0 0 0 0-73.143l-2.194-2.194a51.98 51.98 0 0 0-73.143 0l-397.068 397.8-397.068-397.8a51.98 51.98 0 0 0-73.143 0l-2.146 2.194a51.054 51.054 0 0 0 0 73.143l397.069 397.263L39.544 903.461a52.029 52.029 0 0 0 0 73.142l2.146 2.195a51.98 51.98 0 0 0 73.143 0L511.9 581.583l397.068 397.215a51.98 51.98 0 0 0 73.143 0l2.194-2.146a52.029 52.029 0 0 0 0-73.143L587.19 506.246z"
-													fillRule="evenodd"
-												/>
-											</svg>
-										</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					)}
+				<div className="relative shadow-base rounded-lg border bg-card text-card-foreground">
 					<div>
 						<form
 							className="w-full relative flex items-center p-2 lg:p-4"
 							onSubmit={handleSubmit(onSubmit)}
 						>
-							<textarea
-								{...register("message", {
-									required: "Message is required",
-								})}
-								ref={textareaRef}
-								onInput={handleTextarea}
-								placeholder="Enter message..."
-								onChange={handleInputChange}
-								onKeyDown={handleKeyDown}
-								className="flex w-full resize-none overflow-auto max-h-[150px] rounded-md border-none bg-background p-0 text-sm placeholder:text-muted-foreground focus:border-none focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent !text-base !shadow-transsparent !ring-transparent"
-							/>
+							{files.length > 0 ? (
+								<div className="w-full">
+									<div className="relative flex w-40 rounded-md border border-slate-100 text-xs shadow shadow-slate-200">
+										<div
+											aria-hidden="true"
+											className="grid h-12 w-12 flex-shrink-0 place-items-center truncate rounded-bl-md rounded-tl-md bg-[hsl(224.52deg_75%_48.63%)] font-medium uppercase text-white"
+										>
+											{files[0].name.split(".").pop()}
+										</div>
+										<div className="min-w-0 px-3 py-2">
+											<p className="truncate">{files[0].name}</p>
+											<div className="text-gray-500">
+												{Math.floor(files[0].size / 1024)} KB
+											</div>
+											<div
+												onClick={handleCloseDocument}
+												className="absolute right-0 top-0 z-10 -translate-y-2 translate-x-2 cursor-pointer rounded-full bg-white p-1 shadow shadow-slate-200 hover:bg-stone-100"
+											>
+												<span>
+													<svg
+														aria-hidden="true"
+														className="h-2 w-2 fill-stone-500"
+														preserveAspectRatio="none"
+														viewBox="0 0 1024 1024"
+													>
+														<path
+															clipRule="evenodd"
+															d="M587.19 506.246l397.116-397.263a52.029 52.029 0 0 0 0-73.143l-2.194-2.194a51.98 51.98 0 0 0-73.143 0l-397.068 397.8-397.068-397.8a51.98 51.98 0 0 0-73.143 0l-2.146 2.194a51.054 51.054 0 0 0 0 73.143l397.069 397.263L39.544 903.461a52.029 52.029 0 0 0 0 73.142l2.146 2.195a51.98 51.98 0 0 0 73.143 0L511.9 581.583l397.068 397.215a51.98 51.98 0 0 0 73.143 0l2.194-2.146a52.029 52.029 0 0 0 0-73.143L587.19 506.246z"
+															fillRule="evenodd"
+														/>
+													</svg>
+												</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							) : (
+								<textarea
+									{...register("message", {
+										required: "Message is required",
+									})}
+									ref={textareaRef}
+									onInput={handleTextarea}
+									disabled={files.length > 0}
+									placeholder={files.length > 0 ? "" : "Enter message..."}
+									onChange={handleInputChange}
+									onKeyDown={handleKeyDown}
+									className="flex w-full resize-none overflow-auto max-h-[150px] rounded-md border-none bg-background p-0 text-sm placeholder:text-muted-foreground focus:border-none focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent !text-base !shadow-transsparent !ring-transparent"
+								/>
+							)}
 							<div className="end-4 flex items-center">
 								<div className="relative ml-3">
 									<input
