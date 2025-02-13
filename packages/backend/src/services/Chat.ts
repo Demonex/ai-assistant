@@ -325,49 +325,47 @@ export class ChatService {
 				},
 			});
 
-			console.log(mediaPDF);
+			const flowId = "e37720bf-bb8e-487d-9138-3bd1869c8330";
 
-			// const flowId = "e37720bf-bb8e-487d-9138-3bd1869c8330";
+			const { file_path: filePath } = await this.flowService.uploadFile({
+				flowId,
+				media,
+			});
 
-			// const { file_path: filePath } = await this.flowService.uploadFile({
-			// 	flowId,
-			// 	media,
-			// });
+			const vectorFilePath = `/app/data/.cache/langflow/${filePath}`;
 
-			// const vectorFilePath = `/app/data/.cache/langflow/${filePath}`;
+			try {
+				const doc = this.em.create<DocEntity>(DocEntity, {
+					filename: media.originalname,
+					filesize: media.size,
+					mimeType: media.mimetype,
+					collection: chatId,
+					provider: provider.id,
+					vectorFilePath,
+				});
+				await this.em.persistAndFlush(doc);
+			} catch (error) {
+				console.error("Error creating doc:", error);
 
-			// try {
-			// 	const doc = this.em.create<DocEntity>(DocEntity, {
-			// 		filename: media.originalname,
-			// 		filesize: media.size,
-			// 		mimeType: media.mimetype,
-			// 		collection: chatId,
-			// 		provider: provider.id,
-			// 		vectorFilePath,
-			// 	});
-			// 	await this.em.persistAndFlush(doc);
-			// } catch (error) {
-			// 	console.error("Error creating doc:", error);
+				throw new HttpException(
+					"Internal Server Error",
+					HttpStatus.INTERNAL_SERVER_ERROR,
+				);
+			}
 
-			// 	throw new HttpException(
-			// 		"Internal Server Error",
-			// 		HttpStatus.INTERNAL_SERVER_ERROR,
-			// 	);
-			// }
-
-			// 	await this.flowService.runFlow({
-			// 		flowId,
-			// 		payload: {
-			// 			tweaks: {
-			// 				"File-Asmj7": {
-			// 					path: `${filePath}`,
-			// 					concurrency_multithreading: 4,
-			// 					silent_errors: false,
-			// 					use_multithreading: false,
-			// 				},
-			// 			},
-			// 		},
-			// 	});
+			await this.flowService.runFlow({
+				flowId,
+				payload: {
+					tweaks: {
+						"File-Asmj7": {
+							path: `${filePath}`,
+							concurrency_multithreading: 4,
+							silent_errors: false,
+							use_multithreading: false,
+						},
+					},
+				},
+			});
 		});
 
 		return collection;
