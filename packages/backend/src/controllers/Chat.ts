@@ -119,6 +119,9 @@ export class ChatController {
 				// 		false,
 				// 	);
 				// }
+				file.originalname = Buffer.from(file.originalname, "latin1").toString(
+					"utf8",
+				);
 				return callback(null, true);
 			},
 		}),

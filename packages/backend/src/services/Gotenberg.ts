@@ -6,6 +6,7 @@ import { promiseMap } from "../utils/index.js";
 import { S3Client } from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
 import { PassThrough } from "node:stream";
+import FormData from "form-data";
 
 @Injectable()
 export class GotenbergService {
@@ -18,12 +19,7 @@ export class GotenbergService {
 
 	async convertFromS3({ fileKeys, params }) {
 		try {
-			const downloadFromPayload = JSON.stringify(
-				fileKeys.map((key) => ({
-					url: key,
-				})),
-			);
-			console.log(downloadFromPayload);
+			// console.log(downloadFromPayload);
 
 			await promiseMap(fileKeys, async (key) => {
 				const passThroughStream = new PassThrough();
@@ -36,9 +32,18 @@ export class GotenbergService {
 				const bucket = params.bucket;
 
 				const s3Client = new S3Client({
+					endpoint,
 					...rest,
-					endpoint: params.dockerEndpoint || endpoint,
+					// endpoint: params.dockerEndpoint || endpoint,
 				});
+
+				// const url = `${params.dockerEndpoint || endpoint}/${bucket}/${key}`
+				// console.log( url )
+				const downloadFromPayload = JSON.stringify(
+					fileKeys.map((key) => ({
+						url: `${params.dockerEndpoint || endpoint}/${bucket}/${key}`,
+					})),
+				);
 
 				console.log(
 					{
@@ -50,7 +55,7 @@ export class GotenbergService {
 
 				const uploadParams = {
 					Bucket: bucket,
-					Key: pdfKey,
+					Key: Buffer.from(pdfKey, "utf-8").toString(),
 					Body: passThroughStream,
 				};
 
@@ -61,14 +66,16 @@ export class GotenbergService {
 					partSize: 5 * 1024 * 1024,
 				});
 
+				const form = new FormData();
+				form.append("downloadFrom", downloadFromPayload);
+
 				got
 					.stream(`${this.endpoint}/forms/libreoffice/convert`, {
 						method: "POST",
-						form: {
-							downloadFrom: downloadFromPayload,
-						},
+						body: form,
 						headers: {
 							authorization: this.authorization,
+							...form.getHeaders(),
 						},
 					})
 					.pipe(passThroughStream);
