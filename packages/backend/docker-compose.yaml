@@ -106,6 +106,9 @@ services:
       - "gotenberg"
       - "--api-enable-basic-auth"  
 
+    links:
+      - minio
+
 networks:
   default:
     name: "rf"

@@ -289,8 +289,39 @@ export class ChatService {
 		});
 
 		await promiseMap(data.media, async (media) => {
-			console.log(await upload({ file: media }));
-			const mediaPDF = await this.gotenbergService.convertFromS3({ media });
+			const fileKey = await upload({ file: media });
+
+			const bucket =
+				(provider.settings?.bucket as string) || (settings?.bucket as string);
+			const login =
+				(provider.settings?.login as string) || (settings?.login as string);
+			const password =
+				(provider.settings?.password as string) ||
+				(settings?.password as string);
+			const endpoint =
+				(provider.settings?.endpoint as string) ||
+				(settings?.endpoint as string);
+			const dockerEndpoint =
+				(provider.settings?.dockerEndpoint as string) ||
+				(settings?.dockerEndpoint as string);
+
+			const mediaPDF = await this.gotenbergService.convertFromS3({
+				fileKeys: [fileKey],
+				params: {
+					bucket,
+					acl: "public-read",
+					dockerEndpoint,
+					getStorageClient: () => ({
+						credentials: {
+							accessKeyId: login,
+							secretAccessKey: password,
+						},
+						region: process.env.S3_REGION,
+						forcePathStyle: true,
+						endpoint,
+					}),
+				},
+			});
 
 			console.log(mediaPDF);
 

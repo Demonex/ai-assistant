@@ -1,6 +1,11 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import FormData from "form-data";
+import * as AWS from "@aws-sdk/client-s3";
+import { Injectable } from "@nestjs/common";
 import got from "got";
+import { promiseMap } from "../utils/index.js";
+
+import { S3Client } from "@aws-sdk/client-s3";
+import { Upload } from "@aws-sdk/lib-storage";
+import { PassThrough } from "node:stream";
 
 @Injectable()
 export class GotenbergService {
@@ -11,44 +16,78 @@ export class GotenbergService {
 	// private authorization =
 	// 	"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxZmQ0ZTkwNS1kODc1LTQwZjEtODdmNS0xM2NiYWRlNjY4M2YiLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY4NTU0MzM5fQ.hdWCV_FBjKPvbqBL6HB1IKrVbq1y2wtI0hVvKuDEAmQ";
 
-	async convertFromS3({ media }) {
-		const form = new FormData();
-		form.append("files", media.buffer, media.originalname);
+	async convertFromS3({ fileKeys, params }) {
+		try {
+			const downloadFromPayload = JSON.stringify(
+				fileKeys.map((key) => ({
+					url: key,
+				})),
+			);
+			console.log(downloadFromPayload);
 
-		return got.post(`${this.endpoint}/forms/libreoffice/convert`, {
-			method: "POST",
-			body: form,
-			headers: {
-				authorization: this.authorization,
-			},
-			resolveBodyOnly: true,
-		});
+			await promiseMap(fileKeys, async (key) => {
+				const passThroughStream = new PassThrough();
+				// const pdfKey = key.replace(/(.*)$/, '.pdf')
+				// const pdfKey = `${key.split('.')[0]}.pdf`
+				// TODO add extention if there was none
+				const pdfKey = key.replace(/\.[^/.]+$/, ".pdf");
+
+				const { endpoint, ...rest } = params.getStorageClient();
+				const bucket = params.bucket;
+
+				const s3Client = new S3Client({
+					...rest,
+					endpoint: params.dockerEndpoint || endpoint,
+				});
+
+				console.log(
+					{
+						...rest,
+						endpoint: params.dockerEndpoint || endpoint,
+					},
+					"CLIENT S3",
+				);
+
+				const uploadParams = {
+					Bucket: bucket,
+					Key: pdfKey,
+					Body: passThroughStream,
+				};
+
+				const upload = new Upload({
+					client: s3Client,
+					params: uploadParams,
+					queueSize: 4,
+					partSize: 5 * 1024 * 1024,
+				});
+
+				got
+					.stream(`${this.endpoint}/forms/libreoffice/convert`, {
+						method: "POST",
+						form: {
+							downloadFrom: downloadFromPayload,
+						},
+						headers: {
+							authorization: this.authorization,
+						},
+					})
+					.pipe(passThroughStream);
+
+				upload.on("httpUploadProgress", (progress) => {
+					console.log(
+						`Uploaded ${progress.loaded} bytes out of ${progress.total}`,
+					);
+				});
+
+				try {
+					const data = await upload.done();
+					console.log("Upload successful:", data);
+				} catch (err) {
+					console.error("Error uploading file:", err);
+				}
+			});
+		} catch (err) {
+			console.error(err);
+		}
 	}
-
-	// async runFlow({
-	// 	flowId,
-	// 	payload,
-	// }: { flowId: string; payload?: { [key: string]: unknown } }) {
-	// 	const result: any = await got.post(
-	// 		`${this.endpoint}/api/v1/run/${flowId}?stream=false`,
-	// 		{
-	// 			method: "POST",
-	// 			headers: {
-	// 				// Authorization: this.authorization,
-	// 				"Content-Type": "application/json",
-	// 				"x-api-key": "sk-nJL5Mhq1M0_5_Y-pVCAZwQFtU6aM7fu5UbkOiBPW5ec",
-	// 			},
-	// 			body: JSON.stringify({
-	// 				input_value: payload.message,
-	// 				output_type: "chat",
-	// 				input_type: "chat",
-	// 				tweaks: payload.tweaks,
-	// 			}),
-	// 			responseType: "json",
-	// 			resolveBodyOnly: true,
-	// 		},
-	// 	);
-
-	// 	return result.outputs[0].outputs[0]?.results.message.text;
-	// }
 }

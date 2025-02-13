@@ -15,19 +15,21 @@ export const getHandleUpload = ({
 	bucket,
 	getStorageClient,
 	prefix = "",
-}: Args): any => {
+}: Args) => {
 	return async ({ file }) => {
 		const fileKey = file.originalname;
 		const fileBufferOrStream = file.buffer;
 
 		if (file.buffer.length > 0 && file.buffer.length < multipartThreshold) {
-			return await new AWS.S3(getStorageClient()).putObject({
+			await new AWS.S3(getStorageClient()).putObject({
 				ACL: acl,
 				Body: fileBufferOrStream,
 				Bucket: bucket,
 				ContentType: file.mimeType,
 				Key: fileKey,
 			});
+
+			return fileKey;
 		}
 
 		const parallelUploadS3 = new Upload({
@@ -42,7 +44,8 @@ export const getHandleUpload = ({
 			partSize: multipartThreshold,
 			queueSize: 4,
 		});
+		await parallelUploadS3.done();
 
-		return { result: await parallelUploadS3.done(), fileKey };
+		return fileKey;
 	};
 };
