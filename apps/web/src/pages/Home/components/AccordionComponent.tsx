@@ -8,14 +8,14 @@ import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 
 export function AccordionComponent({ items }) {
 	const openFile = (url) => {
-		console.log("open");
 		const fileURL = URL.createObjectURL(url);
+
 		window.open(fileURL, "_blank");
 		URL.revokeObjectURL(fileURL);
 	};
 
 	return (
-		<Accordion type="single" collapsible className="w-[90%]">
+		<Accordion type="single" collapsible className="w-full">
 			{items?.map((item) => (
 				<AccordionItem value={item.id} key={item.id}>
 					<AccordionTrigger>{item.title}</AccordionTrigger>

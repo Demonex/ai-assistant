@@ -150,8 +150,6 @@ export const DialogWindow = () => {
 		() => clearTimeout(timer);
 	}, [statusUpload]);
 
-	console.log(files, "файлыкопкь");
-
 	return (
 		<div className="flex-grow">
 			<div
@@ -244,12 +242,18 @@ export const DialogWindow = () => {
 													</div>
 												</div>
 											)}
-											{message.response &&
-												(Array.isArray(message.response.raw) ? (
-													<AccordionComponent items={message.response.raw} />
-												) : (
-													<div className="max-w-screen-sm">
-														<div className="flex items-center gap-2">
+											{message.response && (
+												<div className="max-w-screen-sm w-full">
+													<div className="flex items-center gap-2 w-full">
+														{Array.isArray(message.response.raw) ? (
+															<div className="shadow-base rounded-lg border bg-card text-card-foreground w-full">
+																<div className="inline-flex p-4 w-full">
+																	<AccordionComponent
+																		items={message.response.raw}
+																	/>
+																</div>
+															</div>
+														) : (
 															<div className="shadow-base rounded-lg border bg-card text-card-foreground">
 																<div className="inline-flex p-4">
 																	<ReactMarkdownComponent
@@ -257,14 +261,15 @@ export const DialogWindow = () => {
 																	/>
 																</div>
 															</div>
-														</div>
-														<div className="flex items-center gap-2">
-															<time className="mt-1 flex items-center text-sm text-muted-foreground">
-																{formatLocalTime(message.created_at)}
-															</time>
-														</div>
+														)}
 													</div>
-												))}
+													<div className="flex items-center gap-2">
+														<time className="mt-1 flex items-center text-sm text-muted-foreground">
+															{formatLocalTime(message.created_at)}
+														</time>
+													</div>
+												</div>
+											)}
 											<div ref={messagesEndRef} />
 										</Fragment>
 									))}
