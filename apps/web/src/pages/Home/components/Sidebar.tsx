@@ -23,7 +23,7 @@ export const Sidebar = memo(() => {
 		);
 	}
 
-	filteredChats = collectionMockData;
+	// filteredChats = collectionMockData;
 
 	return (
 		<div className="w-full lg:w-96">
@@ -33,7 +33,7 @@ export const Sidebar = memo(() => {
 						<h3 className="text-lg leading-none tracking-tight font-bold">
 							Chats
 						</h3>
-						<FormNewCollection />
+						{/* <FormNewCollection /> */}
 					</div>
 				</div>
 				<div className="p-0">
