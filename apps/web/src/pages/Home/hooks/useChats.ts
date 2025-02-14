@@ -70,8 +70,6 @@ const _useChats = (id: number) => {
 		[activeChat?.id, fetchSendMessage],
 	);
 
-	////////////////////////////////////////Доделать//////////////////////////////////////////
-
 	const sendUploadFile = useCallback(
 		({ formData }) => {
 			for (const [key, value] of formData.entries()) {
@@ -84,7 +82,6 @@ const _useChats = (id: number) => {
 		},
 		[activeChat?.id, fetchUploadFile],
 	);
-	//////////////////////////////////////Доделать////////////////////////////////////////////
 
 	useEffect(() => {
 		if (!messageSend) {
