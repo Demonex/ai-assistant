@@ -15,7 +15,7 @@ export const doc: CollectionConfig = {
 	admin: {
 		defaultColumns: ["filename", "collection", "provider"],
 		useAsTitle: "filename",
-		hidden: true,
+		// hidden: true,
 	},
 	fields: [
 		{
@@ -24,7 +24,7 @@ export const doc: CollectionConfig = {
 			required: true,
 			defaultValue: ({ req }) => {
 				// console.log(user, locale, req.query, req.id, req.body, req.payload);
-				console.log(req.doc_collection);
+				// console.log(req.doc_collection);
 			},
 		},
 		{
@@ -40,14 +40,7 @@ export const doc: CollectionConfig = {
 			required: true,
 		},
 	],
-	versions: {
-		drafts: {
-			autosave: {
-				interval: 100, // We set this interval for optimal live preview
-			},
-		},
-		maxPerDoc: 50,
-	},
+	versions: false,
 	upload: {},
 	hooks: {
 		beforeChange: [

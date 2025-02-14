@@ -10,8 +10,8 @@ import FormData from "form-data";
 
 @Injectable()
 export class GotenbergService {
-	private endpoint = "http://localhost:3000";
-	// private endpoint = "http://10.199.20.10:7862";
+	// private endpoint = "http://localhost:3000";
+	private endpoint = "http://10.199.20.10:3000";
 	private authorization =
 		`Basic ${Buffer.from("root:root123", "utf-8").toString("base64")}`;
 	// private authorization =

@@ -47,8 +47,6 @@ export class ChatService {
 		const isAdminOrCollectionPermission =
 			user?.superadmin ||
 			groups.some((group) => {
-				console.log(group);
-
 				return group.groupPermissions
 					.map(
 						(entity) =>
@@ -273,8 +271,6 @@ export class ChatService {
 			throw new HttpException("Provider not found", HttpStatus.BAD_REQUEST);
 		}
 
-		console.log(data.media);
-
 		const upload = getHandleUpload({
 			bucket:
 				(settings?.bucket as string) || (provider.settings?.bucket as string),
@@ -307,28 +303,41 @@ export class ChatService {
 				(provider.settings?.dockerEndpoint as string) ||
 				(settings?.dockerEndpoint as string);
 
-			const mediaPDF = await this.gotenbergService.convertFromS3({
-				fileKeys: [fileKey],
-				params: {
-					bucket,
-					acl: "public-read",
-					dockerEndpoint,
-					getStorageClient: () => ({
-						credentials: {
-							accessKeyId: login,
-							secretAccessKey: password,
-						},
-						region: process.env.S3_REGION,
-						forcePathStyle: true,
-						endpoint,
-					}),
-				},
-			});
+			// const mediaPDF = await this.gotenbergService.convertFromS3({
+			// 	fileKeys: [fileKey],
+			// 	params: {
+			// 		bucket,
+			// 		acl: "public-read",
+			// 		dockerEndpoint,
+			// 		getStorageClient: () => ({
+			// 			credentials: {
+			// 				accessKeyId: login,
+			// 				secretAccessKey: password,
+			// 			},
+			// 			region: process.env.S3_REGION,
+			// 			forcePathStyle: true,
+			// 			endpoint,
+			// 		}),
+			// 	},
+			// });
 
-			const flowId = "e37720bf-bb8e-487d-9138-3bd1869c8330";
+			const copyFlow = await this.flowService.getFlow({ filter: "UPLOAD" });
+			const newFlow = await this.flowService.createFlow({ flow: copyFlow });
+
+			const newFlowId = newFlow.id;
+			// const fileId = newFlow.data.nodes.find(node => node.data.type === 'File').id;
+			// const qdrantId = newFlow.data.nodes.find(node => node.data.type === 'CustomComponent').id;
+			// const flowId = "e37720bf-bb8e-487d-9138-3bd1869c8330";
+
+			const fileId = newFlow.data.nodes.find(
+				(node) => node.data.node.display_name === "File",
+			).id;
+			const qdrantId = newFlow.data.nodes.find(
+				(node) => node.data.node.display_name === "Qdrant hybrid",
+			).id;
 
 			const { file_path: filePath } = await this.flowService.uploadFile({
-				flowId,
+				flowId: newFlowId,
 				media,
 			});
 
@@ -353,21 +362,33 @@ export class ChatService {
 				);
 			}
 
-			await this.flowService.runFlow({
-				flowId,
-				payload: {
-					tweaks: {
-						"File-Asmj7": {
-							path: `${filePath}`,
-							concurrency_multithreading: 4,
-							silent_errors: false,
-							use_multithreading: false,
+			try {
+				await this.flowService.runFlow({
+					flowId: newFlowId,
+					payload: {
+						tweaks: {
+							[fileId]: {
+								path: `${filePath}`,
+								concurrency_multithreading: 4,
+								silent_errors: false,
+								use_multithreading: false,
+							},
+							[qdrantId]: {
+								collection_name: collection.id.toString(),
+							},
 						},
 					},
-				},
-			});
+				});
+			} catch (error) {
+				console.error("Request failed:", error.message);
+				console.error("Status code:", error.response?.statusCode);
+				console.error("Response body:", error.response?.body);
+				console.error("Headers:", error.response?.headers);
+			}
+
+			await this.flowService.deleteFlow({ flow: newFlow });
 		});
 
-		return collection;
+		return { success: true };
 	}
 }
