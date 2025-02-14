@@ -8,6 +8,7 @@ import { Spinner } from "./Spinner.js";
 import { messageMockData } from "@/DataBase.js";
 import { AccordionComponent } from "./AccordionComponent.js";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
+import { ToastComponent } from "./ToastComponent.js";
 
 export const DialogWindow = () => {
 	const {
@@ -17,9 +18,13 @@ export const DialogWindow = () => {
 		setActiveChat,
 		sendMessage,
 		loading,
+		sendUploadFile,
+		statusUpload,
 	} = useChats();
 	const [message, setMessage] = useState("");
-	const { register, handleSubmit, reset } = useForm();
+	const [files, setFiles] = useState([]);
+	const [isOverlay, setIsOverlay] = useState(false);
+	const { register, handleSubmit, reset, setValue } = useForm();
 	const id = useId();
 	const wrapperRef = useRef(null);
 	const messagesEndRef = useRef(null);
@@ -27,22 +32,27 @@ export const DialogWindow = () => {
 	const textareaRef = useRef(null);
 
 	const onSubmit = () => {
-		setMessages([
-			...messages,
-			{
-				id: id,
-				created_at: new Date().toString(),
-				message: { raw: message },
-				// file: {
-				//   name: "text.docx",
-				//   size: 50000,
-				// },
-			},
-		]);
-
-		sendMessage({ message });
-		setMessage("");
-		reset();
+		if (files.length) {
+			const formData = new FormData();
+			for (let i = 0; i < files.length; i++) {
+				formData.append("media", files[i]);
+			}
+			sendUploadFile({ formData });
+			setFiles(null);
+			reset();
+		} else {
+			setMessages([
+				...messages,
+				{
+					id: id,
+					created_at: new Date().toString(),
+					message: { raw: message },
+				},
+			]);
+			sendMessage({ message });
+			setMessage("");
+			reset();
+		}
 	};
 
 	const handleInputChange = (event) => {
@@ -68,9 +78,6 @@ export const DialogWindow = () => {
 		setActiveChat(false);
 	};
 
-	const [files, setFiles] = useState([]);
-	const [isOverlay, setIsOverlay] = useState(false);
-
 	const handleDragEnter = (e) => {
 		e.preventDefault();
 		setIsOverlay(true);
@@ -92,18 +99,17 @@ export const DialogWindow = () => {
 		const data = e.dataTransfer?.files || e.target?.files;
 
 		if (data.length) {
-			setFiles(data);
+			const newFiles = Array.from(data);
+			setFiles((prevFiles) => [...prevFiles, ...newFiles]);
 		}
-
-		console.log(data);
 	};
 
 	const handlePinFileButton = () => {
 		fileInputRef.current?.click();
 	};
 
-	const handleCloseDocument = () => {
-		setFiles([]);
+	const handleCloseDocument = (fileName) => {
+		setFiles((files) => files.filter((item) => item.name !== fileName));
 		fileInputRef.current.value = "";
 	};
 
@@ -128,6 +134,21 @@ export const DialogWindow = () => {
 	useEffect(() => {
 		setTimeout(() => scrollToBottom());
 	}, [messages]);
+
+	const [isUpload, setIsUpload] = useState(false);
+
+	useEffect(() => {
+		let timer;
+
+		if (statusUpload === "success") {
+			setIsUpload(true);
+			timer = setTimeout(() => {
+				setIsUpload(false);
+			}, 4000);
+		}
+
+		() => clearTimeout(timer);
+	}, [statusUpload]);
 
 	return (
 		<div className="flex-grow">
@@ -201,6 +222,7 @@ export const DialogWindow = () => {
 									{/* {messageMockData?.map((message) => ( */}
 									{messages?.map((message) => (
 										<Fragment key={message.id}>
+											{/* <ToastComponent /> */}
 											{message.message && (
 												<div className="max-w-screen-sm self-end">
 													<div className="flex items-center gap-2">
@@ -220,12 +242,18 @@ export const DialogWindow = () => {
 													</div>
 												</div>
 											)}
-											{message.response &&
-												(Array.isArray(message.response.raw) ? (
-													<AccordionComponent items={message.response.raw} />
-												) : (
-													<div className="max-w-screen-sm">
-														<div className="flex items-center gap-2">
+											{message.response && (
+												<div className="max-w-screen-sm w-full">
+													<div className="flex items-center gap-2 w-full">
+														{Array.isArray(message.response.raw) ? (
+															<div className="shadow-base rounded-lg border bg-card text-card-foreground w-full">
+																<div className="inline-flex p-4 w-full">
+																	<AccordionComponent
+																		items={message.response.raw}
+																	/>
+																</div>
+															</div>
+														) : (
 															<div className="shadow-base rounded-lg border bg-card text-card-foreground">
 																<div className="inline-flex p-4">
 																	<ReactMarkdownComponent
@@ -233,14 +261,15 @@ export const DialogWindow = () => {
 																	/>
 																</div>
 															</div>
-														</div>
-														<div className="flex items-center gap-2">
-															<time className="mt-1 flex items-center text-sm text-muted-foreground">
-																{formatLocalTime(message.created_at)}
-															</time>
-														</div>
+														)}
 													</div>
-												))}
+													<div className="flex items-center gap-2">
+														<time className="mt-1 flex items-center text-sm text-muted-foreground">
+															{formatLocalTime(message.created_at)}
+														</time>
+													</div>
+												</div>
+											)}
 											<div ref={messagesEndRef} />
 										</Fragment>
 									))}
@@ -658,57 +687,68 @@ export const DialogWindow = () => {
 					</div>
 				</div>
 
+				{isUpload && (
+					<div className="bg-black absolut font-bold">
+						Файл успешно отправлен. Обработка займет некоторое время, после
+						информация будет доступна.
+					</div>
+				)}
 				<div className="relative shadow-base rounded-lg border bg-card text-card-foreground">
 					<div>
 						<form
 							className="w-full relative flex items-center p-2 lg:p-4"
 							onSubmit={handleSubmit(onSubmit)}
 						>
-							{files.length > 0 ? (
-								<div className="w-full">
-									<div className="relative flex w-40 rounded-md border border-slate-100 text-xs shadow shadow-slate-200">
-										<div
-											aria-hidden="true"
-											className="grid h-12 w-12 flex-shrink-0 place-items-center truncate rounded-bl-md rounded-tl-md bg-[hsl(224.52deg_75%_48.63%)] font-medium uppercase text-white"
-										>
-											{files[0].name.split(".").pop()}
-										</div>
-										<div className="min-w-0 px-3 py-2">
-											<p className="truncate">{files[0].name}</p>
-											<div className="text-gray-500">
-												{Math.floor(files[0].size / 1024)} KB
-											</div>
+							{files?.length > 0 ? (
+								<div className="w-full flex flex-wrap gap-2 ">
+									{files.map((file) => (
+										<div className="relative flex w-40 rounded-md border border-slate-100 text-xs shadow shadow-slate-200">
 											<div
-												onClick={handleCloseDocument}
-												className="absolute right-0 top-0 z-10 -translate-y-2 translate-x-2 cursor-pointer rounded-full bg-white p-1 shadow shadow-slate-200 hover:bg-stone-100"
+												aria-hidden="true"
+												className="grid h-12 w-12 flex-shrink-0 place-items-center truncate rounded-bl-md rounded-tl-md bg-[hsl(224.52deg_75%_48.63%)] font-medium uppercase text-white"
 											>
-												<span>
-													<svg
-														aria-hidden="true"
-														className="h-2 w-2 fill-stone-500"
-														preserveAspectRatio="none"
-														viewBox="0 0 1024 1024"
-													>
-														<path
-															clipRule="evenodd"
-															d="M587.19 506.246l397.116-397.263a52.029 52.029 0 0 0 0-73.143l-2.194-2.194a51.98 51.98 0 0 0-73.143 0l-397.068 397.8-397.068-397.8a51.98 51.98 0 0 0-73.143 0l-2.146 2.194a51.054 51.054 0 0 0 0 73.143l397.069 397.263L39.544 903.461a52.029 52.029 0 0 0 0 73.142l2.146 2.195a51.98 51.98 0 0 0 73.143 0L511.9 581.583l397.068 397.215a51.98 51.98 0 0 0 73.143 0l2.194-2.146a52.029 52.029 0 0 0 0-73.143L587.19 506.246z"
-															fillRule="evenodd"
-														/>
-													</svg>
-												</span>
+												{file.name.split(".").pop()}
+											</div>
+											<div className="min-w-0 px-3 py-2">
+												<p className="truncate">{file.name}</p>
+												<div className="text-gray-500">
+													{Math.floor(file.size / 1024)} KB
+												</div>
+												<div
+													onClick={() => handleCloseDocument(file.name)}
+													className="absolute right-0 top-0 z-10 -translate-y-2 translate-x-2 cursor-pointer rounded-full bg-white p-1 shadow shadow-slate-200 hover:bg-stone-100"
+												>
+													<span>
+														<svg
+															aria-hidden="true"
+															className="h-2 w-2 fill-stone-500"
+															preserveAspectRatio="none"
+															viewBox="0 0 1024 1024"
+														>
+															<path
+																clipRule="evenodd"
+																d="M587.19 506.246l397.116-397.263a52.029 52.029 0 0 0 0-73.143l-2.194-2.194a51.98 51.98 0 0 0-73.143 0l-397.068 397.8-397.068-397.8a51.98 51.98 0 0 0-73.143 0l-2.146 2.194a51.054 51.054 0 0 0 0 73.143l397.069 397.263L39.544 903.461a52.029 52.029 0 0 0 0 73.142l2.146 2.195a51.98 51.98 0 0 0 73.143 0L511.9 581.583l397.068 397.215a51.98 51.98 0 0 0 73.143 0l2.194-2.146a52.029 52.029 0 0 0 0-73.143L587.19 506.246z"
+																fillRule="evenodd"
+															/>
+														</svg>
+													</span>
+												</div>
 											</div>
 										</div>
-									</div>
+									))}
 								</div>
 							) : (
 								<textarea
 									{...register("message", {
 										required: "Message is required",
 									})}
-									ref={textareaRef}
+									ref={(el) => {
+										textareaRef.current = el;
+										register("message").ref(el);
+									}}
 									onInput={handleTextarea}
-									disabled={files.length > 0}
-									placeholder={files.length > 0 ? "" : "Enter message..."}
+									disabled={files?.length > 0}
+									placeholder={files?.length > 0 ? "" : "Enter message..."}
 									onChange={handleInputChange}
 									onKeyDown={handleKeyDown}
 									className="flex w-full resize-none overflow-auto max-h-[150px] rounded-md border-none bg-background p-0 text-sm placeholder:text-muted-foreground focus:border-none focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent !text-base !shadow-transsparent !ring-transparent"
@@ -746,7 +786,7 @@ export const DialogWindow = () => {
 								</div>
 								{!loading && (
 									<button
-										disabled={!message && !files.length}
+										disabled={!message && !files?.length}
 										type="submit"
 										className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 ms-3"
 									>

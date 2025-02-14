@@ -35,13 +35,11 @@ const _useChats = (id: number) => {
 		method: "post",
 	});
 
-	////////////////////////////////////////////////////////////////////////////////////
-
-	const [{ data: uploadFile }, fetchUploadFile] = useLazyFetch({
-		url: "api/rest/chat/{id}/upload",
-		method: "post",
-	});
-	////////////////////////////////////////////////////////////////////////////////////
+	const [{ data: uploadFile, status: statusUpload }, fetchUploadFile] =
+		useLazyFetch({
+			url: "api/rest/chat/{activeChat.id}/upload",
+			method: "post",
+		});
 
 	useEffect(() => {
 		if (!activeChat?.id || !fetchMessages) {
@@ -52,7 +50,6 @@ const _useChats = (id: number) => {
 			url: `/api/rest/chat/${activeChat.id}`,
 		});
 	}, [activeChat?.id, fetchMessages]);
-
 	useEffect(() => {
 		if (!messagesData) {
 			return;
@@ -71,6 +68,19 @@ const _useChats = (id: number) => {
 			});
 		},
 		[activeChat?.id, fetchSendMessage],
+	);
+
+	const sendUploadFile = useCallback(
+		({ formData }) => {
+			for (const [key, value] of formData.entries()) {
+				console.log(key, value); // Выведет: "file", File объект
+			}
+			fetchUploadFile({
+				url: `api/rest/chat/${activeChat.id}/upload`,
+				body: formData,
+			});
+		},
+		[activeChat?.id, fetchUploadFile],
 	);
 
 	useEffect(() => {
@@ -99,6 +109,8 @@ const _useChats = (id: number) => {
 		messages,
 		sendMessage,
 		loading,
+		sendUploadFile,
+		statusUpload,
 	};
 };
 
