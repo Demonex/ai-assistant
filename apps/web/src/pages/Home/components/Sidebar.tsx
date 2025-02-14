@@ -33,7 +33,7 @@ export const Sidebar = memo(() => {
 						<h3 className="text-lg leading-none tracking-tight font-bold">
 							Chats
 						</h3>
-						<FormNewCollection />
+						{/* <FormNewCollection /> */}
 					</div>
 				</div>
 				<div className="p-0">
