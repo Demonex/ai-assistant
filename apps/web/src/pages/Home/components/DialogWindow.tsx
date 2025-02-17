@@ -24,9 +24,8 @@ export const DialogWindow = () => {
 	const [message, setMessage] = useState("");
 	const [files, setFiles] = useState([]);
 	const [isOverlay, setIsOverlay] = useState(false);
-	const { register, handleSubmit, reset, setValue } = useForm();
+	const { register, handleSubmit, reset } = useForm();
 	const id = useId();
-	const wrapperRef = useRef(null);
 	const messagesEndRef = useRef(null);
 	const fileInputRef = useRef(null);
 	const textareaRef = useRef(null);
@@ -120,18 +119,6 @@ export const DialogWindow = () => {
 	};
 
 	useEffect(() => {
-		const textarea = textareaRef.current;
-		const wrapper = wrapperRef.current;
-
-		if (textarea || wrapper) {
-			textarea.style.height = "auto";
-			textarea.style.height = `${textarea.scrollHeight}px`;
-
-			wrapper.style.maxHeight = `${wrapper.scrollHeight}px`;
-		}
-	}, []);
-
-	useEffect(() => {
 		setTimeout(() => scrollToBottom());
 	}, [messages]);
 
@@ -152,10 +139,7 @@ export const DialogWindow = () => {
 
 	return (
 		<div className="flex-grow">
-			<div
-				ref={wrapperRef}
-				className="fixed inset-0 flex flex-col bg-background p-4 lg:relative lg:bg-transparent lg:p-0"
-			>
+			<div className="fixed inset-0 flex flex-col bg-background p-4 lg:relative lg:bg-transparent lg:p-0">
 				<div className="flex justify-between gap-4">
 					<div className="flex gap-4">
 						<button
@@ -191,7 +175,7 @@ export const DialogWindow = () => {
 
 				<div
 					dir="ltr"
-					className="overflow-hidden relative h-screen w-full py-4 lg:h-[calc(100vh_-_15rem)]"
+					className="overflow-hidden relative h-screen w-full py-4 lg:h-[calc(100vh_-_9rem)]"
 					onDragEnter={handleDragEnter}
 				>
 					{isOverlay && (
@@ -213,12 +197,11 @@ export const DialogWindow = () => {
 					/>
 					<div
 						data-radix-scroll-area-viewport
-						className="h-full w-full rounded-[inherit]"
-						style={{ overflow: "hidden scroll" }}
+						className="overflow-scroll h-full w-full rounded-[inherit]"
 					>
 						<div data-radix-scroll-area-content>
 							<div>
-								<div className="flex flex-col items-start space-y-10 py-8">
+								<div className="flex flex-col items-start space-y-10 pb-[8rem]">
 									{/* {messageMockData?.map((message) => ( */}
 									{messages?.map((message) => (
 										<Fragment key={message.id}>
@@ -245,11 +228,17 @@ export const DialogWindow = () => {
 											{message.response && (
 												<div className="max-w-screen-sm w-full">
 													<div className="flex items-center gap-2 w-full">
-														{Array.isArray(message.response.raw) ? (
+														{message.response.fragments &&
+														message.response.fragments.length > 0 ? (
 															<div className="shadow-base rounded-lg border bg-card text-card-foreground w-full">
 																<div className="inline-flex p-4 w-full">
+																	<ReactMarkdownComponent
+																		textMarkdown={message.response.llmText}
+																	/>
+																</div>
+																<div className="inline-flex p-4 w-full">
 																	<AccordionComponent
-																		items={message.response.raw}
+																		items={message.response.fragments}
 																	/>
 																</div>
 															</div>
@@ -257,7 +246,7 @@ export const DialogWindow = () => {
 															<div className="shadow-base rounded-lg border bg-card text-card-foreground">
 																<div className="inline-flex p-4">
 																	<ReactMarkdownComponent
-																		textMarkdown={message.response.raw}
+																		textMarkdown={message.response.llmText}
 																	/>
 																</div>
 															</div>
@@ -687,14 +676,17 @@ export const DialogWindow = () => {
 					</div>
 				</div>
 
-				{isUpload && (
-					<div className="bg-black absolut font-bold">
-						Файл успешно отправлен. Обработка займет некоторое время, после
-						информация будет доступна.
-					</div>
-				)}
-				<div className="relative shadow-base rounded-lg border bg-card text-card-foreground">
-					<div>
+				<div className="relative lg:absolute left-0 right-0 bottom-0 shadow-base bg-card text-card-foreground">
+					{isUpload && (
+						<div className="bg-black absolut font-bold text-sm py-2">
+							<p>Файл успешно отправлен!</p>
+							<p>
+								Обработка займет некоторое время, после информация из файла
+								будет доступна.
+							</p>
+						</div>
+					)}
+					<div className="rounded-lg border">
 						<form
 							className="w-full relative flex items-center p-2 lg:p-4"
 							onSubmit={handleSubmit(onSubmit)}
