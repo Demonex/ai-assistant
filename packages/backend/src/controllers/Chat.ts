@@ -63,50 +63,13 @@ export class ChatController {
 			data,
 		);
 
-		try {
-			const copyFlow = await this.flowService.getFlow({ filter: "RETRIEVE" });
-			const newFlow = await this.flowService.createFlow({ flow: copyFlow });
+		const response = await this.chatService.messageSend(userId, chatId, data);
 
-			const newFlowId = newFlow.id;
-			const qdrantId = newFlow.data.nodes.find(
-				(node) => node.data.node.display_name === "Qdrant hybrid",
-			).id;
-			console.log(qdrantId);
+		await this.chatService.messagePatch(messageId, {
+			response,
+		});
 
-			try {
-				const flowResponse = await this.flowService.runFlow({
-					// flowId: "ec5c0e73-e348-4f1a-bc89-c0ed21167097",
-					flowId: newFlowId,
-					payload: {
-						message: data.raw,
-						tweaks: {
-							[qdrantId]: {
-								collection_name: chatId.toString(),
-							},
-						},
-					},
-				});
-				// await this.flowService.deleteFlow({ flow: newFlow });
-
-				await this.chatService.messagePatch(messageId, {
-					response: {
-						raw: flowResponse,
-					},
-				});
-
-				return {
-					success: true,
-					response: flowResponse,
-				};
-			} catch (error) {
-				console.error("Request failed:", error.message);
-				console.error("Status code:", error.response?.statusCode);
-				console.error("Response body:", error.response?.body);
-				console.error("Headers:", error.response?.headers);
-			}
-		} catch (e) {
-			console.error(e);
-		}
+		return response;
 	}
 	// @ApiOperation({ summary: "avatar update in profile" })
 	// @UseInterceptors(

@@ -32,10 +32,15 @@ export class LangFlowService {
 	async runFlow({
 		flowId,
 		payload,
-	}: { flowId: string; payload?: { [key: string]: unknown } }) {
+		method = "RETRIEVE",
+	}: {
+		flowId: string;
+		payload?: { [key: string]: unknown };
+		method?: "RETRIEVE" | "UPLOAD";
+	}): Promise<{ llmText?: string; fragments?: any[] }> {
 		console.log(flowId, `${this.endpoint}/api/v1/run/${flowId}?stream=false`);
 
-		const result: any = await got.post(
+		const langflowResponse: any = await got.post(
 			`${this.endpoint}/api/v1/run/${flowId}?stream=false`,
 			{
 				method: "POST",
@@ -46,7 +51,7 @@ export class LangFlowService {
 				},
 				json: {
 					input_value: payload.message,
-					output_type: "text",
+					output_type: "chat",
 					input_type: "chat",
 					tweaks: payload.tweaks,
 				},
@@ -55,9 +60,18 @@ export class LangFlowService {
 			},
 		);
 
-		console.log(JSON.stringify(result));
+		if (method === "UPLOAD") {
+			return;
+		}
 
-		return result;
+		const results = langflowResponse.outputs[0].outputs[0].results;
+
+		const response = {
+			llmText: results.message.text,
+			fragments: results.output,
+		};
+
+		return response;
 	}
 
 	async getFlow({ filter } = { filter: "UPLOAD" }) {

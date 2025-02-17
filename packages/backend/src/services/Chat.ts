@@ -14,6 +14,7 @@ import { promiseMap } from "../utils/index.js";
 import { LangFlowService } from "./Flow.js";
 import { DocEntity } from "../entities/Doc/index.js";
 import { GotenbergService } from "./Gotenberg.js";
+import path from "node:path";
 
 type HintType = "users" | "groupPermissions" | "groupCollectionPermissions";
 
@@ -162,6 +163,104 @@ export class ChatService {
 				"Internal Server Error",
 				HttpStatus.INTERNAL_SERVER_ERROR,
 			);
+		}
+	}
+
+	async messageSend(
+		userId: ChatMessageEntity["user"]["id"],
+		chatId: CollectionEntity["id"],
+		data: ChatMessageDto,
+	) {
+		const collection = await this.em.findOne<
+			CollectionEntity,
+			"providers" | "providers.provider"
+		>(
+			CollectionEntity,
+			{
+				id: chatId,
+				providers: {
+					enabled: true,
+					provider: {
+						type: PROVIDER_TYPE.minio,
+					},
+				},
+			},
+			{
+				populate: ["providers", "providers.provider"],
+				populateWhere: "infer",
+			},
+		);
+
+		if (!collection) {
+			throw new HttpException(
+				"Collection with active minio provider not found",
+				HttpStatus.BAD_REQUEST,
+			);
+		}
+
+		const [{ provider, settings } = {}] = collection.providers;
+
+		if (!provider) {
+			throw new HttpException("Provider not found", HttpStatus.BAD_REQUEST);
+		}
+
+		const bucket =
+			(provider.settings?.bucket as string) || (settings?.bucket as string);
+		const login =
+			(provider.settings?.login as string) || (settings?.login as string);
+		const password =
+			(provider.settings?.password as string) || (settings?.password as string);
+		const endpoint =
+			(provider.settings?.endpoint as string) || (settings?.endpoint as string);
+		const dockerEndpoint =
+			(provider.settings?.dockerEndpoint as string) ||
+			(settings?.dockerEndpoint as string);
+
+		// try {
+		const copyFlow = await this.flowService.getFlow({ filter: "RETRIEVE" });
+		const newFlow = await this.flowService.createFlow({ flow: copyFlow });
+
+		const newFlowId = newFlow.id;
+		const qdrantId = newFlow.data.nodes.find(
+			(node) => node.data.node.display_name === "Qdrant hybrid",
+		).id;
+
+		try {
+			const response = await this.flowService.runFlow({
+				// flowId: "ec5c0e73-e348-4f1a-bc89-c0ed21167097",
+				flowId: newFlowId,
+				payload: {
+					message: data.raw,
+					tweaks: {
+						[qdrantId]: {
+							collection_name: collection.title,
+						},
+					},
+				},
+			});
+			response.fragments.map((frag) => {
+				const file_path = frag.file_path;
+				const filenameWithDate = path.basename(file_path);
+				const filename = filenameWithDate.replace(
+					/^\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}_/,
+					"",
+				);
+				const fileLink = `${endpoint}/${bucket}/${filename}`;
+				frag.file_path = fileLink;
+
+				return frag;
+			});
+			// await this.flowService.deleteFlow({ flow: newFlow });
+
+			return {
+				success: true,
+				response,
+			};
+		} catch (error) {
+			console.error("Request failed:", error.message);
+			console.error("Status code:", error.response?.statusCode);
+			console.error("Response body:", error.response?.body);
+			console.error("Headers:", error.response?.headers);
 		}
 	}
 
@@ -364,6 +463,7 @@ export class ChatService {
 
 			try {
 				await this.flowService.runFlow({
+					method: "UPLOAD",
 					flowId: newFlowId,
 					payload: {
 						tweaks: {
