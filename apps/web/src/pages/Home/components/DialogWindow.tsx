@@ -2,7 +2,11 @@ import { Fragment, useEffect, useId, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AvatarComponent } from "./AvatarComponent.js";
 // import { DropdownMenuButton } from "./DropdownMenuButton.js";
-import { formatLocalTime } from "helpers/index.js";
+import {
+	formatFileSize,
+	formatLocalTime,
+	getColorFile,
+} from "helpers/index.js";
 import { useChats } from "../hooks/useChats.js";
 import { Spinner } from "./Spinner.js";
 import { messageMockData } from "@/DataBase.js";
@@ -33,9 +37,11 @@ export const DialogWindow = () => {
 	const onSubmit = () => {
 		if (files.length) {
 			const formData = new FormData();
+
 			for (let i = 0; i < files.length; i++) {
 				formData.append("media", files[i]);
 			}
+
 			sendUploadFile({ formData });
 			setFiles(null);
 			reset();
@@ -48,6 +54,7 @@ export const DialogWindow = () => {
 					message: { raw: message },
 				},
 			]);
+
 			sendMessage({ message });
 			setMessage("");
 			reset();
@@ -77,25 +84,25 @@ export const DialogWindow = () => {
 		setActiveChat(false);
 	};
 
-	const handleDragEnter = (e) => {
-		e.preventDefault();
+	const handleDragEnter = (event) => {
+		event.preventDefault();
 		setIsOverlay(true);
 	};
 
-	const handleDragOver = (e) => {
-		e.preventDefault();
+	const handleDragOver = (event) => {
+		event.preventDefault();
 	};
 
-	const handleDragLeave = (e) => {
-		e.preventDefault();
+	const handleDragLeave = (event) => {
+		event.preventDefault();
 		setIsOverlay(false);
 	};
 
-	const handleDrop = (e) => {
-		e.preventDefault();
+	const handleDrop = (event) => {
+		event.preventDefault();
 		setIsOverlay(false);
 
-		const data = e.dataTransfer?.files || e.target?.files;
+		const data = event.dataTransfer?.files || event.target?.files;
 
 		if (data.length) {
 			const newFiles = Array.from(data);
@@ -107,8 +114,8 @@ export const DialogWindow = () => {
 		fileInputRef.current?.click();
 	};
 
-	const handleCloseDocument = (fileName) => {
-		setFiles((files) => files.filter((item) => item.name !== fileName));
+	const handleCloseDocument = (id: number) => {
+		setFiles((files) => files.filter((item) => item.lastModified !== id));
 		fileInputRef.current.value = "";
 	};
 
@@ -681,8 +688,8 @@ export const DialogWindow = () => {
 						<div className="bg-black absolut font-bold text-sm py-2">
 							<p>Файл успешно отправлен!</p>
 							<p>
-								Обработка займет некоторое время, после информация из файла
-								будет доступна.
+								Обработка займет некоторое время, после чего информация из файла
+								станет доступна.
 							</p>
 						</div>
 					)}
@@ -692,22 +699,30 @@ export const DialogWindow = () => {
 							onSubmit={handleSubmit(onSubmit)}
 						>
 							{files?.length > 0 ? (
-								<div className="w-full flex flex-wrap gap-2 ">
+								<div className="w-full flex flex-wrap gap-2">
 									{files.map((file) => (
-										<div className="relative flex w-40 rounded-md border border-slate-100 text-xs shadow shadow-slate-200">
+										<div
+											key={file.lastModified}
+											className="relative flex w-40 rounded-md border border-slate-100 text-xs shadow shadow-slate-200"
+										>
 											<div
+												style={{
+													backgroundColor: getColorFile(
+														file.name.split(".").pop(),
+													),
+												}}
 												aria-hidden="true"
-												className="grid h-12 w-12 flex-shrink-0 place-items-center truncate rounded-bl-md rounded-tl-md bg-[hsl(224.52deg_75%_48.63%)] font-medium uppercase text-white"
+												className="grid h-12 w-12 flex-shrink-0 place-items-center truncate rounded-bl-md rounded-tl-md font-medium uppercase text-white"
 											>
 												{file.name.split(".").pop()}
 											</div>
 											<div className="min-w-0 px-3 py-2">
 												<p className="truncate">{file.name}</p>
 												<div className="text-gray-500">
-													{Math.floor(file.size / 1024)} KB
+													{formatFileSize(file.size)}
 												</div>
 												<div
-													onClick={() => handleCloseDocument(file.name)}
+													onClick={() => handleCloseDocument(file.lastModified)}
 													className="absolute right-0 top-0 z-10 -translate-y-2 translate-x-2 cursor-pointer rounded-full bg-white p-1 shadow shadow-slate-200 hover:bg-stone-100"
 												>
 													<span>
@@ -739,11 +754,10 @@ export const DialogWindow = () => {
 										register("message").ref(el);
 									}}
 									onInput={handleTextarea}
-									disabled={files?.length > 0}
-									placeholder={files?.length > 0 ? "" : "Enter message..."}
+									placeholder={"Enter message..."}
 									onChange={handleInputChange}
 									onKeyDown={handleKeyDown}
-									className="flex w-full resize-none overflow-auto max-h-[150px] rounded-md border-none bg-background p-0 text-sm placeholder:text-muted-foreground focus:border-none focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent !text-base !shadow-transsparent !ring-transparent"
+									className="flex w-full resize-none overflow-auto h-[50px] max-h-[150px] rounded-md border-none bg-background p-0 text-sm placeholder:text-muted-foreground focus:border-none focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent !text-base !shadow-transsparent !ring-transparent"
 								/>
 							)}
 							<div className="end-4 flex items-center">
@@ -776,7 +790,9 @@ export const DialogWindow = () => {
 										</svg>
 									</button>
 								</div>
-								{!loading && (
+								{loading ? (
+									<Spinner />
+								) : (
 									<button
 										disabled={!message && !files?.length}
 										type="submit"
@@ -785,7 +801,6 @@ export const DialogWindow = () => {
 										Send
 									</button>
 								)}
-								{loading && <Spinner />}
 							</div>
 						</form>
 					</div>
