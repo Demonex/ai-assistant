@@ -11,7 +11,9 @@ import { Logger, LogLevel } from "@repo/backend/config/logger/api-logger.js";
 import { DefaultLogger } from "@repo/backend/config/logger/default-logger.js";
 import type { Express } from "express";
 import express from "express";
-import expressPlugins from "@repo/backend/plugins/express/index.js";
+import expressPlugins, {
+	spotlightElements,
+} from "@repo/backend/plugins/express/index.js";
 
 import { networkInterfaces } from "node:os";
 
@@ -64,29 +66,30 @@ app.useGlobalPipes(
 		},
 	}),
 );
-SwaggerModule.setup(
-	"/api/playground/rest",
+
+const apiDoc = SwaggerModule.createDocument(
 	app,
-	SwaggerModule.createDocument(
-		app,
-		new DocumentBuilder()
-			.setTitle("repo.dev API")
-			.setDescription(
-				`Backend API for <a href="https://backend.repo.dev" target="_blank">https://backend.repo.dev</a>`,
-			)
-			.addBearerAuth(
-				{
-					type: "http",
-					scheme: "bearer",
-					bearerFormat: "JWT",
-					in: "header",
-				},
-				"bearer-sid",
-			)
-			.setVersion("0.0")
-			.build(),
-	),
+	new DocumentBuilder()
+		.setTitle("repo.dev API")
+		.setDescription(
+			`Backend API for <a href="https://backend.repo.dev" target="_blank">https://backend.repo.dev</a>`,
+		)
+		.addBearerAuth(
+			{
+				type: "http",
+				scheme: "bearer",
+				bearerFormat: "JWT",
+				in: "header",
+			},
+			"bearer-sid",
+		)
+		.setVersion("0.0")
+		.build(),
 );
+
+SwaggerModule.setup("/api/playground/rest", app, apiDoc);
+
+spotlightElements(expressApp, apiDoc);
 
 const server = await app.listen(
 	Number.parseInt(String(process.env.PORT)) || 2050,
