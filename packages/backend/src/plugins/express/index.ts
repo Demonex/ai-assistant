@@ -6,6 +6,7 @@ import Redis from "ioredis";
 import cookieParser from "cookie-parser";
 import memoize from "memoizee";
 import { REDIS_SESSION_PREFIX } from "@repo/backend/constants.js";
+import { type OpenAPIObject } from "@nestjs/swagger";
 
 const redisClient = new Redis(
 	`redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
@@ -14,6 +15,37 @@ const RedisSessionStore = new RedisStore({
 	client: redisClient,
 	prefix: REDIS_SESSION_PREFIX,
 });
+
+export const spotlightElements = (
+	express: Express,
+	swaggerDoc: OpenAPIObject,
+) => {
+	express.use((req, res, next) => {
+		if (req.path !== "/api/playground/rest/dark") {
+			return next();
+		}
+		res.send(`
+    <!doctype html>
+    <html lang="en" data-theme="dark">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>REST API DOC</title>
+        <script src="https://unpkg.com/@stoplight/elements/web-components.min.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/@stoplight/elements/styles.min.css">
+        <style>a[href^="https://stoplight.io"]{display:none!important;}</style>
+      </head>
+      <body style="background:#0d121b">
+        <elements-api style="display: block; height: 100vh;"
+          apidescriptiondocument='${JSON.stringify(swaggerDoc)}'
+          router="hash"
+          layout="sidebar"
+        />
+      </body>
+    </html>
+    `);
+	});
+};
 
 const expressSession = memoize(
 	(domain = "") => {
