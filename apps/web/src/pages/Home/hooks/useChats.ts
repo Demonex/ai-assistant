@@ -29,6 +29,7 @@ const _useChats = () => {
 	}>();
 
 	const [messages, setMessages] = useState<MessageType[]>();
+	const [statusFileUpload, setStatusFileUpload] = useState<boolean>(false);
 
 	const [{ data: messagesData }, fetchMessages] = useLazyFetch({
 		url: "/api/rest/chat/{activeChat.id}",
@@ -39,11 +40,10 @@ const _useChats = () => {
 		method: "post",
 	});
 
-	const [{ data: uploadFile, status: statusUpload }, fetchUploadFile] =
-		useLazyFetch({
-			url: "/api/rest/chat/{activeChat.id}/upload",
-			method: "post",
-		});
+	const [{ data: uploadFile }, fetchUploadFile] = useLazyFetch({
+		url: "/api/rest/chat/{activeChat.id}/upload",
+		method: "post",
+	});
 
 	useEffect(() => {
 		if (!activeChat?.id || !fetchMessages) {
@@ -79,11 +79,19 @@ const _useChats = () => {
 		({ formData }) => {
 			fetchUploadFile({
 				url: `/api/rest/chat/${activeChat.id}/upload`,
-				body: formData,
+				data: formData,
+				headers: { "Content-Type": "multipart/form-data" },
 			});
 		},
 		[activeChat?.id, fetchUploadFile],
 	);
+
+	useEffect(() => {
+		if (!uploadFile?.success) {
+			return;
+		}
+		setStatusFileUpload(uploadFile.success);
+	}, [uploadFile]);
 
 	useEffect(() => {
 		if (!messageSend) {
@@ -102,7 +110,7 @@ const _useChats = () => {
 		sendMessage,
 		loading,
 		sendUploadFile,
-		statusUpload,
+		statusFileUpload,
 	};
 };
 

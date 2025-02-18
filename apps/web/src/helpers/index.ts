@@ -23,8 +23,8 @@ export const formatFileSize = (size: number) => {
 	if (size < 1024 * 1024) {
 		return `${Math.round(size / 1024)} KB`;
 	}
-	if (size < 1024 * (1024 * 2)) {
-		return `${Math.round(size / (1024 * 2))} MB`;
+	if (size < 1024 * (1024 * 1024)) {
+		return `${Math.round(size / (1024 * 1024))} MB`;
 	}
 	return `${Math.round(size / (1024 * 1024 * 1024))} GB`;
 };

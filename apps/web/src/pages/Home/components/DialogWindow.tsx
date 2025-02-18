@@ -23,10 +23,11 @@ export const DialogWindow = () => {
 		sendMessage,
 		loading,
 		sendUploadFile,
-		statusUpload,
+		statusFileUpload,
 	} = useChats();
 	const [message, setMessage] = useState("");
 	const [files, setFiles] = useState([]);
+	const [filesLoader, setFilesLoader] = useState(false);
 	const [isOverlay, setIsOverlay] = useState(false);
 	const { register, handleSubmit, reset } = useForm();
 	const id = useId();
@@ -43,6 +44,7 @@ export const DialogWindow = () => {
 			}
 
 			sendUploadFile({ formData });
+			setFilesLoader(true);
 			setFiles([]);
 			reset();
 		} else {
@@ -128,13 +130,17 @@ export const DialogWindow = () => {
 		setTimeout(() => scrollToBottom());
 	}, [messages]);
 
-	if (statusUpload) {
-		toast({
-			title: "Файл успешно отправлен!",
-			description:
-				"Обработка займет некоторое время, после чего информация из файла станет доступна.",
-		});
-	}
+	useEffect(() => {
+		if (statusFileUpload) {
+			setFilesLoader(false);
+
+			toast({
+				title: "Файл успешно отправлен!",
+				description:
+					"Обработка займет некоторое время, после чего информация из файла станет доступна.",
+			});
+		}
+	}, [statusFileUpload]);
 
 	return (
 		<div className="flex-grow">
@@ -741,6 +747,7 @@ export const DialogWindow = () => {
 										textareaRef.current = el;
 										register("message").ref(el);
 									}}
+									disabled={filesLoader}
 									onInput={handleTextarea}
 									placeholder={"Enter message..."}
 									onChange={handleInputChange}
@@ -761,6 +768,7 @@ export const DialogWindow = () => {
 										className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-11 w-11 rounded-full p-0"
 										data-state="closed"
 										onClick={handlePinFileButton}
+										disabled={filesLoader}
 									>
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
