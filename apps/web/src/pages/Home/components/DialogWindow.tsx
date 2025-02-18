@@ -218,7 +218,10 @@ export const DialogWindow = () => {
 
 													<div className="flex items-center gap-2 justify-end">
 														<time className="mt-1 flex items-center text-sm text-muted-foreground justify-end">
-															{formatLocalTime(message.request.created_at)}
+															{formatLocalTime(
+																message.request.created_at ||
+																	new Date().toString(),
+															)}
 														</time>
 													</div>
 												</div>
@@ -252,7 +255,10 @@ export const DialogWindow = () => {
 													</div>
 													<div className="flex items-center gap-2">
 														<time className="mt-1 flex items-center text-sm text-muted-foreground">
-															{formatLocalTime(message.response.created_at)}
+															{formatLocalTime(
+																message.response.created_at ||
+																	new Date().toString(),
+															)}
 														</time>
 													</div>
 												</div>

@@ -64,7 +64,7 @@ const _useChats = (id: number) => {
 			fetchSendMessage({
 				url: `/api/rest/chat/${activeChat.id}/message`,
 				data: {
-					message: message,
+					raw: message,
 				},
 			});
 		},
@@ -89,10 +89,11 @@ const _useChats = (id: number) => {
 		setMessages((prev) => [
 			...prev,
 			{
-				...messageSend.success,
+				success: messageSend.success,
 				response: {
-					...messageSend.success.message,
+					created_at: messageSend.response.created_at,
 					message: messageSend.response.message,
+					fragments: messageSend.response.fragments,
 				},
 			},
 		]);
