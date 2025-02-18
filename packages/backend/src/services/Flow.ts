@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import FormData from "form-data";
 import got from "got";
+import { PassThrough } from "node:stream";
 
 @Injectable()
 export class LangFlowService {
@@ -10,23 +11,77 @@ export class LangFlowService {
 	// private authorization =
 	// 	"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxZmQ0ZTkwNS1kODc1LTQwZjEtODdmNS0xM2NiYWRlNjY4M2YiLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY4NTU0MzM5fQ.hdWCV_FBjKPvbqBL6HB1IKrVbq1y2wtI0hVvKuDEAmQ";
 
-	async uploadFile({ flowId, media }) {
-		const form = new FormData();
-		form.append("file", media.buffer, media.originalname);
+	async uploadFile({
+		flowId,
+		media,
+		stream,
+		name,
+	}: { flowId?; media?; stream?; name? }) {
+		if (media) {
+			const form = new FormData();
+			form.append("file", media.buffer, media.originalname);
 
-		return got.post<{ flowId: string; file_path: string }>(
-			`${this.endpoint}/api/v1/files/upload/${flowId}`,
-			{
-				method: "POST",
-				body: form,
-				headers: {
-					"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
-					// "x-api-key": "sk-nJL5Mhq1M0_5_Y-pVCAZwQFtU6aM7fu5UbkOiBPW5ec",
+			const res = got.post<{ flowId: string; file_path: string }>(
+				`${this.endpoint}/api/v1/files/upload/${flowId}`,
+				{
+					method: "POST",
+					body: form,
+					headers: {
+						"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
+						// "x-api-key": "sk-nJL5Mhq1M0_5_Y-pVCAZwQFtU6aM7fu5UbkOiBPW5ec",
+					},
+					responseType: "json",
+					resolveBodyOnly: true,
 				},
-				responseType: "json",
-				resolveBodyOnly: true,
-			},
-		);
+			);
+			console.log("res", res);
+			return res;
+		}
+
+		if (stream) {
+			const pt = new PassThrough();
+			setTimeout(() => {
+				pt.write("yo");
+				pt.end;
+			}, 100);
+			const formData = new FormData();
+			const bufs = [];
+
+			stream.on("data", (d) => {
+				bufs.push(d);
+			});
+			stream.on("end", async () => {
+				formData.append("file", Buffer.concat(bufs), {
+					filename: name,
+					contentType: "application/pdf",
+				});
+				console.log("st", `${this.endpoint}/api/v1/files/upload/${flowId}`, {
+					body: formData,
+					headers: {
+						"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
+						...formData.getHeaders(),
+					},
+				});
+				try {
+					return await got.post(
+						`${this.endpoint}/api/v1/files/upload/${flowId}`,
+						{
+							body: formData,
+							headers: {
+								"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
+								...formData.getHeaders(),
+							},
+						},
+					);
+				} catch (error) {
+					console.error("Request failed1:", error.message);
+					console.error("Status code1:", error.response?.statusCode);
+					console.error("Response body1:", error.response?.body);
+					console.error("Headers1:", error.response?.headers);
+				}
+				console.log("sttt");
+			});
+		}
 	}
 
 	async runFlow({
@@ -93,7 +148,6 @@ export class LangFlowService {
 				resolveBodyOnly: true,
 			})
 		).find((flow) => flow.folder_id === layoutFolderId && flow.name === filter);
-		console.log(flow, "OLD FLOW");
 
 		return flow;
 	}
@@ -110,7 +164,6 @@ export class LangFlowService {
 			responseType: "json",
 			resolveBodyOnly: true,
 		});
-		console.log(newFlow, "NEW FLOW");
 
 		return newFlow as any;
 	}

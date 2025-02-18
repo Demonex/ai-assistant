@@ -26,7 +26,7 @@ export const spotlightElements = (
 		}
 		res.send(`
     <!doctype html>
-    <html lang="en" data-theme="dark">
+    <html lang="en">
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -35,7 +35,7 @@ export const spotlightElements = (
         <link rel="stylesheet" href="https://unpkg.com/@stoplight/elements/styles.min.css">
         <style>a[href^="https://stoplight.io"]{display:none!important;}</style>
       </head>
-      <body style="background:#0d121b">
+      <body>
         <elements-api style="display: block; height: 100vh;"
           apidescriptiondocument='${JSON.stringify(swaggerDoc)}'
           router="hash"

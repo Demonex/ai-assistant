@@ -7,6 +7,7 @@ import { S3Client } from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
 import { PassThrough } from "node:stream";
 import FormData from "form-data";
+import { LangFlowService } from "./Flow.js";
 
 @Injectable()
 export class GotenbergService {
@@ -17,15 +18,16 @@ export class GotenbergService {
 	// private authorization =
 	// 	"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxZmQ0ZTkwNS1kODc1LTQwZjEtODdmNS0xM2NiYWRlNjY4M2YiLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY4NTU0MzM5fQ.hdWCV_FBjKPvbqBL6HB1IKrVbq1y2wtI0hVvKuDEAmQ";
 
-	async convertFromS3({ fileKeys, params }) {
+	constructor(private readonly flowService: LangFlowService) {}
+
+	async convertFromS3({ flowId, fileKeys, params }) {
 		try {
 			// console.log(downloadFromPayload);
 
 			await promiseMap(fileKeys, async (key) => {
-				const passThroughStream = new PassThrough();
-				// const pdfKey = key.replace(/(.*)$/, '.pdf')
-				// const pdfKey = `${key.split('.')[0]}.pdf`
-				// TODO add extention if there was none
+				const passThrough1 = new PassThrough();
+				const passThrough2 = new PassThrough();
+
 				const pdfKey = key.replace(/\.[^/.]+$/, ".pdf");
 
 				const { endpoint, ...rest } = params.getStorageClient();
@@ -56,7 +58,7 @@ export class GotenbergService {
 				const uploadParams = {
 					Bucket: bucket,
 					Key: Buffer.from(pdfKey, "utf-8").toString(),
-					Body: passThroughStream,
+					Body: passThrough1,
 				};
 
 				const upload = new Upload({
@@ -69,16 +71,43 @@ export class GotenbergService {
 				const form = new FormData();
 				form.append("downloadFrom", downloadFromPayload);
 
-				got
-					.stream(`${this.endpoint}/forms/libreoffice/convert`, {
+				console.log("beforepdf", downloadFromPayload);
+				const pdfReponse = got.stream(
+					`${this.endpoint}/forms/libreoffice/convert`,
+					{
 						method: "POST",
 						body: form,
 						headers: {
 							authorization: this.authorization,
 							...form.getHeaders(),
 						},
-					})
-					.pipe(passThroughStream);
+					},
+				);
+
+				pdfReponse.pipe(passThrough1);
+				pdfReponse.pipe(passThrough2);
+
+				console.log("afterpdf,", pdfReponse);
+				await this.flowService.uploadFile({
+					flowId,
+					stream: passThrough2,
+					name: pdfKey,
+				});
+
+				console.log("afterupload");
+				// const formData = new FormData();
+				// formData.append("file", passThrough2, {
+				// 	filename: "uploaded-file.txt", // Set the file name
+				// 	contentType: "text/plain", // Adjust based on file type
+				// });
+
+				// // Send the request using got
+				// got.post("http://10.199.20.10:7862", {
+				// 	body: formData,
+				// 	headers: {
+				// 		...formData.getHeaders(), // Include correct form-data headers
+				// 	},
+				// })
 
 				upload.on("httpUploadProgress", (progress) => {
 					console.log(

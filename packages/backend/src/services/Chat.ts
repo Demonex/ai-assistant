@@ -232,6 +232,7 @@ export class ChatService {
 		).id;
 
 		try {
+			// await this.flowService.deleteFlow({ flow: newFlow });
 			const response = await this.flowService.runFlow({
 				// flowId: "ec5c0e73-e348-4f1a-bc89-c0ed21167097",
 				flowId: newFlowId,
@@ -256,7 +257,6 @@ export class ChatService {
 
 				return frag;
 			});
-			// await this.flowService.deleteFlow({ flow: newFlow });
 
 			return {
 				success: true,
@@ -408,24 +408,6 @@ export class ChatService {
 				(provider.settings?.dockerEndpoint as string) ||
 				(settings?.dockerEndpoint as string);
 
-			// const mediaPDF = await this.gotenbergService.convertFromS3({
-			// 	fileKeys: [fileKey],
-			// 	params: {
-			// 		bucket,
-			// 		acl: "public-read",
-			// 		dockerEndpoint,
-			// 		getStorageClient: () => ({
-			// 			credentials: {
-			// 				accessKeyId: login,
-			// 				secretAccessKey: password,
-			// 			},
-			// 			region: process.env.S3_REGION,
-			// 			forcePathStyle: true,
-			// 			endpoint,
-			// 		}),
-			// 	},
-			// });
-
 			const copyFlow = await this.flowService.getFlow({ filter: "UPLOAD" });
 			const newFlow = await this.flowService.createFlow({ flow: copyFlow });
 
@@ -441,50 +423,28 @@ export class ChatService {
 				(node) => node.data.node.display_name === "Qdrant hybrid",
 			).id;
 
-			const { file_path: filePath } = await this.flowService.uploadFile({
-				flowId: newFlowId,
-				media,
-			});
-
-			const vectorFilePath = `/app/data/.cache/langflow/${filePath}`;
-
 			try {
-				const doc = this.em.create<DocEntity>(DocEntity, {
-					filename: media.originalname,
-					filesize: media.size,
-					mimeType: media.mimetype,
-					collection: chatId,
-					provider: provider.id,
-					vectorFilePath,
-				});
-				await this.em.persistAndFlush(doc);
-			} catch (error) {
-				console.error("Error creating doc:", error);
-
-				throw new HttpException(
-					"Internal Server Error",
-					HttpStatus.INTERNAL_SERVER_ERROR,
-				);
-			}
-
-			try {
-				await this.flowService.runFlow({
-					method: "UPLOAD",
+				console.log("newFlowId", newFlowId);
+				const mediaPDF = await this.gotenbergService.convertFromS3({
 					flowId: newFlowId,
-					payload: {
-						tweaks: {
-							[fileId]: {
-								path: `${filePath}`,
-								concurrency_multithreading: 4,
-								silent_errors: false,
-								use_multithreading: false,
+					fileKeys: [fileKey],
+					params: {
+						bucket,
+						acl: "public-read",
+						dockerEndpoint,
+						getStorageClient: () => ({
+							credentials: {
+								accessKeyId: login,
+								secretAccessKey: password,
 							},
-							[qdrantId]: {
-								collection_name: collection.id.toString(),
-							},
-						},
+							region: process.env.S3_REGION,
+							forcePathStyle: true,
+							endpoint,
+						}),
 					},
 				});
+
+				console.log(mediaPDF);
 			} catch (error) {
 				console.error("Request failed:", error.message);
 				console.error("Status code:", error.response?.statusCode);
@@ -492,7 +452,58 @@ export class ChatService {
 				console.error("Headers:", error.response?.headers);
 			}
 
-			await this.flowService.deleteFlow({ flow: newFlow });
+			// const { file_path: filePath } = await this.flowService.uploadFile({
+			// 	flowId: newFlowId,
+			// 	media,
+			// });
+
+			// const vectorFilePath = `/app/data/.cache/langflow/${filePath}`;
+
+			// try {
+			// 	const doc = this.em.create<DocEntity>(DocEntity, {
+			// 		filename: media.originalname,
+			// 		filesize: media.size,
+			// 		mimeType: media.mimetype,
+			// 		collection: chatId,
+			// 		provider: provider.id,
+			// 		vectorFilePath,
+			// 	});
+			// 	await this.em.persistAndFlush(doc);
+			// } catch (error) {
+			// 	console.error("Error creating doc:", error);
+
+			// 	throw new HttpException(
+			// 		"Internal Server Error",
+			// 		HttpStatus.INTERNAL_SERVER_ERROR,
+			// 	);
+			// }
+
+			// try {
+			// 	await this.flowService.runFlow({
+			// 		method: "UPLOAD",
+			// 		flowId: newFlowId,
+			// 		payload: {
+			// 			tweaks: {
+			// 				[fileId]: {
+			// 					path: `${filePath}`,
+			// 					concurrency_multithreading: 4,
+			// 					silent_errors: false,
+			// 					use_multithreading: false,
+			// 				},
+			// 				[qdrantId]: {
+			// 					collection_name: collection.id.toString(),
+			// 				},
+			// 			},
+			// 		},
+			// 	});
+			// } catch (error) {
+			// 	console.error("Request failed:", error.message);
+			// 	console.error("Status code:", error.response?.statusCode);
+			// 	console.error("Response body:", error.response?.body);
+			// 	console.error("Headers:", error.response?.headers);
+			// }
+
+			// await this.flowService.deleteFlow({ flow: newFlow });
 		});
 
 		return { success: true };
