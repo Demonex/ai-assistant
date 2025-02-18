@@ -20,12 +20,6 @@ export const getHandleUpload = ({
 		const fileKey = file.originalname;
 		const fileBufferOrStream = file.buffer;
 
-		console.log(
-			Buffer.from(fileKey, "utf-8").toString(),
-			"BUFFER FILEKEY",
-			fileKey,
-		);
-
 		const encodedFileName = encodeURIComponent(fileKey)
 			.replace(/'/g, "%27")
 			.replace(/\(/g, "%28")
@@ -37,8 +31,8 @@ export const getHandleUpload = ({
 				ACL: acl,
 				Body: fileBufferOrStream,
 				Bucket: bucket,
-				ContentType: file.mimeType,
-				ContentDisposition: `attachment; filename*=UTF-8''${encodedFileName}`,
+				ContentType: file.mimetype,
+				ContentDisposition: `inline; filename*=UTF-8''${encodedFileName}`,
 				Key: Buffer.from(fileKey, "utf-8").toString(),
 			});
 
@@ -51,7 +45,7 @@ export const getHandleUpload = ({
 				ACL: acl,
 				Body: fileBufferOrStream,
 				Bucket: bucket,
-				ContentType: file.mimeType,
+				ContentType: file.mimetype,
 				Key: Buffer.from(fileKey, "utf-8").toString(),
 			},
 			partSize: multipartThreshold,
