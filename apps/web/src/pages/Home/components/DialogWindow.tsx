@@ -50,8 +50,7 @@ export const DialogWindow = () => {
 				...messages,
 				{
 					id: id,
-					created_at: new Date().toString(),
-					message: { raw: message },
+					request: { message, created_at: new Date().toString() },
 				},
 			]);
 
@@ -205,13 +204,13 @@ export const DialogWindow = () => {
 									{/* {messageMockData?.map((message) => ( */}
 									{messages?.map((message) => (
 										<Fragment key={message.id}>
-											{message.message && (
+											{message.request && (
 												<div className="max-w-screen-sm self-end">
 													<div className="flex items-center gap-2">
 														<div className="shadow-base rounded-lg border bg-card text-card-foreground order-1">
 															<div className="inline-flex p-4">
 																<ReactMarkdownComponent
-																	textMarkdown={message.message.raw}
+																	textMarkdown={message.request.message}
 																/>
 															</div>
 														</div>
@@ -219,7 +218,7 @@ export const DialogWindow = () => {
 
 													<div className="flex items-center gap-2 justify-end">
 														<time className="mt-1 flex items-center text-sm text-muted-foreground justify-end">
-															{formatLocalTime(message.created_at)}
+															{formatLocalTime(message.request.created_at)}
 														</time>
 													</div>
 												</div>
@@ -232,7 +231,7 @@ export const DialogWindow = () => {
 															<div className="shadow-base rounded-lg border bg-card text-card-foreground w-full">
 																<div className="inline-flex p-4 w-full">
 																	<ReactMarkdownComponent
-																		textMarkdown={message.response.llmText}
+																		textMarkdown={message.response.message}
 																	/>
 																</div>
 																<div className="inline-flex p-4 w-full">
@@ -245,7 +244,7 @@ export const DialogWindow = () => {
 															<div className="shadow-base rounded-lg border bg-card text-card-foreground">
 																<div className="inline-flex p-4">
 																	<ReactMarkdownComponent
-																		textMarkdown={message.response.llmText}
+																		textMarkdown={message.response.message}
 																	/>
 																</div>
 															</div>
@@ -253,7 +252,7 @@ export const DialogWindow = () => {
 													</div>
 													<div className="flex items-center gap-2">
 														<time className="mt-1 flex items-center text-sm text-muted-foreground">
-															{formatLocalTime(message.created_at)}
+															{formatLocalTime(message.response.created_at)}
 														</time>
 													</div>
 												</div>
