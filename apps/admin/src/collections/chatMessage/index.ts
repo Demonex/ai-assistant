@@ -24,7 +24,7 @@ export const chatMessage: CollectionConfig = {
 			required: true,
 		},
 		{
-			name: "message",
+			name: "request",
 			type: "json",
 			required: true,
 		},
@@ -32,11 +32,6 @@ export const chatMessage: CollectionConfig = {
 			name: "response",
 			type: "json",
 			admin: {},
-		},
-		{
-			name: "createdAt",
-			type: "date",
-			required: true,
 		},
 	],
 	versions: false,

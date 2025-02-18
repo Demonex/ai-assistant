@@ -274,7 +274,7 @@ export interface ChatMessage {
   id: number;
   user: number | User;
   collection: number | Collection;
-  message:
+  request:
     | {
         [k: string]: unknown;
       }
@@ -292,8 +292,8 @@ export interface ChatMessage {
     | number
     | boolean
     | null;
-  createdAt: string;
   updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -552,10 +552,10 @@ export interface GroupSelect<T extends boolean = true> {
 export interface ChatMessageSelect<T extends boolean = true> {
   user?: T;
   collection?: T;
-  message?: T;
+  request?: T;
   response?: T;
-  createdAt?: T;
   updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
