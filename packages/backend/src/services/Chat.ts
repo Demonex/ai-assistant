@@ -85,10 +85,16 @@ export class ChatService {
 		userId: ChatMessageEntity["user"]["id"],
 		chatId: ChatMessageEntity["id"],
 	) {
-		const messages = await this.em.find<ChatMessageEntity>(ChatMessageEntity, {
-			user: userId,
-			collection: chatId,
-		});
+		const messages = await this.em.find<ChatMessageEntity>(
+			ChatMessageEntity,
+			{
+				user: userId,
+				collection: chatId,
+			},
+			{
+				exclude: ["user", "collection"],
+			},
+		);
 		return messages;
 	}
 
@@ -142,16 +148,16 @@ export class ChatService {
 				);
 			}
 		}
+		console.log(chatMessageDto.created_at);
 
 		try {
 			const chatMessage = this.em.create<ChatMessageEntity>(ChatMessageEntity, {
 				user: userId,
 				collection: chatId,
-				message: {
-					raw: chatMessageDto.raw,
+				request: {
+					message: chatMessageDto.raw,
+					created_at: chatMessageDto.created_at || new Date(),
 				},
-				response: chatMessageDto.response,
-				created_at: chatMessageDto.created_at || new Date(),
 			});
 			await this.em.persistAndFlush(chatMessage);
 
@@ -266,7 +272,7 @@ export class ChatService {
 
 	async messagePatch(
 		messageId: ChatMessageEntity["id"],
-		chatMessageDto: Partial<ChatMessageDto>,
+		data: Partial<ChatMessageEntity>,
 	) {
 		try {
 			const chatMessage = await this.em.findOne<ChatMessageEntity>(
@@ -276,7 +282,7 @@ export class ChatService {
 				},
 			);
 
-			chatMessage.response = chatMessageDto.response;
+			chatMessage.response = data.response;
 			await this.em.flush();
 
 			return chatMessage;

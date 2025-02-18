@@ -37,9 +37,7 @@ export class LangFlowService {
 		flowId: string;
 		payload?: { [key: string]: unknown };
 		method?: "RETRIEVE" | "UPLOAD";
-	}): Promise<{ llmText?: string; fragments?: any[] }> {
-		console.log(flowId, `${this.endpoint}/api/v1/run/${flowId}?stream=false`);
-
+	}): Promise<{ message?: string; fragments?: any[]; created_at?: Date }> {
 		const langflowResponse: any = await got.post(
 			`${this.endpoint}/api/v1/run/${flowId}?stream=false`,
 			{
@@ -67,8 +65,9 @@ export class LangFlowService {
 		const results = langflowResponse.outputs[0].outputs[0].results;
 
 		const response = {
-			llmText: results.message.text,
+			message: results.message.text,
 			fragments: results.output,
+			created_at: new Date(),
 		};
 
 		return response;

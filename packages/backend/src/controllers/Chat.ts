@@ -66,7 +66,10 @@ export class ChatController {
 		const response = await this.chatService.messageSend(userId, chatId, data);
 
 		await this.chatService.messagePatch(messageId, {
-			response,
+			response: {
+				success: response.success,
+				...response.response,
+			},
 		});
 
 		return response;
