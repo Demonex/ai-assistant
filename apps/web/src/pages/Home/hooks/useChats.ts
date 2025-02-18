@@ -1,19 +1,25 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useFetch, createMonoHook, useLazyFetch } from "use-mono-hook";
 
-type UserType = {
-	id: number;
-	name: string;
+type FragmentsType = {
+	uuid: string;
+	file_path: string;
+	page_num: number;
+	_id: string;
+	_collection_name: string;
+	text: string;
 };
 
 type MessageType = {
-	user: UserType | null;
-	messages: {
-		raw: string;
+	success: boolean;
+	response: {
+		created_at: string;
+		message: string;
+		fragments: FragmentsType[];
 	};
 };
 
-const _useChats = (id: number) => {
+const _useChats = () => {
 	const { data: chats } = useFetch({
 		url: "/api/rest/chats",
 	});
@@ -24,24 +30,20 @@ const _useChats = (id: number) => {
 
 	const [messages, setMessages] = useState<MessageType[]>();
 
-	const reqMessage = useLazyFetch({
+	const [{ data: messagesData }, fetchMessages] = useLazyFetch({
 		url: "/api/rest/chat/{activeChat.id}",
-	});
-
-	const [{ data: messagesData }, fetchMessages] = reqMessage || [{}];
+	}) || [{}];
 
 	const [{ data: messageSend, loading }, fetchSendMessage] = useLazyFetch({
 		url: "/api/rest/chat/{activeChat.id}/message",
 		method: "post",
 	});
 
-	////////////////////////////////////////////////////////////////////////////////////
-
-	const [{ data: uploadFile }, fetchUploadFile] = useLazyFetch({
-		url: "api/rest/chat/{id}/upload",
-		method: "post",
-	});
-	////////////////////////////////////////////////////////////////////////////////////
+	const [{ data: uploadFile, status: statusUpload }, fetchUploadFile] =
+		useLazyFetch({
+			url: "/api/rest/chat/{activeChat.id}/upload",
+			method: "post",
+		});
 
 	useEffect(() => {
 		if (!activeChat?.id || !fetchMessages) {
@@ -73,22 +75,22 @@ const _useChats = (id: number) => {
 		[activeChat?.id, fetchSendMessage],
 	);
 
+	const sendUploadFile = useCallback(
+		({ formData }) => {
+			fetchUploadFile({
+				url: `/api/rest/chat/${activeChat.id}/upload`,
+				body: formData,
+			});
+		},
+		[activeChat?.id, fetchUploadFile],
+	);
+
 	useEffect(() => {
 		if (!messageSend) {
 			return;
 		}
 
-		setMessages((prev) => [
-			...prev,
-			{
-				...messageSend.success,
-				created_at: new Date().toString(),
-				response: {
-					...messageSend.success.message,
-					raw: messageSend.response,
-				},
-			},
-		]);
+		setMessages((prev) => [...prev, { ...messageSend }]);
 	}, [messageSend]);
 
 	return {
@@ -99,6 +101,8 @@ const _useChats = (id: number) => {
 		messages,
 		sendMessage,
 		loading,
+		sendUploadFile,
+		statusUpload,
 	};
 };
 

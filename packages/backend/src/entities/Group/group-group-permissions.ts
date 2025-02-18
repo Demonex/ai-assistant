@@ -1,4 +1,4 @@
-import { Entity, Enum, ManyToOne, PrimaryKey } from "@mikro-orm/core";
+import { Entity, Enum, ManyToOne, PrimaryKey, type Rel } from "@mikro-orm/core";
 import { GroupEntity } from "./index.js";
 
 export enum GROUP_PERMISSION {
@@ -15,7 +15,7 @@ export class GroupPermissionsEntity {
 	id!: number;
 
 	@ManyToOne(() => GroupEntity, { name: "parent_id" })
-	group!: GroupEntity;
+	group!: Rel<GroupEntity>;
 
 	@Enum({
 		nativeEnumName: "enum_group_group_permissions",

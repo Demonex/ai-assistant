@@ -23,7 +23,7 @@ export const Sidebar = memo(() => {
 		);
 	}
 
-	// filteredChats = collectionMockData;
+	//   filteredChats = collectionMockData;
 
 	return (
 		<div className="w-full lg:w-96">
@@ -33,7 +33,7 @@ export const Sidebar = memo(() => {
 						<h3 className="text-lg leading-none tracking-tight font-bold">
 							Chats
 						</h3>
-						<FormNewCollection />
+						{/* <FormNewCollection /> */}
 					</div>
 				</div>
 				<div className="p-0">
@@ -45,13 +45,7 @@ export const Sidebar = memo(() => {
 						/>
 					</div>
 					<div className="flex h-[calc(100vh_-_13rem)] lg:h-[calc(100vh_-_15.8rem)] lg:pt-4">
-						<div
-							dir="ltr"
-							className="relative overflow-hidden w-full min-w-0"
-							style={{
-								position: "relative",
-							}}
-						>
+						<div dir="ltr" className="relative overflow-hidden w-full min-w-0">
 							<style
 								dangerouslySetInnerHTML={{
 									__html:

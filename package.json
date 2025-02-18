@@ -14,17 +14,13 @@
     "lint": "turbo run lint --parallel",
     "format": "turbo run format --parallel",
     "test": "turbo run test -- --watch false",
-
     "dev:admin": "pnpm run predev:* && turbo daemon clean && turbo --parallel --ui=tui dev --log-prefix=none --filter=@repo/admin",
     "dev:admin:types": "pnpm run predev:* && turbo daemon clean && turbo --parallel --ui=tui generate:types --log-prefix=none --filter=@repo/admin",
     "dev:admin:imports": "pnpm run predev:* && turbo daemon clean && turbo --parallel --ui=tui generate:importmap --log-prefix=none --filter=@repo/admin",
-
     "dev:backend": "turbo --parallel run dev --log-prefix=none --filter=@repo/backend",
     "dev:backend:watch": "turbo --parallel watch build --log-prefix=none --filter=@repo/backend",
     "dev:backend:all": "pnpm run dev:backend & pnpm run dev:backend:watch",
-
     "dev:backend:docker": "turbo --parallel run docker-compose --log-prefix=none --filter=@repo/backend",
-
     "dev:web": "pnpm run predev:* && turbo daemon clean && turbo run dev --log-prefix=none --filter=@repo/web"
   },
   "devDependencies": {
@@ -34,5 +30,21 @@
     "typescript": "5.7.2",
     "vitest": "2.1.8"
   },
-  "packageManager": "pnpm@9.12.3+sha512.cce0f9de9c5a7c95bef944169cc5dfe8741abfb145078c0d508b868056848a87c81e626246cb60967cbd7fd29a6c062ef73ff840d96b3c86c40ac92cf4a813ee"
+  "packageManager": "pnpm@10.4.0",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@biomejs/biome",
+      "@nestjs/core",
+      "@parcel/watcher",
+      "@scarf/scarf",
+      "@swc/core",
+      "bcrypt",
+      "bufferutil",
+      "core-js",
+      "es5-ext",
+      "esbuild",
+      "lefthook",
+      "utf-8-validate"
+    ]
+  }
 }

@@ -13,17 +13,18 @@ export const doc: CollectionConfig = {
 	slug: "doc",
 	access: docAccess,
 	admin: {
-		defaultColumns: ["name", "collection", "provider"],
-		useAsTitle: "name",
+		defaultColumns: ["filename", "collection", "provider"],
+		useAsTitle: "filename",
+		// hidden: true,
 	},
 	fields: [
 		{
-			name: "name",
+			name: "vectorFilePath",
 			type: "text",
 			required: true,
 			defaultValue: ({ req }) => {
 				// console.log(user, locale, req.query, req.id, req.body, req.payload);
-				console.log(req.doc_collection);
+				// console.log(req.doc_collection);
 			},
 		},
 		{
@@ -39,14 +40,7 @@ export const doc: CollectionConfig = {
 			required: true,
 		},
 	],
-	versions: {
-		drafts: {
-			autosave: {
-				interval: 100, // We set this interval for optimal live preview
-			},
-		},
-		maxPerDoc: 50,
-	},
+	versions: false,
 	upload: {},
 	hooks: {
 		beforeChange: [

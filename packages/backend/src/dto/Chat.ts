@@ -6,12 +6,12 @@ export class ChatMessageDto {
 	@ApiProperty()
 	readonly raw: string;
 
-	@IsObject()
-	@IsOptional()
-	@ApiProperty()
-	readonly response: {
-		[key: string]: unknown;
-	};
+	// @IsObject()
+	// @IsOptional()
+	// @ApiProperty()
+	// readonly response: {
+	// 	[key: string]: unknown;
+	// };
 
 	@IsDateString()
 	@IsOptional()

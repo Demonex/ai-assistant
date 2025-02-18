@@ -230,12 +230,11 @@ export interface Provider {
  */
 export interface Doc {
   id: number;
-  name: string;
+  vectorFilePath: string;
   collection: number | Collection;
   provider: number | Provider;
   updatedAt: string;
   createdAt: string;
-  _status?: ('draft' | 'published') | null;
   url?: string | null;
   thumbnailURL?: string | null;
   filename?: string | null;
@@ -275,7 +274,7 @@ export interface ChatMessage {
   id: number;
   user: number | User;
   collection: number | Collection;
-  message:
+  request:
     | {
         [k: string]: unknown;
       }
@@ -293,8 +292,8 @@ export interface ChatMessage {
     | number
     | boolean
     | null;
-  createdAt: string;
   updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -511,12 +510,11 @@ export interface ProviderSelect<T extends boolean = true> {
  * via the `definition` "doc_select".
  */
 export interface DocSelect<T extends boolean = true> {
-  name?: T;
+  vectorFilePath?: T;
   collection?: T;
   provider?: T;
   updatedAt?: T;
   createdAt?: T;
-  _status?: T;
   url?: T;
   thumbnailURL?: T;
   filename?: T;
@@ -554,10 +552,10 @@ export interface GroupSelect<T extends boolean = true> {
 export interface ChatMessageSelect<T extends boolean = true> {
   user?: T;
   collection?: T;
-  message?: T;
+  request?: T;
   response?: T;
-  createdAt?: T;
   updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

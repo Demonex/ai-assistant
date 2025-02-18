@@ -15,21 +15,34 @@ export const getHandleUpload = ({
 	bucket,
 	getStorageClient,
 	prefix = "",
-}: Args): any => {
+}: Args) => {
 	return async ({ file }) => {
 		const fileKey = file.originalname;
-		console.log(file, fileKey);
-
 		const fileBufferOrStream = file.buffer;
 
+		console.log(
+			Buffer.from(fileKey, "utf-8").toString(),
+			"BUFFER FILEKEY",
+			fileKey,
+		);
+
+		const encodedFileName = encodeURIComponent(fileKey)
+			.replace(/'/g, "%27")
+			.replace(/\(/g, "%28")
+			.replace(/\)/g, "%29");
+		// res.setHeader('Content-Disposition', `attachment; filename*=UTF-8''${encodedFileName}`);
+
 		if (file.buffer.length > 0 && file.buffer.length < multipartThreshold) {
-			return await new AWS.S3(getStorageClient()).putObject({
+			await new AWS.S3(getStorageClient()).putObject({
 				ACL: acl,
 				Body: fileBufferOrStream,
 				Bucket: bucket,
 				ContentType: file.mimeType,
-				Key: fileKey,
+				ContentDisposition: `attachment; filename*=UTF-8''${encodedFileName}`,
+				Key: Buffer.from(fileKey, "utf-8").toString(),
 			});
+
+			return fileKey;
 		}
 
 		const parallelUploadS3 = new Upload({
@@ -39,12 +52,13 @@ export const getHandleUpload = ({
 				Body: fileBufferOrStream,
 				Bucket: bucket,
 				ContentType: file.mimeType,
-				Key: fileKey,
+				Key: Buffer.from(fileKey, "utf-8").toString(),
 			},
 			partSize: multipartThreshold,
 			queueSize: 4,
 		});
+		await parallelUploadS3.done();
 
-		return await parallelUploadS3.done();
+		return fileKey;
 	};
 };

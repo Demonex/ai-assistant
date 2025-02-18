@@ -4,6 +4,7 @@ import { ThemeProvider } from "./theme-provider.js";
 import { MonoHooksProvider } from "use-mono-hook";
 import "../shared/config/i18n/i18n.js";
 import "../index.css";
+import { Toaster } from "./ui/toaster.js";
 
 const RouterApp = memo(() => {
 	const {
@@ -22,6 +23,7 @@ export const App = memo(() => {
 		<MonoHooksProvider>
 			<ThemeProvider>
 				<RouterApp />
+				<Toaster />
 			</ThemeProvider>
 		</MonoHooksProvider>
 	);

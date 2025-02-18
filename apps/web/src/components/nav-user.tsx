@@ -86,7 +86,7 @@ export function NavUser() {
 								</div>
 							</div>
 						</DropdownMenuLabel>
-						<DropdownMenuSeparator />
+						{/* <DropdownMenuSeparator />
 						<DropdownMenuGroup>
 							<DropdownMenuItem>
 								<Sparkles />
@@ -111,7 +111,7 @@ export function NavUser() {
 								<ModeToggle darkTheme={darkTheme} />
 								<span>Theme</span>
 							</DropdownMenuItem>
-						</DropdownMenuGroup>
+						</DropdownMenuGroup> */}
 						<DropdownMenuSeparator />
 						<DropdownMenuItem onClick={() => handleSignOut()}>
 							<LogOut />

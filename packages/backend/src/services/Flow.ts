@@ -20,8 +20,8 @@ export class LangFlowService {
 				method: "POST",
 				body: form,
 				headers: {
-					// authorization: this.authorization,
-					"x-api-key": "sk-nJL5Mhq1M0_5_Y-pVCAZwQFtU6aM7fu5UbkOiBPW5ec",
+					"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
+					// "x-api-key": "sk-nJL5Mhq1M0_5_Y-pVCAZwQFtU6aM7fu5UbkOiBPW5ec",
 				},
 				responseType: "json",
 				resolveBodyOnly: true,
@@ -32,27 +32,96 @@ export class LangFlowService {
 	async runFlow({
 		flowId,
 		payload,
-	}: { flowId: string; payload?: { [key: string]: unknown } }) {
-		const result: any = await got.post(
+		method = "RETRIEVE",
+	}: {
+		flowId: string;
+		payload?: { [key: string]: unknown };
+		method?: "RETRIEVE" | "UPLOAD";
+	}): Promise<{ message?: string; fragments?: any[]; created_at?: Date }> {
+		const langflowResponse: any = await got.post(
 			`${this.endpoint}/api/v1/run/${flowId}?stream=false`,
 			{
 				method: "POST",
 				headers: {
-					// Authorization: this.authorization,
 					"Content-Type": "application/json",
-					"x-api-key": "sk-nJL5Mhq1M0_5_Y-pVCAZwQFtU6aM7fu5UbkOiBPW5ec",
+					"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
+					// "x-api-key": "sk-nJL5Mhq1M0_5_Y-pVCAZwQFtU6aM7fu5UbkOiBPW5ec",
 				},
-				body: JSON.stringify({
+				json: {
 					input_value: payload.message,
 					output_type: "chat",
 					input_type: "chat",
 					tweaks: payload.tweaks,
-				}),
+				},
 				responseType: "json",
 				resolveBodyOnly: true,
 			},
 		);
 
-		return result.outputs[0].outputs[0]?.results.message.text;
+		if (method === "UPLOAD") {
+			return;
+		}
+
+		const results = langflowResponse.outputs[0].outputs[0].results;
+
+		const response = {
+			message: results.message.text,
+			fragments: results.output,
+			created_at: new Date(),
+		};
+
+		return response;
+	}
+
+	async getFlow({ filter } = { filter: "UPLOAD" }) {
+		const { id: layoutFolderId } = (
+			await got.get<any[]>(`${this.endpoint}/api/v1/folders/`, {
+				headers: {
+					"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
+				},
+				responseType: "json",
+				resolveBodyOnly: true,
+			})
+		).find((folder) => folder.name === "LAYOUTS");
+
+		const flow = (
+			await got.get<any[]>(`${this.endpoint}/api/v1/flows/`, {
+				headers: {
+					"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
+				},
+				responseType: "json",
+				resolveBodyOnly: true,
+			})
+		).find((flow) => flow.folder_id === layoutFolderId && flow.name === filter);
+		console.log(flow, "OLD FLOW");
+
+		return flow;
+	}
+
+	async createFlow({ flow }) {
+		const newFlow = await got.post(`${this.endpoint}/api/v1/flows/`, {
+			json: {
+				name: `${Date.now().toString()}-${flow.name}`,
+				data: flow.data,
+			},
+			headers: {
+				"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
+			},
+			responseType: "json",
+			resolveBodyOnly: true,
+		});
+		console.log(newFlow, "NEW FLOW");
+
+		return newFlow as any;
+	}
+
+	async deleteFlow({ flow }) {
+		console.log(flow.id);
+
+		await got.delete(`${this.endpoint}/api/v1/flows/${flow.id}`, {
+			headers: {
+				"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
+			},
+		});
 	}
 }

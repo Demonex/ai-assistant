@@ -47,23 +47,23 @@ export function AppSidebar({ handleAdmin, ...props }: AppSidebarProps) {
 		setOpen(true);
 	};
 
-	useEffect(() => {
-		setNav((prev) => {
-			if (profile.superadmin && !prev.some((item) => item.isAdmin)) {
-				return [
-					...prev,
-					{
-						id: Date.now(),
-						title: "Admin",
-						icon: UserRoundCog,
-						isActive: false,
-						isAdmin: true,
-					},
-				];
-			}
-			return prev;
-		});
-	}, [profile.superadmin]);
+	// useEffect(() => {
+	// 	setNav((prev) => {
+	// 		if (profile.superadmin && !prev.some((item) => item.isAdmin)) {
+	// 			return [
+	// 				...prev,
+	// 				{
+	// 					id: Date.now(),
+	// 					title: "Admin",
+	// 					icon: UserRoundCog,
+	// 					isActive: false,
+	// 					isAdmin: true,
+	// 				},
+	// 			];
+	// 		}
+	// 		return prev;
+	// 	});
+	// }, [profile.superadmin]);
 
 	return (
 		<Sidebar>

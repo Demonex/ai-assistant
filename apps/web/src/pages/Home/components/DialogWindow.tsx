@@ -1,12 +1,18 @@
 import { Fragment, useEffect, useId, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AvatarComponent } from "./AvatarComponent.js";
-import { DropdownMenuButton } from "./DropdownMenuButton.js";
-import { formatLocalTime } from "helpers/index.js";
+// import { DropdownMenuButton } from "./DropdownMenuButton.js";
+import {
+	formatFileSize,
+	formatLocalTime,
+	getColorFile,
+} from "helpers/index.js";
 import { useChats } from "../hooks/useChats.js";
 import { Spinner } from "./Spinner.js";
-import ReactMarkdown from "react-markdown";
 import { messageMockData } from "@/DataBase.js";
+import { AccordionComponent } from "./AccordionComponent.js";
+import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
+import { toast } from "@/hooks/use-toast.js";
 
 export const DialogWindow = () => {
 	const {
@@ -16,34 +22,42 @@ export const DialogWindow = () => {
 		setActiveChat,
 		sendMessage,
 		loading,
+		sendUploadFile,
+		statusUpload,
 	} = useChats();
 	const [message, setMessage] = useState("");
+	const [files, setFiles] = useState([]);
+	const [isOverlay, setIsOverlay] = useState(false);
 	const { register, handleSubmit, reset } = useForm();
 	const id = useId();
-	const wrapperRef = useRef(null);
 	const messagesEndRef = useRef(null);
 	const fileInputRef = useRef(null);
-	const textMessageRef = useRef(null);
-	const textResponseRef = useRef(null);
 	const textareaRef = useRef(null);
 
 	const onSubmit = () => {
-		setMessages([
-			...messages,
-			{
-				id: id,
-				created_at: new Date().toString(),
-				message: { raw: message },
-				// file: {
-				//   name: "text.docx",
-				//   size: 50000,
-				// },
-			},
-		]);
+		if (files.length) {
+			const formData = new FormData();
 
-		sendMessage({ message });
-		setMessage("");
-		reset();
+			for (let i = 0; i < files.length; i++) {
+				formData.append("media", files[i]);
+			}
+
+			sendUploadFile({ formData });
+			setFiles([]);
+			reset();
+		} else {
+			setMessages([
+				...messages,
+				{
+					id: id,
+					request: { message, created_at: new Date().toString() },
+				},
+			]);
+
+			sendMessage({ message });
+			setMessage("");
+			reset();
+		}
 	};
 
 	const handleInputChange = (event) => {
@@ -54,65 +68,54 @@ export const DialogWindow = () => {
 	const handleKeyDown = (event) => {
 		if (event.key === "Enter" && !event.shiftKey) {
 			event.preventDefault();
-			onSubmit();
+			if (message || files.length) onSubmit();
 		}
 	};
 
 	const scrollToBottom = () => {
-		messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
+		messagesEndRef.current?.scrollIntoView({
+			behavior: "smooth",
+			block: "nearest",
+		});
 	};
 
 	const onReturnToMenu = () => {
 		setActiveChat(false);
 	};
 
-	useEffect(() => {
-		scrollToBottom();
-	}, [messages]);
-
-	const [files, setFiles] = useState([]);
-	const [isOverlay, setIsOverlay] = useState(false);
-
-	const handleDragEnter = (e) => {
-		e.preventDefault();
+	const handleDragEnter = (event) => {
+		event.preventDefault();
 		setIsOverlay(true);
 	};
 
-	const handleDragOver = (e) => {
-		e.preventDefault();
+	const handleDragOver = (event) => {
+		event.preventDefault();
 	};
 
-	const handleDragLeave = (e) => {
-		e.preventDefault();
+	const handleDragLeave = (event) => {
+		event.preventDefault();
 		setIsOverlay(false);
 	};
 
-	const handleDrop = (e) => {
-		e.preventDefault();
+	const handleDrop = (event) => {
+		event.preventDefault();
 		setIsOverlay(false);
 
-		const data = e.dataTransfer?.files || e.target?.files;
+		const data = event.dataTransfer?.files || event.target?.files;
 
 		if (data.length) {
-			setFiles(data);
+			const newFiles = Array.from(data);
+			setFiles((prevFiles) => [...prevFiles, ...newFiles]);
 		}
-
-		console.log(data);
 	};
 
 	const handlePinFileButton = () => {
 		fileInputRef.current?.click();
 	};
 
-	const handleCloseDocument = () => {
-		setFiles([]);
+	const handleCloseDocument = (id: number) => {
+		setFiles((files) => files.filter((item) => item.lastModified !== id));
 		fileInputRef.current.value = "";
-	};
-
-	const openOrDownloadFile = () => {
-		const fileURL = URL.createObjectURL(files[0]);
-		window.open(fileURL, "_blank");
-		URL.revokeObjectURL(fileURL);
 	};
 
 	const handleTextarea = () => {
@@ -122,37 +125,20 @@ export const DialogWindow = () => {
 	};
 
 	useEffect(() => {
-		const textarea = textareaRef.current;
-		const wrapper = wrapperRef.current;
-
-		if (textarea || wrapper) {
-			textarea.style.height = "auto";
-			textarea.style.height = `${textarea.scrollHeight}px`;
-
-			wrapper.style.maxHeight = `${wrapper.scrollHeight}px`;
-		}
-	}, []);
-
-	useEffect(() => {
-		if (textMessageRef.current && textResponseRef.current) {
-			const style = document.createElement("style");
-
-			style.textContent = `
-        .markdown-content * { all: revert !important; }
-        .markdown-content *:last-child { margin: 0 !important; }
-      `;
-
-			textMessageRef.current.appendChild(style);
-			textResponseRef.current.appendChild(style);
-		}
+		setTimeout(() => scrollToBottom());
 	}, [messages]);
+
+	if (statusUpload) {
+		toast({
+			title: "Файл успешно отправлен!",
+			description:
+				"Обработка займет некоторое время, после чего информация из файла станет доступна.",
+		});
+	}
 
 	return (
 		<div className="flex-grow">
-			<div
-				ref={wrapperRef}
-				className="fixed inset-0 flex flex-col bg-background p-4 lg:relative lg:bg-transparent lg:p-0"
-			>
+			<div className="fixed inset-0 flex flex-col bg-background p-4 lg:relative lg:bg-transparent lg:p-0">
 				<div className="flex justify-between gap-4">
 					<div className="flex gap-4">
 						<button
@@ -183,12 +169,12 @@ export const DialogWindow = () => {
 							<span className="font-semibold">{activeChat?.title}</span>
 						</div>
 					</div>
-					<DropdownMenuButton />
+					{/* <DropdownMenuButton /> */}
 				</div>
 
 				<div
 					dir="ltr"
-					className="overflow-hidden relative h-screen w-full py-4 lg:h-[calc(100vh_-_15rem)]"
+					className="overflow-hidden relative h-screen w-full py-4 lg:h-[calc(100vh_-_9rem)]"
 					onDragEnter={handleDragEnter}
 				>
 					{isOverlay && (
@@ -196,9 +182,9 @@ export const DialogWindow = () => {
 							onDragOver={handleDragOver}
 							onDrop={handleDrop}
 							onDragLeave={handleDragLeave}
-							className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center text-white"
+							className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-90 flex items-center justify-center text-white z-2"
 						>
-							Перенесите файл сюда (DOC, DOCX, PDF, TXT)
+							Перенесите файл сюда (doc, docx, pdf, txt, png, jpg)
 						</div>
 					)}
 
@@ -210,150 +196,69 @@ export const DialogWindow = () => {
 					/>
 					<div
 						data-radix-scroll-area-viewport
-						className="h-full w-full rounded-[inherit]"
-						style={{ overflow: "hidden scroll" }}
+						className="overflow-scroll h-full w-full rounded-[inherit]"
 					>
 						<div data-radix-scroll-area-content>
 							<div>
-								<div className="flex flex-col items-start space-y-10 py-8">
+								<div className="flex flex-col items-start space-y-10 pb-[8rem]">
 									{/* {messageMockData?.map((message) => ( */}
 									{messages?.map((message) => (
 										<Fragment key={message.id}>
-											{message.message && (
+											{message.request && (
 												<div className="max-w-screen-sm self-end">
 													<div className="flex items-center gap-2">
 														<div className="shadow-base rounded-lg border bg-card text-card-foreground order-1">
 															<div className="inline-flex p-4">
-																<span ref={textMessageRef}>
-																	<ReactMarkdown
-																		className="markdown-content"
-																		children={message.message.raw}
-																	/>
-																</span>
+																<ReactMarkdownComponent
+																	textMarkdown={message.request.message}
+																/>
 															</div>
-
-															{message.file && (
-																<div
-																	onClick={openOrDownloadFile}
-																	className="flex items-center gap-2 cursor-pointer"
-																>
-																	<div className="shadow-base rounded-lg bg-card text-card-foreground">
-																		<div className="inline-flex items-center p-4">
-																			<svg
-																				className="lucide lucide-file me-4 h-8 w-8 opacity-50"
-																				fill="none"
-																				height="24"
-																				stroke="currentColor"
-																				strokeLinecap="round"
-																				strokeLinejoin="round"
-																				strokeWidth="1.5"
-																				viewBox="0 0 24 24"
-																				width="24"
-																				xmlns="http://www.w3.org/2000/svg"
-																			>
-																				<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
-																				<path d="M14 2v4a2 2 0 0 0 2 2h4" />
-																			</svg>
-																			<div className="flex flex-col gap-2">
-																				<div>
-																					{message.file.name}
-																					<span className="ms-2 text-sm text-muted-foreground">
-																						(
-																						{Math.floor(
-																							message.file.size / 1024,
-																						)}{" "}
-																						KB)
-																					</span>
-																				</div>
-																				{/* <div className="flex gap-2">
-                                          <button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
-                                            Скачать
-                                          </button>
-                                          <button
-                                            onClick={openOrDownloadFile}
-                                            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
-                                          >
-                                            Открыть
-                                          </button>
-                                        </div> */}
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															)}
 														</div>
 													</div>
 
 													<div className="flex items-center gap-2 justify-end">
 														<time className="mt-1 flex items-center text-sm text-muted-foreground justify-end">
-															{formatLocalTime(message.created_at)}
+															{formatLocalTime(
+																message.request.created_at ||
+																	new Date().toString(),
+															)}
 														</time>
 													</div>
 												</div>
 											)}
 											{message.response && (
-												<div className="max-w-screen-sm">
-													<div className="flex items-center gap-2">
-														<div className="shadow-base rounded-lg border bg-card text-card-foreground">
-															<div className="inline-flex p-4">
-																<span ref={textResponseRef}>
-																	<ReactMarkdown
-																		className="markdown-content"
-																		children={message.response.raw}
+												<div className="max-w-screen-sm w-full">
+													<div className="flex items-center gap-2 w-full">
+														{message.response.fragments &&
+														message.response.fragments.length > 0 ? (
+															<div className="shadow-base rounded-lg border bg-card text-card-foreground w-full">
+																<div className="inline-flex p-4 w-full">
+																	<ReactMarkdownComponent
+																		textMarkdown={message.response.message}
 																	/>
-																</span>
-															</div>
-															{message.file && (
-																<div className="flex items-center gap-2">
-																	<div className="shadow-base rounded-lg bg-card text-card-foreground">
-																		<div className="inline-flex items-center p-4">
-																			<svg
-																				className="lucide lucide-file me-4 h-8 w-8 opacity-50"
-																				fill="none"
-																				height="24"
-																				stroke="currentColor"
-																				strokeLinecap="round"
-																				strokeLinejoin="round"
-																				strokeWidth="1.5"
-																				viewBox="0 0 24 24"
-																				width="24"
-																				xmlns="http://www.w3.org/2000/svg"
-																			>
-																				<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
-																				<path d="M14 2v4a2 2 0 0 0 2 2h4" />
-																			</svg>
-																			<div className="flex flex-col gap-2">
-																				<div>
-																					{message.file.name}
-																					<span className="ms-2 text-sm text-muted-foreground">
-																						(
-																						{Math.floor(
-																							message.file.size / 1024,
-																						)}{" "}
-																						KB)
-																					</span>
-																				</div>
-																				<div className="flex gap-2">
-																					<button className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
-																						Скачать
-																					</button>
-																					<button
-																						onClick={openOrDownloadFile}
-																						className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
-																					>
-																						Открыть
-																					</button>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
 																</div>
-															)}
-														</div>
+																<div className="inline-flex p-4 w-full">
+																	<AccordionComponent
+																		items={message.response.fragments}
+																	/>
+																</div>
+															</div>
+														) : (
+															<div className="shadow-base rounded-lg border bg-card text-card-foreground">
+																<div className="inline-flex p-4">
+																	<ReactMarkdownComponent
+																		textMarkdown={message.response.message}
+																	/>
+																</div>
+															</div>
+														)}
 													</div>
 													<div className="flex items-center gap-2">
 														<time className="mt-1 flex items-center text-sm text-muted-foreground">
-															{formatLocalTime(message.created_at)}
+															{formatLocalTime(
+																message.response.created_at ||
+																	new Date().toString(),
+															)}
 														</time>
 													</div>
 												</div>
@@ -775,77 +680,74 @@ export const DialogWindow = () => {
 					</div>
 				</div>
 
-				<div
-					style={
-						files.length
-							? {
-									borderTop: 0,
-									borderTopLeftRadius: 0,
-									borderTopRightRadius: 0,
-								}
-							: {}
-					}
-					className="relative shadow-base rounded-lg border bg-card text-card-foreground"
-				>
-					{files.length > 0 && (
-						<div className="absolute -left-px -right-px bg-background bottom-full border border-b-0 rounded-b-none rounded-l-lg rounded-r-lg flex flex-wrap gap-2 p-2 lg:p-4 lg:pb-1">
-							<div
-								aria-label="document-1738765831781.pdf"
-								className="relative flex w-40 rounded-md border border-slate-100 text-xs shadow shadow-slate-200"
-								title="document-1738765831781.pdf"
-							>
-								<div
-									aria-hidden="true"
-									className="grid h-12 w-12 flex-shrink-0 place-items-center truncate rounded-bl-md rounded-tl-md bg-[hsl(224.52deg_75%_48.63%)] font-medium uppercase text-white"
-								>
-									{files[0].name.split(".").pop()}
-								</div>
-								<div className="min-w-0 px-3 py-2">
-									<p className="truncate" title="document-1738765831781.pdf">
-										{files[0].name}
-									</p>
-									<div className="text-gray-500">
-										{Math.floor(files[0].size / 1024)} KB
-									</div>
-									<div
-										onClick={handleCloseDocument}
-										className="absolute right-0 top-0 z-10 -translate-y-2 translate-x-2 cursor-pointer rounded-full bg-white p-1 shadow shadow-slate-200 hover:bg-stone-100"
-									>
-										<span>
-											<svg
-												aria-hidden="true"
-												className="h-2 w-2 fill-stone-500"
-												preserveAspectRatio="none"
-												viewBox="0 0 1024 1024"
-											>
-												<path
-													clipRule="evenodd"
-													d="M587.19 506.246l397.116-397.263a52.029 52.029 0 0 0 0-73.143l-2.194-2.194a51.98 51.98 0 0 0-73.143 0l-397.068 397.8-397.068-397.8a51.98 51.98 0 0 0-73.143 0l-2.146 2.194a51.054 51.054 0 0 0 0 73.143l397.069 397.263L39.544 903.461a52.029 52.029 0 0 0 0 73.142l2.146 2.195a51.98 51.98 0 0 0 73.143 0L511.9 581.583l397.068 397.215a51.98 51.98 0 0 0 73.143 0l2.194-2.146a52.029 52.029 0 0 0 0-73.143L587.19 506.246z"
-													fillRule="evenodd"
-												/>
-											</svg>
-										</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					)}
-					<div>
+				<div className="relative lg:absolute left-0 right-0 bottom-0 shadow-base bg-card text-card-foreground">
+					<div className="rounded-lg border">
 						<form
 							className="w-full relative flex items-center p-2 lg:p-4"
 							onSubmit={handleSubmit(onSubmit)}
 						>
-							<textarea
-								{...register("message", {
-									required: "Message is required",
-								})}
-								ref={textareaRef}
-								onInput={handleTextarea}
-								placeholder="Enter message..."
-								onChange={handleInputChange}
-								onKeyDown={handleKeyDown}
-								className="flex h-10 w-full resize-none overflow-hidden max-h-[150px] rounded-md border bg-background px-3 py-2 text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent pe-32 !text-base !shadow-transsparent !ring-transparent lg:pe-56"
-							/>
+							{files?.length > 0 ? (
+								<div className="w-full flex flex-wrap gap-2">
+									{files.map((file) => (
+										<div
+											key={file.lastModified}
+											className="relative flex w-40 rounded-md border border-slate-100 text-xs shadow shadow-slate-200"
+										>
+											<div
+												style={{
+													backgroundColor: getColorFile(
+														file.name.split(".").pop(),
+													),
+												}}
+												aria-hidden="true"
+												className="grid h-12 w-12 flex-shrink-0 place-items-center truncate rounded-bl-md rounded-tl-md font-medium uppercase text-white"
+											>
+												{file.name.split(".").pop()}
+											</div>
+											<div className="min-w-0 px-3 py-2">
+												<p className="truncate">{file.name}</p>
+												<div className="text-gray-500">
+													{formatFileSize(file.size)}
+												</div>
+												<div
+													onClick={() => handleCloseDocument(file.lastModified)}
+													className="absolute right-0 top-0 z-10 -translate-y-2 translate-x-2 cursor-pointer rounded-full bg-white p-1 shadow shadow-slate-200 hover:bg-stone-100"
+												>
+													<span>
+														<svg
+															aria-hidden="true"
+															className="h-2 w-2 fill-stone-500"
+															preserveAspectRatio="none"
+															viewBox="0 0 1024 1024"
+														>
+															<path
+																clipRule="evenodd"
+																d="M587.19 506.246l397.116-397.263a52.029 52.029 0 0 0 0-73.143l-2.194-2.194a51.98 51.98 0 0 0-73.143 0l-397.068 397.8-397.068-397.8a51.98 51.98 0 0 0-73.143 0l-2.146 2.194a51.054 51.054 0 0 0 0 73.143l397.069 397.263L39.544 903.461a52.029 52.029 0 0 0 0 73.142l2.146 2.195a51.98 51.98 0 0 0 73.143 0L511.9 581.583l397.068 397.215a51.98 51.98 0 0 0 73.143 0l2.194-2.146a52.029 52.029 0 0 0 0-73.143L587.19 506.246z"
+																fillRule="evenodd"
+															/>
+														</svg>
+													</span>
+												</div>
+											</div>
+										</div>
+									))}
+								</div>
+							) : (
+								<textarea
+									{...register("message", {
+										required: "Message is required",
+									})}
+									ref={(el) => {
+										textareaRef.current = el;
+										register("message").ref(el);
+									}}
+									onInput={handleTextarea}
+									placeholder={"Enter message..."}
+									onChange={handleInputChange}
+									onKeyDown={handleKeyDown}
+									className="flex w-full resize-none overflow-auto h-[50px] max-h-[150px] rounded-md border-none bg-background p-0 text-sm placeholder:text-muted-foreground focus:border-none focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent !text-base !shadow-transsparent !ring-transparent"
+								/>
+							)}
 							<div className="end-4 flex items-center">
 								<div className="relative ml-3">
 									<input
@@ -876,16 +778,17 @@ export const DialogWindow = () => {
 										</svg>
 									</button>
 								</div>
-								{!loading && (
+								{loading ? (
+									<Spinner />
+								) : (
 									<button
-										disabled={!message && !files.length}
+										disabled={!message && !files?.length}
 										type="submit"
 										className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 ms-3"
 									>
 										Send
 									</button>
 								)}
-								{loading && <Spinner />}
 							</div>
 						</form>
 					</div>

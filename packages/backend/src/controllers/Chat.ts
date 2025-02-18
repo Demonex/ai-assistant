@@ -63,28 +63,16 @@ export class ChatController {
 			data,
 		);
 
-		try {
-			const flowResponse = await this.flowService.runFlow({
-				flowId: "ec5c0e73-e348-4f1a-bc89-c0ed21167097",
-				payload: {
-					message: data.raw,
-				},
-			});
+		const response = await this.chatService.messageSend(userId, chatId, data);
 
-			await this.chatService.messagePatch(messageId, {
-				response: {
-					raw: flowResponse,
-					score: 5,
-				},
-			});
+		await this.chatService.messagePatch(messageId, {
+			response: {
+				success: response.success,
+				...response.response,
+			},
+		});
 
-			return {
-				success: true,
-				response: flowResponse,
-			};
-		} catch (e) {
-			console.error(e);
-		}
+		return response;
 	}
 	// @ApiOperation({ summary: "avatar update in profile" })
 	// @UseInterceptors(
@@ -113,12 +101,15 @@ export class ChatController {
 	@UseInterceptors(
 		FilesInterceptor("media", 500, {
 			fileFilter: (_, file, callback) => {
-				if (!file.mimetype.match(/(^image|video|text)(\/)[a-zA-Z0-9_]*/)) {
-					return callback(
-						new NotAcceptableException(HttpStatusMessages.FILE_NOT_ALLOWED),
-						false,
-					);
-				}
+				// if (!file.mimetype.match(/(^image|video|text)(\/)[a-zA-Z0-9_]*/)) {
+				// 	return callback(
+				// 		new NotAcceptableException(HttpStatusMessages.FILE_NOT_ALLOWED),
+				// 		false,
+				// 	);
+				// }
+				file.originalname = Buffer.from(file.originalname, "latin1").toString(
+					"utf8",
+				);
 				return callback(null, true);
 			},
 		}),

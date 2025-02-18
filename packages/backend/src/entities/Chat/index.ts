@@ -16,8 +16,9 @@ export class ChatMessageEntity {
 	@Property({
 		type: "jsonb",
 	})
-	message: {
+	request: {
 		[k: string]: unknown;
+		created_at: DateType;
 	};
 
 	@Property({
@@ -26,10 +27,8 @@ export class ChatMessageEntity {
 	})
 	response: {
 		[k: string]: unknown;
+		created_at: DateType;
 	};
-
-	@Property()
-	created_at: DateType;
 
 	@OneToOne({
 		orphanRemoval: true,

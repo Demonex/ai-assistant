@@ -9,7 +9,7 @@
     "build": "del-cli -f dist/build.info && tsup",
     "lint": "biome lint --write src",
     "format": "biome format --write src",
-    "dev": "pnpm run clean && wait-on dist/build.info && node --no-deprecation --trace-warnings --enable-source-maps --watch -r dotenv/config dist/index.js",
+    "dev": "nest start -b swc -w",
     "serve:office": "node --trace-warnings -r dotenv/config dist/index.js dotenv_config_path=.env.office",
     "clean": "del-cli dist/build.info",
     "docker-compose": "docker-compose up -d --remove-orphans",
@@ -61,8 +61,10 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@nestjs/cli": "^11.0.2",
     "@repo/config-biome": "workspace:*",
     "@repo/config-typescript": "workspace:*",
+    "@swc/cli": "0.6.0",
     "@swc/core": "1.10.9",
     "@types/bcrypt": "5.0.2",
     "@types/cookie-parser": "1.4.8",
@@ -84,5 +86,6 @@
     "typescript": "5.7.3",
     "vitest": "2.1.8",
     "wait-on": "8.0.2"
-  }
+  },
+  "packageManager": "pnpm@10.3.0"
 }

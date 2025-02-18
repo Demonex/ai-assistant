@@ -4,6 +4,7 @@ import {
 	Property,
 	OneToOne,
 	ManyToOne,
+	type Rel,
 } from "@mikro-orm/core";
 import { UserEntity } from "../User/index.js";
 import { GroupEntity } from "./index.js";
@@ -14,10 +15,10 @@ export class GroupUsersEntity {
 	id!: number;
 
 	@ManyToOne(() => GroupEntity, { name: "parent_id" })
-	group!: GroupEntity;
+	group!: Rel<GroupEntity>;
 
 	@ManyToOne(() => UserEntity, { name: "user_id" })
-	user!: UserEntity;
+	user!: Rel<UserEntity>;
 
 	@Property()
 	path: string;

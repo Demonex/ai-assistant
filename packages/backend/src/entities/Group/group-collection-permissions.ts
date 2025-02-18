@@ -1,4 +1,4 @@
-import { Entity, Enum, ManyToOne, PrimaryKey } from "@mikro-orm/core";
+import { Entity, Enum, ManyToOne, PrimaryKey, type Rel } from "@mikro-orm/core";
 import { CollectionEntity } from "../Collection/index.js";
 import { GroupEntity } from "./index.js";
 
@@ -14,10 +14,10 @@ export class GroupCollectionPermissionsEntity {
 	id!: number;
 
 	@ManyToOne(() => GroupEntity, { name: "_parent_id" })
-	group!: GroupEntity;
+	group!: Rel<GroupEntity>;
 
 	@ManyToOne(() => CollectionEntity, { name: "collection_id" })
-	collection!: CollectionEntity;
+	collection!: Rel<CollectionEntity>;
 
 	@Enum({
 		nativeEnumName: "enum_group_collection_permissions_permissions",
