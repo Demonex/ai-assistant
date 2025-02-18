@@ -12,7 +12,7 @@ import { Spinner } from "./Spinner.js";
 import { messageMockData } from "@/DataBase.js";
 import { AccordionComponent } from "./AccordionComponent.js";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
-import { ToastComponent } from "./ToastComponent.js";
+import { toast } from "@/hooks/use-toast.js";
 
 export const DialogWindow = () => {
 	const {
@@ -129,20 +129,13 @@ export const DialogWindow = () => {
 		setTimeout(() => scrollToBottom());
 	}, [messages]);
 
-	const [isUpload, setIsUpload] = useState(false);
-
-	useEffect(() => {
-		let timer;
-
-		if (statusUpload === "success") {
-			setIsUpload(true);
-			timer = setTimeout(() => {
-				setIsUpload(false);
-			}, 4000);
-		}
-
-		() => clearTimeout(timer);
-	}, [statusUpload]);
+	if (statusUpload) {
+		toast({
+			title: "Файл успешно отправлен!",
+			description:
+				"Обработка займет некоторое время, после чего информация из файла станет доступна.",
+		});
+	}
 
 	return (
 		<div className="flex-grow">
@@ -190,9 +183,9 @@ export const DialogWindow = () => {
 							onDragOver={handleDragOver}
 							onDrop={handleDrop}
 							onDragLeave={handleDragLeave}
-							className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-90 flex items-center justify-center text-white"
+							className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-90 flex items-center justify-center text-white z-2"
 						>
-							Перенесите файл сюда (DOC, DOCX, PDF, TXT)
+							Перенесите файл сюда (doc, docx, pdf, txt, png, jpg)
 						</div>
 					)}
 
@@ -212,7 +205,6 @@ export const DialogWindow = () => {
 									{/* {messageMockData?.map((message) => ( */}
 									{messages?.map((message) => (
 										<Fragment key={message.id}>
-											{/* <ToastComponent /> */}
 											{message.message && (
 												<div className="max-w-screen-sm self-end">
 													<div className="flex items-center gap-2">
@@ -684,15 +676,6 @@ export const DialogWindow = () => {
 				</div>
 
 				<div className="relative lg:absolute left-0 right-0 bottom-0 shadow-base bg-card text-card-foreground">
-					{isUpload && (
-						<div className="bg-black absolut font-bold text-sm py-2">
-							<p>Файл успешно отправлен!</p>
-							<p>
-								Обработка займет некоторое время, после чего информация из файла
-								станет доступна.
-							</p>
-						</div>
-					)}
 					<div className="rounded-lg border">
 						<form
 							className="w-full relative flex items-center p-2 lg:p-4"

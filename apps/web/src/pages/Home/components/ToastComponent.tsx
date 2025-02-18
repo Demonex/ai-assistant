@@ -10,7 +10,9 @@ export function ToastComponent() {
 			variant="outline"
 			onClick={() => {
 				toast({
-					description: "Your message has been sent.",
+					title: "Файл успешно отправлен!",
+					description:
+						"Обработка займет некоторое время, после чего информация из файла станет доступна.",
 				});
 			}}
 		>
