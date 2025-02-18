@@ -1,19 +1,25 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useFetch, createMonoHook, useLazyFetch } from "use-mono-hook";
 
-type UserType = {
-	id: number;
-	name: string;
+type FragmentsType = {
+	uuid: string;
+	file_path: string;
+	page_num: number;
+	_id: string;
+	_collection_name: string;
+	text: string;
 };
 
 type MessageType = {
-	user: UserType | null;
-	messages: {
-		raw: string;
+	success: boolean;
+	response: {
+		created_at: string;
+		message: string;
+		fragments: FragmentsType[];
 	};
 };
 
-const _useChats = (id: number) => {
+const _useChats = () => {
 	const { data: chats } = useFetch({
 		url: "/api/rest/chats",
 	});
@@ -24,11 +30,9 @@ const _useChats = (id: number) => {
 
 	const [messages, setMessages] = useState<MessageType[]>();
 
-	const reqMessage = useLazyFetch({
+	const [{ data: messagesData }, fetchMessages] = useLazyFetch({
 		url: "/api/rest/chat/{activeChat.id}",
-	});
-
-	const [{ data: messagesData }, fetchMessages] = reqMessage || [{}];
+	}) || [{}];
 
 	const [{ data: messageSend, loading }, fetchSendMessage] = useLazyFetch({
 		url: "/api/rest/chat/{activeChat.id}/message",
@@ -86,17 +90,7 @@ const _useChats = (id: number) => {
 			return;
 		}
 
-		setMessages((prev) => [
-			...prev,
-			{
-				success: messageSend.success,
-				response: {
-					created_at: messageSend.response.created_at,
-					message: messageSend.response.message,
-					fragments: messageSend.response.fragments,
-				},
-			},
-		]);
+		setMessages((prev) => [...prev, { ...messageSend }]);
 	}, [messageSend]);
 
 	return {
