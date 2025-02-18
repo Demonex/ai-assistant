@@ -43,7 +43,7 @@ export const DialogWindow = () => {
 			}
 
 			sendUploadFile({ formData });
-			setFiles(null);
+			setFiles([]);
 			reset();
 		} else {
 			setMessages([
@@ -68,7 +68,7 @@ export const DialogWindow = () => {
 	const handleKeyDown = (event) => {
 		if (event.key === "Enter" && !event.shiftKey) {
 			event.preventDefault();
-			onSubmit();
+			if (message || files.length) onSubmit();
 		}
 	};
 
