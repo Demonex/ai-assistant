@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useId, useRef, useState } from "react";
+import { Fragment, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AvatarComponent } from "./AvatarComponent.js";
 // import { DropdownMenuButton } from "./DropdownMenuButton.js";
@@ -21,13 +21,12 @@ export const DialogWindow = () => {
 		activeChat,
 		setActiveChat,
 		sendMessage,
-		loading,
+		messageLoading,
 		sendUploadFile,
-		statusFileUpload,
+		fileLoading,
 	} = useChats();
 	const [message, setMessage] = useState("");
 	const [files, setFiles] = useState([]);
-	const [filesLoader, setFilesLoader] = useState(false);
 	const [isOverlay, setIsOverlay] = useState(false);
 	const { register, handleSubmit, reset } = useForm();
 	const id = useId();
@@ -44,7 +43,6 @@ export const DialogWindow = () => {
 			}
 
 			sendUploadFile({ formData });
-			setFilesLoader(true);
 			setFiles([]);
 			reset();
 		} else {
@@ -126,21 +124,23 @@ export const DialogWindow = () => {
 		textarea.style.height = `${textarea.scrollHeight}px`;
 	};
 
+	const isLoading = useMemo(() => {
+		return fileLoading || messageLoading;
+	}, [fileLoading, messageLoading]);
+
 	useEffect(() => {
 		setTimeout(() => scrollToBottom());
 	}, [messages]);
 
 	useEffect(() => {
-		if (statusFileUpload) {
-			setFilesLoader(false);
-
+		if (fileLoading) {
 			toast({
 				title: "Файл успешно отправлен!",
 				description:
 					"Обработка займет некоторое время, после чего информация из файла станет доступна.",
 			});
 		}
-	}, [statusFileUpload]);
+	}, [fileLoading]);
 
 	return (
 		<div className="flex-grow">
@@ -747,7 +747,7 @@ export const DialogWindow = () => {
 										textareaRef.current = el;
 										register("message").ref(el);
 									}}
-									disabled={filesLoader}
+									disabled={isLoading}
 									onInput={handleTextarea}
 									placeholder={"Enter message..."}
 									onChange={handleInputChange}
@@ -768,7 +768,7 @@ export const DialogWindow = () => {
 										className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-11 w-11 rounded-full p-0"
 										data-state="closed"
 										onClick={handlePinFileButton}
-										disabled={filesLoader}
+										disabled={isLoading}
 									>
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
@@ -786,17 +786,13 @@ export const DialogWindow = () => {
 										</svg>
 									</button>
 								</div>
-								{loading ? (
-									<Spinner />
-								) : (
-									<button
-										disabled={!message && !files?.length}
-										type="submit"
-										className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 ms-3"
-									>
-										Send
-									</button>
-								)}
+								<button
+									disabled={!message && !files?.length}
+									type="submit"
+									className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 ms-3"
+								>
+									{isLoading ? <Spinner /> : "Send"}
+								</button>
 							</div>
 						</form>
 					</div>

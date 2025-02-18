@@ -29,21 +29,12 @@ const _useChats = () => {
 	}>();
 
 	const [messages, setMessages] = useState<MessageType[]>();
-	const [statusFileUpload, setStatusFileUpload] = useState<boolean>(false);
+
+	// fetchMessages //
 
 	const [{ data: messagesData }, fetchMessages] = useLazyFetch({
 		url: "/api/rest/chat/{activeChat.id}",
 	}) || [{}];
-
-	const [{ data: messageSend, loading }, fetchSendMessage] = useLazyFetch({
-		url: "/api/rest/chat/{activeChat.id}/message",
-		method: "post",
-	});
-
-	const [{ data: uploadFile }, fetchUploadFile] = useLazyFetch({
-		url: "/api/rest/chat/{activeChat.id}/upload",
-		method: "post",
-	});
 
 	useEffect(() => {
 		if (!activeChat?.id || !fetchMessages) {
@@ -63,6 +54,14 @@ const _useChats = () => {
 		setMessages(messagesData);
 	}, [messagesData]);
 
+	// fetchSendMessage //
+
+	const [{ data: messageSend, loading: messageLoading }, fetchSendMessage] =
+		useLazyFetch({
+			url: "/api/rest/chat/{activeChat.id}/message",
+			method: "post",
+		});
+
 	const sendMessage = useCallback(
 		({ message }) => {
 			fetchSendMessage({
@@ -75,6 +74,22 @@ const _useChats = () => {
 		[activeChat?.id, fetchSendMessage],
 	);
 
+	useEffect(() => {
+		if (!messageSend) {
+			return;
+		}
+
+		setMessages((prev) => [...prev, { ...messageSend }]);
+	}, [messageSend]);
+
+	// fetchUploadFile //
+
+	const [{ data: _uploadFile, loading: fileLoading }, fetchUploadFile] =
+		useLazyFetch({
+			url: "/api/rest/chat/{activeChat.id}/upload",
+			method: "post",
+		});
+
 	const sendUploadFile = useCallback(
 		({ formData }) => {
 			fetchUploadFile({
@@ -86,21 +101,6 @@ const _useChats = () => {
 		[activeChat?.id, fetchUploadFile],
 	);
 
-	useEffect(() => {
-		if (!uploadFile?.success) {
-			return;
-		}
-		setStatusFileUpload(uploadFile.success);
-	}, [uploadFile]);
-
-	useEffect(() => {
-		if (!messageSend) {
-			return;
-		}
-
-		setMessages((prev) => [...prev, { ...messageSend }]);
-	}, [messageSend]);
-
 	return {
 		chats,
 		activeChat,
@@ -108,9 +108,9 @@ const _useChats = () => {
 		setMessages,
 		messages,
 		sendMessage,
-		loading,
+		messageLoading,
 		sendUploadFile,
-		statusFileUpload,
+		fileLoading,
 	};
 };
 
