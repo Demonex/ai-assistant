@@ -24,7 +24,6 @@ export const DialogWindow = () => {
 		messageLoading,
 		sendUploadFile,
 		fileLoading,
-		status,
 	} = useChats();
 	const [message, setMessage] = useState("");
 	const [files, setFiles] = useState([]);
@@ -142,8 +141,6 @@ export const DialogWindow = () => {
 			});
 		}
 	}, [fileLoading]);
-
-	console.log(status);
 
 	return (
 		<div className="flex-grow">
