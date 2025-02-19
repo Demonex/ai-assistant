@@ -752,7 +752,7 @@ export const DialogWindow = () => {
 									placeholder={"Enter message..."}
 									onChange={handleInputChange}
 									onKeyDown={handleKeyDown}
-									className="flex w-full resize-none overflow-auto h-[50px] max-h-[150px] rounded-md border-none bg-background p-0 text-sm placeholder:text-muted-foreground focus:border-none focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent !text-base !shadow-transsparent !ring-transparent"
+									className="flex w-full resize-none overflow-auto h-[50px] max-h-[150px] md: max-md:max-h-[100px] rounded-md border-none bg-background p-0 text-sm placeholder:text-muted-foreground focus:border-none focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent !text-base !shadow-transsparent !ring-transparent"
 								/>
 							)}
 							<div className="end-4 flex items-center">

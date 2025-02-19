@@ -102,6 +102,7 @@ export function AppSidebar({ handleAdmin, ...props }: AppSidebarProps) {
 											tooltip={{
 												children: item.title,
 												hidden: false,
+												className: "hidden md:block",
 											}}
 											onClick={() => toggleMenuItem(item)}
 											isActive={item.isActive}

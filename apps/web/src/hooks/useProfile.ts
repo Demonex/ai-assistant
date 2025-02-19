@@ -36,6 +36,7 @@ const _useProfile = () => {
 			return;
 		}
 		setProfile(data);
+		// setProfile({ id: "ads", email: "bla@bla.ru" });
 	}, [data]);
 
 	useEffect(() => {
