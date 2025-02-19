@@ -30,6 +30,7 @@ export const DialogWindow = () => {
 	const [isOverlay, setIsOverlay] = useState(false);
 	const { register, handleSubmit, reset } = useForm();
 	const id = useId();
+	const prevFileLoading = useRef(false);
 	const messagesEndRef = useRef(null);
 	const fileInputRef = useRef(null);
 	const textareaRef = useRef(null);
@@ -133,13 +134,15 @@ export const DialogWindow = () => {
 	}, [messages]);
 
 	useEffect(() => {
-		if (fileLoading) {
+		if (prevFileLoading.current && !fileLoading) {
 			toast({
 				title: "Файл успешно отправлен!",
 				description:
 					"Обработка займет некоторое время, после чего информация из файла станет доступна.",
 			});
 		}
+
+		prevFileLoading.current = fileLoading;
 	}, [fileLoading]);
 
 	return (
