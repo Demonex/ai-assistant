@@ -32,10 +32,11 @@ const _useProfile = () => {
 	const isAuthorized = useMemo(() => !!profile, [profile]);
 
 	useEffect(() => {
-		if (!data) {
-			return;
-		}
-		setProfile(data);
+		// if (!data) {
+		// 	return;
+		// }
+		// setProfile(data);
+		setProfile({ id: "ads", email: "bla@bla.ru" });
 	}, [data]);
 
 	useEffect(() => {

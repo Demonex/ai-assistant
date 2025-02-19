@@ -47,14 +47,14 @@ export function DashboardPage() {
 						<Separator orientation="vertical" className="mr-2 h-4" />
 						<Breadcrumb>
 							{/* <BreadcrumbList>
-								<BreadcrumbItem className="hidden md:block">
-									<BreadcrumbLink href="#">All Inboxes</BreadcrumbLink>
-								</BreadcrumbItem>
-								<BreadcrumbSeparator className="hidden md:block" />
-								<BreadcrumbItem>
-									<BreadcrumbPage>Inbox</BreadcrumbPage>
-								</BreadcrumbItem>
-							</BreadcrumbList> */}
+                <BreadcrumbItem className="hidden md:block">
+                  <BreadcrumbLink href="#">All Inboxes</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator className="hidden md:block" />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Inbox</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList> */}
 						</Breadcrumb>
 					</header>
 					<ChatComponent />
