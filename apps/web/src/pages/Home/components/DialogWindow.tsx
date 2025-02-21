@@ -136,29 +136,28 @@ export const DialogWindow = () => {
 	}, [messages]);
 
 	useEffect(() => {
-		if (prevFileLoading.current && !fileLoading && !fetchErrors) {
-			toast({
-				title: "Файл успешно отправлен!",
-				description:
-					"Обработка займет некоторое время, после чего информация из файла станет доступна.",
-			});
+		console.log(fetchErrors);
+		if (prevFileLoading.current && !fileLoading) {
+			if (!fetchErrors.length) {
+				toast({
+					title: "Файл успешно отправлен!",
+					description:
+						"Обработка займет некоторое время, после чего информация из файла станет доступна.",
+				});
+			} else {
+				fetchErrors.forEach((error) => {
+					toast({
+						variant: "destructive",
+						title: error.status,
+						description: error.message,
+					});
+				});
+				setFetchErrors([]);
+			}
 		}
 
 		prevFileLoading.current = fileLoading;
-	}, [fileLoading]);
-
-	useEffect(() => {
-		if (fetchErrors.length) {
-			fetchErrors.forEach((error) => {
-				toast({
-					variant: "destructive",
-					title: error.status,
-					description: error.message,
-				});
-			});
-			setFetchErrors([]);
-		}
-	}, [fetchErrors]);
+	}, [fileLoading, fetchErrors]);
 
 	return (
 		<div className="flex-grow">
