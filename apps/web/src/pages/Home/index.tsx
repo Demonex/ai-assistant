@@ -2,9 +2,10 @@ import { memo, useEffect } from "react";
 import { DashboardPage } from "./components/dashboard/page.js";
 import { useProfile } from "@/hooks/useProfile.js";
 import { useLocation } from "wouter";
+import { toast } from "@/hooks/use-toast.js";
 
 export const HomePage = memo(() => {
-	const { isAuthorized, loading } = useProfile();
+	const { isAuthorized, loading, errorProfile } = useProfile();
 	const [location, navigate] = useLocation();
 
 	useEffect(() => {
@@ -14,6 +15,16 @@ export const HomePage = memo(() => {
 
 		navigate("/sign-in");
 	}, [isAuthorized]);
+
+	useEffect(() => {
+		if (errorProfile) {
+			toast({
+				variant: "destructive",
+				title: errorProfile.status,
+				description: errorProfile.message,
+			});
+		}
+	}, [errorProfile]);
 
 	if (!isAuthorized) {
 		return null;

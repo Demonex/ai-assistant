@@ -24,6 +24,8 @@ const _useChats = () => {
 		url: "/api/rest/chats",
 	});
 
+	const [fetchErrors, setFetchErrors] = useState([]);
+
 	const [activeChat, setActiveChat] = useState<{
 		id: number;
 	}>();
@@ -32,9 +34,10 @@ const _useChats = () => {
 
 	// fetchMessages //
 
-	const [{ data: messagesData }, fetchMessages] = useLazyFetch({
-		url: "/api/rest/chat/{activeChat.id}",
-	}) || [{}];
+	const [{ data: messagesData, error: messagesError }, fetchMessages] =
+		useLazyFetch({
+			url: "/api/rest/chat/{activeChat.id}",
+		}) || [{}];
 
 	useEffect(() => {
 		if (!activeChat?.id || !fetchMessages) {
@@ -56,11 +59,13 @@ const _useChats = () => {
 
 	// fetchSendMessage //
 
-	const [{ data: messageSend, loading: messageLoading }, fetchSendMessage] =
-		useLazyFetch({
-			url: "/api/rest/chat/{activeChat.id}/message",
-			method: "post",
-		});
+	const [
+		{ data: messageSend, loading: messageLoading, error: messageError },
+		fetchSendMessage,
+	] = useLazyFetch({
+		url: "/api/rest/chat/{activeChat.id}/message",
+		method: "post",
+	});
 
 	const sendMessage = useCallback(
 		({ message }) => {
@@ -84,11 +89,13 @@ const _useChats = () => {
 
 	// fetchUploadFile //
 
-	const [{ data: _uploadFile, loading: fileLoading }, fetchUploadFile] =
-		useLazyFetch({
-			url: "/api/rest/chat/{activeChat.id}/upload",
-			method: "post",
-		});
+	const [
+		{ data: _uploadFile, loading: fileLoading, error: fileError },
+		fetchUploadFile,
+	] = useLazyFetch({
+		url: "/api/rest/chat/{activeChat.id}/upload",
+		method: "post",
+	});
 
 	const sendUploadFile = useCallback(
 		({ formData }) => {
@@ -101,6 +108,16 @@ const _useChats = () => {
 		[activeChat?.id, fetchUploadFile],
 	);
 
+	// setErrors //
+
+	useEffect(() => {
+		const newErrors = [messagesError, messageError, fileError].filter(
+			Boolean,
+		) as Error[];
+
+		if (newErrors.length) setFetchErrors(newErrors);
+	}, [messagesError, messageError, fileError]);
+
 	return {
 		chats,
 		activeChat,
@@ -111,6 +128,8 @@ const _useChats = () => {
 		messageLoading,
 		sendUploadFile,
 		fileLoading,
+		fetchErrors,
+		setFetchErrors,
 	};
 };
 

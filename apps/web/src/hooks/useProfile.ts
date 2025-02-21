@@ -2,21 +2,23 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useFetch, createMonoHook, useLazyFetch } from "use-mono-hook";
 
 const _useProfile = () => {
-	const { data, error, loading } = useFetch({
+	const {
+		data,
+		error: errorProfile,
+		loading,
+	} = useFetch({
 		url: `${import.meta.env.VITE_BACKEND_URL}/profile`,
-		cache: false,
-	});
-
-	const requestSignIn = useLazyFetch({
-		url: `${import.meta.env.VITE_BACKEND_URL}/auth/email/sign-in`,
-		method: "post",
 		cache: false,
 	});
 
 	const [
 		{ data: dataSignIn, error: errorSignIn, loading: loadingSignIn },
 		fetchSignIn,
-	] = requestSignIn;
+	] = useLazyFetch({
+		url: `${import.meta.env.VITE_BACKEND_URL}/auth/email/sign-in`,
+		method: "post",
+		cache: false,
+	});
 
 	const [
 		{ data: dataSignOut, error: errorSignOut, loading: loadingSignOut },
@@ -73,6 +75,9 @@ const _useProfile = () => {
 		profile,
 		handleSignOut,
 		handleSignIn,
+		errorSignIn,
+		errorSignOut,
+		errorProfile,
 		loading,
 	};
 };

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { cn } from "@/lib/utils.js";
 import { Button } from "@/components/ui/button.js";
 import {
@@ -12,6 +13,7 @@ import { Label } from "@/components/ui/label.js";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useProfile } from "@/hooks/useProfile.js";
 import { useLocation } from "wouter";
+import { toast } from "@/hooks/use-toast.js";
 
 type Inputs = {
 	email: string;
@@ -27,15 +29,23 @@ export function SignIn({
 		watch,
 		formState: { errors },
 	} = useForm<Inputs>();
-
-	const { handleSignIn } = useProfile();
+	const [, navigate] = useLocation();
+	const { handleSignIn, errorSignIn } = useProfile();
 
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {
 		await handleSignIn(data);
 		navigate("/");
 	};
 
-	const [, navigate] = useLocation();
+	useEffect(() => {
+		if (errorSignIn) {
+			toast({
+				variant: "destructive",
+				title: errorSignIn.status,
+				description: errorSignIn.message,
+			});
+		}
+	}, [errorSignIn]);
 
 	return (
 		<div className={cn("flex flex-col gap-6", className)} {...props}>

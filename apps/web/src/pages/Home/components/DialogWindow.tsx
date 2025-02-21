@@ -24,6 +24,8 @@ export const DialogWindow = () => {
 		messageLoading,
 		sendUploadFile,
 		fileLoading,
+		fetchErrors,
+		setFetchErrors,
 	} = useChats();
 	const [message, setMessage] = useState("");
 	const [files, setFiles] = useState([]);
@@ -134,7 +136,7 @@ export const DialogWindow = () => {
 	}, [messages]);
 
 	useEffect(() => {
-		if (prevFileLoading.current && !fileLoading) {
+		if (prevFileLoading.current && !fileLoading && !fetchErrors) {
 			toast({
 				title: "Файл успешно отправлен!",
 				description:
@@ -144,6 +146,19 @@ export const DialogWindow = () => {
 
 		prevFileLoading.current = fileLoading;
 	}, [fileLoading]);
+
+	useEffect(() => {
+		if (fetchErrors.length) {
+			fetchErrors.forEach((error) => {
+				toast({
+					variant: "destructive",
+					title: error.status,
+					description: error.message,
+				});
+			});
+			setFetchErrors([]);
+		}
+	}, [fetchErrors]);
 
 	return (
 		<div className="flex-grow">
@@ -191,7 +206,7 @@ export const DialogWindow = () => {
 							onDragOver={handleDragOver}
 							onDrop={handleDrop}
 							onDragLeave={handleDragLeave}
-							className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-90 flex items-center justify-center text-white z-2"
+							className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-90 flex items-center justify-center text-white z-[2]"
 						>
 							Перенесите файл сюда (doc, docx, pdf, txt, png, jpg)
 						</div>
