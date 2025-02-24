@@ -16,7 +16,9 @@ export function AccordionComponent({ items }) {
 		<Accordion type="single" collapsible className="w-full">
 			{items?.map((item) => (
 				<AccordionItem value={item._id} key={item._id}>
-					<AccordionTrigger>{item.file_path.split("/").pop()}</AccordionTrigger>
+					<AccordionTrigger>
+						{`${item.file_path.split("/").pop()} - Страница ${item.page_num}`}
+					</AccordionTrigger>
 					<AccordionContent>
 						<button
 							onClick={() => openFile(item)}

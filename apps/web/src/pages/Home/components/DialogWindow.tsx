@@ -30,9 +30,11 @@ export const DialogWindow = () => {
 	const [message, setMessage] = useState("");
 	const [files, setFiles] = useState([]);
 	const [isOverlay, setIsOverlay] = useState(false);
+
 	const { register, handleSubmit, reset } = useForm();
+
 	const id = useId();
-	const prevFileLoading = useRef(false);
+
 	const messagesEndRef = useRef(null);
 	const fileInputRef = useRef(null);
 	const textareaRef = useRef(null);
@@ -127,24 +129,18 @@ export const DialogWindow = () => {
 		textarea.style.height = `${textarea.scrollHeight}px`;
 	};
 
-	const isLoading = useMemo(() => {
-		return fileLoading || messageLoading;
-	}, [fileLoading, messageLoading]);
-
 	useEffect(() => {
 		setTimeout(() => scrollToBottom());
 	}, [messages]);
 
 	useEffect(() => {
-		if (prevFileLoading.current && !fileLoading && !fetchErrors) {
+		if (fileLoading) {
 			toast({
-				title: "Файл успешно отправлен!",
+				title: "Файл загружается!",
 				description:
-					"Обработка займет некоторое время, после чего информация из файла станет доступна.",
+					"Загрузка займет некоторое время, после чего информация из файла станет доступна.",
 			});
 		}
-
-		prevFileLoading.current = fileLoading;
 	}, [fileLoading]);
 
 	useEffect(() => {
@@ -201,14 +197,14 @@ export const DialogWindow = () => {
 					className="overflow-hidden relative h-screen w-full py-4 lg:h-[calc(100vh_-_9rem)]"
 					onDragEnter={handleDragEnter}
 				>
-					{isOverlay && (
+					{isOverlay && !messageLoading && (
 						<div
 							onDragOver={handleDragOver}
 							onDrop={handleDrop}
 							onDragLeave={handleDragLeave}
 							className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-90 flex items-center justify-center text-white z-[2]"
 						>
-							Перенесите файл сюда (doc, docx, pdf, txt, png, jpg)
+							Перенесите файл сюда (doc, docx, pdf, txt)
 						</div>
 					)}
 
@@ -765,7 +761,7 @@ export const DialogWindow = () => {
 										textareaRef.current = el;
 										register("message").ref(el);
 									}}
-									disabled={isLoading}
+									disabled={messageLoading}
 									onInput={handleTextarea}
 									placeholder={"Enter message..."}
 									onChange={handleInputChange}
@@ -786,7 +782,7 @@ export const DialogWindow = () => {
 										className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-11 w-11 rounded-full p-0"
 										data-state="closed"
 										onClick={handlePinFileButton}
-										disabled={isLoading}
+										disabled={messageLoading}
 									>
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
@@ -809,7 +805,7 @@ export const DialogWindow = () => {
 									type="submit"
 									className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 ms-3"
 								>
-									{isLoading ? <Spinner /> : "Send"}
+									{messageLoading ? <Spinner /> : "Send"}
 								</button>
 							</div>
 						</form>
