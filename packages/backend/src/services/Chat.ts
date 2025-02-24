@@ -424,27 +424,70 @@ export class ChatService {
 			).id;
 
 			try {
-				console.log("newFlowId", newFlowId);
-				const mediaPDF = await this.gotenbergService.convertFromS3({
+				const { file_path: filepath } =
+					await this.gotenbergService.convertFromS3({
+						flowId: newFlowId,
+						fileKey,
+						params: {
+							bucket,
+							acl: "public-read",
+							dockerEndpoint,
+							getStorageClient: () => ({
+								credentials: {
+									accessKeyId: login,
+									secretAccessKey: password,
+								},
+								region: process.env.S3_REGION,
+								forcePathStyle: true,
+								endpoint,
+							}),
+						},
+					});
+
+				console.log(filepath, "RESULT");
+
+				// const { file_path: filePath } = await this.flowService.uploadFile({
+				// 	flowId: newFlowId,
+				// 	media,
+				// });
+
+				const vectorFilePath = `/app/langflow/${filepath}`;
+
+				try {
+					const doc = this.em.create<DocEntity>(DocEntity, {
+						filename: media.originalname,
+						filesize: media.size,
+						mimeType: media.mimetype,
+						collection: chatId,
+						provider: provider.id,
+						vectorFilePath,
+					});
+					await this.em.persistAndFlush(doc);
+				} catch (error) {
+					console.error("Error creating doc:", error);
+
+					throw new HttpException(
+						"Internal Server Error",
+						HttpStatus.INTERNAL_SERVER_ERROR,
+					);
+				}
+				await this.flowService.runFlow({
+					method: "UPLOAD",
 					flowId: newFlowId,
-					fileKeys: [fileKey],
-					params: {
-						bucket,
-						acl: "public-read",
-						dockerEndpoint,
-						getStorageClient: () => ({
-							credentials: {
-								accessKeyId: login,
-								secretAccessKey: password,
+					payload: {
+						tweaks: {
+							[fileId]: {
+								path: `${filepath}`,
+								concurrency_multithreading: 4,
+								silent_errors: false,
+								use_multithreading: false,
 							},
-							region: process.env.S3_REGION,
-							forcePathStyle: true,
-							endpoint,
-						}),
+							[qdrantId]: {
+								collection_name: collection.title.toString(),
+							},
+						},
 					},
 				});
-
-				console.log(mediaPDF);
 			} catch (error) {
 				console.error("Request failed:", error.message);
 				console.error("Status code:", error.response?.statusCode);
@@ -452,58 +495,7 @@ export class ChatService {
 				console.error("Headers:", error.response?.headers);
 			}
 
-			// const { file_path: filePath } = await this.flowService.uploadFile({
-			// 	flowId: newFlowId,
-			// 	media,
-			// });
-
-			// const vectorFilePath = `/app/data/.cache/langflow/${filePath}`;
-
-			// try {
-			// 	const doc = this.em.create<DocEntity>(DocEntity, {
-			// 		filename: media.originalname,
-			// 		filesize: media.size,
-			// 		mimeType: media.mimetype,
-			// 		collection: chatId,
-			// 		provider: provider.id,
-			// 		vectorFilePath,
-			// 	});
-			// 	await this.em.persistAndFlush(doc);
-			// } catch (error) {
-			// 	console.error("Error creating doc:", error);
-
-			// 	throw new HttpException(
-			// 		"Internal Server Error",
-			// 		HttpStatus.INTERNAL_SERVER_ERROR,
-			// 	);
-			// }
-
-			// try {
-			// 	await this.flowService.runFlow({
-			// 		method: "UPLOAD",
-			// 		flowId: newFlowId,
-			// 		payload: {
-			// 			tweaks: {
-			// 				[fileId]: {
-			// 					path: `${filePath}`,
-			// 					concurrency_multithreading: 4,
-			// 					silent_errors: false,
-			// 					use_multithreading: false,
-			// 				},
-			// 				[qdrantId]: {
-			// 					collection_name: collection.id.toString(),
-			// 				},
-			// 			},
-			// 		},
-			// 	});
-			// } catch (error) {
-			// 	console.error("Request failed:", error.message);
-			// 	console.error("Status code:", error.response?.statusCode);
-			// 	console.error("Response body:", error.response?.body);
-			// 	console.error("Headers:", error.response?.headers);
-			// }
-
-			// await this.flowService.deleteFlow({ flow: newFlow });
+			await this.flowService.deleteFlow({ flow: newFlow });
 		});
 
 		return { success: true };

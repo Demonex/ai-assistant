@@ -20,108 +20,127 @@ export class GotenbergService {
 
 	constructor(private readonly flowService: LangFlowService) {}
 
-	async convertFromS3({ flowId, fileKeys, params }) {
+	async convertFromS3({
+		flowId,
+		fileKey: key,
+		params,
+	}): Promise<{ flowId: string; file_path: string }> {
 		try {
 			// console.log(downloadFromPayload);
 
-			await promiseMap(fileKeys, async (key) => {
-				const passThrough1 = new PassThrough();
-				const passThrough2 = new PassThrough();
+			// await promiseMap(fileKey, async (key) => {
+			const passThrough1 = new PassThrough();
+			const passThrough2 = new PassThrough();
 
-				const pdfKey = key.replace(/\.[^/.]+$/, ".pdf");
+			const pdfKey = key.replace(/\.[^/.]+$/, ".pdf");
 
-				const { endpoint, ...rest } = params.getStorageClient();
-				const bucket = params.bucket;
+			const { endpoint, ...rest } = params.getStorageClient();
+			const bucket = params.bucket;
 
-				const s3Client = new S3Client({
-					endpoint,
+			const s3Client = new S3Client({
+				endpoint,
+				...rest,
+				// endpoint: params.dockerEndpoint || endpoint,
+			});
+
+			// const url = `${params.dockerEndpoint || endpoint}/${bucket}/${key}`
+			// console.log( url )
+			const downloadFromPayload = JSON.stringify([
+				{
+					url: `${params.dockerEndpoint || endpoint}/${bucket}/${key}`,
+				},
+			]);
+
+			console.log(
+				{
 					...rest,
-					// endpoint: params.dockerEndpoint || endpoint,
-				});
+					endpoint: params.dockerEndpoint || endpoint,
+				},
+				"CLIENT S3",
+			);
 
-				// const url = `${params.dockerEndpoint || endpoint}/${bucket}/${key}`
-				// console.log( url )
-				const downloadFromPayload = JSON.stringify(
-					fileKeys.map((key) => ({
-						url: `${params.dockerEndpoint || endpoint}/${bucket}/${key}`,
-					})),
-				);
+			console.log(pdfKey);
 
-				console.log(
-					{
-						...rest,
-						endpoint: params.dockerEndpoint || endpoint,
-					},
-					"CLIENT S3",
-				);
+			const encodedFileName = encodeURIComponent(pdfKey)
+				.replace(/'/g, "%27")
+				.replace(/\(/g, "%28")
+				.replace(/\)/g, "%29");
 
-				const uploadParams = {
+			const upload = new Upload({
+				client: s3Client,
+				params: {
 					Bucket: bucket,
 					Key: Buffer.from(pdfKey, "utf-8").toString(),
 					Body: passThrough1,
-				};
-
-				const upload = new Upload({
-					client: s3Client,
-					params: uploadParams,
-					queueSize: 4,
-					partSize: 5 * 1024 * 1024,
-				});
-
-				const form = new FormData();
-				form.append("downloadFrom", downloadFromPayload);
-
-				console.log("beforepdf", downloadFromPayload);
-				const pdfReponse = got.stream(
-					`${this.endpoint}/forms/libreoffice/convert`,
-					{
-						method: "POST",
-						body: form,
-						headers: {
-							authorization: this.authorization,
-							...form.getHeaders(),
-						},
-					},
-				);
-
-				pdfReponse.pipe(passThrough1);
-				pdfReponse.pipe(passThrough2);
-
-				console.log("afterpdf,", pdfReponse);
-				await this.flowService.uploadFile({
-					flowId,
-					stream: passThrough2,
-					name: pdfKey,
-				});
-
-				console.log("afterupload");
-				// const formData = new FormData();
-				// formData.append("file", passThrough2, {
-				// 	filename: "uploaded-file.txt", // Set the file name
-				// 	contentType: "text/plain", // Adjust based on file type
-				// });
-
-				// // Send the request using got
-				// got.post("http://10.199.20.10:7862", {
-				// 	body: formData,
-				// 	headers: {
-				// 		...formData.getHeaders(), // Include correct form-data headers
-				// 	},
-				// })
-
-				upload.on("httpUploadProgress", (progress) => {
-					console.log(
-						`Uploaded ${progress.loaded} bytes out of ${progress.total}`,
-					);
-				});
-
-				try {
-					const data = await upload.done();
-					console.log("Upload successful:", data);
-				} catch (err) {
-					console.error("Error uploading file:", err);
-				}
+					ContentDisposition: `inline; filename*=UTF-8''${encodedFileName}`,
+					ContentType: "application/pdf",
+				},
+				queueSize: 4,
+				partSize: 5 * 1024 * 1024,
 			});
+
+			const form = new FormData();
+			form.append("downloadFrom", downloadFromPayload);
+
+			console.log("BEFORE STREAM");
+
+			const pdfReponse = got.stream(
+				`${this.endpoint}/forms/libreoffice/convert`,
+				{
+					method: "POST",
+					body: form,
+					headers: {
+						authorization: this.authorization,
+						...form.getHeaders(),
+					},
+				},
+			);
+
+			console.log("AFTER STREAM");
+			pdfReponse.pipe(passThrough1);
+			pdfReponse.pipe(passThrough2);
+			console.log("AFTER PIPES");
+
+			upload.on("httpUploadProgress", (progress) => {
+				console.log(
+					`Uploaded ${progress.loaded} bytes out of ${progress.total}`,
+				);
+			});
+
+			try {
+				const data = upload.done();
+				console.log("Upload successful:", data);
+			} catch (err) {
+				console.error("Error uploading file:", err);
+			}
+
+			console.log("!@#$%^");
+
+			const result = await this.flowService.uploadFile({
+				flowId,
+				stream: passThrough2,
+				name: pdfKey,
+			});
+
+			console.log(result);
+
+			return result;
+
+			// console.log("afterupload");
+			// const formData = new FormData();
+			// formData.append("file", passThrough2, {
+			// 	filename: "uploaded-file.txt", // Set the file name
+			// 	contentType: "text/plain", // Adjust based on file type
+			// });
+
+			// // Send the request using got
+			// got.post("http://10.199.20.10:7862", {
+			// 	body: formData,
+			// 	headers: {
+			// 		...formData.getHeaders(), // Include correct form-data headers
+			// 	},
+			// })
+			// });
 		} catch (err) {
 			console.error(err);
 		}

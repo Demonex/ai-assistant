@@ -39,48 +39,48 @@ export class LangFlowService {
 		}
 
 		if (stream) {
-			const pt = new PassThrough();
-			setTimeout(() => {
-				pt.write("yo");
-				pt.end;
-			}, 100);
 			const formData = new FormData();
 			const bufs = [];
 
-			stream.on("data", (d) => {
-				bufs.push(d);
-			});
-			stream.on("end", async () => {
-				formData.append("file", Buffer.concat(bufs), {
-					filename: name,
-					contentType: "application/pdf",
+			await new Promise((resolve, reject) => {
+				stream.on("data", (d) => {
+					bufs.push(d);
 				});
-				console.log("st", `${this.endpoint}/api/v1/files/upload/${flowId}`, {
-					body: formData,
-					headers: {
-						"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
-						...formData.getHeaders(),
-					},
-				});
-				try {
-					return await got.post(
-						`${this.endpoint}/api/v1/files/upload/${flowId}`,
-						{
-							body: formData,
-							headers: {
-								"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
-								...formData.getHeaders(),
-							},
+				stream.on("end", async () => {
+					formData.append("file", Buffer.concat(bufs), {
+						filename: name,
+						contentType: "application/pdf",
+					});
+					console.log("st", `${this.endpoint}/api/v1/files/upload/${flowId}`, {
+						body: formData,
+						headers: {
+							"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
+							...formData.getHeaders(),
 						},
-					);
-				} catch (error) {
-					console.error("Request failed1:", error.message);
-					console.error("Status code1:", error.response?.statusCode);
-					console.error("Response body1:", error.response?.body);
-					console.error("Headers1:", error.response?.headers);
-				}
-				console.log("sttt");
+					});
+					resolve(true);
+				});
 			});
+
+			try {
+				return await got.post(
+					`${this.endpoint}/api/v1/files/upload/${flowId}`,
+					{
+						body: formData,
+						headers: {
+							"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
+							...formData.getHeaders(),
+						},
+						responseType: "json",
+						resolveBodyOnly: true,
+					},
+				);
+			} catch (error) {
+				console.error("Request failed1:", error.message);
+				console.error("Status code1:", error.response?.statusCode);
+				console.error("Response body1:", error.response?.body);
+				console.error("Headers1:", error.response?.headers);
+			}
 		}
 	}
 
