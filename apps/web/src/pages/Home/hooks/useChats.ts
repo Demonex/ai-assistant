@@ -60,7 +60,7 @@ const _useChats = () => {
 	// fetchSendMessage //
 
 	const [
-		{ data: messageSend, loading: messageLoading, error: messageError },
+		{ data: messageResponse, loading: messageLoading, error: messageError },
 		fetchSendMessage,
 	] = useLazyFetch({
 		url: "/api/rest/chat/{activeChat.id}/message",
@@ -80,12 +80,16 @@ const _useChats = () => {
 	);
 
 	useEffect(() => {
-		if (!messageSend) {
+		if (!messageResponse) {
 			return;
 		}
 
-		setMessages((prev) => [...prev, { ...messageSend }]);
-	}, [messageSend]);
+		setMessages((prev) => {
+			const last = { ...prev.pop(), ...messageResponse };
+
+			return [...prev, last];
+		});
+	}, [messageResponse]);
 
 	// fetchUploadFile //
 

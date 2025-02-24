@@ -1,18 +1,17 @@
-import { Fragment, useEffect, useId, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AvatarComponent } from "./AvatarComponent.js";
 // import { DropdownMenuButton } from "./DropdownMenuButton.js";
+import { toast } from "@/hooks/use-toast.js";
 import {
 	formatFileSize,
 	formatLocalTime,
 	getColorFile,
 } from "helpers/index.js";
 import { useChats } from "../hooks/useChats.js";
-import { Spinner } from "./Spinner.js";
-import { messageMockData } from "@/DataBase.js";
 import { AccordionComponent } from "./AccordionComponent.js";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
-import { toast } from "@/hooks/use-toast.js";
+import { Spinner } from "./Spinner.js";
 
 export const DialogWindow = () => {
 	const {
@@ -30,11 +29,8 @@ export const DialogWindow = () => {
 	const [message, setMessage] = useState("");
 	const [files, setFiles] = useState([]);
 	const [isOverlay, setIsOverlay] = useState(false);
-
-	const { register, handleSubmit, reset } = useForm();
-
-	const id = useId();
-
+	const { register, handleSubmit, reset, setValue } = useForm();
+	const prevFileLoading = useRef(false);
 	const messagesEndRef = useRef(null);
 	const fileInputRef = useRef(null);
 	const textareaRef = useRef(null);
@@ -54,12 +50,13 @@ export const DialogWindow = () => {
 			setMessages([
 				...messages,
 				{
-					id: id,
+					id: Date.now().toString(),
 					request: { message, created_at: new Date().toString() },
 				},
 			]);
 
 			sendMessage({ message });
+			setValue("message", "");
 			setMessage("");
 			reset();
 		}
