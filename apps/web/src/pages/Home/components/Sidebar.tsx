@@ -28,7 +28,7 @@ export const Sidebar = memo(() => {
 	return (
 		<div className="w-full lg:w-96">
 			<div className="shadow-base h-full rounded-lg border bg-card text-card-foreground">
-				<div className="flex flex-col space-y-1.5 p-6 py-4 lg:py-6">
+				<div className="flex flex-col space-y-1.5 p-6 py-4 lg:py-10">
 					<div className="flex items-center justify-between">
 						<h3 className="text-lg leading-none tracking-tight font-bold">
 							Chats
