@@ -770,6 +770,7 @@ export const DialogWindow = () => {
 								<div className="relative ml-3">
 									<input
 										type="file"
+										multiple
 										ref={fileInputRef}
 										onChange={handleDrop}
 										style={{ display: "none" }}
