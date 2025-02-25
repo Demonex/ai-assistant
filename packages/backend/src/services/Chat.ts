@@ -76,7 +76,7 @@ export class ChatService {
 				tenant: currentTenant,
 			},
 			{
-				exclude: ["tenant"],
+				exclude: ["tenant", "providers", "groups"],
 			},
 		);
 	}
