@@ -90,7 +90,9 @@ export default buildConfig({
 		api: "/api",
 		admin: "/admin",
 	},
-	serverURL: `http://localhost:${process.env.PORT || 2055}`,
+	serverURL:
+		process.env.NEXT_PUBLIC_SERVER_URL ||
+		`http://localhost:${process.env.PORT || 2055}`,
 	collections: [
 		tenant,
 		tenantMedia,

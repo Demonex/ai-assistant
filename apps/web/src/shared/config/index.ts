@@ -1,3 +1,3 @@
 export const admin = {
-	URL: "http://localhost:2055",
+	URL: "http://10.199.35.49:2055",
 };
