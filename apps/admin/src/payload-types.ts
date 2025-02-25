@@ -195,7 +195,7 @@ export interface Collection {
           | number
           | boolean
           | null;
-        docs?: (number | Doc)[] | null;
+        docs?: string[] | null;
         id?: string | null;
       }[]
     | null;

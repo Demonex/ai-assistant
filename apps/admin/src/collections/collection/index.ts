@@ -5,6 +5,7 @@ import defaultAccess from "@/utilities/defaultAccess";
 import type { CollectionConfig } from "payload";
 import { provider } from "../provider";
 import { tenant } from "../tenant";
+// import { CustomUploadField } from "../../components/Field";
 
 const collectionAccess = {
 	...defaultAccess,
@@ -89,18 +90,20 @@ export const collection: CollectionConfig = {
 				},
 				{
 					name: "docs",
-					type: "upload",
-					relationTo: "doc",
+					type: "text",
+					admin: {
+						components: {
+							Field: "@/components/Field",
+						},
+					},
 					hasMany: true,
-					// hooks: {
-					// 	afterChange: [
-					// 		async ({ data, doc, req }) => {
-					// 			const payload = req.payload;
-
-					// 		},
-					// 	]
-					// }
 				},
+				// {
+				// 	name: "docs",
+				// 	type: "upload",
+				// 	relationTo: "doc",
+				// 	hasMany: true,
+				// },
 			],
 		},
 	],

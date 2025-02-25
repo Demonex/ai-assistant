@@ -41,39 +41,52 @@ export const doc: CollectionConfig = {
 		},
 	],
 	versions: false,
-	upload: {},
-	hooks: {
-		beforeChange: [
-			async ({ data, user, operation, req: { headers, payload }, context }) => {
-				switch (operation) {
-					case "create" /*case "update":*/: {
-						const referer = headers.get("referer");
-						if (!referer) {
-							throw new Error("referer not found");
-						}
-						const collectionId = referer.split("/").at(-1) as string;
-						if (!referer) {
-							throw new Error("referer not found");
-						}
-						const collection = await payload.findByID({
-							collection: "collection",
-							id: collectionId,
-							draft: true,
-							user,
-						});
-						data.name = data.filename;
-						data.collection = Number(collectionId);
-						const [provider] = collection.providers;
-						data.provider = provider.provider.id;
+	// upload: {
+	// 	hideFileInputOnCreate: true,
+	// 	hideRemoveFile: true,
+	// 	filesRequiredOnCreate: false
+	// },
+	// hooks: {
+	// 	beforeChange: [
+	// 		async ({ data, user, operation, req: { headers, payload }, context }) => {
+	// 			switch (operation) {
+	// 				case "create" /*case "update":*/: {
+	// 					const referer = headers.get("referer");
+	// 					if (!referer) {
+	// 						throw new Error("referer not found");
+	// 					}
+	// 					const collectionId = referer.split("/").at(-1) as string;
+	// 					if (!referer) {
+	// 						throw new Error("referer not found");
+	// 					}
+	// 					const collection = await payload.findByID({
+	// 						collection: "collection",
+	// 						id: collectionId,
+	// 						draft: true,
+	// 						user,
+	// 					});
+	// 					data.name = data.filename;
+	// 					data.collection = Number(collectionId);
+	// 					const [provider] = collection.providers;
+	// 					data.provider = provider.provider.id;
 
-						console.log("data", data);
-						console.log("collectionId", collectionId);
-						console.log("collection", collection);
-						console.log("provider", provider);
-						break;
-					}
-				}
-			},
-		],
-	},
+	// 					console.log("data", data);
+	// 					console.log("collectionId", collectionId);
+	// 					console.log("collection", collection);
+	// 					console.log("provider", provider);
+	// 					break;
+	// 				}
+	// 			}
+	// 		},
+	// 	],
+	// 	afterChange: [
+	// 		async ({ operation, req: { headers, payload }, context }) => {
+	// 			switch (operation) {
+	// 				case "create" /*case "update":*/: {
+	// 					console.log("in After Change");
+	// 				}
+	// 			}
+	// 		},
+	// 	],
+	// },
 };
