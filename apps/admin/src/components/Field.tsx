@@ -22,10 +22,12 @@
 // };
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { X } from "lucide-react";
+import { useChats } from "@repo/web/useChats";
+import { Loader2, X } from "lucide-react";
 import prettyBytes from "pretty-bytes";
 import { ErrorCode } from "react-dropzone";
 import { useFieldArray, useForm } from "react-hook-form";
+import { useLocation } from "wouter";
 import { z } from "zod";
 
 // import { toast } from "@/components/hooks/use-toast"
@@ -42,6 +44,7 @@ import {
 	FileList,
 	FileListAction,
 	FileListDescription,
+	FileListDescriptionText,
 	FileListHeader,
 	FileListIcon,
 	FileListInfo,
@@ -52,12 +55,11 @@ import {
 import {
 	Form,
 	FormControl,
-	FormDescription,
 	FormField,
 	FormItem,
-	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
+import { useEffect } from "react";
 
 // 1 MB
 const MAX_FILE_SIZE = 1e6;
@@ -89,22 +91,56 @@ const DropzoneForm = () => {
 		name: "files",
 	});
 
-	function onSubmit(data: z.infer<typeof FormSchema>) {
-		// toast({
-		//   title: "You submitted the following values:",
-		//   description: (
-		//     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-		//       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-		//     </pre>
-		//   ),
-		// })
+	const { sendUploadFile, fileLoading, setActiveChat } = useChats();
+
+	const [location] = useLocation();
+
+	useEffect(() => {
+		const collectionId = location.split("/").at(-1) as string;
+		console.log("gkljj", location, collectionId, setActiveChat);
+		setActiveChat?.({ id: Number(collectionId) });
+	}, [location, setActiveChat]);
+
+	// const navigation = useNavigation();
+
+	console.log(useChats(), "ASD:KQJWHOLIDCHJUBLASCHJ");
+
+	function onSubmit({ files }: z.infer<typeof FormSchema>) {
+		if (files.length) {
+			const referer = window.location.href;
+
+			const collectionId = referer.split("/").at(-1) as string;
+
+			console.log("!@#123", collectionId, setActiveChat);
+
+			setActiveChat?.({ id: Number(collectionId) });
+
+			const formData = new FormData();
+
+			files.forEach(({ file }) => {
+				formData.append("media", file);
+			});
+
+			sendUploadFile({ formData });
+
+			form.setValue("files", []);
+		}
 	}
+
+	// toast({
+	//   title: "You submitted the following values:",
+	//   description: (
+	//     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+	//       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+	//     </pre>
+	//   ),
+	// })
 
 	return (
 		<Form {...form}>
-			<form
-				onSubmit={form.handleSubmit(onSubmit)}
-				className="w-[40rem] space-y-6"
+			<div
+				// onSubmit={form.handleSubmit(onSubmit)}
+				className="w-full space-y-6"
 			>
 				<Dropzone
 					maxSize={MAX_FILE_SIZE}
@@ -132,8 +168,8 @@ const DropzoneForm = () => {
 							control={form.control}
 							name="files"
 							render={({ field }) => (
-								<FormItem>
-									<FormLabel>File upload</FormLabel>
+								<FormItem className="mt-4">
+									{/* <FormLabel>File upload</FormLabel> */}
 									<DropzoneZone className="flex justify-center">
 										<FormControl>
 											<DropzoneInput
@@ -155,7 +191,7 @@ const DropzoneForm = () => {
 											</div>
 										</div>
 									</DropzoneZone>
-									<FormDescription>Drag and drop is supported.</FormDescription>
+									{/* <FormDescription>Drag and drop is supported.</FormDescription> */}
 									<FormMessage />
 								</FormItem>
 							)}
@@ -174,6 +210,12 @@ const DropzoneForm = () => {
 											<FileListName>{field.file.name}</FileListName>
 											<FileListDescription>
 												<FileListSize>{field.file.size}</FileListSize>
+												{fileLoading && (
+													<FileListDescriptionText>
+														<Loader2 className="size-3 animate-spin" />
+														Uploading...
+													</FileListDescriptionText>
+												)}
 											</FileListDescription>
 										</FileListInfo>
 										<FileListAction onClick={() => remove(index)}>
@@ -186,8 +228,8 @@ const DropzoneForm = () => {
 						</FileList>
 					</div>
 				)}
-				<Button type="submit">Submit</Button>
-			</form>
+				<Button onClick={form.handleSubmit(onSubmit)}>Submit</Button>
+			</div>
 		</Form>
 	);
 };

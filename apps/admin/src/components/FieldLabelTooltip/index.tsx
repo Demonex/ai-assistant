@@ -28,7 +28,8 @@ export const FieldLabelTooltip: (
 ) => React.JSX.Element | null = (props) => {
 	const {
 		as: Element = "label",
-		hideLocale = false,
+		hideLocale = true,
+		// hideLocale = false,
 		htmlFor: htmlForFromProps,
 		label: labelLocal,
 		localized = false,

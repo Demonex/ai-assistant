@@ -4,7 +4,7 @@ import * as React from "react";
 import { FileText } from "lucide-react";
 import prettyBytes from "pretty-bytes";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/utilities/cn";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 

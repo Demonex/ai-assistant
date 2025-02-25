@@ -34,6 +34,7 @@
     "@radix-ui/react-progress": "^1.1.2",
     "@radix-ui/react-select": "2.1.4",
     "@radix-ui/react-slot": "1.1.1",
+    "@repo/web": "workspace:*",
     "@stigma.io/payloadcms-storage-s3": "workspace:*",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
@@ -57,6 +58,8 @@
     "react-hook-form": "^7.54.2",
     "tailwind-merge": "2.5.5",
     "tailwindcss-animate": "1.0.7",
+    "use-mono-hook": "0.2.1",
+    "wouter": "^3.3.5",
     "zod": "^3.24.2"
   },
   "devDependencies": {

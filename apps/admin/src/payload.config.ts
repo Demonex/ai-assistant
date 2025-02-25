@@ -137,10 +137,10 @@ export default buildConfig({
 	typescript: {
 		outputFile: path.resolve(dirname, "payload-types.ts"),
 	},
-	localization: {
-		defaultLocale: "en",
-		locales: ["en", "ru"],
-	},
+	// localization: {
+	// 	defaultLocale: "en",
+	// 	locales: ["en", "ru"],
+	// },
 	upload: {
 		defCharset: "utf8",
 		defParamCharset: "utf8",

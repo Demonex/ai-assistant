@@ -8,6 +8,9 @@ export default {
     "./node_modules/@shadcn/ui/dist/**/*.js",
   ],
   darkMode: ['selector', '[data-theme="dark"]'],
+  corePlugins: {
+    preflight: false
+  },
   plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
   prefix: '',
   safelist: [
