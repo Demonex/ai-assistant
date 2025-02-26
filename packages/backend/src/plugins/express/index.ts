@@ -74,7 +74,11 @@ const expressPlugins = (express: Express) => {
 	express.set("trust proxy", true);
 	express.use(
 		cors({
-			origin: [`${process.env.BACKEND_URL}`, `${process.env.FRONTEND_URL}`],
+			origin: [
+				`${process.env.BACKEND_URL}`,
+				`${process.env.FRONTEND_URL}`,
+				`${process.env.ADMIN_URL}`,
+			],
 			allowedHeaders: [
 				"Origin",
 				"Keep-Alive",
