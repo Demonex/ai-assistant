@@ -8,8 +8,6 @@ import type React from "react";
 
 import { importMap } from "./admin/importMap.js";
 import "./custom.scss";
-// import { MonoHooksStore } from "use-mono-hook";
-import { WebStore } from "./test";
 
 type Args = {
 	children: React.ReactNode;
@@ -48,9 +46,7 @@ const Layout = ({ children }: Args) => {
 			importMap={importMap}
 			serverFunction={serverFunction}
 		>
-			{/* <RootChange /> */}
 			{children}
-			<WebStore />
 		</RootLayout>
 	);
 };

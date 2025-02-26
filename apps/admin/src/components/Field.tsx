@@ -22,19 +22,17 @@
 // };
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useChats } from "@repo/web/useChats";
 import { Loader2, X } from "lucide-react";
-import prettyBytes from "pretty-bytes";
 import { ErrorCode } from "react-dropzone";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useLocation } from "wouter";
 import { z } from "zod";
+
+import { CollectionService } from "@/services/CollectionService";
 
 // import { toast } from "@/components/hooks/use-toast"
 import { Button } from "@/components/ui/button";
 import {
 	Dropzone,
-	DropzoneDescription,
 	DropzoneInput,
 	DropzoneTitle,
 	DropzoneUploadIcon,
@@ -59,7 +57,7 @@ import {
 	FormItem,
 	FormMessage,
 } from "@/components/ui/form";
-import { useEffect } from "react";
+import { useState } from "react";
 
 // 1 MB
 const MAX_FILE_SIZE = 1e6;
@@ -91,29 +89,13 @@ const DropzoneForm = () => {
 		name: "files",
 	});
 
-	const { sendUploadFile, fileLoading, setActiveChat } = useChats();
-
-	const [location] = useLocation();
-
-	useEffect(() => {
-		const collectionId = location.split("/").at(-1) as string;
-		console.log("gkljj", location, collectionId, setActiveChat);
-		setActiveChat?.({ id: Number(collectionId) });
-	}, [location, setActiveChat]);
-
-	// const navigation = useNavigation();
-
-	console.log(useChats(), "ASD:KQJWHOLIDCHJUBLASCHJ");
+	const [fileLoading, setFileLoading] = useState(false);
 
 	function onSubmit({ files }: z.infer<typeof FormSchema>) {
 		if (files.length) {
 			const referer = window.location.href;
 
-			const collectionId = referer.split("/").at(-1) as string;
-
-			console.log("!@#123", collectionId, setActiveChat);
-
-			setActiveChat?.({ id: Number(collectionId) });
+			const collectionId = referer.split("/").at(-1);
 
 			const formData = new FormData();
 
@@ -121,9 +103,16 @@ const DropzoneForm = () => {
 				formData.append("media", file);
 			});
 
-			sendUploadFile({ formData });
-
-			form.setValue("files", []);
+			setFileLoading(true);
+			CollectionService.filesUpload(Number(collectionId), formData)
+				.then(() => {
+					form.setValue("files", []);
+				})
+				.finally(() => {
+					form.setValue("files", []);
+					setFileLoading(false);
+				});
+			// sendUploadFile?.({ formData });
 		}
 	}
 
@@ -185,9 +174,9 @@ const DropzoneForm = () => {
 												<DropzoneTitle>
 													Browse to upload your file
 												</DropzoneTitle>
-												<DropzoneDescription>
+												{/* <DropzoneDescription>
 													{`Maximum file size: ${prettyBytes(maxSize ?? 0)}`}
-												</DropzoneDescription>
+												</DropzoneDescription> */}
 											</div>
 										</div>
 									</DropzoneZone>
