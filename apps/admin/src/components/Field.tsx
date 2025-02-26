@@ -29,7 +29,6 @@ import { z } from "zod";
 
 import { CollectionService } from "@/services/CollectionService";
 
-// import { toast } from "@/components/hooks/use-toast"
 import { Button } from "@/components/ui/button";
 import {
 	Dropzone,
@@ -57,7 +56,10 @@ import {
 	FormItem,
 	FormMessage,
 } from "@/components/ui/form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { toast } from "sonner";
+import { useLocation } from "wouter";
 
 // 1 MB
 const MAX_FILE_SIZE = 1e6;
@@ -90,6 +92,7 @@ const DropzoneForm = () => {
 	});
 
 	const [fileLoading, setFileLoading] = useState(false);
+	const [location, setLocation] = useLocation();
 
 	function onSubmit({ files }: z.infer<typeof FormSchema>) {
 		if (files.length) {
@@ -106,24 +109,30 @@ const DropzoneForm = () => {
 			setFileLoading(true);
 			CollectionService.filesUpload(Number(collectionId), formData)
 				.then(() => {
-					form.setValue("files", []);
+					toast.success("Documents uploaded successfully");
+					setFileLoading(false);
+				})
+				.catch(() => {
+					toast.error("Some errors occurred while uploading");
+					setFileLoading(false);
 				})
 				.finally(() => {
-					form.setValue("files", []);
-					setFileLoading(false);
+					setTimeout(() => {
+						form.setValue("files", []);
+					}, 1500);
 				});
-			// sendUploadFile?.({ formData });
 		}
 	}
 
-	// toast({
-	//   title: "You submitted the following values:",
-	//   description: (
-	//     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-	//       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-	//     </pre>
-	//   ),
-	// })
+	function onShowAllDocuments() {
+		const referer = window.location.href;
+
+		const collectionId = referer.split("/").at(-1);
+		const query = `where[or][0][and][0][collection][equals]=${collectionId}`;
+
+		// setLocation(`/admin/collections/doc?limit=10&page=1&${encodeURI(query)}`)
+		window.location.href = `/admin/collections/doc?limit=10&page=1&${encodeURI(query)}`;
+	}
 
 	return (
 		<Form {...form}>
@@ -143,11 +152,7 @@ const DropzoneForm = () => {
 									(err) => err.code === ErrorCode.FileTooLarge,
 								)
 							) {
-								// toast({
-								//   variant: "destructive",
-								//   title: "File size too large.",
-								//   description: `File '${fileRejection.file.name}' is too large.`,
-								// })
+								toast("File size too large");
 							}
 						});
 					}}
@@ -218,12 +223,16 @@ const DropzoneForm = () => {
 					</div>
 				)}
 				<Button onClick={form.handleSubmit(onSubmit)}>Submit</Button>
+				<Button
+					style={{ background: "#d0d0d0", color: "black" }}
+					onClick={onShowAllDocuments}
+				>
+					Show all documents
+				</Button>
 			</div>
 		</Form>
 	);
 };
-// Copy
-// Description List
 
 export default DropzoneForm;
 // export default CustomUploadField;

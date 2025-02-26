@@ -7,6 +7,8 @@ import { provider } from "@/collections/provider";
 
 const docAccess = {
 	...defaultAccess,
+	create: () => false,
+	update: () => false,
 };
 
 export const doc: CollectionConfig = {

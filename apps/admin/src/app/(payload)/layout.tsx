@@ -8,6 +8,7 @@ import type React from "react";
 
 import { importMap } from "./admin/importMap.js";
 import "./custom.scss";
+import Toaster from "@/components/ui/sonner";
 
 type Args = {
 	children: React.ReactNode;
@@ -25,8 +26,6 @@ const serverFunction: ServerFunctionClient = async function (args) {
 const originalFetch = global.fetch;
 
 global.fetch = async (url, options = {}) => {
-	console.log(url);
-
 	const defaultOptions = {
 		credentials: "include", // Always include credentials (cookies, etc.)
 	};
@@ -47,6 +46,7 @@ const Layout = ({ children }: Args) => {
 			serverFunction={serverFunction}
 		>
 			{children}
+			<Toaster />
 		</RootLayout>
 	);
 };
