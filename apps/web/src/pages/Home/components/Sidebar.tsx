@@ -31,7 +31,7 @@ export const Sidebar = memo(() => {
 				<div className="flex flex-col space-y-1.5 p-6 py-4 lg:py-10">
 					<div className="flex items-center justify-between">
 						<h3 className="text-lg leading-none tracking-tight font-bold">
-							Chats
+							Чаты
 						</h3>
 						{/* <FormNewCollection /> */}
 					</div>
@@ -40,7 +40,7 @@ export const Sidebar = memo(() => {
 					<div className="relative flex items-center px-6 py-3">
 						<Input
 							type="text"
-							placeholder="Charts search..."
+							placeholder="Поиск по чатам..."
 							onChange={handleInputChange}
 						/>
 					</div>

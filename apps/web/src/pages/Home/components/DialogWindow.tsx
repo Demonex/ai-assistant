@@ -12,6 +12,7 @@ import { useChats } from "../hooks/useChats.js";
 import { AccordionComponent } from "./AccordionComponent.js";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 import { Spinner } from "./Spinner.js";
+import { messageMockData } from "@/DataBase.js";
 
 export const DialogWindow = () => {
 	const {
@@ -760,7 +761,7 @@ export const DialogWindow = () => {
 									}}
 									disabled={messageLoading}
 									onInput={handleTextarea}
-									placeholder={"Enter message..."}
+									placeholder={"Введите сообщение..."}
 									onChange={handleInputChange}
 									onKeyDown={handleKeyDown}
 									className="flex w-full resize-none overflow-auto h-[50px] max-h-[150px] md: max-md:max-h-[100px] rounded-md border-none bg-background p-0 text-sm placeholder:text-muted-foreground focus:border-none focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-transparent !text-base !shadow-transsparent !ring-transparent"
@@ -803,7 +804,7 @@ export const DialogWindow = () => {
 									type="submit"
 									className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 ms-3"
 								>
-									{messageLoading ? <Spinner /> : "Send"}
+									{messageLoading ? <Spinner /> : "Отправить"}
 								</button>
 							</div>
 						</form>

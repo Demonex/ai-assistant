@@ -27,7 +27,7 @@ export function AppSidebar({ handleAdmin, ...props }: AppSidebarProps) {
 	const [nav, setNav] = useState([
 		{
 			id: Date.now(),
-			title: "Chats",
+			title: "Чаты",
 			icon: MessageCircleMore,
 			isActive: true,
 			isAdmin: false,
