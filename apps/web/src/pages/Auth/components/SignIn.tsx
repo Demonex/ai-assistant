@@ -51,16 +51,17 @@ export function SignIn({
 		<div className={cn("flex flex-col gap-6", className)} {...props}>
 			<Card>
 				<CardHeader>
-					<CardTitle className="text-2xl">Login</CardTitle>
+					<CardTitle className="text-2xl">Логин</CardTitle>
 					<CardDescription>
-						Enter your username and password below to log into your account
+						Введите ниже свое имя пользователя и пароль, чтобы войти в свою
+						учетную запись.
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<div className="flex flex-col gap-6">
 							<div className="grid gap-2">
-								<Label htmlFor="email">Login</Label>
+								<Label htmlFor="email">Логин</Label>
 								<Input
 									id="email"
 									type="email"
@@ -71,7 +72,7 @@ export function SignIn({
 							</div>
 							<div className="grid gap-2">
 								<div className="flex items-center">
-									<Label htmlFor="password">Password</Label>
+									<Label htmlFor="password">Пароль</Label>
 								</div>
 								<Input
 									id="password"
@@ -82,7 +83,7 @@ export function SignIn({
 								/>
 							</div>
 							<Button type="submit" className="w-full">
-								Login
+								Логин
 							</Button>
 						</div>
 					</form>
