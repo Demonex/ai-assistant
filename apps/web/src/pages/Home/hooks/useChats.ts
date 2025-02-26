@@ -103,7 +103,6 @@ const _useChats = () => {
 
 	const sendUploadFile = useCallback(
 		({ formData }) => {
-			console.log("a", activeChat);
 			fetchUploadFile({
 				url: `/api/rest/chat/${activeChat.id}/upload`,
 				data: formData,
@@ -112,8 +111,6 @@ const _useChats = () => {
 		},
 		[activeChat?.id, fetchUploadFile],
 	);
-
-	console.log("activeChat", activeChat);
 
 	// setErrors //
 

@@ -15,7 +15,6 @@ const RouterApp = memo(() => {
 	if (!route || !location) {
 		return null;
 	}
-	console.log("route", route);
 	return <Suspense fallback={""}>{Component && <Component />}</Suspense>;
 });
 export const App = memo(() => {

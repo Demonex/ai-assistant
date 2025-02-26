@@ -26,8 +26,6 @@ const CustomHeaderAction = async () => {
 		// where: { published: { equals: true } },
 	});
 
-	console.log(tenant);
-
 	return <HeaderAction docs={tenant.docs}></HeaderAction>;
 	// return (
 	//   <button onClick={handleClick}>

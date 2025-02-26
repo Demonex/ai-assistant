@@ -51,13 +51,7 @@ export class LangFlowService {
 						filename: name,
 						contentType: "application/pdf",
 					});
-					console.log("st", `${this.endpoint}/api/v1/files/upload/${flowId}`, {
-						body: formData,
-						headers: {
-							"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
-							...formData.getHeaders(),
-						},
-					});
+
 					resolve(true);
 				});
 			});
@@ -169,8 +163,6 @@ export class LangFlowService {
 	}
 
 	async deleteFlow({ flow }) {
-		console.log(flow.id);
-
 		await got.delete(`${this.endpoint}/api/v1/flows/${flow.id}`, {
 			headers: {
 				"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",

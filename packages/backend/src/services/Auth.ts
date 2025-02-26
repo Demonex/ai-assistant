@@ -285,7 +285,6 @@ export class AuthService {
 				HttpStatus.UNAUTHORIZED,
 			);
 		}
-		console.log("user", user);
 		return user;
 	}
 

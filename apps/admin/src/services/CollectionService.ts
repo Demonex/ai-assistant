@@ -16,14 +16,6 @@ interface RequestOptions {
 }
 
 const makeRequest = async <T>(options: RequestOptions): Promise<T> => {
-	console.log({
-		method: options.method,
-		url: options.url,
-		data: options.data,
-		params: options.params,
-		headers: options.headers,
-	});
-
 	try {
 		const response = await api({
 			method: options.method,

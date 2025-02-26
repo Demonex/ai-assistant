@@ -43,8 +43,6 @@ export const getUserGroups = async ({ req }) => {
 		},
 	};
 
-	console.log("BEFORE GROUP");
-
 	const groups = await payload.find({
 		collection: "group",
 		where: {
@@ -70,7 +68,6 @@ export const getUserGroups = async ({ req }) => {
 		},
 	});
 
-	console.log("AFTER GROUP");
 	return { groups };
 };
 
@@ -97,7 +94,6 @@ export const checkPermissions =
 		}
 
 		const tenant = parse(req.headers.get("cookie") || "")?.tenant;
-		console.log(tenant);
 
 		const groups = await payload.find({
 			collection: "group",

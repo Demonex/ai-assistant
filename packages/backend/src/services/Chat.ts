@@ -148,7 +148,6 @@ export class ChatService {
 				);
 			}
 		}
-		console.log(chatMessageDto.created_at);
 
 		try {
 			const chatMessage = this.em.create<ChatMessageEntity>(ChatMessageEntity, {
@@ -443,8 +442,6 @@ export class ChatService {
 							}),
 						},
 					});
-
-				console.log(filepath, "RESULT");
 
 				// const { file_path: filePath } = await this.flowService.uploadFile({
 				// 	flowId: newFlowId,

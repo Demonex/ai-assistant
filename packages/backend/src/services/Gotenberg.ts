@@ -51,16 +51,6 @@ export class GotenbergService {
 				},
 			]);
 
-			console.log(
-				{
-					...rest,
-					endpoint: params.dockerEndpoint || endpoint,
-				},
-				"CLIENT S3",
-			);
-
-			console.log(pdfKey);
-
 			const encodedFileName = encodeURIComponent(pdfKey)
 				.replace(/'/g, "%27")
 				.replace(/\(/g, "%28")
@@ -82,8 +72,6 @@ export class GotenbergService {
 			const form = new FormData();
 			form.append("downloadFrom", downloadFromPayload);
 
-			console.log("BEFORE STREAM");
-
 			const pdfReponse = got.stream(
 				`${this.endpoint}/forms/libreoffice/convert`,
 				{
@@ -96,10 +84,8 @@ export class GotenbergService {
 				},
 			);
 
-			console.log("AFTER STREAM");
 			pdfReponse.pipe(passThrough1);
 			pdfReponse.pipe(passThrough2);
-			console.log("AFTER PIPES");
 
 			upload.on("httpUploadProgress", (progress) => {
 				console.log(
@@ -114,15 +100,11 @@ export class GotenbergService {
 				console.error("Error uploading file:", err);
 			}
 
-			console.log("!@#$%^");
-
 			const result = await this.flowService.uploadFile({
 				flowId,
 				stream: passThrough2,
 				name: pdfKey,
 			});
-
-			console.log(result);
 
 			return result;
 
