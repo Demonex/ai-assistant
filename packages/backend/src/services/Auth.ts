@@ -7,7 +7,7 @@ import {
 	Scope,
 } from "@nestjs/common";
 import { REQUEST } from "@nestjs/core";
-import bcrypt from "bcrypt";
+import * as bcrypt from "bcryptjs";
 import { InjectRedis } from "@nestjs-modules/ioredis";
 import type { Redis } from "ioredis";
 import { isEmail } from "class-validator";

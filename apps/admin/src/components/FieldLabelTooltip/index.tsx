@@ -24,7 +24,7 @@ const tooltips = {
 };
 
 export const FieldLabelTooltip: (
-	props: GenericLabelProps,
+	props: GenericLabelProps & { schemaPath: string },
 ) => React.JSX.Element | null = (props) => {
 	const {
 		as: Element = "label",
@@ -43,7 +43,8 @@ export const FieldLabelTooltip: (
 
 	const { uuid } = useForm();
 	const editDepth = useEditDepth();
-	const htmlFor = htmlForFromProps || generateFieldID(path, editDepth, uuid);
+	const htmlFor =
+		htmlForFromProps || generateFieldID(path || "", editDepth, uuid || "");
 	const { i18n } = useTranslation();
 	const { code, label: localLabel } = useLocale();
 	const [showTooltip, setShowTooltip] = useState(false);
@@ -98,5 +99,5 @@ export const FieldLabelTooltip: (
 
 	return null;
 };
-FieldLabelTooltip.displayName = "FieldLabelTooltip";
+// FieldLabelTooltip.displayName = "FieldLabelTooltip";
 export default FieldLabelTooltip;
