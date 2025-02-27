@@ -96,6 +96,7 @@ export const collection: CollectionConfig = {
 							Field: "@/components/Field",
 						},
 					},
+					virtual: true,
 				},
 				// {
 				// 	name: "docs",
