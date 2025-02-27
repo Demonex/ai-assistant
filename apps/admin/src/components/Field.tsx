@@ -56,10 +56,9 @@ import {
 	FormItem,
 	FormMessage,
 } from "@/components/ui/form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { toast } from "sonner";
-import { useLocation } from "wouter";
 
 // 1 MB
 const MAX_FILE_SIZE = 1e6;
@@ -92,7 +91,6 @@ const DropzoneForm = () => {
 	});
 
 	const [fileLoading, setFileLoading] = useState(false);
-	const [location, setLocation] = useLocation();
 
 	function onSubmit({ files }: z.infer<typeof FormSchema>) {
 		if (files.length) {
