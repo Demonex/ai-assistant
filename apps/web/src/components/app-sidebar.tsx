@@ -54,7 +54,7 @@ export function AppSidebar({ handleAdmin, ...props }: AppSidebarProps) {
 					...prev,
 					{
 						id: Date.now(),
-						title: "Admin",
+						title: "Админ",
 						icon: UserRoundCog,
 						isActive: false,
 						isAdmin: true,

@@ -61,7 +61,7 @@ export function SignIn({
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<div className="flex flex-col gap-6">
 							<div className="grid gap-2">
-								<Label htmlFor="email">Логин</Label>
+								<Label htmlFor="email">Вход</Label>
 								<Input
 									id="email"
 									type="email"
@@ -83,7 +83,7 @@ export function SignIn({
 								/>
 							</div>
 							<Button type="submit" className="w-full">
-								Логин
+								Войти
 							</Button>
 						</div>
 					</form>
