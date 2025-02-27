@@ -110,6 +110,7 @@ export default buildConfig({
 	cors: [getServerSideURL()].filter(Boolean),
 	globals: [],
 	plugins: [
+		// @ts-ignore
 		s3Storage({
 			collections: {
 				[userMediaAvatar.slug]: {

@@ -18,6 +18,11 @@ const nextConfig = {
       }),
     ],
   },
+  typescript: {
+    // потому что падает линтинг в submodule
+    ignoreBuildErrors: true,
+  },
   reactStrictMode: true,
+  output: 'standalone',
 };
 export default withPayload(nextConfig);

@@ -5,7 +5,10 @@ import { PassThrough } from "node:stream";
 
 @Injectable()
 export class LangFlowService {
-	private endpoint = "http://10.199.20.10:7862";
+	private endpoint = process.env.LANGFLOW_URL || "http://10.199.20.10:7862";
+	private langflowApiKey =
+		process.env.LANGFLOW_API_KEY ||
+		"sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww";
 	private authorization =
 		"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlZWU3ZGU1OS1hZWZhLTQzNGItYjhiMy03YTkxMWFlZjJkODciLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY5NjA1NTM1fQ.JvS26u_1-R4NWieeKGWshIaNFfFaxA8CNxcdt3GhMYM";
 	// private authorization =
@@ -27,7 +30,7 @@ export class LangFlowService {
 					method: "POST",
 					body: form,
 					headers: {
-						"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
+						"x-api-key": this.langflowApiKey,
 						// "x-api-key": "sk-nJL5Mhq1M0_5_Y-pVCAZwQFtU6aM7fu5UbkOiBPW5ec",
 					},
 					responseType: "json",
@@ -51,7 +54,6 @@ export class LangFlowService {
 						filename: name,
 						contentType: "application/pdf",
 					});
-
 					resolve(true);
 				});
 			});
@@ -62,7 +64,7 @@ export class LangFlowService {
 					{
 						body: formData,
 						headers: {
-							"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
+							"x-api-key": this.langflowApiKey,
 							...formData.getHeaders(),
 						},
 						responseType: "json",
@@ -93,7 +95,7 @@ export class LangFlowService {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
-					"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
+					"x-api-key": this.langflowApiKey,
 					// "x-api-key": "sk-nJL5Mhq1M0_5_Y-pVCAZwQFtU6aM7fu5UbkOiBPW5ec",
 				},
 				json: {
@@ -126,7 +128,7 @@ export class LangFlowService {
 		const { id: layoutFolderId } = (
 			await got.get<any[]>(`${this.endpoint}/api/v1/folders/`, {
 				headers: {
-					"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
+					"x-api-key": this.langflowApiKey,
 				},
 				responseType: "json",
 				resolveBodyOnly: true,
@@ -136,7 +138,7 @@ export class LangFlowService {
 		const flow = (
 			await got.get<any[]>(`${this.endpoint}/api/v1/flows/`, {
 				headers: {
-					"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
+					"x-api-key": this.langflowApiKey,
 				},
 				responseType: "json",
 				resolveBodyOnly: true,
@@ -153,7 +155,7 @@ export class LangFlowService {
 				data: flow.data,
 			},
 			headers: {
-				"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
+				"x-api-key": this.langflowApiKey,
 			},
 			responseType: "json",
 			resolveBodyOnly: true,
@@ -165,7 +167,7 @@ export class LangFlowService {
 	async deleteFlow({ flow }) {
 		await got.delete(`${this.endpoint}/api/v1/flows/${flow.id}`, {
 			headers: {
-				"x-api-key": "sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww",
+				"x-api-key": this.langflowApiKey,
 			},
 		});
 	}

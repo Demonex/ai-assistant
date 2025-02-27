@@ -8,7 +8,12 @@
     "pnpm:devPreinstall": "git submodule update --init --recursive --remote",
     "postinstall": "lefthook install",
     "compile": "turbo run compile",
-    "build": "turbo run build --filter=@repo/backend",
+    "build:backend": "turbo run build --filter=@repo/backend",
+    "build:admin": "turbo run build --filter=@repo/admin",
+    "build:web": "turbo run build --filter=@repo/web",
+    "prune:backend": "turbo prune @repo/backend --docker",
+    "prune:admin": "turbo prune @repo/admin --docker",
+    "prune:web": "turbo prune @repo/web --docker",
     "clean": "turbo run clean",
     "predev:*": "mkdirp .turbo/daemon",
     "lint": "turbo run lint --parallel",
@@ -44,6 +49,7 @@
       "es5-ext",
       "esbuild",
       "lefthook",
+      "sharp",
       "utf-8-validate"
     ]
   }
