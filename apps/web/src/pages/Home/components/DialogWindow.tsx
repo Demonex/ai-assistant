@@ -219,8 +219,8 @@ export const DialogWindow = () => {
 						<div data-radix-scroll-area-content>
 							<div>
 								<div className="flex flex-col items-start space-y-10 pb-[8rem]">
-									{messageMockData?.map((message) => (
-										// {messages?.map((message) => (
+									{/* {messageMockData?.map((message) => ( */}
+									{messages?.map((message) => (
 										<Fragment key={message.id}>
 											{message.request && (
 												<div className="max-w-screen-sm self-end">
