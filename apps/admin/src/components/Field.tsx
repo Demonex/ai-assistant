@@ -56,7 +56,7 @@ import {
 	FormItem,
 	FormMessage,
 } from "@/components/ui/form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { toast } from "sonner";
 import { useLocation } from "wouter";
