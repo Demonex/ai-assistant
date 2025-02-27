@@ -1,24 +1,24 @@
 // storage-adapter-import-placeholder
 import { s3Storage } from "@stigma.io/payloadcms-storage-s3";
 // import sharp from 'sharp' // sharp-import
-import path from "node:path";
-import { buildConfig } from "payload";
-import { fileURLToPath } from "node:url";
 import { postgresAdapter } from "@payloadcms/db-postgres";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { buildConfig } from "payload";
 
-import { user } from "./collections/user";
-import { defaultLexical } from "@/fields/defaultLexical";
-import { getServerSideURL } from "./utilities/getURL";
-import { userMediaAvatar } from "@/collections/user/media/avatar";
 import { tenantMedia } from "@/collections/tenant/media";
-import { tenant } from "./collections/tenant";
-import { model } from "./collections/model";
-import { neuro } from "./collections/neuro";
+import { userMediaAvatar } from "@/collections/user/media/avatar";
+import { defaultLexical } from "@/fields/defaultLexical";
+import { chatMessage } from "./collections/chatMessage";
 import { collection } from "./collections/collection";
-import { provider } from "./collections/provider";
 import { doc } from "./collections/doc";
 import { group } from "./collections/group";
-import { chatMessage } from "./collections/chatMessage";
+import { model } from "./collections/model";
+import { neuro } from "./collections/neuro";
+import { provider } from "./collections/provider";
+import { tenant } from "./collections/tenant";
+import { user } from "./collections/user";
+import { getServerSideURL } from "./utilities/getURL";
 // import Logo from "@/components/Logo/Logo";
 // import Icon from "@/components/Logo/Icon";
 
@@ -45,6 +45,7 @@ export default buildConfig({
 			],
 		},
 		components: {
+			providers: ["@/components/ForceLightModeProvider"],
 			// The `BeforeLogin` component renders a message that you see while logging into your admin panel.
 			// Feel free to delete this at any time. Simply remove the line below and the import `BeforeLogin` statement on line 15.
 			beforeLogin: ["@/components/BeforeLogin"],
@@ -110,7 +111,6 @@ export default buildConfig({
 	cors: [getServerSideURL()].filter(Boolean),
 	globals: [],
 	plugins: [
-		// @ts-ignore
 		s3Storage({
 			collections: {
 				[userMediaAvatar.slug]: {

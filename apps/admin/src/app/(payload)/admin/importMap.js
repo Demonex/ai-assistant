@@ -4,6 +4,7 @@ import { IconComponent as IconComponent_a0bd5f2fa532ef2166f77171a2b9828a } from 
 import { LogoComponent as LogoComponent_a0bd5f2fa532ef2166f77171a2b9828a } from '@/components/Logo/Logo'
 import { default as default_1a7510af427896d367a49dbf838d2de6 } from '@/components/BeforeDashboard'
 import { default as default_8a7ab0eb7ab5c511aba12e68480bfe5e } from '@/components/BeforeLogin'
+import { default as default_65bcf848a57d8af2889a148cbcc5cfc0 } from '@/components/ForceLightModeProvider'
 
 export const importMap = {
   "@/components/Field#default": default_5f69f190e0d891004c9540945f6915cf,
@@ -11,5 +12,6 @@ export const importMap = {
   "@/components/Logo/Logo#IconComponent": IconComponent_a0bd5f2fa532ef2166f77171a2b9828a,
   "@/components/Logo/Logo#LogoComponent": LogoComponent_a0bd5f2fa532ef2166f77171a2b9828a,
   "@/components/BeforeDashboard#default": default_1a7510af427896d367a49dbf838d2de6,
-  "@/components/BeforeLogin#default": default_8a7ab0eb7ab5c511aba12e68480bfe5e
+  "@/components/BeforeLogin#default": default_8a7ab0eb7ab5c511aba12e68480bfe5e,
+  "@/components/ForceLightModeProvider#default": default_65bcf848a57d8af2889a148cbcc5cfc0
 }
