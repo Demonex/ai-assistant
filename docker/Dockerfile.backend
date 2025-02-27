@@ -16,7 +16,7 @@ COPY --from=builder /app/out/json/ .
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --ignore-scripts
 
 COPY --from=builder /app/out/full/ .
-
+ENV NODE_ENV production
 RUN pnpm run build:backend
 
 FROM base AS runner
