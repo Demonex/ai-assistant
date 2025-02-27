@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 
-const baseURL = process.env.BACKEND_ENDPOINT || "http://10.199.35.49:2050";
+const baseURL = process.env.BACKEND_URL || "http://10.199.35.49:2050";
 
 const api = axios.create({
 	baseURL,
