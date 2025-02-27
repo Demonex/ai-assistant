@@ -41,8 +41,12 @@ export function AppSidebar({ handleAdmin, ...props }: AppSidebarProps) {
 			prev.map((el) => ({ ...el, isActive: el.id === item.id })),
 		);
 
-		if (profile.superadmin && item.isAdmin) handleAdmin(true);
-		else handleAdmin(false);
+		if (profile.superadmin && item.isAdmin) {
+			handleAdmin(true);
+		} else {
+			handleAdmin(false);
+			window.location.reload();
+		}
 
 		setOpen(true);
 	};
