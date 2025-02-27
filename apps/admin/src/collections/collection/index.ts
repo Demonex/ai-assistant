@@ -96,7 +96,6 @@ export const collection: CollectionConfig = {
 							Field: "@/components/Field",
 						},
 					},
-					hasMany: true,
 				},
 				// {
 				// 	name: "docs",
