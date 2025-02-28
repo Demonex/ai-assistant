@@ -225,7 +225,7 @@ export class ChatService {
 
 		const newFlowId = newFlow.id;
 		const qdrantId = newFlow.data.nodes.find(
-			(node) => node.data.node.display_name === "Qdrant hybrid",
+			(node) => node.data.node.display_name === "Qdrant",
 		).id;
 
 		try {
@@ -436,7 +436,7 @@ export class ChatService {
 				(node) => node.data.node.display_name === "File",
 			).id;
 			const qdrantId = newFlow.data.nodes.find(
-				(node) => node.data.node.display_name === "Qdrant hybrid",
+				(node) => node.data.node.display_name === "Qdrant",
 			).id;
 
 			try {
