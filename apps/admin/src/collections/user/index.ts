@@ -16,6 +16,10 @@ const userAccess = {
 
 export const user: CollectionConfig = {
 	slug: "user",
+	labels: {
+		singular: "Юзер",
+		plural: "Юзеры",
+	},
 	access: defaultAccess,
 	admin: {
 		// hideAPIURL: true,
@@ -60,10 +64,12 @@ export const user: CollectionConfig = {
 		{
 			name: "name",
 			type: "text",
+			label: "Имя",
 		},
 		{
 			name: "username",
 			type: "text",
+			label: "Никнейм",
 		},
 		{
 			name: "email",
@@ -88,6 +94,7 @@ export const user: CollectionConfig = {
 		// },
 		{
 			name: "superadmin",
+			label: "Суперадмин",
 			type: "checkbox",
 			hooks: {
 				afterChange: [
@@ -135,6 +142,7 @@ export const user: CollectionConfig = {
 			name: "avatar",
 			type: "upload",
 			relationTo: userMediaAvatar.slug as "user-media-avatar",
+			label: "Аватар",
 		},
 	],
 	timestamps: true,

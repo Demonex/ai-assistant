@@ -9,6 +9,10 @@ const tenantAccess = {
 
 export const tenant: CollectionConfig = {
 	slug: "tenant",
+	labels: {
+		singular: "Тенант",
+		plural: "Тенанты",
+	},
 	access: tenantAccess,
 	admin: {
 		defaultColumns: ["title", "description"],
@@ -19,15 +23,18 @@ export const tenant: CollectionConfig = {
 			name: "title",
 			type: "text",
 			required: true,
+			label: "Название",
 		},
 		{
 			name: "description",
 			type: "text",
+			label: "Описание",
 		},
 		{
 			name: "preview",
 			type: "upload",
 			relationTo: tenantMedia.slug as "tenant-media",
+			label: "Превью",
 		},
 	],
 	versions: false,

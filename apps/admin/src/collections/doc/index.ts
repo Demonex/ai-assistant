@@ -13,6 +13,10 @@ const docAccess = {
 
 export const doc: CollectionConfig = {
 	slug: "doc",
+	labels: {
+		singular: "Документ",
+		plural: "Документы",
+	},
 	access: docAccess,
 	admin: {
 		defaultColumns: ["filename", "collection", "provider"],
@@ -28,18 +32,23 @@ export const doc: CollectionConfig = {
 				// console.log(user, locale, req.query, req.id, req.body, req.payload);
 				// console.log(req.doc_collection);
 			},
+			admin: {
+				hidden: true,
+			},
 		},
 		{
 			name: "collection",
 			type: "relationship",
 			relationTo: collection.slug as "collection",
 			required: true,
+			label: "Коллекция",
 		},
 		{
 			name: "provider",
 			type: "relationship",
 			relationTo: provider.slug as "provider",
 			required: true,
+			label: "Провайдер",
 		},
 	],
 	versions: false,
