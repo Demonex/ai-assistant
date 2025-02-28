@@ -209,17 +209,15 @@ export class ChatService {
 			throw new HttpException("Provider not found", HttpStatus.BAD_REQUEST);
 		}
 
-		const bucket =
-			(provider.settings?.bucket as string) || (settings?.bucket as string);
-		const login =
-			(provider.settings?.login as string) || (settings?.login as string);
-		const password =
-			(provider.settings?.password as string) || (settings?.password as string);
-		const endpoint =
-			(provider.settings?.endpoint as string) || (settings?.endpoint as string);
-		const dockerEndpoint =
+		const endpointExternal =
+			process.env.S3_ENDPOINT_EXTERNAL ||
 			(provider.settings?.dockerEndpoint as string) ||
 			(settings?.dockerEndpoint as string);
+
+		const bucket =
+			(provider.settings?.bucket as string) ||
+			(settings?.bucket as string) ||
+			process.env.S3_BUCKET_DOC_MEDIA;
 
 		// try {
 		const copyFlow = await this.flowService.getFlow({ filter: "RETRIEVE" });
@@ -251,7 +249,7 @@ export class ChatService {
 					/^\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}_/,
 					"",
 				);
-				const fileLink = `${endpoint}/${bucket}/${filename}`;
+				const fileLink = `${endpointExternal}/${bucket}/${filename}`;
 				frag.file_path = fileLink;
 
 				return frag;
@@ -375,17 +373,25 @@ export class ChatService {
 			throw new HttpException("Provider not found", HttpStatus.BAD_REQUEST);
 		}
 
-		const bucket =
-			(provider.settings?.bucket as string) || (settings?.bucket as string);
 		const login =
-			(provider.settings?.login as string) || (settings?.login as string);
+			process.env.S3_ACCESS_KEY_ID ||
+			(provider.settings?.login as string) ||
+			(settings?.login as string);
+
 		const password =
-			(provider.settings?.password as string) || (settings?.password as string);
+			process.env.S3_SECRET_ACCESS_KEY ||
+			(provider.settings?.password as string) ||
+			(settings?.password as string);
+
 		const endpoint =
-			(provider.settings?.endpoint as string) || (settings?.endpoint as string);
-		const dockerEndpoint =
-			(provider.settings?.dockerEndpoint as string) ||
-			(settings?.dockerEndpoint as string);
+			process.env.S3_ENDPOINT ||
+			(provider.settings?.endpoint as string) ||
+			(settings?.endpoint as string);
+
+		const bucket =
+			(provider.settings?.bucket as string) ||
+			(settings?.bucket as string) ||
+			process.env.S3_BUCKET_DOC_MEDIA;
 
 		console.log("credentials ", {
 			credentials: {
@@ -441,7 +447,7 @@ export class ChatService {
 						params: {
 							bucket,
 							acl: "public-read",
-							dockerEndpoint,
+							endpoint,
 							getStorageClient: () => ({
 								credentials: {
 									accessKeyId: login,
