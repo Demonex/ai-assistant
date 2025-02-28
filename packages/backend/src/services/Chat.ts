@@ -375,17 +375,38 @@ export class ChatService {
 			throw new HttpException("Provider not found", HttpStatus.BAD_REQUEST);
 		}
 
+		const bucket =
+			(provider.settings?.bucket as string) || (settings?.bucket as string);
+		const login =
+			(provider.settings?.login as string) || (settings?.login as string);
+		const password =
+			(provider.settings?.password as string) || (settings?.password as string);
+		const endpoint =
+			(provider.settings?.endpoint as string) || (settings?.endpoint as string);
+		const dockerEndpoint =
+			(provider.settings?.dockerEndpoint as string) ||
+			(settings?.dockerEndpoint as string);
+
+		console.log("credentials ", {
+			credentials: {
+				accessKeyId: login,
+				secretAccessKey: password,
+			},
+			region: process.env.S3_REGION,
+			endpoint,
+			forcePathStyle: true,
+		});
+
 		const upload = getHandleUpload({
-			bucket:
-				(settings?.bucket as string) || (provider.settings?.bucket as string),
+			bucket,
 			acl: "public-read",
 			getStorageClient: () => ({
 				credentials: {
-					accessKeyId: provider.settings?.login as string,
-					secretAccessKey: provider.settings?.password as string,
+					accessKeyId: login,
+					secretAccessKey: password,
 				},
 				region: process.env.S3_REGION,
-				endpoint: provider.settings?.endpoint as string,
+				endpoint,
 				forcePathStyle: true,
 			}),
 		});
@@ -393,22 +414,12 @@ export class ChatService {
 		await promiseMap(data.media, async (media) => {
 			const fileKey = await upload({ file: media });
 
-			const bucket =
-				(provider.settings?.bucket as string) || (settings?.bucket as string);
-			const login =
-				(provider.settings?.login as string) || (settings?.login as string);
-			const password =
-				(provider.settings?.password as string) ||
-				(settings?.password as string);
-			const endpoint =
-				(provider.settings?.endpoint as string) ||
-				(settings?.endpoint as string);
-			const dockerEndpoint =
-				(provider.settings?.dockerEndpoint as string) ||
-				(settings?.dockerEndpoint as string);
+			console.log("after upload", fileKey);
 
 			const copyFlow = await this.flowService.getFlow({ filter: "UPLOAD" });
 			const newFlow = await this.flowService.createFlow({ flow: copyFlow });
+
+			console.log("after create flows", newFlow);
 
 			const newFlowId = newFlow.id;
 			// const fileId = newFlow.data.nodes.find(node => node.data.type === 'File').id;
@@ -443,6 +454,8 @@ export class ChatService {
 						},
 					});
 
+				console.log("after gotenb", filepath);
+
 				// const { file_path: filePath } = await this.flowService.uploadFile({
 				// 	flowId: newFlowId,
 				// 	media,
@@ -460,6 +473,8 @@ export class ChatService {
 						vectorFilePath,
 					});
 					await this.em.persistAndFlush(doc);
+
+					console.log("after create doc entity", doc);
 				} catch (error) {
 					console.error("Error creating doc:", error);
 
@@ -485,6 +500,8 @@ export class ChatService {
 						},
 					},
 				});
+
+				console.log("after run flow");
 			} catch (error) {
 				console.error("Request failed:", error.message);
 				console.error("Status code:", error.response?.statusCode);
