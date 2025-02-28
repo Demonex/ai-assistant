@@ -109,7 +109,7 @@ export class LangFlowService {
 			},
 		);
 
-		console.log("langflow response achived", method);
+		console.log("langflow response achived", method, langflowResponse);
 
 		if (method === "UPLOAD") {
 			return;
