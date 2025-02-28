@@ -483,6 +483,25 @@ export class ChatService {
 						HttpStatus.INTERNAL_SERVER_ERROR,
 					);
 				}
+
+				console.log({
+					method: "UPLOAD",
+					flowId: newFlowId,
+					payload: {
+						tweaks: {
+							[fileId]: {
+								path: `${filepath}`,
+								concurrency_multithreading: 4,
+								silent_errors: false,
+								use_multithreading: false,
+							},
+							[qdrantId]: {
+								collection_name: collection.title.toString(),
+							},
+						},
+					},
+				});
+
 				await this.flowService.runFlow({
 					method: "UPLOAD",
 					flowId: newFlowId,
