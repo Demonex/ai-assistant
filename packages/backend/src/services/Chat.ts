@@ -484,23 +484,25 @@ export class ChatService {
 					);
 				}
 
-				console.log({
-					method: "UPLOAD",
-					flowId: newFlowId,
-					payload: {
-						tweaks: {
-							[fileId]: {
-								path: `${filepath}`,
-								concurrency_multithreading: 4,
-								silent_errors: false,
-								use_multithreading: false,
-							},
-							[qdrantId]: {
-								collection_name: collection.title.toString(),
+				console.log(
+					JSON.stringify({
+						method: "UPLOAD",
+						flowId: newFlowId,
+						payload: {
+							tweaks: {
+								[fileId]: {
+									path: `${filepath}`,
+									concurrency_multithreading: 4,
+									silent_errors: false,
+									use_multithreading: false,
+								},
+								[qdrantId]: {
+									collection_name: collection.title.toString(),
+								},
 							},
 						},
-					},
-				});
+					}),
+				);
 
 				await this.flowService.runFlow({
 					method: "UPLOAD",
