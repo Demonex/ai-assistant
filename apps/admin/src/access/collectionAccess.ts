@@ -45,19 +45,6 @@ export const getCollectionAccess = () => {
 	// 	})
 	// );
 
-	// return {
-	// 	...defaultAccess,
-	// 	// collection: {
-	// 	// 	contains: groups.docs.flatMap(doc => {
-	// 	// 		return doc.collectionPermissions?.map(perm => {
-	// 	// 			console.log(perm, perm.collection);
-
-	// 	// 			return perm.collection
-	// 	// 		})
-	// 	// 	})
-	// 	// }
-	// };
-
 	const create = async ({ req }) => {
 		const { user } = await getUserContext({ req });
 

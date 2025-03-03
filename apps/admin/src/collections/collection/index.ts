@@ -1,4 +1,4 @@
-import { getCollectionAccess } from "@/access/collection";
+import { getCollectionAccess } from "@/access/collectionAccess";
 import { neuro } from "@/collections/neuro";
 import { MODEL_TYPE } from "@/types/types";
 import defaultAccess from "@/utilities/defaultAccess";
@@ -9,7 +9,7 @@ import { tenant } from "../tenant";
 
 const collectionAccess = {
 	...defaultAccess,
-	// ...getCollectionAccess()
+	...getCollectionAccess(),
 };
 
 export const collection: CollectionConfig = {
