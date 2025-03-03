@@ -2,9 +2,11 @@ import type { CollectionConfig } from "payload";
 
 import defaultAccess from "@/utilities/defaultAccess";
 import { model } from "@/collections/model";
+import { getNeuroAccess } from "@/access/neuroAccess";
 
 const neuroAccess = {
 	...defaultAccess,
+	...getNeuroAccess(),
 };
 
 export const neuro: CollectionConfig = {
