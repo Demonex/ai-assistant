@@ -5,9 +5,11 @@ import { tenant } from "@/collections/tenant";
 import { user } from "@/collections/user";
 import { collection } from "../collection";
 import { COLLECTION_PERMISSIONS, GROUP_PERMISSIONS } from "@/types/types";
+import { getGroupAccess } from "@/access/groupAccess";
 
 const groupAccess = {
 	...defaultAccess,
+	...getGroupAccess(),
 };
 
 export const group: CollectionConfig = {
