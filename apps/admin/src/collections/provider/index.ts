@@ -2,9 +2,11 @@ import type { CollectionConfig } from "payload";
 
 import defaultAccess from "@/utilities/defaultAccess";
 import { tenant } from "@/collections/tenant";
+import { getProviderAccess } from "@/access/providerAccess";
 
 const providerAccess = {
 	...defaultAccess,
+	...getProviderAccess(),
 };
 
 export const provider: CollectionConfig = {
