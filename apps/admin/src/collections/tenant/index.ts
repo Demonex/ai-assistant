@@ -2,9 +2,11 @@ import type { CollectionConfig } from "payload";
 
 import { tenantMedia } from "@/collections/tenant/media";
 import defaultAccess from "@/utilities/defaultAccess";
+import { getTenantAccess } from "@/access/tenantAccess";
 
 const tenantAccess = {
 	...defaultAccess,
+	...getTenantAccess(),
 };
 
 export const tenant: CollectionConfig = {
