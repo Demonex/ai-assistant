@@ -5,6 +5,7 @@ import Redis from "ioredis";
 import defaultAccess from "@/utilities/defaultAccess";
 import { userMediaAvatar } from "@/collections/user/media/avatar";
 import { tenant } from "../tenant";
+import { getUserAccess } from "@/access/userAccess";
 
 const RedisSessionStore = new Redis(
 	`redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
@@ -12,11 +13,12 @@ const RedisSessionStore = new Redis(
 
 const userAccess = {
 	...defaultAccess,
+	...getUserAccess(),
 };
 
 export const user: CollectionConfig = {
 	slug: "user",
-	access: defaultAccess,
+	access: userAccess,
 	admin: {
 		// hideAPIURL: true,
 		defaultColumns: ["name", "email", "superadmin"],
