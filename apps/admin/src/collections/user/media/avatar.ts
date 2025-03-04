@@ -8,8 +8,8 @@ const userMediaAccess = {
 export const userMediaAvatar: CollectionConfig = {
 	slug: "user-media-avatar",
 	labels: {
-		singular: "Юзер-медиа",
-		plural: "Юзер-медиа",
+		singular: "Пользователь-медиа",
+		plural: "Пользователи-медиа",
 	},
 	hooks: {
 		beforeRead: [

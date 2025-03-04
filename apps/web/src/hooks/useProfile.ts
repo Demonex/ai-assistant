@@ -29,7 +29,10 @@ const _useProfile = () => {
 		cache: false,
 	});
 
-	const [profile, setProfile] = useState(null);
+	const [profile, setProfile] = useState(() => {
+		const savedProfile = sessionStorage.getItem("profile");
+		return savedProfile ? JSON.parse(savedProfile) : null;
+	});
 
 	const isAuthorized = useMemo(() => !!profile, [profile]);
 
@@ -38,6 +41,7 @@ const _useProfile = () => {
 			return;
 		}
 		setProfile(data);
+		sessionStorage.setItem("profile", JSON.stringify(data || dataSignIn));
 		// setProfile({ id: "ads", email: "bla@bla.ru" });
 	}, [data]);
 
@@ -46,6 +50,7 @@ const _useProfile = () => {
 			return;
 		}
 		setProfile(dataSignIn);
+		sessionStorage.setItem("profile", JSON.stringify(data || dataSignIn));
 	}, [dataSignIn]);
 
 	const handleSignOut = useCallback(async () => {
@@ -54,6 +59,7 @@ const _useProfile = () => {
 			data: data,
 		});
 		setProfile(null);
+		sessionStorage.removeItem("profile");
 	}, []);
 
 	const handleSignIn = useCallback(

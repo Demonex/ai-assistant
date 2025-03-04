@@ -17,8 +17,8 @@ const userAccess = {
 export const user: CollectionConfig = {
 	slug: "user",
 	labels: {
-		singular: "Юзер",
-		plural: "Юзеры",
+		singular: "Пользователь",
+		plural: "Пользователи",
 	},
 	access: defaultAccess,
 	admin: {
