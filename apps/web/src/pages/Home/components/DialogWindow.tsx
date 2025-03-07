@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AvatarComponent } from "./AvatarComponent.js";
 // import { DropdownMenuButton } from "./DropdownMenuButton.js";
@@ -31,7 +31,6 @@ export const DialogWindow = () => {
 	const [files, setFiles] = useState([]);
 	const [isOverlay, setIsOverlay] = useState(false);
 	const { register, handleSubmit, reset, setValue } = useForm();
-	const prevFileLoading = useRef(false);
 	const messagesEndRef = useRef(null);
 	const fileInputRef = useRef(null);
 	const textareaRef = useRef(null);

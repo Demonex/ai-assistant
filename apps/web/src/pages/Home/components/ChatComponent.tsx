@@ -7,7 +7,7 @@ export const ChatComponent = memo(() => {
 	const { activeChat } = useChats();
 
 	return (
-		<main className="p-4">
+		<main className="p-4 bg-[#fbfbfb]">
 			<div className="gap-8 lg:flex">
 				<Sidebar />
 				{activeChat && <DialogWindow />}

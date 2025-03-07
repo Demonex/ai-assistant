@@ -13,7 +13,7 @@ export const MessageItem = memo<{
 
 	return (
 		<div
-			className={`group relative flex min-w-0 cursor-pointer items-center gap-4 px-6 py-4 hover:bg-muted ${theme === "dark" ? (activeChat?.id === id ? "bg-[rgb(39,39,42)] text-white" : "bg-transparent") : activeChat?.id === id ? "bg-[rgb(244,244,244)] text-black" : "bg-transparent"}`}
+			className={`group relative flex min-w-0 cursor-pointer items-center gap-4 px-6 py-4 hover:bg-muted ${theme === "dark" ? (activeChat?.id === id ? "bg-[rgb(39,39,42)] text-white border-r-[3px]" : "bg-transparent") : activeChat?.id === id ? "bg-[rgb(244,244,244)] text-black border-r-[3px] border-black" : "bg-transparent"}`}
 			onClick={() => {
 				setActiveChat({ id, title });
 			}}

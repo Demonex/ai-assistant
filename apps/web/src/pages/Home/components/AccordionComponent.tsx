@@ -1,3 +1,4 @@
+import type { FC } from "react";
 import {
 	Accordion,
 	AccordionContent,
@@ -6,18 +7,34 @@ import {
 } from "@/components/ui/accordion.js";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 
-export function AccordionComponent({ items }) {
-	const openFile = (item) => {
+interface ItemFileType {
+	_id: string;
+	file_path: string;
+	page_num: number;
+	text: string;
+}
+
+interface AccordionProps {
+	items: ItemFileType[];
+}
+
+export const AccordionComponent: FC<AccordionProps> = ({ items }) => {
+	const openFile = (item: ItemFileType) => {
 		const fileURL = `${item.file_path}#page=${item.page_num}`;
 		window.open(fileURL, "_blank");
 	};
 
+	const getFileName = (name: string) => {
+		const getName = name.split("/").pop();
+		return getName.split(".pdf")[0];
+	};
+
 	return (
 		<Accordion type="single" collapsible className="w-full">
-			{items?.map((item) => (
+			{items?.map((item: ItemFileType) => (
 				<AccordionItem value={item._id} key={item._id}>
 					<AccordionTrigger>
-						{`${item.file_path.split("/").pop()} - Страница ${item.page_num}`}
+						{`${getFileName(item.file_path)} - Страница ${item.page_num}`}
 					</AccordionTrigger>
 					<AccordionContent>
 						<button
@@ -32,4 +49,4 @@ export function AccordionComponent({ items }) {
 			))}
 		</Accordion>
 	);
-}
+};
