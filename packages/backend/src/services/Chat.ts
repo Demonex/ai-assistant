@@ -439,9 +439,19 @@ export class ChatService {
 				(node) => node.data.node.display_name === "Qdrant",
 			).id;
 
+			console.log(media);
+
 			try {
-				const { file_path: filepath } =
-					await this.gotenbergService.convertFromS3({
+				let resultUpload: { file_path: string } | null = null;
+
+				if (media.originalname.split(".").pop() === "pdf") {
+					resultUpload = await this.flowService.uploadFile({
+						flowId: newFlowId,
+						media,
+						name: fileKey,
+					});
+				} else {
+					resultUpload = await this.gotenbergService.convertFromS3({
 						flowId: newFlowId,
 						fileKey,
 						params: {
@@ -460,35 +470,15 @@ export class ChatService {
 						},
 					});
 
-				console.log("after gotenb", filepath);
+					console.log("after gotenb", resultUpload);
+				}
+
+				const { file_path: filepath } = resultUpload;
 
 				// const { file_path: filePath } = await this.flowService.uploadFile({
 				// 	flowId: newFlowId,
 				// 	media,
 				// });
-
-				const vectorFilePath = `/app/langflow/${filepath}`;
-
-				try {
-					const doc = this.em.create<DocEntity>(DocEntity, {
-						filename: media.originalname,
-						filesize: media.size,
-						mimeType: media.mimetype,
-						collection: chatId,
-						provider: provider.id,
-						vectorFilePath,
-					});
-					await this.em.persistAndFlush(doc);
-
-					console.log("after create doc entity", doc);
-				} catch (error) {
-					console.error("Error creating doc:", error);
-
-					throw new HttpException(
-						"Internal Server Error",
-						HttpStatus.INTERNAL_SERVER_ERROR,
-					);
-				}
 
 				console.log(
 					JSON.stringify({
@@ -529,6 +519,28 @@ export class ChatService {
 				});
 
 				console.log("after run flow");
+				const vectorFilePath = `/app/langflow/${filepath}`;
+
+				try {
+					const doc = this.em.create<DocEntity>(DocEntity, {
+						filename: media.originalname,
+						filesize: media.size,
+						mimeType: media.mimetype,
+						collection: chatId,
+						provider: provider.id,
+						vectorFilePath,
+					});
+					await this.em.persistAndFlush(doc);
+
+					console.log("after create doc entity", doc);
+				} catch (error) {
+					console.error("Error creating doc:", error);
+
+					throw new HttpException(
+						"Internal Server Error",
+						HttpStatus.INTERNAL_SERVER_ERROR,
+					);
+				}
 			} catch (error) {
 				console.error("Request failed:", error.message);
 				console.error("Status code:", error.response?.statusCode);
