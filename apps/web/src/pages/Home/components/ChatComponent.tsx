@@ -1,5 +1,5 @@
 import { DialogWindow } from "./DialogWindow.js";
-import { memo, useState } from "react";
+import { memo } from "react";
 import { Sidebar } from "./Sidebar.js";
 import { useChats } from "../hooks/useChats.js";
 
