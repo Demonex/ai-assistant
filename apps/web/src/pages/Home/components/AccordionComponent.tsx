@@ -24,18 +24,16 @@ export const AccordionComponent: FC<AccordionProps> = ({ items }) => {
 	const [isShowCopy, setIsShowCopy] = useState<string | null>(null);
 
 	const handleCopy = async (type: "text" | "full", text: string) => {
-		try {
-			await navigator.clipboard.writeText(text);
+		const textArea = document.createElement("textarea");
+		textArea.value = text;
+		document.body.appendChild(textArea);
+		textArea.select();
+		document.execCommand("copy");
+		document.body.removeChild(textArea);
 
-			toast({
-				title: `${type === "text" ? "Текст Фрагмента" : "Фрагент"}  cкопирован!`,
-			});
-		} catch (err) {
-			toast({
-				title: "Ошибка копирования:",
-				description: err.message,
-			});
-		}
+		toast({
+			title: `${type === "text" ? "Текст Фрагмента" : "Фрагент"}  cкопирован!`,
+		});
 	};
 
 	const openFile = (item: ItemFileType) => {

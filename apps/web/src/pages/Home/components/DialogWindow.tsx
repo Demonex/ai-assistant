@@ -157,17 +157,16 @@ export const DialogWindow = () => {
 	const [isShowCopy, setIsShowCopy] = useState<string | null>(null);
 
 	const handleCopy = async (text: string) => {
-		try {
-			await navigator.clipboard.writeText(text);
-			toast({
-				title: "Текст cкопирован!",
-			});
-		} catch (err) {
-			toast({
-				title: "Ошибка копирования:",
-				description: err.message,
-			});
-		}
+		const textArea = document.createElement("textarea");
+		textArea.value = text;
+		document.body.appendChild(textArea);
+		textArea.select();
+		document.execCommand("copy");
+		document.body.removeChild(textArea);
+
+		toast({
+			title: "Текст cкопирован!",
+		});
 	};
 
 	const isFragments = (message) => {
@@ -806,7 +805,7 @@ export const DialogWindow = () => {
 										textareaRef.current = el;
 										register("message").ref(el);
 									}}
-									disabled={messageLoading && fileLoading}
+									disabled={messageLoading || fileLoading}
 									onInput={handleTextarea}
 									placeholder={"Введите сообщение..."}
 									onChange={handleInputChange}
@@ -828,7 +827,7 @@ export const DialogWindow = () => {
 										className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-11 w-11 rounded-full p-0"
 										data-state="closed"
 										onClick={handlePinFileButton}
-										disabled={messageLoading && fileLoading}
+										disabled={messageLoading || fileLoading}
 									>
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
@@ -851,7 +850,7 @@ export const DialogWindow = () => {
 									type="submit"
 									className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 ms-3"
 								>
-									{messageLoading && fileLoading ? <Spinner /> : "Отправить"}
+									{messageLoading || fileLoading ? <Spinner /> : "Отправить"}
 								</button>
 							</div>
 						</form>
