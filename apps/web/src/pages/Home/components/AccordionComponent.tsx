@@ -1,10 +1,12 @@
-import type { FC } from "react";
+import { type FC, useState } from "react";
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
 } from "@/components/ui/accordion.js";
+import { toast } from "@/hooks/use-toast.js";
+import { Copy, ClipboardList } from "lucide-react";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 
 interface ItemFileType {
@@ -19,6 +21,23 @@ interface AccordionProps {
 }
 
 export const AccordionComponent: FC<AccordionProps> = ({ items }) => {
+	const [isShowCopy, setIsShowCopy] = useState<string | null>(null);
+
+	const handleCopy = async (type: "text" | "full", text: string) => {
+		try {
+			await navigator.clipboard.writeText(text);
+
+			toast({
+				title: `${type === "text" ? "Текст Фрагмента" : "Фрагент"}  cкопирован!`,
+			});
+		} catch (err) {
+			toast({
+				title: "Ошибка копирования:",
+				description: err.message,
+			});
+		}
+	};
+
 	const openFile = (item: ItemFileType) => {
 		const fileURL = `${item.file_path}#page=${item.page_num}`;
 		window.open(fileURL, "_blank");
@@ -30,9 +49,15 @@ export const AccordionComponent: FC<AccordionProps> = ({ items }) => {
 	};
 
 	return (
-		<Accordion type="single" collapsible className="w-full">
+		<Accordion type="single" collapsible className="w-full relative">
 			{items?.map((item: ItemFileType) => (
-				<AccordionItem value={item._id} key={item._id}>
+				<AccordionItem
+					className="p-4"
+					value={item._id}
+					key={item._id}
+					onMouseEnter={() => setIsShowCopy(item._id)}
+					onMouseLeave={() => setIsShowCopy(null)}
+				>
 					<AccordionTrigger>
 						{`${getFileName(item.file_path)} - Страница ${item.page_num}`}
 					</AccordionTrigger>
@@ -45,6 +70,29 @@ export const AccordionComponent: FC<AccordionProps> = ({ items }) => {
 						</button>
 						<ReactMarkdownComponent textMarkdown={item.text} />
 					</AccordionContent>
+
+					{isShowCopy === item._id && (
+						<div className="absolute left-[100%] top-[20px] flex items-center cursor-pointer rounded-lg border bg-card text-card-foreground p-4">
+							<div
+								title="Копировать текст фрагмента"
+								onClick={() => handleCopy("text", item.text)}
+							>
+								<Copy size={20} />
+							</div>
+							<div
+								className="ml-4"
+								title="Копировать Фрагмент"
+								onClick={() =>
+									handleCopy(
+										"full",
+										`${getFileName(item.file_path)} - Страница ${item.page_num} [${item.file_path}#page=${item.page_num}]\n\n${item.text}`,
+									)
+								}
+							>
+								<ClipboardList size={20} />
+							</div>
+						</div>
+					)}
 				</AccordionItem>
 			))}
 		</Accordion>

@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { AvatarComponent } from "./AvatarComponent.js";
 // import { DropdownMenuButton } from "./DropdownMenuButton.js";
 import { toast } from "@/hooks/use-toast.js";
+import { Copy } from "lucide-react";
 import {
 	formatFileSize,
 	formatLocalTime,
@@ -153,6 +154,26 @@ export const DialogWindow = () => {
 		}
 	}, [fetchErrors]);
 
+	const [isShowCopy, setIsShowCopy] = useState<string | null>(null);
+
+	const handleCopy = async (text: string) => {
+		try {
+			await navigator.clipboard.writeText(text);
+			toast({
+				title: "Текст cкопирован!",
+			});
+		} catch (err) {
+			toast({
+				title: "Ошибка копирования:",
+				description: err.message,
+			});
+		}
+	};
+
+	const isFragments = (message) => {
+		return message.response.fragments && message.response.fragments.length > 0;
+	};
+
 	return (
 		<div className="flex-grow">
 			<div className="fixed inset-0 flex flex-col bg-background p-4 lg:relative lg:bg-transparent lg:p-0">
@@ -225,10 +246,27 @@ export const DialogWindow = () => {
 												<div className="max-w-screen-sm self-end">
 													<div className="flex items-center gap-2">
 														<div className="shadow-base rounded-lg border bg-card text-card-foreground order-1">
-															<div className="inline-flex p-4">
+															<div
+																className="relative inline-flex p-4"
+																onMouseEnter={() =>
+																	setIsShowCopy(message.request.created_at)
+																}
+																onMouseLeave={() => setIsShowCopy(null)}
+															>
 																<ReactMarkdownComponent
 																	textMarkdown={message.request.message}
 																/>
+																{isShowCopy === message.request.created_at && (
+																	<div
+																		title="Копировать текст"
+																		onClick={() =>
+																			handleCopy(message.request.message)
+																		}
+																		className="absolute right-[100%] top-0 flex items-center cursor-pointer rounded-lg border bg-card text-card-foreground p-4"
+																	>
+																		<Copy size={20} />
+																	</div>
+																)}
 															</div>
 														</div>
 													</div>
@@ -246,29 +284,39 @@ export const DialogWindow = () => {
 											{message.response && (
 												<div className="max-w-screen-sm w-full">
 													<div className="flex items-center gap-2 w-full">
-														{message.response.fragments &&
-														message.response.fragments.length > 0 ? (
-															<div className="shadow-base rounded-lg border bg-card text-card-foreground w-full">
-																<div className="inline-flex p-4 w-full">
-																	<ReactMarkdownComponent
-																		textMarkdown={message.response.message}
-																	/>
-																</div>
-																<div className="inline-flex p-4 w-full">
+														<div
+															className={`shadow-base rounded-lg border bg-card text-card-foreground ${isFragments(message) && "w-full"}`}
+														>
+															<div
+																className={`relative inline-flex p-4 ${isFragments(message) && "w-full"}`}
+																onMouseEnter={() =>
+																	setIsShowCopy(message.response.created_at)
+																}
+																onMouseLeave={() => setIsShowCopy(null)}
+															>
+																<ReactMarkdownComponent
+																	textMarkdown={message.response.message}
+																/>
+																{isShowCopy === message.response.created_at && (
+																	<div
+																		title="Копировать текст"
+																		onClick={() =>
+																			handleCopy(message.response.message)
+																		}
+																		className="absolute left-[100%] top-0 flex items-center cursor-pointer rounded-lg border bg-card text-card-foreground p-4"
+																	>
+																		<Copy size={20} />
+																	</div>
+																)}
+															</div>
+															{isFragments(message) && (
+																<div className="inline-flex w-full">
 																	<AccordionComponent
 																		items={message.response.fragments}
 																	/>
 																</div>
-															</div>
-														) : (
-															<div className="shadow-base rounded-lg border bg-card text-card-foreground">
-																<div className="inline-flex p-4">
-																	<ReactMarkdownComponent
-																		textMarkdown={message.response.message}
-																	/>
-																</div>
-															</div>
-														)}
+															)}
+														</div>
 													</div>
 													<div className="flex items-center gap-2">
 														<time className="mt-1 flex items-center text-sm text-muted-foreground">
@@ -758,7 +806,7 @@ export const DialogWindow = () => {
 										textareaRef.current = el;
 										register("message").ref(el);
 									}}
-									disabled={messageLoading}
+									disabled={messageLoading && fileLoading}
 									onInput={handleTextarea}
 									placeholder={"Введите сообщение..."}
 									onChange={handleInputChange}
@@ -780,7 +828,7 @@ export const DialogWindow = () => {
 										className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-11 w-11 rounded-full p-0"
 										data-state="closed"
 										onClick={handlePinFileButton}
-										disabled={messageLoading}
+										disabled={messageLoading && fileLoading}
 									>
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
@@ -803,7 +851,7 @@ export const DialogWindow = () => {
 									type="submit"
 									className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 ms-3"
 								>
-									{messageLoading ? <Spinner /> : "Отправить"}
+									{messageLoading && fileLoading ? <Spinner /> : "Отправить"}
 								</button>
 							</div>
 						</form>

@@ -38,11 +38,18 @@ export function SignIn({
 	};
 
 	useEffect(() => {
-		if (errorSignIn) {
+		if (errorSignIn.status === 500) {
 			toast({
 				variant: "destructive",
 				title: errorSignIn.status,
 				description: errorSignIn.message,
+			});
+		} else {
+			toast({
+				variant: "destructive",
+				title: "Не удалось войти",
+				description:
+					"Проверьте правильность введённых данных или зарегистрируйтесь.",
 			});
 		}
 	}, [errorSignIn]);
