@@ -30,8 +30,6 @@ export const DialogWindow = () => {
 	const fileInputRef = useRef(null);
 	const textareaRef = useRef(null);
 
-	console.log(messages, "Сообщеньки");
-
 	const onSubmit = () =>
 		useCallback(() => {
 			if (files.length) {
