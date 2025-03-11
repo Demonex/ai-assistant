@@ -1,4 +1,4 @@
-import { type FC, useState } from "react";
+import { type FC, useState, useRef } from "react";
 import {
 	Accordion,
 	AccordionContent,
@@ -21,7 +21,25 @@ interface AccordionProps {
 }
 
 export const AccordionComponent: FC<AccordionProps> = ({ items }) => {
+	const tooltipRef = useRef(null);
+
 	const [isShowCopy, setIsShowCopy] = useState<string | null>(null);
+	const [positionCopy, setPositionCopy] = useState<{ top: number }>({ top: 0 });
+
+	const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+		const rect = e.currentTarget.getBoundingClientRect();
+		const offsetY = e.clientY - rect.top;
+
+		const tooltipHeight = tooltipRef.current?.offsetHeight || 0;
+		let correctedTop = offsetY - tooltipHeight / 2;
+
+		correctedTop = Math.max(
+			0,
+			Math.min(correctedTop, rect.height - tooltipHeight),
+		);
+
+		setPositionCopy({ top: correctedTop });
+	};
 
 	const handleCopy = async (type: "text" | "full", text: string) => {
 		const textArea = document.createElement("textarea");
@@ -47,12 +65,13 @@ export const AccordionComponent: FC<AccordionProps> = ({ items }) => {
 	};
 
 	return (
-		<Accordion type="single" collapsible className="w-full relative">
+		<Accordion type="single" collapsible className="w-full">
 			{items?.map((item: ItemFileType) => (
 				<AccordionItem
-					className="p-4"
+					className="p-4 relative"
 					value={item._id}
 					key={item._id}
+					onMouseMove={handleMouseMove}
 					onMouseEnter={() => setIsShowCopy(item._id)}
 					onMouseLeave={() => setIsShowCopy(null)}
 				>
@@ -70,7 +89,11 @@ export const AccordionComponent: FC<AccordionProps> = ({ items }) => {
 					</AccordionContent>
 
 					{isShowCopy === item._id && (
-						<div className="absolute left-[100%] top-[20px] flex items-center cursor-pointer rounded-lg border bg-card text-card-foreground p-4">
+						<div
+							ref={tooltipRef}
+							style={{ top: `${positionCopy.top}px` }}
+							className="absolute left-[100%] top-[20px] flex items-center cursor-pointer rounded-lg border bg-card text-card-foreground p-4"
+						>
 							<div
 								title="Копировать текст фрагмента"
 								onClick={() => handleCopy("text", item.text)}

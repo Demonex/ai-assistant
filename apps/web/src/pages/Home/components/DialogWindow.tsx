@@ -154,7 +154,25 @@ export const DialogWindow = () => {
 		}
 	}, [fetchErrors]);
 
+	const tooltipRef = useRef(null);
+
 	const [isShowCopy, setIsShowCopy] = useState<string | null>(null);
+	const [positionCopy, setPositionCopy] = useState<{ top: number }>({ top: 0 });
+
+	const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+		const rect = e.currentTarget.getBoundingClientRect();
+		const offsetY = e.clientY - rect.top;
+
+		const tooltipHeight = tooltipRef.current?.offsetHeight || 0;
+		let correctedTop = offsetY - tooltipHeight / 2;
+
+		correctedTop = Math.max(
+			0,
+			Math.min(correctedTop, rect.height - tooltipHeight),
+		);
+
+		setPositionCopy({ top: correctedTop });
+	};
 
 	const handleCopy = async (text: string) => {
 		const textArea = document.createElement("textarea");
@@ -238,8 +256,8 @@ export const DialogWindow = () => {
 						<div data-radix-scroll-area-content>
 							<div>
 								<div className="flex flex-col items-start space-y-10 pb-[8rem]">
-									{/* {messageMockData?.map((message) => ( */}
-									{messages?.map((message) => (
+									{messageMockData?.map((message) => (
+										// {messages?.map((message) => (
 										<Fragment key={message.id}>
 											{message.request && (
 												<div className="max-w-screen-sm self-end">
@@ -247,6 +265,7 @@ export const DialogWindow = () => {
 														<div className="shadow-base rounded-lg border bg-card text-card-foreground order-1">
 															<div
 																className="relative inline-flex p-4"
+																onMouseMove={handleMouseMove}
 																onMouseEnter={() =>
 																	setIsShowCopy(message.request.created_at)
 																}
@@ -257,11 +276,13 @@ export const DialogWindow = () => {
 																/>
 																{isShowCopy === message.request.created_at && (
 																	<div
+																		ref={tooltipRef}
 																		title="Копировать текст"
 																		onClick={() =>
 																			handleCopy(message.request.message)
 																		}
-																		className="absolute right-[100%] top-0 flex items-center cursor-pointer rounded-lg border bg-card text-card-foreground p-4"
+																		className="absolute right-[100%] flex items-center cursor-pointer rounded-lg border bg-card text-card-foreground p-4"
+																		style={{ top: `${positionCopy.top}px` }}
 																	>
 																		<Copy size={20} />
 																	</div>
@@ -288,6 +309,7 @@ export const DialogWindow = () => {
 														>
 															<div
 																className={`relative inline-flex p-4 ${isFragments(message) && "w-full"}`}
+																onMouseMove={handleMouseMove}
 																onMouseEnter={() =>
 																	setIsShowCopy(message.response.created_at)
 																}
@@ -298,11 +320,13 @@ export const DialogWindow = () => {
 																/>
 																{isShowCopy === message.response.created_at && (
 																	<div
+																		ref={tooltipRef}
 																		title="Копировать текст"
 																		onClick={() =>
 																			handleCopy(message.response.message)
 																		}
-																		className="absolute left-[100%] top-0 flex items-center cursor-pointer rounded-lg border bg-card text-card-foreground p-4"
+																		className="absolute left-[100%] flex items-center cursor-pointer rounded-lg border bg-card text-card-foreground p-4"
+																		style={{ top: `${positionCopy.top}px` }}
 																	>
 																		<Copy size={20} />
 																	</div>

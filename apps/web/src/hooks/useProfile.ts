@@ -32,6 +32,7 @@ const _useProfile = () => {
 	const [profile, setProfile] = useState(() => {
 		const savedProfile = sessionStorage.getItem("profile");
 		return savedProfile ? JSON.parse(savedProfile) : null;
+		// return { id: "ads", email: "bla@bla.ru" };
 	});
 
 	const isAuthorized = useMemo(() => !!profile, [profile]);
@@ -41,8 +42,8 @@ const _useProfile = () => {
 			return;
 		}
 		setProfile(data);
-		sessionStorage.setItem("profile", JSON.stringify(data || dataSignIn));
 		// setProfile({ id: "ads", email: "bla@bla.ru" });
+		sessionStorage.setItem("profile", JSON.stringify(data || dataSignIn));
 	}, [data]);
 
 	useEffect(() => {
@@ -50,6 +51,7 @@ const _useProfile = () => {
 			return;
 		}
 		setProfile(dataSignIn);
+		// setProfile({ id: "ads", email: "bla@bla.ru" });
 		sessionStorage.setItem("profile", JSON.stringify(data || dataSignIn));
 	}, [dataSignIn]);
 
