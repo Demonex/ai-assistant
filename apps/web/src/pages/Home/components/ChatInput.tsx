@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { FileUpload } from "./FileUpload.js";
 import { Spinner } from "./Spinner.js";
 import type { ChatInputProps } from "@/types/types.js";
+import { useChats } from "../hooks/useChats.js";
 
 export const ChatInput = memo<ChatInputProps>(
 	({
@@ -19,6 +20,7 @@ export const ChatInput = memo<ChatInputProps>(
 		fileInputRef,
 	}) => {
 		const { register, handleSubmit } = useForm();
+		const { messages } = useChats();
 
 		const handleKeyDown = (event) => {
 			if (event.key === "Enter" && !event.shiftKey) {
@@ -41,7 +43,7 @@ export const ChatInput = memo<ChatInputProps>(
 							textareaRef.current = el;
 							register("message").ref(el);
 						}}
-						disabled={messageLoading}
+						disabled={messageLoading || !messages?.isEmpty}
 						onInput={handleTextarea}
 						placeholder={"Введите сообщение..."}
 						onChange={handleInputChange}

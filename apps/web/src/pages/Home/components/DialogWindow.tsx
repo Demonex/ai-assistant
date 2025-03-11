@@ -7,6 +7,7 @@ import { messageMockData } from "@/DataBase.js";
 import { MessageBubble } from "./MessageBubble.js";
 import { ChatInput } from "./ChatInput.js";
 import { HeaderDialogWindow } from "./HeaderDialogWindow.js";
+import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 
 export const DialogWindow = () => {
 	const {
@@ -29,6 +30,8 @@ export const DialogWindow = () => {
 	const fileInputRef = useRef(null);
 	const textareaRef = useRef(null);
 
+	console.log(messages, "Сообщеньки");
+
 	const onSubmit = () =>
 		useCallback(() => {
 			if (files.length) {
@@ -43,7 +46,7 @@ export const DialogWindow = () => {
 				reset();
 			} else {
 				setMessages([
-					...messages,
+					...messages.messages,
 					{
 						id: Date.now().toString(),
 						request: { message, created_at: new Date().toString() },
@@ -55,7 +58,7 @@ export const DialogWindow = () => {
 				setMessage("");
 				reset();
 			}
-		}, [files, messages, message]);
+		}, [files, messages.messages, message]);
 
 	const handleInputChange = useCallback((event) => {
 		const value = event.target.value;
@@ -119,7 +122,7 @@ export const DialogWindow = () => {
 
 	useEffect(() => {
 		setTimeout(() => scrollToBottom());
-	}, [messages]);
+	}, [messages?.messages]);
 
 	useEffect(() => {
 		if (fileLoading) {
@@ -168,21 +171,33 @@ export const DialogWindow = () => {
 						</div>
 					)}
 
+					{/* {!messages?.messages.length && (
+            <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-90 flex items-center justify-center text-black z-[2]">
+              {messages?.description} */}
+					{/* {messageMockData.description} */}
+					{/* </div>
+          )} */}
+
 					<style
 						dangerouslySetInnerHTML={{
 							__html:
 								"\n[data-radix-scroll-area-viewport] {\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n  -webkit-overflow-scrolling: touch;\n}\n[data-radix-scroll-area-viewport]::-webkit-scrollbar {\n  display: none;\n}\n:where([data-radix-scroll-area-viewport]) {\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n}\n:where([data-radix-scroll-area-content]) {\n  flex-grow: 1;\n}\n",
 						}}
 					/>
+					{!(messages?.messages.length > 0) && (
+						<div className="w-full flex justify-center absolute left-0 top-[50%] transform translate-y-[-50%]">
+							<ReactMarkdownComponent textMarkdown={messages?.description} />
+						</div>
+					)}
 					<div
 						data-radix-scroll-area-viewport
 						className="overflow-scroll h-full w-full rounded-[inherit]"
 					>
 						<div data-radix-scroll-area-content>
 							<div>
-								<div className="flex flex-col items-start space-y-10 pb-[8rem]">
-									{/* {messageMockData?.map((message) => ( */}
-									{messages?.map((message) => (
+								<div className="flex flex-col items-start space-y-10 pb-[8rem] min-h-screen justify-center">
+									{/* {messageMockData?.messages.map((message) => ( */}
+									{messages?.messages.map((message) => (
 										<Fragment key={message.id}>
 											{message.request && (
 												<MessageBubble message={message} isRequest={true} />
