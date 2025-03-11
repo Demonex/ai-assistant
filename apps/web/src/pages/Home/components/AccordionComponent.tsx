@@ -44,7 +44,7 @@ export const AccordionComponent = memo<{ fragments: Fragments[] }>(
 			document.body.removeChild(textArea);
 
 			toast({
-				title: `${type === "text" ? "Текст Фрагмента" : "Фрагент"}  cкопирован!`,
+				title: `${type === "text" ? "Текст фрагмента" : "Фрагент"}  cкопирован!`,
 			});
 		};
 

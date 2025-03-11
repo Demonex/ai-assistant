@@ -6,7 +6,7 @@ export const HeaderDialogWindow = memo<{
 	onReturnToMenu: () => void;
 	activeChat: ActiveChat;
 }>(({ onReturnToMenu, activeChat }) => (
-	<div className="flex justify-between gap-4">
+	<div className="flex justify-between gap-4 border-b pb-2">
 		<div className="flex gap-4">
 			<button
 				onClick={onReturnToMenu}
@@ -28,8 +28,8 @@ export const HeaderDialogWindow = memo<{
 					<path d="M19 12H5" />
 				</svg>
 			</button>
-			<span className="relative flex shrink-0 overflow-hidden rounded-full h-12 w-12 border">
-				<div className="w-3 h-3 absolute rounded-full end-0 bottom-0 bg-green-400" />
+			<span className="relative flex shrink-0 overflow-hidden rounded-full h-10 w-10 border">
+				<div className="w-3 h-2 absolute rounded-full end-0 bottom-0 bg-green-400" />
 				<AvatarComponent />
 			</span>
 			<div className="flex flex-col">

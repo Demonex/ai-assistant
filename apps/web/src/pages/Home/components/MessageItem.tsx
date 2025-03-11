@@ -18,7 +18,7 @@ export const MessageItem = memo<{
 				setActiveChat({ id, title });
 			}}
 		>
-			<span className="relative flex shrink-0 overflow-hidden rounded-full h-12 w-12 border">
+			<span className="relative flex shrink-0 overflow-hidden rounded-full h-10 w-10 border">
 				<div className="w-3 h-3 absolute rounded-full end-0 bottom-0 bg-green-400" />
 				<span className="flex h-full w-full items-center justify-center rounded-full bg-muted">
 					<AvatarComponent />
@@ -30,8 +30,8 @@ export const MessageItem = memo<{
 				</div>
 			</div>
 			{/* <div className="absolute bottom-0 end-0 top-0 flex items-center bg-gradient-to-l from-50% px-4 opacity-0 group-hover:opacity-100 from-muted">
-        <DropdownMenuButton />
-      </div> */}
+          <DropdownMenuButton />
+        </div> */}
 		</div>
 	);
 });

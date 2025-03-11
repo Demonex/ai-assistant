@@ -49,54 +49,50 @@ export const MessageBubble = memo<{
 		});
 	};
 
+	//TODO просмотреть, какие message шлет бэк и там принимать решение, оставлять эту фунцию или нет.
 	const isFragments = (message) => {
+		// console.log(message);
 		return message.response.fragments && message.response.fragments.length > 0;
 	};
 
 	return (
 		<div className={`max-w-screen-sm ${isRequest ? "self-end" : "w-full"}`}>
-			<div className="flex items-center gap-2">
-				{!isRequest && fragments && fragments.length > 0 ? (
+			<div className={`flex items-center gap-2 ${!isRequest && "w-full"}`}>
+				<div
+					className={`shadow-base rounded-lg border bg-card text-card-foreground ${isRequest ? "order-1" : "w-full"}`}
+				>
 					<div
-						className={`shadow-base rounded-lg border bg-card text-card-foreground ${isFragments(message) && "w-full"}`}
+						className={`relative inline-flex p-4 ${isFragments(message) && "w-full"}`}
+						onMouseMove={handleMouseMove}
+						onMouseEnter={() => setIsShowCopy(message.request.created_at)}
+						onMouseLeave={() => setIsShowCopy(null)}
 					>
-						<div
-							className={`relative inline-flex p-4 ${!isRequest && "w-full"}`}
-							onMouseMove={handleMouseMove}
-							onMouseEnter={() => setIsShowCopy(message.request.created_at)}
-							onMouseLeave={() => setIsShowCopy(null)}
-						>
-							<ReactMarkdownComponent textMarkdown={text} />
-							{isShowCopy === message.request.created_at && (
-								<div
-									ref={tooltipCopy}
-									title="Копировать текст"
-									onClick={() => handleCopy(message.request.message)}
-									className="absolute right-[100%] flex items-center cursor-pointer rounded-lg border bg-card text-card-foreground p-4"
-									style={{ top: `${positionCopy.top}px` }}
-								>
-									<Copy size={20} />
-								</div>
-							)}
-						</div>
-						{isFragments(message) && (
-							<div className={`inline-flex p-4 ${!isRequest && "w-full"}`}>
-								<AccordionComponent fragments={fragments} />
+						<ReactMarkdownComponent textMarkdown={text} />
+						{isShowCopy === message.request.created_at && (
+							<div
+								ref={tooltipCopy}
+								title="Копировать текст"
+								onClick={() => handleCopy(message.request.message)}
+								className={`absolute ${isRequest ? "right-[100%]" : "left-[100%]"} flex items-center cursor-pointer rounded-lg border bg-card text-card-foreground p-4`}
+								style={{ top: `${positionCopy.top}px` }}
+							>
+								<Copy size={20} />
 							</div>
 						)}
 					</div>
-				) : (
-					<div className="shadow-base rounded-lg border bg-card text-card-foreground">
-						<div className="inline-flex p-4">
-							<ReactMarkdownComponent textMarkdown={text} />
+					{!isRequest && fragments && fragments.length > 0 && (
+						<div className="inline-flex w-full">
+							<AccordionComponent fragments={fragments} />
 						</div>
-					</div>
-				)}
+					)}
+				</div>
 			</div>
 			<div
 				className={`flex items-center gap-2 ${isRequest ? "justify-end" : ""}`}
 			>
-				<time className="mt-1 flex items-center text-sm text-muted-foreground">
+				<time
+					className={`mt-1 flex items-center text-sm text-muted-foreground ${isRequest ? "justify-end" : ""}`}
+				>
 					{formatLocalTime(created_at || new Date().toString())}
 				</time>
 			</div>
