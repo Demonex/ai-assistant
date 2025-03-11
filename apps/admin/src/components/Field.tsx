@@ -62,7 +62,7 @@ import { toast } from "sonner";
 import { useLocation } from "wouter";
 
 // 1 MB
-const MAX_FILE_SIZE = 10e7;
+const MAX_FILE_SIZE = 1024 * 1024 * 512;
 
 const FormSchema = z.object({
 	files: z

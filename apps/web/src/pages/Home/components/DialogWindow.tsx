@@ -1,6 +1,5 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { AvatarComponent } from "./AvatarComponent.js";
 // import { DropdownMenuButton } from "./DropdownMenuButton.js";
 import { toast } from "@/hooks/use-toast.js";
 import { useChats } from "../hooks/useChats.js";
