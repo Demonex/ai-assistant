@@ -1,11 +1,10 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
 // import { DropdownMenuButton } from "./DropdownMenuButton.js";
 import { toast } from "@/hooks/use-toast.js";
 import { useChats } from "../hooks/useChats.js";
 import { messageMockData } from "@/DataBase.js";
 import { MessageBubble } from "./MessageBubble.js";
-import { ChatInput } from "./ChatInput.js";
+import { ChatForm } from "./ChatForm.js";
 import { HeaderDialogWindow } from "./HeaderDialogWindow.js";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 import { ALLOWED_EXTENSIONS } from "@/constants/index.js";
@@ -20,22 +19,11 @@ export const DialogWindow = () => {
 		fetchErrors,
 		setFetchErrors,
 	} = useChats();
-	const [message, setMessage] = useState("");
-	const [files, setFiles] = useState([]);
-	const [isOverlay, setIsOverlay] = useState(false);
+
 	const messagesEndRef = useRef(null);
 
-	const handleInputChange = useCallback((event) => {
-		const value = event.target.value;
-		setMessage(value);
-	}, []);
-
-	const scrollToBottom = () => {
-		messagesEndRef.current?.scrollIntoView({
-			behavior: "smooth",
-			block: "nearest",
-		});
-	};
+	const [files, setFiles] = useState([]);
+	const [isOverlay, setIsOverlay] = useState(false);
 
 	const onReturnToMenu = () => {
 		setActiveChat(false);
@@ -82,9 +70,8 @@ export const DialogWindow = () => {
 		if (filteredFiles.length < newFiles.length) {
 			toast({
 				variant: "destructive",
-				title: "Ошибка расширения",
-				description:
-					"Некоторые файлы имеют недопустимое расширение и не были добавлены.",
+				title: "Ошибка формата!",
+				description: `Некоторые файлы имеют недопустимый формат и не были добавлены. Допустимые форматы (${ALLOWED_EXTENSIONS.join(", ")})`,
 			});
 		}
 
@@ -97,8 +84,19 @@ export const DialogWindow = () => {
 	}, []);
 
 	useEffect(() => {
-		setTimeout(() => scrollToBottom());
-	}, [messages?.messages]);
+		messagesEndRef.current?.scrollIntoView();
+	}, []);
+
+	useEffect(() => {
+		if (!messages?.messages?.length) return;
+
+		setTimeout(() => {
+			messagesEndRef.current?.scrollIntoView({
+				behavior: "smooth",
+				block: "nearest",
+			});
+		});
+	}, [messages?.messages?.length]);
 
 	useEffect(() => {
 		if (fileLoading) {
@@ -164,7 +162,7 @@ export const DialogWindow = () => {
 					>
 						<div data-radix-scroll-area-content>
 							<div>
-								<div className="flex flex-col items-start space-y-10 pb-[8rem] min-h-screen justify-center first:pt-4">
+								<div className="flex flex-col items-start space-y-10 pb-[12rem] min-h-screen justify-center first:pt-4">
 									{/* {messageMockData?.messages.map((message) => ( */}
 									{messages?.messages?.map((message) => (
 										<Fragment key={message.id}>
@@ -185,14 +183,10 @@ export const DialogWindow = () => {
 
 				<div className="relative lg:absolute left-0 right-0 bottom-0 shadow-base bg-card text-card-foreground">
 					<div className="rounded-lg border">
-						<ChatInput
-							messageLoading={messageLoading}
+						<ChatForm
 							files={files}
-							handleInputChange={handleInputChange}
 							handleDrop={handleDrop}
-							message={message}
 							setFiles={setFiles}
-							setMessage={setMessage}
 						/>
 					</div>
 				</div>
