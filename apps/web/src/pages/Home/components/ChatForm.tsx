@@ -1,32 +1,80 @@
-import { memo } from "react";
+import { memo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FileUpload } from "./FileUpload.js";
 import { Spinner } from "./Spinner.js";
 import type { ChatInputProps } from "@/types/types.js";
 import { useChats } from "../hooks/useChats.js";
+import { ALLOWED_EXTENSIONS } from "@/constants/index.js";
 
-export const ChatInput = memo<ChatInputProps>(
-	({
-		onSubmit,
-		messageLoading,
-		files,
-		handleCloseDocument,
-		handleTextarea,
-		handleInputChange,
-		textareaRef,
-		handleDrop,
-		handlePinFileButton,
-		message,
-		fileInputRef,
-	}) => {
-		const { register, handleSubmit } = useForm();
-		const { messages } = useChats();
+export const ChatForm = memo<ChatInputProps>(
+	({ files, handleDrop, setFiles }) => {
+		const { register, handleSubmit, reset, setValue } = useForm();
+		const {
+			messages,
+			setMessages,
+			sendUploadFile,
+			sendMessage,
+			messageLoading,
+		} = useChats();
+
+		const [message, setMessage] = useState("");
+
+		const fileInputRef = useRef(null);
+		const textareaRef = useRef(null);
+
+		const onSubmit = () => {
+			if (files.length) {
+				const formData = new FormData();
+
+				files.forEach((file) => formData.append("media", file));
+				sendUploadFile({ formData });
+				setFiles([]);
+				reset();
+			} else {
+				setMessages({
+					isEmpty: messages?.isEmpty,
+					description: messages?.description,
+					messages: [
+						...(messages?.messages ?? []),
+						{
+							id: Date.now().toString(),
+							request: { message, created_at: new Date().toString() },
+						},
+					],
+				});
+
+				sendMessage({ message });
+				setValue("message", "");
+				setMessage("");
+				reset();
+			}
+		};
+
+		const handleInputChange = (event) => {
+			const value = event.target.value;
+			setMessage(value);
+		};
+
+		const handlePinFileButton = () => {
+			fileInputRef.current?.click();
+		};
+
+		const handleCloseDocument = (id: number) => {
+			setFiles((files) => files.filter((item) => item.lastModified !== id));
+			fileInputRef.current.value = "";
+		};
 
 		const handleKeyDown = (event) => {
 			if (event.key === "Enter" && !event.shiftKey) {
 				event.preventDefault();
 				if (message || files.length) handleSubmit(onSubmit)();
 			}
+		};
+
+		const handleTextarea = () => {
+			const textarea = textareaRef.current;
+			textarea.style.height = "auto";
+			textarea.style.height = `${textarea.scrollHeight}px`;
 		};
 
 		return (
@@ -45,14 +93,17 @@ export const ChatInput = memo<ChatInputProps>(
 						}}
 						disabled={messageLoading || messages?.isEmpty}
 						onInput={handleTextarea}
-						placeholder={"Введите сообщение..."}
+						placeholder="Введите сообщение..."
 						onChange={handleInputChange}
 						onKeyDown={handleKeyDown}
-						className="flex w-full resize-none overflow-auto h-[50px] max-h-[150px] rounded-md border-none bg-background p-0 text-sm placeholder:text-muted-foreground focus:border-none focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+						className="flex w-full resize-none overflow-auto h-[50px] min-h-[50px] max-h-[150px] border-none bg-background p-0 text-sm placeholder:text-muted-foreground focus:border-none focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 outline-none focus:ring-0 focus:border-transparent"
 					/>
 				)}
 				<div className="end-4 flex items-center">
-					<div className="relative ml-3">
+					<div
+						className="relative ml-3"
+						title={`Прикрепить файл (${ALLOWED_EXTENSIONS.join(", ")})`}
+					>
 						<input
 							type="file"
 							multiple

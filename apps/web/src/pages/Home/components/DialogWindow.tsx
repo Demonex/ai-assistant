@@ -1,74 +1,29 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
 // import { DropdownMenuButton } from "./DropdownMenuButton.js";
 import { toast } from "@/hooks/use-toast.js";
 import { useChats } from "../hooks/useChats.js";
 import { messageMockData } from "@/DataBase.js";
 import { MessageBubble } from "./MessageBubble.js";
-import { ChatInput } from "./ChatInput.js";
+import { ChatForm } from "./ChatForm.js";
 import { HeaderDialogWindow } from "./HeaderDialogWindow.js";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
+import { ALLOWED_EXTENSIONS } from "@/constants/index.js";
 
 export const DialogWindow = () => {
 	const {
 		messages,
-		setMessages,
 		activeChat,
 		setActiveChat,
-		sendMessage,
 		messageLoading,
-		sendUploadFile,
 		fileLoading,
 		fetchErrors,
 		setFetchErrors,
 	} = useChats();
-	const [message, setMessage] = useState("");
+
+	const messagesEndRef = useRef(null);
+
 	const [files, setFiles] = useState([]);
 	const [isOverlay, setIsOverlay] = useState(false);
-	const { reset, setValue } = useForm();
-	const messagesEndRef = useRef(null);
-	const fileInputRef = useRef(null);
-	const textareaRef = useRef(null);
-
-	const onSubmit = () =>
-		useCallback(() => {
-			if (files.length) {
-				const formData = new FormData();
-
-				for (let i = 0; i < files.length; i++) {
-					formData.append("media", files[i]);
-				}
-
-				sendUploadFile({ formData });
-				setFiles([]);
-				reset();
-			} else {
-				setMessages([
-					...messages.messages,
-					{
-						id: Date.now().toString(),
-						request: { message, created_at: new Date().toString() },
-					},
-				]);
-
-				sendMessage({ message });
-				setValue("message", "");
-				setMessage("");
-				reset();
-			}
-		}, [files, messages.messages, message]);
-
-	const handleInputChange = useCallback((event) => {
-		const value = event.target.value;
-		setMessage(value);
-	}, []);
-
-	const scrollToBottom = () => {
-		messagesEndRef.current?.scrollIntoView({
-			behavior: "smooth",
-			block: "nearest",
-		});
-	};
 
 	const onReturnToMenu = () => {
 		setActiveChat(false);
@@ -88,39 +43,60 @@ export const DialogWindow = () => {
 		setIsOverlay(false);
 	};
 
+	const isFileAllowed = (fileName: string): boolean => {
+		const extension = fileName.split(".").pop()?.toLowerCase();
+		return !!extension && ALLOWED_EXTENSIONS.includes(extension);
+	};
+
+	const filterAllowedFiles = (files: File[]): File[] => {
+		return files.filter((file) => isFileAllowed(file.name));
+	};
+
+	const getUniqueFiles = (existingFiles: File[], newFiles: File[]): File[] => {
+		const existingFileNames = new Set(existingFiles.map((file) => file.name));
+		return newFiles.filter((file) => !existingFileNames.has(file.name));
+	};
+
 	const handleDrop = useCallback((event) => {
 		event.preventDefault();
 		setIsOverlay(false);
 
-		const data = event.dataTransfer?.files || event.target?.files;
+		const newFiles: File[] = Array.from(
+			event.dataTransfer?.files || event.target?.files,
+		);
 
-		if (data.length) {
-			const newFiles = Array.from(data);
-			setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+		const filteredFiles = filterAllowedFiles(newFiles);
+
+		if (filteredFiles.length < newFiles.length) {
+			toast({
+				variant: "destructive",
+				title: "Ошибка формата!",
+				description: `Некоторые файлы имеют недопустимый формат и не были добавлены. Допустимые форматы (${ALLOWED_EXTENSIONS.join(", ")})`,
+			});
+		}
+
+		if (filteredFiles.length) {
+			setFiles((prevFiles) => {
+				const uniqueNewFiles = getUniqueFiles(prevFiles, filteredFiles);
+				return [...prevFiles, ...uniqueNewFiles];
+			});
 		}
 	}, []);
 
-	const handlePinFileButton = useCallback(() => {
-		fileInputRef.current?.click();
-	}, [fileInputRef]);
-
-	const handleCloseDocument = useCallback(
-		(id: number) => {
-			setFiles((files) => files.filter((item) => item.lastModified !== id));
-			fileInputRef.current.value = "";
-		},
-		[files, fileInputRef],
-	);
-
-	const handleTextarea = useCallback(() => {
-		const textarea = textareaRef.current;
-		textarea.style.height = "auto";
-		textarea.style.height = `${textarea.scrollHeight}px`;
-	}, [textareaRef]);
+	useEffect(() => {
+		messagesEndRef.current?.scrollIntoView();
+	}, []);
 
 	useEffect(() => {
-		setTimeout(() => scrollToBottom());
-	}, [messages?.messages]);
+		if (!messages?.messages?.length) return;
+
+		setTimeout(() => {
+			messagesEndRef.current?.scrollIntoView({
+				behavior: "smooth",
+				block: "nearest",
+			});
+		});
+	}, [messages?.messages?.length]);
 
 	useEffect(() => {
 		if (fileLoading) {
@@ -175,7 +151,7 @@ export const DialogWindow = () => {
 								"\n[data-radix-scroll-area-viewport] {\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n  -webkit-overflow-scrolling: touch;\n}\n[data-radix-scroll-area-viewport]::-webkit-scrollbar {\n  display: none;\n}\n:where([data-radix-scroll-area-viewport]) {\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n}\n:where([data-radix-scroll-area-content]) {\n  flex-grow: 1;\n}\n",
 						}}
 					/>
-					{messages?.messages.length === 0 && (
+					{messages?.messages?.length === 0 && (
 						<div className="w-full flex justify-center absolute left-0 top-[50%] transform translate-y-[-50%]">
 							<ReactMarkdownComponent textMarkdown={messages?.description} />
 						</div>
@@ -186,9 +162,9 @@ export const DialogWindow = () => {
 					>
 						<div data-radix-scroll-area-content>
 							<div>
-								<div className="flex flex-col items-start space-y-10 pb-[8rem] min-h-screen justify-center first:pt-4">
+								<div className="flex flex-col items-start space-y-10 pb-[12rem] min-h-screen justify-center first:pt-4">
 									{/* {messageMockData?.messages.map((message) => ( */}
-									{messages?.messages.map((message) => (
+									{messages?.messages?.map((message) => (
 										<Fragment key={message.id}>
 											{message.request && (
 												<MessageBubble message={message} isRequest={true} />
@@ -207,18 +183,10 @@ export const DialogWindow = () => {
 
 				<div className="relative lg:absolute left-0 right-0 bottom-0 shadow-base bg-card text-card-foreground">
 					<div className="rounded-lg border">
-						<ChatInput
-							onSubmit={onSubmit}
-							messageLoading={messageLoading}
+						<ChatForm
 							files={files}
-							handleCloseDocument={handleCloseDocument}
-							handleTextarea={handleTextarea}
-							handleInputChange={handleInputChange}
-							textareaRef={textareaRef}
 							handleDrop={handleDrop}
-							handlePinFileButton={handlePinFileButton}
-							message={message}
-							fileInputRef={fileInputRef}
+							setFiles={setFiles}
 						/>
 					</div>
 				</div>
