@@ -22,6 +22,10 @@ import { getServerSideURL } from "./utilities/getURL";
 // import Logo from "@/components/Logo/Logo";
 // import Icon from "@/components/Logo/Icon";
 
+import { en } from "@payloadcms/translations/languages/en";
+
+import { ru } from "@payloadcms/translations/languages/ru";
+
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
@@ -45,7 +49,6 @@ export default buildConfig({
 			],
 		},
 		components: {
-			providers: ["@/components/ForceLightModeProvider"],
 			// The `BeforeLogin` component renders a message that you see while logging into your admin panel.
 			// Feel free to delete this at any time. Simply remove the line below and the import `BeforeLogin` statement on line 15.
 			beforeLogin: ["@/components/BeforeLogin"],
@@ -58,6 +61,7 @@ export default buildConfig({
 			},
 			// actions: ["@/components/CustomHeaderAction"],
 			// header: ["@/components/ui/sonner"]
+			providers: ["@/components/ForceLightModeProvider"],
 		},
 		importMap: {
 			baseDir: path.resolve(dirname),
@@ -85,6 +89,7 @@ export default buildConfig({
 				},
 			],
 		},
+		theme: "light",
 	},
 	// This config helps us configure global or default features that the other editors can inherit
 	editor: defaultLexical,
@@ -140,8 +145,8 @@ export default buildConfig({
 		outputFile: path.resolve(dirname, "payload-types.ts"),
 	},
 	// localization: {
-	// 	defaultLocale: "en",
-	// 	locales: ["en", "ru"],
+	// 	defaultLocale: "ru",
+	// 	locales: ["ru"],
 	// },
 	upload: {
 		defCharset: "utf8",
@@ -154,5 +159,10 @@ export default buildConfig({
 	telemetry: false,
 	onInit: (app) => {
 		app.logger.info("Payload Initialized");
+	},
+	i18n: {
+		fallbackLanguage: "en",
+		supportedLanguages: { en, ru },
+		// supportedLanguages: ['ru'],
 	},
 });
