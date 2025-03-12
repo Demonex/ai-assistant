@@ -27,6 +27,7 @@ deploy:
   image: docker-group.sigma-it.ru/kroniak/ssh-client
   before_script:
     - echo $SSH_PRIVATE_KEY > sigmachat_id_rsa
+    - chmod 0600 sigmachat_id_rsa
   script:
     - ssh -o StrictHostKeychecking=no -i sigmachat_id_rsa user@dpis-scd1.sigma-it.local 'cd demo-stand-deploy && export NEW_APP_VERSION=$VERSION && sed -i  "s/^\(.*APP_VERSION=\).*/\1${NEW_APP_VERSION}/" .env && docker compose up -d'
   rules:
