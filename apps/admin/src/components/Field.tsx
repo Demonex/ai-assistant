@@ -59,7 +59,6 @@ import {
 import { useState } from "react";
 
 import { toast } from "sonner";
-import { useLocation } from "wouter";
 
 // 1 MB
 const MAX_FILE_SIZE = 1024 * 1024 * 512;
@@ -92,7 +91,6 @@ const DropzoneForm = () => {
 	});
 
 	const [fileLoading, setFileLoading] = useState(false);
-	const [location, setLocation] = useLocation();
 
 	function onSubmit({ files }: z.infer<typeof FormSchema>) {
 		if (files.length) {
@@ -222,13 +220,15 @@ const DropzoneForm = () => {
 						</FileList>
 					</div>
 				)}
-				<Button onClick={form.handleSubmit(onSubmit)}>Submit</Button>
-				<Button
-					style={{ background: "#d0d0d0", color: "black" }}
-					onClick={onShowAllDocuments}
-				>
-					Show all documents
-				</Button>
+				<div className="flex gap-2">
+					<Button onClick={form.handleSubmit(onSubmit)}>Submit</Button>
+					<Button
+						style={{ background: "#d0d0d0", color: "black" }}
+						onClick={onShowAllDocuments}
+					>
+						Show all documents
+					</Button>
+				</div>
 			</div>
 		</Form>
 	);
