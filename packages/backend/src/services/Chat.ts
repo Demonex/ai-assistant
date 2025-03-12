@@ -109,7 +109,7 @@ export class ChatService {
 				collection: chatId,
 			},
 			{
-				exclude: ["user", "collection"],
+				fields: ["id", "request", "response"],
 			},
 		);
 
@@ -180,6 +180,8 @@ export class ChatService {
 		});
 
 		if (!docs.length) {
+			console.error("no documents in collection");
+
 			throw new HttpException(
 				"Internal Server Error",
 				HttpStatus.INTERNAL_SERVER_ERROR,
@@ -230,6 +232,7 @@ export class ChatService {
 			{
 				populate: ["providers", "providers.provider"],
 				populateWhere: "infer",
+				exclude: ["user", "collection"],
 			},
 		);
 
@@ -313,6 +316,9 @@ export class ChatService {
 				ChatMessageEntity,
 				{
 					id: messageId,
+				},
+				{
+					exclude: ["user", "collection"],
 				},
 			);
 
@@ -507,7 +513,6 @@ export class ChatService {
 				// 	flowId: newFlowId,
 				// 	media,
 				// });
-				console.log(JSON.stringify(newFlow.data));
 
 				const fileId = newFlow.data.nodes.find(
 					(node) => node.data.node.display_name === "File",
