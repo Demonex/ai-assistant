@@ -179,6 +179,7 @@ export interface Collection {
   id: number;
   tenant: number | Tenant;
   title: string;
+  description: string;
   embedding: number | Neuro;
   llm: number | Neuro;
   reranker: number | Neuro;
@@ -195,7 +196,7 @@ export interface Collection {
           | number
           | boolean
           | null;
-        docs?: string[] | null;
+        docs?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -477,6 +478,7 @@ export interface NeuroSelect<T extends boolean = true> {
 export interface CollectionSelect<T extends boolean = true> {
   tenant?: T;
   title?: T;
+  description?: T;
   embedding?: T;
   llm?: T;
   reranker?: T;
