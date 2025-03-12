@@ -8,16 +8,14 @@ import { MessageBubble } from "./MessageBubble.js";
 import { ChatInput } from "./ChatInput.js";
 import { HeaderDialogWindow } from "./HeaderDialogWindow.js";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
+import { ALLOWED_EXTENSIONS } from "@/constants/index.js";
 
 export const DialogWindow = () => {
 	const {
 		messages,
-		setMessages,
 		activeChat,
 		setActiveChat,
-		sendMessage,
 		messageLoading,
-		sendUploadFile,
 		fileLoading,
 		fetchErrors,
 		setFetchErrors,
@@ -25,38 +23,7 @@ export const DialogWindow = () => {
 	const [message, setMessage] = useState("");
 	const [files, setFiles] = useState([]);
 	const [isOverlay, setIsOverlay] = useState(false);
-	const { reset, setValue } = useForm();
 	const messagesEndRef = useRef(null);
-	const fileInputRef = useRef(null);
-	const textareaRef = useRef(null);
-
-	const onSubmit = () =>
-		useCallback(() => {
-			if (files.length) {
-				const formData = new FormData();
-
-				for (let i = 0; i < files.length; i++) {
-					formData.append("media", files[i]);
-				}
-
-				sendUploadFile({ formData });
-				setFiles([]);
-				reset();
-			} else {
-				setMessages([
-					...messages.messages,
-					{
-						id: Date.now().toString(),
-						request: { message, created_at: new Date().toString() },
-					},
-				]);
-
-				sendMessage({ message });
-				setValue("message", "");
-				setMessage("");
-				reset();
-			}
-		}, [files, messages.messages, message]);
 
 	const handleInputChange = useCallback((event) => {
 		const value = event.target.value;
@@ -88,35 +55,46 @@ export const DialogWindow = () => {
 		setIsOverlay(false);
 	};
 
+	const isFileAllowed = (fileName: string): boolean => {
+		const extension = fileName.split(".").pop()?.toLowerCase();
+		return !!extension && ALLOWED_EXTENSIONS.includes(extension);
+	};
+
+	const filterAllowedFiles = (files: File[]): File[] => {
+		return files.filter((file) => isFileAllowed(file.name));
+	};
+
+	const getUniqueFiles = (existingFiles: File[], newFiles: File[]): File[] => {
+		const existingFileNames = new Set(existingFiles.map((file) => file.name));
+		return newFiles.filter((file) => !existingFileNames.has(file.name));
+	};
+
 	const handleDrop = useCallback((event) => {
 		event.preventDefault();
 		setIsOverlay(false);
 
-		const data = event.dataTransfer?.files || event.target?.files;
+		const newFiles: File[] = Array.from(
+			event.dataTransfer?.files || event.target?.files,
+		);
 
-		if (data.length) {
-			const newFiles = Array.from(data);
-			setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+		const filteredFiles = filterAllowedFiles(newFiles);
+
+		if (filteredFiles.length < newFiles.length) {
+			toast({
+				variant: "destructive",
+				title: "Ошибка расширения",
+				description:
+					"Некоторые файлы имеют недопустимое расширение и не были добавлены.",
+			});
+		}
+
+		if (filteredFiles.length) {
+			setFiles((prevFiles) => {
+				const uniqueNewFiles = getUniqueFiles(prevFiles, filteredFiles);
+				return [...prevFiles, ...uniqueNewFiles];
+			});
 		}
 	}, []);
-
-	const handlePinFileButton = useCallback(() => {
-		fileInputRef.current?.click();
-	}, [fileInputRef]);
-
-	const handleCloseDocument = useCallback(
-		(id: number) => {
-			setFiles((files) => files.filter((item) => item.lastModified !== id));
-			fileInputRef.current.value = "";
-		},
-		[files, fileInputRef],
-	);
-
-	const handleTextarea = useCallback(() => {
-		const textarea = textareaRef.current;
-		textarea.style.height = "auto";
-		textarea.style.height = `${textarea.scrollHeight}px`;
-	}, [textareaRef]);
 
 	useEffect(() => {
 		setTimeout(() => scrollToBottom());
@@ -208,17 +186,13 @@ export const DialogWindow = () => {
 				<div className="relative lg:absolute left-0 right-0 bottom-0 shadow-base bg-card text-card-foreground">
 					<div className="rounded-lg border">
 						<ChatInput
-							onSubmit={onSubmit}
 							messageLoading={messageLoading}
 							files={files}
-							handleCloseDocument={handleCloseDocument}
-							handleTextarea={handleTextarea}
 							handleInputChange={handleInputChange}
-							textareaRef={textareaRef}
 							handleDrop={handleDrop}
-							handlePinFileButton={handlePinFileButton}
 							message={message}
-							fileInputRef={fileInputRef}
+							setFiles={setFiles}
+							setMessage={setMessage}
 						/>
 					</div>
 				</div>

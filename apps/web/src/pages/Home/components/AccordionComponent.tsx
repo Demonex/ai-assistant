@@ -9,9 +9,9 @@ import { toast } from "@/hooks/use-toast.js";
 import { Copy, ClipboardList } from "lucide-react";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 import { memo } from "react";
-import type { Fragments } from "@/types/types.js";
+import type { Fragment } from "@/types/types.js";
 
-export const AccordionComponent = memo<{ fragments: Fragments[] }>(
+export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 	({ fragments }) => {
 		const tooltipRef = useRef(null);
 

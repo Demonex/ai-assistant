@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { FileUpload } from "./FileUpload.js";
 import { Spinner } from "./Spinner.js";
@@ -7,26 +7,70 @@ import { useChats } from "../hooks/useChats.js";
 
 export const ChatInput = memo<ChatInputProps>(
 	({
-		onSubmit,
 		messageLoading,
 		files,
-		handleCloseDocument,
-		handleTextarea,
 		handleInputChange,
-		textareaRef,
 		handleDrop,
-		handlePinFileButton,
 		message,
-		fileInputRef,
+		setFiles,
+		setMessage,
 	}) => {
-		const { register, handleSubmit } = useForm();
-		const { messages } = useChats();
+		const { register, handleSubmit, reset, setValue } = useForm();
+		const { messages, setMessages, sendUploadFile, sendMessage } = useChats();
+		const fileInputRef = useRef(null);
+		const textareaRef = useRef(null);
+
+		const onSubmit = () => {
+			if (files.length) {
+				const formData = new FormData();
+
+				for (let i = 0; i < files.length; i++) {
+					formData.append("media", files[i]);
+				}
+
+				sendUploadFile({ formData });
+				setFiles([]);
+				reset();
+			} else {
+				setMessages({
+					isEmpty: messages?.isEmpty,
+					description: messages?.description,
+					messages: [
+						...(messages?.messages ?? []),
+						{
+							id: Date.now().toString(),
+							request: { message, created_at: new Date().toString() },
+						},
+					],
+				});
+
+				sendMessage({ message });
+				setValue("message", "");
+				setMessage("");
+				reset();
+			}
+		};
+
+		const handlePinFileButton = () => {
+			fileInputRef.current?.click();
+		};
+
+		const handleCloseDocument = (id: number) => {
+			setFiles((files) => files.filter((item) => item.lastModified !== id));
+			fileInputRef.current.value = "";
+		};
 
 		const handleKeyDown = (event) => {
 			if (event.key === "Enter" && !event.shiftKey) {
 				event.preventDefault();
 				if (message || files.length) handleSubmit(onSubmit)();
 			}
+		};
+
+		const handleTextarea = () => {
+			const textarea = textareaRef.current;
+			textarea.style.height = "auto";
+			textarea.style.height = `${textarea.scrollHeight}px`;
 		};
 
 		return (
@@ -52,7 +96,10 @@ export const ChatInput = memo<ChatInputProps>(
 					/>
 				)}
 				<div className="end-4 flex items-center">
-					<div className="relative ml-3">
+					<div
+						className="relative ml-3"
+						title="Прикрепить файл (doc, docx, pdf, txt)"
+					>
 						<input
 							type="file"
 							multiple

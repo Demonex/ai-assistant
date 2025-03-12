@@ -85,9 +85,13 @@ const _useChats = () => {
 		}
 
 		setMessages((prev) => {
-			const last = { ...prev.pop(), ...messageResponse };
+			const last = { ...prev.messages.pop(), ...messageResponse };
 
-			return [...prev, last];
+			return {
+				isEmpty: prev.isEmpty,
+				messages: [...prev.messages, last],
+				description: prev.description,
+			};
 		});
 	}, [messageResponse]);
 

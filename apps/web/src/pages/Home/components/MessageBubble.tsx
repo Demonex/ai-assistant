@@ -52,7 +52,9 @@ export const MessageBubble = memo<{
 	//TODO просмотреть, какие message шлет бэк и там принимать решение, оставлять эту фунцию или нет.
 	const isFragments = (message) => {
 		// console.log(message);
-		return message.response.fragments && message.response.fragments.length > 0;
+		return (
+			message?.response?.fragments && message?.response?.fragments.length > 0
+		);
 	};
 
 	return (
@@ -62,7 +64,7 @@ export const MessageBubble = memo<{
 					className={`shadow-base rounded-lg border bg-card text-card-foreground ${isRequest ? "order-1" : "w-full"}`}
 				>
 					<div
-						className={`relative inline-flex p-4 ${isFragments(message) && "w-full"}`}
+						className={`relative inline-flex p-4 ${!isRequest && "w-full"}`}
 						onMouseMove={handleMouseMove}
 						onMouseEnter={() => setIsShowCopy(message.request.created_at)}
 						onMouseLeave={() => setIsShowCopy(null)}
