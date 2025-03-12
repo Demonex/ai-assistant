@@ -1,4 +1,8 @@
 import * as AWS from "@aws-sdk/client-s3";
+import {
+	CreateBucketCommand,
+	PutBucketPolicyCommand,
+} from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
 
 interface Args {
