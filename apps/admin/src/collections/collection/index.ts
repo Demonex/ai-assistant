@@ -38,6 +38,17 @@ export const collection: CollectionConfig = {
 			label: "Название",
 		},
 		{
+			name: "description",
+			type: "textarea",
+			required: true,
+			label: "Описание",
+			admin: {
+				components: {
+					Field: "@/components/CollectionDescriptionInput",
+				},
+			},
+		},
+		{
 			name: "embedding",
 			type: "relationship",
 			relationTo: neuro.slug as "neuro",

@@ -52,9 +52,7 @@ export const MessageBubble = memo<{
 	//TODO просмотреть, какие message шлет бэк и там принимать решение, оставлять эту фунцию или нет.
 	const isFragments = (message) => {
 		// console.log(message);
-		return (
-			message?.response?.fragments && message?.response?.fragments.length > 0
-		);
+		return message?.response?.fragments?.length > 0;
 	};
 
 	return (
