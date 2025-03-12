@@ -30,33 +30,32 @@ export const DialogWindow = () => {
 	const fileInputRef = useRef(null);
 	const textareaRef = useRef(null);
 
-	const onSubmit = () =>
-		useCallback(() => {
-			if (files.length) {
-				const formData = new FormData();
+	const onSubmit = useCallback(() => {
+		if (files.length) {
+			const formData = new FormData();
 
-				for (let i = 0; i < files.length; i++) {
-					formData.append("media", files[i]);
-				}
-
-				sendUploadFile({ formData });
-				setFiles([]);
-				reset();
-			} else {
-				setMessages([
-					...messages.messages,
-					{
-						id: Date.now().toString(),
-						request: { message, created_at: new Date().toString() },
-					},
-				]);
-
-				sendMessage({ message });
-				setValue("message", "");
-				setMessage("");
-				reset();
+			for (let i = 0; i < files.length; i++) {
+				formData.append("media", files[i]);
 			}
-		}, [files, messages.messages, message]);
+
+			sendUploadFile({ formData });
+			setFiles([]);
+			reset();
+		} else {
+			setMessages([
+				...messages.messages,
+				{
+					id: Date.now().toString(),
+					request: { message, created_at: new Date().toString() },
+				},
+			]);
+
+			sendMessage({ message });
+			setValue("message", "");
+			setMessage("");
+			reset();
+		}
+	}, [files, messages?.messages, message]);
 
 	const handleInputChange = useCallback((event) => {
 		const value = event.target.value;
@@ -175,7 +174,7 @@ export const DialogWindow = () => {
 								"\n[data-radix-scroll-area-viewport] {\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n  -webkit-overflow-scrolling: touch;\n}\n[data-radix-scroll-area-viewport]::-webkit-scrollbar {\n  display: none;\n}\n:where([data-radix-scroll-area-viewport]) {\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n}\n:where([data-radix-scroll-area-content]) {\n  flex-grow: 1;\n}\n",
 						}}
 					/>
-					{messages?.messages.length === 0 && (
+					{messages?.messages?.length === 0 && (
 						<div className="w-full flex justify-center absolute left-0 top-[50%] transform translate-y-[-50%]">
 							<ReactMarkdownComponent textMarkdown={messages?.description} />
 						</div>
@@ -188,7 +187,7 @@ export const DialogWindow = () => {
 							<div>
 								<div className="flex flex-col items-start space-y-10 pb-[8rem] min-h-screen justify-center first:pt-4">
 									{/* {messageMockData?.messages.map((message) => ( */}
-									{messages?.messages.map((message) => (
+									{messages?.messages?.map((message) => (
 										<Fragment key={message.id}>
 											{message.request && (
 												<MessageBubble message={message} isRequest={true} />
