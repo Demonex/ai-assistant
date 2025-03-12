@@ -187,8 +187,8 @@ export const DialogWindow = () => {
 						<div data-radix-scroll-area-content>
 							<div>
 								<div className="flex flex-col items-start space-y-10 pb-[8rem] min-h-screen justify-center first:pt-4">
-									{messageMockData?.messages.map((message) => (
-										//   {messages?.messages.map((message) => (
+									{/* {messageMockData?.messages.map((message) => ( */}
+									{messages?.messages.map((message) => (
 										<Fragment key={message.id}>
 											{message.request && (
 												<MessageBubble message={message} isRequest={true} />
