@@ -23,7 +23,7 @@ export const Sidebar = memo(() => {
 		);
 	}
 
-	//   filteredChats = collectionMockData;
+	filteredChats = collectionMockData;
 
 	return (
 		<div className="w-full lg:w-96">

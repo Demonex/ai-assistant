@@ -155,7 +155,7 @@ export const DialogWindow = () => {
 
 				<div
 					dir="ltr"
-					className="overflow-hidden relative h-screen w-full py-4 lg:h-[calc(100vh_-_9rem)]"
+					className="overflow-hidden relative h-screen w-full lg:h-[calc(100vh_-_9rem)]"
 					onDragEnter={handleDragEnter}
 				>
 					{isOverlay && !messageLoading && (
@@ -169,20 +169,13 @@ export const DialogWindow = () => {
 						</div>
 					)}
 
-					{/* {!messages?.messages.length && (
-            <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-90 flex items-center justify-center text-black z-[2]">
-              {messages?.description} */}
-					{/* {messageMockData.description} */}
-					{/* </div>
-          )} */}
-
 					<style
 						dangerouslySetInnerHTML={{
 							__html:
 								"\n[data-radix-scroll-area-viewport] {\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n  -webkit-overflow-scrolling: touch;\n}\n[data-radix-scroll-area-viewport]::-webkit-scrollbar {\n  display: none;\n}\n:where([data-radix-scroll-area-viewport]) {\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n}\n:where([data-radix-scroll-area-content]) {\n  flex-grow: 1;\n}\n",
 						}}
 					/>
-					{!(messages?.messages.length > 0) && (
+					{messages?.messages.length === 0 && (
 						<div className="w-full flex justify-center absolute left-0 top-[50%] transform translate-y-[-50%]">
 							<ReactMarkdownComponent textMarkdown={messages?.description} />
 						</div>
@@ -193,9 +186,9 @@ export const DialogWindow = () => {
 					>
 						<div data-radix-scroll-area-content>
 							<div>
-								<div className="flex flex-col items-start space-y-10 pb-[8rem] min-h-screen justify-center">
-									{/* {messageMockData?.messages.map((message) => ( */}
-									{messages?.messages.map((message) => (
+								<div className="flex flex-col items-start space-y-10 pb-[8rem] min-h-screen justify-center first:pt-4">
+									{messageMockData?.messages.map((message) => (
+										//   {messages?.messages.map((message) => (
 										<Fragment key={message.id}>
 											{message.request && (
 												<MessageBubble message={message} isRequest={true} />
@@ -203,12 +196,12 @@ export const DialogWindow = () => {
 											{message.response && (
 												<MessageBubble message={message} isRequest={false} />
 											)}
-											<div ref={messagesEndRef} />
 										</Fragment>
 									))}
 								</div>
 							</div>
 						</div>
+						<div ref={messagesEndRef} />
 					</div>
 				</div>
 
