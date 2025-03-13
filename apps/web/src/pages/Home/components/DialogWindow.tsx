@@ -76,6 +76,8 @@ export const DialogWindow = () => {
 			});
 		}
 
+		console.log("тест");
+
 		if (filteredFiles.length) {
 			setFiles((prevFiles) => {
 				const uniqueNewFiles = getUniqueFiles(prevFiles, filteredFiles);
