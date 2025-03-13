@@ -93,12 +93,12 @@ export const DialogWindow = () => {
 		if (!messages?.messages?.length) return;
 
 		if (hasMounted.current) {
+			console.log(messages?.messages?.length, "Работает");
 			messagesEndRef.current?.scrollIntoView({
-				behavior: "smooth",
-				block: "nearest",
+				block: "end",
 			});
 		}
-	}, [messages?.messages?.length]);
+	}, [messages]);
 
 	useEffect(() => {
 		if (fileLoading) {

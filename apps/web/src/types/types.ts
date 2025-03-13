@@ -33,11 +33,13 @@ export type ActiveChat = {
 };
 
 export type ChatInputProps = {
-	messageLoading: boolean;
 	files: File[];
-	handleInputChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
 	handleDrop: (event: ChangeEvent<HTMLInputElement>) => void;
-	message: string;
 	setFiles: Dispatch<SetStateAction<File[]>>;
-	setMessage: Dispatch<SetStateAction<string>>;
+};
+
+export type MessageType = {
+	isEmpty: boolean;
+	messages: MessageProps[];
+	description: string;
 };
