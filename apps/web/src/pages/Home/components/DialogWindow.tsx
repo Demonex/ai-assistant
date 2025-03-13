@@ -102,6 +102,8 @@ export const DialogWindow = () => {
 		}
 	}, [messages]);
 
+	console.log("тест");
+
 	useEffect(() => {
 		if (fileLoading) {
 			toast({
