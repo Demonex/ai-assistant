@@ -20,7 +20,7 @@ export const DialogWindow = () => {
 		setFetchErrors,
 	} = useChats();
 
-	const isMounted = useRef(false);
+	const hasMounted = useRef(false);
 	const messagesEndRef = useRef(null);
 
 	const [files, setFiles] = useState([]);
@@ -86,16 +86,18 @@ export const DialogWindow = () => {
 
 	useEffect(() => {
 		messagesEndRef.current?.scrollIntoView();
-		isMounted.current = true;
+		hasMounted.current = true;
 	}, []);
 
 	useEffect(() => {
 		if (!messages?.messages?.length) return;
 
-		messagesEndRef.current?.scrollIntoView({
-			behavior: isMounted.current ? "smooth" : "auto",
-			block: "nearest",
-		});
+		if (hasMounted.current) {
+			messagesEndRef.current?.scrollIntoView({
+				behavior: "smooth",
+				block: "nearest",
+			});
+		}
 	}, [messages?.messages?.length]);
 
 	useEffect(() => {
