@@ -20,7 +20,6 @@ export const DialogWindow = () => {
 		setFetchErrors,
 	} = useChats();
 
-	const hasMounted = useRef(false);
 	const messagesEndRef = useRef(null);
 
 	const [files, setFiles] = useState([]);
@@ -86,18 +85,6 @@ export const DialogWindow = () => {
 
 	useEffect(() => {
 		messagesEndRef.current?.scrollIntoView();
-		hasMounted.current = true;
-	}, []);
-
-	useEffect(() => {
-		if (!messages?.messages?.length) return;
-
-		if (hasMounted.current) {
-			console.log(messages?.messages?.length, "Работает");
-			messagesEndRef.current?.scrollIntoView({
-				block: "end",
-			});
-		}
 	}, [messages]);
 
 	useEffect(() => {
@@ -143,7 +130,7 @@ export const DialogWindow = () => {
 							onDragLeave={handleDragLeave}
 							className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-90 flex items-center justify-center text-black z-[2]"
 						>
-							Перенесите файл сюда (doc, docx, pdf, txt)
+							{`Перенесите файл сюда (${ALLOWED_EXTENSIONS.join(", ")})`}
 						</div>
 					)}
 
