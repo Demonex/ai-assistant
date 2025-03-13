@@ -1,4 +1,3 @@
-import { type FC, useState, useRef } from "react";
 import {
 	Accordion,
 	AccordionContent,
@@ -6,37 +5,33 @@ import {
 	AccordionTrigger,
 } from "@/components/ui/accordion.js";
 import { toast } from "@/hooks/use-toast.js";
-import { Copy, ClipboardList } from "lucide-react";
+import { Copy, CopyPlus } from "lucide-react";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 import { memo } from "react";
 import type { Fragment } from "@/types/types.js";
 
 export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 	({ fragments }) => {
-		const tooltipRef = useRef(null);
-
-		const [isShowCopy, setIsShowCopy] = useState<string | null>(null);
-		const [positionCopy, setPositionCopy] = useState<{ top: number }>({
-			top: 0,
-		});
-
-		const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-			const rect = e.currentTarget.getBoundingClientRect();
-			const offsetY = e.clientY - rect.top;
-
-			const tooltipHeight = tooltipRef.current?.offsetHeight || 0;
-			let correctedTop = offsetY - tooltipHeight / 2;
-
-			correctedTop = Math.max(
-				0,
-				Math.min(correctedTop, rect.height - tooltipHeight),
-			);
-
-			setPositionCopy({ top: correctedTop });
+		const getFileName = (name: string) => {
+			const getName = name.split("/").pop();
+			return getName.split(".pdf")[0];
 		};
 
-		const handleCopy = async (type: "text" | "full", text: string) => {
+		const getFragmentTitle = (fragment: Fragment) => {
+			return `${getFileName(fragment.file_path)} - Страница ${fragment.page_num}`;
+		};
+
+		const getFragmentLink = (fragment: Fragment) => {
+			return `${fragment.file_path}#page=${fragment.page_num}`;
+		};
+
+		const handleCopy = async (isFull: boolean, fragment: Fragment) => {
 			const textArea = document.createElement("textarea");
+
+			const text = isFull
+				? `${getFragmentTitle(fragment)}\n\n${getFragmentLink(fragment)}\n\n******\n\n${fragment.text}`
+				: fragment.text;
+
 			textArea.value = text;
 			document.body.appendChild(textArea);
 			textArea.select();
@@ -44,18 +39,13 @@ export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 			document.body.removeChild(textArea);
 
 			toast({
-				title: `${type === "text" ? "Текст фрагмента" : "Фрагент"}  cкопирован!`,
+				title: `${isFull ? "Фрагмент" : "Текст фрагмента"}  cкопирован!`,
 			});
 		};
 
-		const openFile = (item) => {
-			const fileURL = `${item.file_path}#page=${item.page_num}`;
+		const openFile = (fragment) => {
+			const fileURL = `${fragment.file_path}#page=${fragment.page_num}`;
 			window.open(fileURL, "_blank");
-		};
-
-		const getFileName = (name: string) => {
-			const getName = name.split("/").pop();
-			return getName.split(".pdf")[0];
 		};
 
 		return (
@@ -65,49 +55,38 @@ export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 						className="p-4 relative"
 						value={fragment._id}
 						key={fragment._id}
-						onMouseMove={handleMouseMove}
-						onMouseEnter={() => setIsShowCopy(fragment._id)}
-						onMouseLeave={() => setIsShowCopy(null)}
 					>
-						<AccordionTrigger>
-							{`${getFileName(fragment.file_path)} - Страница ${fragment.page_num}`}
-						</AccordionTrigger>
-						<AccordionContent>
-							<button
-								onClick={() => openFile(fragment)}
-								className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3 mb-2"
-							>
-								Открыть документ
-							</button>
-							<ReactMarkdownComponent textMarkdown={fragment.text} />
-						</AccordionContent>
+						<AccordionTrigger>{getFragmentTitle(fragment)}</AccordionTrigger>
 
-						{isShowCopy === fragment._id && (
-							<div
-								ref={tooltipRef}
-								style={{ top: `${positionCopy.top}px` }}
-								className="absolute left-[100%] top-[20px] flex items-center cursor-pointer rounded-lg border bg-card text-card-foreground p-4"
-							>
-								<div
-									title="Копировать текст фрагмента"
-									onClick={() => handleCopy("text", fragment.text)}
+						<AccordionContent>
+							<div className="flex items-center justify-between w-full mb-2">
+								<button
+									onClick={() => openFile(fragment)}
+									className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
 								>
-									<Copy size={20} />
-								</div>
-								<div
-									className="ml-4"
-									title="Копировать Фрагмент"
-									onClick={() =>
-										handleCopy(
-											"full",
-											`${getFileName(fragment.file_path)} - Страница ${fragment.page_num} [${fragment.file_path}#page=${fragment.page_num}]\n\n${fragment.text}`,
-										)
-									}
-								>
-									<ClipboardList size={20} />
+									Открыть документ
+								</button>
+
+								<div className="flex items-center cursor-pointer rounded-lg border bg-card text-card-foreground p-2">
+									<div
+										className="hover:opacity-80"
+										title="Копировать текст фрагмента"
+										onClick={() => handleCopy(false, fragment)}
+									>
+										<Copy size={20} />
+									</div>
+									<div
+										className="ml-4 hover:opacity-80"
+										title="Копировать Фрагмент"
+										onClick={() => handleCopy(true, fragment)}
+									>
+										<CopyPlus size={20} />
+									</div>
 								</div>
 							</div>
-						)}
+
+							<ReactMarkdownComponent textMarkdown={fragment.text} />
+						</AccordionContent>
 					</AccordionItem>
 				))}
 			</Accordion>
