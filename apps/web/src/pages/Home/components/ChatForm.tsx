@@ -15,6 +15,7 @@ export const ChatForm = memo<ChatInputProps>(
 			sendUploadFile,
 			sendMessage,
 			messageLoading,
+			fileLoading,
 		} = useChats();
 
 		const [message, setMessage] = useState("");
@@ -67,7 +68,7 @@ export const ChatForm = memo<ChatInputProps>(
 		const handleKeyDown = (event) => {
 			if (event.key === "Enter" && !event.shiftKey) {
 				event.preventDefault();
-				if (message || files.length) handleSubmit(onSubmit)();
+				if (message || files.length) onSubmit();
 			}
 		};
 
@@ -91,7 +92,7 @@ export const ChatForm = memo<ChatInputProps>(
 							textareaRef.current = el;
 							register("message").ref(el);
 						}}
-						disabled={messageLoading || messages?.isEmpty}
+						disabled={fileLoading || messageLoading || messages?.isEmpty}
 						onInput={handleTextarea}
 						placeholder="Введите сообщение..."
 						onChange={handleInputChange}
@@ -116,7 +117,7 @@ export const ChatForm = memo<ChatInputProps>(
 							className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-11 w-11 rounded-full p-0"
 							data-state="closed"
 							onClick={handlePinFileButton}
-							disabled={messageLoading}
+							disabled={messageLoading || fileLoading}
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -139,7 +140,7 @@ export const ChatForm = memo<ChatInputProps>(
 						disabled={!message && !files?.length}
 						className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 ms-3"
 					>
-						{messageLoading ? <Spinner /> : "Отправить"}
+						{messageLoading || fileLoading ? <Spinner /> : "Отправить"}
 					</button>
 				</div>
 			</form>
