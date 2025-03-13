@@ -75,6 +75,7 @@ export const DialogWindow = () => {
 				description: `Некоторые файлы имеют недопустимый формат и не были добавлены. Допустимые форматы (${ALLOWED_EXTENSIONS.join(", ")})`,
 			});
 		}
+		console.log("проверка");
 
 		if (filteredFiles.length) {
 			setFiles((prevFiles) => {
