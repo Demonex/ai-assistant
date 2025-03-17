@@ -88,14 +88,6 @@ export const DialogWindow = () => {
 	}, []);
 
 	const groupMessagesByDate = (messages) => {
-		// const set = new Set();
-		// messages.messages.forEach((item) => {
-		//   const date = item.request.created_at.split("T")[0];
-		//   if (!set.has(date)) {
-		//     set.add(item.request.created_at.split("T")[0]);
-		//   }
-		// });
-		// return Array.from(set);
 		return messages.messages.reduce((grouped, message) => {
 			const date = message.request.created_at.split("T")[0];
 			if (!grouped[date]) {
@@ -147,8 +139,6 @@ export const DialogWindow = () => {
 			setFetchErrors([]);
 		}
 	}, [fetchErrors]);
-
-	console.log(groupMessages, "сообщения");
 
 	return (
 		<div className="flex-grow">
