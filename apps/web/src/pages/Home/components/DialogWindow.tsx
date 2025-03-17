@@ -160,7 +160,7 @@ export const DialogWindow = () => {
 							onDragLeave={handleDragLeave}
 							className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-90 flex items-center justify-center text-black z-[2]"
 						>
-							Перенесите файл сюда (doc, docx, pdf, txt)
+							{`Перенесите файл сюда (${ALLOWED_EXTENSIONS.join(", ")})`}
 						</div>
 					)}
 
