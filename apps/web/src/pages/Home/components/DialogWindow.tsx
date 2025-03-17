@@ -104,20 +104,6 @@ export const DialogWindow = () => {
 		});
 	}, [messages]);
 
-	//   useEffect(() => {
-	//     if (!messages?.messages?.length) return;
-
-	//     setGroupMessages(groupMessagesByDate(messages));
-
-	//     if (hasMounted.current) {
-	//       requestAnimationFrame(() => {
-	//         messagesEndRef.current?.scrollIntoView({
-	//           block: "end",
-	//         });
-	//       });
-	//     }
-	//   }, [messages]);
-
 	useEffect(() => {
 		if (fileLoading) {
 			toast({
