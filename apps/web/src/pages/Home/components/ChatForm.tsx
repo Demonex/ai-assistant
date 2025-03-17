@@ -39,7 +39,10 @@ export const ChatForm = memo<ChatInputProps>(
 						...(messages?.messages ?? []),
 						{
 							id: Date.now().toString(),
-							request: { message, created_at: new Date().toString() },
+							request: {
+								message,
+								created_at: new Date().toISOString(),
+							},
 						},
 					],
 				});

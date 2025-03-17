@@ -1,6 +1,6 @@
 import type { ChangeEvent, Dispatch, SetStateAction } from "react";
 
-export type MessageProps = {
+export type Message = {
 	id: number;
 	response?: ResponseAndRequest;
 	request?: ResponseAndRequest;
@@ -38,8 +38,10 @@ export type ChatInputProps = {
 	setFiles: Dispatch<SetStateAction<File[]>>;
 };
 
-export type MessageType = {
+export type MessagesType = {
 	isEmpty: boolean;
-	messages: MessageProps[];
+	messages: Message[];
 	description: string;
 };
+
+export type GroupMessages = [string, Message[]];

@@ -1,4 +1,4 @@
-import type { MessageType } from "@/types/types.js";
+import type { MessagesType } from "@/types/types.js";
 import { useCallback, useEffect, useState } from "react";
 import { useFetch, createMonoHook, useLazyFetch } from "use-mono-hook";
 
@@ -13,7 +13,7 @@ const _useChats = () => {
 		id: number;
 	}>();
 
-	const [messages, setMessages] = useState<MessageType>();
+	const [messages, setMessages] = useState<MessagesType>();
 
 	// fetchMessages //
 
@@ -21,7 +21,7 @@ const _useChats = () => {
 		(useLazyFetch({
 			url: "/api/rest/chat/{activeChat.id}",
 		}) as [
-			{ data: MessageType; error: Error },
+			{ data: MessagesType; error: Error },
 			(options: { url: string }) => void,
 		]) || [{}];
 
@@ -73,8 +73,7 @@ const _useChats = () => {
 			return;
 		}
 
-		setMessages((prev: MessageType) => {
-			console.log(prev);
+		setMessages((prev: MessagesType) => {
 			const last = { ...prev.messages.pop(), ...messageResponse };
 
 			return {
