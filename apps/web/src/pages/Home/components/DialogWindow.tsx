@@ -1,4 +1,11 @@
-import { Fragment, useCallback, useEffect, useRef, useState } from "react";
+import {
+	Fragment,
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
 // import { DropdownMenuButton } from "./DropdownMenuButton.js";
 import { toast } from "@/hooks/use-toast.js";
 import { useChats } from "../hooks/useChats.js";
@@ -25,7 +32,6 @@ export const DialogWindow = () => {
 	const messagesEndRef = useRef(null);
 
 	const [files, setFiles] = useState([]);
-	const [groupMessages, setGroupMessages] = useState<GroupedMessages>();
 	const [isOverlay, setIsOverlay] = useState(false);
 
 	const onReturnToMenu = () => {
@@ -86,7 +92,9 @@ export const DialogWindow = () => {
 		}
 	}, []);
 
-	const groupMessagesByDate = (messages) => {
+	const groupMessages = useMemo<GroupedMessages>(() => {
+		if (!messages?.messages) return null;
+
 		return messages?.messages?.reduce((grouped, message) => {
 			const date = message.request.created_at.split("T")[0];
 			if (!grouped[date]) {
@@ -95,10 +103,9 @@ export const DialogWindow = () => {
 			grouped[date].push(message);
 			return grouped;
 		}, {});
-	};
+	}, [messages]);
 
 	useEffect(() => {
-		setGroupMessages(groupMessagesByDate(messages));
 		requestAnimationFrame(() => {
 			messagesEndRef.current?.scrollIntoView();
 		});
