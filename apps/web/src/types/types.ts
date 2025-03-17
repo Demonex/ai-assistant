@@ -43,3 +43,5 @@ export type MessageType = {
 	messages: MessageProps[];
 	description: string;
 };
+
+export type GroupedMessages = Record<string, MessageProps[]>;

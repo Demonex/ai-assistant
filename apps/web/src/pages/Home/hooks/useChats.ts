@@ -74,7 +74,6 @@ const _useChats = () => {
 		}
 
 		setMessages((prev: MessageType) => {
-			console.log(prev);
 			const last = { ...prev.messages.pop(), ...messageResponse };
 
 			return {

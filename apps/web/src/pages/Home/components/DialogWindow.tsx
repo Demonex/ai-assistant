@@ -8,6 +8,8 @@ import { ChatForm } from "./ChatForm.js";
 import { HeaderDialogWindow } from "./HeaderDialogWindow.js";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 import { ALLOWED_EXTENSIONS } from "@/constants/index.js";
+import { formatLocalTime } from "@/helpers/index.js";
+import type { GroupedMessages } from "@/types/types.js";
 
 export const DialogWindow = () => {
 	const {
@@ -24,6 +26,7 @@ export const DialogWindow = () => {
 	const messagesEndRef = useRef(null);
 
 	const [files, setFiles] = useState([]);
+	const [groupMessages, setGroupMessages] = useState<GroupedMessages>();
 	const [isOverlay, setIsOverlay] = useState(false);
 
 	const onReturnToMenu = () => {
@@ -76,8 +79,6 @@ export const DialogWindow = () => {
 			});
 		}
 
-		console.log("тест");
-
 		if (filteredFiles.length) {
 			setFiles((prevFiles) => {
 				const uniqueNewFiles = getUniqueFiles(prevFiles, filteredFiles);
@@ -85,6 +86,25 @@ export const DialogWindow = () => {
 			});
 		}
 	}, []);
+
+	const groupMessagesByDate = (messages) => {
+		// const set = new Set();
+		// messages.messages.forEach((item) => {
+		//   const date = item.request.created_at.split("T")[0];
+		//   if (!set.has(date)) {
+		//     set.add(item.request.created_at.split("T")[0]);
+		//   }
+		// });
+		// return Array.from(set);
+		return messages.messages.reduce((grouped, message) => {
+			const date = message.request.created_at.split("T")[0];
+			if (!grouped[date]) {
+				grouped[date] = [];
+			}
+			grouped[date].push(message);
+			return grouped;
+		}, {});
+	};
 
 	useEffect(() => {
 		messagesEndRef.current?.scrollIntoView();
@@ -94,15 +114,16 @@ export const DialogWindow = () => {
 	useEffect(() => {
 		if (!messages?.messages?.length) return;
 
+		setGroupMessages(groupMessagesByDate(messages));
+
 		if (hasMounted.current) {
-			console.log(messages?.messages?.length, "Работает");
-			messagesEndRef.current?.scrollIntoView({
-				block: "end",
+			requestAnimationFrame(() => {
+				messagesEndRef.current?.scrollIntoView({
+					block: "end",
+				});
 			});
 		}
 	}, [messages]);
-
-	console.log("тест");
 
 	useEffect(() => {
 		if (fileLoading) {
@@ -126,6 +147,8 @@ export const DialogWindow = () => {
 			setFetchErrors([]);
 		}
 	}, [fetchErrors]);
+
+	console.log(groupMessages, "сообщения");
 
 	return (
 		<div className="flex-grow">
@@ -169,21 +192,35 @@ export const DialogWindow = () => {
 						<div data-radix-scroll-area-content>
 							<div>
 								<div className="flex flex-col items-start space-y-10 pb-[12rem] min-h-screen justify-center first:pt-4">
-									{/* {messageMockData?.messages.map((message) => ( */}
-									{messages?.messages?.map((message) => (
-										<Fragment key={message.id}>
-											{message.request && (
-												<MessageBubble message={message} isRequest={true} />
-											)}
-											{message.response && (
-												<MessageBubble message={message} isRequest={false} />
-											)}
-										</Fragment>
-									))}
+									{groupMessages &&
+										Object.entries(groupMessages)?.map(([date, messages]) => (
+											<Fragment key={date}>
+												<div className="mx-auto max-w-max text-center text-gray-500 text-sm">
+													{formatLocalTime(date, "date")}
+												</div>
+												{/* {messageMockData?.messages.map((message) => ( */}
+												{messages?.map((message) => (
+													<Fragment key={message.id}>
+														{message.request && (
+															<MessageBubble
+																message={message}
+																isRequest={true}
+															/>
+														)}
+														{message.response && (
+															<MessageBubble
+																message={message}
+																isRequest={false}
+															/>
+														)}
+													</Fragment>
+												))}
+											</Fragment>
+										))}
 								</div>
+								<div ref={messagesEndRef} />
 							</div>
 						</div>
-						<div ref={messagesEndRef} />
 					</div>
 				</div>
 

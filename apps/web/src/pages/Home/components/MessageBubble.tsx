@@ -62,7 +62,7 @@ export const MessageBubble = memo<{
 				<time
 					className={`mt-1 flex items-center text-sm text-muted-foreground ${isRequest ? "justify-end" : ""}`}
 				>
-					{formatLocalTime(created_at || new Date().toString())}
+					{formatLocalTime(created_at || new Date().toString(), "time")}
 				</time>
 			</div>
 		</div>
