@@ -16,7 +16,7 @@ import { HeaderDialogWindow } from "./HeaderDialogWindow.js";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 import { ALLOWED_EXTENSIONS } from "@/constants/index.js";
 import { formatLocalTime } from "@/helpers/index.js";
-import type { GroupedMessages } from "@/types/types.js";
+import type { GroupMessages } from "@/types/types.js";
 
 export const DialogWindow = () => {
 	const {
@@ -92,10 +92,10 @@ export const DialogWindow = () => {
 		}
 	}, []);
 
-	const groupMessages = useMemo<GroupedMessages>(() => {
+	const groupMessages = useMemo<GroupMessages[]>(() => {
 		if (!messages?.messages) return null;
 
-		return messages?.messages?.reduce((grouped, message) => {
+		const groupMessages = messages?.messages?.reduce((grouped, message) => {
 			const date = message.request.created_at.split("T")[0];
 			if (!grouped[date]) {
 				grouped[date] = [];
@@ -103,6 +103,8 @@ export const DialogWindow = () => {
 			grouped[date].push(message);
 			return grouped;
 		}, {});
+
+		return Object.entries(groupMessages);
 	}, [messages]);
 
 	useEffect(() => {
@@ -176,31 +178,27 @@ export const DialogWindow = () => {
 						<div data-radix-scroll-area-content>
 							<div>
 								<div className="flex flex-col items-start space-y-10 pb-[12rem] min-h-screen justify-center first:pt-4">
-									{groupMessages &&
-										Object.entries(groupMessages)?.map(([date, messages]) => (
-											<Fragment key={date}>
-												<div className="mx-auto max-w-max text-center text-gray-500 text-sm">
-													{formatLocalTime(date, "date")}
-												</div>
-												{/* {messageMockData?.messages.map((message) => ( */}
-												{messages?.map((message) => (
-													<Fragment key={message.id}>
-														{message.request && (
-															<MessageBubble
-																message={message}
-																isRequest={true}
-															/>
-														)}
-														{message.response && (
-															<MessageBubble
-																message={message}
-																isRequest={false}
-															/>
-														)}
-													</Fragment>
-												))}
-											</Fragment>
-										))}
+									{groupMessages?.map(([date, messages]) => (
+										<Fragment key={date}>
+											<div className="mx-auto max-w-max text-center text-gray-500 text-sm">
+												{formatLocalTime(date, "date")}
+											</div>
+											{/* {messageMockData?.messages.map((message) => ( */}
+											{messages?.map((message) => (
+												<Fragment key={message.id}>
+													{message.request && (
+														<MessageBubble message={message} isRequest={true} />
+													)}
+													{message.response && (
+														<MessageBubble
+															message={message}
+															isRequest={false}
+														/>
+													)}
+												</Fragment>
+											))}
+										</Fragment>
+									))}
 								</div>
 								<div ref={messagesEndRef} />
 							</div>

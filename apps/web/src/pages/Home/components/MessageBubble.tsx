@@ -2,12 +2,12 @@ import { formatLocalTime } from "@/helpers/index.js";
 import { AccordionComponent } from "./AccordionComponent.js";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 import { memo } from "react";
-import type { MessageProps } from "@/types/types.js";
+import type { Message } from "@/types/types.js";
 import { toast } from "@/hooks/use-toast.js";
 import { Copy } from "lucide-react";
 
 export const MessageBubble = memo<{
-	message: MessageProps;
+	message: Message;
 	isRequest: boolean;
 }>(({ message, isRequest }) => {
 	const {
