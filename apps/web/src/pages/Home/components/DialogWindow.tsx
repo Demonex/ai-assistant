@@ -22,7 +22,6 @@ export const DialogWindow = () => {
 		setFetchErrors,
 	} = useChats();
 
-	const hasMounted = useRef(false);
 	const messagesEndRef = useRef(null);
 
 	const [files, setFiles] = useState([]);
@@ -88,7 +87,7 @@ export const DialogWindow = () => {
 	}, []);
 
 	const groupMessagesByDate = (messages) => {
-		return messages.messages.reduce((grouped, message) => {
+		return messages?.messages?.reduce((grouped, message) => {
 			const date = message.request.created_at.split("T")[0];
 			if (!grouped[date]) {
 				grouped[date] = [];
@@ -99,23 +98,25 @@ export const DialogWindow = () => {
 	};
 
 	useEffect(() => {
-		messagesEndRef.current?.scrollIntoView();
-		hasMounted.current = true;
-	}, []);
-
-	useEffect(() => {
-		if (!messages?.messages?.length) return;
-
 		setGroupMessages(groupMessagesByDate(messages));
-
-		if (hasMounted.current) {
-			requestAnimationFrame(() => {
-				messagesEndRef.current?.scrollIntoView({
-					block: "end",
-				});
-			});
-		}
+		requestAnimationFrame(() => {
+			messagesEndRef.current?.scrollIntoView();
+		});
 	}, [messages]);
+
+	//   useEffect(() => {
+	//     if (!messages?.messages?.length) return;
+
+	//     setGroupMessages(groupMessagesByDate(messages));
+
+	//     if (hasMounted.current) {
+	//       requestAnimationFrame(() => {
+	//         messagesEndRef.current?.scrollIntoView({
+	//           block: "end",
+	//         });
+	//       });
+	//     }
+	//   }, [messages]);
 
 	useEffect(() => {
 		if (fileLoading) {
