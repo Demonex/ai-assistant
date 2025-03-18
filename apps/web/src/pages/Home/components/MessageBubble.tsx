@@ -33,7 +33,9 @@ export const MessageBubble = memo<{
 		<div className={`max-w-screen-sm ${isRequest ? "self-end" : "w-full"}`}>
 			<div className={`flex items-center gap-2 ${!isRequest && "w-full"}`}>
 				<div
-					className={`shadow-base rounded-lg border bg-card text-card-foreground ${isRequest ? "order-1" : "w-full"}`}
+					className={`shadow-base rounded-lg border bg-card text-card-foreground ${
+						isRequest ? "order-1" : "w-full"
+					}`}
 				>
 					<div className={`relative inline-flex p-4 ${!isRequest && "w-full"}`}>
 						{!isRequest && (
@@ -60,7 +62,9 @@ export const MessageBubble = memo<{
 				className={`flex items-center gap-2 ${isRequest ? "justify-end" : ""}`}
 			>
 				<time
-					className={`mt-1 flex items-center text-sm text-muted-foreground ${isRequest ? "justify-end" : ""}`}
+					className={`mt-1 flex items-center text-sm text-muted-foreground ${
+						isRequest ? "justify-end" : ""
+					}`}
 				>
 					{formatLocalTime(created_at || new Date().toString(), "time")}
 				</time>

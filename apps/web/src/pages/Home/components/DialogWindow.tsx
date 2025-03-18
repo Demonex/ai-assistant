@@ -79,7 +79,9 @@ export const DialogWindow = () => {
 			toast({
 				variant: "destructive",
 				title: "Ошибка формата!",
-				description: `Некоторые файлы имеют недопустимый формат и не были добавлены. Допустимые форматы (${ALLOWED_EXTENSIONS.join(", ")})`,
+				description: `Некоторые файлы имеют недопустимый формат и не были добавлены. Допустимые форматы (${ALLOWED_EXTENSIONS.join(
+					", ",
+				)})`,
 			});
 		}
 
