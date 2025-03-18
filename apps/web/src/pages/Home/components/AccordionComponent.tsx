@@ -43,7 +43,7 @@ export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 			});
 		};
 
-		const openFile = (fragment) => {
+		const openFile = (fragment: Fragment) => {
 			const fileURL = `${fragment.file_path}#page=${fragment.page_num + 1}`;
 			window.open(fileURL, "_blank");
 		};
