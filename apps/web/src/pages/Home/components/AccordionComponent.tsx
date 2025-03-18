@@ -18,11 +18,11 @@ export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 		};
 
 		const getFragmentTitle = (fragment: Fragment) => {
-			return `${getFileName(fragment.file_path)} - Страница ${fragment.page_num}`;
+			return `${getFileName(fragment.file_path)} - Страница ${fragment.page_num + 1}`;
 		};
 
 		const getFragmentLink = (fragment: Fragment) => {
-			return `${fragment.file_path}#page=${fragment.page_num}`;
+			return `${fragment.file_path}#page=${fragment.page_num + 1}`;
 		};
 
 		const handleCopy = async (isFull: boolean, fragment: Fragment) => {
@@ -44,7 +44,7 @@ export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 		};
 
 		const openFile = (fragment) => {
-			const fileURL = `${fragment.file_path}#page=${fragment.page_num}`;
+			const fileURL = `${fragment.file_path}#page=${fragment.page_num + 1}`;
 			window.open(fileURL, "_blank");
 		};
 
