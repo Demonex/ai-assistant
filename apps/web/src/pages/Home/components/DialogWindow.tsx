@@ -92,19 +92,24 @@ export const DialogWindow = () => {
 		}
 	}, []);
 
-	const groupMessages = useMemo<GroupMessages[]>(() => {
-		if (!messages?.messages) return null;
+	const groupingMessages = useMemo<GroupMessages[]>(() => {
+		// const messageList = messageMockData.messages
+		const messageList = messages?.messages;
 
-		const groupMessages = messages?.messages?.reduce((grouped, message) => {
+		if (!messageList) return null;
+
+		const grouping = messageList?.reduce((grouped, message) => {
 			const date = message.request.created_at.split("T")[0];
+
 			if (!grouped[date]) {
 				grouped[date] = [];
 			}
 			grouped[date].push(message);
+
 			return grouped;
 		}, {});
 
-		return Object.entries(groupMessages);
+		return Object.entries(grouping);
 	}, [messages]);
 
 	useEffect(() => {
@@ -178,12 +183,11 @@ export const DialogWindow = () => {
 						<div data-radix-scroll-area-content>
 							<div>
 								<div className="flex flex-col items-start space-y-10 pb-[12rem] min-h-screen justify-center first:pt-4">
-									{groupMessages?.map(([date, messages]) => (
+									{groupingMessages?.map(([date, messages]) => (
 										<Fragment key={date}>
 											<div className="mx-auto max-w-max text-center text-gray-500 text-sm">
 												{formatLocalTime(date, "date")}
 											</div>
-											{/* {messageMockData?.messages.map((message) => ( */}
 											{messages?.map((message) => (
 												<Fragment key={message.id}>
 													{message.request && (
