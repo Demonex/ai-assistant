@@ -1,5 +1,3 @@
-import type { ChangeEvent, Dispatch, SetStateAction } from "react";
-
 export type Message = {
 	id: number;
 	response?: ResponseAndRequest;
@@ -30,12 +28,6 @@ export type Chats = {
 export type ActiveChat = {
 	id: number;
 	title: string;
-};
-
-export type ChatInputProps = {
-	files: File[];
-	handleDrop: (event: ChangeEvent<HTMLInputElement>) => void;
-	setFiles: Dispatch<SetStateAction<File[]>>;
 };
 
 export type MessagesType = {
