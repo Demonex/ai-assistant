@@ -69,7 +69,16 @@ export class ChatController {
 			response: {
 				success: response.success,
 				message: `${response.response.message}`,
-				// fragments: response.response.fragments,
+				fragments: response.response.fragments.map(el => {
+					return {
+						file_path: el.file_path,
+						page_num: el.page_num,  
+						text: `${el.text}`,
+						uuid: el.uuid,
+						_collection_name: el._collection_name, 
+						_id: el._id
+					}
+				}),
 			} as any,
 		});
 
