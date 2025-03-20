@@ -68,8 +68,8 @@ export class ChatController {
 		const cleanText = (str: string) => {
 			return str.replace(/\\u[0-9A-Fa-f]{4}/g, "").replace(/\\n/g, '\n');
 		}
-
-		await this.chatService.messagePatch(messageId, {
+try{
+	await this.chatService.messagePatch(messageId, {
 			response: {
 				success: response.success,
 				message: cleanText(response.response.message),
@@ -85,6 +85,10 @@ export class ChatController {
 				}),
 			} as any,
 		});
+}catch(e){
+console.error(e)
+}
+		
 
 		return response;
 	}
