@@ -7,5 +7,6 @@
 	"bracketSpacing": true,
 	"htmlWhitespaceSensitivity": "ignore",
 	"singleAttributePerLine": false,
-	"embeddedLanguageFormatting": "auto"
+	"embeddedLanguageFormatting": "auto",
+	"bracketSameLine": true
 }
