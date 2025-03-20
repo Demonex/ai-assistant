@@ -69,7 +69,7 @@ export class ChatController {
 			response: {
 				success: response.success,
 				message: `${response.response.message}`,
-				fragments: response.response.fragments,
+				// fragments: response.response.fragments,
 			} as any,
 		});
 
