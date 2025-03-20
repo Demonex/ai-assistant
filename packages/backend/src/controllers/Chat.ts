@@ -66,7 +66,7 @@ export class ChatController {
 		const response = await this.chatService.messageSend(userId, chatId, data);
 
 		const cleanText = (str: string) => {
-			return str.replace(/\\u[0-9A-Fa-f]{4}/g, "").replace(/\\n/g, '\n');
+			return str.replace(/\\\\u[0-9A-Fa-f]{4}/g, "").replace(/\\\\n/g, '\n');
 		}
 try{
 	await this.chatService.messagePatch(messageId, {
