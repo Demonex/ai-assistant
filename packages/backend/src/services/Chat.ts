@@ -110,6 +110,7 @@ export class ChatService {
 			},
 			{
 				fields: ["id", "request", "response"],
+				orderBy: { id: "asc" },
 			},
 		);
 

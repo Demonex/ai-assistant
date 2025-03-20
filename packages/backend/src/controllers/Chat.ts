@@ -64,7 +64,7 @@ export class ChatController {
 		);
 
 		const response = await this.chatService.messageSend(userId, chatId, data);
-
+		// biome-ignore lint: responce shity, need this!
 		const cleanText = (str: string) => str.replace(/\u0000/g, "");
 
 		try {
@@ -87,6 +87,8 @@ export class ChatController {
 		} catch (e) {
 			console.error(e);
 		}
+
+		response.response.id = messageId;
 
 		return response;
 	}
