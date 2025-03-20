@@ -65,15 +65,19 @@ export class ChatController {
 
 		const response = await this.chatService.messageSend(userId, chatId, data);
 
+		const cleanText = (str: string) => {
+			return str.replace(/\\u[0-9A-Fa-f]{4}/g, "");
+		}
+
 		await this.chatService.messagePatch(messageId, {
 			response: {
 				success: response.success,
-				message: `${response.response.message}`,
+				message: cleanText(response.response.message),
 				fragments: response.response.fragments.map(el => {
 					return {
 						file_path: el.file_path,
 						page_num: el.page_num,  
-						text: `${el.text}`,
+						text: cleanText(el.text),
 						uuid: el.uuid,
 						_collection_name: el._collection_name, 
 						_id: el._id
