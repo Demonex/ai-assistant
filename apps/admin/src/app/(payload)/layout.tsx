@@ -25,7 +25,7 @@ const serverFunction: ServerFunctionClient = async function (args) {
 
 const originalFetch = global.fetch;
 
-global.fetch = async (url, options = {}) => {
+global.fetch = async (url: string | Request | URL, options = {}) => {
 	const defaultOptions = {
 		credentials: "include", // Always include credentials (cookies, etc.)
 	};

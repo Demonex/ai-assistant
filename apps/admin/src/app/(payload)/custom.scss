@@ -4,6 +4,7 @@
 @tailwind variants;
 
 @layer base {}
+/*
 
 :root {
   --background: 0 0% 100%;
@@ -50,12 +51,12 @@
 
 [data-theme="dark"] {
   --theme-bg: #f9f9f9;
-  /* Light background */
+  !* Light background *!
   --theme-text: #333;
-  /* Dark text */
-  /* Adjust other theme variables as needed */
+  !* Dark text *!
+  !* Adjust other theme variables as needed *!
 }
 
 div:has(> #field-theme) {
   display: none;
-}
+}*/

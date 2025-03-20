@@ -3,7 +3,7 @@ import {
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from "@/components/ui/accordion.js";
+} from "@repo/web/components/ui/accordion.js";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 
 export function AccordionComponent({ items }) {

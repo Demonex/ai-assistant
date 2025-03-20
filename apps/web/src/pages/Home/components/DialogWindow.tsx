@@ -2,17 +2,17 @@ import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AvatarComponent } from "./AvatarComponent.js";
 // import { DropdownMenuButton } from "./DropdownMenuButton.js";
-import { toast } from "@/hooks/use-toast.js";
+import { toast } from "@repo/web/hooks/use-toast.js";
 import {
 	formatFileSize,
 	formatLocalTime,
 	getColorFile,
-} from "helpers/index.js";
+} from "@repo/web/helpers/index.js";
 import { useChats } from "../hooks/useChats.js";
 import { AccordionComponent } from "./AccordionComponent.js";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 import { Spinner } from "./Spinner.js";
-import { messageMockData } from "@/DataBase.js";
+import { messageMockData } from "@repo/web/DataBase.js";
 
 export const DialogWindow = () => {
 	const {

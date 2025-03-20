@@ -1,19 +1,19 @@
 import { useEffect } from "react";
-import { cn } from "@/lib/utils.js";
-import { Button } from "@/components/ui/button.js";
+import { cn } from "@repo/web/lib/utils.js";
+import { Button } from "@repo/web/components/ui/button.js";
 import {
 	Card,
 	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@/components/ui/card.js";
-import { Input } from "@/components/ui/input.js";
-import { Label } from "@/components/ui/label.js";
+} from "@repo/web/components/ui/card.js";
+import { Input } from "@repo/web/components/ui/input.js";
+import { Label } from "@repo/web/components/ui/label.js";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { useProfile } from "@/hooks/useProfile.js";
+import { useProfile } from "@repo/web/hooks/useProfile.js";
 import { useLocation } from "wouter";
-import { toast } from "@/hooks/use-toast.js";
+import { toast } from "@repo/web/hooks/use-toast.js";
 
 type Inputs = {
 	email: string;

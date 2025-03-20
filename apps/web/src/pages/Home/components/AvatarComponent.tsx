@@ -1,4 +1,8 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar.js";
+import {
+	Avatar,
+	AvatarFallback,
+	AvatarImage,
+} from "@repo/web/components/ui/avatar.js";
 
 export function AvatarComponent() {
 	return (

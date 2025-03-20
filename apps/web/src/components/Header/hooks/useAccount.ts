@@ -1,10 +1,10 @@
 import useSharedHook from "../../../hooks/useSharedHook.js";
 import { BACKEND_URL } from "../../../constants/index.js";
 import useFetch from "../../../hooks/useFetch.js";
-import { useEffect, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
+import { useEffect, useState } from "react";
 import type { IProfile } from "../../../entities/account/types/types.js";
-import usePrevious from "@/shared/hooks/usePrevious.js";
+import usePrevious from "@repo/web/shared/hooks/usePrevious.js";
 
 const _useAccount = (): {
 	profile: IProfile;
@@ -16,7 +16,9 @@ const _useAccount = (): {
 	const [profile, setProfile] = useState<IProfile>();
 	const { data, loading, error } = useFetch({
 		url: `${BACKEND_URL}/profile`,
-		cache: false,
+		params: {
+			formatForAdmin: false,
+		},
 	});
 
 	const [initializing, setInitializing] = useState(true);

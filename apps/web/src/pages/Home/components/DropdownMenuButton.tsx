@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button.js";
+import { Button } from "@repo/web/components/ui/button.js";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -12,7 +12,7 @@ import {
 	DropdownMenuSubContent,
 	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu.js";
+} from "@repo/web/components/ui/dropdown-menu.js";
 
 export function DropdownMenuButton() {
 	return (

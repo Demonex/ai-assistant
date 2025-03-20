@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { admin } from "@/shared/config/index.js";
-import { AppSidebar } from "@/components/app-sidebar.js";
+import { admin } from "@repo/web/shared/config/index.js";
+import { AppSidebar } from "@repo/web/components/app-sidebar.js";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -8,13 +8,13 @@ import {
 	BreadcrumbList,
 	BreadcrumbPage,
 	BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb.js";
-import { Separator } from "@/components/ui/separator.js";
+} from "@repo/web/components/ui/breadcrumb.js";
+import { Separator } from "@repo/web/components/ui/separator.js";
 import {
 	SidebarInset,
 	SidebarProvider,
 	SidebarTrigger,
-} from "@/components/ui/sidebar.js";
+} from "@repo/web/components/ui/sidebar.js";
 import { ChatComponent } from "../ChatComponent.js";
 
 export function DashboardPage() {
@@ -28,18 +28,10 @@ export function DashboardPage() {
 				} as React.CSSProperties
 			}
 		>
-			<AppSidebar handleAdmin={(value) => setIsAdmin(value)} />
+			<AppSidebar />
 
 			{isAdmin ? (
-				<section className="sticky top-0 bottom-0 w-full">
-					<iframe
-						title="admin"
-						src={`${admin.URL}/admin`}
-						width="100%"
-						height="100%"
-						allowFullScreen
-					></iframe>
-				</section>
+				<section className="sticky top-0 bottom-0 w-full"></section>
 			) : (
 				<SidebarInset>
 					<header className="sticky top-0 flex shrink-0 items-center gap-2 border-b bg-background p-4">

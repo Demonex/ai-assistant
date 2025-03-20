@@ -2,12 +2,12 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { networkInterfaces } from "os";
-import path from "path";
+import { resolve } from "node:path";
 
 const interfaces = Object.values(
   Object.fromEntries(
-    Object.entries(networkInterfaces()).filter(([key]) => key.startsWith("en"))
-  )
+    Object.entries(networkInterfaces()).filter(([key]) => key.startsWith("en")),
+  ),
 );
 
 const network = interfaces.reduce((prev, next) => {
@@ -19,10 +19,20 @@ export default defineConfig({
   server: {
     port: 2051,
     proxy: {
-      "/api": {
-        // target: `http://localhost:2050/`,
-        target: "http://10.199.35.49:2051",
-        // target: `https://backend.rifify.me`,
+      "/api/rest": {
+        target: `http://localhost:2050/`,
+        changeOrigin: true,
+      },
+      "/admin": {
+        target: "http://localhost:2055",
+        changeOrigin: true,
+      },
+      "/_next/webpack-hmr": {
+        target: "ws://localhost:2055/_next/webpack-hmr",
+        changeOrigin: true,
+      },
+      "/_next": {
+        target: "http://localhost:2055",
         changeOrigin: true,
       },
     },
@@ -30,7 +40,7 @@ export default defineConfig({
   plugins: [tsconfigPaths(), react()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
+      "@": resolve(__dirname, "src"),
     },
   },
   build: {

@@ -1,4 +1,4 @@
-import SecondaryCloseIcon from "@/assets/SecondaryCloseIcon.js";
+import SecondaryCloseIcon from "@repo/web/assets/SecondaryCloseIcon.js";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import type { ReactNode } from "react";

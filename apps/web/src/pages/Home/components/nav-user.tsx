@@ -9,7 +9,11 @@ import {
 	Sparkles,
 } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar.js";
+import {
+	Avatar,
+	AvatarFallback,
+	AvatarImage,
+} from "@repo/web/components/ui/avatar.js";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -18,14 +22,14 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu.js";
+} from "@repo/web/components/ui/dropdown-menu.js";
 import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
 	useSidebar,
-} from "@/components/ui/sidebar.js";
-import { ModeToggle } from "@/components/mode-toggle.js";
+} from "@repo/web/components/ui/sidebar.js";
+import { ModeToggle } from "@repo/web/components/mode-toggle.js";
 
 export function NavUser({
 	user,

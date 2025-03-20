@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button.js";
+import { Button } from "@repo/web/components/ui/button.js";
 import {
 	Dialog,
 	DialogContent,
@@ -7,9 +7,9 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-} from "@/components/ui/dialog.js";
-import { Input } from "@/components/ui/input.js";
-import { Label } from "@/components/ui/label.js";
+} from "@repo/web/components/ui/dialog.js";
+import { Input } from "@repo/web/components/ui/input.js";
+import { Label } from "@repo/web/components/ui/label.js";
 import { SelectComponent } from "./SelectComponent.js";
 import { FormFineTuning } from "./FormFineTuning.js";
 

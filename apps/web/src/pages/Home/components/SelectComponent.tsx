@@ -6,7 +6,7 @@ import {
 	SelectLabel,
 	SelectTrigger,
 	SelectValue,
-} from "@/components/ui/select.js";
+} from "@repo/web/components/ui/select.js";
 
 export function SelectComponent({ placeholder }) {
 	return (

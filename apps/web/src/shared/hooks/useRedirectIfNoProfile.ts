@@ -1,4 +1,4 @@
-import { useAccount } from "@/components/Header/hooks/useAccount.js";
+import { useAccount } from "@repo/web/components/Header/hooks/useAccount.js";
 import { useEffect } from "react";
 import { navigate } from "wouter/use-browser-location";
 
