@@ -39,7 +39,7 @@ export const collection: CollectionConfig = {
 		},
 		{
 			name: "description",
-			type: "textarea",
+			type: "text",
 			required: true,
 			label: "Описание",
 			admin: {

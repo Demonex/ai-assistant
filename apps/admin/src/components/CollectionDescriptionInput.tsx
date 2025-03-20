@@ -8,23 +8,30 @@ const CollectionDescriptionInput: React.FC<{
 	path: string;
 	field: { label: string };
 	required?: boolean;
-}> = ({ path, field: { label }, required, ...rest }) => {
+}> = ({ path, field: { label }, required }) => {
 	const { value, setValue } = useField<string>({ path });
 	const { value: title } = useField<string>({ path: "title" });
+	const { value: description } = useField<string>({
+		path: "description",
+	});
+
+	const generateDescription = () => {
+		return `Здравствуйте! Это чат с документами ${title ? `"${title}"` : ""}. Вы можете задать вопросы по этим документам, и система постарается найти на них ответы.`;
+	};
 
 	useEffect(() => {
-		if (!value) {
-			setValue(
-				`Здравствуйте! Это чат с документами${title ? ` "${title}"` : ""}. Вы можете задать вопросы по этим документам, и система постарается найти на них ответы`,
-			);
+		if (!value && description !== generateDescription()) {
+			setValue(generateDescription());
 		}
-	}, [setValue]);
+	}, [setValue, description]);
 
 	useEffect(() => {
-		setValue(
-			`Здравствуйте! Это чат с документами${title ? ` "${title}"` : ""}. Вы можете задать вопросы по этим документам, и система постарается найти на них ответы`,
-		);
-	}, [title]);
+		const newDescription = generateDescription();
+
+		if (newDescription !== value) {
+			setValue(newDescription);
+		}
+	}, [title, setValue, value]);
 
 	return (
 		<div className="mb-[var(--spacing-field)]">
