@@ -68,7 +68,8 @@ export class ChatController {
 		await this.chatService.messagePatch(messageId, {
 			response: {
 				success: response.success,
-				...response.response,
+				message: `${response.response.message}`,
+				fragments: response.response.fragments,
 			} as any,
 		});
 

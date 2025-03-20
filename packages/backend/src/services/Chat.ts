@@ -296,8 +296,6 @@ export class ChatService {
 				return frag;
 			});
 
-			response.message = `${response.message}`;
-
 			return {
 				success: true,
 				response,
