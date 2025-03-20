@@ -282,6 +282,7 @@ export class ChatService {
 					},
 				},
 			});
+
 			response.fragments.map((frag) => {
 				const file_path = frag.file_path;
 				const filenameWithDate = path.basename(file_path);
@@ -294,6 +295,8 @@ export class ChatService {
 
 				return frag;
 			});
+
+			response.message = `${response.message}`;
 
 			return {
 				success: true,
