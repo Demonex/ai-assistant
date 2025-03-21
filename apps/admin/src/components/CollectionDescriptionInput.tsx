@@ -16,7 +16,7 @@ const CollectionDescriptionInput: React.FC<{
 	const isUserEdited = useRef(false);
 
 	const generateDescription = () => {
-		return `Здравствуйте! Это чат с документами${title ? `"${title}"` : "{title}"}. Вы можете задать вопросы по этим документам, и система постарается найти на них ответы.`;
+		return `Здравствуйте! Это чат с документами ${title ? `"${title}"` : "{title}"}. Вы можете задать вопросы по этим документам, и система постарается найти на них ответы.`;
 	};
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
