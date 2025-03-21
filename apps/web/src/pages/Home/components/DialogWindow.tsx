@@ -94,7 +94,7 @@ export const DialogWindow = () => {
 	}, []);
 
 	const groupingMessages = useMemo<GroupMessages[]>(() => {
-		// const messageList = messageMockData.messages
+		// const messageList = messageMockData.messages;
 		const messageList = messages?.messages;
 
 		if (!messageList) return null;

@@ -72,6 +72,7 @@ export class ChatController {
 				response: {
 					success: response.success,
 					message: cleanText(response.response.message),
+					created_at: response.response.created_at,
 					fragments: response.response.fragments.map((el) => {
 						return {
 							file_path: el.file_path,
