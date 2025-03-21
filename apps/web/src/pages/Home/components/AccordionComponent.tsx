@@ -73,14 +73,14 @@ export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 										title="Копировать текст фрагмента"
 										onClick={() => handleCopy(false, fragment)}
 									>
-										<Copy size={20} />
+										<Copy size={18} />
 									</div>
 									<div
 										className="ml-4 hover:opacity-80"
 										title="Копировать Фрагмент"
 										onClick={() => handleCopy(true, fragment)}
 									>
-										<CopyPlus size={20} />
+										<CopyPlus size={18} />
 									</div>
 								</div>
 							</div>

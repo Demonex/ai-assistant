@@ -37,16 +37,22 @@ export const MessageBubble = memo<{
 						isRequest ? "order-1" : "w-full"
 					}`}
 				>
-					<div className={`relative inline-flex p-4 ${!isRequest && "w-full"}`}>
-						{!isRequest && (
-							<div
-								title="Копировать текст"
-								onClick={() => handleCopy(message.response.message)}
-								className="absolute left-[calc(100%-50px)] top-[-20px] flex items-center cursor-pointer hover:opacity-80 rounded-lg border bg-card text-card-foreground p-2"
-							>
-								<Copy size={20} />
-							</div>
-						)}
+					<div
+						className={`relative inline-flex px-4 pt-6 ${!isRequest ? "w-full" : "pb-4"}`}
+					>
+						<div
+							title="Копировать текст"
+							onClick={() =>
+								handleCopy(
+									isRequest
+										? message.request.message
+										: message.response.message,
+								)
+							}
+							className="absolute left-[calc(100%-50px)] top-[-16px] flex items-center cursor-pointer hover:opacity-80 rounded-lg border bg-card text-card-foreground p-2"
+						>
+							<Copy size={16} />
+						</div>
 
 						<ReactMarkdownComponent textMarkdown={text} />
 					</div>

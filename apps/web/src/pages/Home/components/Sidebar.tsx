@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
 import { Input } from "@repo/web/components/ui/input.js";
-import MessageList from "./MessageList.js";
+import ChatList from "./ChatList.js";
 import { useChats } from "../hooks/useChats.js";
 import { FormNewCollection } from "./FormNewCollection.js";
 import { collectionMockData } from "@repo/web/DataBase.js";
@@ -59,7 +59,7 @@ export const Sidebar = memo(() => {
 							>
 								<div data-radix-scroll-area-content>
 									<div className="block min-w-0 divide-y">
-										<MessageList chats={filteredChats} />
+										<ChatList chats={filteredChats} />
 									</div>
 								</div>
 							</div>
