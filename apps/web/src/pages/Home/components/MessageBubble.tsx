@@ -37,7 +37,9 @@ export const MessageBubble = memo<{
 						isRequest ? "order-1" : "w-full"
 					}`}
 				>
-					<div className={`relative inline-flex p-4 ${!isRequest && "w-full"}`}>
+					<div
+						className={`relative inline-flex px-4 ${!isRequest ? "w-full pt-6" : "pt-4 pb-4"}`}
+					>
 						{!isRequest && (
 							<div
 								title="Копировать текст"
@@ -66,7 +68,7 @@ export const MessageBubble = memo<{
 						isRequest ? "justify-end" : ""
 					}`}
 				>
-					{formatLocalTime(created_at || new Date().toString(), "time")}
+					{formatLocalTime(created_at, "time")}
 				</time>
 			</div>
 		</div>
