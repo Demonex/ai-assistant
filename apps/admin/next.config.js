@@ -18,13 +18,11 @@ const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
 const nextConfig = {
   transpilePackages: ["@repo/web"],
   webpack: (config) => {
-    config.plugins.unshift(importMetaEnv.webpack({
+    /*config.plugins.unshift(importMetaEnv.webpack({
       example: ".env.example",
       env: ".env",
       transformMode: "runtime",
-    }));
-    console.log('plugins',config.plugins);
-
+    }));*/
     config.resolve.extensionAlias = {
       ".js": [".ts", ".tsx", ".js"],
       ".mjs": [".mts", ".mjs"],

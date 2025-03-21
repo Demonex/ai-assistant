@@ -1,7 +1,7 @@
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import { MessageItem } from "./MessageItem.js";
 import { memo } from "react";
-import type { Chats } from "@/types/types.js";
+import type { Chats } from "@repo/web/types/types.js";
 
 const MessageList = memo<{ chats: Chats[] }>(({ chats }) => (
 	<ScrollArea.Root className="ScrollAreaRoot">

@@ -127,6 +127,8 @@
     "./hooks/*": "./src/hooks/*",
     "./helpers/*": "./src/helpers/*",
     "./utils/*": "./src/utils/*",
-    "./constants/*": "./src/constants/*"
+    "./constants/*": "./src/constants/*",
+    "./shared/*": "./src/shared/*",
+    "./index.css": "./src/index.css"
   }
 }
