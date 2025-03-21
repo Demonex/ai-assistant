@@ -68,7 +68,7 @@ export const MessageBubble = memo<{
 						isRequest ? "justify-end" : ""
 					}`}
 				>
-					{formatLocalTime(created_at, "time")}
+					{formatLocalTime(created_at || new Date().toString(), "time")}
 				</time>
 			</div>
 		</div>
