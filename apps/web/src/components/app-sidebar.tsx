@@ -1,7 +1,6 @@
 import { type ComponentProps, useMemo } from "react";
 import _globalThis from "globalthis";
 import { Command, MessageCircleMore, UserRoundCog } from "lucide-react";
-// import { useLocation } from "wouter";
 import { useProfile } from "@repo/web/hooks/useProfile.js";
 
 import { NavUser } from "@repo/web/components/nav-user.js";
@@ -58,7 +57,7 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
 					<SidebarMenu>
 						<SidebarMenuItem>
 							<SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0">
-								<a href="#">
+								<a href="/">
 									<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
 										<Command className="size-4" />
 									</div>

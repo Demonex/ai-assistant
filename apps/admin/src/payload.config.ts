@@ -22,6 +22,10 @@ import { getServerSideURL } from "./utilities/getURL";
 // import Logo from "@/components/Logo/Logo";
 // import Icon from "@/components/Logo/Icon";
 
+import { en } from "@payloadcms/translations/languages/en";
+
+import { ru } from "@payloadcms/translations/languages/ru";
+
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
@@ -85,6 +89,7 @@ export default buildConfig({
 				},
 			],
 		},
+		theme: "light",
 	},
 	// This config helps us configure global or default features that the other editors can inherit
 	editor: defaultLexical,
@@ -124,9 +129,6 @@ export default buildConfig({
 				[tenantMedia.slug]: {
 					bucket: process.env.S3_BUCKET_TENANT_MEDIA,
 				},
-				[doc.slug]: {
-					bucket: process.env.S3_BUCKET_DOC_FILE,
-				},
 			},
 			config: {
 				credentials: {
@@ -137,7 +139,7 @@ export default buildConfig({
 				endpoint: process.env.S3_ENDPOINT,
 				forcePathStyle: true,
 			},
-		}),
+		}) as any,
 	],
 	secret: process.env.PAYLOAD_SECRET,
 	// sharp,
@@ -145,8 +147,8 @@ export default buildConfig({
 		outputFile: path.resolve(dirname, "payload-types.ts"),
 	},
 	// localization: {
-	// 	defaultLocale: "en",
-	// 	locales: ["en", "ru"],
+	// 	defaultLocale: "ru",
+	// 	locales: ["ru"],
 	// },
 	upload: {
 		defCharset: "utf8",
@@ -159,5 +161,10 @@ export default buildConfig({
 	telemetry: false,
 	onInit: (app) => {
 		app.logger.info("Payload Initialized");
+	},
+	i18n: {
+		fallbackLanguage: "en",
+		supportedLanguages: { en, ru },
+		// supportedLanguages: ['ru'],
 	},
 });

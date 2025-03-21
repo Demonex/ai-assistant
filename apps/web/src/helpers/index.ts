@@ -1,10 +1,20 @@
 export const formatLocalTime = (
 	date: Date | string,
-	formatOptions: Intl.DateTimeFormatOptions = {
-		hour: "2-digit",
-		minute: "2-digit",
-	},
+	format: "time" | "date",
 ) => {
+	let formatOptions: Intl.DateTimeFormatOptions;
+	if (format === "time") {
+		formatOptions = {
+			hour: "2-digit",
+			minute: "2-digit",
+		};
+	} else {
+		formatOptions = {
+			day: "2-digit",
+			month: "2-digit",
+			year: "numeric",
+		};
+	}
 	const parsedDate = new Date(date);
 	const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 

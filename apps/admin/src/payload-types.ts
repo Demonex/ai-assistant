@@ -179,6 +179,7 @@ export interface Collection {
   id: number;
   tenant: number | Tenant;
   title: string;
+  description: string;
   embedding: number | Neuro;
   llm: number | Neuro;
   reranker: number | Neuro;
@@ -230,20 +231,14 @@ export interface Provider {
  */
 export interface Doc {
   id: number;
+  filename: string;
+  filesize: number;
+  mimeType: string;
   vectorFilePath: string;
   collection: number | Collection;
   provider: number | Provider;
   updatedAt: string;
   createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -477,6 +472,7 @@ export interface NeuroSelect<T extends boolean = true> {
 export interface CollectionSelect<T extends boolean = true> {
   tenant?: T;
   title?: T;
+  description?: T;
   embedding?: T;
   llm?: T;
   reranker?: T;
@@ -510,20 +506,14 @@ export interface ProviderSelect<T extends boolean = true> {
  * via the `definition` "doc_select".
  */
 export interface DocSelect<T extends boolean = true> {
+  filename?: T;
+  filesize?: T;
+  mimeType?: T;
   vectorFilePath?: T;
   collection?: T;
   provider?: T;
   updatedAt?: T;
   createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

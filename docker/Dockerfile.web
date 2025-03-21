@@ -1,4 +1,4 @@
-FROM gitlab.sigma-it.ru:4567/mkuznetsov/sigmachat/node:22.14.0 as base
+FROM docker-group.sigma-it.ru/node:22.14.0 as base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -16,10 +16,10 @@ COPY --from=builder /app/out/json/ .
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --ignore-scripts
 
 COPY --from=builder /app/out/full/ .
-
+ENV NODE_ENV production
 RUN pnpm run build:web
 
-FROM gitlab.sigma-it.ru:4567/mkuznetsov/sigmachat/nginx:1.25-alpine AS runner
+FROM docker-group.sigma-it.ru/nginx:1.25-alpine AS runner
 
 USER root
 

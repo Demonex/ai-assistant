@@ -1,5 +1,6 @@
 stages:
   - build
+  - deploy
 
 variables:
   VERSION: 0.1.0-$CI_COMMIT_SHORT_SHA-snapshot
@@ -10,10 +11,27 @@ build:
     matrix:
       - APP_TYPE: [backend, admin, web]
   variables:
-    IMAGE: $CI_REGISTRY/$CI_PROJECT_PATH/$APP_TYPE
+    IMAGE: gitlab.sigma-it.ru:4567/sigma-chat-doc/registry/$APP_TYPE
     IMAGE_TAG: $VERSION
   script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - echo "$WRITE_REGISTRY_TOKEN" | docker login $CI_REGISTRY -u "write_registry" --password-stdin
     - git submodule update --init --recursive --remote
     - docker build -t $IMAGE:$VERSION . -f docker/Dockerfile.$APP_TYPE 
     - docker push $IMAGE:$VERSION
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+
+deploy:
+  stage: deploy
+  image: docker-group.sigma-it.ru/kroniak/ssh-client
+  before_script:
+    - chmod 400 "$SSH_PRIVATE_KEY"
+  script:
+    - ssh -o StrictHostKeychecking=no -i "$SSH_PRIVATE_KEY" user@dpis-scd1.sigma-it.local "cd demo-stand-deploy && sed -i \"s/^\(.*APP_VERSION=\).*/\1${VERSION}/\" .env && docker compose up -d"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $AUTODEPLOY_DEMO == "false"
+      when: never
+  needs:
+    - build

@@ -19,7 +19,12 @@ export class LangFlowService {
 		media,
 		stream,
 		name,
-	}: { flowId?; media?; stream?; name? }) {
+	}: {
+		flowId?;
+		media?;
+		stream?;
+		name?;
+	}) {
 		if (media) {
 			const form = new FormData();
 			form.append("file", media.buffer, media.originalname);
@@ -88,7 +93,33 @@ export class LangFlowService {
 		flowId: string;
 		payload?: { [key: string]: unknown };
 		method?: "RETRIEVE" | "UPLOAD";
-	}): Promise<{ message?: string; fragments?: any[]; created_at?: Date }> {
+	}): Promise<{
+		id?: number;
+		message?: string;
+		fragments?: any[];
+		created_at?: Date;
+	}> {
+		console.log(
+			"RUN FLOW",
+			`${this.endpoint}/api/v1/run/${flowId}?stream=false`,
+			JSON.stringify({
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"x-api-key": this.langflowApiKey,
+					// "x-api-key": "sk-nJL5Mhq1M0_5_Y-pVCAZwQFtU6aM7fu5UbkOiBPW5ec",
+				},
+				json: {
+					input_value: payload.message,
+					output_type: "chat",
+					input_type: "chat",
+					tweaks: payload.tweaks,
+				},
+				responseType: "json",
+				resolveBodyOnly: true,
+			}),
+		);
+
 		const langflowResponse: any = await got.post(
 			`${this.endpoint}/api/v1/run/${flowId}?stream=false`,
 			{
@@ -108,6 +139,8 @@ export class LangFlowService {
 				resolveBodyOnly: true,
 			},
 		);
+
+		console.log("langflow response achived", method, langflowResponse);
 
 		if (method === "UPLOAD") {
 			return;

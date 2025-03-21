@@ -1,5 +1,5 @@
 import { DialogWindow } from "./DialogWindow.js";
-import { memo, useState } from "react";
+import { memo } from "react";
 import { Sidebar } from "./Sidebar.js";
 import { useChats } from "../hooks/useChats.js";
 
@@ -7,7 +7,7 @@ export const ChatComponent = memo(() => {
 	const { activeChat } = useChats();
 
 	return (
-		<main className="p-4">
+		<main className="p-4 bg-[#fbfbfb]">
 			<div className="gap-8 lg:flex">
 				<Sidebar />
 				{activeChat && <DialogWindow />}

@@ -2,7 +2,6 @@ import { Button } from "@repo/web/components/ui/button.js";
 import {
 	Dialog,
 	DialogContent,
-	DialogDescription,
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,

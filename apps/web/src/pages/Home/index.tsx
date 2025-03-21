@@ -17,7 +17,7 @@ export const HomePage = memo(() => {
 	}, [isAuthorized]);
 
 	useEffect(() => {
-		if (errorProfile) {
+		if (errorProfile && errorProfile.status !== 401) {
 			toast({
 				variant: "destructive",
 				title: errorProfile.status,

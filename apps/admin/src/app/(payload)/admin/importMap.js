@@ -1,3 +1,4 @@
+import { default as default_8f4d9c8d6aaf02d6a023d2678f4f07ee } from '@/components/CollectionDescriptionInput'
 import { default as default_5f69f190e0d891004c9540945f6915cf } from '@/components/Field'
 import { ArrayRowLabel as ArrayRowLabel_c05c4cb9e2554d6fbc297727d5ecd1e5 } from '@/components/ArrayRowLabel/index'
 import { IconComponent as IconComponent_a0bd5f2fa532ef2166f77171a2b9828a } from '@/components/Logo/Logo'
@@ -7,6 +8,7 @@ import { default as default_8a7ab0eb7ab5c511aba12e68480bfe5e } from '@/component
 import { default as default_65bcf848a57d8af2889a148cbcc5cfc0 } from '@/components/ForceLightModeProvider'
 
 export const importMap = {
+  "@/components/CollectionDescriptionInput#default": default_8f4d9c8d6aaf02d6a023d2678f4f07ee,
   "@/components/Field#default": default_5f69f190e0d891004c9540945f6915cf,
   "@/components/ArrayRowLabel/index#ArrayRowLabel": ArrayRowLabel_c05c4cb9e2554d6fbc297727d5ecd1e5,
   "@/components/Logo/Logo#IconComponent": IconComponent_a0bd5f2fa532ef2166f77171a2b9828a,

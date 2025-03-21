@@ -15,6 +15,10 @@ const collectionAccess = {
 export const collection: CollectionConfig = {
 	slug: "collection",
 	access: collectionAccess,
+	labels: {
+		// singular: "Коллекция",
+		// plural: "Коллекции",
+	},
 	admin: {
 		defaultColumns: ["title", "embedding", "llm", "reranker", "providers"],
 		useAsTitle: "title",
@@ -25,11 +29,24 @@ export const collection: CollectionConfig = {
 			type: "relationship",
 			relationTo: tenant.slug as "tenant",
 			required: true,
+			// label: "Тенант",
 		},
 		{
 			name: "title",
 			type: "text",
 			required: true,
+			// label: "Название",
+		},
+		{
+			name: "description",
+			type: "text",
+			required: true,
+			// label: "Описание",
+			admin: {
+				components: {
+					Field: "@/components/CollectionDescriptionInput",
+				},
+			},
 		},
 		{
 			name: "embedding",
@@ -41,6 +58,7 @@ export const collection: CollectionConfig = {
 					equals: MODEL_TYPE.embedding,
 				},
 			},
+			// label: "Embedding Нейросервис",
 		},
 		{
 			name: "llm",
@@ -52,6 +70,7 @@ export const collection: CollectionConfig = {
 					equals: MODEL_TYPE.llm,
 				},
 			},
+			// label: "LLM Нейросервис",
 		},
 		{
 			name: "reranker",
@@ -63,30 +82,34 @@ export const collection: CollectionConfig = {
 					equals: MODEL_TYPE.reranker,
 				},
 			},
+			// label: "Reranker Нейросервис",
 		},
 		{
 			name: "providers",
 			type: "array",
-			label: "Providers",
+			/*label: "Провайдеры",
 			labels: {
-				singular: "provider",
-				plural: "providers",
-			},
+				singular: "Провайдер",
+				plural: "Провайдеры",
+			},*/
 			fields: [
 				{
 					name: "provider",
 					type: "relationship",
 					relationTo: provider.slug as "provider",
 					required: true,
+					// label: "Провайдер",
 				},
 				{
 					name: "enabled",
 					type: "checkbox",
 					defaultValue: false,
+					// label: "Включена",
 				},
 				{
 					name: "settings",
 					type: "json",
+					// label: "Настройки провайдера",
 				},
 				{
 					name: "docs",
@@ -96,6 +119,7 @@ export const collection: CollectionConfig = {
 							Field: "@/components/Field",
 						},
 					},
+					// label: "Документы",
 					virtual: true,
 				},
 				// {

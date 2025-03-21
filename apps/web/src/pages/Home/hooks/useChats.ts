@@ -1,23 +1,6 @@
+import type { MessagesType } from "@/types/types.js";
 import { useCallback, useEffect, useState } from "react";
 import { useFetch, createMonoHook, useLazyFetch } from "use-mono-hook";
-
-type FragmentsType = {
-	uuid: string;
-	file_path: string;
-	page_num: number;
-	_id: string;
-	_collection_name: string;
-	text: string;
-};
-
-type MessageType = {
-	success: boolean;
-	response: {
-		created_at: string;
-		message: string;
-		fragments: FragmentsType[];
-	};
-};
 
 const _useChats = () => {
 	const { data: chats } = useFetch({
@@ -30,14 +13,17 @@ const _useChats = () => {
 		id: number;
 	}>();
 
-	const [messages, setMessages] = useState<MessageType[]>();
+	const [messages, setMessages] = useState<MessagesType>();
 
 	// fetchMessages //
 
 	const [{ data: messagesData, error: messagesError }, fetchMessages] =
-		useLazyFetch({
+		(useLazyFetch({
 			url: "/api/rest/chat/{activeChat.id}",
-		}) || [{}];
+		}) as [
+			{ data: MessagesType; error: Error },
+			(options: { url: string }) => void,
+		]) || [{}];
 
 	useEffect(() => {
 		if (!activeChat?.id || !fetchMessages) {
@@ -65,7 +51,10 @@ const _useChats = () => {
 	] = useLazyFetch({
 		url: "/api/rest/chat/{activeChat.id}/message",
 		method: "post",
-	});
+	}) as [
+		{ data: any; loading: boolean; error: Error },
+		(options: { url: string; data: { raw: string } }) => void,
+	];
 
 	const sendMessage = useCallback(
 		({ message }) => {
@@ -84,10 +73,14 @@ const _useChats = () => {
 			return;
 		}
 
-		setMessages((prev) => {
-			const last = { ...prev.pop(), ...messageResponse };
+		setMessages((prev: MessagesType) => {
+			const last = { ...prev.messages.pop(), ...messageResponse };
 
-			return [...prev, last];
+			return {
+				isEmpty: prev.isEmpty,
+				messages: [...prev.messages, last],
+				description: prev.description,
+			};
 		});
 	}, [messageResponse]);
 
@@ -99,10 +92,17 @@ const _useChats = () => {
 	] = useLazyFetch({
 		url: "/api/rest/chat/{activeChat.id}/upload",
 		method: "post",
-	});
+	}) as [
+		{ data: any; loading: boolean; error: Error },
+		(options: {
+			url: string;
+			data: FormData;
+			headers: { "Content-Type": string };
+		}) => void,
+	];
 
 	const sendUploadFile = useCallback(
-		({ formData }) => {
+		({ formData }: { formData: FormData }) => {
 			fetchUploadFile({
 				url: `/api/rest/chat/${activeChat.id}/upload`,
 				data: formData,

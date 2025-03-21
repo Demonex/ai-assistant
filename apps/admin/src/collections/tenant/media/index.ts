@@ -7,6 +7,10 @@ const tenantMediaAccess = {
 
 export const tenantMedia: CollectionConfig = {
 	slug: "tenant-media",
+	labels: {
+		singular: "Тенант-медиа",
+		plural: "Тенант-медиа",
+	},
 	hooks: {
 		beforeRead: [
 			({ doc, req }) => {
