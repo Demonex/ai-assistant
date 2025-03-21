@@ -1,7 +1,6 @@
 import axios, { AxiosError } from "axios";
 
-const baseURL =
-	process.env.NEXT_PUBLIC_BACKEND_URL || "http://10.199.35.49:2050";
+const baseURL = process.env.BACKEND_ENDPOINT || "http://localhost:2050";
 
 const api = axios.create({
 	baseURL,
@@ -31,7 +30,6 @@ const makeRequest = async <T>(options: RequestOptions): Promise<T> => {
 		if (axios.isAxiosError(error)) {
 			throw new Error(`Request failed: ${error.message}`);
 		}
-
 		throw error;
 	}
 };

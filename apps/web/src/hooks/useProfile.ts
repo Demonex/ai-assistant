@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useFetch, createMonoHook, useLazyFetch } from "use-mono-hook";
+import { BACKEND_URL } from "@repo/web/constants/index.js";
 
 const _useProfile = () => {
 	const {
@@ -7,15 +8,17 @@ const _useProfile = () => {
 		error: errorProfile,
 		loading,
 	} = useFetch({
-		url: `${import.meta.env.VITE_BACKEND_URL}/profile`,
-		cache: false,
+		url: `${BACKEND_URL}/profile`,
+		params: {
+			formatForAdmin: false,
+		},
 	});
 
 	const [
 		{ data: dataSignIn, error: errorSignIn, loading: loadingSignIn },
 		fetchSignIn,
 	] = useLazyFetch({
-		url: `${import.meta.env.VITE_BACKEND_URL}/auth/email/sign-in`,
+		url: `${BACKEND_URL}/auth/email/sign-in`,
 		method: "post",
 		cache: false,
 	});
@@ -24,16 +27,13 @@ const _useProfile = () => {
 		{ data: dataSignOut, error: errorSignOut, loading: loadingSignOut },
 		fetchSignOut,
 	] = useLazyFetch({
-		url: `${import.meta.env.VITE_BACKEND_URL}/auth/sign-out`,
+		url: `${BACKEND_URL}/auth/sign-out`,
 		method: "post",
 		cache: false,
 	});
 
-	const [profile, setProfile] = useState(() => {
-		const savedProfile = sessionStorage.getItem("profile");
-		return savedProfile ? JSON.parse(savedProfile) : null;
-		// return { id: "ads", email: "bla@bla.ru" };
-	});
+	const [profile, setProfile] = useState(null);
+	console.log("profile", profile);
 
 	const isAuthorized = useMemo(() => !!profile, [profile]);
 
@@ -43,7 +43,6 @@ const _useProfile = () => {
 		}
 		setProfile(data);
 		// setProfile({ id: "ads", email: "bla@bla.ru" });
-		sessionStorage.setItem("profile", JSON.stringify(data || dataSignIn));
 	}, [data]);
 
 	useEffect(() => {
@@ -51,17 +50,14 @@ const _useProfile = () => {
 			return;
 		}
 		setProfile(dataSignIn);
-		// setProfile({ id: "ads", email: "bla@bla.ru" });
-		sessionStorage.setItem("profile", JSON.stringify(data || dataSignIn));
 	}, [dataSignIn]);
 
 	const handleSignOut = useCallback(async () => {
 		await fetchSignOut({
-			url: `${import.meta.env.VITE_BACKEND_URL}/auth/sign-out`,
+			url: `${BACKEND_URL}/auth/sign-out`,
 			data: data,
 		});
 		setProfile(null);
-		sessionStorage.removeItem("profile");
 	}, []);
 
 	const handleSignIn = useCallback(

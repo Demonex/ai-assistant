@@ -6,16 +6,16 @@ import {
 	useRef,
 	useState,
 } from "react";
-import { toast } from "@/hooks/use-toast.js";
+import { toast } from "@repo/web/hooks/use-toast.js";
 import { useChats } from "../hooks/useChats.js";
-import { messageMockData } from "@/DataBase.js";
+import { messageMockData } from "@repo/web/DataBase.js";
 import { MessageBubble } from "./MessageBubble.js";
 import { ChatForm } from "./ChatForm.js";
 import { HeaderDialogWindow } from "./HeaderDialogWindow.js";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
-import { ALLOWED_EXTENSIONS } from "@/constants/index.js";
-import { formatLocalTime } from "@/helpers/index.js";
-import type { GroupMessages } from "@/types/types.js";
+import { ALLOWED_EXTENSIONS } from "@repo/web/constants/index.js";
+import { formatLocalTime } from "@repo/web/helpers/index.js";
+import type { GroupMessages } from "@repo/web/types/types.js";
 
 export const DialogWindow = () => {
 	const {

@@ -1,9 +1,9 @@
-import { formatLocalTime } from "@/helpers/index.js";
+import { formatLocalTime } from "@repo/web/helpers/index.js";
 import { AccordionComponent } from "./AccordionComponent.js";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 import { memo } from "react";
-import type { Message } from "@/types/types.js";
-import { toast } from "@/hooks/use-toast.js";
+import type { Message } from "@repo/web/types/types.js";
+import { toast } from "@repo/web/hooks/use-toast.js";
 import { Copy } from "lucide-react";
 
 export const MessageBubble = memo<{

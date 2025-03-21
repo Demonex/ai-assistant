@@ -3,12 +3,12 @@ import {
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from "@/components/ui/accordion.js";
-import { toast } from "@/hooks/use-toast.js";
+} from "@repo/web/components/ui/accordion.js";
+import { toast } from "@repo/web/hooks/use-toast.js";
 import { Copy, CopyPlus } from "lucide-react";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 import { memo } from "react";
-import type { Fragment } from "@/types/types.js";
+import type { Fragment } from "@repo/web/types/types.js";
 
 export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 	({ fragments }) => {

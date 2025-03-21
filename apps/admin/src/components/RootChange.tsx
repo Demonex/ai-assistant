@@ -1,17 +1,30 @@
-// "use client";
+"use client";
+import {
+	SidebarInset,
+	SidebarProvider,
+} from "@repo/web/components/ui/sidebar.js";
+import { AppSidebar } from "@repo/web/components/app-sidebar.js";
+import { WebMonoHooksStore } from "@repo/web/components/App.js";
 
-// import { useEffect } from "react";
+export const WebWrapper = ({ children }: any) => {
+	return (
+		<>
+			<SidebarProvider
+				style={
+					{
+						"--sidebar-width": "50px",
+					} as React.CSSProperties
+				}
+			>
+				<div className="tailwind-container">
+					<AppSidebar />
+				</div>
 
-// export const RootChange = async () => {
-// 	useEffect(() => {
-// 		const _self: any = window.fetch;
-// 		(window as any).fetch = (...args) => {
-// 			const [_, arg] = args;
-// 			if ("headers" in arg) {
-// 				arg.headers["x-tenant"] = localStorage.getItem("tenant");
-// 			}
-// 			return _self(...args);
-// 		};
-// 	});
-// 	return <p>123</p>;
-// };
+				<SidebarInset>
+					<div className="test-ui">{children}</div>
+				</SidebarInset>
+			</SidebarProvider>
+			<WebMonoHooksStore />
+		</>
+	);
+};

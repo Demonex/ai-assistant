@@ -2,7 +2,7 @@ import { memo } from "react";
 import { useChats } from "../hooks/useChats.js";
 import { AvatarComponent } from "./AvatarComponent.js";
 import { DropdownMenuButton } from "./DropdownMenuButton.js";
-import { useTheme } from "@/components/theme-provider.js";
+import { useTheme } from "@repo/web/components/theme-provider.js";
 
 export const MessageItem = memo<{
 	title: string;

@@ -6,7 +6,7 @@ import {
 	SelectLabel,
 	SelectTrigger,
 	SelectValue,
-} from "@/components/ui/select.js";
+} from "@repo/web/components/ui/select.js";
 import { memo } from "react";
 
 export const SelectComponent = memo<{ placeholder: string }>(

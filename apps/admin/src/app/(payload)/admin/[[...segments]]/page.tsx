@@ -3,9 +3,9 @@
 import type { Metadata } from "next";
 
 import config from "@payload-config";
-import { RootPage, generatePageMetadata } from "@payloadcms/next/views";
+import { generatePageMetadata, RootPage } from "@payloadcms/next/views";
 import { importMap } from "../importMap";
-import { useEffect } from "react";
+import { WebWrapper } from "@/components/RootChange";
 
 type Args = {
 	params: Promise<{
@@ -23,7 +23,8 @@ export const generateMetadata = ({
 	generatePageMetadata({ config, params, searchParams });
 
 const Page = ({ params, searchParams }: Args) => {
-	return RootPage({ config, params, searchParams, importMap });
+	const PageComponent = RootPage({ config, params, searchParams, importMap });
+	return <WebWrapper>{PageComponent}</WebWrapper>;
 };
 
 export default Page;

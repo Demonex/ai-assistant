@@ -1,4 +1,4 @@
-import type { MessagesType } from "@/types/types.js";
+import type { MessagesType } from "@repo/web/types/types.js";
 import { useCallback, useEffect, useState } from "react";
 import { useFetch, createMonoHook, useLazyFetch } from "use-mono-hook";
 

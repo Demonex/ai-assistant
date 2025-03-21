@@ -16,8 +16,8 @@ export const collection: CollectionConfig = {
 	slug: "collection",
 	access: collectionAccess,
 	labels: {
-		singular: "Коллекция",
-		plural: "Коллекции",
+		// singular: "Коллекция",
+		// plural: "Коллекции",
 	},
 	admin: {
 		defaultColumns: ["title", "embedding", "llm", "reranker", "providers"],
@@ -29,19 +29,19 @@ export const collection: CollectionConfig = {
 			type: "relationship",
 			relationTo: tenant.slug as "tenant",
 			required: true,
-			label: "Тенант",
+			// label: "Тенант",
 		},
 		{
 			name: "title",
 			type: "text",
 			required: true,
-			label: "Название",
+			// label: "Название",
 		},
 		{
 			name: "description",
 			type: "text",
 			required: true,
-			label: "Описание",
+			// label: "Описание",
 			admin: {
 				components: {
 					Field: "@/components/CollectionDescriptionInput",
@@ -58,7 +58,7 @@ export const collection: CollectionConfig = {
 					equals: MODEL_TYPE.embedding,
 				},
 			},
-			label: "Embedding Нейросервис",
+			// label: "Embedding Нейросервис",
 		},
 		{
 			name: "llm",
@@ -70,7 +70,7 @@ export const collection: CollectionConfig = {
 					equals: MODEL_TYPE.llm,
 				},
 			},
-			label: "LLM Нейросервис",
+			// label: "LLM Нейросервис",
 		},
 		{
 			name: "reranker",
@@ -82,34 +82,34 @@ export const collection: CollectionConfig = {
 					equals: MODEL_TYPE.reranker,
 				},
 			},
-			label: "Reranker Нейросервис",
+			// label: "Reranker Нейросервис",
 		},
 		{
 			name: "providers",
 			type: "array",
-			label: "Провайдеры",
+			/*label: "Провайдеры",
 			labels: {
 				singular: "Провайдер",
 				plural: "Провайдеры",
-			},
+			},*/
 			fields: [
 				{
 					name: "provider",
 					type: "relationship",
 					relationTo: provider.slug as "provider",
 					required: true,
-					label: "Провайдер",
+					// label: "Провайдер",
 				},
 				{
 					name: "enabled",
 					type: "checkbox",
 					defaultValue: false,
-					label: "Включена",
+					// label: "Включена",
 				},
 				{
 					name: "settings",
 					type: "json",
-					label: "Настройки провайдера",
+					// label: "Настройки провайдера",
 				},
 				{
 					name: "docs",
@@ -119,7 +119,7 @@ export const collection: CollectionConfig = {
 							Field: "@/components/Field",
 						},
 					},
-					label: "Документы",
+					// label: "Документы",
 					virtual: true,
 				},
 				// {

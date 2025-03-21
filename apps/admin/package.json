@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
-    "dev": "cross-env NODE_OPTIONS=--no-deprecation cross-env next dev -p 2055",
+    "dev": "pnpm run dotenvchecker && cross-env NODE_OPTIONS=--no-deprecation NODE_ENV=development node server.js",
     "lint": "biome lint --write src",
     "format": "biome format --write src",
     "dev:prod": "cross-env NODE_OPTIONS=--no-deprecation rm -rf .next && pnpm build && pnpm start",
@@ -15,10 +15,11 @@
     "ii": "cross-env NODE_OPTIONS=--no-deprecation pnpm --ignore-workspace install",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "reinstall": "cross-env NODE_OPTIONS=--no-deprecation rm -rf node_modules && rm pnpm-lock.yaml && pnpm --ignore-workspace install",
-    "start": "cross-env NODE_OPTIONS=--no-deprecation next start",
+    "start": "pnpm run dotenvchecker && cross-env NODE_OPTIONS=--no-deprecation NODE_ENV=production node server.js",
     "docker:build": "docker buildx build --platform linux/amd64 -t bardakdev/payload -f nginx.Dockerfile . --no-cache",
     "docker:run": "docker run -p 80:80 --rm bardakdev/payload",
-    "serve": "cross-env node server.js"
+    "serve": "cross-env node server.js",
+    "dotenvchecker": "dotenv-checker --schema .env.example --env .env"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.2",
@@ -42,7 +43,9 @@
     "cookie-parser": "1.4.7",
     "cookie-signature": "1.2.2",
     "cookies-next": "^5.1.0",
+    "cors": "2.8.5",
     "cross-env": "7.0.3",
+    "dotenv-checker": "1.1.7",
     "express": "4.21.2",
     "graphql": "16.9.0",
     "ioredis": "5.4.2",
@@ -60,21 +63,25 @@
     "sonner": "^2.0.1",
     "tailwind-merge": "2.5.5",
     "tailwindcss-animate": "1.0.7",
-    "use-mono-hook": "0.2.1",
+    "use-mono-hook": "^0.2.3",
     "wouter": "^3.3.5",
     "zod": "^3.24.2"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@import-meta-env/unplugin": "^0.6.2",
     "@repo/config-biome": "workspace:*",
+    "@repo/web": "workspace:*",
     "@tailwindcss/typography": "0.5.15",
     "@types/cookie-signature": "1.1.2",
+    "@types/cors": "2.8.17",
     "@types/node": "22.10.2",
     "@types/react": "npm:types-react@19.0.0-rc.1",
     "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1",
     "autoprefixer": "10.4.20",
     "postcss": "8.4.49",
     "tailwindcss": "3.4.17",
+    "tailwindcss-scoped-preflight": "^3.4.10",
     "typescript": "5.7.2"
   }
 }

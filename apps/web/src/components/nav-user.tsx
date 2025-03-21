@@ -9,7 +9,11 @@ import {
 	Sparkles,
 } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar.js";
+import {
+	Avatar,
+	AvatarFallback,
+	AvatarImage,
+} from "@repo/web/components/ui/avatar.js";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -18,18 +22,18 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu.js";
+} from "@repo/web/components/ui/dropdown-menu.js";
 import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
 	useSidebar,
-} from "@/components/ui/sidebar.js";
+} from "@repo/web/components/ui/sidebar.js";
 import { ModeToggle } from "./mode-toggle.js";
-import { useProfile } from "@/hooks/useProfile.js";
+import { useProfile } from "@repo/web/hooks/useProfile.js";
 import { useEffect, useState } from "react";
 import { useTheme } from "./theme-provider.js";
-import { AvatarComponent } from "@/pages/Home/components/AvatarComponent.js";
+import { AvatarComponent } from "@repo/web/pages/Home/components/AvatarComponent.js";
 
 export function NavUser() {
 	const { isMobile } = useSidebar();
@@ -63,7 +67,7 @@ export function NavUser() {
 							</Avatar>
 							<div className="grid flex-1 text-left text-sm leading-tight">
 								{/* <span className="truncate font-semibold">{user.name}</span> */}
-								<span className="truncate text-xs">{profile.email}</span>
+								<span className="truncate text-xs">{profile?.email}</span>
 							</div>
 							<ChevronsUpDown className="ml-auto size-4" />
 						</SidebarMenuButton>
@@ -82,7 +86,7 @@ export function NavUser() {
 								</Avatar>
 								<div className="grid flex-1 text-left text-sm leading-tight">
 									<span className="truncate font-semibold">
-										{profile.email}
+										{profile?.email}
 									</span>
 									{/* <span className="truncate text-xs">{profile.email}</span> */}
 								</div>

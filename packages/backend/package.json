@@ -9,12 +9,13 @@
     "build": "del-cli -f dist/build.info && tsup-node",
     "lint": "biome lint --write src",
     "format": "biome format --write src",
-    "dev": "nest start -b swc -w",
+    "dev": "pnpm run dotenvchecker && nest start -b swc -w",
     "serve:office": "node --trace-warnings -r dotenv/config dist/index.js dotenv_config_path=.env.office",
     "clean": "del-cli dist/build.info",
     "docker-compose": "docker-compose up -d --remove-orphans",
     "coverage": "vitest run --coverage",
-    "depcheck": "pnpm dlx depcheck"
+    "depcheck": "pnpx depcheck",
+    "dotenvchecker": "dotenv-checker --schema .env.example --env .env"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.732.0",
@@ -45,6 +46,7 @@
     "cookie-parser": "1.4.7",
     "cors": "2.8.5",
     "dotenv": "16.4.7",
+    "dotenv-checker": "1.1.7",
     "escape-html": "1.0.3",
     "express": "4.21.2",
     "express-session": "1.18.1",

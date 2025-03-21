@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { FileUpload } from "./FileUpload.js";
 import { Spinner } from "./Spinner.js";
 import { useChats } from "../hooks/useChats.js";
-import { ALLOWED_EXTENSIONS } from "@/constants/index.js";
+import { ALLOWED_EXTENSIONS } from "@repo/web/constants/index.js";
 
 export type ChatInputProps = {
 	files: File[];

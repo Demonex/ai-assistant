@@ -49,6 +49,7 @@ export default buildConfig({
 			],
 		},
 		components: {
+			providers: ["@/components/ForceLightModeProvider"],
 			// The `BeforeLogin` component renders a message that you see while logging into your admin panel.
 			// Feel free to delete this at any time. Simply remove the line below and the import `BeforeLogin` statement on line 15.
 			beforeLogin: ["@/components/BeforeLogin"],
@@ -61,7 +62,6 @@ export default buildConfig({
 			},
 			// actions: ["@/components/CustomHeaderAction"],
 			// header: ["@/components/ui/sonner"]
-			providers: ["@/components/ForceLightModeProvider"],
 		},
 		importMap: {
 			baseDir: path.resolve(dirname),
@@ -113,7 +113,12 @@ export default buildConfig({
 		group,
 		chatMessage,
 	],
-	cors: [getServerSideURL()].filter(Boolean),
+	cors: {
+		headers: ["x-http-method-override"],
+		origins: [getServerSideURL(), process.env.NEXT_PUBLIC_FRONTEND_URL].filter(
+			Boolean,
+		) as string[],
+	},
 	globals: [],
 	plugins: [
 		s3Storage({
@@ -134,7 +139,7 @@ export default buildConfig({
 				endpoint: process.env.S3_ENDPOINT,
 				forcePathStyle: true,
 			},
-		}),
+		}) as any,
 	],
 	secret: process.env.PAYLOAD_SECRET,
 	// sharp,

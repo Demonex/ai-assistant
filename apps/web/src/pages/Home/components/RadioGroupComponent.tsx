@@ -1,5 +1,8 @@
-import { Label } from "@/components/ui/label.js";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group.js";
+import { Label } from "@repo/web/components/ui/label.js";
+import {
+	RadioGroup,
+	RadioGroupItem,
+} from "@repo/web/components/ui/radio-group.js";
 
 export function RadioGroupComponent() {
 	return (

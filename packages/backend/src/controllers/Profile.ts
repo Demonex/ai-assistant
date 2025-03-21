@@ -1,25 +1,7 @@
-import {
-	Body,
-	Controller,
-	Delete,
-	Get,
-	HttpCode,
-	Post,
-	Put,
-	UploadedFile,
-	UseInterceptors,
-} from "@nestjs/common";
+import { Controller, Get, HttpCode, Query } from "@nestjs/common";
 import { UserService } from "@repo/backend/services/User.js";
-import { UpdateProfileDto } from "@repo/backend/dto/Profile.js";
-import { Authorized } from "@repo/backend/decorators/auth.js";
 import { UserEmail, UserId } from "@repo/backend/decorators/user.js";
-import {
-	ApiBearerAuth,
-	ApiConsumes,
-	ApiOperation,
-	ApiTags,
-} from "@nestjs/swagger";
-import { FileInterceptor } from "@nestjs/platform-express";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 
 @ApiTags("profile")
 @Controller("/api/rest/profile")
@@ -30,25 +12,30 @@ export class ProfileController {
 	@ApiOperation({ summary: "get profile" })
 	@Get()
 	@HttpCode(200)
-	async me(@UserId() id?: number, @UserEmail() email?: string) {
-		return this.service.me(id, email);
+	async me(
+		@UserId() id?: number,
+		@UserEmail() email?: string,
+		@Query("formatForAdmin") formatForAdmin?: string,
+	) {
+		return this.service.me(id, email, formatForAdmin === "false");
 	}
+
 	/*
-	@ApiBearerAuth("bearer-sid")
-	@ApiOperation({ summary: "update profile" })
-	@Authorized()
-	@Put()
-	async update(@UserId() id: Types.ObjectId, @Body() args: UpdateProfileDto) {
-		return this.service.findByIdAndUpdate(id, args);
-	}*/
+  @ApiBearerAuth("bearer-sid")
+  @ApiOperation({ summary: "update profile" })
+  @Authorized()
+  @Put()
+  async update(@UserId() id: Types.ObjectId, @Body() args: UpdateProfileDto) {
+    return this.service.findByIdAndUpdate(id, args);
+  }*/
 	/*
-	@ApiBearerAuth("bearer-sid")
-	@ApiOperation({ summary: "avatar update in profile" })
-	@Authorized()
-	@Post("avatar/update")
-	@UseInterceptors(
-		FileInterceptor(
-			"file" /!*{
+  @ApiBearerAuth("bearer-sid")
+  @ApiOperation({ summary: "avatar update in profile" })
+  @Authorized()
+  @Post("avatar/update")
+  @UseInterceptors(
+    FileInterceptor(
+      "file" /!*{
       limits: {
         fieldNameSize: 100,
         fieldSize: 1000000,
@@ -58,19 +45,19 @@ export class ProfileController {
         headerPairs: 2000
       }
     }*!/,
-		),
-	)
-	@ApiConsumes("multipart/form-data")
-	async updateAvatar(@UserId() id: Types.ObjectId, @UploadedFile("file") file) {
-		// console.log('avatar update', get(request, 'headers.authorization'), get(request, 'session.id'), id);
-		return this.service.findByIdAndUpdateAvatar(id, { file });
-	}*/
+    ),
+  )
+  @ApiConsumes("multipart/form-data")
+  async updateAvatar(@UserId() id: Types.ObjectId, @UploadedFile("file") file) {
+    // console.log('avatar update', get(request, 'headers.authorization'), get(request, 'session.id'), id);
+    return this.service.findByIdAndUpdateAvatar(id, { file });
+  }*/
 	/*
-	@ApiBearerAuth("bearer-sid")
-	@ApiOperation({ summary: "delete user profile" })
-	@Authorized()
-	@Delete("delete")
-	async profileDelete(@UserId() userId: Types.ObjectId) {
-		return this.service.findByIdAndDelete(userId);
-	}*/
+  @ApiBearerAuth("bearer-sid")
+  @ApiOperation({ summary: "delete user profile" })
+  @Authorized()
+  @Delete("delete")
+  async profileDelete(@UserId() userId: Types.ObjectId) {
+    return this.service.findByIdAndDelete(userId);
+  }*/
 }
