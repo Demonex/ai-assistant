@@ -42,7 +42,13 @@ export const MessageBubble = memo<{
 					>
 						<div
 							title="Копировать текст"
-							onClick={() => handleCopy(message.response.message)}
+							onClick={() =>
+								handleCopy(
+									isRequest
+										? message.request.message
+										: message.response.message,
+								)
+							}
 							className="absolute left-[calc(100%-50px)] top-[-16px] flex items-center cursor-pointer hover:opacity-80 rounded-lg border bg-card text-card-foreground p-2"
 						>
 							<Copy size={16} />
