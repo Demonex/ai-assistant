@@ -16,7 +16,8 @@ export default function Example() {
 			<div className="relative mx-auto max-w-7xl px-6 lg:px-8">
 				<div
 					className="absolute -bottom-8 -left-96 -z-10 transform-gpu blur-3xl sm:-bottom-64 sm:-left-40 lg:-bottom-32 lg:left-8 xl:-left-10"
-					aria-hidden="true">
+					aria-hidden="true"
+				>
 					<div
 						className="aspect-[1266/975] w-[79.125rem] bg-gradient-to-tr from-[#ff4694] to-[#776fff] opacity-20"
 						style={{
@@ -42,7 +43,8 @@ export default function Example() {
 					{stats.map((stat) => (
 						<div
 							key={stat.id}
-							className="flex flex-col gap-y-3 border-l border-white/10 pl-6">
+							className="flex flex-col gap-y-3 border-l border-white/10 pl-6"
+						>
 							<dt className="text-sm leading-6">{stat.name}</dt>
 							<dd className="order-first text-3xl font-semibold tracking-tight">
 								{stat.value}

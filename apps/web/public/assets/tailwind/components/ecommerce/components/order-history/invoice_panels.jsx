@@ -59,7 +59,8 @@ export default function Example() {
 							{orders.map((order) => (
 								<div
 									key={order.number}
-									className="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border">
+									className="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
+								>
 									<h3 className="sr-only">
 										Order placed on{" "}
 										<time dateTime={order.createdDatetime}>
@@ -97,7 +98,8 @@ export default function Example() {
 
 										<Menu
 											as="div"
-											className="relative flex justify-end lg:hidden">
+											className="relative flex justify-end lg:hidden"
+										>
 											<div className="flex items-center">
 												<Menu.Button className="-m-2 flex items-center p-2 text-gray-400 hover:text-gray-500">
 													<span className="sr-only">
@@ -117,7 +119,8 @@ export default function Example() {
 												enterTo="transform opacity-100 scale-100"
 												leave="transition ease-in duration-75"
 												leaveFrom="transform opacity-100 scale-100"
-												leaveTo="transform opacity-0 scale-95">
+												leaveTo="transform opacity-0 scale-95"
+											>
 												<Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-bottom-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 													<div className="py-1">
 														<Menu.Item>
@@ -129,7 +132,8 @@ export default function Example() {
 																			? "bg-gray-100 text-gray-900"
 																			: "text-gray-700",
 																		"block px-4 py-2 text-sm",
-																	)}>
+																	)}
+																>
 																	View
 																</a>
 															)}
@@ -143,7 +147,8 @@ export default function Example() {
 																			? "bg-gray-100 text-gray-900"
 																			: "text-gray-700",
 																		"block px-4 py-2 text-sm",
-																	)}>
+																	)}
+																>
 																	Invoice
 																</a>
 															)}
@@ -156,13 +161,15 @@ export default function Example() {
 										<div className="hidden lg:col-span-2 lg:flex lg:items-center lg:justify-end lg:space-x-4">
 											<a
 												href={order.href}
-												className="flex items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+												className="flex items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+											>
 												<span>View Order</span>
 												<span className="sr-only">{order.number}</span>
 											</a>
 											<a
 												href={order.invoiceHref}
-												className="flex items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+												className="flex items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+											>
 												<span>View Invoice</span>
 												<span className="sr-only">
 													for order {order.number}
@@ -213,14 +220,16 @@ export default function Example() {
 														<div className="flex flex-1 justify-center">
 															<a
 																href={product.href}
-																className="whitespace-nowrap text-indigo-600 hover:text-indigo-500">
+																className="whitespace-nowrap text-indigo-600 hover:text-indigo-500"
+															>
 																View product
 															</a>
 														</div>
 														<div className="flex flex-1 justify-center pl-4">
 															<a
 																href="#"
-																className="whitespace-nowrap text-indigo-600 hover:text-indigo-500">
+																className="whitespace-nowrap text-indigo-600 hover:text-indigo-500"
+															>
 																Buy again
 															</a>
 														</div>

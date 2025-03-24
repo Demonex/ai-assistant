@@ -77,7 +77,8 @@ export default function Example() {
 						</h3>
 						<time
 							dateTime={item.dateTime}
-							className="flex-none text-xs text-gray-500">
+							className="flex-none text-xs text-gray-500"
+						>
 							{item.date}
 						</time>
 					</div>

@@ -68,7 +68,8 @@ export default function Example() {
 					<Dialog
 						as="div"
 						className="relative z-50 xl:hidden"
-						onClose={setSidebarOpen}>
+						onClose={setSidebarOpen}
+					>
 						<Transition.Child
 							as={Fragment}
 							enter="transition-opacity ease-linear duration-300"
@@ -76,7 +77,8 @@ export default function Example() {
 							enterTo="opacity-100"
 							leave="transition-opacity ease-linear duration-300"
 							leaveFrom="opacity-100"
-							leaveTo="opacity-0">
+							leaveTo="opacity-0"
+						>
 							<div className="fixed inset-0 bg-gray-900/80" />
 						</Transition.Child>
 
@@ -88,7 +90,8 @@ export default function Example() {
 								enterTo="translate-x-0"
 								leave="transition ease-in-out duration-300 transform"
 								leaveFrom="translate-x-0"
-								leaveTo="-translate-x-full">
+								leaveTo="-translate-x-full"
+							>
 								<Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1">
 									<Transition.Child
 										as={Fragment}
@@ -97,12 +100,14 @@ export default function Example() {
 										enterTo="opacity-100"
 										leave="ease-in-out duration-300"
 										leaveFrom="opacity-100"
-										leaveTo="opacity-0">
+										leaveTo="opacity-0"
+									>
 										<div className="absolute left-full top-0 flex w-16 justify-center pt-5">
 											<button
 												type="button"
 												className="-m-2.5 p-2.5"
-												onClick={() => setSidebarOpen(false)}>
+												onClick={() => setSidebarOpen(false)}
+											>
 												<span className="sr-only">Close sidebar</span>
 												<XMarkIcon
 													className="h-6 w-6 text-white"
@@ -133,7 +138,8 @@ export default function Example() {
 																			? "bg-gray-800 text-white"
 																			: "text-gray-400 hover:text-white hover:bg-gray-800",
 																		"group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
-																	)}>
+																	)}
+																>
 																	<item.icon
 																		className="h-6 w-6 shrink-0"
 																		aria-hidden="true"
@@ -158,7 +164,8 @@ export default function Example() {
 																			? "bg-gray-800 text-white"
 																			: "text-gray-400 hover:text-white hover:bg-gray-800",
 																		"group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
-																	)}>
+																	)}
+																>
 																	<span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
 																		{team.initial}
 																	</span>
@@ -171,7 +178,8 @@ export default function Example() {
 												<li className="-mx-6 mt-auto">
 													<a
 														href="#"
-														className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800">
+														className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800"
+													>
 														<img
 															className="h-8 w-8 rounded-full bg-gray-800"
 															src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
@@ -214,7 +222,8 @@ export default function Example() {
 															? "bg-gray-800 text-white"
 															: "text-gray-400 hover:text-white hover:bg-gray-800",
 														"group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
-													)}>
+													)}
+												>
 													<item.icon
 														className="h-6 w-6 shrink-0"
 														aria-hidden="true"
@@ -239,7 +248,8 @@ export default function Example() {
 															? "bg-gray-800 text-white"
 															: "text-gray-400 hover:text-white hover:bg-gray-800",
 														"group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
-													)}>
+													)}
+												>
 													<span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
 														{team.initial}
 													</span>
@@ -252,7 +262,8 @@ export default function Example() {
 								<li className="-mx-6 mt-auto">
 									<a
 										href="#"
-										className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800">
+										className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800"
+									>
 										<img
 											className="h-8 w-8 rounded-full bg-gray-800"
 											src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
@@ -273,7 +284,8 @@ export default function Example() {
 						<button
 							type="button"
 							className="-m-2.5 p-2.5 text-white xl:hidden"
-							onClick={() => setSidebarOpen(true)}>
+							onClick={() => setSidebarOpen(true)}
+						>
 							<span className="sr-only">Open sidebar</span>
 							<Bars3Icon className="h-5 w-5" aria-hidden="true" />
 						</button>
@@ -306,12 +318,14 @@ export default function Example() {
 							<nav className="flex overflow-x-auto py-4">
 								<ul
 									role="list"
-									className="flex min-w-full flex-none gap-x-6 px-4 text-sm font-semibold leading-6 text-gray-400 sm:px-6 lg:px-8">
+									className="flex min-w-full flex-none gap-x-6 px-4 text-sm font-semibold leading-6 text-gray-400 sm:px-6 lg:px-8"
+								>
 									{secondaryNavigation.map((item) => (
 										<li key={item.name}>
 											<a
 												href={item.href}
-												className={item.current ? "text-indigo-400" : ""}>
+												className={item.current ? "text-indigo-400" : ""}
+											>
 												{item.name}
 											</a>
 										</li>
@@ -343,7 +357,8 @@ export default function Example() {
 											<div>
 												<button
 													type="button"
-													className="rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20">
+													className="rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
+												>
 													Change avatar
 												</button>
 												<p className="mt-2 text-xs leading-5 text-gray-400">
@@ -355,7 +370,8 @@ export default function Example() {
 										<div className="sm:col-span-3">
 											<label
 												htmlFor="first-name"
-												className="block text-sm font-medium leading-6 text-white">
+												className="block text-sm font-medium leading-6 text-white"
+											>
 												First name
 											</label>
 											<div className="mt-2">
@@ -372,7 +388,8 @@ export default function Example() {
 										<div className="sm:col-span-3">
 											<label
 												htmlFor="last-name"
-												className="block text-sm font-medium leading-6 text-white">
+												className="block text-sm font-medium leading-6 text-white"
+											>
 												Last name
 											</label>
 											<div className="mt-2">
@@ -389,7 +406,8 @@ export default function Example() {
 										<div className="col-span-full">
 											<label
 												htmlFor="email"
-												className="block text-sm font-medium leading-6 text-white">
+												className="block text-sm font-medium leading-6 text-white"
+											>
 												Email address
 											</label>
 											<div className="mt-2">
@@ -406,7 +424,8 @@ export default function Example() {
 										<div className="col-span-full">
 											<label
 												htmlFor="username"
-												className="block text-sm font-medium leading-6 text-white">
+												className="block text-sm font-medium leading-6 text-white"
+											>
 												Username
 											</label>
 											<div className="mt-2">
@@ -429,14 +448,16 @@ export default function Example() {
 										<div className="col-span-full">
 											<label
 												htmlFor="timezone"
-												className="block text-sm font-medium leading-6 text-white">
+												className="block text-sm font-medium leading-6 text-white"
+											>
 												Timezone
 											</label>
 											<div className="mt-2">
 												<select
 													id="timezone"
 													name="timezone"
-													className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6 [&_*]:text-black">
+													className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6 [&_*]:text-black"
+												>
 													<option>Pacific Standard Time</option>
 													<option>Eastern Standard Time</option>
 													<option>Greenwich Mean Time</option>
@@ -448,7 +469,8 @@ export default function Example() {
 									<div className="mt-8 flex">
 										<button
 											type="submit"
-											className="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+											className="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+										>
 											Save
 										</button>
 									</div>
@@ -470,7 +492,8 @@ export default function Example() {
 										<div className="col-span-full">
 											<label
 												htmlFor="current-password"
-												className="block text-sm font-medium leading-6 text-white">
+												className="block text-sm font-medium leading-6 text-white"
+											>
 												Current password
 											</label>
 											<div className="mt-2">
@@ -487,7 +510,8 @@ export default function Example() {
 										<div className="col-span-full">
 											<label
 												htmlFor="new-password"
-												className="block text-sm font-medium leading-6 text-white">
+												className="block text-sm font-medium leading-6 text-white"
+											>
 												New password
 											</label>
 											<div className="mt-2">
@@ -504,7 +528,8 @@ export default function Example() {
 										<div className="col-span-full">
 											<label
 												htmlFor="confirm-password"
-												className="block text-sm font-medium leading-6 text-white">
+												className="block text-sm font-medium leading-6 text-white"
+											>
 												Confirm password
 											</label>
 											<div className="mt-2">
@@ -522,7 +547,8 @@ export default function Example() {
 									<div className="mt-8 flex">
 										<button
 											type="submit"
-											className="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+											className="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+										>
 											Save
 										</button>
 									</div>
@@ -545,7 +571,8 @@ export default function Example() {
 										<div className="col-span-full">
 											<label
 												htmlFor="logout-password"
-												className="block text-sm font-medium leading-6 text-white">
+												className="block text-sm font-medium leading-6 text-white"
+											>
 												Your password
 											</label>
 											<div className="mt-2">
@@ -563,7 +590,8 @@ export default function Example() {
 									<div className="mt-8 flex">
 										<button
 											type="submit"
-											className="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+											className="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+										>
 											Log out other sessions
 										</button>
 									</div>
@@ -585,7 +613,8 @@ export default function Example() {
 								<form className="flex items-start md:col-span-2">
 									<button
 										type="submit"
-										className="rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-400">
+										className="rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-400"
+									>
 										Yes, delete my account
 									</button>
 								</form>

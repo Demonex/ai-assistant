@@ -40,7 +40,8 @@ export default function Example() {
 						/>
 						<button
 							type="submit"
-							className="flex-none rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+							className="flex-none rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+						>
 							Subscribe
 						</button>
 					</div>
@@ -48,7 +49,8 @@ export default function Example() {
 						We care about your data. Read our{" "}
 						<a
 							href="#"
-							className="font-semibold text-white hover:text-indigo-50">
+							className="font-semibold text-white hover:text-indigo-50"
+						>
 							privacy&nbsp;policy
 						</a>
 						.

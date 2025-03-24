@@ -17,7 +17,8 @@ export default function Example() {
 		<div>
 			<label
 				htmlFor="name"
-				className="ml-px block pl-4 text-sm font-medium leading-6 text-gray-900">
+				className="ml-px block pl-4 text-sm font-medium leading-6 text-gray-900"
+			>
 				Name
 			</label>
 			<div className="mt-2">

@@ -19,7 +19,8 @@ export default function Example() {
 					{incentives.map((incentive) => (
 						<div
 							key={incentive.name}
-							className="flex items-center text-sm font-medium text-indigo-600">
+							className="flex items-center text-sm font-medium text-indigo-600"
+						>
 							<incentive.icon
 								className="mr-2 h-6 w-6 flex-none"
 								aria-hidden="true"

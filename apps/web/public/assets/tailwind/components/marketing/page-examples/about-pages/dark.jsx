@@ -178,7 +178,8 @@ export default function Example() {
 			<header className="absolute inset-x-0 top-0 z-50">
 				<nav
 					className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
-					aria-label="Global">
+					aria-label="Global"
+				>
 					<div className="flex lg:flex-1">
 						<a href="#" className="-m-1.5 p-1.5">
 							<span className="sr-only">Your Company</span>
@@ -193,7 +194,8 @@ export default function Example() {
 						<button
 							type="button"
 							className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400"
-							onClick={() => setMobileMenuOpen(true)}>
+							onClick={() => setMobileMenuOpen(true)}
+						>
 							<span className="sr-only">Open main menu</span>
 							<Bars3Icon className="h-6 w-6" aria-hidden="true" />
 						</button>
@@ -203,7 +205,8 @@ export default function Example() {
 							<a
 								key={item.name}
 								href={item.href}
-								className="text-sm font-semibold leading-6 text-white">
+								className="text-sm font-semibold leading-6 text-white"
+							>
 								{item.name}
 							</a>
 						))}
@@ -218,7 +221,8 @@ export default function Example() {
 					as="div"
 					className="lg:hidden"
 					open={mobileMenuOpen}
-					onClose={setMobileMenuOpen}>
+					onClose={setMobileMenuOpen}
+				>
 					<div className="fixed inset-0 z-50" />
 					<Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
 						<div className="flex items-center justify-between">
@@ -233,7 +237,8 @@ export default function Example() {
 							<button
 								type="button"
 								className="-m-2.5 rounded-md p-2.5 text-gray-400"
-								onClick={() => setMobileMenuOpen(false)}>
+								onClick={() => setMobileMenuOpen(false)}
+							>
 								<span className="sr-only">Close menu</span>
 								<XMarkIcon className="h-6 w-6" aria-hidden="true" />
 							</button>
@@ -245,7 +250,8 @@ export default function Example() {
 										<a
 											key={item.name}
 											href={item.href}
-											className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800">
+											className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800"
+										>
 											{item.name}
 										</a>
 									))}
@@ -253,7 +259,8 @@ export default function Example() {
 								<div className="py-6">
 									<a
 										href="#"
-										className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-800">
+										className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-800"
+									>
 										Log in
 									</a>
 								</div>
@@ -267,7 +274,8 @@ export default function Example() {
 				{/* Background */}
 				<div
 					className="absolute inset-x-0 top-4 -z-10 flex transform-gpu justify-center overflow-hidden blur-3xl"
-					aria-hidden="true">
+					aria-hidden="true"
+				>
 					<div
 						className="aspect-[1108/632] w-[69.25rem] flex-none bg-gradient-to-r from-[#80caff] to-[#4f46e5] opacity-25"
 						style={{
@@ -331,7 +339,8 @@ export default function Example() {
 							{stats.map((stat, statIdx) => (
 								<div
 									key={statIdx}
-									className="flex flex-col-reverse gap-y-3 border-l border-white/20 pl-6">
+									className="flex flex-col-reverse gap-y-3 border-l border-white/20 pl-6"
+								>
 									<dt className="text-base leading-7 text-gray-300">
 										{stat.label}
 									</dt>
@@ -394,7 +403,8 @@ export default function Example() {
 					</div>
 					<ul
 						role="list"
-						className="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-4">
+						className="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-14 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3 xl:grid-cols-4"
+					>
 						{team.map((person) => (
 							<li key={person.name}>
 								<img
@@ -435,7 +445,8 @@ export default function Example() {
 								</p>
 								<ul
 									role="list"
-									className="mt-10 grid grid-cols-1 gap-x-8 gap-y-3 text-base leading-7 text-white sm:grid-cols-2">
+									className="mt-10 grid grid-cols-1 gap-x-8 gap-y-3 text-base leading-7 text-white sm:grid-cols-2"
+								>
 									{benefits.map((benefit) => (
 										<li key={benefit} className="flex gap-x-3">
 											<CheckCircleIcon
@@ -449,7 +460,8 @@ export default function Example() {
 								<div className="mt-10 flex">
 									<a
 										href="#"
-										className="text-sm font-semibold leading-6 text-indigo-400">
+										className="text-sm font-semibold leading-6 text-indigo-400"
+									>
 										See our job postings <span aria-hidden="true">&rarr;</span>
 									</a>
 								</div>
@@ -458,7 +470,8 @@ export default function Example() {
 					</div>
 					<div
 						className="absolute inset-x-0 -top-16 -z-10 flex transform-gpu justify-center overflow-hidden blur-3xl"
-						aria-hidden="true">
+						aria-hidden="true"
+					>
 						<div
 							className="aspect-[1318/752] w-[82.375rem] flex-none bg-gradient-to-r from-[#80caff] to-[#4f46e5] opacity-25"
 							style={{
@@ -473,7 +486,8 @@ export default function Example() {
 			{/* Footer */}
 			<footer
 				className="relative mt-32 sm:mt-40"
-				aria-labelledby="footer-heading">
+				aria-labelledby="footer-heading"
+			>
 				<h2 id="footer-heading" className="sr-only">
 					Footer
 				</h2>
@@ -494,7 +508,8 @@ export default function Example() {
 									<a
 										key={item.name}
 										href={item.href}
-										className="text-gray-500 hover:text-gray-400">
+										className="text-gray-500 hover:text-gray-400"
+									>
 										<span className="sr-only">{item.name}</span>
 										<item.icon className="h-6 w-6" aria-hidden="true" />
 									</a>
@@ -512,7 +527,8 @@ export default function Example() {
 											<li key={item.name}>
 												<a
 													href={item.href}
-													className="text-sm leading-6 text-gray-300 hover:text-white">
+													className="text-sm leading-6 text-gray-300 hover:text-white"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -528,7 +544,8 @@ export default function Example() {
 											<li key={item.name}>
 												<a
 													href={item.href}
-													className="text-sm leading-6 text-gray-300 hover:text-white">
+													className="text-sm leading-6 text-gray-300 hover:text-white"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -546,7 +563,8 @@ export default function Example() {
 											<li key={item.name}>
 												<a
 													href={item.href}
-													className="text-sm leading-6 text-gray-300 hover:text-white">
+													className="text-sm leading-6 text-gray-300 hover:text-white"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -562,7 +580,8 @@ export default function Example() {
 											<li key={item.name}>
 												<a
 													href={item.href}
-													className="text-sm leading-6 text-gray-300 hover:text-white">
+													className="text-sm leading-6 text-gray-300 hover:text-white"
+												>
 													{item.name}
 												</a>
 											</li>

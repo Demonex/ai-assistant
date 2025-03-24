@@ -17,11 +17,13 @@ export default function Example() {
 	return (
 		<ul
 			role="list"
-			className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+			className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+		>
 			{people.map((person) => (
 				<li
 					key={person.email}
-					className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow">
+					className="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow"
+				>
 					<div className="flex flex-1 flex-col p-8">
 						<img
 							className="mx-auto h-32 w-32 flex-shrink-0 rounded-full"
@@ -47,7 +49,8 @@ export default function Example() {
 							<div className="flex w-0 flex-1">
 								<a
 									href={`mailto:${person.email}`}
-									className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
+									className="relative -mr-px inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-bl-lg border border-transparent py-4 text-sm font-semibold text-gray-900"
+								>
 									<EnvelopeIcon
 										className="h-5 w-5 text-gray-400"
 										aria-hidden="true"
@@ -58,7 +61,8 @@ export default function Example() {
 							<div className="-ml-px flex w-0 flex-1">
 								<a
 									href={`tel:${person.telephone}`}
-									className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
+									className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900"
+								>
 									<PhoneIcon
 										className="h-5 w-5 text-gray-400"
 										aria-hidden="true"

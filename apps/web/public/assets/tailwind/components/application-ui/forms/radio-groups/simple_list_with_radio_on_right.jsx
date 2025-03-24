@@ -33,7 +33,8 @@ export default function Example() {
 						<div className="min-w-0 flex-1 text-sm leading-6">
 							<label
 								htmlFor={`side-${side.id}`}
-								className="select-none font-medium text-gray-900">
+								className="select-none font-medium text-gray-900"
+							>
 								{side.name}
 							</label>
 						</div>

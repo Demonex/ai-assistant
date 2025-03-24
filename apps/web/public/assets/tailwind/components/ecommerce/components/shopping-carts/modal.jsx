@@ -55,7 +55,8 @@ export default function Example() {
 					enterTo="opacity-100"
 					leave="ease-in duration-200"
 					leaveFrom="opacity-100"
-					leaveTo="opacity-0">
+					leaveTo="opacity-0"
+				>
 					<div className="hidden sm:fixed sm:inset-0 sm:block sm:bg-gray-500 sm:bg-opacity-75 sm:transition-opacity" />
 				</Transition.Child>
 
@@ -68,7 +69,8 @@ export default function Example() {
 							enterTo="opacity-100 scale-100"
 							leave="ease-in duration-200"
 							leaveFrom="opacity-100 scale-100"
-							leaveTo="opacity-0 scale-105">
+							leaveTo="opacity-0 scale-105"
+						>
 							<Dialog.Panel className="flex w-full max-w-3xl transform text-left text-base transition sm:my-8">
 								<form className="relative flex w-full flex-col overflow-hidden bg-white pb-8 pt-6 sm:rounded-lg sm:pb-6 lg:py-8">
 									<div className="flex items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -78,7 +80,8 @@ export default function Example() {
 										<button
 											type="button"
 											className="text-gray-400 hover:text-gray-500"
-											onClick={() => setOpen(false)}>
+											onClick={() => setOpen(false)}
+										>
 											<span className="sr-only">Close</span>
 											<XMarkIcon className="h-6 w-6" aria-hidden="true" />
 										</button>
@@ -91,11 +94,13 @@ export default function Example() {
 
 										<ul
 											role="list"
-											className="divide-y divide-gray-200 px-4 sm:px-6 lg:px-8">
+											className="divide-y divide-gray-200 px-4 sm:px-6 lg:px-8"
+										>
 											{products.map((product, productIdx) => (
 												<li
 													key={product.id}
-													className="flex py-8 text-sm sm:items-center">
+													className="flex py-8 text-sm sm:items-center"
+												>
 													<img
 														src={product.imageSrc}
 														alt={product.imageAlt}
@@ -116,13 +121,15 @@ export default function Example() {
 														<div className="flex items-center sm:block sm:flex-none sm:text-center">
 															<label
 																htmlFor={`quantity-${productIdx}`}
-																className="sr-only">
+																className="sr-only"
+															>
 																Quantity, {product.name}
 															</label>
 															<select
 																id={`quantity-${productIdx}`}
 																name={`quantity-${productIdx}`}
-																className="block max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
+																className="block max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+															>
 																<option value={1}>1</option>
 																<option value={2}>2</option>
 																<option value={3}>3</option>
@@ -135,7 +142,8 @@ export default function Example() {
 
 															<button
 																type="button"
-																className="ml-4 font-medium text-indigo-600 hover:text-indigo-500 sm:ml-0 sm:mt-2">
+																className="ml-4 font-medium text-indigo-600 hover:text-indigo-500 sm:ml-0 sm:mt-2"
+															>
 																<span>Remove</span>
 															</button>
 														</div>
@@ -147,7 +155,8 @@ export default function Example() {
 
 									<section
 										aria-labelledby="summary-heading"
-										className="mt-auto sm:px-6 lg:px-8">
+										className="mt-auto sm:px-6 lg:px-8"
+									>
 										<div className="bg-gray-50 p-6 sm:rounded-lg sm:p-8">
 											<h2 id="summary-heading" className="sr-only">
 												Order summary
@@ -187,7 +196,8 @@ export default function Example() {
 									<div className="mt-8 flex justify-end px-4 sm:px-6 lg:px-8">
 										<button
 											type="submit"
-											className="rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
+											className="rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+										>
 											Continue to Payment
 										</button>
 									</div>

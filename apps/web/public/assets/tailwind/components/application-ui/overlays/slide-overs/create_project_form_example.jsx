@@ -77,7 +77,8 @@ export default function Example() {
 								enterTo="translate-x-0"
 								leave="transform transition ease-in-out duration-500 sm:duration-700"
 								leaveFrom="translate-x-0"
-								leaveTo="translate-x-full">
+								leaveTo="translate-x-full"
+							>
 								<Dialog.Panel className="pointer-events-auto w-screen max-w-md">
 									<form className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl">
 										<div className="h-0 flex-1 overflow-y-auto">
@@ -90,7 +91,8 @@ export default function Example() {
 														<button
 															type="button"
 															className="relative rounded-md bg-indigo-700 text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
-															onClick={() => setOpen(false)}>
+															onClick={() => setOpen(false)}
+														>
 															<span className="absolute -inset-2.5" />
 															<span className="sr-only">Close panel</span>
 															<XMarkIcon
@@ -113,7 +115,8 @@ export default function Example() {
 														<div>
 															<label
 																htmlFor="project-name"
-																className="block text-sm font-medium leading-6 text-gray-900">
+																className="block text-sm font-medium leading-6 text-gray-900"
+															>
 																Project name
 															</label>
 															<div className="mt-2">
@@ -128,7 +131,8 @@ export default function Example() {
 														<div>
 															<label
 																htmlFor="description"
-																className="block text-sm font-medium leading-6 text-gray-900">
+																className="block text-sm font-medium leading-6 text-gray-900"
+															>
 																Description
 															</label>
 															<div className="mt-2">
@@ -151,7 +155,8 @@ export default function Example() {
 																		<a
 																			key={person.email}
 																			href={person.href}
-																			className="relative rounded-full hover:opacity-75">
+																			className="relative rounded-full hover:opacity-75"
+																		>
 																			<img
 																				className="inline-block h-8 w-8 rounded-full"
 																				src={person.imageUrl}
@@ -161,7 +166,8 @@ export default function Example() {
 																	))}
 																	<button
 																		type="button"
-																		className="relative inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-gray-200 bg-white text-gray-400 hover:border-gray-300 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+																		className="relative inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-gray-200 bg-white text-gray-400 hover:border-gray-300 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+																	>
 																		<span className="absolute -inset-2" />
 																		<span className="sr-only">
 																			Add team member
@@ -193,12 +199,14 @@ export default function Example() {
 																	<div className="pl-7 text-sm leading-6">
 																		<label
 																			htmlFor="privacy-public"
-																			className="font-medium text-gray-900">
+																			className="font-medium text-gray-900"
+																		>
 																			Public access
 																		</label>
 																		<p
 																			id="privacy-public-description"
-																			className="text-gray-500">
+																			className="text-gray-500"
+																		>
 																			Everyone with the link will see this
 																			project.
 																		</p>
@@ -218,12 +226,14 @@ export default function Example() {
 																		<div className="pl-7 text-sm leading-6">
 																			<label
 																				htmlFor="privacy-private-to-project"
-																				className="font-medium text-gray-900">
+																				className="font-medium text-gray-900"
+																			>
 																				Private to project members
 																			</label>
 																			<p
 																				id="privacy-private-to-project-description"
-																				className="text-gray-500">
+																				className="text-gray-500"
+																			>
 																				Only members of this project would be
 																				able to access.
 																			</p>
@@ -244,12 +254,14 @@ export default function Example() {
 																		<div className="pl-7 text-sm leading-6">
 																			<label
 																				htmlFor="privacy-private"
-																				className="font-medium text-gray-900">
+																				className="font-medium text-gray-900"
+																			>
 																				Private to you
 																			</label>
 																			<p
 																				id="privacy-private-description"
-																				className="text-gray-500">
+																				className="text-gray-500"
+																			>
 																				You are the only one able to access this
 																				project.
 																			</p>
@@ -263,7 +275,8 @@ export default function Example() {
 														<div className="flex text-sm">
 															<a
 																href="#"
-																className="group inline-flex items-center font-medium text-indigo-600 hover:text-indigo-900">
+																className="group inline-flex items-center font-medium text-indigo-600 hover:text-indigo-900"
+															>
 																<LinkIcon
 																	className="h-5 w-5 text-indigo-500 group-hover:text-indigo-900"
 																	aria-hidden="true"
@@ -274,7 +287,8 @@ export default function Example() {
 														<div className="mt-4 flex text-sm">
 															<a
 																href="#"
-																className="group inline-flex items-center text-gray-500 hover:text-gray-900">
+																className="group inline-flex items-center text-gray-500 hover:text-gray-900"
+															>
 																<QuestionMarkCircleIcon
 																	className="h-5 w-5 text-gray-400 group-hover:text-gray-500"
 																	aria-hidden="true"
@@ -292,12 +306,14 @@ export default function Example() {
 											<button
 												type="button"
 												className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-												onClick={() => setOpen(false)}>
+												onClick={() => setOpen(false)}
+											>
 												Cancel
 											</button>
 											<button
 												type="submit"
-												className="ml-4 inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+												className="ml-4 inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+											>
 												Save
 											</button>
 										</div>

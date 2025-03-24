@@ -26,22 +26,26 @@ export default function Example() {
 										{/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
 										<a
 											href="#"
-											className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">
+											className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
+										>
 											Dashboard
 										</a>
 										<a
 											href="#"
-											className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+											className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+										>
 											Team
 										</a>
 										<a
 											href="#"
-											className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+											className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+										>
 											Projects
 										</a>
 										<a
 											href="#"
-											className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+											className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+										>
 											Calendar
 										</a>
 									</div>
@@ -51,7 +55,8 @@ export default function Example() {
 								<div className="flex items-center">
 									<button
 										type="button"
-										className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+										className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+									>
 										<span className="absolute -inset-1.5" />
 										<span className="sr-only">View notifications</span>
 										<BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -77,7 +82,8 @@ export default function Example() {
 											enterTo="transform opacity-100 scale-100"
 											leave="transition ease-in duration-75"
 											leaveFrom="transform opacity-100 scale-100"
-											leaveTo="transform opacity-0 scale-95">
+											leaveTo="transform opacity-0 scale-95"
+										>
 											<Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 												<Menu.Item>
 													{({ active }) => (
@@ -86,7 +92,8 @@ export default function Example() {
 															className={classNames(
 																active ? "bg-gray-100" : "",
 																"block px-4 py-2 text-sm text-gray-700",
-															)}>
+															)}
+														>
 															Your Profile
 														</a>
 													)}
@@ -98,7 +105,8 @@ export default function Example() {
 															className={classNames(
 																active ? "bg-gray-100" : "",
 																"block px-4 py-2 text-sm text-gray-700",
-															)}>
+															)}
+														>
 															Settings
 														</a>
 													)}
@@ -110,7 +118,8 @@ export default function Example() {
 															className={classNames(
 																active ? "bg-gray-100" : "",
 																"block px-4 py-2 text-sm text-gray-700",
-															)}>
+															)}
+														>
 															Sign out
 														</a>
 													)}
@@ -141,25 +150,29 @@ export default function Example() {
 							<Disclosure.Button
 								as="a"
 								href="#"
-								className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white">
+								className="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
+							>
 								Dashboard
 							</Disclosure.Button>
 							<Disclosure.Button
 								as="a"
 								href="#"
-								className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+								className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+							>
 								Team
 							</Disclosure.Button>
 							<Disclosure.Button
 								as="a"
 								href="#"
-								className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+								className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+							>
 								Projects
 							</Disclosure.Button>
 							<Disclosure.Button
 								as="a"
 								href="#"
-								className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+								className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+							>
 								Calendar
 							</Disclosure.Button>
 						</div>
@@ -182,7 +195,8 @@ export default function Example() {
 								</div>
 								<button
 									type="button"
-									className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+									className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+								>
 									<span className="absolute -inset-1.5" />
 									<span className="sr-only">View notifications</span>
 									<BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -192,19 +206,22 @@ export default function Example() {
 								<Disclosure.Button
 									as="a"
 									href="#"
-									className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">
+									className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+								>
 									Your Profile
 								</Disclosure.Button>
 								<Disclosure.Button
 									as="a"
 									href="#"
-									className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">
+									className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+								>
 									Settings
 								</Disclosure.Button>
 								<Disclosure.Button
 									as="a"
 									href="#"
-									className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">
+									className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+								>
 									Sign out
 								</Disclosure.Button>
 							</div>

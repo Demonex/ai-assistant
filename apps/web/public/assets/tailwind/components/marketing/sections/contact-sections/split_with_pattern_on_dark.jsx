@@ -27,7 +27,8 @@ export default function Example() {
 						<div className="absolute inset-y-0 left-0 -z-10 w-full overflow-hidden ring-1 ring-white/5 lg:w-1/2">
 							<svg
 								className="absolute inset-0 h-full w-full stroke-gray-700 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
-								aria-hidden="true">
+								aria-hidden="true"
+							>
 								<defs>
 									<pattern
 										id="54f88622-e7f8-4f1d-aaf9-c2f5e46dd1f2"
@@ -35,14 +36,16 @@ export default function Example() {
 										height={200}
 										x="100%"
 										y={-1}
-										patternUnits="userSpaceOnUse">
+										patternUnits="userSpaceOnUse"
+									>
 										<path d="M130 200V.5M.5 .5H200" fill="none" />
 									</pattern>
 								</defs>
 								<svg
 									x="100%"
 									y={-1}
-									className="overflow-visible fill-gray-800/20">
+									className="overflow-visible fill-gray-800/20"
+								>
 									<path d="M-470.5 0h201v201h-201Z" strokeWidth={0} />
 								</svg>
 								<rect
@@ -54,7 +57,8 @@ export default function Example() {
 							</svg>
 							<div
 								className="absolute -left-56 top-[calc(100%-13rem)] transform-gpu blur-3xl lg:left-[max(-14rem,calc(100%-59rem))] lg:top-[calc(50%-7rem)]"
-								aria-hidden="true">
+								aria-hidden="true"
+							>
 								<div
 									className="aspect-[1155/678] w-[72.1875rem] bg-gradient-to-br from-[#80caff] to-[#4f46e5] opacity-20"
 									style={{
@@ -112,7 +116,8 @@ export default function Example() {
 								<dd>
 									<a
 										className="hover:text-white"
-										href="mailto:hello@example.com">
+										href="mailto:hello@example.com"
+									>
 										hello@example.com
 									</a>
 								</dd>
@@ -123,13 +128,15 @@ export default function Example() {
 				<form
 					action="#"
 					method="POST"
-					className="px-6 pb-24 pt-20 sm:pb-32 lg:px-8 lg:py-48">
+					className="px-6 pb-24 pt-20 sm:pb-32 lg:px-8 lg:py-48"
+				>
 					<div className="mx-auto max-w-xl lg:mr-0 lg:max-w-lg">
 						<div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
 							<div>
 								<label
 									htmlFor="first-name"
-									className="block text-sm font-semibold leading-6 text-white">
+									className="block text-sm font-semibold leading-6 text-white"
+								>
 									First name
 								</label>
 								<div className="mt-2.5">
@@ -145,7 +152,8 @@ export default function Example() {
 							<div>
 								<label
 									htmlFor="last-name"
-									className="block text-sm font-semibold leading-6 text-white">
+									className="block text-sm font-semibold leading-6 text-white"
+								>
 									Last name
 								</label>
 								<div className="mt-2.5">
@@ -161,7 +169,8 @@ export default function Example() {
 							<div className="sm:col-span-2">
 								<label
 									htmlFor="email"
-									className="block text-sm font-semibold leading-6 text-white">
+									className="block text-sm font-semibold leading-6 text-white"
+								>
 									Email
 								</label>
 								<div className="mt-2.5">
@@ -177,7 +186,8 @@ export default function Example() {
 							<div className="sm:col-span-2">
 								<label
 									htmlFor="phone-number"
-									className="block text-sm font-semibold leading-6 text-white">
+									className="block text-sm font-semibold leading-6 text-white"
+								>
 									Phone number
 								</label>
 								<div className="mt-2.5">
@@ -193,7 +203,8 @@ export default function Example() {
 							<div className="sm:col-span-2">
 								<label
 									htmlFor="message"
-									className="block text-sm font-semibold leading-6 text-white">
+									className="block text-sm font-semibold leading-6 text-white"
+								>
 									Message
 								</label>
 								<div className="mt-2.5">
@@ -210,7 +221,8 @@ export default function Example() {
 						<div className="mt-8 flex justify-end">
 							<button
 								type="submit"
-								className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+								className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+							>
 								Send message
 							</button>
 						</div>

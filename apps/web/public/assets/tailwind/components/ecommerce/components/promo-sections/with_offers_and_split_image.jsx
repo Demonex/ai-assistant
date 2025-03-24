@@ -24,12 +24,14 @@ export default function Example() {
 					<div className="mx-auto max-w-7xl lg:px-8">
 						<ul
 							role="list"
-							className="grid grid-cols-1 divide-y divide-gray-200 lg:grid-cols-3 lg:divide-x lg:divide-y-0">
+							className="grid grid-cols-1 divide-y divide-gray-200 lg:grid-cols-3 lg:divide-x lg:divide-y-0"
+						>
 							{offers.map((offer) => (
 								<li key={offer.name} className="flex flex-col">
 									<a
 										href={offer.href}
-										className="relative flex flex-1 flex-col justify-center bg-white px-4 py-6 text-center focus:z-10">
+										className="relative flex flex-1 flex-col justify-center bg-white px-4 py-6 text-center focus:z-10"
+									>
 										<p className="text-sm text-gray-500">{offer.name}</p>
 										<p className="font-semibold text-gray-900">
 											{offer.description}
@@ -60,7 +62,8 @@ export default function Example() {
 									<div className="mt-6">
 										<a
 											href="#"
-											className="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 font-medium text-white hover:bg-indigo-700">
+											className="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 font-medium text-white hover:bg-indigo-700"
+										>
 											Shop Productivity
 										</a>
 									</div>

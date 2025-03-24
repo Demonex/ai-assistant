@@ -90,19 +90,22 @@ export default function Example() {
 					<div className="relative flex items-center rounded-md bg-white shadow-sm md:items-stretch">
 						<button
 							type="button"
-							className="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50">
+							className="flex h-9 w-12 items-center justify-center rounded-l-md border-y border-l border-gray-300 pr-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pr-0 md:hover:bg-gray-50"
+						>
 							<span className="sr-only">Previous day</span>
 							<ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
 						</button>
 						<button
 							type="button"
-							className="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block">
+							className="hidden border-y border-gray-300 px-3.5 text-sm font-semibold text-gray-900 hover:bg-gray-50 focus:relative md:block"
+						>
 							Today
 						</button>
 						<span className="relative -mx-px h-5 w-px bg-gray-300 md:hidden" />
 						<button
 							type="button"
-							className="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50">
+							className="flex h-9 w-12 items-center justify-center rounded-r-md border-y border-r border-gray-300 pl-1 text-gray-400 hover:text-gray-500 focus:relative md:w-9 md:pl-0 md:hover:bg-gray-50"
+						>
 							<span className="sr-only">Next day</span>
 							<ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
 						</button>
@@ -111,7 +114,8 @@ export default function Example() {
 						<Menu as="div" className="relative">
 							<Menu.Button
 								type="button"
-								className="flex items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+								className="flex items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+							>
 								Day view
 								<ChevronDownIcon
 									className="-mr-1 h-5 w-5 text-gray-400"
@@ -126,7 +130,8 @@ export default function Example() {
 								enterTo="transform opacity-100 scale-100"
 								leave="transition ease-in duration-75"
 								leaveFrom="transform opacity-100 scale-100"
-								leaveTo="transform opacity-0 scale-95">
+								leaveTo="transform opacity-0 scale-95"
+							>
 								<Menu.Items className="absolute right-0 z-10 mt-3 w-36 origin-top-right overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 									<div className="py-1">
 										<Menu.Item>
@@ -138,7 +143,8 @@ export default function Example() {
 															? "bg-gray-100 text-gray-900"
 															: "text-gray-700",
 														"block px-4 py-2 text-sm",
-													)}>
+													)}
+												>
 													Day view
 												</a>
 											)}
@@ -152,7 +158,8 @@ export default function Example() {
 															? "bg-gray-100 text-gray-900"
 															: "text-gray-700",
 														"block px-4 py-2 text-sm",
-													)}>
+													)}
+												>
 													Week view
 												</a>
 											)}
@@ -166,7 +173,8 @@ export default function Example() {
 															? "bg-gray-100 text-gray-900"
 															: "text-gray-700",
 														"block px-4 py-2 text-sm",
-													)}>
+													)}
+												>
 													Month view
 												</a>
 											)}
@@ -180,7 +188,8 @@ export default function Example() {
 															? "bg-gray-100 text-gray-900"
 															: "text-gray-700",
 														"block px-4 py-2 text-sm",
-													)}>
+													)}
+												>
 													Year view
 												</a>
 											)}
@@ -192,7 +201,8 @@ export default function Example() {
 						<div className="ml-6 h-6 w-px bg-gray-300" />
 						<button
 							type="button"
-							className="ml-6 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+							className="ml-6 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+						>
 							Add event
 						</button>
 					</div>
@@ -209,7 +219,8 @@ export default function Example() {
 							enterTo="transform opacity-100 scale-100"
 							leave="transition ease-in duration-75"
 							leaveFrom="transform opacity-100 scale-100"
-							leaveTo="transform opacity-0 scale-95">
+							leaveTo="transform opacity-0 scale-95"
+						>
 							<Menu.Items className="absolute right-0 z-10 mt-3 w-36 origin-top-right divide-y divide-gray-100 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 								<div className="py-1">
 									<Menu.Item>
@@ -221,7 +232,8 @@ export default function Example() {
 														? "bg-gray-100 text-gray-900"
 														: "text-gray-700",
 													"block px-4 py-2 text-sm",
-												)}>
+												)}
+											>
 												Create event
 											</a>
 										)}
@@ -237,7 +249,8 @@ export default function Example() {
 														? "bg-gray-100 text-gray-900"
 														: "text-gray-700",
 													"block px-4 py-2 text-sm",
-												)}>
+												)}
+											>
 												Go to today
 											</a>
 										)}
@@ -253,7 +266,8 @@ export default function Example() {
 														? "bg-gray-100 text-gray-900"
 														: "text-gray-700",
 													"block px-4 py-2 text-sm",
-												)}>
+												)}
+											>
 												Day view
 											</a>
 										)}
@@ -267,7 +281,8 @@ export default function Example() {
 														? "bg-gray-100 text-gray-900"
 														: "text-gray-700",
 													"block px-4 py-2 text-sm",
-												)}>
+												)}
+											>
 												Week view
 											</a>
 										)}
@@ -281,7 +296,8 @@ export default function Example() {
 														? "bg-gray-100 text-gray-900"
 														: "text-gray-700",
 													"block px-4 py-2 text-sm",
-												)}>
+												)}
+											>
 												Month view
 											</a>
 										)}
@@ -295,7 +311,8 @@ export default function Example() {
 														? "bg-gray-100 text-gray-900"
 														: "text-gray-700",
 													"block px-4 py-2 text-sm",
-												)}>
+												)}
+											>
 												Year view
 											</a>
 										)}
@@ -310,10 +327,12 @@ export default function Example() {
 				<div ref={container} className="flex flex-auto flex-col overflow-auto">
 					<div
 						ref={containerNav}
-						className="sticky top-0 z-10 grid flex-none grid-cols-7 bg-white text-xs text-gray-500 shadow ring-1 ring-black ring-opacity-5 md:hidden">
+						className="sticky top-0 z-10 grid flex-none grid-cols-7 bg-white text-xs text-gray-500 shadow ring-1 ring-black ring-opacity-5 md:hidden"
+					>
 						<button
 							type="button"
-							className="flex flex-col items-center pb-1.5 pt-3">
+							className="flex flex-col items-center pb-1.5 pt-3"
+						>
 							<span>W</span>
 							{/* Default: "text-gray-900", Selected: "bg-gray-900 text-white", Today (Not Selected): "text-indigo-600", Today (Selected): "bg-indigo-600 text-white" */}
 							<span className="mt-3 flex h-8 w-8 items-center justify-center rounded-full text-base font-semibold text-gray-900">
@@ -322,7 +341,8 @@ export default function Example() {
 						</button>
 						<button
 							type="button"
-							className="flex flex-col items-center pb-1.5 pt-3">
+							className="flex flex-col items-center pb-1.5 pt-3"
+						>
 							<span>T</span>
 							<span className="mt-3 flex h-8 w-8 items-center justify-center rounded-full text-base font-semibold text-indigo-600">
 								20
@@ -330,7 +350,8 @@ export default function Example() {
 						</button>
 						<button
 							type="button"
-							className="flex flex-col items-center pb-1.5 pt-3">
+							className="flex flex-col items-center pb-1.5 pt-3"
+						>
 							<span>F</span>
 							<span className="mt-3 flex h-8 w-8 items-center justify-center rounded-full text-base font-semibold text-gray-900">
 								21
@@ -338,7 +359,8 @@ export default function Example() {
 						</button>
 						<button
 							type="button"
-							className="flex flex-col items-center pb-1.5 pt-3">
+							className="flex flex-col items-center pb-1.5 pt-3"
+						>
 							<span>S</span>
 							<span className="mt-3 flex h-8 w-8 items-center justify-center rounded-full bg-gray-900 text-base font-semibold text-white">
 								22
@@ -346,7 +368,8 @@ export default function Example() {
 						</button>
 						<button
 							type="button"
-							className="flex flex-col items-center pb-1.5 pt-3">
+							className="flex flex-col items-center pb-1.5 pt-3"
+						>
 							<span>S</span>
 							<span className="mt-3 flex h-8 w-8 items-center justify-center rounded-full text-base font-semibold text-gray-900">
 								23
@@ -354,7 +377,8 @@ export default function Example() {
 						</button>
 						<button
 							type="button"
-							className="flex flex-col items-center pb-1.5 pt-3">
+							className="flex flex-col items-center pb-1.5 pt-3"
+						>
 							<span>M</span>
 							<span className="mt-3 flex h-8 w-8 items-center justify-center rounded-full text-base font-semibold text-gray-900">
 								24
@@ -362,7 +386,8 @@ export default function Example() {
 						</button>
 						<button
 							type="button"
-							className="flex flex-col items-center pb-1.5 pt-3">
+							className="flex flex-col items-center pb-1.5 pt-3"
+						>
 							<span>T</span>
 							<span className="mt-3 flex h-8 w-8 items-center justify-center rounded-full text-base font-semibold text-gray-900">
 								25
@@ -375,7 +400,8 @@ export default function Example() {
 							{/* Horizontal lines */}
 							<div
 								className="col-start-1 col-end-2 row-start-1 grid divide-y divide-gray-100"
-								style={{ gridTemplateRows: "repeat(48, minmax(3.5rem, 1fr))" }}>
+								style={{ gridTemplateRows: "repeat(48, minmax(3.5rem, 1fr))" }}
+							>
 								<div ref={containerOffset} className="row-end-1 h-7"></div>
 								<div>
 									<div className="sticky left-0 -ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
@@ -528,13 +554,16 @@ export default function Example() {
 								className="col-start-1 col-end-2 row-start-1 grid grid-cols-1"
 								style={{
 									gridTemplateRows: "1.75rem repeat(288, minmax(0, 1fr)) auto",
-								}}>
+								}}
+							>
 								<li
 									className="relative mt-px flex"
-									style={{ gridRow: "74 / span 12" }}>
+									style={{ gridRow: "74 / span 12" }}
+								>
 									<a
 										href="#"
-										className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-blue-50 p-2 text-xs leading-5 hover:bg-blue-100">
+										className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-blue-50 p-2 text-xs leading-5 hover:bg-blue-100"
+									>
 										<p className="order-1 font-semibold text-blue-700">
 											Breakfast
 										</p>
@@ -545,10 +574,12 @@ export default function Example() {
 								</li>
 								<li
 									className="relative mt-px flex"
-									style={{ gridRow: "92 / span 30" }}>
+									style={{ gridRow: "92 / span 30" }}
+								>
 									<a
 										href="#"
-										className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-pink-50 p-2 text-xs leading-5 hover:bg-pink-100">
+										className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-pink-50 p-2 text-xs leading-5 hover:bg-pink-100"
+									>
 										<p className="order-1 font-semibold text-pink-700">
 											Flight to Paris
 										</p>
@@ -562,10 +593,12 @@ export default function Example() {
 								</li>
 								<li
 									className="relative mt-px flex"
-									style={{ gridRow: "134 / span 18" }}>
+									style={{ gridRow: "134 / span 18" }}
+								>
 									<a
 										href="#"
-										className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-indigo-50 p-2 text-xs leading-5 hover:bg-indigo-100">
+										className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-indigo-50 p-2 text-xs leading-5 hover:bg-indigo-100"
+									>
 										<p className="order-1 font-semibold text-indigo-700">
 											Sightseeing
 										</p>
@@ -585,14 +618,16 @@ export default function Example() {
 					<div className="flex items-center text-center text-gray-900">
 						<button
 							type="button"
-							className="-m-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500">
+							className="-m-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
+						>
 							<span className="sr-only">Previous month</span>
 							<ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
 						</button>
 						<div className="flex-auto text-sm font-semibold">January 2022</div>
 						<button
 							type="button"
-							className="-m-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500">
+							className="-m-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
+						>
 							<span className="sr-only">Next month</span>
 							<ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
 						</button>
@@ -629,14 +664,16 @@ export default function Example() {
 									dayIdx === 6 && "rounded-tr-lg",
 									dayIdx === days.length - 7 && "rounded-bl-lg",
 									dayIdx === days.length - 1 && "rounded-br-lg",
-								)}>
+								)}
+							>
 								<time
 									dateTime={day.date}
 									className={classNames(
 										"mx-auto flex h-7 w-7 items-center justify-center rounded-full",
 										day.isSelected && day.isToday && "bg-indigo-600",
 										day.isSelected && !day.isToday && "bg-gray-900",
-									)}>
+									)}
+								>
 									{day.date.split("-").pop().replace(/^0/, "")}
 								</time>
 							</button>

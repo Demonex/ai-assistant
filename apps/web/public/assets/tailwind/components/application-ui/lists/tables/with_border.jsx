@@ -41,7 +41,8 @@ export default function Example() {
 				<div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
 					<button
 						type="button"
-						className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+						className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+					>
 						Update credit card
 					</button>
 				</div>
@@ -52,27 +53,32 @@ export default function Example() {
 						<tr>
 							<th
 								scope="col"
-								className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+								className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
+							>
 								Plan
 							</th>
 							<th
 								scope="col"
-								className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
+								className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+							>
 								Memory
 							</th>
 							<th
 								scope="col"
-								className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
+								className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+							>
 								CPU
 							</th>
 							<th
 								scope="col"
-								className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
+								className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+							>
 								Storage
 							</th>
 							<th
 								scope="col"
-								className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+								className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+							>
 								Price
 							</th>
 							<th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
@@ -87,7 +93,8 @@ export default function Example() {
 									className={classNames(
 										planIdx === 0 ? "" : "border-t border-transparent",
 										"relative py-4 pl-4 pr-3 text-sm sm:pl-6",
-									)}>
+									)}
+								>
 									<div className="font-medium text-gray-900">
 										{plan.name}
 										{plan.isCurrent ? (
@@ -111,28 +118,32 @@ export default function Example() {
 									className={classNames(
 										planIdx === 0 ? "" : "border-t border-gray-200",
 										"hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell",
-									)}>
+									)}
+								>
 									{plan.memory}
 								</td>
 								<td
 									className={classNames(
 										planIdx === 0 ? "" : "border-t border-gray-200",
 										"hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell",
-									)}>
+									)}
+								>
 									{plan.cpu}
 								</td>
 								<td
 									className={classNames(
 										planIdx === 0 ? "" : "border-t border-gray-200",
 										"hidden px-3 py-3.5 text-sm text-gray-500 lg:table-cell",
-									)}>
+									)}
+								>
 									{plan.storage}
 								</td>
 								<td
 									className={classNames(
 										planIdx === 0 ? "" : "border-t border-gray-200",
 										"px-3 py-3.5 text-sm text-gray-500",
-									)}>
+									)}
+								>
 									<div className="sm:hidden">{plan.price}/mo</div>
 									<div className="hidden sm:block">{plan.price}/month</div>
 								</td>
@@ -140,11 +151,13 @@ export default function Example() {
 									className={classNames(
 										planIdx === 0 ? "" : "border-t border-transparent",
 										"relative py-3.5 pl-3 pr-4 text-right text-sm font-medium sm:pr-6",
-									)}>
+									)}
+								>
 									<button
 										type="button"
 										className="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
-										disabled={plan.isCurrent}>
+										disabled={plan.isCurrent}
+									>
 										Select<span className="sr-only">, {plan.name}</span>
 									</button>
 									{planIdx !== 0 ? (

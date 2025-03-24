@@ -17,7 +17,8 @@ export default function Example() {
 		<div>
 			<label
 				htmlFor="company-website"
-				className="block text-sm font-medium leading-6 text-gray-900">
+				className="block text-sm font-medium leading-6 text-gray-900"
+			>
 				Company Website
 			</label>
 			<div className="mt-2 flex rounded-md shadow-sm">

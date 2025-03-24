@@ -65,7 +65,8 @@ export default function Example() {
 			{projects.map((project) => (
 				<li
 					key={project.id}
-					className="flex items-center justify-between gap-x-6 py-5">
+					className="flex items-center justify-between gap-x-6 py-5"
+				>
 					<div className="min-w-0">
 						<div className="flex items-start gap-x-3">
 							<p className="text-sm font-semibold leading-6 text-gray-900">
@@ -75,7 +76,8 @@ export default function Example() {
 								className={classNames(
 									statuses[project.status],
 									"rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset",
-								)}>
+								)}
+							>
 								{project.status}
 							</p>
 						</div>
@@ -93,7 +95,8 @@ export default function Example() {
 					<div className="flex flex-none items-center gap-x-4">
 						<a
 							href={project.href}
-							className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block">
+							className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
+						>
 							View project<span className="sr-only">, {project.name}</span>
 						</a>
 						<Menu as="div" className="relative flex-none">
@@ -108,7 +111,8 @@ export default function Example() {
 								enterTo="transform opacity-100 scale-100"
 								leave="transition ease-in duration-75"
 								leaveFrom="transform opacity-100 scale-100"
-								leaveTo="transform opacity-0 scale-95">
+								leaveTo="transform opacity-0 scale-95"
+							>
 								<Menu.Items className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
 									<Menu.Item>
 										{({ active }) => (
@@ -117,7 +121,8 @@ export default function Example() {
 												className={classNames(
 													active ? "bg-gray-50" : "",
 													"block px-3 py-1 text-sm leading-6 text-gray-900",
-												)}>
+												)}
+											>
 												Edit<span className="sr-only">, {project.name}</span>
 											</a>
 										)}
@@ -129,7 +134,8 @@ export default function Example() {
 												className={classNames(
 													active ? "bg-gray-50" : "",
 													"block px-3 py-1 text-sm leading-6 text-gray-900",
-												)}>
+												)}
+											>
 												Move<span className="sr-only">, {project.name}</span>
 											</a>
 										)}
@@ -141,7 +147,8 @@ export default function Example() {
 												className={classNames(
 													active ? "bg-gray-50" : "",
 													"block px-3 py-1 text-sm leading-6 text-gray-900",
-												)}>
+												)}
+											>
 												Delete<span className="sr-only">, {project.name}</span>
 											</a>
 										)}

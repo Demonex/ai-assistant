@@ -37,7 +37,8 @@ export default function Example() {
 					</h2>
 					<a
 						href="#"
-						className="whitespace-nowrap text-sm font-medium text-indigo-600 hover:text-indigo-500">
+						className="whitespace-nowrap text-sm font-medium text-indigo-600 hover:text-indigo-500"
+					>
 						View all
 						<span aria-hidden="true"> &rarr;</span>
 					</a>
@@ -53,7 +54,8 @@ export default function Example() {
 								/>
 								<div
 									className="flex items-end p-4 opacity-0 group-hover:opacity-100"
-									aria-hidden="true">
+									aria-hidden="true"
+								>
 									<div className="w-full rounded-md bg-white bg-opacity-75 px-4 py-2 text-center text-sm font-medium text-gray-900 backdrop-blur backdrop-filter">
 										View Product
 									</div>

@@ -77,7 +77,8 @@ export default function Example() {
 								enterTo="translate-x-0"
 								leave="transform transition ease-in-out duration-500 sm:duration-700"
 								leaveFrom="translate-x-0"
-								leaveTo="translate-x-full">
+								leaveTo="translate-x-full"
+							>
 								<Dialog.Panel className="pointer-events-auto w-screen max-w-2xl">
 									<form className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
 										<div className="flex-1">
@@ -97,7 +98,8 @@ export default function Example() {
 														<button
 															type="button"
 															className="relative text-gray-400 hover:text-gray-500"
-															onClick={() => setOpen(false)}>
+															onClick={() => setOpen(false)}
+														>
 															<span className="absolute -inset-2.5" />
 															<span className="sr-only">Close panel</span>
 															<XMarkIcon
@@ -116,7 +118,8 @@ export default function Example() {
 													<div>
 														<label
 															htmlFor="project-name"
-															className="block text-sm font-medium leading-6 text-gray-900 sm:mt-1.5">
+															className="block text-sm font-medium leading-6 text-gray-900 sm:mt-1.5"
+														>
 															Project name
 														</label>
 													</div>
@@ -135,7 +138,8 @@ export default function Example() {
 													<div>
 														<label
 															htmlFor="project-description"
-															className="block text-sm font-medium leading-6 text-gray-900 sm:mt-1.5">
+															className="block text-sm font-medium leading-6 text-gray-900 sm:mt-1.5"
+														>
 															Description
 														</label>
 													</div>
@@ -163,7 +167,8 @@ export default function Example() {
 																<a
 																	key={person.email}
 																	href={person.href}
-																	className="flex-shrink-0 rounded-full hover:opacity-75">
+																	className="flex-shrink-0 rounded-full hover:opacity-75"
+																>
 																	<img
 																		className="inline-block h-8 w-8 rounded-full"
 																		src={person.imageUrl}
@@ -174,7 +179,8 @@ export default function Example() {
 
 															<button
 																type="button"
-																className="relative inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-gray-200 bg-white text-gray-400 hover:border-gray-300 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+																className="relative inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border-2 border-dashed border-gray-200 bg-white text-gray-400 hover:border-gray-300 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+															>
 																<span className="absolute -inset-2" />
 																<span className="sr-only">Add team member</span>
 																<PlusIcon
@@ -191,7 +197,8 @@ export default function Example() {
 													<legend className="sr-only">Privacy</legend>
 													<div
 														className="text-sm font-medium leading-6 text-gray-900"
-														aria-hidden="true">
+														aria-hidden="true"
+													>
 														Privacy
 													</div>
 													<div className="space-y-5 sm:col-span-2">
@@ -210,12 +217,14 @@ export default function Example() {
 																<div className="pl-7 text-sm leading-6">
 																	<label
 																		htmlFor="public-access"
-																		className="font-medium text-gray-900">
+																		className="font-medium text-gray-900"
+																	>
 																		Public access
 																	</label>
 																	<p
 																		id="public-access-description"
-																		className="text-gray-500">
+																		className="text-gray-500"
+																	>
 																		Everyone with the link will see this project
 																	</p>
 																</div>
@@ -233,12 +242,14 @@ export default function Example() {
 																<div className="pl-7 text-sm leading-6">
 																	<label
 																		htmlFor="restricted-access"
-																		className="font-medium text-gray-900">
+																		className="font-medium text-gray-900"
+																	>
 																		Private to Project Members
 																	</label>
 																	<p
 																		id="restricted-access-description"
-																		className="text-gray-500">
+																		className="text-gray-500"
+																	>
 																		Only members of this project would be able
 																		to access
 																	</p>
@@ -257,12 +268,14 @@ export default function Example() {
 																<div className="pl-7 text-sm leading-6">
 																	<label
 																		htmlFor="private-access"
-																		className="font-medium text-gray-900">
+																		className="font-medium text-gray-900"
+																	>
 																		Private to you
 																	</label>
 																	<p
 																		id="private-access-description"
-																		className="text-gray-500">
+																		className="text-gray-500"
+																	>
 																		You are the only one able to access this
 																		project
 																	</p>
@@ -274,7 +287,8 @@ export default function Example() {
 															<div>
 																<a
 																	href="#"
-																	className="group flex items-center space-x-2.5 text-sm font-medium text-indigo-600 hover:text-indigo-900">
+																	className="group flex items-center space-x-2.5 text-sm font-medium text-indigo-600 hover:text-indigo-900"
+																>
 																	<LinkIcon
 																		className="h-5 w-5 text-indigo-500 group-hover:text-indigo-900"
 																		aria-hidden="true"
@@ -285,7 +299,8 @@ export default function Example() {
 															<div>
 																<a
 																	href="#"
-																	className="group flex items-center space-x-2.5 text-sm text-gray-500 hover:text-gray-900">
+																	className="group flex items-center space-x-2.5 text-sm text-gray-500 hover:text-gray-900"
+																>
 																	<QuestionMarkCircleIcon
 																		className="h-5 w-5 text-gray-400 group-hover:text-gray-500"
 																		aria-hidden="true"
@@ -305,12 +320,14 @@ export default function Example() {
 												<button
 													type="button"
 													className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-													onClick={() => setOpen(false)}>
+													onClick={() => setOpen(false)}
+												>
 													Cancel
 												</button>
 												<button
 													type="submit"
-													className="inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+													className="inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+												>
 													Create
 												</button>
 											</div>

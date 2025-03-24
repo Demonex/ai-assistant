@@ -69,7 +69,8 @@ export default function Example() {
 									</dl>
 									<a
 										href={order.invoiceHref}
-										className="mt-6 flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:w-auto">
+										className="mt-6 flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:w-auto"
+									>
 										View Invoice
 										<span className="sr-only">for order {order.number}</span>
 									</a>
@@ -81,22 +82,26 @@ export default function Example() {
 										<tr>
 											<th
 												scope="col"
-												className="py-3 pr-8 font-normal sm:w-2/5 lg:w-1/3">
+												className="py-3 pr-8 font-normal sm:w-2/5 lg:w-1/3"
+											>
 												Product
 											</th>
 											<th
 												scope="col"
-												className="hidden w-1/5 py-3 pr-8 font-normal sm:table-cell">
+												className="hidden w-1/5 py-3 pr-8 font-normal sm:table-cell"
+											>
 												Price
 											</th>
 											<th
 												scope="col"
-												className="hidden py-3 pr-8 font-normal sm:table-cell">
+												className="hidden py-3 pr-8 font-normal sm:table-cell"
+											>
 												Status
 											</th>
 											<th
 												scope="col"
-												className="w-0 py-3 text-right font-normal">
+												className="w-0 py-3 text-right font-normal"
+											>
 												Info
 											</th>
 										</tr>

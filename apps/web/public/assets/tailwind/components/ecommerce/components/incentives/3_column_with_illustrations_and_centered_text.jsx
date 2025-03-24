@@ -29,7 +29,8 @@ export default function Example() {
 					{incentives.map((incentive) => (
 						<div
 							key={incentive.name}
-							className="text-center sm:flex sm:text-left lg:block lg:text-center">
+							className="text-center sm:flex sm:text-left lg:block lg:text-center"
+						>
 							<div className="sm:flex-shrink-0">
 								<div className="flow-root">
 									<img

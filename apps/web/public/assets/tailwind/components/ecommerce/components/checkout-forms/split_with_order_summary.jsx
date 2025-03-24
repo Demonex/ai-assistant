@@ -46,7 +46,8 @@ export default function Example() {
 
 				<section
 					aria-labelledby="summary-heading"
-					className="bg-indigo-900 py-12 text-indigo-300 md:px-10 lg:col-start-2 lg:row-start-1 lg:mx-auto lg:w-full lg:max-w-lg lg:bg-transparent lg:px-0 lg:pb-24 lg:pt-0">
+					className="bg-indigo-900 py-12 text-indigo-300 md:px-10 lg:col-start-2 lg:row-start-1 lg:mx-auto lg:w-full lg:max-w-lg lg:bg-transparent lg:px-0 lg:pb-24 lg:pt-0"
+				>
 					<div className="mx-auto max-w-2xl px-4 lg:max-w-none lg:px-0">
 						<h2 id="summary-heading" className="sr-only">
 							Order summary
@@ -61,11 +62,13 @@ export default function Example() {
 
 						<ul
 							role="list"
-							className="divide-y divide-white divide-opacity-10 text-sm font-medium">
+							className="divide-y divide-white divide-opacity-10 text-sm font-medium"
+						>
 							{products.map((product) => (
 								<li
 									key={product.id}
-									className="flex items-start space-x-4 py-6">
+									className="flex items-start space-x-4 py-6"
+								>
 									<img
 										src={product.imageSrc}
 										alt={product.imageAlt}
@@ -109,7 +112,8 @@ export default function Example() {
 
 				<section
 					aria-labelledby="payment-and-shipping-heading"
-					className="py-16 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:w-full lg:max-w-lg lg:pb-24 lg:pt-0">
+					className="py-16 lg:col-start-1 lg:row-start-1 lg:mx-auto lg:w-full lg:max-w-lg lg:pb-24 lg:pt-0"
+				>
 					<h2 id="payment-and-shipping-heading" className="sr-only">
 						Payment and shipping details
 					</h2>
@@ -119,14 +123,16 @@ export default function Example() {
 							<div>
 								<h3
 									id="contact-info-heading"
-									className="text-lg font-medium text-gray-900">
+									className="text-lg font-medium text-gray-900"
+								>
 									Contact information
 								</h3>
 
 								<div className="mt-6">
 									<label
 										htmlFor="email-address"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										Email address
 									</label>
 									<div className="mt-1">
@@ -150,7 +156,8 @@ export default function Example() {
 									<div className="col-span-3 sm:col-span-4">
 										<label
 											htmlFor="card-number"
-											className="block text-sm font-medium text-gray-700">
+											className="block text-sm font-medium text-gray-700"
+										>
 											Card number
 										</label>
 										<div className="mt-1">
@@ -167,7 +174,8 @@ export default function Example() {
 									<div className="col-span-2 sm:col-span-3">
 										<label
 											htmlFor="expiration-date"
-											className="block text-sm font-medium text-gray-700">
+											className="block text-sm font-medium text-gray-700"
+										>
 											Expiration date (MM/YY)
 										</label>
 										<div className="mt-1">
@@ -184,7 +192,8 @@ export default function Example() {
 									<div>
 										<label
 											htmlFor="cvc"
-											className="block text-sm font-medium text-gray-700">
+											className="block text-sm font-medium text-gray-700"
+										>
 											CVC
 										</label>
 										<div className="mt-1">
@@ -209,7 +218,8 @@ export default function Example() {
 									<div className="sm:col-span-3">
 										<label
 											htmlFor="address"
-											className="block text-sm font-medium text-gray-700">
+											className="block text-sm font-medium text-gray-700"
+										>
 											Address
 										</label>
 										<div className="mt-1">
@@ -226,7 +236,8 @@ export default function Example() {
 									<div>
 										<label
 											htmlFor="city"
-											className="block text-sm font-medium text-gray-700">
+											className="block text-sm font-medium text-gray-700"
+										>
 											City
 										</label>
 										<div className="mt-1">
@@ -243,7 +254,8 @@ export default function Example() {
 									<div>
 										<label
 											htmlFor="region"
-											className="block text-sm font-medium text-gray-700">
+											className="block text-sm font-medium text-gray-700"
+										>
 											State / Province
 										</label>
 										<div className="mt-1">
@@ -260,7 +272,8 @@ export default function Example() {
 									<div>
 										<label
 											htmlFor="postal-code"
-											className="block text-sm font-medium text-gray-700">
+											className="block text-sm font-medium text-gray-700"
+										>
 											Postal code
 										</label>
 										<div className="mt-1">
@@ -292,7 +305,8 @@ export default function Example() {
 									<div className="ml-2">
 										<label
 											htmlFor="same-as-shipping"
-											className="text-sm font-medium text-gray-900">
+											className="text-sm font-medium text-gray-900"
+										>
 											Same as shipping information
 										</label>
 									</div>
@@ -302,7 +316,8 @@ export default function Example() {
 							<div className="mt-10 flex justify-end border-t border-gray-200 pt-6">
 								<button
 									type="submit"
-									className="rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
+									className="rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+								>
 									Pay now
 								</button>
 							</div>

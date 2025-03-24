@@ -53,7 +53,8 @@ export default function Example() {
 											className={classNames(
 												item.current ? "bg-gray-50" : "hover:bg-gray-50",
 												"block rounded-md py-2 pr-2 pl-10 text-sm leading-6 font-semibold text-gray-700",
-											)}>
+											)}
+										>
 											{item.name}
 										</a>
 									) : (
@@ -64,7 +65,8 @@ export default function Example() {
 														className={classNames(
 															item.current ? "bg-gray-50" : "hover:bg-gray-50",
 															"flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-gray-700",
-														)}>
+														)}
+													>
 														<ChevronRightIcon
 															className={classNames(
 																open
@@ -87,7 +89,8 @@ export default function Example() {
 																			? "bg-gray-50"
 																			: "hover:bg-gray-50",
 																		"block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-gray-700",
-																	)}>
+																	)}
+																>
 																	{subItem.name}
 																</Disclosure.Button>
 															</li>
@@ -104,7 +107,8 @@ export default function Example() {
 					<li className="-mx-6 mt-auto">
 						<a
 							href="#"
-							className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50">
+							className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
+						>
 							<img
 								className="h-8 w-8 rounded-full bg-gray-50"
 								src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"

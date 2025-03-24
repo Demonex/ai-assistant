@@ -136,7 +136,8 @@ export default function Example() {
 							className={classNames(
 								activityItemIdx === activity.length - 1 ? "h-6" : "-bottom-6",
 								"absolute left-0 top-0 flex w-6 justify-center",
-							)}>
+							)}
+						>
 							<div className="w-px bg-gray-200" />
 						</div>
 						{activityItem.type === "commented" ? (
@@ -156,7 +157,8 @@ export default function Example() {
 										</div>
 										<time
 											dateTime={activityItem.dateTime}
-											className="flex-none py-0.5 text-xs leading-5 text-gray-500">
+											className="flex-none py-0.5 text-xs leading-5 text-gray-500"
+										>
 											{activityItem.date}
 										</time>
 									</div>
@@ -185,7 +187,8 @@ export default function Example() {
 								</p>
 								<time
 									dateTime={activityItem.dateTime}
-									className="flex-none py-0.5 text-xs leading-5 text-gray-500">
+									className="flex-none py-0.5 text-xs leading-5 text-gray-500"
+								>
 									{activityItem.date}
 								</time>
 							</>
@@ -221,7 +224,8 @@ export default function Example() {
 							<div className="flex items-center">
 								<button
 									type="button"
-									className="-m-2.5 flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500">
+									className="-m-2.5 flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+								>
 									<PaperClipIcon className="h-5 w-5" aria-hidden="true" />
 									<span className="sr-only">Attach a file</span>
 								</button>
@@ -250,7 +254,8 @@ export default function Example() {
 																	className={classNames(
 																		selected.bgColor,
 																		"flex h-8 w-8 items-center justify-center rounded-full",
-																	)}>
+																	)}
+																>
 																	<selected.icon
 																		className="h-5 w-5 flex-shrink-0 text-white"
 																		aria-hidden="true"
@@ -267,7 +272,8 @@ export default function Example() {
 													as={Fragment}
 													leave="transition ease-in duration-100"
 													leaveFrom="opacity-100"
-													leaveTo="opacity-0">
+													leaveTo="opacity-0"
+												>
 													<Listbox.Options className="absolute bottom-10 z-10 -ml-6 w-60 rounded-lg bg-white py-3 text-base shadow ring-1 ring-black ring-opacity-5 focus:outline-none sm:ml-auto sm:w-64 sm:text-sm">
 														{moods.map((mood) => (
 															<Listbox.Option
@@ -278,13 +284,15 @@ export default function Example() {
 																		"relative cursor-default select-none px-3 py-2",
 																	)
 																}
-																value={mood}>
+																value={mood}
+															>
 																<div className="flex items-center">
 																	<div
 																		className={classNames(
 																			mood.bgColor,
 																			"flex h-8 w-8 items-center justify-center rounded-full",
-																		)}>
+																		)}
+																	>
 																		<mood.icon
 																			className={classNames(
 																				mood.iconColor,
@@ -309,7 +317,8 @@ export default function Example() {
 						</div>
 						<button
 							type="submit"
-							className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+							className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+						>
 							Comment
 						</button>
 					</div>

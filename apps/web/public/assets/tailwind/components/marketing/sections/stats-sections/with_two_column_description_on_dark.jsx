@@ -53,7 +53,8 @@ export default function Example() {
 						{stats.map((stat, statIdx) => (
 							<div
 								key={statIdx}
-								className="flex flex-col-reverse gap-y-3 border-l border-white/20 pl-6">
+								className="flex flex-col-reverse gap-y-3 border-l border-white/20 pl-6"
+							>
 								<dt className="text-base leading-7 text-gray-300">
 									{stat.label}
 								</dt>

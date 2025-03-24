@@ -89,7 +89,8 @@ export default function Example() {
 					<RadioGroup
 						value={frequency}
 						onChange={setFrequency}
-						className="grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200">
+						className="grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200"
+					>
 						<RadioGroup.Label className="sr-only">
 							Payment frequency
 						</RadioGroup.Label>
@@ -102,7 +103,8 @@ export default function Example() {
 										checked ? "bg-indigo-600 text-white" : "text-gray-500",
 										"cursor-pointer rounded-full px-2.5 py-1",
 									)
-								}>
+								}
+							>
 								<span>{option.label}</span>
 							</RadioGroup.Option>
 						))}
@@ -117,13 +119,15 @@ export default function Example() {
 									? "ring-2 ring-indigo-600"
 									: "ring-1 ring-gray-200",
 								"rounded-3xl p-8",
-							)}>
+							)}
+						>
 							<h3
 								id={tier.id}
 								className={classNames(
 									tier.mostPopular ? "text-indigo-600" : "text-gray-900",
 									"text-lg font-semibold leading-8",
-								)}>
+								)}
+							>
 								{tier.name}
 							</h3>
 							<p className="mt-4 text-sm leading-6 text-gray-600">
@@ -145,12 +149,14 @@ export default function Example() {
 										? "bg-indigo-600 text-white shadow-sm hover:bg-indigo-500"
 										: "text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300",
 									"mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
-								)}>
+								)}
+							>
 								Buy plan
 							</a>
 							<ul
 								role="list"
-								className="mt-8 space-y-3 text-sm leading-6 text-gray-600">
+								className="mt-8 space-y-3 text-sm leading-6 text-gray-600"
+							>
 								{tier.features.map((feature) => (
 									<li key={feature} className="flex gap-x-3">
 										<CheckIcon

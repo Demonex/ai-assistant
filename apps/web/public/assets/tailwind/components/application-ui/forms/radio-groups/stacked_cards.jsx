@@ -54,14 +54,16 @@ export default function Example() {
 									: "border-gray-300",
 								"relative block cursor-pointer rounded-lg border bg-white px-6 py-4 shadow-sm focus:outline-none sm:flex sm:justify-between",
 							)
-						}>
+						}
+					>
 						{({ active, checked }) => (
 							<>
 								<span className="flex items-center">
 									<span className="flex flex-col text-sm">
 										<RadioGroup.Label
 											as="span"
-											className="font-medium text-gray-900">
+											className="font-medium text-gray-900"
+										>
 											{plan.name}
 										</RadioGroup.Label>
 										<RadioGroup.Description as="span" className="text-gray-500">
@@ -70,7 +72,8 @@ export default function Example() {
 											</span>{" "}
 											<span
 												className="hidden sm:mx-1 sm:inline"
-												aria-hidden="true">
+												aria-hidden="true"
+											>
 												&middot;
 											</span>{" "}
 											<span className="block sm:inline">{plan.disk}</span>
@@ -79,7 +82,8 @@ export default function Example() {
 								</span>
 								<RadioGroup.Description
 									as="span"
-									className="mt-2 flex text-sm sm:ml-4 sm:mt-0 sm:flex-col sm:text-right">
+									className="mt-2 flex text-sm sm:ml-4 sm:mt-0 sm:flex-col sm:text-right"
+								>
 									<span className="font-medium text-gray-900">
 										{plan.price}
 									</span>

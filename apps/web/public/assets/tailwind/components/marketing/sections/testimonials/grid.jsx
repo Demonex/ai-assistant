@@ -72,7 +72,8 @@ export default function Example() {
 		<div className="relative isolate bg-white pb-32 pt-24 sm:pt-32">
 			<div
 				className="absolute inset-x-0 top-1/2 -z-10 -translate-y-1/2 transform-gpu overflow-hidden opacity-30 blur-3xl"
-				aria-hidden="true">
+				aria-hidden="true"
+			>
 				<div
 					className="ml-[max(50%,38rem)] aspect-[1313/771] w-[82.0625rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc]"
 					style={{
@@ -83,7 +84,8 @@ export default function Example() {
 			</div>
 			<div
 				className="absolute inset-x-0 top-0 -z-10 flex transform-gpu overflow-hidden pt-32 opacity-25 blur-3xl sm:pt-40 xl:justify-end"
-				aria-hidden="true">
+				aria-hidden="true"
+			>
 				<div
 					className="ml-[-22rem] aspect-[1313/771] w-[82.0625rem] flex-none origin-top-right rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] xl:ml-0 xl:mr-[calc(50%-12rem)]"
 					style={{
@@ -128,7 +130,8 @@ export default function Example() {
 					{testimonials.map((columnGroup, columnGroupIdx) => (
 						<div
 							key={columnGroupIdx}
-							className="space-y-8 xl:contents xl:space-y-0">
+							className="space-y-8 xl:contents xl:space-y-0"
+						>
 							{columnGroup.map((column, columnIdx) => (
 								<div
 									key={columnIdx}
@@ -139,11 +142,13 @@ export default function Example() {
 											? "xl:row-span-2"
 											: "xl:row-start-1",
 										"space-y-8",
-									)}>
+									)}
+								>
 									{column.map((testimonial) => (
 										<figure
 											key={testimonial.author.handle}
-											className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5">
+											className="rounded-2xl bg-white p-6 shadow-lg ring-1 ring-gray-900/5"
+										>
 											<blockquote className="text-gray-900">
 												<p>{`“${testimonial.body}”`}</p>
 											</blockquote>

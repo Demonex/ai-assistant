@@ -38,7 +38,8 @@ export default function Example() {
 						</div>
 						<ul
 							role="list"
-							className="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-gray-600 sm:grid-cols-2 sm:gap-6">
+							className="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-gray-600 sm:grid-cols-2 sm:gap-6"
+						>
 							{includedFeatures.map((feature) => (
 								<li key={feature} className="flex gap-x-3">
 									<CheckIcon
@@ -66,7 +67,8 @@ export default function Example() {
 								</p>
 								<a
 									href="#"
-									className="mt-10 block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+									className="mt-10 block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+								>
 									Get access
 								</a>
 								<p className="mt-6 text-xs leading-5 text-gray-600">

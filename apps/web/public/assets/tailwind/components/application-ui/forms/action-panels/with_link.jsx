@@ -14,7 +14,8 @@ export default function Example() {
 				<div className="mt-3 text-sm leading-6">
 					<a
 						href="#"
-						className="font-semibold text-indigo-600 hover:text-indigo-500">
+						className="font-semibold text-indigo-600 hover:text-indigo-500"
+					>
 						Learn more about our CI features
 						<span aria-hidden="true"> &rarr;</span>
 					</a>

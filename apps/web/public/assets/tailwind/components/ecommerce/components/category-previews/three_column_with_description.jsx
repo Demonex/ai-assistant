@@ -62,7 +62,8 @@ export default function Example() {
 						<a key={category.name} href={category.href} className="group block">
 							<div
 								aria-hidden="true"
-								className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg lg:aspect-h-6 lg:aspect-w-5 group-hover:opacity-75">
+								className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg lg:aspect-h-6 lg:aspect-w-5 group-hover:opacity-75"
+							>
 								<img
 									src={category.imageSrc}
 									alt={category.imageAlt}

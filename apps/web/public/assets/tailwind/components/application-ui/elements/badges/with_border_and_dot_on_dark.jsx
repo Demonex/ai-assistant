@@ -5,7 +5,8 @@ export default function Example() {
 				<svg
 					className="h-1.5 w-1.5 fill-red-400"
 					viewBox="0 0 6 6"
-					aria-hidden="true">
+					aria-hidden="true"
+				>
 					<circle cx={3} cy={3} r={3} />
 				</svg>
 				Badge
@@ -14,7 +15,8 @@ export default function Example() {
 				<svg
 					className="h-1.5 w-1.5 fill-yellow-400"
 					viewBox="0 0 6 6"
-					aria-hidden="true">
+					aria-hidden="true"
+				>
 					<circle cx={3} cy={3} r={3} />
 				</svg>
 				Badge
@@ -23,7 +25,8 @@ export default function Example() {
 				<svg
 					className="h-1.5 w-1.5 fill-green-400"
 					viewBox="0 0 6 6"
-					aria-hidden="true">
+					aria-hidden="true"
+				>
 					<circle cx={3} cy={3} r={3} />
 				</svg>
 				Badge
@@ -32,7 +35,8 @@ export default function Example() {
 				<svg
 					className="h-1.5 w-1.5 fill-blue-400"
 					viewBox="0 0 6 6"
-					aria-hidden="true">
+					aria-hidden="true"
+				>
 					<circle cx={3} cy={3} r={3} />
 				</svg>
 				Badge
@@ -41,7 +45,8 @@ export default function Example() {
 				<svg
 					className="h-1.5 w-1.5 fill-indigo-400"
 					viewBox="0 0 6 6"
-					aria-hidden="true">
+					aria-hidden="true"
+				>
 					<circle cx={3} cy={3} r={3} />
 				</svg>
 				Badge
@@ -50,7 +55,8 @@ export default function Example() {
 				<svg
 					className="h-1.5 w-1.5 fill-purple-400"
 					viewBox="0 0 6 6"
-					aria-hidden="true">
+					aria-hidden="true"
+				>
 					<circle cx={3} cy={3} r={3} />
 				</svg>
 				Badge
@@ -59,7 +65,8 @@ export default function Example() {
 				<svg
 					className="h-1.5 w-1.5 fill-pink-400"
 					viewBox="0 0 6 6"
-					aria-hidden="true">
+					aria-hidden="true"
+				>
 					<circle cx={3} cy={3} r={3} />
 				</svg>
 				Badge

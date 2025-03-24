@@ -34,7 +34,8 @@ export default function Example() {
 								{stats.map((stat) => (
 									<div
 										key={stat.label}
-										className="flex flex-col-reverse gap-y-4">
+										className="flex flex-col-reverse gap-y-4"
+									>
 										<dt className="text-base leading-7 text-gray-600">
 											{stat.label}
 										</dt>

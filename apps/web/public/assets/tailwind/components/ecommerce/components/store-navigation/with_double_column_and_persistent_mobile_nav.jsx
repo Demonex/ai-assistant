@@ -117,7 +117,8 @@ export default function Example() {
 																	? "border-indigo-600 text-indigo-600"
 																	: "border-transparent text-gray-700 hover:text-gray-800",
 																"relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out",
-															)}>
+															)}
+														>
 															{category.name}
 														</Popover.Button>
 													</div>
@@ -129,7 +130,8 @@ export default function Example() {
 														enterTo="opacity-100"
 														leave="transition ease-in duration-150"
 														leaveFrom="opacity-100"
-														leaveTo="opacity-0">
+														leaveTo="opacity-0"
+													>
 														<Popover.Panel className="absolute inset-x-0 top-full text-gray-500 sm:text-sm">
 															{/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
 															<div
@@ -144,22 +146,26 @@ export default function Example() {
 																			<div>
 																				<p
 																					id="clothing-heading"
-																					className="font-medium text-gray-900">
+																					className="font-medium text-gray-900"
+																				>
 																					Clothing
 																				</p>
 																				<div className="mt-4 border-t border-gray-200 pt-6 sm:grid sm:grid-cols-2 sm:gap-x-6">
 																					<ul
 																						role="list"
 																						aria-labelledby="clothing-heading"
-																						className="space-y-6 sm:space-y-4">
+																						className="space-y-6 sm:space-y-4"
+																					>
 																						{category.clothing[0].map(
 																							(item) => (
 																								<li
 																									key={item.name}
-																									className="flex">
+																									className="flex"
+																								>
 																									<a
 																										href={item.href}
-																										className="hover:text-gray-800">
+																										className="hover:text-gray-800"
+																									>
 																										{item.name}
 																									</a>
 																								</li>
@@ -169,15 +175,18 @@ export default function Example() {
 																					<ul
 																						role="list"
 																						aria-label="More clothing"
-																						className="mt-6 space-y-6 sm:mt-0 sm:space-y-4">
+																						className="mt-6 space-y-6 sm:mt-0 sm:space-y-4"
+																					>
 																						{category.clothing[1].map(
 																							(item) => (
 																								<li
 																									key={item.name}
-																									className="flex">
+																									className="flex"
+																								>
 																									<a
 																										href={item.href}
-																										className="hover:text-gray-800">
+																										className="hover:text-gray-800"
+																									>
 																										{item.name}
 																									</a>
 																								</li>
@@ -191,20 +200,24 @@ export default function Example() {
 																			<div>
 																				<p
 																					id="accessories-heading"
-																					className="font-medium text-gray-900">
+																					className="font-medium text-gray-900"
+																				>
 																					Accessories
 																				</p>
 																				<ul
 																					role="list"
 																					aria-labelledby="accessories-heading"
-																					className="mt-4 space-y-6 border-t border-gray-200 pt-6 sm:space-y-4">
+																					className="mt-4 space-y-6 border-t border-gray-200 pt-6 sm:space-y-4"
+																				>
 																					{category.accessories.map((item) => (
 																						<li
 																							key={item.name}
-																							className="flex">
+																							className="flex"
+																						>
 																							<a
 																								href={item.href}
-																								className="hover:text-gray-800">
+																								className="hover:text-gray-800"
+																							>
 																								{item.name}
 																							</a>
 																						</li>
@@ -214,20 +227,24 @@ export default function Example() {
 																			<div>
 																				<p
 																					id="categories-heading"
-																					className="font-medium text-gray-900">
+																					className="font-medium text-gray-900"
+																				>
 																					Categories
 																				</p>
 																				<ul
 																					role="list"
 																					aria-labelledby="categories-heading"
-																					className="mt-4 space-y-6 border-t border-gray-200 pt-6 sm:space-y-4">
+																					className="mt-4 space-y-6 border-t border-gray-200 pt-6 sm:space-y-4"
+																				>
 																					{category.categories.map((item) => (
 																						<li
 																							key={item.name}
-																							className="flex">
+																							className="flex"
+																						>
 																							<a
 																								href={item.href}
-																								className="hover:text-gray-800">
+																								className="hover:text-gray-800"
+																							>
 																								{item.name}
 																							</a>
 																						</li>
@@ -249,7 +266,8 @@ export default function Example() {
 										<a
 											key={item.name}
 											href={item.href}
-											className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
+											className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+										>
 											{item.name}
 										</a>
 									))}

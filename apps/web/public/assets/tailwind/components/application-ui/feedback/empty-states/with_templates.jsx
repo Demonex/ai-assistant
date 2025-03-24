@@ -45,7 +45,8 @@ export default function Example() {
 			</p>
 			<ul
 				role="list"
-				className="mt-6 divide-y divide-gray-200 border-b border-t border-gray-200">
+				className="mt-6 divide-y divide-gray-200 border-b border-t border-gray-200"
+			>
 				{items.map((item, itemIdx) => (
 					<li key={itemIdx}>
 						<div className="group relative flex items-start space-x-3 py-4">
@@ -54,7 +55,8 @@ export default function Example() {
 									className={classNames(
 										item.iconColor,
 										"inline-flex h-10 w-10 items-center justify-center rounded-lg",
-									)}>
+									)}
+								>
 									<item.icon
 										className="h-6 w-6 text-white"
 										aria-hidden="true"
@@ -83,7 +85,8 @@ export default function Example() {
 			<div className="mt-6 flex">
 				<a
 					href="#"
-					className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+					className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+				>
 					Or start from an empty project
 					<span aria-hidden="true"> &rarr;</span>
 				</a>

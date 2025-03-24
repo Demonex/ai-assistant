@@ -80,7 +80,8 @@ export default function Example() {
 										className={classNames(
 											event.iconBackground,
 											"h-8 w-8 rounded-full flex items-center justify-center ring-8 ring-white",
-										)}>
+										)}
+									>
 										<event.icon
 											className="h-5 w-5 text-white"
 											aria-hidden="true"
@@ -93,7 +94,8 @@ export default function Example() {
 											{event.content}{" "}
 											<a
 												href={event.href}
-												className="font-medium text-gray-900">
+												className="font-medium text-gray-900"
+											>
 												{event.target}
 											</a>
 										</p>

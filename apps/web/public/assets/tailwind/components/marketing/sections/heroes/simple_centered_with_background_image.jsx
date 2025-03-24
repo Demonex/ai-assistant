@@ -17,7 +17,8 @@ export default function Example() {
 			<header className="absolute inset-x-0 top-0 z-50">
 				<nav
 					className="flex items-center justify-between p-6 lg:px-8"
-					aria-label="Global">
+					aria-label="Global"
+				>
 					<div className="flex lg:flex-1">
 						<a href="#" className="-m-1.5 p-1.5">
 							<span className="sr-only">Your Company</span>
@@ -32,7 +33,8 @@ export default function Example() {
 						<button
 							type="button"
 							className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400"
-							onClick={() => setMobileMenuOpen(true)}>
+							onClick={() => setMobileMenuOpen(true)}
+						>
 							<span className="sr-only">Open main menu</span>
 							<Bars3Icon className="h-6 w-6" aria-hidden="true" />
 						</button>
@@ -42,7 +44,8 @@ export default function Example() {
 							<a
 								key={item.name}
 								href={item.href}
-								className="text-sm font-semibold leading-6 text-white">
+								className="text-sm font-semibold leading-6 text-white"
+							>
 								{item.name}
 							</a>
 						))}
@@ -57,7 +60,8 @@ export default function Example() {
 					as="div"
 					className="lg:hidden"
 					open={mobileMenuOpen}
-					onClose={setMobileMenuOpen}>
+					onClose={setMobileMenuOpen}
+				>
 					<div className="fixed inset-0 z-50" />
 					<Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
 						<div className="flex items-center justify-between">
@@ -72,7 +76,8 @@ export default function Example() {
 							<button
 								type="button"
 								className="-m-2.5 rounded-md p-2.5 text-gray-400"
-								onClick={() => setMobileMenuOpen(false)}>
+								onClick={() => setMobileMenuOpen(false)}
+							>
 								<span className="sr-only">Close menu</span>
 								<XMarkIcon className="h-6 w-6" aria-hidden="true" />
 							</button>
@@ -84,7 +89,8 @@ export default function Example() {
 										<a
 											key={item.name}
 											href={item.href}
-											className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800">
+											className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800"
+										>
 											{item.name}
 										</a>
 									))}
@@ -92,7 +98,8 @@ export default function Example() {
 								<div className="py-6">
 									<a
 										href="#"
-										className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-800">
+										className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-800"
+									>
 										Log in
 									</a>
 								</div>
@@ -110,7 +117,8 @@ export default function Example() {
 				/>
 				<div
 					className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-					aria-hidden="true">
+					aria-hidden="true"
+				>
 					<div
 						className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
 						style={{
@@ -141,12 +149,14 @@ export default function Example() {
 						<div className="mt-10 flex items-center justify-center gap-x-6">
 							<a
 								href="#"
-								className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">
+								className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+							>
 								Get started
 							</a>
 							<a
 								href="#"
-								className="text-sm font-semibold leading-6 text-white">
+								className="text-sm font-semibold leading-6 text-white"
+							>
 								Learn more <span aria-hidden="true">→</span>
 							</a>
 						</div>
@@ -154,7 +164,8 @@ export default function Example() {
 				</div>
 				<div
 					className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-					aria-hidden="true">
+					aria-hidden="true"
+				>
 					<div
 						className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-20 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
 						style={{

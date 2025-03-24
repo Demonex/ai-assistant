@@ -7,7 +7,8 @@ export default function Example() {
 				<nav className="sm:hidden" aria-label="Back">
 					<a
 						href="#"
-						className="flex items-center text-sm font-medium text-gray-400 hover:text-gray-200">
+						className="flex items-center text-sm font-medium text-gray-400 hover:text-gray-200"
+					>
 						<ChevronLeftIcon
 							className="-ml-1 mr-1 h-5 w-5 flex-shrink-0 text-gray-500"
 							aria-hidden="true"
@@ -21,7 +22,8 @@ export default function Example() {
 							<div className="flex">
 								<a
 									href="#"
-									className="text-sm font-medium text-gray-400 hover:text-gray-200">
+									className="text-sm font-medium text-gray-400 hover:text-gray-200"
+								>
 									Jobs
 								</a>
 							</div>
@@ -34,7 +36,8 @@ export default function Example() {
 								/>
 								<a
 									href="#"
-									className="ml-4 text-sm font-medium text-gray-400 hover:text-gray-200">
+									className="ml-4 text-sm font-medium text-gray-400 hover:text-gray-200"
+								>
 									Engineering
 								</a>
 							</div>
@@ -48,7 +51,8 @@ export default function Example() {
 								<a
 									href="#"
 									aria-current="page"
-									className="ml-4 text-sm font-medium text-gray-400 hover:text-gray-200">
+									className="ml-4 text-sm font-medium text-gray-400 hover:text-gray-200"
+								>
 									Back End Developer
 								</a>
 							</div>
@@ -65,12 +69,14 @@ export default function Example() {
 				<div className="mt-4 flex flex-shrink-0 md:ml-4 md:mt-0">
 					<button
 						type="button"
-						className="inline-flex items-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20">
+						className="inline-flex items-center rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20"
+					>
 						Edit
 					</button>
 					<button
 						type="button"
-						className="ml-3 inline-flex items-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+						className="ml-3 inline-flex items-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+					>
 						Publish
 					</button>
 				</div>

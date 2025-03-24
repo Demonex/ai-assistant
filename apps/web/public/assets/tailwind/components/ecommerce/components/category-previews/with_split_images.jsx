@@ -25,7 +25,8 @@ export default function Example() {
 						</p>
 						<a
 							href="#"
-							className="mt-4 rounded-md bg-white px-4 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50">
+							className="mt-4 rounded-md bg-white px-4 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50"
+						>
 							Shop now
 						</a>
 					</div>
@@ -45,7 +46,8 @@ export default function Example() {
 						</p>
 						<a
 							href="#"
-							className="mt-4 rounded-md bg-white px-4 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50">
+							className="mt-4 rounded-md bg-white px-4 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50"
+						>
 							Shop now
 						</a>
 					</div>

@@ -74,7 +74,8 @@ export default function Example() {
 			<Disclosure
 				as="section"
 				aria-labelledby="filter-heading"
-				className="grid items-center border-b border-t border-gray-200">
+				className="grid items-center border-b border-t border-gray-200"
+			>
 				<h2 id="filter-heading" className="sr-only">
 					Filters
 				</h2>
@@ -105,7 +106,8 @@ export default function Example() {
 									{filters.price.map((option, optionIdx) => (
 										<div
 											key={option.value}
-											className="flex items-center text-base sm:text-sm">
+											className="flex items-center text-base sm:text-sm"
+										>
 											<input
 												id={`price-${optionIdx}`}
 												name="price[]"
@@ -116,7 +118,8 @@ export default function Example() {
 											/>
 											<label
 												htmlFor={`price-${optionIdx}`}
-												className="ml-3 min-w-0 flex-1 text-gray-600">
+												className="ml-3 min-w-0 flex-1 text-gray-600"
+											>
 												{option.label}
 											</label>
 										</div>
@@ -129,7 +132,8 @@ export default function Example() {
 									{filters.color.map((option, optionIdx) => (
 										<div
 											key={option.value}
-											className="flex items-center text-base sm:text-sm">
+											className="flex items-center text-base sm:text-sm"
+										>
 											<input
 												id={`color-${optionIdx}`}
 												name="color[]"
@@ -140,7 +144,8 @@ export default function Example() {
 											/>
 											<label
 												htmlFor={`color-${optionIdx}`}
-												className="ml-3 min-w-0 flex-1 text-gray-600">
+												className="ml-3 min-w-0 flex-1 text-gray-600"
+											>
 												{option.label}
 											</label>
 										</div>
@@ -155,7 +160,8 @@ export default function Example() {
 									{filters.size.map((option, optionIdx) => (
 										<div
 											key={option.value}
-											className="flex items-center text-base sm:text-sm">
+											className="flex items-center text-base sm:text-sm"
+										>
 											<input
 												id={`size-${optionIdx}`}
 												name="size[]"
@@ -166,7 +172,8 @@ export default function Example() {
 											/>
 											<label
 												htmlFor={`size-${optionIdx}`}
-												className="ml-3 min-w-0 flex-1 text-gray-600">
+												className="ml-3 min-w-0 flex-1 text-gray-600"
+											>
 												{option.label}
 											</label>
 										</div>
@@ -179,7 +186,8 @@ export default function Example() {
 									{filters.category.map((option, optionIdx) => (
 										<div
 											key={option.value}
-											className="flex items-center text-base sm:text-sm">
+											className="flex items-center text-base sm:text-sm"
+										>
 											<input
 												id={`category-${optionIdx}`}
 												name="category[]"
@@ -190,7 +198,8 @@ export default function Example() {
 											/>
 											<label
 												htmlFor={`category-${optionIdx}`}
-												className="ml-3 min-w-0 flex-1 text-gray-600">
+												className="ml-3 min-w-0 flex-1 text-gray-600"
+											>
 												{option.label}
 											</label>
 										</div>
@@ -220,7 +229,8 @@ export default function Example() {
 								enterTo="transform opacity-100 scale-100"
 								leave="transition ease-in duration-75"
 								leaveFrom="transform opacity-100 scale-100"
-								leaveTo="transform opacity-0 scale-95">
+								leaveTo="transform opacity-0 scale-95"
+							>
 								<Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
 									<div className="py-1">
 										{sortOptions.map((option) => (
@@ -234,7 +244,8 @@ export default function Example() {
 																: "text-gray-500",
 															active ? "bg-gray-100" : "",
 															"block px-4 py-2 text-sm",
-														)}>
+														)}
+													>
 														{option.name}
 													</a>
 												)}

@@ -65,13 +65,15 @@ export default function Example() {
 				enterTo="opacity-100 translate-y-0"
 				leave="transition ease-in duration-150"
 				leaveFrom="opacity-100 translate-y-0"
-				leaveTo="opacity-0 -translate-y-1">
+				leaveTo="opacity-0 -translate-y-1"
+			>
 				<Popover.Panel className="absolute inset-x-0 top-0 -z-10 bg-white pt-16 shadow-lg ring-1 ring-gray-900/5">
 					<div className="mx-auto grid max-w-7xl grid-cols-1 gap-2 px-6 py-6 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-0 sm:py-10 lg:grid-cols-4 lg:gap-4 lg:px-8 xl:gap-8">
 						{solutions.map((item) => (
 							<div
 								key={item.name}
-								className="group relative -mx-3 flex gap-6 rounded-lg p-3 text-sm leading-6 hover:bg-gray-50 sm:flex-col sm:p-6">
+								className="group relative -mx-3 flex gap-6 rounded-lg p-3 text-sm leading-6 hover:bg-gray-50 sm:flex-col sm:p-6"
+							>
 								<div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
 									<item.icon
 										className="h-6 w-6 text-gray-600 group-hover:text-indigo-600"
@@ -95,7 +97,8 @@ export default function Example() {
 									<a
 										key={item.name}
 										href={item.href}
-										className="flex items-center gap-x-2.5 p-3 px-6 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100 sm:justify-center sm:px-0">
+										className="flex items-center gap-x-2.5 p-3 px-6 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100 sm:justify-center sm:px-0"
+									>
 										<item.icon
 											className="h-5 w-5 flex-none text-gray-400"
 											aria-hidden="true"

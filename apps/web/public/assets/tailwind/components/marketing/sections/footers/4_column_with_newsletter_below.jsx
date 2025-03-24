@@ -126,7 +126,8 @@ export default function Example() {
 										<li key={item.name}>
 											<a
 												href={item.href}
-												className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+												className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+											>
 												{item.name}
 											</a>
 										</li>
@@ -142,7 +143,8 @@ export default function Example() {
 										<li key={item.name}>
 											<a
 												href={item.href}
-												className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+												className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+											>
 												{item.name}
 											</a>
 										</li>
@@ -160,7 +162,8 @@ export default function Example() {
 										<li key={item.name}>
 											<a
 												href={item.href}
-												className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+												className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+											>
 												{item.name}
 											</a>
 										</li>
@@ -176,7 +179,8 @@ export default function Example() {
 										<li key={item.name}>
 											<a
 												href={item.href}
-												className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+												className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+											>
 												{item.name}
 											</a>
 										</li>
@@ -212,7 +216,8 @@ export default function Example() {
 						<div className="mt-4 sm:ml-4 sm:mt-0 sm:flex-shrink-0">
 							<button
 								type="submit"
-								className="flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+								className="flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+							>
 								Subscribe
 							</button>
 						</div>
@@ -224,7 +229,8 @@ export default function Example() {
 							<a
 								key={item.name}
 								href={item.href}
-								className="text-gray-400 hover:text-gray-500">
+								className="text-gray-400 hover:text-gray-500"
+							>
 								<span className="sr-only">{item.name}</span>
 								<item.icon className="h-6 w-6" aria-hidden="true" />
 							</a>

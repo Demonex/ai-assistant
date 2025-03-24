@@ -47,7 +47,8 @@ export default function Example() {
 					<Dialog
 						as="div"
 						className="relative z-50 lg:hidden"
-						onClose={setSidebarOpen}>
+						onClose={setSidebarOpen}
+					>
 						<Transition.Child
 							as={Fragment}
 							enter="transition-opacity ease-linear duration-300"
@@ -55,7 +56,8 @@ export default function Example() {
 							enterTo="opacity-100"
 							leave="transition-opacity ease-linear duration-300"
 							leaveFrom="opacity-100"
-							leaveTo="opacity-0">
+							leaveTo="opacity-0"
+						>
 							<div className="fixed inset-0 bg-gray-900/80" />
 						</Transition.Child>
 
@@ -67,7 +69,8 @@ export default function Example() {
 								enterTo="translate-x-0"
 								leave="transition ease-in-out duration-300 transform"
 								leaveFrom="translate-x-0"
-								leaveTo="-translate-x-full">
+								leaveTo="-translate-x-full"
+							>
 								<Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1">
 									<Transition.Child
 										as={Fragment}
@@ -76,12 +79,14 @@ export default function Example() {
 										enterTo="opacity-100"
 										leave="ease-in-out duration-300"
 										leaveFrom="opacity-100"
-										leaveTo="opacity-0">
+										leaveTo="opacity-0"
+									>
 										<div className="absolute left-full top-0 flex w-16 justify-center pt-5">
 											<button
 												type="button"
 												className="-m-2.5 p-2.5"
-												onClick={() => setSidebarOpen(false)}>
+												onClick={() => setSidebarOpen(false)}
+											>
 												<span className="sr-only">Close sidebar</span>
 												<XMarkIcon
 													className="h-6 w-6 text-white"
@@ -112,7 +117,8 @@ export default function Example() {
 																			? "bg-gray-800 text-white"
 																			: "text-gray-400 hover:text-white hover:bg-gray-800",
 																		"group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
-																	)}>
+																	)}
+																>
 																	<item.icon
 																		className="h-6 w-6 shrink-0"
 																		aria-hidden="true"
@@ -137,7 +143,8 @@ export default function Example() {
 																			? "bg-gray-800 text-white"
 																			: "text-gray-400 hover:text-white hover:bg-gray-800",
 																		"group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
-																	)}>
+																	)}
+																>
 																	<span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
 																		{team.initial}
 																	</span>
@@ -180,7 +187,8 @@ export default function Example() {
 															? "bg-gray-800 text-white"
 															: "text-gray-400 hover:text-white hover:bg-gray-800",
 														"group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
-													)}>
+													)}
+												>
 													<item.icon
 														className="h-6 w-6 shrink-0"
 														aria-hidden="true"
@@ -205,7 +213,8 @@ export default function Example() {
 															? "bg-gray-800 text-white"
 															: "text-gray-400 hover:text-white hover:bg-gray-800",
 														"group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold",
-													)}>
+													)}
+												>
 													<span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
 														{team.initial}
 													</span>
@@ -218,7 +227,8 @@ export default function Example() {
 								<li className="-mx-6 mt-auto">
 									<a
 										href="#"
-										className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800">
+										className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-white hover:bg-gray-800"
+									>
 										<img
 											className="h-8 w-8 rounded-full bg-gray-800"
 											src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
@@ -237,7 +247,8 @@ export default function Example() {
 					<button
 						type="button"
 						className="-m-2.5 p-2.5 text-gray-400 lg:hidden"
-						onClick={() => setSidebarOpen(true)}>
+						onClick={() => setSidebarOpen(true)}
+					>
 						<span className="sr-only">Open sidebar</span>
 						<Bars3Icon className="h-6 w-6" aria-hidden="true" />
 					</button>

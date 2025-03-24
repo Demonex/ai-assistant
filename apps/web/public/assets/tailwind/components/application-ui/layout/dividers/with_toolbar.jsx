@@ -15,19 +15,22 @@ export default function Example() {
 				<span className="isolate inline-flex -space-x-px rounded-md shadow-sm">
 					<button
 						type="button"
-						className="relative inline-flex items-center rounded-l-md bg-white px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">
+						className="relative inline-flex items-center rounded-l-md bg-white px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+					>
 						<span className="sr-only">Edit</span>
 						<PencilIcon className="h-5 w-5" aria-hidden="true" />
 					</button>
 					<button
 						type="button"
-						className="relative inline-flex items-center bg-white px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">
+						className="relative inline-flex items-center bg-white px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+					>
 						<span className="sr-only">Attachment</span>
 						<PaperClipIcon className="h-5 w-5" aria-hidden="true" />
 					</button>
 					<button
 						type="button"
-						className="relative inline-flex items-center bg-white px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">
+						className="relative inline-flex items-center bg-white px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+					>
 						<span className="sr-only">Annotate</span>
 						<ChatBubbleBottomCenterTextIcon
 							className="h-5 w-5"
@@ -36,7 +39,8 @@ export default function Example() {
 					</button>
 					<button
 						type="button"
-						className="relative inline-flex items-center rounded-r-md bg-white px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">
+						className="relative inline-flex items-center rounded-r-md bg-white px-3 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
+					>
 						<span className="sr-only">Delete</span>
 						<TrashIcon className="h-5 w-5" aria-hidden="true" />
 					</button>

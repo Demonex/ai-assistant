@@ -20,7 +20,8 @@ export default function Example() {
 								enterTo="translate-x-0"
 								leave="transform transition ease-in-out duration-500 sm:duration-700"
 								leaveFrom="translate-x-0"
-								leaveTo="translate-x-full">
+								leaveTo="translate-x-full"
+							>
 								<Dialog.Panel className="pointer-events-auto w-screen max-w-md">
 									<div className="flex h-full flex-col divide-y divide-gray-200 bg-white shadow-xl">
 										<div className="flex min-h-0 flex-1 flex-col overflow-y-scroll py-6">
@@ -33,7 +34,8 @@ export default function Example() {
 														<button
 															type="button"
 															className="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-															onClick={() => setOpen(false)}>
+															onClick={() => setOpen(false)}
+														>
 															<span className="absolute -inset-2.5" />
 															<span className="sr-only">Close panel</span>
 															<XMarkIcon
@@ -52,12 +54,14 @@ export default function Example() {
 											<button
 												type="button"
 												className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
-												onClick={() => setOpen(false)}>
+												onClick={() => setOpen(false)}
+											>
 												Cancel
 											</button>
 											<button
 												type="submit"
-												className="ml-4 inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+												className="ml-4 inline-flex justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+											>
 												Save
 											</button>
 										</div>

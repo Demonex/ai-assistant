@@ -55,7 +55,8 @@ export default function Example() {
 									<p className="mt-6">
 										<a
 											href={feature.href}
-											className="text-sm font-semibold leading-6 text-indigo-600">
+											className="text-sm font-semibold leading-6 text-indigo-600"
+										>
 											Learn more <span aria-hidden="true">→</span>
 										</a>
 									</p>

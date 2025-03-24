@@ -27,7 +27,8 @@ export default function Example() {
 							<div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
 								<button
 									type="button"
-									className="block rounded-md bg-indigo-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+									className="block rounded-md bg-indigo-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+								>
 									Add user
 								</button>
 							</div>
@@ -40,27 +41,32 @@ export default function Example() {
 											<tr>
 												<th
 													scope="col"
-													className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-0">
+													className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-0"
+												>
 													Name
 												</th>
 												<th
 													scope="col"
-													className="px-3 py-3.5 text-left text-sm font-semibold text-white">
+													className="px-3 py-3.5 text-left text-sm font-semibold text-white"
+												>
 													Title
 												</th>
 												<th
 													scope="col"
-													className="px-3 py-3.5 text-left text-sm font-semibold text-white">
+													className="px-3 py-3.5 text-left text-sm font-semibold text-white"
+												>
 													Email
 												</th>
 												<th
 													scope="col"
-													className="px-3 py-3.5 text-left text-sm font-semibold text-white">
+													className="px-3 py-3.5 text-left text-sm font-semibold text-white"
+												>
 													Role
 												</th>
 												<th
 													scope="col"
-													className="relative py-3.5 pl-3 pr-4 sm:pr-0">
+													className="relative py-3.5 pl-3 pr-4 sm:pr-0"
+												>
 													<span className="sr-only">Edit</span>
 												</th>
 											</tr>
@@ -83,7 +89,8 @@ export default function Example() {
 													<td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
 														<a
 															href="#"
-															className="text-indigo-400 hover:text-indigo-300">
+															className="text-indigo-400 hover:text-indigo-300"
+														>
 															Edit
 															<span className="sr-only">, {person.name}</span>
 														</a>

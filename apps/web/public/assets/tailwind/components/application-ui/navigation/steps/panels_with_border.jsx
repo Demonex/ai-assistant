@@ -33,10 +33,12 @@ export default function Example() {
 		<div className="lg:border-b lg:border-t lg:border-gray-200">
 			<nav
 				className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-				aria-label="Progress">
+				aria-label="Progress"
+			>
 				<ol
 					role="list"
-					className="overflow-hidden rounded-md lg:flex lg:rounded-none lg:border-l lg:border-r lg:border-gray-200">
+					className="overflow-hidden rounded-md lg:flex lg:rounded-none lg:border-l lg:border-r lg:border-gray-200"
+				>
 					{steps.map((step, stepIdx) => (
 						<li key={step.id} className="relative overflow-hidden lg:flex-1">
 							<div
@@ -44,7 +46,8 @@ export default function Example() {
 									stepIdx === 0 ? "rounded-t-md border-b-0" : "",
 									stepIdx === steps.length - 1 ? "rounded-b-md border-t-0" : "",
 									"overflow-hidden border border-gray-200 lg:border-0",
-								)}>
+								)}
+							>
 								{step.status === "complete" ? (
 									<a href={step.href} className="group">
 										<span
@@ -55,7 +58,8 @@ export default function Example() {
 											className={classNames(
 												stepIdx !== 0 ? "lg:pl-9" : "",
 												"flex items-start px-6 py-5 text-sm font-medium",
-											)}>
+											)}
+										>
 											<span className="flex-shrink-0">
 												<span className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-600">
 													<CheckIcon
@@ -82,7 +86,8 @@ export default function Example() {
 											className={classNames(
 												stepIdx !== 0 ? "lg:pl-9" : "",
 												"flex items-start px-6 py-5 text-sm font-medium",
-											)}>
+											)}
+										>
 											<span className="flex-shrink-0">
 												<span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-indigo-600">
 													<span className="text-indigo-600">{step.id}</span>
@@ -108,7 +113,8 @@ export default function Example() {
 											className={classNames(
 												stepIdx !== 0 ? "lg:pl-9" : "",
 												"flex items-start px-6 py-5 text-sm font-medium",
-											)}>
+											)}
+										>
 											<span className="flex-shrink-0">
 												<span className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-gray-300">
 													<span className="text-gray-500">{step.id}</span>
@@ -131,12 +137,14 @@ export default function Example() {
 										{/* Separator */}
 										<div
 											className="absolute inset-0 left-0 top-0 hidden w-3 lg:block"
-											aria-hidden="true">
+											aria-hidden="true"
+										>
 											<svg
 												className="h-full w-full text-gray-300"
 												viewBox="0 0 12 82"
 												fill="none"
-												preserveAspectRatio="none">
+												preserveAspectRatio="none"
+											>
 												<path
 													d="M0.5 0V31L10.5 41L0.5 51V82"
 													stroke="currentcolor"

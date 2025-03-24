@@ -15,7 +15,8 @@ export default function Example() {
 						<div className="mt-8 flex items-center gap-x-6">
 							<a
 								href="#"
-								className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+								className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+							>
 								Create account
 							</a>
 							<a href="#" className="text-sm font-semibold text-white">

@@ -41,7 +41,8 @@ export default function Example() {
 				<div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
 					<button
 						type="button"
-						className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+						className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+					>
 						Add user
 					</button>
 				</div>
@@ -54,22 +55,26 @@ export default function Example() {
 								<tr>
 									<th
 										scope="col"
-										className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">
+										className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3"
+									>
 										Name
 									</th>
 									<th
 										scope="col"
-										className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+										className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+									>
 										Title
 									</th>
 									<th
 										scope="col"
-										className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+										className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+									>
 										Email
 									</th>
 									<th
 										scope="col"
-										className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+										className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+									>
 										Role
 									</th>
 									<th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-3">
@@ -84,7 +89,8 @@ export default function Example() {
 											<th
 												colSpan={5}
 												scope="colgroup"
-												className="bg-gray-50 py-2 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">
+												className="bg-gray-50 py-2 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3"
+											>
 												{location.name}
 											</th>
 										</tr>
@@ -96,7 +102,8 @@ export default function Example() {
 														? "border-gray-300"
 														: "border-gray-200",
 													"border-t",
-												)}>
+												)}
+											>
 												<td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
 													{person.name}
 												</td>
@@ -112,7 +119,8 @@ export default function Example() {
 												<td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
 													<a
 														href="#"
-														className="text-indigo-600 hover:text-indigo-900">
+														className="text-indigo-600 hover:text-indigo-900"
+													>
 														Edit<span className="sr-only">, {person.name}</span>
 													</a>
 												</td>

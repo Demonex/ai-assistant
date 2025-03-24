@@ -10,7 +10,8 @@ export default function Example() {
 				<svg
 					viewBox="0 0 926 676"
 					aria-hidden="true"
-					className="absolute -bottom-24 left-24 w-[57.875rem] transform-gpu blur-[118px]">
+					className="absolute -bottom-24 left-24 w-[57.875rem] transform-gpu blur-[118px]"
+				>
 					<path
 						fill="url(#60c3c621-93e0-4a09-a0e6-4c228a0116d8)"
 						fillOpacity=".4"
@@ -23,7 +24,8 @@ export default function Example() {
 							x2="-109.635"
 							y1=".176"
 							y2="321.024"
-							gradientUnits="userSpaceOnUse">
+							gradientUnits="userSpaceOnUse"
+						>
 							<stop stopColor="#776FFF" />
 							<stop offset={1} stopColor="#FF4694" />
 						</linearGradient>
@@ -47,7 +49,8 @@ export default function Example() {
 					<div className="mt-8">
 						<a
 							href="#"
-							className="inline-flex rounded-md bg-white/10 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+							className="inline-flex rounded-md bg-white/10 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+						>
 							Visit the help center
 						</a>
 					</div>

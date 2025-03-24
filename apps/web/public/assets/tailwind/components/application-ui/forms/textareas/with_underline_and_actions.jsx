@@ -108,7 +108,8 @@ export default function Example() {
 							<div className="flow-root">
 								<button
 									type="button"
-									className="-m-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500">
+									className="-m-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+								>
 									<PaperClipIcon className="h-6 w-6" aria-hidden="true" />
 									<span className="sr-only">Attach a file</span>
 								</button>
@@ -137,7 +138,8 @@ export default function Example() {
 																	className={classNames(
 																		selected.bgColor,
 																		"flex h-8 w-8 items-center justify-center rounded-full",
-																	)}>
+																	)}
+																>
 																	<selected.icon
 																		className="h-5 w-5 flex-shrink-0 text-white"
 																		aria-hidden="true"
@@ -154,7 +156,8 @@ export default function Example() {
 													as={Fragment}
 													leave="transition ease-in duration-100"
 													leaveFrom="opacity-100"
-													leaveTo="opacity-0">
+													leaveTo="opacity-0"
+												>
 													<Listbox.Options className="absolute z-10 -ml-6 w-60 rounded-lg bg-white py-3 text-base shadow ring-1 ring-black ring-opacity-5 focus:outline-none sm:ml-auto sm:w-64 sm:text-sm">
 														{moods.map((mood) => (
 															<Listbox.Option
@@ -165,13 +168,15 @@ export default function Example() {
 																		"relative cursor-default select-none px-3 py-2",
 																	)
 																}
-																value={mood}>
+																value={mood}
+															>
 																<div className="flex items-center">
 																	<div
 																		className={classNames(
 																			mood.bgColor,
 																			"flex h-8 w-8 items-center justify-center rounded-full",
-																		)}>
+																		)}
+																	>
 																		<mood.icon
 																			className={classNames(
 																				mood.iconColor,
@@ -197,7 +202,8 @@ export default function Example() {
 						<div className="flex-shrink-0">
 							<button
 								type="submit"
-								className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+								className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+							>
 								Post
 							</button>
 						</div>

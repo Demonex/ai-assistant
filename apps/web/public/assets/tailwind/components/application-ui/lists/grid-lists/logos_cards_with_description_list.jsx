@@ -51,11 +51,13 @@ export default function Example() {
 	return (
 		<ul
 			role="list"
-			className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
+			className="grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8"
+		>
 			{clients.map((client) => (
 				<li
 					key={client.id}
-					className="overflow-hidden rounded-xl border border-gray-200">
+					className="overflow-hidden rounded-xl border border-gray-200"
+				>
 					<div className="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
 						<img
 							src={client.imageUrl}
@@ -80,7 +82,8 @@ export default function Example() {
 								enterTo="transform opacity-100 scale-100"
 								leave="transition ease-in duration-75"
 								leaveFrom="transform opacity-100 scale-100"
-								leaveTo="transform opacity-0 scale-95">
+								leaveTo="transform opacity-0 scale-95"
+							>
 								<Menu.Items className="absolute right-0 z-10 mt-0.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
 									<Menu.Item>
 										{({ active }) => (
@@ -89,7 +92,8 @@ export default function Example() {
 												className={classNames(
 													active ? "bg-gray-50" : "",
 													"block px-3 py-1 text-sm leading-6 text-gray-900",
-												)}>
+												)}
+											>
 												View<span className="sr-only">, {client.name}</span>
 											</a>
 										)}
@@ -101,7 +105,8 @@ export default function Example() {
 												className={classNames(
 													active ? "bg-gray-50" : "",
 													"block px-3 py-1 text-sm leading-6 text-gray-900",
-												)}>
+												)}
+											>
 												Edit<span className="sr-only">, {client.name}</span>
 											</a>
 										)}
@@ -129,7 +134,8 @@ export default function Example() {
 									className={classNames(
 										statuses[client.lastInvoice.status],
 										"rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset",
-									)}>
+									)}
+								>
 									{client.lastInvoice.status}
 								</div>
 							</dd>

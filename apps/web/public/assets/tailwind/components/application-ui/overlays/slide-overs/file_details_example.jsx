@@ -30,7 +30,8 @@ export default function Example() {
 					enterTo="opacity-100"
 					leave="ease-in-out duration-500"
 					leaveFrom="opacity-100"
-					leaveTo="opacity-0">
+					leaveTo="opacity-0"
+				>
 					<div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
 				</Transition.Child>
 
@@ -44,7 +45,8 @@ export default function Example() {
 								enterTo="translate-x-0"
 								leave="transform transition ease-in-out duration-500 sm:duration-700"
 								leaveFrom="translate-x-0"
-								leaveTo="translate-x-full">
+								leaveTo="translate-x-full"
+							>
 								<Dialog.Panel className="pointer-events-auto relative w-96">
 									<Transition.Child
 										as={Fragment}
@@ -53,12 +55,14 @@ export default function Example() {
 										enterTo="opacity-100"
 										leave="ease-in-out duration-500"
 										leaveFrom="opacity-100"
-										leaveTo="opacity-0">
+										leaveTo="opacity-0"
+									>
 										<div className="absolute left-0 top-0 -ml-8 flex pr-2 pt-4 sm:-ml-10 sm:pr-4">
 											<button
 												type="button"
 												className="relative rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
-												onClick={() => setOpen(false)}>
+												onClick={() => setOpen(false)}
+											>
 												<span className="absolute -inset-2.5" />
 												<span className="sr-only">Close panel</span>
 												<XMarkIcon className="h-6 w-6" aria-hidden="true" />
@@ -87,7 +91,8 @@ export default function Example() {
 													</div>
 													<button
 														type="button"
-														className="relative ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+														className="relative ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+													>
 														<span className="absolute -inset-1.5" />
 														<HeartIcon className="h-6 w-6" aria-hidden="true" />
 														<span className="sr-only">Favorite</span>
@@ -131,7 +136,8 @@ export default function Example() {
 													</p>
 													<button
 														type="button"
-														className="relative -mr-2 flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+														className="relative -mr-2 flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+													>
 														<span className="absolute -inset-1.5" />
 														<PencilIcon
 															className="h-5 w-5"
@@ -147,7 +153,8 @@ export default function Example() {
 												</h3>
 												<ul
 													role="list"
-													className="mt-2 divide-y divide-gray-200 border-b border-t border-gray-200">
+													className="mt-2 divide-y divide-gray-200 border-b border-t border-gray-200"
+												>
 													<li className="flex items-center justify-between py-3">
 														<div className="flex items-center">
 															<img
@@ -161,7 +168,8 @@ export default function Example() {
 														</div>
 														<button
 															type="button"
-															className="ml-6 rounded-md bg-white text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+															className="ml-6 rounded-md bg-white text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+														>
 															Remove
 															<span className="sr-only"> Aimee Douglas</span>
 														</button>
@@ -179,7 +187,8 @@ export default function Example() {
 														</div>
 														<button
 															type="button"
-															className="ml-6 rounded-md bg-white text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+															className="ml-6 rounded-md bg-white text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+														>
 															Remove
 															<span className="sr-only"> Andrea McMillan</span>
 														</button>
@@ -187,7 +196,8 @@ export default function Example() {
 													<li className="flex items-center justify-between py-2">
 														<button
 															type="button"
-															className="group -ml-1 flex items-center rounded-md bg-white p-1 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+															className="group -ml-1 flex items-center rounded-md bg-white p-1 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+														>
 															<span className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-dashed border-gray-300 text-gray-400">
 																<PlusIcon
 																	className="h-5 w-5"
@@ -204,12 +214,14 @@ export default function Example() {
 											<div className="flex">
 												<button
 													type="button"
-													className="flex-1 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+													className="flex-1 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+												>
 													Download
 												</button>
 												<button
 													type="button"
-													className="ml-3 flex-1 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+													className="ml-3 flex-1 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+												>
 													Delete
 												</button>
 											</div>

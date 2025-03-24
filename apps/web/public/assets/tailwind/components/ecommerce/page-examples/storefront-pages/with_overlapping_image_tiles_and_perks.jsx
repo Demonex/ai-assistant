@@ -219,7 +219,8 @@ export default function Example() {
 						enterTo="opacity-100"
 						leave="transition-opacity ease-linear duration-300"
 						leaveFrom="opacity-100"
-						leaveTo="opacity-0">
+						leaveTo="opacity-0"
+					>
 						<div className="fixed inset-0 bg-black bg-opacity-25" />
 					</Transition.Child>
 
@@ -231,13 +232,15 @@ export default function Example() {
 							enterTo="translate-x-0"
 							leave="transition ease-in-out duration-300 transform"
 							leaveFrom="translate-x-0"
-							leaveTo="-translate-x-full">
+							leaveTo="-translate-x-full"
+						>
 							<Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
 								<div className="flex px-4 pb-2 pt-5">
 									<button
 										type="button"
 										className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
-										onClick={() => setOpen(false)}>
+										onClick={() => setOpen(false)}
+									>
 										<span className="sr-only">Close menu</span>
 										<XMarkIcon className="h-6 w-6" aria-hidden="true" />
 									</button>
@@ -257,7 +260,8 @@ export default function Example() {
 																: "border-transparent text-gray-900",
 															"flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium",
 														)
-													}>
+													}
+												>
 													{category.name}
 												</Tab>
 											))}
@@ -267,7 +271,8 @@ export default function Example() {
 										{navigation.categories.map((category) => (
 											<Tab.Panel
 												key={category.name}
-												className="space-y-12 px-4 py-6">
+												className="space-y-12 px-4 py-6"
+											>
 												<div className="grid grid-cols-2 gap-x-4 gap-y-10">
 													{category.featured.map((item) => (
 														<div key={item.name} className="group relative">
@@ -280,7 +285,8 @@ export default function Example() {
 															</div>
 															<a
 																href={item.href}
-																className="mt-6 block text-sm font-medium text-gray-900">
+																className="mt-6 block text-sm font-medium text-gray-900"
+															>
 																<span
 																	className="absolute inset-0 z-10"
 																	aria-hidden="true"
@@ -289,7 +295,8 @@ export default function Example() {
 															</a>
 															<p
 																aria-hidden="true"
-																className="mt-1 text-sm text-gray-500">
+																className="mt-1 text-sm text-gray-500"
+															>
 																Shop now
 															</p>
 														</div>
@@ -305,7 +312,8 @@ export default function Example() {
 										<div key={page.name} className="flow-root">
 											<a
 												href={page.href}
-												className="-m-2 block p-2 font-medium text-gray-900">
+												className="-m-2 block p-2 font-medium text-gray-900"
+											>
 												{page.name}
 											</a>
 										</div>
@@ -316,14 +324,16 @@ export default function Example() {
 									<div className="flow-root">
 										<a
 											href="#"
-											className="-m-2 block p-2 font-medium text-gray-900">
+											className="-m-2 block p-2 font-medium text-gray-900"
+										>
 											Create an account
 										</a>
 									</div>
 									<div className="flow-root">
 										<a
 											href="#"
-											className="-m-2 block p-2 font-medium text-gray-900">
+											className="-m-2 block p-2 font-medium text-gray-900"
+										>
 											Sign in
 										</a>
 									</div>
@@ -340,7 +350,8 @@ export default function Example() {
 												<select
 													id="mobile-currency"
 													name="currency"
-													className="flex items-center rounded-md border-transparent bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-gray-700 focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-800">
+													className="flex items-center rounded-md border-transparent bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-gray-700 focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-800"
+												>
 													{currencies.map((currency) => (
 														<option key={currency}>{currency}</option>
 													))}
@@ -376,7 +387,8 @@ export default function Example() {
 										<select
 											id="desktop-currency"
 											name="currency"
-											className="flex items-center rounded-md border-transparent bg-gray-900 bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-white focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-100">
+											className="flex items-center rounded-md border-transparent bg-gray-900 bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-white focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-100"
+										>
 											{currencies.map((currency) => (
 												<option key={currency}>{currency}</option>
 											))}
@@ -394,12 +406,14 @@ export default function Example() {
 							<div className="flex items-center space-x-6">
 								<a
 									href="#"
-									className="text-sm font-medium text-white hover:text-gray-100">
+									className="text-sm font-medium text-white hover:text-gray-100"
+								>
 									Sign in
 								</a>
 								<a
 									href="#"
-									className="text-sm font-medium text-white hover:text-gray-100">
+									className="text-sm font-medium text-white hover:text-gray-100"
+								>
 									Create an account
 								</a>
 							</div>
@@ -437,7 +451,8 @@ export default function Example() {
 																			? "text-indigo-600"
 																			: "text-gray-700 hover:text-gray-800",
 																		"relative flex items-center justify-center text-sm font-medium transition-colors duration-200 ease-out",
-																	)}>
+																	)}
+																>
 																	{category.name}
 																	<span
 																		className={classNames(
@@ -456,7 +471,8 @@ export default function Example() {
 																enterTo="opacity-100"
 																leave="transition ease-in duration-150"
 																leaveFrom="opacity-100"
-																leaveTo="opacity-0">
+																leaveTo="opacity-0"
+															>
 																<Popover.Panel className="absolute inset-x-0 top-full z-10 bg-white text-sm text-gray-500">
 																	{/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
 																	<div
@@ -466,7 +482,8 @@ export default function Example() {
 																	{/* Fake border when menu is open */}
 																	<div
 																		className="absolute inset-0 top-0 mx-auto h-px max-w-7xl px-8"
-																		aria-hidden="true">
+																		aria-hidden="true"
+																	>
 																		<div
 																			className={classNames(
 																				open ? "bg-gray-200" : "bg-transparent",
@@ -481,7 +498,8 @@ export default function Example() {
 																				{category.featured.map((item) => (
 																					<div
 																						key={item.name}
-																						className="group relative">
+																						className="group relative"
+																					>
 																						<div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-md bg-gray-100 group-hover:opacity-75">
 																							<img
 																								src={item.imageSrc}
@@ -491,7 +509,8 @@ export default function Example() {
 																						</div>
 																						<a
 																							href={item.href}
-																							className="mt-4 block font-medium text-gray-900">
+																							className="mt-4 block font-medium text-gray-900"
+																						>
 																							<span
 																								className="absolute inset-0 z-10"
 																								aria-hidden="true"
@@ -500,7 +519,8 @@ export default function Example() {
 																						</a>
 																						<p
 																							aria-hidden="true"
-																							className="mt-1">
+																							className="mt-1"
+																						>
 																							Shop now
 																						</p>
 																					</div>
@@ -519,7 +539,8 @@ export default function Example() {
 												<a
 													key={page.name}
 													href={page.href}
-													className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
+													className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+												>
 													{page.name}
 												</a>
 											))}
@@ -532,7 +553,8 @@ export default function Example() {
 									<button
 										type="button"
 										className="-ml-2 rounded-md bg-white p-2 text-gray-400"
-										onClick={() => setOpen(true)}>
+										onClick={() => setOpen(true)}
+									>
 										<span className="sr-only">Open menu</span>
 										<Bars3Icon className="h-6 w-6" aria-hidden="true" />
 									</button>
@@ -540,7 +562,8 @@ export default function Example() {
 									{/* Search */}
 									<a
 										href="#"
-										className="ml-2 p-2 text-gray-400 hover:text-gray-500">
+										className="ml-2 p-2 text-gray-400 hover:text-gray-500"
+									>
 										<span className="sr-only">Search</span>
 										<MagnifyingGlassIcon
 											className="h-6 w-6"
@@ -562,7 +585,8 @@ export default function Example() {
 								<div className="flex flex-1 items-center justify-end">
 									<a
 										href="#"
-										className="hidden text-sm font-medium text-gray-700 hover:text-gray-800 lg:block">
+										className="hidden text-sm font-medium text-gray-700 hover:text-gray-800 lg:block"
+									>
 										Search
 									</a>
 
@@ -570,7 +594,8 @@ export default function Example() {
 										{/* Help */}
 										<a
 											href="#"
-											className="p-2 text-gray-400 hover:text-gray-500 lg:hidden">
+											className="p-2 text-gray-400 hover:text-gray-500 lg:hidden"
+										>
 											<span className="sr-only">Help</span>
 											<QuestionMarkCircleIcon
 												className="h-6 w-6"
@@ -579,7 +604,8 @@ export default function Example() {
 										</a>
 										<a
 											href="#"
-											className="hidden text-sm font-medium text-gray-700 hover:text-gray-800 lg:block">
+											className="hidden text-sm font-medium text-gray-700 hover:text-gray-800 lg:block"
+										>
 											Help
 										</a>
 
@@ -610,7 +636,8 @@ export default function Example() {
 					{/* Background image and overlap */}
 					<div
 						aria-hidden="true"
-						className="absolute inset-0 hidden sm:flex sm:flex-col">
+						className="absolute inset-0 hidden sm:flex sm:flex-col"
+					>
 						<div className="relative w-full flex-1 bg-gray-800">
 							<div className="absolute inset-0 overflow-hidden">
 								<img
@@ -628,7 +655,8 @@ export default function Example() {
 						{/* Background image and overlap */}
 						<div
 							aria-hidden="true"
-							className="absolute inset-0 flex flex-col sm:hidden">
+							className="absolute inset-0 flex flex-col sm:hidden"
+						>
 							<div className="relative w-full flex-1 bg-gray-800">
 								<div className="absolute inset-0 overflow-hidden">
 									<img
@@ -648,7 +676,8 @@ export default function Example() {
 							<div className="mt-4 sm:mt-6">
 								<a
 									href="#"
-									className="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 font-medium text-white hover:bg-indigo-700">
+									className="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 font-medium text-white hover:bg-indigo-700"
+								>
 									Shop Collection
 								</a>
 							</div>
@@ -657,7 +686,8 @@ export default function Example() {
 
 					<section
 						aria-labelledby="collection-heading"
-						className="relative -mt-96 sm:mt-0">
+						className="relative -mt-96 sm:mt-0"
+					>
 						<h2 id="collection-heading" className="sr-only">
 							Collections
 						</h2>
@@ -665,11 +695,13 @@ export default function Example() {
 							{collections.map((collection) => (
 								<div
 									key={collection.name}
-									className="group relative h-96 rounded-lg bg-white shadow-xl sm:aspect-h-5 sm:aspect-w-4 sm:h-auto">
+									className="group relative h-96 rounded-lg bg-white shadow-xl sm:aspect-h-5 sm:aspect-w-4 sm:h-auto"
+								>
 									<div>
 										<div
 											aria-hidden="true"
-											className="absolute inset-0 overflow-hidden rounded-lg">
+											className="absolute inset-0 overflow-hidden rounded-lg"
+										>
 											<div className="absolute inset-0 overflow-hidden group-hover:opacity-75">
 												<img
 													src={collection.imageSrc}
@@ -704,12 +736,14 @@ export default function Example() {
 						<div className="md:flex md:items-center md:justify-between">
 							<h2
 								id="favorites-heading"
-								className="text-2xl font-bold tracking-tight text-gray-900">
+								className="text-2xl font-bold tracking-tight text-gray-900"
+							>
 								Trending Products
 							</h2>
 							<a
 								href="#"
-								className="hidden text-sm font-medium text-indigo-600 hover:text-indigo-500 md:block">
+								className="hidden text-sm font-medium text-indigo-600 hover:text-indigo-500 md:block"
+							>
 								Shop the collection
 								<span aria-hidden="true"> &rarr;</span>
 							</a>
@@ -742,7 +776,8 @@ export default function Example() {
 						<div className="mt-8 text-sm md:hidden">
 							<a
 								href="#"
-								className="font-medium text-indigo-600 hover:text-indigo-500">
+								className="font-medium text-indigo-600 hover:text-indigo-500"
+							>
 								Shop the collection
 								<span aria-hidden="true"> &rarr;</span>
 							</a>
@@ -752,7 +787,8 @@ export default function Example() {
 
 				<section
 					aria-labelledby="perks-heading"
-					className="border-t border-gray-200 bg-gray-50">
+					className="border-t border-gray-200 bg-gray-50"
+				>
 					<h2 id="perks-heading" className="sr-only">
 						Our perks
 					</h2>
@@ -762,7 +798,8 @@ export default function Example() {
 							{perks.map((perk) => (
 								<div
 									key={perk.name}
-									className="text-center md:flex md:items-start md:text-left lg:block lg:text-center">
+									className="text-center md:flex md:items-start md:text-left lg:block lg:text-center"
+								>
 									<div className="md:flex-shrink-0">
 										<div className="flow-root">
 											<img
@@ -815,7 +852,8 @@ export default function Example() {
 												<li key={item.name} className="text-sm">
 													<a
 														href={item.href}
-														className="text-gray-500 hover:text-gray-600">
+														className="text-gray-500 hover:text-gray-600"
+													>
 														{item.name}
 													</a>
 												</li>
@@ -831,7 +869,8 @@ export default function Example() {
 												<li key={item.name} className="text-sm">
 													<a
 														href={item.href}
-														className="text-gray-500 hover:text-gray-600">
+														className="text-gray-500 hover:text-gray-600"
+													>
 														{item.name}
 													</a>
 												</li>
@@ -848,7 +887,8 @@ export default function Example() {
 											<li key={item.name} className="text-sm">
 												<a
 													href={item.href}
-													className="text-gray-500 hover:text-gray-600">
+													className="text-gray-500 hover:text-gray-600"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -879,7 +919,8 @@ export default function Example() {
 									<div className="ml-4 flex-shrink-0">
 										<button
 											type="submit"
-											className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+											className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+										>
 											Sign up
 										</button>
 									</div>

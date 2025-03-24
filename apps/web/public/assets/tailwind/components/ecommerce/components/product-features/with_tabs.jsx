@@ -83,12 +83,14 @@ export default function Example() {
 		<div className="bg-white">
 			<section
 				aria-labelledby="features-heading"
-				className="mx-auto max-w-7xl py-32 sm:px-2 lg:px-8">
+				className="mx-auto max-w-7xl py-32 sm:px-2 lg:px-8"
+			>
 				<div className="mx-auto max-w-2xl px-4 lg:max-w-none lg:px-0">
 					<div className="max-w-3xl">
 						<h2
 							id="features-heading"
-							className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+							className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+						>
 							Technical Specifications
 						</h2>
 						<p className="mt-4 text-gray-500">
@@ -112,7 +114,8 @@ export default function Example() {
 														: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
 													"whitespace-nowrap border-b-2 py-6 text-sm font-medium",
 												)
-											}>
+											}
+										>
 											{tab.name}
 										</Tab>
 									))}
@@ -126,7 +129,8 @@ export default function Example() {
 									{tab.features.map((feature) => (
 										<div
 											key={feature.name}
-											className="flex flex-col-reverse lg:grid lg:grid-cols-12 lg:gap-x-8">
+											className="flex flex-col-reverse lg:grid lg:grid-cols-12 lg:gap-x-8"
+										>
 											<div className="mt-6 lg:col-span-5 lg:mt-0">
 												<h3 className="text-lg font-medium text-gray-900">
 													{feature.name}

@@ -26,7 +26,8 @@ export default function Example() {
 				<div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
 					<button
 						type="button"
-						className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+						className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+					>
 						Add user
 					</button>
 				</div>
@@ -39,7 +40,8 @@ export default function Example() {
 								<tr>
 									<th
 										scope="col"
-										className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+										className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+									>
 										<a href="#" className="group inline-flex">
 											Name
 											<span className="invisible ml-2 flex-none rounded text-gray-400 group-hover:visible group-focus:visible">
@@ -52,7 +54,8 @@ export default function Example() {
 									</th>
 									<th
 										scope="col"
-										className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+										className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+									>
 										<a href="#" className="group inline-flex">
 											Title
 											<span className="ml-2 flex-none rounded bg-gray-100 text-gray-900 group-hover:bg-gray-200">
@@ -65,7 +68,8 @@ export default function Example() {
 									</th>
 									<th
 										scope="col"
-										className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+										className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+									>
 										<a href="#" className="group inline-flex">
 											Email
 											<span className="invisible ml-2 flex-none rounded text-gray-400 group-hover:visible group-focus:visible">
@@ -78,7 +82,8 @@ export default function Example() {
 									</th>
 									<th
 										scope="col"
-										className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+										className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+									>
 										<a href="#" className="group inline-flex">
 											Role
 											<span className="invisible ml-2 flex-none rounded text-gray-400 group-hover:visible group-focus:visible">
@@ -112,7 +117,8 @@ export default function Example() {
 										<td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm sm:pr-0">
 											<a
 												href="#"
-												className="text-indigo-600 hover:text-indigo-900">
+												className="text-indigo-600 hover:text-indigo-900"
+											>
 												Edit<span className="sr-only">, {person.name}</span>
 											</a>
 										</td>

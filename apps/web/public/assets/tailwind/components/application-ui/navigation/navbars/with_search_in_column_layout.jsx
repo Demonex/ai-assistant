@@ -50,7 +50,8 @@ export default function Example() {
 						open ? "fixed inset-0 z-40 overflow-y-auto" : "",
 						"bg-white shadow-sm lg:static lg:overflow-y-visible",
 					)
-				}>
+				}
+			>
 				{({ open }) => (
 					<>
 						<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -105,7 +106,8 @@ export default function Example() {
 								<div className="hidden lg:flex lg:items-center lg:justify-end xl:col-span-4">
 									<button
 										type="button"
-										className="relative ml-5 flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+										className="relative ml-5 flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+									>
 										<span className="absolute -inset-1.5" />
 										<span className="sr-only">View notifications</span>
 										<BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -131,7 +133,8 @@ export default function Example() {
 											enterTo="transform opacity-100 scale-100"
 											leave="transition ease-in duration-75"
 											leaveFrom="transform opacity-100 scale-100"
-											leaveTo="transform opacity-0 scale-95">
+											leaveTo="transform opacity-0 scale-95"
+										>
 											<Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 												{userNavigation.map((item) => (
 													<Menu.Item key={item.name}>
@@ -141,7 +144,8 @@ export default function Example() {
 																className={classNames(
 																	active ? "bg-gray-100" : "",
 																	"block px-4 py-2 text-sm text-gray-700",
-																)}>
+																)}
+															>
 																{item.name}
 															</a>
 														)}
@@ -153,7 +157,8 @@ export default function Example() {
 
 									<a
 										href="#"
-										className="ml-6 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+										className="ml-6 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+									>
 										New Project
 									</a>
 								</div>
@@ -172,7 +177,8 @@ export default function Example() {
 												? "bg-gray-100 text-gray-900"
 												: "hover:bg-gray-50",
 											"block rounded-md py-2 px-3 text-base font-medium",
-										)}>
+										)}
+									>
 										{item.name}
 									</a>
 								))}
@@ -196,7 +202,8 @@ export default function Example() {
 									</div>
 									<button
 										type="button"
-										className="relative ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+										className="relative ml-auto flex-shrink-0 rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+									>
 										<span className="absolute -inset-1.5" />
 										<span className="sr-only">View notifications</span>
 										<BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -207,7 +214,8 @@ export default function Example() {
 										<a
 											key={item.name}
 											href={item.href}
-											className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900">
+											className="block rounded-md px-3 py-2 text-base font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+										>
 											{item.name}
 										</a>
 									))}

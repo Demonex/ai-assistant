@@ -41,7 +41,8 @@ export default function Example() {
 					</h2>
 					<a
 						href="#"
-						className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
+						className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block"
+					>
 						Browse all categories
 						<span aria-hidden="true"> &rarr;</span>
 					</a>
@@ -55,7 +56,8 @@ export default function Example() {
 									<a
 										key={category.name}
 										href={category.href}
-										className="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto">
+										className="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto"
+									>
 										<span aria-hidden="true" className="absolute inset-0">
 											<img
 												src={category.imageSrc}
@@ -80,7 +82,8 @@ export default function Example() {
 				<div className="mt-6 px-4 sm:hidden">
 					<a
 						href="#"
-						className="block text-sm font-semibold text-indigo-600 hover:text-indigo-500">
+						className="block text-sm font-semibold text-indigo-600 hover:text-indigo-500"
+					>
 						Browse all categories
 						<span aria-hidden="true"> &rarr;</span>
 					</a>

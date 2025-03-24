@@ -97,7 +97,8 @@ export default function Example() {
 						as="div"
 						value={assigned}
 						onChange={setAssigned}
-						className="flex-shrink-0">
+						className="flex-shrink-0"
+					>
 						{({ open }) => (
 							<>
 								<Listbox.Label className="sr-only">Assign</Listbox.Label>
@@ -120,7 +121,8 @@ export default function Example() {
 											className={classNames(
 												assigned.value === null ? "" : "text-gray-900",
 												"hidden truncate sm:ml-2 sm:block",
-											)}>
+											)}
+										>
 											{assigned.value === null ? "Assign" : assigned.name}
 										</span>
 									</Listbox.Button>
@@ -130,7 +132,8 @@ export default function Example() {
 										as={Fragment}
 										leave="transition ease-in duration-100"
 										leaveFrom="opacity-100"
-										leaveTo="opacity-0">
+										leaveTo="opacity-0"
+									>
 										<Listbox.Options className="absolute right-0 z-10 mt-1 max-h-56 w-52 overflow-auto rounded-lg bg-white py-3 text-base shadow ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
 											{assignees.map((assignee) => (
 												<Listbox.Option
@@ -141,7 +144,8 @@ export default function Example() {
 															"relative cursor-default select-none px-3 py-2",
 														)
 													}
-													value={assignee}>
+													value={assignee}
+												>
 													<div className="flex items-center">
 														{assignee.avatar ? (
 															<img
@@ -173,7 +177,8 @@ export default function Example() {
 						as="div"
 						value={labelled}
 						onChange={setLabelled}
-						className="flex-shrink-0">
+						className="flex-shrink-0"
+					>
 						{({ open }) => (
 							<>
 								<Listbox.Label className="sr-only">Add a label</Listbox.Label>
@@ -192,7 +197,8 @@ export default function Example() {
 											className={classNames(
 												labelled.value === null ? "" : "text-gray-900",
 												"hidden truncate sm:ml-2 sm:block",
-											)}>
+											)}
+										>
 											{labelled.value === null ? "Label" : labelled.name}
 										</span>
 									</Listbox.Button>
@@ -202,7 +208,8 @@ export default function Example() {
 										as={Fragment}
 										leave="transition ease-in duration-100"
 										leaveFrom="opacity-100"
-										leaveTo="opacity-0">
+										leaveTo="opacity-0"
+									>
 										<Listbox.Options className="absolute right-0 z-10 mt-1 max-h-56 w-52 overflow-auto rounded-lg bg-white py-3 text-base shadow ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
 											{labels.map((label) => (
 												<Listbox.Option
@@ -213,7 +220,8 @@ export default function Example() {
 															"relative cursor-default select-none px-3 py-2",
 														)
 													}
-													value={label}>
+													value={label}
+												>
 													<div className="flex items-center">
 														<span className="block truncate font-medium">
 															{label.name}
@@ -232,7 +240,8 @@ export default function Example() {
 						as="div"
 						value={dated}
 						onChange={setDated}
-						className="flex-shrink-0">
+						className="flex-shrink-0"
+					>
 						{({ open }) => (
 							<>
 								<Listbox.Label className="sr-only">
@@ -253,7 +262,8 @@ export default function Example() {
 											className={classNames(
 												dated.value === null ? "" : "text-gray-900",
 												"hidden truncate sm:ml-2 sm:block",
-											)}>
+											)}
+										>
 											{dated.value === null ? "Due date" : dated.name}
 										</span>
 									</Listbox.Button>
@@ -263,7 +273,8 @@ export default function Example() {
 										as={Fragment}
 										leave="transition ease-in duration-100"
 										leaveFrom="opacity-100"
-										leaveTo="opacity-0">
+										leaveTo="opacity-0"
+									>
 										<Listbox.Options className="absolute right-0 z-10 mt-1 max-h-56 w-52 overflow-auto rounded-lg bg-white py-3 text-base shadow ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
 											{dueDates.map((dueDate) => (
 												<Listbox.Option
@@ -274,7 +285,8 @@ export default function Example() {
 															"relative cursor-default select-none px-3 py-2",
 														)
 													}
-													value={dueDate}>
+													value={dueDate}
+												>
 													<div className="flex items-center">
 														<span className="block truncate font-medium">
 															{dueDate.name}
@@ -293,7 +305,8 @@ export default function Example() {
 					<div className="flex">
 						<button
 							type="button"
-							className="group -my-2 -ml-2 inline-flex items-center rounded-full px-3 py-2 text-left text-gray-400">
+							className="group -my-2 -ml-2 inline-flex items-center rounded-full px-3 py-2 text-left text-gray-400"
+						>
 							<PaperClipIcon
 								className="-ml-1 mr-2 h-5 w-5 group-hover:text-gray-500"
 								aria-hidden="true"
@@ -306,7 +319,8 @@ export default function Example() {
 					<div className="flex-shrink-0">
 						<button
 							type="submit"
-							className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+							className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+						>
 							Create
 						</button>
 					</div>

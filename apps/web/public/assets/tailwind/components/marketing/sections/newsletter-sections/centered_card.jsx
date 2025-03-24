@@ -39,14 +39,16 @@ export default function Example() {
 						/>
 						<button
 							type="submit"
-							className="flex-none rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">
+							className="flex-none rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+						>
 							Notify me
 						</button>
 					</form>
 					<svg
 						viewBox="0 0 1024 1024"
 						className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-x-1/2"
-						aria-hidden="true">
+						aria-hidden="true"
+					>
 						<circle
 							cx={512}
 							cy={512}
@@ -61,7 +63,8 @@ export default function Example() {
 								cy={0}
 								r={1}
 								gradientUnits="userSpaceOnUse"
-								gradientTransform="translate(512 512) rotate(90) scale(512)">
+								gradientTransform="translate(512 512) rotate(90) scale(512)"
+							>
 								<stop stopColor="#7775D6" />
 								<stop offset={1} stopColor="#E935C1" stopOpacity={0} />
 							</radialGradient>

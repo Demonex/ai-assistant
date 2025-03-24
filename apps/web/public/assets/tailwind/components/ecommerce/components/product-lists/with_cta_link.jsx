@@ -22,7 +22,8 @@ export default function Example() {
 					</h2>
 					<a
 						href="#"
-						className="hidden text-sm font-medium text-indigo-600 hover:text-indigo-500 md:block">
+						className="hidden text-sm font-medium text-indigo-600 hover:text-indigo-500 md:block"
+					>
 						Shop the collection
 						<span aria-hidden="true"> &rarr;</span>
 					</a>
@@ -55,7 +56,8 @@ export default function Example() {
 				<div className="mt-8 text-sm md:hidden">
 					<a
 						href="#"
-						className="font-medium text-indigo-600 hover:text-indigo-500">
+						className="font-medium text-indigo-600 hover:text-indigo-500"
+					>
 						Shop the collection
 						<span aria-hidden="true"> &rarr;</span>
 					</a>

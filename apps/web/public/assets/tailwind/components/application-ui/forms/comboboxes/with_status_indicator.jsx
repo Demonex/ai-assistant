@@ -65,7 +65,8 @@ export default function Example() {
 										"relative cursor-default select-none py-2 pl-3 pr-9",
 										active ? "bg-indigo-600 text-white" : "text-gray-900",
 									)
-								}>
+								}
+							>
 								{({ active, selected }) => (
 									<>
 										<div className="flex items-center">
@@ -80,7 +81,8 @@ export default function Example() {
 												className={classNames(
 													"ml-3 truncate",
 													selected && "font-semibold",
-												)}>
+												)}
+											>
 												{person.name}
 												<span className="sr-only">
 													{" "}
@@ -94,7 +96,8 @@ export default function Example() {
 												className={classNames(
 													"absolute inset-y-0 right-0 flex items-center pr-4",
 													active ? "text-white" : "text-indigo-600",
-												)}>
+												)}
+											>
 												<CheckIcon className="h-5 w-5" aria-hidden="true" />
 											</span>
 										)}

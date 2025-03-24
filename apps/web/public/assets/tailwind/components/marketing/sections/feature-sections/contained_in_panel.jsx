@@ -69,7 +69,8 @@ export default function Example() {
 					</div>
 					<div
 						className="pointer-events-none absolute left-12 top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-3xl lg:bottom-[-12rem] lg:top-auto lg:translate-y-0 lg:transform-gpu"
-						aria-hidden="true">
+						aria-hidden="true"
+					>
 						<div
 							className="aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-25"
 							style={{

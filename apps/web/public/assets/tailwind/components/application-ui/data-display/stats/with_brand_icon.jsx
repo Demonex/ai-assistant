@@ -47,7 +47,8 @@ export default function Example() {
 				{stats.map((item) => (
 					<div
 						key={item.id}
-						className="relative overflow-hidden rounded-lg bg-white px-4 pb-12 pt-5 shadow sm:px-6 sm:pt-6">
+						className="relative overflow-hidden rounded-lg bg-white px-4 pb-12 pt-5 shadow sm:px-6 sm:pt-6"
+					>
 						<dt>
 							<div className="absolute rounded-md bg-indigo-500 p-3">
 								<item.icon className="h-6 w-6 text-white" aria-hidden="true" />
@@ -66,7 +67,8 @@ export default function Example() {
 										? "text-green-600"
 										: "text-red-600",
 									"ml-2 flex items-baseline text-sm font-semibold",
-								)}>
+								)}
+							>
 								{item.changeType === "increase" ? (
 									<ArrowUpIcon
 										className="h-5 w-5 flex-shrink-0 self-center text-green-500"
@@ -92,7 +94,8 @@ export default function Example() {
 								<div className="text-sm">
 									<a
 										href="#"
-										className="font-medium text-indigo-600 hover:text-indigo-500">
+										className="font-medium text-indigo-600 hover:text-indigo-500"
+									>
 										View all<span className="sr-only"> {item.name} stats</span>
 									</a>
 								</div>

@@ -52,7 +52,8 @@ export default function Example() {
 										? "bg-green-100 text-green-800"
 										: "bg-red-100 text-red-800",
 									"inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium md:mt-2 lg:mt-0",
-								)}>
+								)}
+							>
 								{item.changeType === "increase" ? (
 									<ArrowUpIcon
 										className="-ml-1 mr-0.5 h-5 w-5 flex-shrink-0 self-center text-green-500"

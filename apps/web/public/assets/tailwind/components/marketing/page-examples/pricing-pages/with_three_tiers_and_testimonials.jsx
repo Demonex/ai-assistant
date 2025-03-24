@@ -189,7 +189,8 @@ export default function Example() {
 			<header>
 				<nav
 					className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
-					aria-label="Global">
+					aria-label="Global"
+				>
 					<div className="flex lg:flex-1">
 						<a href="#" className="-m-1.5 p-1.5">
 							<span className="sr-only">Your Company</span>
@@ -204,7 +205,8 @@ export default function Example() {
 						<button
 							type="button"
 							className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-400"
-							onClick={() => setMobileMenuOpen(true)}>
+							onClick={() => setMobileMenuOpen(true)}
+						>
 							<span className="sr-only">Open main menu</span>
 							<Bars3Icon className="h-6 w-6" aria-hidden="true" />
 						</button>
@@ -214,7 +216,8 @@ export default function Example() {
 							<a
 								key={item.name}
 								href={item.href}
-								className="text-sm font-semibold leading-6 text-white">
+								className="text-sm font-semibold leading-6 text-white"
+							>
 								{item.name}
 							</a>
 						))}
@@ -229,7 +232,8 @@ export default function Example() {
 					as="div"
 					className="lg:hidden"
 					open={mobileMenuOpen}
-					onClose={setMobileMenuOpen}>
+					onClose={setMobileMenuOpen}
+				>
 					<div className="fixed inset-0 z-50" />
 					<Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-900 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-white/10">
 						<div className="flex items-center justify-between">
@@ -244,7 +248,8 @@ export default function Example() {
 							<button
 								type="button"
 								className="-m-2.5 rounded-md p-2.5 text-gray-400"
-								onClick={() => setMobileMenuOpen(false)}>
+								onClick={() => setMobileMenuOpen(false)}
+							>
 								<span className="sr-only">Close menu</span>
 								<XMarkIcon className="h-6 w-6" aria-hidden="true" />
 							</button>
@@ -256,7 +261,8 @@ export default function Example() {
 										<a
 											key={item.name}
 											href={item.href}
-											className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800">
+											className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800"
+										>
 											{item.name}
 										</a>
 									))}
@@ -264,7 +270,8 @@ export default function Example() {
 								<div className="py-6">
 									<a
 										href="#"
-										className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-800">
+										className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-800"
+									>
 										Log in
 									</a>
 								</div>
@@ -294,7 +301,8 @@ export default function Example() {
 						<RadioGroup
 							value={frequency}
 							onChange={setFrequency}
-							className="grid grid-cols-2 gap-x-1 rounded-full bg-white/5 p-1 text-center text-xs font-semibold leading-5 text-white">
+							className="grid grid-cols-2 gap-x-1 rounded-full bg-white/5 p-1 text-center text-xs font-semibold leading-5 text-white"
+						>
 							<RadioGroup.Label className="sr-only">
 								Payment frequency
 							</RadioGroup.Label>
@@ -307,7 +315,8 @@ export default function Example() {
 											checked ? "bg-indigo-500" : "",
 											"cursor-pointer rounded-full px-2.5 py-1",
 										)
-									}>
+									}
+								>
 									<span>{option.label}</span>
 								</RadioGroup.Option>
 							))}
@@ -322,11 +331,13 @@ export default function Example() {
 										? "bg-white/5 ring-2 ring-indigo-500"
 										: "ring-1 ring-white/10",
 									"rounded-3xl p-8 xl:p-10",
-								)}>
+								)}
+							>
 								<div className="flex items-center justify-between gap-x-4">
 									<h2
 										id={tier.id}
-										className="text-lg font-semibold leading-8 text-white">
+										className="text-lg font-semibold leading-8 text-white"
+									>
 										{tier.name}
 									</h2>
 									{tier.mostPopular ? (
@@ -354,12 +365,14 @@ export default function Example() {
 											? "bg-indigo-500 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline-indigo-500"
 											: "bg-white/10 text-white hover:bg-white/20 focus-visible:outline-white",
 										"mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
-									)}>
+									)}
+								>
 									Buy plan
 								</a>
 								<ul
 									role="list"
-									className="mt-8 space-y-3 text-sm leading-6 text-gray-300 xl:mt-10">
+									className="mt-8 space-y-3 text-sm leading-6 text-gray-300 xl:mt-10"
+								>
 									{tier.features.map((feature) => (
 										<li key={feature} className="flex gap-x-3">
 											<CheckIcon
@@ -450,7 +463,8 @@ export default function Example() {
 						for? Reach out to our support team by{" "}
 						<a
 							href="#"
-							className="font-semibold text-indigo-400 hover:text-indigo-300">
+							className="font-semibold text-indigo-400 hover:text-indigo-300"
+						>
 							sending us an email
 						</a>{" "}
 						and we’ll get back to you as soon as we can.
@@ -490,7 +504,8 @@ export default function Example() {
 											<li key={item.name}>
 												<a
 													href={item.href}
-													className="text-sm leading-6 text-gray-300 hover:text-white">
+													className="text-sm leading-6 text-gray-300 hover:text-white"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -506,7 +521,8 @@ export default function Example() {
 											<li key={item.name}>
 												<a
 													href={item.href}
-													className="text-sm leading-6 text-gray-300 hover:text-white">
+													className="text-sm leading-6 text-gray-300 hover:text-white"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -524,7 +540,8 @@ export default function Example() {
 											<li key={item.name}>
 												<a
 													href={item.href}
-													className="text-sm leading-6 text-gray-300 hover:text-white">
+													className="text-sm leading-6 text-gray-300 hover:text-white"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -540,7 +557,8 @@ export default function Example() {
 											<li key={item.name}>
 												<a
 													href={item.href}
-													className="text-sm leading-6 text-gray-300 hover:text-white">
+													className="text-sm leading-6 text-gray-300 hover:text-white"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -573,7 +591,8 @@ export default function Example() {
 								<div className="mt-4 sm:ml-4 sm:mt-0 sm:flex-shrink-0">
 									<button
 										type="submit"
-										className="flex w-full items-center justify-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+										className="flex w-full items-center justify-center rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+									>
 										Subscribe
 									</button>
 								</div>
@@ -586,7 +605,8 @@ export default function Example() {
 								<a
 									key={item.name}
 									href={item.href}
-									className="text-gray-500 hover:text-gray-400">
+									className="text-gray-500 hover:text-gray-400"
+								>
 									<span className="sr-only">{item.name}</span>
 									<item.icon className="h-6 w-6" aria-hidden="true" />
 								</a>

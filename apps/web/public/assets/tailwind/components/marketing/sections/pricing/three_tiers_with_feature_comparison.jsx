@@ -152,7 +152,8 @@ export default function Example() {
 							<RadioGroup
 								value={frequency}
 								onChange={setFrequency}
-								className="grid grid-cols-2 gap-x-1 rounded-full bg-white/5 p-1 text-center text-xs font-semibold leading-5 text-white">
+								className="grid grid-cols-2 gap-x-1 rounded-full bg-white/5 p-1 text-center text-xs font-semibold leading-5 text-white"
+							>
 								<RadioGroup.Label className="sr-only">
 									Payment frequency
 								</RadioGroup.Label>
@@ -165,7 +166,8 @@ export default function Example() {
 												checked ? "bg-indigo-500" : "",
 												"cursor-pointer rounded-full px-2.5 py-1",
 											)
-										}>
+										}
+									>
 										<span>{option.label}</span>
 									</RadioGroup.Option>
 								))}
@@ -176,7 +178,8 @@ export default function Example() {
 						<svg
 							viewBox="0 0 1208 1024"
 							aria-hidden="true"
-							className="absolute -bottom-48 left-1/2 h-[64rem] -translate-x-1/2 translate-y-1/2 [mask-image:radial-gradient(closest-side,white,transparent)] lg:-top-48 lg:bottom-auto lg:translate-y-0">
+							className="absolute -bottom-48 left-1/2 h-[64rem] -translate-x-1/2 translate-y-1/2 [mask-image:radial-gradient(closest-side,white,transparent)] lg:-top-48 lg:bottom-auto lg:translate-y-0"
+						>
 							<ellipse
 								cx={604}
 								cy={512}
@@ -203,14 +206,16 @@ export default function Example() {
 										? "z-10 bg-white shadow-xl ring-1 ring-gray-900/10"
 										: "bg-gray-800/80 ring-1 ring-white/10 lg:bg-transparent lg:pb-14 lg:ring-0",
 									"relative rounded-2xl",
-								)}>
+								)}
+							>
 								<div className="p-8 lg:pt-12 xl:p-10 xl:pt-14">
 									<h3
 										id={tier.id}
 										className={classNames(
 											tier.featured ? "text-gray-900" : "text-white",
 											"text-sm font-semibold leading-6",
-										)}>
+										)}
+									>
 										{tier.name}
 									</h3>
 									<div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between lg:flex-col lg:items-stretch">
@@ -219,20 +224,23 @@ export default function Example() {
 												className={classNames(
 													tier.featured ? "text-gray-900" : "text-white",
 													"text-4xl font-bold tracking-tight",
-												)}>
+												)}
+											>
 												{tier.price[frequency.value]}
 											</p>
 											<div className="text-sm leading-5">
 												<p
 													className={
 														tier.featured ? "text-gray-900" : "text-white"
-													}>
+													}
+												>
 													USD
 												</p>
 												<p
 													className={
 														tier.featured ? "text-gray-500" : "text-gray-400"
-													}>{`Billed ${frequency.value}`}</p>
+													}
+												>{`Billed ${frequency.value}`}</p>
 											</div>
 										</div>
 										<a
@@ -243,7 +251,8 @@ export default function Example() {
 													? "bg-indigo-600 shadow-sm hover:bg-indigo-500 focus-visible:outline-indigo-600"
 													: "bg-white/10 hover:bg-white/20 focus-visible:outline-white",
 												"rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
-											)}>
+											)}
+										>
 											Buy this plan
 										</a>
 									</div>
@@ -255,7 +264,8 @@ export default function Example() {
 													? "divide-gray-900/5 border-gray-900/5 text-gray-600"
 													: "divide-white/5 border-white/5 text-white",
 												"-my-2 divide-y border-t text-sm leading-6 lg:border-t-0",
-											)}>
+											)}
+										>
 											{tier.mainFeatures.map((mainFeature) => (
 												<li key={mainFeature} className="flex gap-x-3 py-2">
 													<CheckIcon
@@ -283,7 +293,8 @@ export default function Example() {
 					{/* Feature comparison (up to lg) */}
 					<section
 						aria-labelledby="mobile-comparison-heading"
-						className="lg:hidden">
+						className="lg:hidden"
+					>
 						<h2 id="mobile-comparison-heading" className="sr-only">
 							Feature comparison
 						</h2>
@@ -297,12 +308,14 @@ export default function Example() {
 												? "border-indigo-600"
 												: "border-transparent",
 											"-mt-px w-72 border-t-2 pt-10 md:w-80",
-										)}>
+										)}
+									>
 										<h3
 											className={classNames(
 												tier.featured ? "text-indigo-600" : "text-gray-900",
 												"text-sm font-semibold leading-6",
-											)}>
+											)}
+										>
 											{tier.name}
 										</h3>
 										<p className="mt-1 text-sm leading-6 text-gray-600">
@@ -329,12 +342,14 @@ export default function Example() {
 																? "ring-2 ring-indigo-600"
 																: "ring-1 ring-gray-900/10",
 															"relative rounded-lg bg-white shadow-sm sm:rounded-none sm:bg-transparent sm:shadow-none sm:ring-0",
-														)}>
+														)}
+													>
 														<dl className="divide-y divide-gray-200 text-sm leading-6">
 															{section.features.map((feature) => (
 																<div
 																	key={feature.name}
-																	className="flex items-center justify-between px-4 py-3 sm:grid sm:grid-cols-2 sm:px-0">
+																	className="flex items-center justify-between px-4 py-3 sm:grid sm:grid-cols-2 sm:px-0"
+																>
 																	<dt className="pr-4 text-gray-600">
 																		{feature.name}
 																	</dt>
@@ -346,7 +361,8 @@ export default function Example() {
 																					tier.featured
 																						? "font-semibold text-indigo-600"
 																						: "text-gray-900"
-																				}>
+																				}
+																			>
 																				{feature.tiers[tier.name]}
 																			</span>
 																		) : (
@@ -398,7 +414,8 @@ export default function Example() {
 					{/* Feature comparison (lg+) */}
 					<section
 						aria-labelledby="comparison-heading"
-						className="hidden lg:block">
+						className="hidden lg:block"
+					>
 						<h2 id="comparison-heading" className="sr-only">
 							Feature comparison
 						</h2>
@@ -412,12 +429,14 @@ export default function Example() {
 												? "border-indigo-600"
 												: "border-transparent",
 											"border-t-2 pt-10",
-										)}>
+										)}
+									>
 										<p
 											className={classNames(
 												tier.featured ? "text-indigo-600" : "text-gray-900",
 												"text-sm font-semibold leading-6",
-											)}>
+											)}
+										>
 											{tier.name}
 										</p>
 										<p className="mt-1 text-sm leading-6 text-gray-600">
@@ -438,7 +457,8 @@ export default function Example() {
 										{/* Fake card backgrounds */}
 										<div
 											className="absolute inset-x-8 inset-y-0 grid grid-cols-4 gap-x-8 before:block"
-											aria-hidden="true">
+											aria-hidden="true"
+										>
 											<div className="h-full w-full rounded-lg bg-white shadow-sm" />
 											<div className="h-full w-full rounded-lg bg-white shadow-sm" />
 											<div className="h-full w-full rounded-lg bg-white shadow-sm" />
@@ -462,7 +482,8 @@ export default function Example() {
 													<tr key={feature.name}>
 														<th
 															scope="row"
-															className="w-1/4 py-3 pr-4 text-left text-sm font-normal leading-6 text-gray-900">
+															className="w-1/4 py-3 pr-4 text-left text-sm font-normal leading-6 text-gray-900"
+														>
 															{feature.name}
 															{featureIdx !== section.features.length - 1 ? (
 																<div className="absolute inset-x-8 mt-3 h-px bg-gray-200" />
@@ -471,7 +492,8 @@ export default function Example() {
 														{tiers.map((tier) => (
 															<td
 																key={tier.id}
-																className="relative w-1/4 px-4 py-0 text-center">
+																className="relative w-1/4 px-4 py-0 text-center"
+															>
 																<span className="relative h-full w-full py-3">
 																	{typeof feature.tiers[tier.name] ===
 																	"string" ? (
@@ -481,7 +503,8 @@ export default function Example() {
 																					? "font-semibold text-indigo-600"
 																					: "text-gray-900",
 																				"text-sm leading-6",
-																			)}>
+																			)}
+																		>
 																			{feature.tiers[tier.name]}
 																		</span>
 																	) : (
@@ -516,7 +539,8 @@ export default function Example() {
 										{/* Fake card borders */}
 										<div
 											className="pointer-events-none absolute inset-x-8 inset-y-0 grid grid-cols-4 gap-x-8 before:block"
-											aria-hidden="true">
+											aria-hidden="true"
+										>
 											{tiers.map((tier) => (
 												<div
 													key={tier.id}

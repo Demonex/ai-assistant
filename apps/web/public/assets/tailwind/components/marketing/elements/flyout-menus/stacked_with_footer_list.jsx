@@ -67,14 +67,16 @@ export default function Example() {
 				enterTo="opacity-100 translate-y-0"
 				leave="transition ease-in duration-150"
 				leaveFrom="opacity-100 translate-y-0"
-				leaveTo="opacity-0 translate-y-1">
+				leaveTo="opacity-0 translate-y-1"
+			>
 				<Popover.Panel className="absolute left-1/2 z-10 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4">
 					<div className="w-screen max-w-md flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
 						<div className="p-4">
 							{resources.map((item) => (
 								<div
 									key={item.name}
-									className="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50">
+									className="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50"
+								>
 									<div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
 										<item.icon
 											className="h-6 w-6 text-gray-600 group-hover:text-indigo-600"
@@ -98,7 +100,8 @@ export default function Example() {
 								</h3>
 								<a
 									href="#"
-									className="text-sm font-semibold leading-6 text-indigo-600">
+									className="text-sm font-semibold leading-6 text-indigo-600"
+								>
 									See all <span aria-hidden="true">&rarr;</span>
 								</a>
 							</div>
@@ -107,12 +110,14 @@ export default function Example() {
 									<li key={post.id} className="relative">
 										<time
 											dateTime={post.datetime}
-											className="block text-xs leading-6 text-gray-600">
+											className="block text-xs leading-6 text-gray-600"
+										>
 											{post.date}
 										</time>
 										<a
 											href={post.href}
-											className="block truncate text-sm font-semibold leading-6 text-gray-900">
+											className="block truncate text-sm font-semibold leading-6 text-gray-900"
+										>
 											{post.title}
 											<span className="absolute inset-0" />
 										</a>

@@ -83,7 +83,8 @@ export default function Example() {
 					<RadioGroup
 						value={frequency}
 						onChange={setFrequency}
-						className="grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200">
+						className="grid grid-cols-2 gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 ring-1 ring-inset ring-gray-200"
+					>
 						<RadioGroup.Label className="sr-only">
 							Payment frequency
 						</RadioGroup.Label>
@@ -96,7 +97,8 @@ export default function Example() {
 										checked ? "bg-indigo-600 text-white" : "text-gray-500",
 										"cursor-pointer rounded-full px-2.5 py-1",
 									)
-								}>
+								}
+							>
 								<span>{option.label}</span>
 							</RadioGroup.Option>
 						))}
@@ -109,20 +111,23 @@ export default function Example() {
 							className={classNames(
 								tier.featured ? "bg-gray-900 ring-gray-900" : "ring-gray-200",
 								"rounded-3xl p-8 ring-1 xl:p-10",
-							)}>
+							)}
+						>
 							<h3
 								id={tier.id}
 								className={classNames(
 									tier.featured ? "text-white" : "text-gray-900",
 									"text-lg font-semibold leading-8",
-								)}>
+								)}
+							>
 								{tier.name}
 							</h3>
 							<p
 								className={classNames(
 									tier.featured ? "text-gray-300" : "text-gray-600",
 									"mt-4 text-sm leading-6",
-								)}>
+								)}
+							>
 								{tier.description}
 							</p>
 							<p className="mt-6 flex items-baseline gap-x-1">
@@ -130,7 +135,8 @@ export default function Example() {
 									className={classNames(
 										tier.featured ? "text-white" : "text-gray-900",
 										"text-4xl font-bold tracking-tight",
-									)}>
+									)}
+								>
 									{typeof tier.price === "string"
 										? tier.price
 										: tier.price[frequency.value]}
@@ -140,7 +146,8 @@ export default function Example() {
 										className={classNames(
 											tier.featured ? "text-gray-300" : "text-gray-600",
 											"text-sm font-semibold leading-6",
-										)}>
+										)}
+									>
 										{frequency.priceSuffix}
 									</span>
 								) : null}
@@ -153,7 +160,8 @@ export default function Example() {
 										? "bg-white/10 text-white hover:bg-white/20 focus-visible:outline-white"
 										: "bg-indigo-600 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-indigo-600",
 									"mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
-								)}>
+								)}
+							>
 								{tier.cta}
 							</a>
 							<ul
@@ -161,7 +169,8 @@ export default function Example() {
 								className={classNames(
 									tier.featured ? "text-gray-300" : "text-gray-600",
 									"mt-8 space-y-3 text-sm leading-6 xl:mt-10",
-								)}>
+								)}
+							>
 								{tier.features.map((feature) => (
 									<li key={feature} className="flex gap-x-3">
 										<CheckIcon

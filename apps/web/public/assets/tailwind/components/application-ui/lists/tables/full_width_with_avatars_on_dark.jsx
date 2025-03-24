@@ -131,27 +131,32 @@ export default function Example() {
 					<tr>
 						<th
 							scope="col"
-							className="py-2 pl-4 pr-8 font-semibold sm:pl-6 lg:pl-8">
+							className="py-2 pl-4 pr-8 font-semibold sm:pl-6 lg:pl-8"
+						>
 							User
 						</th>
 						<th
 							scope="col"
-							className="hidden py-2 pl-0 pr-8 font-semibold sm:table-cell">
+							className="hidden py-2 pl-0 pr-8 font-semibold sm:table-cell"
+						>
 							Commit
 						</th>
 						<th
 							scope="col"
-							className="py-2 pl-0 pr-4 text-right font-semibold sm:pr-8 sm:text-left lg:pr-20">
+							className="py-2 pl-0 pr-4 text-right font-semibold sm:pr-8 sm:text-left lg:pr-20"
+						>
 							Status
 						</th>
 						<th
 							scope="col"
-							className="hidden py-2 pl-0 pr-8 font-semibold md:table-cell lg:pr-20">
+							className="hidden py-2 pl-0 pr-8 font-semibold md:table-cell lg:pr-20"
+						>
 							Duration
 						</th>
 						<th
 							scope="col"
-							className="hidden py-2 pl-0 pr-4 text-right font-semibold sm:table-cell sm:pr-6 lg:pr-8">
+							className="hidden py-2 pl-0 pr-4 text-right font-semibold sm:table-cell sm:pr-6 lg:pr-8"
+						>
 							Deployed at
 						</th>
 					</tr>
@@ -185,14 +190,16 @@ export default function Example() {
 								<div className="flex items-center justify-end gap-x-2 sm:justify-start">
 									<time
 										className="text-gray-400 sm:hidden"
-										dateTime={item.dateTime}>
+										dateTime={item.dateTime}
+									>
 										{item.date}
 									</time>
 									<div
 										className={classNames(
 											statuses[item.status],
 											"flex-none rounded-full p-1",
-										)}>
+										)}
+									>
 										<div className="h-1.5 w-1.5 rounded-full bg-current" />
 									</div>
 									<div className="hidden text-white sm:block">

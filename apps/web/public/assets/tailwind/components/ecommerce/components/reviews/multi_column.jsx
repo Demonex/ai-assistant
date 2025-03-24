@@ -29,7 +29,8 @@ export default function Example() {
 					{reviews.map((review) => (
 						<div
 							key={review.id}
-							className="pt-10 lg:grid lg:grid-cols-12 lg:gap-x-8">
+							className="pt-10 lg:grid lg:grid-cols-12 lg:gap-x-8"
+						>
 							<div className="lg:col-span-8 lg:col-start-5 xl:col-span-9 xl:col-start-4 xl:grid xl:grid-cols-3 xl:items-start xl:gap-x-8">
 								<div className="flex items-center xl:col-span-1">
 									<div className="flex items-center">
@@ -68,7 +69,8 @@ export default function Example() {
 								<p className="font-medium text-gray-900">{review.author}</p>
 								<time
 									dateTime={review.datetime}
-									className="ml-4 border-l border-gray-200 pl-4 text-gray-500 lg:ml-0 lg:mt-2 lg:border-0 lg:pl-0">
+									className="ml-4 border-l border-gray-200 pl-4 text-gray-500 lg:ml-0 lg:mt-2 lg:border-0 lg:pl-0"
+								>
 									{review.date}
 								</time>
 							</div>

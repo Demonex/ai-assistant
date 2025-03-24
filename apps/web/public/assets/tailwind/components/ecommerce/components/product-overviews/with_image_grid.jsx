@@ -91,13 +91,15 @@ export default function Example() {
 				<nav aria-label="Breadcrumb">
 					<ol
 						role="list"
-						className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+						className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8"
+					>
 						{product.breadcrumbs.map((breadcrumb) => (
 							<li key={breadcrumb.id}>
 								<div className="flex items-center">
 									<a
 										href={breadcrumb.href}
-										className="mr-2 text-sm font-medium text-gray-900">
+										className="mr-2 text-sm font-medium text-gray-900"
+									>
 										{breadcrumb.name}
 									</a>
 									<svg
@@ -106,7 +108,8 @@ export default function Example() {
 										viewBox="0 0 16 20"
 										fill="currentColor"
 										aria-hidden="true"
-										className="h-5 w-4 text-gray-300">
+										className="h-5 w-4 text-gray-300"
+									>
 										<path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
 									</svg>
 								</div>
@@ -116,7 +119,8 @@ export default function Example() {
 							<a
 								href={product.href}
 								aria-current="page"
-								className="font-medium text-gray-500 hover:text-gray-600">
+								className="font-medium text-gray-500 hover:text-gray-600"
+							>
 								{product.name}
 							</a>
 						</li>
@@ -193,7 +197,8 @@ export default function Example() {
 								<p className="sr-only">{reviews.average} out of 5 stars</p>
 								<a
 									href={reviews.href}
-									className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
+									className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
+								>
 									{reviews.totalCount} reviews
 								</a>
 							</div>
@@ -207,7 +212,8 @@ export default function Example() {
 								<RadioGroup
 									value={selectedColor}
 									onChange={setSelectedColor}
-									className="mt-4">
+									className="mt-4"
+								>
 									<RadioGroup.Label className="sr-only">
 										Choose a color
 									</RadioGroup.Label>
@@ -223,7 +229,8 @@ export default function Example() {
 														!active && checked ? "ring-2" : "",
 														"relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none",
 													)
-												}>
+												}
+											>
 												<RadioGroup.Label as="span" className="sr-only">
 													{color.name}
 												</RadioGroup.Label>
@@ -246,7 +253,8 @@ export default function Example() {
 									<h3 className="text-sm font-medium text-gray-900">Size</h3>
 									<a
 										href="#"
-										className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+										className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+									>
 										Size guide
 									</a>
 								</div>
@@ -254,7 +262,8 @@ export default function Example() {
 								<RadioGroup
 									value={selectedSize}
 									onChange={setSelectedSize}
-									className="mt-4">
+									className="mt-4"
+								>
 									<RadioGroup.Label className="sr-only">
 										Choose a size
 									</RadioGroup.Label>
@@ -272,7 +281,8 @@ export default function Example() {
 														active ? "ring-2 ring-indigo-500" : "",
 														"group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6",
 													)
-												}>
+												}
+											>
 												{({ active, checked }) => (
 													<>
 														<RadioGroup.Label as="span">
@@ -292,12 +302,14 @@ export default function Example() {
 														) : (
 															<span
 																aria-hidden="true"
-																className="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200">
+																className="pointer-events-none absolute -inset-px rounded-md border-2 border-gray-200"
+															>
 																<svg
 																	className="absolute inset-0 h-full w-full stroke-2 text-gray-200"
 																	viewBox="0 0 100 100"
 																	preserveAspectRatio="none"
-																	stroke="currentColor">
+																	stroke="currentColor"
+																>
 																	<line
 																		x1={0}
 																		y1={100}
@@ -318,7 +330,8 @@ export default function Example() {
 
 							<button
 								type="submit"
-								className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+								className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+							>
 								Add to bag
 							</button>
 						</form>

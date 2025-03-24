@@ -84,7 +84,8 @@ export default function Example() {
 												<div className="text-sm">
 													<a
 														href={activityItem.person.href}
-														className="font-medium text-gray-900">
+														className="font-medium text-gray-900"
+													>
 														{activityItem.person.name}
 													</a>
 												</div>
@@ -113,13 +114,15 @@ export default function Example() {
 											<div className="text-sm text-gray-500">
 												<a
 													href={activityItem.person.href}
-													className="font-medium text-gray-900">
+													className="font-medium text-gray-900"
+												>
 													{activityItem.person.name}
 												</a>{" "}
 												assigned{" "}
 												<a
 													href={activityItem.assigned.href}
-													className="font-medium text-gray-900">
+													className="font-medium text-gray-900"
+												>
 													{activityItem.assigned.name}
 												</a>{" "}
 												<span className="whitespace-nowrap">
@@ -145,7 +148,8 @@ export default function Example() {
 												<span className="mr-0.5">
 													<a
 														href={activityItem.person.href}
-														className="font-medium text-gray-900">
+														className="font-medium text-gray-900"
+													>
 														{activityItem.person.name}
 													</a>{" "}
 													added tags
@@ -155,14 +159,16 @@ export default function Example() {
 														<Fragment key={tag.name}>
 															<a
 																href={tag.href}
-																className="inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium text-gray-900 ring-1 ring-inset ring-gray-200">
+																className="inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium text-gray-900 ring-1 ring-inset ring-gray-200"
+															>
 																<svg
 																	className={classNames(
 																		tag.color,
 																		"h-1.5 w-1.5",
 																	)}
 																	viewBox="0 0 6 6"
-																	aria-hidden="true">
+																	aria-hidden="true"
+																>
 																	<circle cx={3} cy={3} r={3} />
 																</svg>
 																{tag.name}

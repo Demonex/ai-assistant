@@ -17,7 +17,8 @@ export default function Example() {
 		<div className="relative">
 			<label
 				htmlFor="name"
-				className="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900">
+				className="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900"
+			>
 				Name
 			</label>
 			<input

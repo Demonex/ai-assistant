@@ -43,7 +43,8 @@ export default function Example() {
 					enterTo="opacity-100"
 					leave="ease-in-out duration-500"
 					leaveFrom="opacity-100"
-					leaveTo="opacity-0">
+					leaveTo="opacity-0"
+				>
 					<div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
 				</Transition.Child>
 
@@ -57,7 +58,8 @@ export default function Example() {
 								enterTo="translate-x-0"
 								leave="transform transition ease-in-out duration-500 sm:duration-700"
 								leaveFrom="translate-x-0"
-								leaveTo="translate-x-full">
+								leaveTo="translate-x-full"
+							>
 								<Dialog.Panel className="pointer-events-auto w-screen max-w-md">
 									<div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
 										<div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
@@ -69,7 +71,8 @@ export default function Example() {
 													<button
 														type="button"
 														className="relative -m-2 p-2 text-gray-400 hover:text-gray-500"
-														onClick={() => setOpen(false)}>
+														onClick={() => setOpen(false)}
+													>
 														<span className="absolute -inset-0.5" />
 														<span className="sr-only">Close panel</span>
 														<XMarkIcon className="h-6 w-6" aria-hidden="true" />
@@ -81,7 +84,8 @@ export default function Example() {
 												<div className="flow-root">
 													<ul
 														role="list"
-														className="-my-6 divide-y divide-gray-200">
+														className="-my-6 divide-y divide-gray-200"
+													>
 														{products.map((product) => (
 															<li key={product.id} className="flex py-6">
 																<div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
@@ -114,7 +118,8 @@ export default function Example() {
 																		<div className="flex">
 																			<button
 																				type="button"
-																				className="font-medium text-indigo-600 hover:text-indigo-500">
+																				className="font-medium text-indigo-600 hover:text-indigo-500"
+																			>
 																				Remove
 																			</button>
 																		</div>
@@ -138,7 +143,8 @@ export default function Example() {
 											<div className="mt-6">
 												<a
 													href="#"
-													className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
+													className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+												>
 													Checkout
 												</a>
 											</div>
@@ -148,7 +154,8 @@ export default function Example() {
 													<button
 														type="button"
 														className="font-medium text-indigo-600 hover:text-indigo-500"
-														onClick={() => setOpen(false)}>
+														onClick={() => setOpen(false)}
+													>
 														Continue Shopping
 														<span aria-hidden="true"> &rarr;</span>
 													</button>

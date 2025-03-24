@@ -15,7 +15,8 @@ export default function Example() {
 						You have no credits left.{" "}
 						<a
 							href="#"
-							className="font-medium text-yellow-700 underline hover:text-yellow-600">
+							className="font-medium text-yellow-700 underline hover:text-yellow-600"
+						>
 							Upgrade your account to add more credits.
 						</a>
 					</p>

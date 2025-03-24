@@ -74,7 +74,8 @@ export default function Example() {
 											<svg
 												viewBox="0 0 2 2"
 												className="h-0.5 w-0.5 flex-none fill-gray-300"
-												aria-hidden="true">
+												aria-hidden="true"
+											>
 												<circle cx={1} cy={1} r={1} />
 											</svg>
 											{opening.location}
@@ -86,7 +87,8 @@ export default function Example() {
 						<div className="mt-8 flex border-t border-gray-100 pt-8">
 							<a
 								href="#"
-								className="text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+								className="text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+							>
 								View all openings <span aria-hidden="true">&rarr;</span>
 							</a>
 						</div>

@@ -42,7 +42,8 @@ export default function Example() {
 					</h2>
 					<a
 						href="#"
-						className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
+						className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block"
+					>
 						See everything
 						<span aria-hidden="true"> &rarr;</span>
 					</a>
@@ -52,11 +53,13 @@ export default function Example() {
 					<div className="relative -mb-6 w-full overflow-x-auto pb-6">
 						<ul
 							role="list"
-							className="mx-4 inline-flex space-x-8 sm:mx-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0">
+							className="mx-4 inline-flex space-x-8 sm:mx-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0"
+						>
 							{products.map((product) => (
 								<li
 									key={product.id}
-									className="inline-flex w-64 flex-col text-center lg:w-auto">
+									className="inline-flex w-64 flex-col text-center lg:w-auto"
+								>
 									<div className="group relative">
 										<div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200">
 											<img
@@ -80,12 +83,14 @@ export default function Example() {
 									<h4 className="sr-only">Available colors</h4>
 									<ul
 										role="list"
-										className="mt-auto flex items-center justify-center space-x-3 pt-6">
+										className="mt-auto flex items-center justify-center space-x-3 pt-6"
+									>
 										{product.availableColors.map((color) => (
 											<li
 												key={color.name}
 												className="h-4 w-4 rounded-full border border-black border-opacity-10"
-												style={{ backgroundColor: color.colorBg }}>
+												style={{ backgroundColor: color.colorBg }}
+											>
 												<span className="sr-only">{color.name}</span>
 											</li>
 										))}
@@ -99,7 +104,8 @@ export default function Example() {
 				<div className="mt-12 flex px-4 sm:hidden">
 					<a
 						href="#"
-						className="text-sm font-semibold text-indigo-600 hover:text-indigo-500">
+						className="text-sm font-semibold text-indigo-600 hover:text-indigo-500"
+					>
 						See everything
 						<span aria-hidden="true"> &rarr;</span>
 					</a>

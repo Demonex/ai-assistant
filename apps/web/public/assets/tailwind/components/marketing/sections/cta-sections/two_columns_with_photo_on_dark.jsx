@@ -30,7 +30,8 @@ export default function Example() {
 							</p>
 							<ul
 								role="list"
-								className="mt-10 grid grid-cols-1 gap-x-8 gap-y-3 text-base leading-7 text-white sm:grid-cols-2">
+								className="mt-10 grid grid-cols-1 gap-x-8 gap-y-3 text-base leading-7 text-white sm:grid-cols-2"
+							>
 								{benefits.map((benefit) => (
 									<li key={benefit} className="flex gap-x-3">
 										<CheckCircleIcon
@@ -44,7 +45,8 @@ export default function Example() {
 							<div className="mt-10 flex">
 								<a
 									href="#"
-									className="text-sm font-semibold leading-6 text-indigo-400">
+									className="text-sm font-semibold leading-6 text-indigo-400"
+								>
 									See our job postings <span aria-hidden="true">&rarr;</span>
 								</a>
 							</div>
@@ -53,7 +55,8 @@ export default function Example() {
 				</div>
 				<div
 					className="absolute inset-x-0 -top-16 -z-10 flex transform-gpu justify-center overflow-hidden blur-3xl"
-					aria-hidden="true">
+					aria-hidden="true"
+				>
 					<div
 						className="aspect-[1318/752] w-[82.375rem] flex-none bg-gradient-to-r from-[#80caff] to-[#4f46e5] opacity-25"
 						style={{

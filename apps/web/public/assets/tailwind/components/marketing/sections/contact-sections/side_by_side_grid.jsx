@@ -24,7 +24,8 @@ export default function Example() {
 										<dd>
 											<a
 												className="font-semibold text-indigo-600"
-												href="mailto:collaborate@example.com">
+												href="mailto:collaborate@example.com"
+											>
 												collaborate@example.com
 											</a>
 										</dd>
@@ -45,7 +46,8 @@ export default function Example() {
 										<dd>
 											<a
 												className="font-semibold text-indigo-600"
-												href="mailto:press@example.com">
+												href="mailto:press@example.com"
+											>
 												press@example.com
 											</a>
 										</dd>
@@ -66,7 +68,8 @@ export default function Example() {
 										<dd>
 											<a
 												className="font-semibold text-indigo-600"
-												href="mailto:careers@example.com">
+												href="mailto:careers@example.com"
+											>
 												careers@example.com
 											</a>
 										</dd>
@@ -87,7 +90,8 @@ export default function Example() {
 										<dd>
 											<a
 												className="font-semibold text-indigo-600"
-												href="mailto:hello@example.com">
+												href="mailto:hello@example.com"
+											>
 												hello@example.com
 											</a>
 										</dd>

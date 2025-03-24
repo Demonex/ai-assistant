@@ -62,7 +62,8 @@ export default function Example() {
 						<dd className="mt-2 text-sm text-white sm:col-span-2 sm:mt-0">
 							<ul
 								role="list"
-								className="divide-y divide-white/10 rounded-md border border-white/20">
+								className="divide-y divide-white/10 rounded-md border border-white/20"
+							>
 								<li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
 									<div className="flex w-0 flex-1 items-center">
 										<PaperClipIcon
@@ -79,7 +80,8 @@ export default function Example() {
 									<div className="ml-4 flex-shrink-0">
 										<a
 											href="#"
-											className="font-medium text-indigo-400 hover:text-indigo-300">
+											className="font-medium text-indigo-400 hover:text-indigo-300"
+										>
 											Download
 										</a>
 									</div>
@@ -100,7 +102,8 @@ export default function Example() {
 									<div className="ml-4 flex-shrink-0">
 										<a
 											href="#"
-											className="font-medium text-indigo-400 hover:text-indigo-300">
+											className="font-medium text-indigo-400 hover:text-indigo-300"
+										>
 											Download
 										</a>
 									</div>

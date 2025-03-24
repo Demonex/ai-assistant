@@ -37,7 +37,8 @@ export default function Example() {
 					<div className="mt-5 flex justify-center sm:mt-0">
 						<a
 							href="#"
-							className="flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+							className="flex items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+						>
 							View profile
 						</a>
 					</div>
@@ -47,7 +48,8 @@ export default function Example() {
 				{stats.map((stat) => (
 					<div
 						key={stat.label}
-						className="px-6 py-5 text-center text-sm font-medium">
+						className="px-6 py-5 text-center text-sm font-medium"
+					>
 						<span className="text-gray-900">{stat.value}</span>{" "}
 						<span className="text-gray-600">{stat.label}</span>
 					</div>

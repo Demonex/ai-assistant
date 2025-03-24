@@ -98,7 +98,8 @@ export default function Example() {
 											<th
 												scope="colgroup"
 												colSpan={3}
-												className="relative isolate py-2 font-semibold">
+												className="relative isolate py-2 font-semibold"
+											>
 												<time dateTime={day.dateTime}>{day.date}</time>
 												<div className="absolute inset-y-0 right-full -z-10 w-screen border-b border-gray-200 bg-gray-50" />
 												<div className="absolute inset-y-0 left-0 -z-10 w-screen border-b border-gray-200 bg-gray-50" />
@@ -121,7 +122,8 @@ export default function Example() {
 																	className={classNames(
 																		statuses[transaction.status],
 																		"rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset",
-																	)}>
+																	)}
+																>
 																	{transaction.status}
 																</div>
 															</div>
@@ -147,7 +149,8 @@ export default function Example() {
 													<div className="flex justify-end">
 														<a
 															href={transaction.href}
-															className="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500">
+															className="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500"
+														>
 															View
 															<span className="hidden sm:inline">
 																{" "}

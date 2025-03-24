@@ -83,7 +83,8 @@ export default function Example() {
 								{product.images.map((image) => (
 									<Tab
 										key={image.id}
-										className="relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4">
+										className="relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-opacity-50 focus:ring-offset-4"
+									>
 										{({ selected }) => (
 											<>
 												<span className="sr-only">{image.name}</span>
@@ -173,7 +174,8 @@ export default function Example() {
 								<RadioGroup
 									value={selectedColor}
 									onChange={setSelectedColor}
-									className="mt-2">
+									className="mt-2"
+								>
 									<RadioGroup.Label className="sr-only">
 										Choose a color
 									</RadioGroup.Label>
@@ -189,7 +191,8 @@ export default function Example() {
 														!active && checked ? "ring-2" : "",
 														"relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none",
 													)
-												}>
+												}
+											>
 												<RadioGroup.Label as="span" className="sr-only">
 													{color.name}
 												</RadioGroup.Label>
@@ -209,13 +212,15 @@ export default function Example() {
 							<div className="mt-10 flex">
 								<button
 									type="submit"
-									className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full">
+									className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
+								>
 									Add to bag
 								</button>
 
 								<button
 									type="button"
-									className="ml-4 flex items-center justify-center rounded-md px-3 py-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500">
+									className="ml-4 flex items-center justify-center rounded-md px-3 py-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500"
+								>
 									<HeartIcon
 										className="h-6 w-6 flex-shrink-0"
 										aria-hidden="true"
@@ -241,7 +246,8 @@ export default function Example() {
 															className={classNames(
 																open ? "text-indigo-600" : "text-gray-900",
 																"text-sm font-medium",
-															)}>
+															)}
+														>
 															{detail.name}
 														</span>
 														<span className="ml-6 flex items-center">
@@ -261,7 +267,8 @@ export default function Example() {
 												</h3>
 												<Disclosure.Panel
 													as="div"
-													className="prose prose-sm pb-6">
+													className="prose prose-sm pb-6"
+												>
 													<ul role="list">
 														{detail.items.map((item) => (
 															<li key={item}>{item}</li>

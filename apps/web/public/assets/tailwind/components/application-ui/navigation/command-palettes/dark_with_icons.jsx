@@ -55,7 +55,8 @@ export default function Example() {
 			show={open}
 			as={Fragment}
 			afterLeave={() => setQuery("")}
-			appear>
+			appear
+		>
 			<Dialog as="div" className="relative z-10" onClose={setOpen}>
 				<Transition.Child
 					as={Fragment}
@@ -64,7 +65,8 @@ export default function Example() {
 					enterTo="opacity-100"
 					leave="ease-in duration-200"
 					leaveFrom="opacity-100"
-					leaveTo="opacity-0">
+					leaveTo="opacity-0"
+				>
 					<div className="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity" />
 				</Transition.Child>
 
@@ -76,7 +78,8 @@ export default function Example() {
 						enterTo="opacity-100 scale-100"
 						leave="ease-in duration-200"
 						leaveFrom="opacity-100 scale-100"
-						leaveTo="opacity-0 scale-95">
+						leaveTo="opacity-0 scale-95"
+					>
 						<Dialog.Panel className="mx-auto max-w-2xl transform divide-y divide-gray-500 divide-opacity-20 overflow-hidden rounded-xl bg-gray-900 shadow-2xl transition-all">
 							<Combobox onChange={(item) => (window.location = item.url)}>
 								<div className="relative">
@@ -94,7 +97,8 @@ export default function Example() {
 								{(query === "" || filteredProjects.length > 0) && (
 									<Combobox.Options
 										static
-										className="max-h-80 scroll-py-2 divide-y divide-gray-500 divide-opacity-20 overflow-y-auto">
+										className="max-h-80 scroll-py-2 divide-y divide-gray-500 divide-opacity-20 overflow-y-auto"
+									>
 										<li className="p-2">
 											{query === "" && (
 												<h2 className="mb-2 mt-4 px-3 text-xs font-semibold text-gray-200">
@@ -112,7 +116,8 @@ export default function Example() {
 																	"flex cursor-default select-none items-center rounded-md px-3 py-2",
 																	active && "bg-gray-800 text-white",
 																)
-															}>
+															}
+														>
 															{({ active }) => (
 																<>
 																	<FolderIcon
@@ -150,7 +155,8 @@ export default function Example() {
 																	"flex cursor-default select-none items-center rounded-md px-3 py-2",
 																	active && "bg-gray-800 text-white",
 																)
-															}>
+															}
+														>
 															{({ active }) => (
 																<>
 																	<action.icon

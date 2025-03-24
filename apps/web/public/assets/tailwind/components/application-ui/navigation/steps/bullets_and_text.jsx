@@ -32,10 +32,12 @@ export default function Example() {
 								<a
 									href={step.href}
 									className="flex items-start"
-									aria-current="step">
+									aria-current="step"
+								>
 									<span
 										className="relative flex h-5 w-5 flex-shrink-0 items-center justify-center"
-										aria-hidden="true">
+										aria-hidden="true"
+									>
 										<span className="absolute h-4 w-4 rounded-full bg-indigo-200" />
 										<span className="relative block h-2 w-2 rounded-full bg-indigo-600" />
 									</span>
@@ -48,7 +50,8 @@ export default function Example() {
 									<div className="flex items-start">
 										<div
 											className="relative flex h-5 w-5 flex-shrink-0 items-center justify-center"
-											aria-hidden="true">
+											aria-hidden="true"
+										>
 											<div className="h-2 w-2 rounded-full bg-gray-300 group-hover:bg-gray-400" />
 										</div>
 										<p className="ml-3 text-sm font-medium text-gray-500 group-hover:text-gray-900">

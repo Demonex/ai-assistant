@@ -31,7 +31,8 @@ export default function Example() {
 							{stats.map((stat) => (
 								<div
 									key={stat.id}
-									className="flex flex-col gap-y-3 border-l border-gray-900/10 pl-6">
+									className="flex flex-col gap-y-3 border-l border-gray-900/10 pl-6"
+								>
 									<dt className="text-sm leading-6 text-gray-600">
 										{stat.name}
 									</dt>

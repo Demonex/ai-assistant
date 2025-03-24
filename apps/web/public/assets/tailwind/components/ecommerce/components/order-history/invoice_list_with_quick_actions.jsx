@@ -30,7 +30,8 @@ export default function Example() {
 				<div className="max-w-xl">
 					<h1
 						id="your-orders-heading"
-						className="text-3xl font-bold tracking-tight text-gray-900">
+						className="text-3xl font-bold tracking-tight text-gray-900"
+					>
 						Your Orders
 					</h1>
 					<p className="mt-2 text-sm text-gray-500">
@@ -43,11 +44,13 @@ export default function Example() {
 					{orders.map((order) => (
 						<section
 							key={order.number}
-							aria-labelledby={`${order.number}-heading`}>
+							aria-labelledby={`${order.number}-heading`}
+						>
 							<div className="space-y-1 md:flex md:items-baseline md:space-x-4 md:space-y-0">
 								<h2
 									id={`${order.number}-heading`}
-									className="text-lg font-medium text-gray-900 md:flex-shrink-0">
+									className="text-lg font-medium text-gray-900 md:flex-shrink-0"
+								>
 									Order #{order.number}
 								</h2>
 								<div className="space-y-5 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 md:min-w-0 md:flex-1">
@@ -57,13 +60,15 @@ export default function Example() {
 									<div className="flex text-sm font-medium">
 										<a
 											href={order.href}
-											className="text-indigo-600 hover:text-indigo-500">
+											className="text-indigo-600 hover:text-indigo-500"
+										>
 											Manage order
 										</a>
 										<div className="ml-4 border-l border-gray-200 pl-4 sm:ml-6 sm:pl-6">
 											<a
 												href={order.invoiceHref}
-												className="text-indigo-600 hover:text-indigo-500">
+												className="text-indigo-600 hover:text-indigo-500"
+											>
 												View Invoice
 											</a>
 										</div>
@@ -88,7 +93,8 @@ export default function Example() {
 													<span>{product.color}</span>{" "}
 													<span
 														className="mx-1 text-gray-400"
-														aria-hidden="true">
+														aria-hidden="true"
+													>
 														&middot;
 													</span>{" "}
 													<span>{product.size}</span>
@@ -101,12 +107,14 @@ export default function Example() {
 										<div className="mt-6 space-y-4 sm:ml-6 sm:mt-0 sm:w-40 sm:flex-none">
 											<button
 												type="button"
-												className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0">
+												className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
+											>
 												Buy again
 											</button>
 											<button
 												type="button"
-												className="flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0">
+												className="flex w-full items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-full sm:flex-grow-0"
+											>
 												Shop similar
 											</button>
 										</div>

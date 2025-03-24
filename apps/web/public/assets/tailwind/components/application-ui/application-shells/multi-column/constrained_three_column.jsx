@@ -22,7 +22,8 @@ export default function Example() {
 						<div className="flex items-center gap-x-8">
 							<button
 								type="button"
-								className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300">
+								className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-300"
+							>
 								<span className="sr-only">View notifications</span>
 								<BellIcon className="h-6 w-6" aria-hidden="true" />
 							</button>

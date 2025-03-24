@@ -86,7 +86,8 @@ export default function Example() {
 						enterTo="opacity-100"
 						leave="transition-opacity ease-linear duration-300"
 						leaveFrom="opacity-100"
-						leaveTo="opacity-0">
+						leaveTo="opacity-0"
+					>
 						<div className="fixed inset-0 bg-black bg-opacity-25" />
 					</Transition.Child>
 
@@ -98,14 +99,16 @@ export default function Example() {
 							enterTo="translate-x-0"
 							leave="transition ease-in-out duration-300 transform"
 							leaveFrom="translate-x-0"
-							leaveTo="translate-x-full">
+							leaveTo="translate-x-full"
+						>
 							<Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-6 shadow-xl">
 								<div className="flex items-center justify-between px-4">
 									<h2 className="text-lg font-medium text-gray-900">Filters</h2>
 									<button
 										type="button"
 										className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-										onClick={() => setOpen(false)}>
+										onClick={() => setOpen(false)}
+									>
 										<span className="sr-only">Close menu</span>
 										<XMarkIcon className="h-6 w-6" aria-hidden="true" />
 									</button>
@@ -117,7 +120,8 @@ export default function Example() {
 										<Disclosure
 											as="div"
 											key={section.name}
-											className="border-t border-gray-200 px-4 py-6">
+											className="border-t border-gray-200 px-4 py-6"
+										>
 											{({ open }) => (
 												<>
 													<h3 className="-mx-2 -my-3 flow-root">
@@ -141,7 +145,8 @@ export default function Example() {
 															{section.options.map((option, optionIdx) => (
 																<div
 																	key={option.value}
-																	className="flex items-center">
+																	className="flex items-center"
+																>
 																	<input
 																		id={`filter-mobile-${section.id}-${optionIdx}`}
 																		name={`${section.id}[]`}
@@ -151,7 +156,8 @@ export default function Example() {
 																	/>
 																	<label
 																		htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-																		className="ml-3 text-sm text-gray-500">
+																		className="ml-3 text-sm text-gray-500"
+																	>
 																		{option.label}
 																	</label>
 																</div>
@@ -181,7 +187,8 @@ export default function Example() {
 
 				<section
 					aria-labelledby="filter-heading"
-					className="border-t border-gray-200 py-6">
+					className="border-t border-gray-200 py-6"
+				>
 					<h2 id="filter-heading" className="sr-only">
 						Product filters
 					</h2>
@@ -205,7 +212,8 @@ export default function Example() {
 								enterTo="transform opacity-100 scale-100"
 								leave="transition ease-in duration-75"
 								leaveFrom="transform opacity-100 scale-100"
-								leaveTo="transform opacity-0 scale-95">
+								leaveTo="transform opacity-0 scale-95"
+							>
 								<Menu.Items className="absolute left-0 z-10 mt-2 w-40 origin-top-left rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
 									<div className="py-1">
 										{sortOptions.map((option) => (
@@ -216,7 +224,8 @@ export default function Example() {
 														className={classNames(
 															active ? "bg-gray-100" : "",
 															"block px-4 py-2 text-sm font-medium text-gray-900",
-														)}>
+														)}
+													>
 														{option.name}
 													</a>
 												)}
@@ -230,7 +239,8 @@ export default function Example() {
 						<button
 							type="button"
 							className="inline-block text-sm font-medium text-gray-700 hover:text-gray-900 sm:hidden"
-							onClick={() => setOpen(true)}>
+							onClick={() => setOpen(true)}
+						>
 							Filters
 						</button>
 
@@ -240,7 +250,8 @@ export default function Example() {
 									as="div"
 									key={section.name}
 									id={`desktop-menu-${sectionIdx}`}
-									className="relative inline-block text-left">
+									className="relative inline-block text-left"
+								>
 									<div>
 										<Popover.Button className="group inline-flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
 											<span>{section.name}</span>
@@ -263,7 +274,8 @@ export default function Example() {
 										enterTo="transform opacity-100 scale-100"
 										leave="transition ease-in duration-75"
 										leaveFrom="transform opacity-100 scale-100"
-										leaveTo="transform opacity-0 scale-95">
+										leaveTo="transform opacity-0 scale-95"
+									>
 										<Popover.Panel className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white p-4 shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
 											<form className="space-y-4">
 												{section.options.map((option, optionIdx) => (
@@ -277,7 +289,8 @@ export default function Example() {
 														/>
 														<label
 															htmlFor={`filter-${section.id}-${optionIdx}`}
-															className="ml-3 whitespace-nowrap pr-6 text-sm font-medium text-gray-900">
+															className="ml-3 whitespace-nowrap pr-6 text-sm font-medium text-gray-900"
+														>
 															{option.label}
 														</label>
 													</div>

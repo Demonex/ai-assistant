@@ -45,7 +45,8 @@ export default function Example() {
 						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 48 48"
-						aria-hidden="true">
+						aria-hidden="true"
+					>
 						<path
 							strokeLinecap="round"
 							strokeLinejoin="round"
@@ -74,7 +75,8 @@ export default function Example() {
 					/>
 					<button
 						type="submit"
-						className="ml-4 flex-shrink-0 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+						className="ml-4 flex-shrink-0 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+					>
 						Send invite
 					</button>
 				</form>
@@ -85,11 +87,13 @@ export default function Example() {
 				</h3>
 				<ul
 					role="list"
-					className="mt-4 divide-y divide-gray-200 border-b border-t border-gray-200">
+					className="mt-4 divide-y divide-gray-200 border-b border-t border-gray-200"
+				>
 					{people.map((person, personIdx) => (
 						<li
 							key={personIdx}
-							className="flex items-center justify-between space-x-3 py-4">
+							className="flex items-center justify-between space-x-3 py-4"
+						>
 							<div className="flex min-w-0 flex-1 items-center space-x-3">
 								<div className="flex-shrink-0">
 									<img
@@ -110,7 +114,8 @@ export default function Example() {
 							<div className="flex-shrink-0">
 								<button
 									type="button"
-									className="inline-flex items-center gap-x-1.5 text-sm font-semibold leading-6 text-gray-900">
+									className="inline-flex items-center gap-x-1.5 text-sm font-semibold leading-6 text-gray-900"
+								>
 									<PlusIcon
 										className="h-5 w-5 text-gray-400"
 										aria-hidden="true"

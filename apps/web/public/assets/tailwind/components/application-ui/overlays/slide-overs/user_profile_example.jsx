@@ -25,21 +25,24 @@ export default function Example() {
 								enterTo="translate-x-0"
 								leave="transform transition ease-in-out duration-500 sm:duration-700"
 								leaveFrom="translate-x-0"
-								leaveTo="translate-x-full">
+								leaveTo="translate-x-full"
+							>
 								<Dialog.Panel className="pointer-events-auto w-screen max-w-md">
 									<div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
 										<div className="px-4 py-6 sm:px-6">
 											<div className="flex items-start justify-between">
 												<h2
 													id="slide-over-heading"
-													className="text-base font-semibold leading-6 text-gray-900">
+													className="text-base font-semibold leading-6 text-gray-900"
+												>
 													Profile
 												</h2>
 												<div className="ml-3 flex h-7 items-center">
 													<button
 														type="button"
 														className="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500"
-														onClick={() => setOpen(false)}>
+														onClick={() => setOpen(false)}
+													>
 														<span className="absolute -inset-2.5" />
 														<span className="sr-only">Close panel</span>
 														<XMarkIcon className="h-6 w-6" aria-hidden="true" />
@@ -76,18 +79,21 @@ export default function Example() {
 															<div className="mt-5 flex flex-wrap space-y-3 sm:space-x-3 sm:space-y-0">
 																<button
 																	type="button"
-																	className="inline-flex w-full flex-shrink-0 items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:flex-1">
+																	className="inline-flex w-full flex-shrink-0 items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:flex-1"
+																>
 																	Message
 																</button>
 																<button
 																	type="button"
-																	className="inline-flex w-full flex-1 items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+																	className="inline-flex w-full flex-1 items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+																>
 																	Call
 																</button>
 																<div className="ml-3 inline-flex sm:ml-0">
 																	<Menu
 																		as="div"
-																		className="relative inline-block text-left">
+																		className="relative inline-block text-left"
+																	>
 																		<Menu.Button className="relative inline-flex items-center rounded-md bg-white p-2 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
 																			<span className="absolute -inset-1" />
 																			<span className="sr-only">
@@ -105,7 +111,8 @@ export default function Example() {
 																			enterTo="transform opacity-100 scale-100"
 																			leave="transition ease-in duration-75"
 																			leaveFrom="transform opacity-100 scale-100"
-																			leaveTo="transform opacity-0 scale-95">
+																			leaveTo="transform opacity-0 scale-95"
+																		>
 																			<Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 																				<div className="py-1">
 																					<Menu.Item>
@@ -117,7 +124,8 @@ export default function Example() {
 																										? "bg-gray-100 text-gray-900"
 																										: "text-gray-700",
 																									"block px-4 py-2 text-sm",
-																								)}>
+																								)}
+																							>
 																								View profile
 																							</a>
 																						)}
@@ -131,7 +139,8 @@ export default function Example() {
 																										? "bg-gray-100 text-gray-900"
 																										: "text-gray-700",
 																									"block px-4 py-2 text-sm",
-																								)}>
+																								)}
+																							>
 																								Copy profile link
 																							</a>
 																						)}

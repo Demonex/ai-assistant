@@ -61,7 +61,8 @@ export default function Example() {
 			show={open}
 			as={Fragment}
 			afterLeave={() => setQuery("")}
-			appear>
+			appear
+		>
 			<Dialog as="div" className="relative z-10" onClose={setOpen}>
 				<Transition.Child
 					as={Fragment}
@@ -70,7 +71,8 @@ export default function Example() {
 					enterTo="opacity-100"
 					leave="ease-in duration-200"
 					leaveFrom="opacity-100"
-					leaveTo="opacity-0">
+					leaveTo="opacity-0"
+				>
 					<div className="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity" />
 				</Transition.Child>
 
@@ -82,7 +84,8 @@ export default function Example() {
 						enterTo="opacity-100 scale-100"
 						leave="ease-in duration-200"
 						leaveFrom="opacity-100 scale-100"
-						leaveTo="opacity-0 scale-95">
+						leaveTo="opacity-0 scale-95"
+					>
 						<Dialog.Panel className="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
 							<Combobox onChange={(item) => (window.location = item.url)}>
 								<div className="relative">
@@ -100,7 +103,8 @@ export default function Example() {
 								{filteredItems.length > 0 && (
 									<Combobox.Options
 										static
-										className="max-h-96 scroll-py-3 overflow-y-auto p-3">
+										className="max-h-96 scroll-py-3 overflow-y-auto p-3"
+									>
 										{filteredItems.map((item) => (
 											<Combobox.Option
 												key={item.id}
@@ -110,14 +114,16 @@ export default function Example() {
 														"flex cursor-default select-none rounded-xl p-3",
 														active && "bg-gray-100",
 													)
-												}>
+												}
+											>
 												{({ active }) => (
 													<>
 														<div
 															className={classNames(
 																"flex h-10 w-10 flex-none items-center justify-center rounded-lg",
 																item.color,
-															)}>
+															)}
+														>
 															<item.icon
 																className="h-6 w-6 text-white"
 																aria-hidden="true"
@@ -128,14 +134,16 @@ export default function Example() {
 																className={classNames(
 																	"text-sm font-medium",
 																	active ? "text-gray-900" : "text-gray-700",
-																)}>
+																)}
+															>
 																{item.name}
 															</p>
 															<p
 																className={classNames(
 																	"text-sm",
 																	active ? "text-gray-700" : "text-gray-500",
-																)}>
+																)}
+															>
 																{item.description}
 															</p>
 														</div>

@@ -55,14 +55,16 @@ export default function Example() {
 					{features.map((feature, featureIdx) => (
 						<div
 							key={feature.name}
-							className="flex flex-col-reverse lg:grid lg:grid-cols-12 lg:items-center lg:gap-x-8">
+							className="flex flex-col-reverse lg:grid lg:grid-cols-12 lg:items-center lg:gap-x-8"
+						>
 							<div
 								className={classNames(
 									featureIdx % 2 === 0
 										? "lg:col-start-1"
 										: "lg:col-start-8 xl:col-start-9",
 									"mt-6 lg:col-span-5 lg:row-start-1 lg:mt-0 xl:col-span-4",
-								)}>
+								)}
+							>
 								<h3 className="text-lg font-medium text-gray-900">
 									{feature.name}
 								</h3>
@@ -76,7 +78,8 @@ export default function Example() {
 										? "lg:col-start-6 xl:col-start-5"
 										: "lg:col-start-1",
 									"flex-auto lg:col-span-7 lg:row-start-1 xl:col-span-8",
-								)}>
+								)}
+							>
 								<div className="aspect-h-2 aspect-w-5 overflow-hidden rounded-lg bg-gray-100">
 									<img
 										src={feature.imageSrc}

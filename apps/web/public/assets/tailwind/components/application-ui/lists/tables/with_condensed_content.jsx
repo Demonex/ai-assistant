@@ -27,7 +27,8 @@ export default function Example() {
 				<div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
 					<button
 						type="button"
-						className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+						className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+					>
 						Export
 					</button>
 				</div>
@@ -40,42 +41,50 @@ export default function Example() {
 								<tr>
 									<th
 										scope="col"
-										className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+										className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+									>
 										Transaction ID
 									</th>
 									<th
 										scope="col"
-										className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+										className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+									>
 										Company
 									</th>
 									<th
 										scope="col"
-										className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+										className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+									>
 										Share
 									</th>
 									<th
 										scope="col"
-										className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+										className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+									>
 										Commision
 									</th>
 									<th
 										scope="col"
-										className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+										className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+									>
 										Price
 									</th>
 									<th
 										scope="col"
-										className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+										className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+									>
 										Quantity
 									</th>
 									<th
 										scope="col"
-										className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+										className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+									>
 										Net amount
 									</th>
 									<th
 										scope="col"
-										className="relative whitespace-nowrap py-3.5 pl-3 pr-4 sm:pr-0">
+										className="relative whitespace-nowrap py-3.5 pl-3 pr-4 sm:pr-0"
+									>
 										<span className="sr-only">Edit</span>
 									</th>
 								</tr>
@@ -107,7 +116,8 @@ export default function Example() {
 										<td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
 											<a
 												href="#"
-												className="text-indigo-600 hover:text-indigo-900">
+												className="text-indigo-600 hover:text-indigo-900"
+											>
 												Edit<span className="sr-only">, {transaction.id}</span>
 											</a>
 										</td>

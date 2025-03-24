@@ -17,7 +17,8 @@ export default function Example() {
 		<div className="relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
 			<svg
 				className="absolute inset-0 -z-10 h-full w-full stroke-gray-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
-				aria-hidden="true">
+				aria-hidden="true"
+			>
 				<defs>
 					<pattern
 						id="83fd4e5a-9d52-42fc-97b6-718e5d7ee527"
@@ -25,7 +26,8 @@ export default function Example() {
 						height={200}
 						x="50%"
 						y={-64}
-						patternUnits="userSpaceOnUse">
+						patternUnits="userSpaceOnUse"
+					>
 						<path d="M100 200V.5M.5 .5H200" fill="none" />
 					</pattern>
 				</defs>
@@ -55,7 +57,8 @@ export default function Example() {
 							<div>
 								<label
 									htmlFor="first-name"
-									className="block text-sm font-semibold leading-6 text-gray-900">
+									className="block text-sm font-semibold leading-6 text-gray-900"
+								>
 									First name
 								</label>
 								<div className="mt-2.5">
@@ -71,7 +74,8 @@ export default function Example() {
 							<div>
 								<label
 									htmlFor="last-name"
-									className="block text-sm font-semibold leading-6 text-gray-900">
+									className="block text-sm font-semibold leading-6 text-gray-900"
+								>
 									Last name
 								</label>
 								<div className="mt-2.5">
@@ -87,7 +91,8 @@ export default function Example() {
 							<div>
 								<label
 									htmlFor="budget"
-									className="block text-sm font-semibold leading-6 text-gray-900">
+									className="block text-sm font-semibold leading-6 text-gray-900"
+								>
 									Budget
 								</label>
 								<div className="mt-2.5">
@@ -102,7 +107,8 @@ export default function Example() {
 							<div>
 								<label
 									htmlFor="website"
-									className="block text-sm font-semibold leading-6 text-gray-900">
+									className="block text-sm font-semibold leading-6 text-gray-900"
+								>
 									Website
 								</label>
 								<div className="mt-2.5">
@@ -117,7 +123,8 @@ export default function Example() {
 							<div className="sm:col-span-2">
 								<label
 									htmlFor="message"
-									className="block text-sm font-semibold leading-6 text-gray-900">
+									className="block text-sm font-semibold leading-6 text-gray-900"
+								>
 									Message
 								</label>
 								<div className="mt-2.5">
@@ -134,7 +141,8 @@ export default function Example() {
 						<div className="mt-10">
 							<button
 								type="submit"
-								className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+								className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+							>
 								Let’s talk
 							</button>
 						</div>

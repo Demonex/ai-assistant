@@ -76,7 +76,8 @@ export default function Example() {
 								tierIdx === 0 ? "lg:rounded-r-none" : "",
 								tierIdx === tiers.length - 1 ? "lg:rounded-l-none" : "",
 								"flex flex-col justify-between rounded-3xl bg-white p-8 ring-1 ring-gray-200 xl:p-10",
-							)}>
+							)}
+						>
 							<div>
 								<div className="flex items-center justify-between gap-x-4">
 									<h3
@@ -84,7 +85,8 @@ export default function Example() {
 										className={classNames(
 											tier.mostPopular ? "text-indigo-600" : "text-gray-900",
 											"text-lg font-semibold leading-8",
-										)}>
+										)}
+									>
 										{tier.name}
 									</h3>
 									{tier.mostPopular ? (
@@ -106,7 +108,8 @@ export default function Example() {
 								</p>
 								<ul
 									role="list"
-									className="mt-8 space-y-3 text-sm leading-6 text-gray-600">
+									className="mt-8 space-y-3 text-sm leading-6 text-gray-600"
+								>
 									{tier.features.map((feature) => (
 										<li key={feature} className="flex gap-x-3">
 											<CheckIcon
@@ -126,7 +129,8 @@ export default function Example() {
 										? "bg-indigo-600 text-white shadow-sm hover:bg-indigo-500"
 										: "text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300",
 									"mt-8 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
-								)}>
+								)}
+							>
 								Buy plan
 							</a>
 						</div>

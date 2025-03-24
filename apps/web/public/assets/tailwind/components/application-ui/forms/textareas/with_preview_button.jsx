@@ -38,7 +38,8 @@ export default function Example() {
 											: "bg-white text-gray-500 hover:bg-gray-100 hover:text-gray-900",
 										"rounded-md border border-transparent px-3 py-1.5 text-sm font-medium",
 									)
-								}>
+								}
+							>
 								Write
 							</Tab>
 							<Tab
@@ -49,7 +50,8 @@ export default function Example() {
 											: "bg-white text-gray-500 hover:bg-gray-100 hover:text-gray-900",
 										"ml-2 rounded-md border border-transparent px-3 py-1.5 text-sm font-medium",
 									)
-								}>
+								}
+							>
 								Preview
 							</Tab>
 
@@ -59,7 +61,8 @@ export default function Example() {
 									<div className="flex items-center">
 										<button
 											type="button"
-											className="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500">
+											className="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+										>
 											<span className="sr-only">Insert link</span>
 											<LinkIcon className="h-5 w-5" aria-hidden="true" />
 										</button>
@@ -67,7 +70,8 @@ export default function Example() {
 									<div className="flex items-center">
 										<button
 											type="button"
-											className="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500">
+											className="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+										>
 											<span className="sr-only">Insert code</span>
 											<CodeBracketIcon className="h-5 w-5" aria-hidden="true" />
 										</button>
@@ -75,7 +79,8 @@ export default function Example() {
 									<div className="flex items-center">
 										<button
 											type="button"
-											className="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500">
+											className="-m-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+										>
 											<span className="sr-only">Mention someone</span>
 											<AtSymbolIcon className="h-5 w-5" aria-hidden="true" />
 										</button>
@@ -113,7 +118,8 @@ export default function Example() {
 			<div className="mt-2 flex justify-end">
 				<button
 					type="submit"
-					className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+					className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+				>
 					Post
 				</button>
 			</div>

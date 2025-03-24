@@ -5,11 +5,13 @@ export default function Example() {
 				Badge
 				<button
 					type="button"
-					className="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-gray-500/20">
+					className="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-gray-500/20"
+				>
 					<span className="sr-only">Remove</span>
 					<svg
 						viewBox="0 0 14 14"
-						className="h-3.5 w-3.5 stroke-gray-600/50 group-hover:stroke-gray-600/75">
+						className="h-3.5 w-3.5 stroke-gray-600/50 group-hover:stroke-gray-600/75"
+					>
 						<path d="M4 4l6 6m0-6l-6 6" />
 					</svg>
 					<span className="absolute -inset-1" />
@@ -19,11 +21,13 @@ export default function Example() {
 				Badge
 				<button
 					type="button"
-					className="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-red-600/20">
+					className="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-red-600/20"
+				>
 					<span className="sr-only">Remove</span>
 					<svg
 						viewBox="0 0 14 14"
-						className="h-3.5 w-3.5 stroke-red-600/50 group-hover:stroke-red-600/75">
+						className="h-3.5 w-3.5 stroke-red-600/50 group-hover:stroke-red-600/75"
+					>
 						<path d="M4 4l6 6m0-6l-6 6" />
 					</svg>
 					<span className="absolute -inset-1" />
@@ -33,11 +37,13 @@ export default function Example() {
 				Badge
 				<button
 					type="button"
-					className="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-yellow-600/20">
+					className="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-yellow-600/20"
+				>
 					<span className="sr-only">Remove</span>
 					<svg
 						viewBox="0 0 14 14"
-						className="h-3.5 w-3.5 stroke-yellow-700/50 group-hover:stroke-yellow-700/75">
+						className="h-3.5 w-3.5 stroke-yellow-700/50 group-hover:stroke-yellow-700/75"
+					>
 						<path d="M4 4l6 6m0-6l-6 6" />
 					</svg>
 					<span className="absolute -inset-1" />
@@ -47,11 +53,13 @@ export default function Example() {
 				Badge
 				<button
 					type="button"
-					className="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-green-600/20">
+					className="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-green-600/20"
+				>
 					<span className="sr-only">Remove</span>
 					<svg
 						viewBox="0 0 14 14"
-						className="h-3.5 w-3.5 stroke-green-700/50 group-hover:stroke-green-700/75">
+						className="h-3.5 w-3.5 stroke-green-700/50 group-hover:stroke-green-700/75"
+					>
 						<path d="M4 4l6 6m0-6l-6 6" />
 					</svg>
 					<span className="absolute -inset-1" />
@@ -61,11 +69,13 @@ export default function Example() {
 				Badge
 				<button
 					type="button"
-					className="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-blue-600/20">
+					className="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-blue-600/20"
+				>
 					<span className="sr-only">Remove</span>
 					<svg
 						viewBox="0 0 14 14"
-						className="h-3.5 w-3.5 stroke-blue-700/50 group-hover:stroke-blue-700/75">
+						className="h-3.5 w-3.5 stroke-blue-700/50 group-hover:stroke-blue-700/75"
+					>
 						<path d="M4 4l6 6m0-6l-6 6" />
 					</svg>
 					<span className="absolute -inset-1" />
@@ -75,11 +85,13 @@ export default function Example() {
 				Badge
 				<button
 					type="button"
-					className="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-indigo-600/20">
+					className="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-indigo-600/20"
+				>
 					<span className="sr-only">Remove</span>
 					<svg
 						viewBox="0 0 14 14"
-						className="h-3.5 w-3.5 stroke-indigo-600/50 group-hover:stroke-indigo-600/75">
+						className="h-3.5 w-3.5 stroke-indigo-600/50 group-hover:stroke-indigo-600/75"
+					>
 						<path d="M4 4l6 6m0-6l-6 6" />
 					</svg>
 					<span className="absolute -inset-1" />
@@ -89,11 +101,13 @@ export default function Example() {
 				Badge
 				<button
 					type="button"
-					className="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-purple-600/20">
+					className="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-purple-600/20"
+				>
 					<span className="sr-only">Remove</span>
 					<svg
 						viewBox="0 0 14 14"
-						className="h-3.5 w-3.5 stroke-violet-600/50 group-hover:stroke-violet-600/75">
+						className="h-3.5 w-3.5 stroke-violet-600/50 group-hover:stroke-violet-600/75"
+					>
 						<path d="M4 4l6 6m0-6l-6 6" />
 					</svg>
 					<span className="absolute -inset-1" />
@@ -103,11 +117,13 @@ export default function Example() {
 				Badge
 				<button
 					type="button"
-					className="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-pink-600/20">
+					className="group relative -mr-1 h-3.5 w-3.5 rounded-sm hover:bg-pink-600/20"
+				>
 					<span className="sr-only">Remove</span>
 					<svg
 						viewBox="0 0 14 14"
-						className="h-3.5 w-3.5 stroke-pink-700/50 group-hover:stroke-pink-700/75">
+						className="h-3.5 w-3.5 stroke-pink-700/50 group-hover:stroke-pink-700/75"
+					>
 						<path d="M4 4l6 6m0-6l-6 6" />
 					</svg>
 					<span className="absolute -inset-1" />

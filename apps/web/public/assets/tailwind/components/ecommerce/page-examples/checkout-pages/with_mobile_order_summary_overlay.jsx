@@ -69,7 +69,8 @@ export default function Example() {
 											<a
 												href={step.href}
 												aria-current="page"
-												className="text-indigo-600">
+												className="text-indigo-600"
+											>
 												{step.name}
 											</a>
 										) : (
@@ -96,21 +97,25 @@ export default function Example() {
 
 				<section
 					aria-labelledby="summary-heading"
-					className="bg-gray-50 px-4 pb-10 pt-16 sm:px-6 lg:col-start-2 lg:row-start-1 lg:bg-transparent lg:px-0 lg:pb-16">
+					className="bg-gray-50 px-4 pb-10 pt-16 sm:px-6 lg:col-start-2 lg:row-start-1 lg:bg-transparent lg:px-0 lg:pb-16"
+				>
 					<div className="mx-auto max-w-lg lg:max-w-none">
 						<h2
 							id="summary-heading"
-							className="text-lg font-medium text-gray-900">
+							className="text-lg font-medium text-gray-900"
+						>
 							Order summary
 						</h2>
 
 						<ul
 							role="list"
-							className="divide-y divide-gray-200 text-sm font-medium text-gray-900">
+							className="divide-y divide-gray-200 text-sm font-medium text-gray-900"
+						>
 							{products.map((product) => (
 								<li
 									key={product.id}
-									className="flex items-start space-x-4 py-6">
+									className="flex items-start space-x-4 py-6"
+								>
 									<img
 										src={product.imageSrc}
 										alt={product.imageAlt}
@@ -173,7 +178,8 @@ export default function Example() {
 										enterTo="opacity-100"
 										leave="transition-opacity ease-linear duration-300"
 										leaveFrom="opacity-100"
-										leaveTo="opacity-0">
+										leaveTo="opacity-0"
+									>
 										<Popover.Overlay className="fixed inset-0 bg-black bg-opacity-25" />
 									</Transition.Child>
 
@@ -184,7 +190,8 @@ export default function Example() {
 										enterTo="translate-y-0"
 										leave="transition ease-in-out duration-300 transform"
 										leaveFrom="translate-y-0"
-										leaveTo="translate-y-full">
+										leaveTo="translate-y-full"
+									>
 										<Popover.Panel className="relative bg-white px-4 py-6 sm:px-6">
 											<dl className="mx-auto max-w-lg space-y-6">
 												<div className="flex items-center justify-between">
@@ -215,14 +222,16 @@ export default function Example() {
 						<section aria-labelledby="contact-info-heading">
 							<h2
 								id="contact-info-heading"
-								className="text-lg font-medium text-gray-900">
+								className="text-lg font-medium text-gray-900"
+							>
 								Contact information
 							</h2>
 
 							<div className="mt-6">
 								<label
 									htmlFor="email-address"
-									className="block text-sm font-medium text-gray-700">
+									className="block text-sm font-medium text-gray-700"
+								>
 									Email address
 								</label>
 								<div className="mt-1">
@@ -240,7 +249,8 @@ export default function Example() {
 						<section aria-labelledby="payment-heading" className="mt-10">
 							<h2
 								id="payment-heading"
-								className="text-lg font-medium text-gray-900">
+								className="text-lg font-medium text-gray-900"
+							>
 								Payment details
 							</h2>
 
@@ -248,7 +258,8 @@ export default function Example() {
 								<div className="col-span-3 sm:col-span-4">
 									<label
 										htmlFor="name-on-card"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										Name on card
 									</label>
 									<div className="mt-1">
@@ -265,7 +276,8 @@ export default function Example() {
 								<div className="col-span-3 sm:col-span-4">
 									<label
 										htmlFor="card-number"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										Card number
 									</label>
 									<div className="mt-1">
@@ -282,7 +294,8 @@ export default function Example() {
 								<div className="col-span-2 sm:col-span-3">
 									<label
 										htmlFor="expiration-date"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										Expiration date (MM/YY)
 									</label>
 									<div className="mt-1">
@@ -299,7 +312,8 @@ export default function Example() {
 								<div>
 									<label
 										htmlFor="cvc"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										CVC
 									</label>
 									<div className="mt-1">
@@ -318,7 +332,8 @@ export default function Example() {
 						<section aria-labelledby="shipping-heading" className="mt-10">
 							<h2
 								id="shipping-heading"
-								className="text-lg font-medium text-gray-900">
+								className="text-lg font-medium text-gray-900"
+							>
 								Shipping address
 							</h2>
 
@@ -326,7 +341,8 @@ export default function Example() {
 								<div className="sm:col-span-3">
 									<label
 										htmlFor="company"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										Company
 									</label>
 									<div className="mt-1">
@@ -342,7 +358,8 @@ export default function Example() {
 								<div className="sm:col-span-3">
 									<label
 										htmlFor="address"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										Address
 									</label>
 									<div className="mt-1">
@@ -359,7 +376,8 @@ export default function Example() {
 								<div className="sm:col-span-3">
 									<label
 										htmlFor="apartment"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										Apartment, suite, etc.
 									</label>
 									<div className="mt-1">
@@ -375,7 +393,8 @@ export default function Example() {
 								<div>
 									<label
 										htmlFor="city"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										City
 									</label>
 									<div className="mt-1">
@@ -392,7 +411,8 @@ export default function Example() {
 								<div>
 									<label
 										htmlFor="region"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										State / Province
 									</label>
 									<div className="mt-1">
@@ -409,7 +429,8 @@ export default function Example() {
 								<div>
 									<label
 										htmlFor="postal-code"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										Postal code
 									</label>
 									<div className="mt-1">
@@ -428,7 +449,8 @@ export default function Example() {
 						<section aria-labelledby="billing-heading" className="mt-10">
 							<h2
 								id="billing-heading"
-								className="text-lg font-medium text-gray-900">
+								className="text-lg font-medium text-gray-900"
+							>
 								Billing information
 							</h2>
 
@@ -443,7 +465,8 @@ export default function Example() {
 								<div className="ml-2">
 									<label
 										htmlFor="same-as-shipping"
-										className="text-sm font-medium text-gray-900">
+										className="text-sm font-medium text-gray-900"
+									>
 										Same as shipping information
 									</label>
 								</div>
@@ -453,7 +476,8 @@ export default function Example() {
 						<div className="mt-10 border-t border-gray-200 pt-6 sm:flex sm:items-center sm:justify-between">
 							<button
 								type="submit"
-								className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:order-last sm:ml-6 sm:w-auto">
+								className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:order-last sm:ml-6 sm:w-auto"
+							>
 								Continue
 							</button>
 							<p className="mt-4 text-center text-sm text-gray-500 sm:mt-0 sm:text-left">

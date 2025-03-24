@@ -11,7 +11,8 @@ export default function Example() {
 		<nav aria-label="Progress">
 			<ol
 				role="list"
-				className="divide-y divide-gray-300 rounded-md border border-gray-300 md:flex md:divide-y-0">
+				className="divide-y divide-gray-300 rounded-md border border-gray-300 md:flex md:divide-y-0"
+			>
 				{steps.map((step, stepIdx) => (
 					<li key={step.name} className="relative md:flex md:flex-1">
 						{step.status === "complete" ? (
@@ -32,7 +33,8 @@ export default function Example() {
 							<a
 								href={step.href}
 								className="flex items-center px-6 py-4 text-sm font-medium"
-								aria-current="step">
+								aria-current="step"
+							>
 								<span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-indigo-600">
 									<span className="text-indigo-600">{step.id}</span>
 								</span>
@@ -60,12 +62,14 @@ export default function Example() {
 								{/* Arrow separator for lg screens and up */}
 								<div
 									className="absolute right-0 top-0 hidden h-full w-5 md:block"
-									aria-hidden="true">
+									aria-hidden="true"
+								>
 									<svg
 										className="h-full w-full text-gray-300"
 										viewBox="0 0 22 80"
 										fill="none"
-										preserveAspectRatio="none">
+										preserveAspectRatio="none"
+									>
 										<path
 											d="M0 -2L20 40L0 82"
 											vectorEffect="non-scaling-stroke"

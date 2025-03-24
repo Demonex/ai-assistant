@@ -34,7 +34,8 @@ export default function Example() {
 						<p className="mt-4">
 							<a
 								href="#"
-								className="text-sm font-semibold leading-6 text-indigo-600">
+								className="text-sm font-semibold leading-6 text-indigo-600"
+							>
 								Contact us <span aria-hidden="true">&rarr;</span>
 							</a>
 						</p>
@@ -55,7 +56,8 @@ export default function Example() {
 						<p className="mt-4">
 							<a
 								href="#"
-								className="text-sm font-semibold leading-6 text-indigo-600">
+								className="text-sm font-semibold leading-6 text-indigo-600"
+							>
 								Report a bug <span aria-hidden="true">&rarr;</span>
 							</a>
 						</p>
@@ -79,7 +81,8 @@ export default function Example() {
 						<p className="mt-4">
 							<a
 								href="#"
-								className="text-sm font-semibold leading-6 text-indigo-600">
+								className="text-sm font-semibold leading-6 text-indigo-600"
+							>
 								Join our Discord <span aria-hidden="true">&rarr;</span>
 							</a>
 						</p>

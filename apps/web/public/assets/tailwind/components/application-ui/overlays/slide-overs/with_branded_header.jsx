@@ -20,7 +20,8 @@ export default function Example() {
 								enterTo="translate-x-0"
 								leave="transform transition ease-in-out duration-500 sm:duration-700"
 								leaveFrom="translate-x-0"
-								leaveTo="translate-x-full">
+								leaveTo="translate-x-full"
+							>
 								<Dialog.Panel className="pointer-events-auto w-screen max-w-md">
 									<div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
 										<div className="bg-indigo-700 px-4 py-6 sm:px-6">
@@ -32,7 +33,8 @@ export default function Example() {
 													<button
 														type="button"
 														className="relative rounded-md bg-indigo-700 text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
-														onClick={() => setOpen(false)}>
+														onClick={() => setOpen(false)}
+													>
 														<span className="absolute -inset-2.5" />
 														<span className="sr-only">Close panel</span>
 														<XMarkIcon className="h-6 w-6" aria-hidden="true" />

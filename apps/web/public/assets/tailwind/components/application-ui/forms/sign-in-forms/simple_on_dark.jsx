@@ -40,7 +40,8 @@ export default function Example() {
 						<div>
 							<label
 								htmlFor="email"
-								className="block text-sm font-medium leading-6 text-white">
+								className="block text-sm font-medium leading-6 text-white"
+							>
 								Email address
 							</label>
 							<div className="mt-2">
@@ -59,13 +60,15 @@ export default function Example() {
 							<div className="flex items-center justify-between">
 								<label
 									htmlFor="password"
-									className="block text-sm font-medium leading-6 text-white">
+									className="block text-sm font-medium leading-6 text-white"
+								>
 									Password
 								</label>
 								<div className="text-sm">
 									<a
 										href="#"
-										className="font-semibold text-indigo-400 hover:text-indigo-300">
+										className="font-semibold text-indigo-400 hover:text-indigo-300"
+									>
 										Forgot password?
 									</a>
 								</div>
@@ -85,7 +88,8 @@ export default function Example() {
 						<div>
 							<button
 								type="submit"
-								className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+								className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+							>
 								Sign in
 							</button>
 						</div>
@@ -95,7 +99,8 @@ export default function Example() {
 						Not a member?{" "}
 						<a
 							href="#"
-							className="font-semibold leading-6 text-indigo-400 hover:text-indigo-300">
+							className="font-semibold leading-6 text-indigo-400 hover:text-indigo-300"
+						>
 							Start a 14 day free trial
 						</a>
 					</p>

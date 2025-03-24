@@ -13,7 +13,8 @@ export default function Example() {
 				<div className="sm:w-0 sm:flex-1">
 					<h1
 						id="message-heading"
-						className="text-base font-semibold leading-6 text-gray-900">
+						className="text-base font-semibold leading-6 text-gray-900"
+					>
 						Full-Stack Developer
 					</h1>
 					<p className="mt-1 truncate text-sm text-gray-500">
@@ -40,7 +41,8 @@ export default function Example() {
 							enterTo="transform opacity-100 scale-100"
 							leave="transition ease-in duration-75"
 							leaveFrom="transform opacity-100 scale-100"
-							leaveTo="transform opacity-0 scale-95">
+							leaveTo="transform opacity-0 scale-95"
+						>
 							<Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 								<div className="py-1">
 									<Menu.Item>
@@ -52,7 +54,8 @@ export default function Example() {
 														? "bg-gray-100 text-gray-900"
 														: "text-gray-700",
 													"flex justify-between px-4 py-2 text-sm",
-												)}>
+												)}
+											>
 												<span>Edit</span>
 											</a>
 										)}
@@ -66,7 +69,8 @@ export default function Example() {
 														? "bg-gray-100 text-gray-900"
 														: "text-gray-700",
 													"flex justify-between px-4 py-2 text-sm",
-												)}>
+												)}
+											>
 												<span>Duplicate</span>
 											</a>
 										)}
@@ -80,7 +84,8 @@ export default function Example() {
 														? "bg-gray-100 text-gray-900"
 														: "text-gray-700",
 													"flex w-full justify-between px-4 py-2 text-sm",
-												)}>
+												)}
+											>
 												<span>Archive</span>
 											</button>
 										)}

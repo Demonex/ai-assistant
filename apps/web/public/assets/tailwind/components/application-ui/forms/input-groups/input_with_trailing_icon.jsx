@@ -19,7 +19,8 @@ export default function Example() {
 		<div>
 			<label
 				htmlFor="account-number"
-				className="block text-sm font-medium leading-6 text-gray-900">
+				className="block text-sm font-medium leading-6 text-gray-900"
+			>
 				Account number
 			</label>
 			<div className="relative mt-2 rounded-md shadow-sm">

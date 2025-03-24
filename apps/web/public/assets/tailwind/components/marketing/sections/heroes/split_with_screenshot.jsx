@@ -5,7 +5,8 @@ export default function Example() {
 		<div className="relative isolate overflow-hidden bg-white">
 			<svg
 				className="absolute inset-0 -z-10 h-full w-full stroke-gray-200 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
-				aria-hidden="true">
+				aria-hidden="true"
+			>
 				<defs>
 					<pattern
 						id="0787a7c5-978c-4f66-83c7-11c213f99cb7"
@@ -13,7 +14,8 @@ export default function Example() {
 						height={200}
 						x="50%"
 						y={-1}
-						patternUnits="userSpaceOnUse">
+						patternUnits="userSpaceOnUse"
+					>
 						<path d="M.5 200V.5H200" fill="none" />
 					</pattern>
 				</defs>
@@ -56,12 +58,14 @@ export default function Example() {
 					<div className="mt-10 flex items-center gap-x-6">
 						<a
 							href="#"
-							className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+							className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+						>
 							Get started
 						</a>
 						<a
 							href="#"
-							className="text-sm font-semibold leading-6 text-gray-900">
+							className="text-sm font-semibold leading-6 text-gray-900"
+						>
 							Learn more <span aria-hidden="true">→</span>
 						</a>
 					</div>

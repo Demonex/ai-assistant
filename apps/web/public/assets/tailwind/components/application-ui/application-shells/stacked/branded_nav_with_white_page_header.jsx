@@ -62,7 +62,8 @@ export default function Example() {
 																: "text-white hover:bg-indigo-500 hover:bg-opacity-75",
 															"rounded-md px-3 py-2 text-sm font-medium",
 														)}
-														aria-current={item.current ? "page" : undefined}>
+														aria-current={item.current ? "page" : undefined}
+													>
 														{item.name}
 													</a>
 												))}
@@ -73,7 +74,8 @@ export default function Example() {
 										<div className="ml-4 flex items-center md:ml-6">
 											<button
 												type="button"
-												className="relative rounded-full bg-indigo-600 p-1 text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600">
+												className="relative rounded-full bg-indigo-600 p-1 text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600"
+											>
 												<span className="absolute -inset-1.5" />
 												<span className="sr-only">View notifications</span>
 												<BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -99,7 +101,8 @@ export default function Example() {
 													enterTo="transform opacity-100 scale-100"
 													leave="transition ease-in duration-75"
 													leaveFrom="transform opacity-100 scale-100"
-													leaveTo="transform opacity-0 scale-95">
+													leaveTo="transform opacity-0 scale-95"
+												>
 													<Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 														{userNavigation.map((item) => (
 															<Menu.Item key={item.name}>
@@ -109,7 +112,8 @@ export default function Example() {
 																		className={classNames(
 																			active ? "bg-gray-100" : "",
 																			"block px-4 py-2 text-sm text-gray-700",
-																		)}>
+																		)}
+																	>
 																		{item.name}
 																	</a>
 																)}
@@ -154,7 +158,8 @@ export default function Example() {
 													: "text-white hover:bg-indigo-500 hover:bg-opacity-75",
 												"block rounded-md px-3 py-2 text-base font-medium",
 											)}
-											aria-current={item.current ? "page" : undefined}>
+											aria-current={item.current ? "page" : undefined}
+										>
 											{item.name}
 										</Disclosure.Button>
 									))}
@@ -178,7 +183,8 @@ export default function Example() {
 										</div>
 										<button
 											type="button"
-											className="relative ml-auto flex-shrink-0 rounded-full border-2 border-transparent bg-indigo-600 p-1 text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600">
+											className="relative ml-auto flex-shrink-0 rounded-full border-2 border-transparent bg-indigo-600 p-1 text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600"
+										>
 											<span className="absolute -inset-1.5" />
 											<span className="sr-only">View notifications</span>
 											<BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -190,7 +196,8 @@ export default function Example() {
 												key={item.name}
 												as="a"
 												href={item.href}
-												className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-indigo-500 hover:bg-opacity-75">
+												className="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-indigo-500 hover:bg-opacity-75"
+											>
 												{item.name}
 											</Disclosure.Button>
 										))}

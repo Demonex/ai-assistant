@@ -180,7 +180,8 @@ export default function Example() {
 			{discussions.map((discussion) => (
 				<li
 					key={discussion.id}
-					className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap">
+					className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap"
+				>
 					<div>
 						<p className="text-sm font-semibold leading-6 text-gray-900">
 							<a href={discussion.href} className="hover:underline">

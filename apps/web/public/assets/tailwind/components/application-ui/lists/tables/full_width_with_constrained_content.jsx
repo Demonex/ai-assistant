@@ -25,7 +25,8 @@ export default function Example() {
 					<div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
 						<button
 							type="button"
-							className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+							className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+						>
 							Add user
 						</button>
 					</div>
@@ -38,24 +39,28 @@ export default function Example() {
 							<tr>
 								<th
 									scope="col"
-									className="relative isolate py-3.5 pr-3 text-left text-sm font-semibold text-gray-900">
+									className="relative isolate py-3.5 pr-3 text-left text-sm font-semibold text-gray-900"
+								>
 									Name
 									<div className="absolute inset-y-0 right-full -z-10 w-screen border-b border-b-gray-200" />
 									<div className="absolute inset-y-0 left-0 -z-10 w-screen border-b border-b-gray-200" />
 								</th>
 								<th
 									scope="col"
-									className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">
+									className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
+								>
 									Title
 								</th>
 								<th
 									scope="col"
-									className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 md:table-cell">
+									className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 md:table-cell"
+								>
 									Email
 								</th>
 								<th
 									scope="col"
-									className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+									className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+								>
 									Role
 								</th>
 								<th scope="col" className="relative py-3.5 pl-3">
@@ -83,7 +88,8 @@ export default function Example() {
 									<td className="relative py-4 pl-3 text-right text-sm font-medium">
 										<a
 											href="#"
-											className="text-indigo-600 hover:text-indigo-900">
+											className="text-indigo-600 hover:text-indigo-900"
+										>
 											Edit<span className="sr-only">, {person.name}</span>
 										</a>
 									</td>

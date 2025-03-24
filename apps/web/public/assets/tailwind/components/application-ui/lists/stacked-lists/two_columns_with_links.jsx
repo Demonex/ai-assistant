@@ -82,7 +82,8 @@ export default function Example() {
 							<p className="mt-1 flex text-xs leading-5 text-gray-500">
 								<a
 									href={`mailto:${person.email}`}
-									className="relative truncate hover:underline">
+									className="relative truncate hover:underline"
+								>
 									{person.email}
 								</a>
 							</p>

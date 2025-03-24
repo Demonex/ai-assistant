@@ -15,12 +15,14 @@ export default function Example() {
 				<div className="mt-4 flex items-center gap-x-5">
 					<button
 						type="button"
-						className="rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900">
+						className="rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+					>
 						Accept all
 					</button>
 					<button
 						type="button"
-						className="text-sm font-semibold leading-6 text-gray-900">
+						className="text-sm font-semibold leading-6 text-gray-900"
+					>
 						Reject all
 					</button>
 				</div>

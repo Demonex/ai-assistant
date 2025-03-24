@@ -38,11 +38,13 @@ export default function Example() {
 			{/* Callout */}
 			<section
 				aria-labelledby="sale-heading"
-				className="relative mx-auto flex max-w-7xl flex-col items-center px-4 pt-32 text-center sm:px-6 lg:px-8">
+				className="relative mx-auto flex max-w-7xl flex-col items-center px-4 pt-32 text-center sm:px-6 lg:px-8"
+			>
 				<div className="mx-auto max-w-2xl lg:max-w-none">
 					<h2
 						id="sale-heading"
-						className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+						className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl"
+					>
 						Get 25% off during our one-time sale
 					</h2>
 					<p className="mx-auto mt-4 max-w-xl text-xl text-gray-600">
@@ -51,7 +53,8 @@ export default function Example() {
 					</p>
 					<a
 						href="#"
-						className="mt-6 inline-block w-full rounded-md border border-transparent bg-gray-900 px-8 py-3 font-medium text-white hover:bg-gray-800 sm:w-auto">
+						className="mt-6 inline-block w-full rounded-md border border-transparent bg-gray-900 px-8 py-3 font-medium text-white hover:bg-gray-800 sm:w-auto"
+					>
 						Get access to our one-time sale
 					</a>
 				</div>
@@ -60,11 +63,13 @@ export default function Example() {
 			{/* Testimonials */}
 			<section
 				aria-labelledby="testimonial-heading"
-				className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
+				className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8 lg:py-32"
+			>
 				<div className="mx-auto max-w-2xl lg:max-w-none">
 					<h2
 						id="testimonial-heading"
-						className="text-2xl font-bold tracking-tight text-gray-900">
+						className="text-2xl font-bold tracking-tight text-gray-900"
+					>
 						What are people saying?
 					</h2>
 
@@ -76,7 +81,8 @@ export default function Example() {
 									height={18}
 									viewBox="0 0 24 18"
 									aria-hidden="true"
-									className="flex-shrink-0 text-gray-300">
+									className="flex-shrink-0 text-gray-300"
+								>
 									<path
 										d="M0 18h8.7v-5.555c-.024-3.906 1.113-6.841 2.892-9.68L6.452 0C3.188 2.644-.026 7.86 0 12.469V18zm12.408 0h8.7v-5.555C21.083 8.539 22.22 5.604 24 2.765L18.859 0c-3.263 2.644-6.476 7.86-6.451 12.469V18z"
 										fill="currentColor"

@@ -62,14 +62,16 @@ export default function Example() {
 			{deployments.map((deployment) => (
 				<li
 					key={deployment.id}
-					className="relative flex items-center space-x-4 py-4">
+					className="relative flex items-center space-x-4 py-4"
+				>
 					<div className="min-w-0 flex-auto">
 						<div className="flex items-center gap-x-3">
 							<div
 								className={classNames(
 									statuses[deployment.status],
 									"flex-none rounded-full p-1",
-								)}>
+								)}
+							>
 								<div className="h-2 w-2 rounded-full bg-current" />
 							</div>
 							<h2 className="min-w-0 text-sm font-semibold leading-6 text-white">
@@ -87,7 +89,8 @@ export default function Example() {
 							<p className="truncate">{deployment.description}</p>
 							<svg
 								viewBox="0 0 2 2"
-								className="h-0.5 w-0.5 flex-none fill-gray-300">
+								className="h-0.5 w-0.5 flex-none fill-gray-300"
+							>
 								<circle cx={1} cy={1} r={1} />
 							</svg>
 							<p className="whitespace-nowrap">{deployment.statusText}</p>
@@ -97,7 +100,8 @@ export default function Example() {
 						className={classNames(
 							environments[deployment.environment],
 							"rounded-full flex-none py-1 px-2 text-xs font-medium ring-1 ring-inset",
-						)}>
+						)}
+					>
 						{deployment.environment}
 					</div>
 					<ChevronRightIcon

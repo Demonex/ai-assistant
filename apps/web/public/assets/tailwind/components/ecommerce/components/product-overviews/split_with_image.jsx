@@ -61,7 +61,8 @@ export default function Example() {
 									<div className="flex items-center text-sm">
 										<a
 											href={breadcrumb.href}
-											className="font-medium text-gray-500 hover:text-gray-900">
+											className="font-medium text-gray-500 hover:text-gray-900"
+										>
 											{breadcrumb.name}
 										</a>
 										{breadcrumbIdx !== product.breadcrumbs.length - 1 ? (
@@ -69,7 +70,8 @@ export default function Example() {
 												viewBox="0 0 20 20"
 												fill="currentColor"
 												aria-hidden="true"
-												className="ml-2 h-5 w-5 flex-shrink-0 text-gray-300">
+												className="ml-2 h-5 w-5 flex-shrink-0 text-gray-300"
+											>
 												<path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
 											</svg>
 										) : null}
@@ -174,17 +176,20 @@ export default function Example() {
 														active ? "ring-2 ring-indigo-500" : "",
 														"relative block cursor-pointer rounded-lg border border-gray-300 p-4 focus:outline-none",
 													)
-												}>
+												}
+											>
 												{({ active, checked }) => (
 													<>
 														<RadioGroup.Label
 															as="p"
-															className="text-base font-medium text-gray-900">
+															className="text-base font-medium text-gray-900"
+														>
 															{size.name}
 														</RadioGroup.Label>
 														<RadioGroup.Description
 															as="p"
-															className="mt-1 text-sm text-gray-500">
+															className="mt-1 text-sm text-gray-500"
+														>
 															{size.description}
 														</RadioGroup.Description>
 														<div
@@ -207,7 +212,8 @@ export default function Example() {
 							<div className="mt-4">
 								<a
 									href="#"
-									className="group inline-flex text-sm text-gray-500 hover:text-gray-700">
+									className="group inline-flex text-sm text-gray-500 hover:text-gray-700"
+								>
 									<span>What size should I buy?</span>
 									<QuestionMarkCircleIcon
 										className="ml-2 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
@@ -218,7 +224,8 @@ export default function Example() {
 							<div className="mt-10">
 								<button
 									type="submit"
-									className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
+									className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+								>
 									Add to bag
 								</button>
 							</div>

@@ -69,7 +69,8 @@ export default function Example() {
 							<div className="mt-4">
 								<label
 									htmlFor="email-address"
-									className="block text-sm font-medium text-gray-700">
+									className="block text-sm font-medium text-gray-700"
+								>
 									Email address
 								</label>
 								<div className="mt-1">
@@ -93,7 +94,8 @@ export default function Example() {
 								<div>
 									<label
 										htmlFor="first-name"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										First name
 									</label>
 									<div className="mt-1">
@@ -110,7 +112,8 @@ export default function Example() {
 								<div>
 									<label
 										htmlFor="last-name"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										Last name
 									</label>
 									<div className="mt-1">
@@ -127,7 +130,8 @@ export default function Example() {
 								<div className="sm:col-span-2">
 									<label
 										htmlFor="company"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										Company
 									</label>
 									<div className="mt-1">
@@ -143,7 +147,8 @@ export default function Example() {
 								<div className="sm:col-span-2">
 									<label
 										htmlFor="address"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										Address
 									</label>
 									<div className="mt-1">
@@ -160,7 +165,8 @@ export default function Example() {
 								<div className="sm:col-span-2">
 									<label
 										htmlFor="apartment"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										Apartment, suite, etc.
 									</label>
 									<div className="mt-1">
@@ -176,7 +182,8 @@ export default function Example() {
 								<div>
 									<label
 										htmlFor="city"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										City
 									</label>
 									<div className="mt-1">
@@ -193,7 +200,8 @@ export default function Example() {
 								<div>
 									<label
 										htmlFor="country"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										Country
 									</label>
 									<div className="mt-1">
@@ -201,7 +209,8 @@ export default function Example() {
 											id="country"
 											name="country"
 											autoComplete="country-name"
-											className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+											className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+										>
 											<option>United States</option>
 											<option>Canada</option>
 											<option>Mexico</option>
@@ -212,7 +221,8 @@ export default function Example() {
 								<div>
 									<label
 										htmlFor="region"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										State / Province
 									</label>
 									<div className="mt-1">
@@ -229,7 +239,8 @@ export default function Example() {
 								<div>
 									<label
 										htmlFor="postal-code"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										Postal code
 									</label>
 									<div className="mt-1">
@@ -246,7 +257,8 @@ export default function Example() {
 								<div className="sm:col-span-2">
 									<label
 										htmlFor="phone"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										Phone
 									</label>
 									<div className="mt-1">
@@ -265,7 +277,8 @@ export default function Example() {
 						<div className="mt-10 border-t border-gray-200 pt-10">
 							<RadioGroup
 								value={selectedDeliveryMethod}
-								onChange={setSelectedDeliveryMethod}>
+								onChange={setSelectedDeliveryMethod}
+							>
 								<RadioGroup.Label className="text-lg font-medium text-gray-900">
 									Delivery method
 								</RadioGroup.Label>
@@ -281,24 +294,28 @@ export default function Example() {
 													active ? "ring-2 ring-indigo-500" : "",
 													"relative flex cursor-pointer rounded-lg border bg-white p-4 shadow-sm focus:outline-none",
 												)
-											}>
+											}
+										>
 											{({ checked, active }) => (
 												<>
 													<span className="flex flex-1">
 														<span className="flex flex-col">
 															<RadioGroup.Label
 																as="span"
-																className="block text-sm font-medium text-gray-900">
+																className="block text-sm font-medium text-gray-900"
+															>
 																{deliveryMethod.title}
 															</RadioGroup.Label>
 															<RadioGroup.Description
 																as="span"
-																className="mt-1 flex items-center text-sm text-gray-500">
+																className="mt-1 flex items-center text-sm text-gray-500"
+															>
 																{deliveryMethod.turnaround}
 															</RadioGroup.Description>
 															<RadioGroup.Description
 																as="span"
-																className="mt-6 text-sm font-medium text-gray-900">
+																className="mt-6 text-sm font-medium text-gray-900"
+															>
 																{deliveryMethod.price}
 															</RadioGroup.Description>
 														</span>
@@ -355,7 +372,8 @@ export default function Example() {
 
 											<label
 												htmlFor={paymentMethod.id}
-												className="ml-3 block text-sm font-medium text-gray-700">
+												className="ml-3 block text-sm font-medium text-gray-700"
+											>
 												{paymentMethod.title}
 											</label>
 										</div>
@@ -367,7 +385,8 @@ export default function Example() {
 								<div className="col-span-4">
 									<label
 										htmlFor="card-number"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										Card number
 									</label>
 									<div className="mt-1">
@@ -384,7 +403,8 @@ export default function Example() {
 								<div className="col-span-4">
 									<label
 										htmlFor="name-on-card"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										Name on card
 									</label>
 									<div className="mt-1">
@@ -401,7 +421,8 @@ export default function Example() {
 								<div className="col-span-3">
 									<label
 										htmlFor="expiration-date"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										Expiration date (MM/YY)
 									</label>
 									<div className="mt-1">
@@ -418,7 +439,8 @@ export default function Example() {
 								<div>
 									<label
 										htmlFor="cvc"
-										className="block text-sm font-medium text-gray-700">
+										className="block text-sm font-medium text-gray-700"
+									>
 										CVC
 									</label>
 									<div className="mt-1">
@@ -458,7 +480,8 @@ export default function Example() {
 													<h4 className="text-sm">
 														<a
 															href={product.href}
-															className="font-medium text-gray-700 hover:text-gray-800">
+															className="font-medium text-gray-700 hover:text-gray-800"
+														>
 															{product.title}
 														</a>
 													</h4>
@@ -473,7 +496,8 @@ export default function Example() {
 												<div className="ml-4 flow-root flex-shrink-0">
 													<button
 														type="button"
-														className="-m-2.5 flex items-center justify-center bg-white p-2.5 text-gray-400 hover:text-gray-500">
+														className="-m-2.5 flex items-center justify-center bg-white p-2.5 text-gray-400 hover:text-gray-500"
+													>
 														<span className="sr-only">Remove</span>
 														<TrashIcon className="h-5 w-5" aria-hidden="true" />
 													</button>
@@ -492,7 +516,8 @@ export default function Example() {
 													<select
 														id="quantity"
 														name="quantity"
-														className="rounded-md border border-gray-300 text-left text-base font-medium text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
+														className="rounded-md border border-gray-300 text-left text-base font-medium text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+													>
 														<option value={1}>1</option>
 														<option value={2}>2</option>
 														<option value={3}>3</option>
@@ -532,7 +557,8 @@ export default function Example() {
 							<div className="border-t border-gray-200 px-4 py-6 sm:px-6">
 								<button
 									type="submit"
-									className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
+									className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+								>
 									Confirm order
 								</button>
 							</div>

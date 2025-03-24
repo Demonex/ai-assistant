@@ -137,7 +137,8 @@ export default function Example() {
 			<header className="absolute inset-x-0 top-0 z-50">
 				<nav
 					className="flex items-center justify-between p-6 lg:px-8"
-					aria-label="Global">
+					aria-label="Global"
+				>
 					<div className="flex lg:flex-1">
 						<a href="#" className="-m-1.5 p-1.5">
 							<span className="sr-only">Your Company</span>
@@ -152,7 +153,8 @@ export default function Example() {
 						<button
 							type="button"
 							className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-							onClick={() => setMobileMenuOpen(true)}>
+							onClick={() => setMobileMenuOpen(true)}
+						>
 							<span className="sr-only">Open main menu</span>
 							<Bars3Icon className="h-6 w-6" aria-hidden="true" />
 						</button>
@@ -162,7 +164,8 @@ export default function Example() {
 							<a
 								key={item.name}
 								href={item.href}
-								className="text-sm font-semibold leading-6 text-gray-900">
+								className="text-sm font-semibold leading-6 text-gray-900"
+							>
 								{item.name}
 							</a>
 						))}
@@ -170,7 +173,8 @@ export default function Example() {
 					<div className="hidden lg:flex lg:flex-1 lg:justify-end">
 						<a
 							href="#"
-							className="text-sm font-semibold leading-6 text-gray-900">
+							className="text-sm font-semibold leading-6 text-gray-900"
+						>
 							Log in <span aria-hidden="true">&rarr;</span>
 						</a>
 					</div>
@@ -179,7 +183,8 @@ export default function Example() {
 					as="div"
 					className="lg:hidden"
 					open={mobileMenuOpen}
-					onClose={setMobileMenuOpen}>
+					onClose={setMobileMenuOpen}
+				>
 					<div className="fixed inset-0 z-50" />
 					<Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
 						<div className="flex items-center justify-between">
@@ -194,7 +199,8 @@ export default function Example() {
 							<button
 								type="button"
 								className="-m-2.5 rounded-md p-2.5 text-gray-700"
-								onClick={() => setMobileMenuOpen(false)}>
+								onClick={() => setMobileMenuOpen(false)}
+							>
 								<span className="sr-only">Close menu</span>
 								<XMarkIcon className="h-6 w-6" aria-hidden="true" />
 							</button>
@@ -206,7 +212,8 @@ export default function Example() {
 										<a
 											key={item.name}
 											href={item.href}
-											className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+											className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+										>
 											{item.name}
 										</a>
 									))}
@@ -214,7 +221,8 @@ export default function Example() {
 								<div className="py-6">
 									<a
 										href="#"
-										className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+										className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+									>
 										Log in
 									</a>
 								</div>
@@ -229,7 +237,8 @@ export default function Example() {
 				<div className="relative pt-14">
 					<div
 						className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-						aria-hidden="true">
+						aria-hidden="true"
+					>
 						<div
 							className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
 							style={{
@@ -252,12 +261,14 @@ export default function Example() {
 								<div className="mt-10 flex items-center justify-center gap-x-6">
 									<a
 										href="#"
-										className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+										className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+									>
 										Get started
 									</a>
 									<a
 										href="#"
-										className="text-sm font-semibold leading-6 text-gray-900">
+										className="text-sm font-semibold leading-6 text-gray-900"
+									>
 										Learn more <span aria-hidden="true">→</span>
 									</a>
 								</div>
@@ -277,7 +288,8 @@ export default function Example() {
 					</div>
 					<div
 						className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-						aria-hidden="true">
+						aria-hidden="true"
+					>
 						<div
 							className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
 							style={{
@@ -389,7 +401,8 @@ export default function Example() {
 						<div className="absolute inset-0 bg-gray-900/90 mix-blend-multiply" />
 						<div
 							className="absolute -left-80 -top-56 transform-gpu blur-3xl"
-							aria-hidden="true">
+							aria-hidden="true"
+						>
 							<div
 								className="aspect-[1097/845] w-[68.5625rem] bg-gradient-to-r from-[#ff4694] to-[#776fff] opacity-[0.45]"
 								style={{
@@ -400,7 +413,8 @@ export default function Example() {
 						</div>
 						<div
 							className="hidden md:absolute md:bottom-16 md:left-[50rem] md:block md:transform-gpu md:blur-3xl"
-							aria-hidden="true">
+							aria-hidden="true"
+						>
 							<div
 								className="aspect-[1097/845] w-[68.5625rem] bg-gradient-to-r from-[#ff4694] to-[#776fff] opacity-25"
 								style={{
@@ -459,7 +473,8 @@ export default function Example() {
 										tierIdx === 0 ? "lg:rounded-r-none" : "",
 										tierIdx === tiers.length - 1 ? "lg:rounded-l-none" : "",
 										"flex flex-col justify-between rounded-3xl bg-white p-8 ring-1 ring-gray-200 xl:p-10",
-									)}>
+									)}
+								>
 									<div>
 										<div className="flex items-center justify-between gap-x-4">
 											<h3
@@ -469,7 +484,8 @@ export default function Example() {
 														? "text-indigo-600"
 														: "text-gray-900",
 													"text-lg font-semibold leading-8",
-												)}>
+												)}
+											>
 												{tier.name}
 											</h3>
 											{tier.mostPopular ? (
@@ -491,7 +507,8 @@ export default function Example() {
 										</p>
 										<ul
 											role="list"
-											className="mt-8 space-y-3 text-sm leading-6 text-gray-600">
+											className="mt-8 space-y-3 text-sm leading-6 text-gray-600"
+										>
 											{tier.features.map((feature) => (
 												<li key={feature} className="flex gap-x-3">
 													<CheckIcon
@@ -511,7 +528,8 @@ export default function Example() {
 												? "bg-indigo-600 text-white shadow-sm hover:bg-indigo-500"
 												: "text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300",
 											"mt-8 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
-										)}>
+										)}
+									>
 										Buy plan
 									</a>
 								</div>
@@ -529,7 +547,8 @@ export default function Example() {
 						{faqs.map((faq) => (
 							<div
 								key={faq.id}
-								className="pt-8 lg:grid lg:grid-cols-12 lg:gap-8">
+								className="pt-8 lg:grid lg:grid-cols-12 lg:gap-8"
+							>
 								<dt className="text-base font-semibold leading-7 text-gray-900 lg:col-span-5">
 									{faq.question}
 								</dt>
@@ -547,7 +566,8 @@ export default function Example() {
 				<div className="relative -z-10 mt-32 px-6 lg:px-8">
 					<div
 						className="absolute inset-x-0 top-1/2 -z-10 flex -translate-y-1/2 transform-gpu justify-center overflow-hidden blur-3xl sm:bottom-0 sm:right-[calc(50%-6rem)] sm:top-auto sm:translate-y-0 sm:transform-gpu sm:justify-end"
-						aria-hidden="true">
+						aria-hidden="true"
+					>
 						<div
 							className="aspect-[1108/632] w-[69.25rem] flex-none bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-25"
 							style={{
@@ -569,19 +589,22 @@ export default function Example() {
 						<div className="mt-10 flex items-center justify-center gap-x-6">
 							<a
 								href="#"
-								className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+								className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+							>
 								Get started
 							</a>
 							<a
 								href="#"
-								className="text-sm font-semibold leading-6 text-gray-900">
+								className="text-sm font-semibold leading-6 text-gray-900"
+							>
 								Learn more <span aria-hidden="true">→</span>
 							</a>
 						</div>
 					</div>
 					<div
 						className="absolute left-1/2 right-0 top-full -z-10 hidden -translate-y-1/2 transform-gpu overflow-hidden blur-3xl sm:block"
-						aria-hidden="true">
+						aria-hidden="true"
+					>
 						<div
 							className="aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30"
 							style={{
@@ -597,7 +620,8 @@ export default function Example() {
 			<div className="mx-auto mt-32 max-w-7xl px-6 lg:px-8">
 				<footer
 					aria-labelledby="footer-heading"
-					className="relative border-t border-gray-900/10 py-24 sm:mt-56 sm:py-32">
+					className="relative border-t border-gray-900/10 py-24 sm:mt-56 sm:py-32"
+				>
 					<h2 id="footer-heading" className="sr-only">
 						Footer
 					</h2>
@@ -618,7 +642,8 @@ export default function Example() {
 											<li key={item.name}>
 												<a
 													href={item.href}
-													className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+													className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -634,7 +659,8 @@ export default function Example() {
 											<li key={item.name}>
 												<a
 													href={item.href}
-													className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+													className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -652,7 +678,8 @@ export default function Example() {
 											<li key={item.name}>
 												<a
 													href={item.href}
-													className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+													className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -668,7 +695,8 @@ export default function Example() {
 											<li key={item.name}>
 												<a
 													href={item.href}
-													className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+													className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+												>
 													{item.name}
 												</a>
 											</li>

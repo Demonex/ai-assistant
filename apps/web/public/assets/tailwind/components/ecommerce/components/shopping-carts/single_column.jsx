@@ -45,7 +45,8 @@ export default function Example() {
 
 						<ul
 							role="list"
-							className="divide-y divide-gray-200 border-b border-t border-gray-200">
+							className="divide-y divide-gray-200 border-b border-t border-gray-200"
+						>
 							{products.map((product) => (
 								<li key={product.id} className="flex py-6">
 									<div className="flex-shrink-0">
@@ -62,7 +63,8 @@ export default function Example() {
 												<h4 className="text-sm">
 													<a
 														href={product.href}
-														className="font-medium text-gray-700 hover:text-gray-800">
+														className="font-medium text-gray-700 hover:text-gray-800"
+													>
 														{product.name}
 													</a>
 												</h4>
@@ -101,7 +103,8 @@ export default function Example() {
 											<div className="ml-4">
 												<button
 													type="button"
-													className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+													className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+												>
 													<span>Remove</span>
 												</button>
 											</div>
@@ -137,7 +140,8 @@ export default function Example() {
 						<div className="mt-10">
 							<button
 								type="submit"
-								className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
+								className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+							>
 								Checkout
 							</button>
 						</div>
@@ -147,7 +151,8 @@ export default function Example() {
 								or
 								<a
 									href="#"
-									className="font-medium text-indigo-600 hover:text-indigo-500">
+									className="font-medium text-indigo-600 hover:text-indigo-500"
+								>
 									Continue Shopping
 									<span aria-hidden="true"> &rarr;</span>
 								</a>

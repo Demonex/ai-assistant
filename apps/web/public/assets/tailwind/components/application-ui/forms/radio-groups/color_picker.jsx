@@ -41,7 +41,8 @@ export default function Example() {
 								!active && checked ? "ring-2" : "",
 								"relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none",
 							)
-						}>
+						}
+					>
 						<RadioGroup.Label as="span" className="sr-only">
 							{color.name}
 						</RadioGroup.Label>

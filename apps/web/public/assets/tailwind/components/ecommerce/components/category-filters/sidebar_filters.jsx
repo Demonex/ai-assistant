@@ -70,7 +70,8 @@ export default function Example() {
 					<Dialog
 						as="div"
 						className="relative z-40 lg:hidden"
-						onClose={setMobileFiltersOpen}>
+						onClose={setMobileFiltersOpen}
+					>
 						<Transition.Child
 							as={Fragment}
 							enter="transition-opacity ease-linear duration-300"
@@ -78,7 +79,8 @@ export default function Example() {
 							enterTo="opacity-100"
 							leave="transition-opacity ease-linear duration-300"
 							leaveFrom="opacity-100"
-							leaveTo="opacity-0">
+							leaveTo="opacity-0"
+						>
 							<div className="fixed inset-0 bg-black bg-opacity-25" />
 						</Transition.Child>
 
@@ -90,7 +92,8 @@ export default function Example() {
 								enterTo="translate-x-0"
 								leave="transition ease-in-out duration-300 transform"
 								leaveFrom="translate-x-0"
-								leaveTo="translate-x-full">
+								leaveTo="translate-x-full"
+							>
 								<Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-6 shadow-xl">
 									<div className="flex items-center justify-between px-4">
 										<h2 className="text-lg font-medium text-gray-900">
@@ -99,7 +102,8 @@ export default function Example() {
 										<button
 											type="button"
 											className="-mr-2 flex h-10 w-10 items-center justify-center p-2 text-gray-400 hover:text-gray-500"
-											onClick={() => setMobileFiltersOpen(false)}>
+											onClick={() => setMobileFiltersOpen(false)}
+										>
 											<span className="sr-only">Close menu</span>
 											<XMarkIcon className="h-6 w-6" aria-hidden="true" />
 										</button>
@@ -111,7 +115,8 @@ export default function Example() {
 											<Disclosure
 												as="div"
 												key={section.name}
-												className="border-t border-gray-200 pb-4 pt-4">
+												className="border-t border-gray-200 pb-4 pt-4"
+											>
 												{({ open }) => (
 													<fieldset>
 														<legend className="w-full px-2">
@@ -135,7 +140,8 @@ export default function Example() {
 																{section.options.map((option, optionIdx) => (
 																	<div
 																		key={option.value}
-																		className="flex items-center">
+																		className="flex items-center"
+																	>
 																		<input
 																			id={`${section.id}-${optionIdx}-mobile`}
 																			name={`${section.id}[]`}
@@ -145,7 +151,8 @@ export default function Example() {
 																		/>
 																		<label
 																			htmlFor={`${section.id}-${optionIdx}-mobile`}
-																			className="ml-3 text-sm text-gray-500">
+																			className="ml-3 text-sm text-gray-500"
+																		>
 																			{option.label}
 																		</label>
 																	</div>
@@ -181,7 +188,8 @@ export default function Example() {
 							<button
 								type="button"
 								className="inline-flex items-center lg:hidden"
-								onClick={() => setMobileFiltersOpen(true)}>
+								onClick={() => setMobileFiltersOpen(true)}
+							>
 								<span className="text-sm font-medium text-gray-700">
 									Filters
 								</span>
@@ -196,7 +204,8 @@ export default function Example() {
 									{filters.map((section, sectionIdx) => (
 										<div
 											key={section.name}
-											className={sectionIdx === 0 ? null : "pt-10"}>
+											className={sectionIdx === 0 ? null : "pt-10"}
+										>
 											<fieldset>
 												<legend className="block text-sm font-medium text-gray-900">
 													{section.name}
@@ -205,7 +214,8 @@ export default function Example() {
 													{section.options.map((option, optionIdx) => (
 														<div
 															key={option.value}
-															className="flex items-center">
+															className="flex items-center"
+														>
 															<input
 																id={`${section.id}-${optionIdx}`}
 																name={`${section.id}[]`}
@@ -215,7 +225,8 @@ export default function Example() {
 															/>
 															<label
 																htmlFor={`${section.id}-${optionIdx}`}
-																className="ml-3 text-sm text-gray-600">
+																className="ml-3 text-sm text-gray-600"
+															>
 																{option.label}
 															</label>
 														</div>

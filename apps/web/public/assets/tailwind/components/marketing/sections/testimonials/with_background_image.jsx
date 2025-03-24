@@ -11,7 +11,8 @@ export default function Example() {
 					<div className="absolute inset-0 bg-gray-900/90 mix-blend-multiply" />
 					<div
 						className="absolute -left-80 -top-56 transform-gpu blur-3xl"
-						aria-hidden="true">
+						aria-hidden="true"
+					>
 						<div
 							className="aspect-[1097/845] w-[68.5625rem] bg-gradient-to-r from-[#ff4694] to-[#776fff] opacity-[0.45]"
 							style={{
@@ -22,7 +23,8 @@ export default function Example() {
 					</div>
 					<div
 						className="hidden md:absolute md:bottom-16 md:left-[50rem] md:block md:transform-gpu md:blur-3xl"
-						aria-hidden="true">
+						aria-hidden="true"
+					>
 						<div
 							className="aspect-[1097/845] w-[68.5625rem] bg-gradient-to-r from-[#ff4694] to-[#776fff] opacity-25"
 							style={{

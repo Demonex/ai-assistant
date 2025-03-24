@@ -41,7 +41,8 @@ export default function Example() {
 			show={open}
 			as={Fragment}
 			afterLeave={() => setQuery("")}
-			appear>
+			appear
+		>
 			<Dialog as="div" className="relative z-10" onClose={setOpen}>
 				<Transition.Child
 					as={Fragment}
@@ -50,7 +51,8 @@ export default function Example() {
 					enterTo="opacity-100"
 					leave="ease-in duration-200"
 					leaveFrom="opacity-100"
-					leaveTo="opacity-0">
+					leaveTo="opacity-0"
+				>
 					<div className="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity" />
 				</Transition.Child>
 
@@ -62,7 +64,8 @@ export default function Example() {
 						enterTo="opacity-100 scale-100"
 						leave="ease-in duration-200"
 						leaveFrom="opacity-100 scale-100"
-						leaveTo="opacity-0 scale-95">
+						leaveTo="opacity-0 scale-95"
+					>
 						<Dialog.Panel className="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
 							<Combobox onChange={(person) => (window.location = person.url)}>
 								<div className="relative">
@@ -80,7 +83,8 @@ export default function Example() {
 								{filteredPeople.length > 0 && (
 									<Combobox.Options
 										static
-										className="max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800">
+										className="max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800"
+									>
 										{filteredPeople.map((person) => (
 											<Combobox.Option
 												key={person.id}
@@ -90,7 +94,8 @@ export default function Example() {
 														"cursor-default select-none px-4 py-2",
 														active && "bg-indigo-600 text-white",
 													)
-												}>
+												}
+											>
 												{person.name}
 											</Combobox.Option>
 										))}

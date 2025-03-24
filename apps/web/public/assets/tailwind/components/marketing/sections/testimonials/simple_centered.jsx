@@ -30,7 +30,8 @@ export default function Example() {
 								width={3}
 								height={3}
 								aria-hidden="true"
-								className="fill-gray-900">
+								className="fill-gray-900"
+							>
 								<circle cx={1} cy={1} r={1} />
 							</svg>
 							<div className="text-gray-600">CEO of Workcation</div>

@@ -47,7 +47,8 @@ export default function Example() {
 						className={classNames(
 							stepIdx !== steps.length - 1 ? "pb-10" : "",
 							"relative",
-						)}>
+						)}
+					>
 						{step.status === "complete" ? (
 							<>
 								{stepIdx !== steps.length - 1 ? (
@@ -84,7 +85,8 @@ export default function Example() {
 								<a
 									href={step.href}
 									className="group relative flex items-start"
-									aria-current="step">
+									aria-current="step"
+								>
 									<span className="flex h-9 items-center" aria-hidden="true">
 										<span className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 border-indigo-600 bg-white">
 											<span className="h-2.5 w-2.5 rounded-full bg-indigo-600" />

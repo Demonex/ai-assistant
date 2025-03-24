@@ -55,7 +55,8 @@ export default function Example() {
 			show={open}
 			as={Fragment}
 			afterLeave={() => setQuery("")}
-			appear>
+			appear
+		>
 			<Dialog as="div" className="relative z-10" onClose={setOpen}>
 				<Transition.Child
 					as={Fragment}
@@ -64,7 +65,8 @@ export default function Example() {
 					enterTo="opacity-100"
 					leave="ease-in duration-200"
 					leaveFrom="opacity-100"
-					leaveTo="opacity-0">
+					leaveTo="opacity-0"
+				>
 					<div className="fixed inset-0 bg-gray-500 bg-opacity-25 transition-opacity" />
 				</Transition.Child>
 
@@ -76,10 +78,12 @@ export default function Example() {
 						enterTo="opacity-100 scale-100"
 						leave="ease-in duration-200"
 						leaveFrom="opacity-100 scale-100"
-						leaveTo="opacity-0 scale-95">
+						leaveTo="opacity-0 scale-95"
+					>
 						<Dialog.Panel className="mx-auto max-w-3xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
 							<Combobox
-								onChange={(person) => (window.location = person.profileUrl)}>
+								onChange={(person) => (window.location = person.profileUrl)}
+							>
 								{({ activeOption }) => (
 									<>
 										<div className="relative">
@@ -99,12 +103,14 @@ export default function Example() {
 												as="div"
 												static
 												hold
-												className="flex divide-x divide-gray-100">
+												className="flex divide-x divide-gray-100"
+											>
 												<div
 													className={classNames(
 														"max-h-96 min-w-0 flex-auto scroll-py-4 overflow-y-auto px-6 py-4",
 														activeOption && "sm:h-96",
-													)}>
+													)}
+												>
 													{query === "" && (
 														<h2 className="mb-4 mt-2 text-xs font-semibold text-gray-500">
 															Recent searches
@@ -122,7 +128,8 @@ export default function Example() {
 																			"flex cursor-default select-none items-center rounded-md p-2",
 																			active && "bg-gray-100 text-gray-900",
 																		)
-																	}>
+																	}
+																>
 																	{({ active }) => (
 																		<>
 																			<img
@@ -174,7 +181,8 @@ export default function Example() {
 																<dd className="truncate">
 																	<a
 																		href={activeOption.url}
-																		className="text-indigo-600 underline">
+																		className="text-indigo-600 underline"
+																	>
 																		{activeOption.url}
 																	</a>
 																</dd>
@@ -184,14 +192,16 @@ export default function Example() {
 																<dd className="truncate">
 																	<a
 																		href={`mailto:${activeOption.email}`}
-																		className="text-indigo-600 underline">
+																		className="text-indigo-600 underline"
+																	>
 																		{activeOption.email}
 																	</a>
 																</dd>
 															</dl>
 															<button
 																type="button"
-																className="mt-6 w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+																className="mt-6 w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+															>
 																Send message
 															</button>
 														</div>

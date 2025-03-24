@@ -15,7 +15,8 @@ export default function Example() {
 					enterTo="opacity-100"
 					leave="ease-in-out duration-500"
 					leaveFrom="opacity-100"
-					leaveTo="opacity-0">
+					leaveTo="opacity-0"
+				>
 					<div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
 				</Transition.Child>
 
@@ -29,7 +30,8 @@ export default function Example() {
 								enterTo="translate-x-0"
 								leave="transform transition ease-in-out duration-500 sm:duration-700"
 								leaveFrom="translate-x-0"
-								leaveTo="translate-x-full">
+								leaveTo="translate-x-full"
+							>
 								<Dialog.Panel className="pointer-events-auto w-screen max-w-md">
 									<div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
 										<div className="px-4 sm:px-6">
@@ -41,7 +43,8 @@ export default function Example() {
 													<button
 														type="button"
 														className="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-														onClick={() => setOpen(false)}>
+														onClick={() => setOpen(false)}
+													>
 														<span className="absolute -inset-2.5" />
 														<span className="sr-only">Close panel</span>
 														<XMarkIcon className="h-6 w-6" aria-hidden="true" />

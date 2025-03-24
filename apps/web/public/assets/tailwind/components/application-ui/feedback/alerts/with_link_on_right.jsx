@@ -17,7 +17,8 @@ export default function Example() {
 					<p className="mt-3 text-sm md:ml-6 md:mt-0">
 						<a
 							href="#"
-							className="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600">
+							className="whitespace-nowrap font-medium text-blue-700 hover:text-blue-600"
+						>
 							Details
 							<span aria-hidden="true"> &rarr;</span>
 						</a>

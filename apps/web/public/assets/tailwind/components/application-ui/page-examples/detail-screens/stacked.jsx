@@ -190,7 +190,8 @@ export default function Example() {
 						<button
 							type="button"
 							className="-m-3 p-3 md:hidden"
-							onClick={() => setMobileMenuOpen(true)}>
+							onClick={() => setMobileMenuOpen(true)}
+						>
 							<span className="sr-only">Open main menu</span>
 							<Bars3Icon className="h-5 w-5 text-gray-900" aria-hidden="true" />
 						</button>
@@ -210,7 +211,8 @@ export default function Example() {
 					<div className="flex flex-1 items-center justify-end gap-x-8">
 						<button
 							type="button"
-							className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
+							className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+						>
 							<span className="sr-only">View notifications</span>
 							<BellIcon className="h-6 w-6" aria-hidden="true" />
 						</button>
@@ -228,14 +230,16 @@ export default function Example() {
 					as="div"
 					className="lg:hidden"
 					open={mobileMenuOpen}
-					onClose={setMobileMenuOpen}>
+					onClose={setMobileMenuOpen}
+				>
 					<div className="fixed inset-0 z-50" />
 					<Dialog.Panel className="fixed inset-y-0 left-0 z-50 w-full overflow-y-auto bg-white px-4 pb-6 sm:max-w-sm sm:px-6 sm:ring-1 sm:ring-gray-900/10">
 						<div className="-ml-0.5 flex h-16 items-center gap-x-6">
 							<button
 								type="button"
 								className="-m-2.5 p-2.5 text-gray-700"
-								onClick={() => setMobileMenuOpen(false)}>
+								onClick={() => setMobileMenuOpen(false)}
+							>
 								<span className="sr-only">Close menu</span>
 								<XMarkIconOutline className="h-6 w-6" aria-hidden="true" />
 							</button>
@@ -255,7 +259,8 @@ export default function Example() {
 								<a
 									key={item.name}
 									href={item.href}
-									className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+									className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+								>
 									{item.name}
 								</a>
 							))}
@@ -268,7 +273,8 @@ export default function Example() {
 				<header className="relative isolate pt-16">
 					<div
 						className="absolute inset-0 -z-10 overflow-hidden"
-						aria-hidden="true">
+						aria-hidden="true"
+					>
 						<div className="absolute left-16 top-full -mt-16 transform-gpu opacity-50 blur-3xl xl:left-1/2 xl:-ml-80">
 							<div
 								className="aspect-[1154/678] w-[72.125rem] bg-gradient-to-br from-[#FF80B5] to-[#9089FC]"
@@ -301,17 +307,20 @@ export default function Example() {
 							<div className="flex items-center gap-x-4 sm:gap-x-6">
 								<button
 									type="button"
-									className="hidden text-sm font-semibold leading-6 text-gray-900 sm:block">
+									className="hidden text-sm font-semibold leading-6 text-gray-900 sm:block"
+								>
 									Copy URL
 								</button>
 								<a
 									href="#"
-									className="hidden text-sm font-semibold leading-6 text-gray-900 sm:block">
+									className="hidden text-sm font-semibold leading-6 text-gray-900 sm:block"
+								>
 									Edit
 								</a>
 								<a
 									href="#"
-									className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+									className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+								>
 									Send
 								</a>
 
@@ -331,7 +340,8 @@ export default function Example() {
 										enterTo="transform opacity-100 scale-100"
 										leave="transition ease-in duration-75"
 										leaveFrom="transform opacity-100 scale-100"
-										leaveTo="transform opacity-0 scale-95">
+										leaveTo="transform opacity-0 scale-95"
+									>
 										<Menu.Items className="absolute right-0 z-10 mt-0.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
 											<Menu.Item>
 												{({ active }) => (
@@ -340,7 +350,8 @@ export default function Example() {
 														className={classNames(
 															active ? "bg-gray-50" : "",
 															"block w-full px-3 py-1 text-left text-sm leading-6 text-gray-900",
-														)}>
+														)}
+													>
 														Copy URL
 													</button>
 												)}
@@ -352,7 +363,8 @@ export default function Example() {
 														className={classNames(
 															active ? "bg-gray-50" : "",
 															"block px-3 py-1 text-sm leading-6 text-gray-900",
-														)}>
+														)}
+													>
 														Edit
 													</a>
 												)}
@@ -426,7 +438,8 @@ export default function Example() {
 								<div className="mt-6 border-t border-gray-900/5 px-6 py-6">
 									<a
 										href="#"
-										className="text-sm font-semibold leading-6 text-gray-900">
+										className="text-sm font-semibold leading-6 text-gray-900"
+									>
 										Download receipt <span aria-hidden="true">&rarr;</span>
 									</a>
 								</div>
@@ -490,17 +503,20 @@ export default function Example() {
 										</th>
 										<th
 											scope="col"
-											className="hidden py-3 pl-8 pr-0 text-right font-semibold sm:table-cell">
+											className="hidden py-3 pl-8 pr-0 text-right font-semibold sm:table-cell"
+										>
 											Hours
 										</th>
 										<th
 											scope="col"
-											className="hidden py-3 pl-8 pr-0 text-right font-semibold sm:table-cell">
+											className="hidden py-3 pl-8 pr-0 text-right font-semibold sm:table-cell"
+										>
 											Rate
 										</th>
 										<th
 											scope="col"
-											className="py-3 pl-8 pr-0 text-right font-semibold">
+											className="py-3 pl-8 pr-0 text-right font-semibold"
+										>
 											Price
 										</th>
 									</tr>
@@ -532,13 +548,15 @@ export default function Example() {
 									<tr>
 										<th
 											scope="row"
-											className="px-0 pb-0 pt-6 font-normal text-gray-700 sm:hidden">
+											className="px-0 pb-0 pt-6 font-normal text-gray-700 sm:hidden"
+										>
 											Subtotal
 										</th>
 										<th
 											scope="row"
 											colSpan={3}
-											className="hidden px-0 pb-0 pt-6 text-right font-normal text-gray-700 sm:table-cell">
+											className="hidden px-0 pb-0 pt-6 text-right font-normal text-gray-700 sm:table-cell"
+										>
 											Subtotal
 										</th>
 										<td className="pb-0 pl-8 pr-0 pt-6 text-right tabular-nums text-gray-900">
@@ -548,13 +566,15 @@ export default function Example() {
 									<tr>
 										<th
 											scope="row"
-											className="pt-4 font-normal text-gray-700 sm:hidden">
+											className="pt-4 font-normal text-gray-700 sm:hidden"
+										>
 											Tax
 										</th>
 										<th
 											scope="row"
 											colSpan={3}
-											className="hidden pt-4 text-right font-normal text-gray-700 sm:table-cell">
+											className="hidden pt-4 text-right font-normal text-gray-700 sm:table-cell"
+										>
 											Tax
 										</th>
 										<td className="pb-0 pl-8 pr-0 pt-4 text-right tabular-nums text-gray-900">
@@ -564,13 +584,15 @@ export default function Example() {
 									<tr>
 										<th
 											scope="row"
-											className="pt-4 font-semibold text-gray-900 sm:hidden">
+											className="pt-4 font-semibold text-gray-900 sm:hidden"
+										>
 											Total
 										</th>
 										<th
 											scope="row"
 											colSpan={3}
-											className="hidden pt-4 text-right font-semibold text-gray-900 sm:table-cell">
+											className="hidden pt-4 text-right font-semibold text-gray-900 sm:table-cell"
+										>
 											Total
 										</th>
 										<td className="pb-0 pl-8 pr-0 pt-4 text-right font-semibold tabular-nums text-gray-900">
@@ -595,7 +617,8 @@ export default function Example() {
 													? "h-6"
 													: "-bottom-6",
 												"absolute left-0 top-0 flex w-6 justify-center",
-											)}>
+											)}
+										>
 											<div className="w-px bg-gray-200" />
 										</div>
 										{activityItem.type === "commented" ? (
@@ -615,7 +638,8 @@ export default function Example() {
 														</div>
 														<time
 															dateTime={activityItem.dateTime}
-															className="flex-none py-0.5 text-xs leading-5 text-gray-500">
+															className="flex-none py-0.5 text-xs leading-5 text-gray-500"
+														>
 															{activityItem.date}
 														</time>
 													</div>
@@ -644,7 +668,8 @@ export default function Example() {
 												</p>
 												<time
 													dateTime={activityItem.dateTime}
-													className="flex-none py-0.5 text-xs leading-5 text-gray-500">
+													className="flex-none py-0.5 text-xs leading-5 text-gray-500"
+												>
 													{activityItem.date}
 												</time>
 											</>
@@ -680,7 +705,8 @@ export default function Example() {
 											<div className="flex items-center">
 												<button
 													type="button"
-													className="-m-2.5 flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500">
+													className="-m-2.5 flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
+												>
 													<PaperClipIcon
 														className="h-5 w-5"
 														aria-hidden="true"
@@ -714,7 +740,8 @@ export default function Example() {
 																					className={classNames(
 																						selected.bgColor,
 																						"flex h-8 w-8 items-center justify-center rounded-full",
-																					)}>
+																					)}
+																				>
 																					<selected.icon
 																						className="h-5 w-5 flex-shrink-0 text-white"
 																						aria-hidden="true"
@@ -733,7 +760,8 @@ export default function Example() {
 																	as={Fragment}
 																	leave="transition ease-in duration-100"
 																	leaveFrom="opacity-100"
-																	leaveTo="opacity-0">
+																	leaveTo="opacity-0"
+																>
 																	<Listbox.Options className="absolute z-10 -ml-6 mt-1 w-60 rounded-lg bg-white py-3 text-base shadow ring-1 ring-black ring-opacity-5 focus:outline-none sm:ml-auto sm:w-64 sm:text-sm">
 																		{moods.map((mood) => (
 																			<Listbox.Option
@@ -744,13 +772,15 @@ export default function Example() {
 																						"relative cursor-default select-none px-3 py-2",
 																					)
 																				}
-																				value={mood}>
+																				value={mood}
+																			>
 																				<div className="flex items-center">
 																					<div
 																						className={classNames(
 																							mood.bgColor,
 																							"flex h-8 w-8 items-center justify-center rounded-full",
-																						)}>
+																						)}
+																					>
 																						<mood.icon
 																							className={classNames(
 																								mood.iconColor,
@@ -775,7 +805,8 @@ export default function Example() {
 										</div>
 										<button
 											type="submit"
-											className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+											className="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+										>
 											Comment
 										</button>
 									</div>

@@ -8,7 +8,8 @@ export default function Example() {
 					stroke="currentColor"
 					fill="none"
 					viewBox="0 0 200 200"
-					aria-hidden="true">
+					aria-hidden="true"
+				>
 					<path
 						vectorEffect="non-scaling-stroke"
 						strokeWidth={1}

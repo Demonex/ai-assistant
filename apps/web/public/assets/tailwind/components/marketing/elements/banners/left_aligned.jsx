@@ -9,7 +9,8 @@ export default function Example() {
 					<svg
 						viewBox="0 0 2 2"
 						className="mx-2 inline h-0.5 w-0.5 fill-current"
-						aria-hidden="true">
+						aria-hidden="true"
+					>
 						<circle cx={1} cy={1} r={1} />
 					</svg>
 					Join us in Denver from June 7 – 9 to see what’s coming next&nbsp;
@@ -18,7 +19,8 @@ export default function Example() {
 			</p>
 			<button
 				type="button"
-				className="-m-3 flex-none p-3 focus-visible:outline-offset-[-4px]">
+				className="-m-3 flex-none p-3 focus-visible:outline-offset-[-4px]"
+			>
 				<span className="sr-only">Dismiss</span>
 				<XMarkIcon className="h-5 w-5 text-white" aria-hidden="true" />
 			</button>

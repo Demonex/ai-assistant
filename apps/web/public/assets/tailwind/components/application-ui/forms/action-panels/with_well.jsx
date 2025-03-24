@@ -12,7 +12,8 @@ export default function Example() {
 							<svg
 								className="h-8 w-auto sm:h-6 sm:flex-shrink-0"
 								viewBox="0 0 36 24"
-								aria-hidden="true">
+								aria-hidden="true"
+							>
 								<rect width={36} height={24} fill="#224DBA" rx={4} />
 								<path
 									fill="#fff"
@@ -37,7 +38,8 @@ export default function Example() {
 						<div className="mt-4 sm:ml-6 sm:mt-0 sm:flex-shrink-0">
 							<button
 								type="button"
-								className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+								className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+							>
 								Edit
 							</button>
 						</div>

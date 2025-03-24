@@ -74,13 +74,15 @@ export default function Example() {
 				</h2>
 				<button
 					type="button"
-					className="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500">
+					className="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
+				>
 					<span className="sr-only">Previous month</span>
 					<ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
 				</button>
 				<button
 					type="button"
-					className="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500">
+					className="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
+				>
 					<span className="sr-only">Next month</span>
 					<ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
 				</button>
@@ -101,7 +103,8 @@ export default function Example() {
 						className={classNames(
 							dayIdx > 6 && "border-t border-gray-200",
 							"py-2",
-						)}>
+						)}
+					>
 						<button
 							type="button"
 							className={classNames(
@@ -120,7 +123,8 @@ export default function Example() {
 								!day.isSelected && "hover:bg-gray-200",
 								(day.isSelected || day.isToday) && "font-semibold",
 								"mx-auto flex h-8 w-8 items-center justify-center rounded-full",
-							)}>
+							)}
+						>
 							<time dateTime={day.date}>
 								{day.date.split("-").pop().replace(/^0/, "")}
 							</time>
@@ -136,7 +140,8 @@ export default function Example() {
 					{meetings.map((meeting) => (
 						<li
 							key={meeting.id}
-							className="group flex items-center space-x-4 rounded-xl px-4 py-2 focus-within:bg-gray-100 hover:bg-gray-100">
+							className="group flex items-center space-x-4 rounded-xl px-4 py-2 focus-within:bg-gray-100 hover:bg-gray-100"
+						>
 							<img
 								src={meeting.imageUrl}
 								alt=""
@@ -151,7 +156,8 @@ export default function Example() {
 							</div>
 							<Menu
 								as="div"
-								className="relative opacity-0 focus-within:opacity-100 group-hover:opacity-100">
+								className="relative opacity-0 focus-within:opacity-100 group-hover:opacity-100"
+							>
 								<div>
 									<Menu.Button className="-m-2 flex items-center rounded-full p-1.5 text-gray-500 hover:text-gray-600">
 										<span className="sr-only">Open options</span>
@@ -169,7 +175,8 @@ export default function Example() {
 									enterTo="transform opacity-100 scale-100"
 									leave="transition ease-in duration-75"
 									leaveFrom="transform opacity-100 scale-100"
-									leaveTo="transform opacity-0 scale-95">
+									leaveTo="transform opacity-0 scale-95"
+								>
 									<Menu.Items className="absolute right-0 z-10 mt-2 w-36 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 										<div className="py-1">
 											<Menu.Item>
@@ -181,7 +188,8 @@ export default function Example() {
 																? "bg-gray-100 text-gray-900"
 																: "text-gray-700",
 															"block px-4 py-2 text-sm",
-														)}>
+														)}
+													>
 														Edit
 													</a>
 												)}
@@ -195,7 +203,8 @@ export default function Example() {
 																? "bg-gray-100 text-gray-900"
 																: "text-gray-700",
 															"block px-4 py-2 text-sm",
-														)}>
+														)}
+													>
 														Cancel
 													</a>
 												)}

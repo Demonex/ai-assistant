@@ -106,20 +106,23 @@ export default function Example() {
 			<div className="pb-16 pt-6 sm:pb-24">
 				<nav
 					aria-label="Breadcrumb"
-					className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+					className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+				>
 					<ol role="list" className="flex items-center space-x-4">
 						{product.breadcrumbs.map((breadcrumb) => (
 							<li key={breadcrumb.id}>
 								<div className="flex items-center">
 									<a
 										href={breadcrumb.href}
-										className="mr-4 text-sm font-medium text-gray-900">
+										className="mr-4 text-sm font-medium text-gray-900"
+									>
 										{breadcrumb.name}
 									</a>
 									<svg
 										viewBox="0 0 6 20"
 										aria-hidden="true"
-										className="h-5 w-auto text-gray-300">
+										className="h-5 w-auto text-gray-300"
+									>
 										<path
 											d="M4.878 4.34H3.551L.27 16.532h1.327l3.281-12.19z"
 											fill="currentColor"
@@ -132,7 +135,8 @@ export default function Example() {
 							<a
 								href={product.href}
 								aria-current="page"
-								className="font-medium text-gray-500 hover:text-gray-600">
+								className="font-medium text-gray-500 hover:text-gray-600"
+							>
 								{product.name}
 							</a>
 						</li>
@@ -173,13 +177,15 @@ export default function Example() {
 									</div>
 									<div
 										aria-hidden="true"
-										className="ml-4 text-sm text-gray-300">
+										className="ml-4 text-sm text-gray-300"
+									>
 										·
 									</div>
 									<div className="ml-4 flex">
 										<a
 											href="#"
-											className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+											className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+										>
 											See all {product.reviewCount} reviews
 										</a>
 									</div>
@@ -217,7 +223,8 @@ export default function Example() {
 									<RadioGroup
 										value={selectedColor}
 										onChange={setSelectedColor}
-										className="mt-2">
+										className="mt-2"
+									>
 										<RadioGroup.Label className="sr-only">
 											Choose a color
 										</RadioGroup.Label>
@@ -233,7 +240,8 @@ export default function Example() {
 															!active && checked ? "ring-2" : "",
 															"relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none",
 														)
-													}>
+													}
+												>
 													<RadioGroup.Label as="span" className="sr-only">
 														{color.name}
 													</RadioGroup.Label>
@@ -256,7 +264,8 @@ export default function Example() {
 										<h2 className="text-sm font-medium text-gray-900">Size</h2>
 										<a
 											href="#"
-											className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+											className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+										>
 											See sizing chart
 										</a>
 									</div>
@@ -264,7 +273,8 @@ export default function Example() {
 									<RadioGroup
 										value={selectedSize}
 										onChange={setSelectedSize}
-										className="mt-2">
+										className="mt-2"
+									>
 										<RadioGroup.Label className="sr-only">
 											Choose a size
 										</RadioGroup.Label>
@@ -287,7 +297,8 @@ export default function Example() {
 															"flex items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase sm:flex-1",
 														)
 													}
-													disabled={!size.inStock}>
+													disabled={!size.inStock}
+												>
 													<RadioGroup.Label as="span">
 														{size.name}
 													</RadioGroup.Label>
@@ -299,7 +310,8 @@ export default function Example() {
 
 								<button
 									type="submit"
-									className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+									className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+								>
 									Add to cart
 								</button>
 							</form>
@@ -340,7 +352,8 @@ export default function Example() {
 									{policies.map((policy) => (
 										<div
 											key={policy.name}
-											className="rounded-lg border border-gray-200 bg-gray-50 p-6 text-center">
+											className="rounded-lg border border-gray-200 bg-gray-50 p-6 text-center"
+										>
 											<dt>
 												<policy.icon
 													className="mx-auto h-6 w-6 flex-shrink-0 text-gray-400"

@@ -18,7 +18,8 @@ export default function Example() {
 			<div className="relative rounded-md rounded-b-none px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 focus-within:z-10 focus-within:ring-2 focus-within:ring-indigo-600">
 				<label
 					htmlFor="name"
-					className="block text-xs font-medium text-gray-900">
+					className="block text-xs font-medium text-gray-900"
+				>
 					Name
 				</label>
 				<input
@@ -32,7 +33,8 @@ export default function Example() {
 			<div className="relative rounded-md rounded-t-none px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 focus-within:z-10 focus-within:ring-2 focus-within:ring-indigo-600">
 				<label
 					htmlFor="job-title"
-					className="block text-xs font-medium text-gray-900">
+					className="block text-xs font-medium text-gray-900"
+				>
 					Job Title
 				</label>
 				<input

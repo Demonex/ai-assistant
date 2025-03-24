@@ -94,7 +94,8 @@ export default function Example() {
 					<h2 className="sr-only">Popular pages</h2>
 					<ul
 						role="list"
-						className="-mt-6 divide-y divide-gray-900/5 border-b border-gray-900/5">
+						className="-mt-6 divide-y divide-gray-900/5 border-b border-gray-900/5"
+					>
 						{links.map((link, linkIdx) => (
 							<li key={linkIdx} className="relative flex gap-x-6 py-6">
 								<div className="flex h-10 w-10 flex-none items-center justify-center rounded-lg shadow-sm ring-1 ring-gray-900/10">
@@ -126,7 +127,8 @@ export default function Example() {
 					<div className="mt-10 flex justify-center">
 						<a
 							href="#"
-							className="text-sm font-semibold leading-6 text-indigo-600">
+							className="text-sm font-semibold leading-6 text-indigo-600"
+						>
 							<span aria-hidden="true">&larr;</span>
 							Back to home
 						</a>
@@ -144,7 +146,8 @@ export default function Example() {
 							<a
 								key={itemIdx}
 								href={item.href}
-								className="text-gray-400 hover:text-gray-500">
+								className="text-gray-400 hover:text-gray-500"
+							>
 								<span className="sr-only">{item.name}</span>
 								<item.icon className="h-6 w-6" aria-hidden="true" />
 							</a>

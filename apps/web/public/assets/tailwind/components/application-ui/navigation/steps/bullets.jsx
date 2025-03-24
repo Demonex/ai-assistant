@@ -18,14 +18,16 @@ export default function Example() {
 						{step.status === "complete" ? (
 							<a
 								href={step.href}
-								className="block h-2.5 w-2.5 rounded-full bg-indigo-600 hover:bg-indigo-900">
+								className="block h-2.5 w-2.5 rounded-full bg-indigo-600 hover:bg-indigo-900"
+							>
 								<span className="sr-only">{step.name}</span>
 							</a>
 						) : step.status === "current" ? (
 							<a
 								href={step.href}
 								className="relative flex items-center justify-center"
-								aria-current="step">
+								aria-current="step"
+							>
 								<span className="absolute flex h-5 w-5 p-px" aria-hidden="true">
 									<span className="h-full w-full rounded-full bg-indigo-200" />
 								</span>
@@ -38,7 +40,8 @@ export default function Example() {
 						) : (
 							<a
 								href={step.href}
-								className="block h-2.5 w-2.5 rounded-full bg-gray-200 hover:bg-gray-400">
+								className="block h-2.5 w-2.5 rounded-full bg-gray-200 hover:bg-gray-400"
+							>
 								<span className="sr-only">{step.name}</span>
 							</a>
 						)}

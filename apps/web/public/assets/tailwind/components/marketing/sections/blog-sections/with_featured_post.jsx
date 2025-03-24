@@ -39,12 +39,14 @@ export default function Example() {
 				<article className="mx-auto w-full max-w-2xl lg:mx-0 lg:max-w-lg">
 					<time
 						dateTime={featuredPost.datetime}
-						className="block text-sm leading-6 text-gray-600">
+						className="block text-sm leading-6 text-gray-600"
+					>
 						{featuredPost.date}
 					</time>
 					<h2
 						id="featured-post"
-						className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+						className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+					>
 						{featuredPost.title}
 					</h2>
 					<p className="mt-4 text-lg leading-8 text-gray-600">
@@ -55,14 +57,16 @@ export default function Example() {
 							<a
 								href={featuredPost.href}
 								className="text-sm font-semibold leading-6 text-indigo-600"
-								aria-describedby="featured-post">
+								aria-describedby="featured-post"
+							>
 								Continue reading <span aria-hidden="true">&rarr;</span>
 							</a>
 						</div>
 						<div className="flex lg:border-t lg:border-gray-900/10 lg:pt-8">
 							<a
 								href={featuredPost.author.href}
-								className="flex gap-x-2.5 text-sm font-semibold leading-6 text-gray-900">
+								className="flex gap-x-2.5 text-sm font-semibold leading-6 text-gray-900"
+							>
 								<img
 									src={featuredPost.author.imageUrl}
 									alt=""
@@ -80,7 +84,8 @@ export default function Example() {
 								<div className="group relative max-w-xl">
 									<time
 										dateTime={post.datetime}
-										className="block text-sm leading-6 text-gray-600">
+										className="block text-sm leading-6 text-gray-600"
+									>
 										{post.date}
 									</time>
 									<h2 className="mt-2 text-lg font-semibold text-gray-900 group-hover:text-gray-600">
@@ -96,7 +101,8 @@ export default function Example() {
 								<div className="mt-4 flex">
 									<a
 										href={post.author.href}
-										className="relative flex gap-x-2.5 text-sm font-semibold leading-6 text-gray-900">
+										className="relative flex gap-x-2.5 text-sm font-semibold leading-6 text-gray-900"
+									>
 										<img
 											src={post.author.imageUrl}
 											alt=""

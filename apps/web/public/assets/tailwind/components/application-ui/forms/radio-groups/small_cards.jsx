@@ -23,7 +23,8 @@ export default function Example() {
 				<h2 className="text-sm font-medium leading-6 text-gray-900">RAM</h2>
 				<a
 					href="#"
-					className="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500">
+					className="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500"
+				>
 					See performance specs
 				</a>
 			</div>
@@ -49,7 +50,8 @@ export default function Example() {
 									"flex items-center justify-center rounded-md py-3 px-3 text-sm font-semibold uppercase sm:flex-1",
 								)
 							}
-							disabled={!option.inStock}>
+							disabled={!option.inStock}
+						>
 							<RadioGroup.Label as="span">{option.name}</RadioGroup.Label>
 						</RadioGroup.Option>
 					))}

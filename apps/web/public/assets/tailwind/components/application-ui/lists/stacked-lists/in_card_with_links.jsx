@@ -65,11 +65,13 @@ export default function Example() {
 	return (
 		<ul
 			role="list"
-			className="divide-y divide-gray-100 overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">
+			className="divide-y divide-gray-100 overflow-hidden bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl"
+		>
 			{people.map((person) => (
 				<li
 					key={person.email}
-					className="relative flex justify-between gap-x-6 px-4 py-5 hover:bg-gray-50 sm:px-6">
+					className="relative flex justify-between gap-x-6 px-4 py-5 hover:bg-gray-50 sm:px-6"
+				>
 					<div className="flex min-w-0 gap-x-4">
 						<img
 							className="h-12 w-12 flex-none rounded-full bg-gray-50"
@@ -86,7 +88,8 @@ export default function Example() {
 							<p className="mt-1 flex text-xs leading-5 text-gray-500">
 								<a
 									href={`mailto:${person.email}`}
-									className="relative truncate hover:underline">
+									className="relative truncate hover:underline"
+								>
 									{person.email}
 								</a>
 							</p>

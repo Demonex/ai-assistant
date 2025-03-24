@@ -34,7 +34,8 @@ export default function Example() {
 					{posts.map((post) => (
 						<article
 							key={post.id}
-							className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80">
+							className="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80"
+						>
 							<img
 								src={post.imageUrl}
 								alt=""
@@ -50,7 +51,8 @@ export default function Example() {
 								<div className="-ml-4 flex items-center gap-x-4">
 									<svg
 										viewBox="0 0 2 2"
-										className="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50">
+										className="-ml-0.5 h-0.5 w-0.5 flex-none fill-white/50"
+									>
 										<circle cx={1} cy={1} r={1} />
 									</svg>
 									<div className="flex gap-x-2.5">

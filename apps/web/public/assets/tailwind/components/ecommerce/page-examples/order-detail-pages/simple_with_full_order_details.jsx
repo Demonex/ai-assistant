@@ -34,7 +34,8 @@ export default function Example() {
 
 				<section
 					aria-labelledby="order-heading"
-					className="mt-10 border-t border-gray-200">
+					className="mt-10 border-t border-gray-200"
+				>
 					<h2 id="order-heading" className="sr-only">
 						Your order
 					</h2>
@@ -43,7 +44,8 @@ export default function Example() {
 					{products.map((product) => (
 						<div
 							key={product.id}
-							className="flex space-x-6 border-b border-gray-200 py-10">
+							className="flex space-x-6 border-b border-gray-200 py-10"
+						>
 							<img
 								src={product.imageSrc}
 								alt={product.imageAlt}

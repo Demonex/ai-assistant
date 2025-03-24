@@ -225,7 +225,8 @@ export default function Example() {
 				<Dialog
 					as="div"
 					className="relative z-40 lg:hidden"
-					onClose={setMobileMenuOpen}>
+					onClose={setMobileMenuOpen}
+				>
 					<Transition.Child
 						as={Fragment}
 						enter="transition-opacity ease-linear duration-300"
@@ -233,7 +234,8 @@ export default function Example() {
 						enterTo="opacity-100"
 						leave="transition-opacity ease-linear duration-300"
 						leaveFrom="opacity-100"
-						leaveTo="opacity-0">
+						leaveTo="opacity-0"
+					>
 						<div className="fixed inset-0 bg-black bg-opacity-25" />
 					</Transition.Child>
 
@@ -245,13 +247,15 @@ export default function Example() {
 							enterTo="translate-x-0"
 							leave="transition ease-in-out duration-300 transform"
 							leaveFrom="translate-x-0"
-							leaveTo="-translate-x-full">
+							leaveTo="-translate-x-full"
+						>
 							<Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
 								<div className="flex px-4 pb-2 pt-5">
 									<button
 										type="button"
 										className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
-										onClick={() => setMobileMenuOpen(false)}>
+										onClick={() => setMobileMenuOpen(false)}
+									>
 										<span className="sr-only">Close menu</span>
 										<XMarkIcon className="h-6 w-6" aria-hidden="true" />
 									</button>
@@ -271,7 +275,8 @@ export default function Example() {
 																: "border-transparent text-gray-900",
 															"flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium",
 														)
-													}>
+													}
+												>
 													{category.name}
 												</Tab>
 											))}
@@ -281,24 +286,28 @@ export default function Example() {
 										{navigation.categories.map((category, categoryIdx) => (
 											<Tab.Panel
 												key={category.name}
-												className="space-y-12 px-4 pb-6 pt-10">
+												className="space-y-12 px-4 pb-6 pt-10"
+											>
 												<div className="grid grid-cols-1 items-start gap-x-6 gap-y-10">
 													<div className="grid grid-cols-1 gap-x-6 gap-y-10">
 														<div>
 															<p
 																id={`mobile-featured-heading-${categoryIdx}`}
-																className="font-medium text-gray-900">
+																className="font-medium text-gray-900"
+															>
 																Featured
 															</p>
 															<ul
 																role="list"
 																aria-labelledby={`mobile-featured-heading-${categoryIdx}`}
-																className="mt-6 space-y-6">
+																className="mt-6 space-y-6"
+															>
 																{category.featured.map((item) => (
 																	<li key={item.name} className="flex">
 																		<a
 																			href={item.href}
-																			className="text-gray-500">
+																			className="text-gray-500"
+																		>
 																			{item.name}
 																		</a>
 																	</li>
@@ -308,18 +317,21 @@ export default function Example() {
 														<div>
 															<p
 																id="mobile-categories-heading"
-																className="font-medium text-gray-900">
+																className="font-medium text-gray-900"
+															>
 																Categories
 															</p>
 															<ul
 																role="list"
 																aria-labelledby="mobile-categories-heading"
-																className="mt-6 space-y-6">
+																className="mt-6 space-y-6"
+															>
 																{category.categories.map((item) => (
 																	<li key={item.name} className="flex">
 																		<a
 																			href={item.href}
-																			className="text-gray-500">
+																			className="text-gray-500"
+																		>
 																			{item.name}
 																		</a>
 																	</li>
@@ -331,18 +343,21 @@ export default function Example() {
 														<div>
 															<p
 																id="mobile-collection-heading"
-																className="font-medium text-gray-900">
+																className="font-medium text-gray-900"
+															>
 																Collection
 															</p>
 															<ul
 																role="list"
 																aria-labelledby="mobile-collection-heading"
-																className="mt-6 space-y-6">
+																className="mt-6 space-y-6"
+															>
 																{category.collection.map((item) => (
 																	<li key={item.name} className="flex">
 																		<a
 																			href={item.href}
-																			className="text-gray-500">
+																			className="text-gray-500"
+																		>
 																			{item.name}
 																		</a>
 																	</li>
@@ -353,18 +368,21 @@ export default function Example() {
 														<div>
 															<p
 																id="mobile-brand-heading"
-																className="font-medium text-gray-900">
+																className="font-medium text-gray-900"
+															>
 																Brands
 															</p>
 															<ul
 																role="list"
 																aria-labelledby="mobile-brand-heading"
-																className="mt-6 space-y-6">
+																className="mt-6 space-y-6"
+															>
 																{category.brands.map((item) => (
 																	<li key={item.name} className="flex">
 																		<a
 																			href={item.href}
-																			className="text-gray-500">
+																			className="text-gray-500"
+																		>
 																			{item.name}
 																		</a>
 																	</li>
@@ -383,7 +401,8 @@ export default function Example() {
 										<div key={page.name} className="flow-root">
 											<a
 												href={page.href}
-												className="-m-2 block p-2 font-medium text-gray-900">
+												className="-m-2 block p-2 font-medium text-gray-900"
+											>
 												{page.name}
 											</a>
 										</div>
@@ -394,14 +413,16 @@ export default function Example() {
 									<div className="flow-root">
 										<a
 											href="#"
-											className="-m-2 block p-2 font-medium text-gray-900">
+											className="-m-2 block p-2 font-medium text-gray-900"
+										>
 											Create an account
 										</a>
 									</div>
 									<div className="flow-root">
 										<a
 											href="#"
-											className="-m-2 block p-2 font-medium text-gray-900">
+											className="-m-2 block p-2 font-medium text-gray-900"
+										>
 											Sign in
 										</a>
 									</div>
@@ -418,7 +439,8 @@ export default function Example() {
 												<select
 													id="mobile-currency"
 													name="currency"
-													className="flex items-center rounded-md border-transparent bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-gray-700 focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-800">
+													className="flex items-center rounded-md border-transparent bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-gray-700 focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-800"
+												>
 													{currencies.map((currency) => (
 														<option key={currency}>{currency}</option>
 													))}
@@ -454,7 +476,8 @@ export default function Example() {
 										<select
 											id="desktop-currency"
 											name="currency"
-											className="flex items-center rounded-md border-transparent bg-gray-900 bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-white focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-100">
+											className="flex items-center rounded-md border-transparent bg-gray-900 bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-white focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-100"
+										>
 											{currencies.map((currency) => (
 												<option key={currency}>{currency}</option>
 											))}
@@ -476,13 +499,15 @@ export default function Example() {
 							<div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
 								<a
 									href="#"
-									className="text-sm font-medium text-white hover:text-gray-100">
+									className="text-sm font-medium text-white hover:text-gray-100"
+								>
 									Create an account
 								</a>
 								<span className="h-6 w-px bg-gray-600" aria-hidden="true" />
 								<a
 									href="#"
-									className="text-sm font-medium text-white hover:text-gray-100">
+									className="text-sm font-medium text-white hover:text-gray-100"
+								>
 									Sign in
 								</a>
 							</div>
@@ -521,7 +546,8 @@ export default function Example() {
 																				? "border-indigo-600 text-indigo-600"
 																				: "border-transparent text-gray-700 hover:text-gray-800",
 																			"relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out",
-																		)}>
+																		)}
+																	>
 																		{category.name}
 																	</Popover.Button>
 																</div>
@@ -533,7 +559,8 @@ export default function Example() {
 																	enterTo="opacity-100"
 																	leave="transition ease-in duration-150"
 																	leaveFrom="opacity-100"
-																	leaveTo="opacity-0">
+																	leaveTo="opacity-0"
+																>
 																	<Popover.Panel className="absolute inset-x-0 top-full text-gray-500 sm:text-sm">
 																		{/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
 																		<div
@@ -548,21 +575,25 @@ export default function Example() {
 																						<div>
 																							<p
 																								id={`desktop-featured-heading-${categoryIdx}`}
-																								className="font-medium text-gray-900">
+																								className="font-medium text-gray-900"
+																							>
 																								Featured
 																							</p>
 																							<ul
 																								role="list"
 																								aria-labelledby={`desktop-featured-heading-${categoryIdx}`}
-																								className="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
+																								className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
+																							>
 																								{category.featured.map(
 																									(item) => (
 																										<li
 																											key={item.name}
-																											className="flex">
+																											className="flex"
+																										>
 																											<a
 																												href={item.href}
-																												className="hover:text-gray-800">
+																												className="hover:text-gray-800"
+																											>
 																												{item.name}
 																											</a>
 																										</li>
@@ -573,21 +604,25 @@ export default function Example() {
 																						<div>
 																							<p
 																								id="desktop-categories-heading"
-																								className="font-medium text-gray-900">
+																								className="font-medium text-gray-900"
+																							>
 																								Categories
 																							</p>
 																							<ul
 																								role="list"
 																								aria-labelledby="desktop-categories-heading"
-																								className="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
+																								className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
+																							>
 																								{category.categories.map(
 																									(item) => (
 																										<li
 																											key={item.name}
-																											className="flex">
+																											className="flex"
+																										>
 																											<a
 																												href={item.href}
-																												className="hover:text-gray-800">
+																												className="hover:text-gray-800"
+																											>
 																												{item.name}
 																											</a>
 																										</li>
@@ -600,21 +635,25 @@ export default function Example() {
 																						<div>
 																							<p
 																								id="desktop-collection-heading"
-																								className="font-medium text-gray-900">
+																								className="font-medium text-gray-900"
+																							>
 																								Collection
 																							</p>
 																							<ul
 																								role="list"
 																								aria-labelledby="desktop-collection-heading"
-																								className="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
+																								className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
+																							>
 																								{category.collection.map(
 																									(item) => (
 																										<li
 																											key={item.name}
-																											className="flex">
+																											className="flex"
+																										>
 																											<a
 																												href={item.href}
-																												className="hover:text-gray-800">
+																												className="hover:text-gray-800"
+																											>
 																												{item.name}
 																											</a>
 																										</li>
@@ -626,20 +665,24 @@ export default function Example() {
 																						<div>
 																							<p
 																								id="desktop-brand-heading"
-																								className="font-medium text-gray-900">
+																								className="font-medium text-gray-900"
+																							>
 																								Brands
 																							</p>
 																							<ul
 																								role="list"
 																								aria-labelledby="desktop-brand-heading"
-																								className="mt-6 space-y-6 sm:mt-4 sm:space-y-4">
+																								className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
+																							>
 																								{category.brands.map((item) => (
 																									<li
 																										key={item.name}
-																										className="flex">
+																										className="flex"
+																									>
 																										<a
 																											href={item.href}
-																											className="hover:text-gray-800">
+																											className="hover:text-gray-800"
+																										>
 																											{item.name}
 																										</a>
 																									</li>
@@ -661,7 +704,8 @@ export default function Example() {
 													<a
 														key={page.name}
 														href={page.href}
-														className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
+														className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+													>
 														{page.name}
 													</a>
 												))}
@@ -674,7 +718,8 @@ export default function Example() {
 										<button
 											type="button"
 											className="-ml-2 rounded-md bg-white p-2 text-gray-400"
-											onClick={() => setMobileMenuOpen(true)}>
+											onClick={() => setMobileMenuOpen(true)}
+										>
 											<span className="sr-only">Open menu</span>
 											<Bars3Icon className="h-6 w-6" aria-hidden="true" />
 										</button>
@@ -682,7 +727,8 @@ export default function Example() {
 										{/* Search */}
 										<a
 											href="#"
-											className="ml-2 p-2 text-gray-400 hover:text-gray-500">
+											className="ml-2 p-2 text-gray-400 hover:text-gray-500"
+										>
 											<span className="sr-only">Search</span>
 											<MagnifyingGlassIcon
 												className="h-6 w-6"
@@ -707,7 +753,8 @@ export default function Example() {
 												<div className="hidden lg:flex">
 													<a
 														href="#"
-														className="-m-2 p-2 text-gray-400 hover:text-gray-500">
+														className="-m-2 p-2 text-gray-400 hover:text-gray-500"
+													>
 														<span className="sr-only">Search</span>
 														<MagnifyingGlassIcon
 															className="h-6 w-6"
@@ -719,7 +766,8 @@ export default function Example() {
 												<div className="flex">
 													<a
 														href="#"
-														className="-m-2 p-2 text-gray-400 hover:text-gray-500">
+														className="-m-2 p-2 text-gray-400 hover:text-gray-500"
+													>
 														<span className="sr-only">Account</span>
 														<UserIcon className="h-6 w-6" aria-hidden="true" />
 													</a>
@@ -734,7 +782,8 @@ export default function Example() {
 											<div className="flow-root">
 												<a
 													href="#"
-													className="group -m-2 flex items-center p-2">
+													className="group -m-2 flex items-center p-2"
+												>
 													<ShoppingCartIcon
 														className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
 														aria-hidden="true"
@@ -763,12 +812,14 @@ export default function Example() {
 						<div className="mx-auto max-w-7xl lg:px-8">
 							<ul
 								role="list"
-								className="grid grid-cols-1 divide-y divide-gray-200 lg:grid-cols-3 lg:divide-x lg:divide-y-0">
+								className="grid grid-cols-1 divide-y divide-gray-200 lg:grid-cols-3 lg:divide-x lg:divide-y-0"
+							>
 								{offers.map((offer) => (
 									<li key={offer.name} className="flex flex-col">
 										<a
 											href={offer.href}
-											className="relative flex flex-1 flex-col justify-center bg-white px-4 py-6 text-center focus:z-10">
+											className="relative flex flex-1 flex-col justify-center bg-white px-4 py-6 text-center focus:z-10"
+										>
 											<p className="text-sm text-gray-500">{offer.name}</p>
 											<p className="font-semibold text-gray-900">
 												{offer.description}
@@ -799,7 +850,8 @@ export default function Example() {
 										<div className="mt-6">
 											<a
 												href="#"
-												className="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 font-medium text-white hover:bg-indigo-700">
+												className="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 font-medium text-white hover:bg-indigo-700"
+											>
 												Shop Productivity
 											</a>
 										</div>
@@ -823,12 +875,14 @@ export default function Example() {
 						<div className="flex items-center justify-between px-4 sm:px-6 lg:px-0">
 							<h2
 								id="trending-heading"
-								className="text-2xl font-bold tracking-tight text-gray-900">
+								className="text-2xl font-bold tracking-tight text-gray-900"
+							>
 								Trending products
 							</h2>
 							<a
 								href="#"
-								className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
+								className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block"
+							>
 								See everything
 								<span aria-hidden="true"> &rarr;</span>
 							</a>
@@ -838,11 +892,13 @@ export default function Example() {
 							<div className="relative w-full overflow-x-auto">
 								<ul
 									role="list"
-									className="mx-4 inline-flex space-x-8 sm:mx-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0">
+									className="mx-4 inline-flex space-x-8 sm:mx-6 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-x-8 lg:space-x-0"
+								>
 									{trendingProducts.map((product) => (
 										<li
 											key={product.id}
-											className="inline-flex w-64 flex-col text-center lg:w-auto">
+											className="inline-flex w-64 flex-col text-center lg:w-auto"
+										>
 											<div className="group relative">
 												<div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200">
 													<img
@@ -868,12 +924,14 @@ export default function Example() {
 											<h4 className="sr-only">Available colors</h4>
 											<ul
 												role="list"
-												className="mt-auto flex items-center justify-center space-x-3 pt-6">
+												className="mt-auto flex items-center justify-center space-x-3 pt-6"
+											>
 												{product.availableColors.map((color) => (
 													<li
 														key={color.name}
 														className="h-4 w-4 rounded-full border border-black border-opacity-10"
-														style={{ backgroundColor: color.colorBg }}>
+														style={{ backgroundColor: color.colorBg }}
+													>
 														<span className="sr-only">{color.name}</span>
 													</li>
 												))}
@@ -887,7 +945,8 @@ export default function Example() {
 						<div className="mt-12 px-4 sm:hidden">
 							<a
 								href="#"
-								className="text-sm font-semibold text-indigo-600 hover:text-indigo-500">
+								className="text-sm font-semibold text-indigo-600 hover:text-indigo-500"
+							>
 								See everything
 								<span aria-hidden="true"> &rarr;</span>
 							</a>
@@ -901,7 +960,8 @@ export default function Example() {
 						<div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
 							<h2
 								id="collections-heading"
-								className="text-2xl font-bold text-gray-900">
+								className="text-2xl font-bold text-gray-900"
+							>
 								Collections
 							</h2>
 
@@ -949,11 +1009,13 @@ export default function Example() {
 					{/* Sale */}
 					<section
 						aria-labelledby="sale-heading"
-						className="relative mx-auto flex max-w-7xl flex-col items-center px-4 pt-32 text-center sm:px-6 lg:px-8">
+						className="relative mx-auto flex max-w-7xl flex-col items-center px-4 pt-32 text-center sm:px-6 lg:px-8"
+					>
 						<div className="mx-auto max-w-2xl lg:max-w-none">
 							<h2
 								id="sale-heading"
-								className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+								className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl"
+							>
 								Get 25% off during our one-time sale
 							</h2>
 							<p className="mx-auto mt-4 max-w-xl text-xl text-gray-600">
@@ -962,7 +1024,8 @@ export default function Example() {
 							</p>
 							<a
 								href="#"
-								className="mt-6 inline-block w-full rounded-md border border-transparent bg-gray-900 px-8 py-3 font-medium text-white hover:bg-gray-800 sm:w-auto">
+								className="mt-6 inline-block w-full rounded-md border border-transparent bg-gray-900 px-8 py-3 font-medium text-white hover:bg-gray-800 sm:w-auto"
+							>
 								Get access to our one-time sale
 							</a>
 						</div>
@@ -971,11 +1034,13 @@ export default function Example() {
 					{/* Testimonials */}
 					<section
 						aria-labelledby="testimonial-heading"
-						className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8 lg:py-32">
+						className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8 lg:py-32"
+					>
 						<div className="mx-auto max-w-2xl lg:max-w-none">
 							<h2
 								id="testimonial-heading"
-								className="text-2xl font-bold tracking-tight text-gray-900">
+								className="text-2xl font-bold tracking-tight text-gray-900"
+							>
 								What are people saying?
 							</h2>
 
@@ -987,7 +1052,8 @@ export default function Example() {
 											height={18}
 											viewBox="0 0 24 18"
 											aria-hidden="true"
-											className="flex-shrink-0 text-gray-300">
+											className="flex-shrink-0 text-gray-300"
+										>
 											<path
 												d="M0 18h8.7v-5.555c-.024-3.906 1.113-6.841 2.892-9.68L6.452 0C3.188 2.644-.026 7.86 0 12.469V18zm12.408 0h8.7v-5.555C21.083 8.539 22.22 5.604 24 2.765L18.859 0c-3.263 2.644-6.476 7.86-6.451 12.469V18z"
 												fill="currentColor"
@@ -1035,7 +1101,8 @@ export default function Example() {
 													<li key={item.name} className="text-sm">
 														<a
 															href={item.href}
-															className="text-gray-500 hover:text-gray-600">
+															className="text-gray-500 hover:text-gray-600"
+														>
 															{item.name}
 														</a>
 													</li>
@@ -1051,7 +1118,8 @@ export default function Example() {
 													<li key={item.name} className="text-sm">
 														<a
 															href={item.href}
-															className="text-gray-500 hover:text-gray-600">
+															className="text-gray-500 hover:text-gray-600"
+														>
 															{item.name}
 														</a>
 													</li>
@@ -1069,7 +1137,8 @@ export default function Example() {
 													<li key={item.name} className="text-sm">
 														<a
 															href={item.href}
-															className="text-gray-500 hover:text-gray-600">
+															className="text-gray-500 hover:text-gray-600"
+														>
 															{item.name}
 														</a>
 													</li>
@@ -1085,7 +1154,8 @@ export default function Example() {
 													<li key={item.name} className="text-sm">
 														<a
 															href={item.href}
-															className="text-gray-500 hover:text-gray-600">
+															className="text-gray-500 hover:text-gray-600"
+														>
 															{item.name}
 														</a>
 													</li>
@@ -1121,7 +1191,8 @@ export default function Example() {
 										<div className="mt-3 sm:ml-4 sm:mt-0 sm:flex-shrink-0">
 											<button
 												type="submit"
-												className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-white">
+												className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-white"
+											>
 												Sign up
 											</button>
 										</div>
@@ -1147,7 +1218,8 @@ export default function Example() {
 										sent you to get access.{" "}
 										<a
 											href="#"
-											className="whitespace-nowrap font-bold text-white hover:text-gray-200">
+											className="whitespace-nowrap font-bold text-white hover:text-gray-200"
+										>
 											Go now<span aria-hidden="true"> &rarr;</span>
 										</a>
 									</p>
@@ -1169,7 +1241,8 @@ export default function Example() {
 									<a
 										key={item.name}
 										href={item.href}
-										className="text-sm text-gray-500 hover:text-gray-600">
+										className="text-sm text-gray-500 hover:text-gray-600"
+									>
 										{item.name}
 									</a>
 								))}
@@ -1178,7 +1251,8 @@ export default function Example() {
 							<div className="ml-6 border-l border-gray-200 pl-6">
 								<a
 									href="#"
-									className="flex items-center text-gray-500 hover:text-gray-600">
+									className="flex items-center text-gray-500 hover:text-gray-600"
+								>
 									<img
 										src="https://tailwindui.com/img/flags/flag-canada.svg"
 										alt=""

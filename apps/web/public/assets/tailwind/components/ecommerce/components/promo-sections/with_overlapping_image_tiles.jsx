@@ -43,7 +43,8 @@ export default function Example() {
 			{/* Background image and overlap */}
 			<div
 				aria-hidden="true"
-				className="absolute inset-0 hidden sm:flex sm:flex-col">
+				className="absolute inset-0 hidden sm:flex sm:flex-col"
+			>
 				<div className="relative w-full flex-1 bg-gray-800">
 					<div className="absolute inset-0 overflow-hidden">
 						<img
@@ -61,7 +62,8 @@ export default function Example() {
 				{/* Background image and overlap */}
 				<div
 					aria-hidden="true"
-					className="absolute inset-0 flex flex-col sm:hidden">
+					className="absolute inset-0 flex flex-col sm:hidden"
+				>
 					<div className="relative w-full flex-1 bg-gray-800">
 						<div className="absolute inset-0 overflow-hidden">
 							<img
@@ -81,7 +83,8 @@ export default function Example() {
 					<div className="mt-4 sm:mt-6">
 						<a
 							href="#"
-							className="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 font-medium text-white hover:bg-indigo-700">
+							className="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 font-medium text-white hover:bg-indigo-700"
+						>
 							Shop Collection
 						</a>
 					</div>
@@ -90,7 +93,8 @@ export default function Example() {
 
 			<section
 				aria-labelledby="collection-heading"
-				className="relative -mt-96 sm:mt-0">
+				className="relative -mt-96 sm:mt-0"
+			>
 				<h2 id="collection-heading" className="sr-only">
 					Collections
 				</h2>
@@ -98,11 +102,13 @@ export default function Example() {
 					{collections.map((collection) => (
 						<div
 							key={collection.name}
-							className="group relative h-96 rounded-lg bg-white shadow-xl sm:aspect-h-5 sm:aspect-w-4 sm:h-auto">
+							className="group relative h-96 rounded-lg bg-white shadow-xl sm:aspect-h-5 sm:aspect-w-4 sm:h-auto"
+						>
 							<div>
 								<div
 									aria-hidden="true"
-									className="absolute inset-0 overflow-hidden rounded-lg">
+									className="absolute inset-0 overflow-hidden rounded-lg"
+								>
 									<div className="absolute inset-0 overflow-hidden group-hover:opacity-75">
 										<img
 											src={collection.imageSrc}

@@ -34,7 +34,8 @@ export default function Example() {
 						<div className="mt-10">
 							<a
 								href="#"
-								className="text-sm font-semibold leading-7 text-indigo-600">
+								className="text-sm font-semibold leading-7 text-indigo-600"
+							>
 								<span aria-hidden="true">&larr;</span> Back to home
 							</a>
 						</div>
@@ -47,14 +48,16 @@ export default function Example() {
 							<svg
 								viewBox="0 0 2 2"
 								aria-hidden="true"
-								className="h-0.5 w-0.5 fill-gray-300">
+								className="h-0.5 w-0.5 fill-gray-300"
+							>
 								<circle cx={1} cy={1} r={1} />
 							</svg>
 							<a href="#">Status</a>
 							<svg
 								viewBox="0 0 2 2"
 								aria-hidden="true"
-								className="h-0.5 w-0.5 fill-gray-300">
+								className="h-0.5 w-0.5 fill-gray-300"
+							>
 								<circle cx={1} cy={1} r={1} />
 							</svg>
 							<a href="#">Twitter</a>

@@ -187,7 +187,8 @@ export default function Example() {
 																	? "border-indigo-600 text-indigo-600"
 																	: "border-transparent text-gray-700 hover:text-gray-800",
 																"relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out",
-															)}>
+															)}
+														>
 															{category.name}
 														</Popover.Button>
 													</div>
@@ -199,7 +200,8 @@ export default function Example() {
 														enterTo="opacity-100"
 														leave="transition ease-in duration-150"
 														leaveFrom="opacity-100"
-														leaveTo="opacity-0">
+														leaveTo="opacity-0"
+													>
 														<Popover.Panel className="absolute inset-x-0 top-full z-20 bg-white text-gray-500 sm:text-sm">
 															{/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
 															<div
@@ -209,7 +211,8 @@ export default function Example() {
 															{/* Fake border when menu is open */}
 															<div
 																className="absolute inset-0 -top-px mx-auto h-px max-w-7xl sm:top-0 sm:px-6 lg:px-8"
-																aria-hidden="true">
+																aria-hidden="true"
+															>
 																<div
 																	className={classNames(
 																		open ? "bg-gray-200" : "bg-transparent",
@@ -225,22 +228,26 @@ export default function Example() {
 																			<div>
 																				<p
 																					id="clothing-heading"
-																					className="font-medium text-gray-900">
+																					className="font-medium text-gray-900"
+																				>
 																					Clothing
 																				</p>
 																				<div className="mt-4 border-t border-gray-200 pt-6 sm:grid sm:grid-cols-2 sm:gap-x-6">
 																					<ul
 																						role="list"
 																						aria-labelledby="clothing-heading"
-																						className="space-y-6 sm:space-y-4">
+																						className="space-y-6 sm:space-y-4"
+																					>
 																						{category.clothing[0].map(
 																							(item) => (
 																								<li
 																									key={item.name}
-																									className="flex">
+																									className="flex"
+																								>
 																									<a
 																										href={item.href}
-																										className="hover:text-gray-800">
+																										className="hover:text-gray-800"
+																									>
 																										{item.name}
 																									</a>
 																								</li>
@@ -250,15 +257,18 @@ export default function Example() {
 																					<ul
 																						role="list"
 																						aria-label="More clothing"
-																						className="mt-6 space-y-6 sm:mt-0 sm:space-y-4">
+																						className="mt-6 space-y-6 sm:mt-0 sm:space-y-4"
+																					>
 																						{category.clothing[1].map(
 																							(item) => (
 																								<li
 																									key={item.name}
-																									className="flex">
+																									className="flex"
+																								>
 																									<a
 																										href={item.href}
-																										className="hover:text-gray-800">
+																										className="hover:text-gray-800"
+																									>
 																										{item.name}
 																									</a>
 																								</li>
@@ -272,20 +282,24 @@ export default function Example() {
 																			<div>
 																				<p
 																					id="accessories-heading"
-																					className="font-medium text-gray-900">
+																					className="font-medium text-gray-900"
+																				>
 																					Accessories
 																				</p>
 																				<ul
 																					role="list"
 																					aria-labelledby="accessories-heading"
-																					className="mt-4 space-y-6 border-t border-gray-200 pt-6 sm:space-y-4">
+																					className="mt-4 space-y-6 border-t border-gray-200 pt-6 sm:space-y-4"
+																				>
 																					{category.accessories.map((item) => (
 																						<li
 																							key={item.name}
-																							className="flex">
+																							className="flex"
+																						>
 																							<a
 																								href={item.href}
-																								className="hover:text-gray-800">
+																								className="hover:text-gray-800"
+																							>
 																								{item.name}
 																							</a>
 																						</li>
@@ -295,20 +309,24 @@ export default function Example() {
 																			<div>
 																				<p
 																					id="categories-heading"
-																					className="font-medium text-gray-900">
+																					className="font-medium text-gray-900"
+																				>
 																					Categories
 																				</p>
 																				<ul
 																					role="list"
 																					aria-labelledby="categories-heading"
-																					className="mt-4 space-y-6 border-t border-gray-200 pt-6 sm:space-y-4">
+																					className="mt-4 space-y-6 border-t border-gray-200 pt-6 sm:space-y-4"
+																				>
 																					{category.categories.map((item) => (
 																						<li
 																							key={item.name}
-																							className="flex">
+																							className="flex"
+																						>
 																							<a
 																								href={item.href}
-																								className="hover:text-gray-800">
+																								className="hover:text-gray-800"
+																							>
 																								{item.name}
 																							</a>
 																						</li>
@@ -330,7 +348,8 @@ export default function Example() {
 										<a
 											key={item.name}
 											href={item.href}
-											className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
+											className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+										>
 											{item.name}
 										</a>
 									))}
@@ -385,7 +404,8 @@ export default function Example() {
 							{orders.map((order) => (
 								<div
 									key={order.number}
-									className="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border">
+									className="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border"
+								>
 									<h3 className="sr-only">
 										Order placed on{" "}
 										<time dateTime={order.createdDatetime}>
@@ -423,7 +443,8 @@ export default function Example() {
 
 										<Menu
 											as="div"
-											className="relative flex justify-end lg:hidden">
+											className="relative flex justify-end lg:hidden"
+										>
 											<div className="flex items-center">
 												<Menu.Button className="-m-2 flex items-center p-2 text-gray-400 hover:text-gray-500">
 													<span className="sr-only">
@@ -443,7 +464,8 @@ export default function Example() {
 												enterTo="transform opacity-100 scale-100"
 												leave="transition ease-in duration-75"
 												leaveFrom="transform opacity-100 scale-100"
-												leaveTo="transform opacity-0 scale-95">
+												leaveTo="transform opacity-0 scale-95"
+											>
 												<Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-bottom-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 													<div className="py-1">
 														<Menu.Item>
@@ -455,7 +477,8 @@ export default function Example() {
 																			? "bg-gray-100 text-gray-900"
 																			: "text-gray-700",
 																		"block px-4 py-2 text-sm",
-																	)}>
+																	)}
+																>
 																	View
 																</a>
 															)}
@@ -469,7 +492,8 @@ export default function Example() {
 																			? "bg-gray-100 text-gray-900"
 																			: "text-gray-700",
 																		"block px-4 py-2 text-sm",
-																	)}>
+																	)}
+																>
 																	Invoice
 																</a>
 															)}
@@ -482,13 +506,15 @@ export default function Example() {
 										<div className="hidden lg:col-span-2 lg:flex lg:items-center lg:justify-end lg:space-x-4">
 											<a
 												href={order.href}
-												className="flex items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+												className="flex items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+											>
 												<span>View Order</span>
 												<span className="sr-only">{order.number}</span>
 											</a>
 											<a
 												href={order.invoiceHref}
-												className="flex items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+												className="flex items-center justify-center rounded-md border border-gray-300 bg-white px-2.5 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+											>
 												<span>View Invoice</span>
 												<span className="sr-only">
 													for order {order.number}
@@ -539,14 +565,16 @@ export default function Example() {
 														<div className="flex flex-1 justify-center">
 															<a
 																href={product.href}
-																className="whitespace-nowrap text-indigo-600 hover:text-indigo-500">
+																className="whitespace-nowrap text-indigo-600 hover:text-indigo-500"
+															>
 																View product
 															</a>
 														</div>
 														<div className="flex flex-1 justify-center pl-4">
 															<a
 																href="#"
-																className="whitespace-nowrap text-indigo-600 hover:text-indigo-500">
+																className="whitespace-nowrap text-indigo-600 hover:text-indigo-500"
+															>
 																Buy again
 															</a>
 														</div>
@@ -564,7 +592,8 @@ export default function Example() {
 
 			<footer
 				aria-labelledby="footer-heading"
-				className="border-t border-gray-200 bg-white">
+				className="border-t border-gray-200 bg-white"
+			>
 				<h2 id="footer-heading" className="sr-only">
 					Footer
 				</h2>
@@ -592,7 +621,8 @@ export default function Example() {
 												<li key={item.name} className="text-sm">
 													<a
 														href={item.href}
-														className="text-gray-500 hover:text-gray-600">
+														className="text-gray-500 hover:text-gray-600"
+													>
 														{item.name}
 													</a>
 												</li>
@@ -608,7 +638,8 @@ export default function Example() {
 												<li key={item.name} className="text-sm">
 													<a
 														href={item.href}
-														className="text-gray-500 hover:text-gray-600">
+														className="text-gray-500 hover:text-gray-600"
+													>
 														{item.name}
 													</a>
 												</li>
@@ -625,7 +656,8 @@ export default function Example() {
 											<li key={item.name} className="text-sm">
 												<a
 													href={item.href}
-													className="text-gray-500 hover:text-gray-600">
+													className="text-gray-500 hover:text-gray-600"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -656,7 +688,8 @@ export default function Example() {
 									<div className="ml-4 flex-shrink-0">
 										<button
 											type="submit"
-											className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+											className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+										>
 											Sign up
 										</button>
 									</div>

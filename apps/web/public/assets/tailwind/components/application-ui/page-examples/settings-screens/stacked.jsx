@@ -43,7 +43,8 @@ export default function Example() {
 						<button
 							type="button"
 							className="-m-3 p-3 md:hidden"
-							onClick={() => setMobileMenuOpen(true)}>
+							onClick={() => setMobileMenuOpen(true)}
+						>
 							<span className="sr-only">Open main menu</span>
 							<Bars3Icon className="h-5 w-5 text-gray-900" aria-hidden="true" />
 						</button>
@@ -63,7 +64,8 @@ export default function Example() {
 					<div className="flex flex-1 items-center justify-end gap-x-8">
 						<button
 							type="button"
-							className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
+							className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
+						>
 							<span className="sr-only">View notifications</span>
 							<BellIcon className="h-6 w-6" aria-hidden="true" />
 						</button>
@@ -81,14 +83,16 @@ export default function Example() {
 					as="div"
 					className="lg:hidden"
 					open={mobileMenuOpen}
-					onClose={setMobileMenuOpen}>
+					onClose={setMobileMenuOpen}
+				>
 					<div className="fixed inset-0 z-50" />
 					<Dialog.Panel className="fixed inset-y-0 left-0 z-50 w-full overflow-y-auto bg-white px-4 pb-6 sm:max-w-sm sm:px-6 sm:ring-1 sm:ring-gray-900/10">
 						<div className="-ml-0.5 flex h-16 items-center gap-x-6">
 							<button
 								type="button"
 								className="-m-2.5 p-2.5 text-gray-700"
-								onClick={() => setMobileMenuOpen(false)}>
+								onClick={() => setMobileMenuOpen(false)}
+							>
 								<span className="sr-only">Close menu</span>
 								<XMarkIcon className="h-6 w-6" aria-hidden="true" />
 							</button>
@@ -108,7 +112,8 @@ export default function Example() {
 								<a
 									key={item.name}
 									href={item.href}
-									className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+									className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+								>
 									{item.name}
 								</a>
 							))}
@@ -122,7 +127,8 @@ export default function Example() {
 					<nav className="flex-none px-4 sm:px-6 lg:px-0">
 						<ul
 							role="list"
-							className="flex gap-x-3 gap-y-1 whitespace-nowrap lg:flex-col">
+							className="flex gap-x-3 gap-y-1 whitespace-nowrap lg:flex-col"
+						>
 							{secondaryNavigation.map((item) => (
 								<li key={item.name}>
 									<a
@@ -132,7 +138,8 @@ export default function Example() {
 												? "bg-gray-50 text-indigo-600"
 												: "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
 											"group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm leading-6 font-semibold",
-										)}>
+										)}
+									>
 										<item.icon
 											className={classNames(
 												item.current
@@ -170,7 +177,8 @@ export default function Example() {
 										<div className="text-gray-900">Tom Cook</div>
 										<button
 											type="button"
-											className="font-semibold text-indigo-600 hover:text-indigo-500">
+											className="font-semibold text-indigo-600 hover:text-indigo-500"
+										>
 											Update
 										</button>
 									</dd>
@@ -183,7 +191,8 @@ export default function Example() {
 										<div className="text-gray-900">tom.cook@example.com</div>
 										<button
 											type="button"
-											className="font-semibold text-indigo-600 hover:text-indigo-500">
+											className="font-semibold text-indigo-600 hover:text-indigo-500"
+										>
 											Update
 										</button>
 									</dd>
@@ -196,7 +205,8 @@ export default function Example() {
 										<div className="text-gray-900">Human Resources Manager</div>
 										<button
 											type="button"
-											className="font-semibold text-indigo-600 hover:text-indigo-500">
+											className="font-semibold text-indigo-600 hover:text-indigo-500"
+										>
 											Update
 										</button>
 									</dd>
@@ -214,14 +224,16 @@ export default function Example() {
 
 							<ul
 								role="list"
-								className="mt-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6">
+								className="mt-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6"
+							>
 								<li className="flex justify-between gap-x-6 py-6">
 									<div className="font-medium text-gray-900">
 										TD Canada Trust
 									</div>
 									<button
 										type="button"
-										className="font-semibold text-indigo-600 hover:text-indigo-500">
+										className="font-semibold text-indigo-600 hover:text-indigo-500"
+									>
 										Update
 									</button>
 								</li>
@@ -231,7 +243,8 @@ export default function Example() {
 									</div>
 									<button
 										type="button"
-										className="font-semibold text-indigo-600 hover:text-indigo-500">
+										className="font-semibold text-indigo-600 hover:text-indigo-500"
+									>
 										Update
 									</button>
 								</li>
@@ -240,7 +253,8 @@ export default function Example() {
 							<div className="flex border-t border-gray-100 pt-6">
 								<button
 									type="button"
-									className="text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+									className="text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+								>
 									<span aria-hidden="true">+</span> Add another bank
 								</button>
 							</div>
@@ -256,12 +270,14 @@ export default function Example() {
 
 							<ul
 								role="list"
-								className="mt-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6">
+								className="mt-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6"
+							>
 								<li className="flex justify-between gap-x-6 py-6">
 									<div className="font-medium text-gray-900">QuickBooks</div>
 									<button
 										type="button"
-										className="font-semibold text-indigo-600 hover:text-indigo-500">
+										className="font-semibold text-indigo-600 hover:text-indigo-500"
+									>
 										Update
 									</button>
 								</li>
@@ -270,7 +286,8 @@ export default function Example() {
 							<div className="flex border-t border-gray-100 pt-6">
 								<button
 									type="button"
-									className="text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+									className="text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+								>
 									<span aria-hidden="true">+</span> Add another application
 								</button>
 							</div>
@@ -294,7 +311,8 @@ export default function Example() {
 										<div className="text-gray-900">English</div>
 										<button
 											type="button"
-											className="font-semibold text-indigo-600 hover:text-indigo-500">
+											className="font-semibold text-indigo-600 hover:text-indigo-500"
+										>
 											Update
 										</button>
 									</dd>
@@ -307,7 +325,8 @@ export default function Example() {
 										<div className="text-gray-900">DD-MM-YYYY</div>
 										<button
 											type="button"
-											className="font-semibold text-indigo-600 hover:text-indigo-500">
+											className="font-semibold text-indigo-600 hover:text-indigo-500"
+										>
 											Update
 										</button>
 									</dd>
@@ -316,7 +335,8 @@ export default function Example() {
 									<Switch.Label
 										as="dt"
 										className="flex-none pr-6 font-medium text-gray-900 sm:w-64"
-										passive>
+										passive
+									>
 										Automatic timezone
 									</Switch.Label>
 									<dd className="flex flex-auto items-center justify-end">
@@ -328,7 +348,8 @@ export default function Example() {
 													? "bg-indigo-600"
 													: "bg-gray-200",
 												"flex w-8 cursor-pointer rounded-full p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
-											)}>
+											)}
+										>
 											<span
 												aria-hidden="true"
 												className={classNames(

@@ -9,7 +9,8 @@ export default function Example() {
 			{/* Global notification live region, render this permanently at the end of the document */}
 			<div
 				aria-live="assertive"
-				className="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6">
+				className="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
+			>
 				<div className="flex w-full flex-col items-center space-y-4 sm:items-end">
 					{/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
 					<Transition
@@ -20,7 +21,8 @@ export default function Example() {
 						enterTo="translate-y-0 opacity-100 sm:translate-x-0"
 						leave="transition ease-in duration-100"
 						leaveFrom="opacity-100"
-						leaveTo="opacity-0">
+						leaveTo="opacity-0"
+					>
 						<div className="pointer-events-auto flex w-full max-w-md rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
 							<div className="w-0 flex-1 p-4">
 								<div className="flex items-start">
@@ -47,7 +49,8 @@ export default function Example() {
 									className="flex w-full items-center justify-center rounded-none rounded-r-lg border border-transparent p-4 text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
 									onClick={() => {
 										setShow(false);
-									}}>
+									}}
+								>
 									Reply
 								</button>
 							</div>

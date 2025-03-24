@@ -5,7 +5,8 @@ export default function Example() {
 		<div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
 			<div
 				className="absolute left-[max(-7rem,calc(50%-52rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
-				aria-hidden="true">
+				aria-hidden="true"
+			>
 				<div
 					className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30"
 					style={{
@@ -16,7 +17,8 @@ export default function Example() {
 			</div>
 			<div
 				className="absolute left-[max(45rem,calc(50%+8rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
-				aria-hidden="true">
+				aria-hidden="true"
+			>
 				<div
 					className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30"
 					style={{
@@ -34,7 +36,8 @@ export default function Example() {
 			<div className="flex flex-1 justify-end">
 				<button
 					type="button"
-					className="-m-3 p-3 focus-visible:outline-offset-[-4px]">
+					className="-m-3 p-3 focus-visible:outline-offset-[-4px]"
+				>
 					<span className="sr-only">Dismiss</span>
 					<XMarkIcon className="h-5 w-5 text-gray-900" aria-hidden="true" />
 				</button>

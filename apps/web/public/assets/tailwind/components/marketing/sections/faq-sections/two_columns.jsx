@@ -20,7 +20,8 @@ export default function Example() {
 					for? Reach out to our support team by{" "}
 					<a
 						href="#"
-						className="font-semibold text-indigo-600 hover:text-indigo-500">
+						className="font-semibold text-indigo-600 hover:text-indigo-500"
+					>
 						sending us an email
 					</a>{" "}
 					and we’ll get back to you as soon as we can.

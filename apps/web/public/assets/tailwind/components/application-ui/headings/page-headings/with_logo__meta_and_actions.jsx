@@ -28,17 +28,20 @@ export default function Example() {
 				<div className="flex items-center gap-x-4 sm:gap-x-6">
 					<button
 						type="button"
-						className="hidden text-sm font-semibold leading-6 text-gray-900 sm:block">
+						className="hidden text-sm font-semibold leading-6 text-gray-900 sm:block"
+					>
 						Copy URL
 					</button>
 					<a
 						href="#"
-						className="hidden text-sm font-semibold leading-6 text-gray-900 sm:block">
+						className="hidden text-sm font-semibold leading-6 text-gray-900 sm:block"
+					>
 						Edit
 					</a>
 					<a
 						href="#"
-						className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+						className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+					>
 						Send
 					</a>
 
@@ -58,7 +61,8 @@ export default function Example() {
 							enterTo="transform opacity-100 scale-100"
 							leave="transition ease-in duration-75"
 							leaveFrom="transform opacity-100 scale-100"
-							leaveTo="transform opacity-0 scale-95">
+							leaveTo="transform opacity-0 scale-95"
+						>
 							<Menu.Items className="absolute right-0 z-10 mt-0.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
 								<Menu.Item>
 									{({ active }) => (
@@ -67,7 +71,8 @@ export default function Example() {
 											className={classNames(
 												active ? "bg-gray-50" : "",
 												"block w-full px-3 py-1 text-left text-sm leading-6 text-gray-900",
-											)}>
+											)}
+										>
 											Copy URL
 										</button>
 									)}
@@ -79,7 +84,8 @@ export default function Example() {
 											className={classNames(
 												active ? "bg-gray-50" : "",
 												"block px-3 py-1 text-sm leading-6 text-gray-900",
-											)}>
+											)}
+										>
 											Edit
 										</a>
 									)}

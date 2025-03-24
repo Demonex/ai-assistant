@@ -113,10 +113,12 @@ export default function Example() {
 									? "rounded-xl bg-gray-400/5 ring-1 ring-inset ring-gray-200"
 									: "",
 								"p-8",
-							)}>
+							)}
+						>
 							<h3
 								id={tier.id}
-								className="text-sm font-semibold leading-6 text-gray-900">
+								className="text-sm font-semibold leading-6 text-gray-900"
+							>
 								{tier.name}
 							</h3>
 							<p className="mt-2 flex items-baseline gap-x-1 text-gray-900">
@@ -131,12 +133,14 @@ export default function Example() {
 										? "bg-indigo-600 text-white hover:bg-indigo-500"
 										: "text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300",
 									"mt-8 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
-								)}>
+								)}
+							>
 								Buy plan
 							</a>
 							<ul
 								role="list"
-								className="mt-10 space-y-4 text-sm leading-6 text-gray-900">
+								className="mt-10 space-y-4 text-sm leading-6 text-gray-900"
+							>
 								{sections.map((section) => (
 									<li key={section.name}>
 										<ul role="list" className="space-y-4">
@@ -176,7 +180,8 @@ export default function Example() {
 									aria-hidden="true"
 									style={{
 										marginLeft: `${(tiers.findIndex((tier) => tier.mostPopular) + 1) * 25}%`,
-									}}>
+									}}
+								>
 									<div className="w-full rounded-t-xl border-x border-t border-gray-900/10 bg-gray-400/5" />
 								</div>
 							</div>
@@ -196,7 +201,8 @@ export default function Example() {
 										<th
 											key={tier.id}
 											scope="col"
-											className="px-6 pt-6 xl:px-8 xl:pt-8">
+											className="px-6 pt-6 xl:px-8 xl:pt-8"
+										>
 											<div className="text-sm font-semibold leading-7 text-gray-900">
 												{tier.name}
 											</div>
@@ -226,7 +232,8 @@ export default function Example() {
 														? "bg-indigo-600 text-white hover:bg-indigo-500"
 														: "text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300",
 													"mt-8 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
-												)}>
+												)}
+											>
 												Buy plan
 											</a>
 										</td>
@@ -241,7 +248,8 @@ export default function Example() {
 												className={classNames(
 													sectionIdx === 0 ? "pt-8" : "pt-16",
 													"pb-4 text-sm font-semibold leading-6 text-gray-900",
-												)}>
+												)}
+											>
 												{section.name}
 												<div className="absolute inset-x-8 mt-4 h-px bg-gray-900/10" />
 											</th>
@@ -250,7 +258,8 @@ export default function Example() {
 											<tr key={feature.name}>
 												<th
 													scope="row"
-													className="py-4 text-sm font-normal leading-6 text-gray-900">
+													className="py-4 text-sm font-normal leading-6 text-gray-900"
+												>
 													{feature.name}
 													<div className="absolute inset-x-8 mt-4 h-px bg-gray-900/5" />
 												</th>

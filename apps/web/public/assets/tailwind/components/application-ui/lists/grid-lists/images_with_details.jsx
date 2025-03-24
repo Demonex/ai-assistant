@@ -26,7 +26,8 @@ export default function Example() {
 	return (
 		<ul
 			role="list"
-			className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+			className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
+		>
 			{files.map((file) => (
 				<li key={file.source} className="relative">
 					<div className="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
@@ -37,7 +38,8 @@ export default function Example() {
 						/>
 						<button
 							type="button"
-							className="absolute inset-0 focus:outline-none">
+							className="absolute inset-0 focus:outline-none"
+						>
 							<span className="sr-only">View details for {file.title}</span>
 						</button>
 					</div>

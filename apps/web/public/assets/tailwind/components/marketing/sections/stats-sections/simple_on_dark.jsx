@@ -12,7 +12,8 @@ export default function Example() {
 					{stats.map((stat) => (
 						<div
 							key={stat.id}
-							className="mx-auto flex max-w-xs flex-col gap-y-4">
+							className="mx-auto flex max-w-xs flex-col gap-y-4"
+						>
 							<dt className="text-base leading-7 text-gray-400">{stat.name}</dt>
 							<dd className="order-first text-3xl font-semibold tracking-tight text-white sm:text-5xl">
 								{stat.value}

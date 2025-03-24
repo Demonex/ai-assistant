@@ -13,7 +13,8 @@ export default function Example() {
 					{stats.map((stat) => (
 						<div
 							key={stat.name}
-							className="bg-gray-900 px-4 py-6 sm:px-6 lg:px-8">
+							className="bg-gray-900 px-4 py-6 sm:px-6 lg:px-8"
+						>
 							<p className="text-sm font-medium leading-6 text-gray-400">
 								{stat.name}
 							</p>

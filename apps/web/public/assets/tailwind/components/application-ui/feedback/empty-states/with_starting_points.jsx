@@ -62,7 +62,8 @@ export default function Example() {
 			</p>
 			<ul
 				role="list"
-				className="mt-6 grid grid-cols-1 gap-6 border-b border-t border-gray-200 py-6 sm:grid-cols-2">
+				className="mt-6 grid grid-cols-1 gap-6 border-b border-t border-gray-200 py-6 sm:grid-cols-2"
+			>
 				{items.map((item, itemIdx) => (
 					<li key={itemIdx} className="flow-root">
 						<div className="relative -m-2 flex items-center space-x-4 rounded-xl p-2 focus-within:ring-2 focus-within:ring-indigo-500 hover:bg-gray-50">
@@ -70,7 +71,8 @@ export default function Example() {
 								className={classNames(
 									item.background,
 									"flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-lg",
-								)}>
+								)}
+							>
 								<item.icon className="h-6 w-6 text-white" aria-hidden="true" />
 							</div>
 							<div>
@@ -90,7 +92,8 @@ export default function Example() {
 			<div className="mt-4 flex">
 				<a
 					href="#"
-					className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+					className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+				>
 					Or start from an empty project
 					<span aria-hidden="true"> &rarr;</span>
 				</a>

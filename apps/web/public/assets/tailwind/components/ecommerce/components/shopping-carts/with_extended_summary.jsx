@@ -55,7 +55,8 @@ export default function Example() {
 
 						<ul
 							role="list"
-							className="divide-y divide-gray-200 border-b border-t border-gray-200">
+							className="divide-y divide-gray-200 border-b border-t border-gray-200"
+						>
 							{products.map((product, productIdx) => (
 								<li key={product.id} className="flex py-6 sm:py-10">
 									<div className="flex-shrink-0">
@@ -73,7 +74,8 @@ export default function Example() {
 													<h3 className="text-sm">
 														<a
 															href={product.href}
-															className="font-medium text-gray-700 hover:text-gray-800">
+															className="font-medium text-gray-700 hover:text-gray-800"
+														>
 															{product.name}
 														</a>
 													</h3>
@@ -95,13 +97,15 @@ export default function Example() {
 											<div className="mt-4 flex items-center sm:absolute sm:left-1/2 sm:top-0 sm:mt-0 sm:block">
 												<label
 													htmlFor={`quantity-${productIdx}`}
-													className="sr-only">
+													className="sr-only"
+												>
 													Quantity, {product.name}
 												</label>
 												<select
 													id={`quantity-${productIdx}`}
 													name={`quantity-${productIdx}`}
-													className="block max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
+													className="block max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+												>
 													<option value={1}>1</option>
 													<option value={2}>2</option>
 													<option value={3}>3</option>
@@ -114,7 +118,8 @@ export default function Example() {
 
 												<button
 													type="button"
-													className="ml-4 text-sm font-medium text-indigo-600 hover:text-indigo-500 sm:ml-0 sm:mt-3">
+													className="ml-4 text-sm font-medium text-indigo-600 hover:text-indigo-500 sm:ml-0 sm:mt-3"
+												>
 													<span>Remove</span>
 												</button>
 											</div>
@@ -178,7 +183,8 @@ export default function Example() {
 						<div className="mt-10">
 							<button
 								type="submit"
-								className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">
+								className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+							>
 								Checkout
 							</button>
 						</div>
@@ -188,7 +194,8 @@ export default function Example() {
 								or
 								<a
 									href="#"
-									className="font-medium text-indigo-600 hover:text-indigo-500">
+									className="font-medium text-indigo-600 hover:text-indigo-500"
+								>
 									Continue Shopping
 									<span aria-hidden="true"> &rarr;</span>
 								</a>

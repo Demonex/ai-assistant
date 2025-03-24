@@ -180,7 +180,8 @@ export default function Example() {
 			<header className="absolute inset-x-0 top-0 z-50">
 				<nav
 					className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
-					aria-label="Global">
+					aria-label="Global"
+				>
 					<div className="flex lg:flex-1">
 						<a href="#" className="-m-1.5 p-1.5">
 							<span className="sr-only">Your Company</span>
@@ -195,7 +196,8 @@ export default function Example() {
 						<button
 							type="button"
 							className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-							onClick={() => setMobileMenuOpen(true)}>
+							onClick={() => setMobileMenuOpen(true)}
+						>
 							<span className="sr-only">Open main menu</span>
 							<Bars3Icon className="h-6 w-6" aria-hidden="true" />
 						</button>
@@ -205,7 +207,8 @@ export default function Example() {
 							<a
 								key={item.name}
 								href={item.href}
-								className="text-sm font-semibold leading-6 text-gray-900">
+								className="text-sm font-semibold leading-6 text-gray-900"
+							>
 								{item.name}
 							</a>
 						))}
@@ -213,7 +216,8 @@ export default function Example() {
 					<div className="hidden lg:flex lg:flex-1 lg:justify-end">
 						<a
 							href="#"
-							className="text-sm font-semibold leading-6 text-gray-900">
+							className="text-sm font-semibold leading-6 text-gray-900"
+						>
 							Log in <span aria-hidden="true">&rarr;</span>
 						</a>
 					</div>
@@ -222,7 +226,8 @@ export default function Example() {
 					as="div"
 					className="lg:hidden"
 					open={mobileMenuOpen}
-					onClose={setMobileMenuOpen}>
+					onClose={setMobileMenuOpen}
+				>
 					<div className="fixed inset-0 z-50" />
 					<Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
 						<div className="flex items-center justify-between">
@@ -237,7 +242,8 @@ export default function Example() {
 							<button
 								type="button"
 								className="-m-2.5 rounded-md p-2.5 text-gray-700"
-								onClick={() => setMobileMenuOpen(false)}>
+								onClick={() => setMobileMenuOpen(false)}
+							>
 								<span className="sr-only">Close menu</span>
 								<XMarkIcon className="h-6 w-6" aria-hidden="true" />
 							</button>
@@ -249,7 +255,8 @@ export default function Example() {
 										<a
 											key={item.name}
 											href={item.href}
-											className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+											className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+										>
 											{item.name}
 										</a>
 									))}
@@ -257,7 +264,8 @@ export default function Example() {
 								<div className="py-6">
 									<a
 										href="#"
-										className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+										className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+									>
 										Log in
 									</a>
 								</div>
@@ -305,11 +313,13 @@ export default function Example() {
 							<div key={item.name}>
 								<time
 									dateTime={item.dateTime}
-									className="flex items-center text-sm font-semibold leading-6 text-indigo-600">
+									className="flex items-center text-sm font-semibold leading-6 text-indigo-600"
+								>
 									<svg
 										viewBox="0 0 4 4"
 										className="mr-4 h-1 w-1 flex-none"
-										aria-hidden="true">
+										aria-hidden="true"
+									>
 										<circle cx={2} cy={2} r={2} fill="currentColor" />
 									</svg>
 									{item.date}
@@ -379,7 +389,8 @@ export default function Example() {
 						</div>
 						<div
 							className="absolute -top-24 right-0 -z-10 transform-gpu blur-3xl"
-							aria-hidden="true">
+							aria-hidden="true"
+						>
 							<div
 								className="aspect-[1404/767] w-[87.75rem] bg-gradient-to-r from-[#80caff] to-[#4f46e5] opacity-25"
 								style={{
@@ -552,7 +563,8 @@ export default function Example() {
 												<svg
 													viewBox="0 0 2 2"
 													className="h-0.5 w-0.5 flex-none fill-gray-300"
-													aria-hidden="true">
+													aria-hidden="true"
+												>
 													<circle cx={1} cy={1} r={1} />
 												</svg>
 												{opening.location}
@@ -564,7 +576,8 @@ export default function Example() {
 							<div className="mt-8 flex border-t border-gray-100 pt-8">
 								<a
 									href="#"
-									className="text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+									className="text-sm font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+								>
 									View all openings <span aria-hidden="true">&rarr;</span>
 								</a>
 							</div>
@@ -591,7 +604,8 @@ export default function Example() {
 											<li key={item.name}>
 												<a
 													href={item.href}
-													className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+													className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -607,7 +621,8 @@ export default function Example() {
 											<li key={item.name}>
 												<a
 													href={item.href}
-													className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+													className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -625,7 +640,8 @@ export default function Example() {
 											<li key={item.name}>
 												<a
 													href={item.href}
-													className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+													className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -641,7 +657,8 @@ export default function Example() {
 											<li key={item.name}>
 												<a
 													href={item.href}
-													className="text-sm leading-6 text-gray-600 hover:text-gray-900">
+													className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -674,7 +691,8 @@ export default function Example() {
 								<div className="mt-4 sm:ml-4 sm:mt-0 sm:flex-shrink-0">
 									<button
 										type="submit"
-										className="flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+										className="flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+									>
 										Subscribe
 									</button>
 								</div>
@@ -687,7 +705,8 @@ export default function Example() {
 								<a
 									key={item.name}
 									href={item.href}
-									className="text-gray-400 hover:text-gray-500">
+									className="text-gray-400 hover:text-gray-500"
+								>
 									<span className="sr-only">{item.name}</span>
 									<item.icon className="h-6 w-6" aria-hidden="true" />
 								</a>

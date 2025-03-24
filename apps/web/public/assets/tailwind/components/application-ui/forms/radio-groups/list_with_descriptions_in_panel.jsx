@@ -56,7 +56,8 @@ export default function Example() {
 									: "border-gray-200",
 								"relative flex cursor-pointer border p-4 focus:outline-none",
 							)
-						}>
+						}
+					>
 						{({ active, checked }) => (
 							<>
 								<span
@@ -67,7 +68,8 @@ export default function Example() {
 										active ? "ring-2 ring-offset-2 ring-indigo-600" : "",
 										"mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded-full border flex items-center justify-center",
 									)}
-									aria-hidden="true">
+									aria-hidden="true"
+								>
 									<span className="rounded-full bg-white w-1.5 h-1.5" />
 								</span>
 								<span className="ml-3 flex flex-col">
@@ -76,7 +78,8 @@ export default function Example() {
 										className={classNames(
 											checked ? "text-indigo-900" : "text-gray-900",
 											"block text-sm font-medium",
-										)}>
+										)}
+									>
 										{setting.name}
 									</RadioGroup.Label>
 									<RadioGroup.Description
@@ -84,7 +87,8 @@ export default function Example() {
 										className={classNames(
 											checked ? "text-indigo-700" : "text-gray-500",
 											"block text-sm",
-										)}>
+										)}
+									>
 										{setting.description}
 									</RadioGroup.Description>
 								</span>

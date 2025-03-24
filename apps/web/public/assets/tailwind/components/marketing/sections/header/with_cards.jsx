@@ -66,7 +66,8 @@ export default function Example() {
 					{cards.map((card) => (
 						<div
 							key={card.name}
-							className="flex gap-x-4 rounded-xl bg-white/5 p-6 ring-1 ring-inset ring-white/10">
+							className="flex gap-x-4 rounded-xl bg-white/5 p-6 ring-1 ring-inset ring-white/10"
+						>
 							<card.icon
 								className="h-7 w-5 flex-none text-indigo-400"
 								aria-hidden="true"

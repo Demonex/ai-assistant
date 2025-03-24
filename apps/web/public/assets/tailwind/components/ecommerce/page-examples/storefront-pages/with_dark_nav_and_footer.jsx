@@ -213,7 +213,8 @@ export default function Example() {
 				<Dialog
 					as="div"
 					className="relative z-40 lg:hidden"
-					onClose={setMobileMenuOpen}>
+					onClose={setMobileMenuOpen}
+				>
 					<Transition.Child
 						as={Fragment}
 						enter="transition-opacity ease-linear duration-300"
@@ -221,7 +222,8 @@ export default function Example() {
 						enterTo="opacity-100"
 						leave="transition-opacity ease-linear duration-300"
 						leaveFrom="opacity-100"
-						leaveTo="opacity-0">
+						leaveTo="opacity-0"
+					>
 						<div className="fixed inset-0 bg-black bg-opacity-25" />
 					</Transition.Child>
 
@@ -233,13 +235,15 @@ export default function Example() {
 							enterTo="translate-x-0"
 							leave="transition ease-in-out duration-300 transform"
 							leaveFrom="translate-x-0"
-							leaveTo="-translate-x-full">
+							leaveTo="-translate-x-full"
+						>
 							<Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
 								<div className="flex px-4 pb-2 pt-5">
 									<button
 										type="button"
 										className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
-										onClick={() => setMobileMenuOpen(false)}>
+										onClick={() => setMobileMenuOpen(false)}
+									>
 										<span className="sr-only">Close menu</span>
 										<XMarkIcon className="h-6 w-6" aria-hidden="true" />
 									</button>
@@ -259,7 +263,8 @@ export default function Example() {
 																: "border-transparent text-gray-900",
 															"flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium",
 														)
-													}>
+													}
+												>
 													{category.name}
 												</Tab>
 											))}
@@ -269,7 +274,8 @@ export default function Example() {
 										{navigation.categories.map((category) => (
 											<Tab.Panel
 												key={category.name}
-												className="space-y-12 px-4 py-6">
+												className="space-y-12 px-4 py-6"
+											>
 												<div className="grid grid-cols-2 gap-x-4 gap-y-10">
 													{category.featured.map((item) => (
 														<div key={item.name} className="group relative">
@@ -282,7 +288,8 @@ export default function Example() {
 															</div>
 															<a
 																href={item.href}
-																className="mt-6 block text-sm font-medium text-gray-900">
+																className="mt-6 block text-sm font-medium text-gray-900"
+															>
 																<span
 																	className="absolute inset-0 z-10"
 																	aria-hidden="true"
@@ -291,7 +298,8 @@ export default function Example() {
 															</a>
 															<p
 																aria-hidden="true"
-																className="mt-1 text-sm text-gray-500">
+																className="mt-1 text-sm text-gray-500"
+															>
 																Shop now
 															</p>
 														</div>
@@ -307,7 +315,8 @@ export default function Example() {
 										<div key={page.name} className="flow-root">
 											<a
 												href={page.href}
-												className="-m-2 block p-2 font-medium text-gray-900">
+												className="-m-2 block p-2 font-medium text-gray-900"
+											>
 												{page.name}
 											</a>
 										</div>
@@ -318,14 +327,16 @@ export default function Example() {
 									<div className="flow-root">
 										<a
 											href="#"
-											className="-m-2 block p-2 font-medium text-gray-900">
+											className="-m-2 block p-2 font-medium text-gray-900"
+										>
 											Create an account
 										</a>
 									</div>
 									<div className="flow-root">
 										<a
 											href="#"
-											className="-m-2 block p-2 font-medium text-gray-900">
+											className="-m-2 block p-2 font-medium text-gray-900"
+										>
 											Sign in
 										</a>
 									</div>
@@ -342,7 +353,8 @@ export default function Example() {
 												<select
 													id="mobile-currency"
 													name="currency"
-													className="flex items-center rounded-md border-transparent bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-gray-700 focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-800">
+													className="flex items-center rounded-md border-transparent bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-gray-700 focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-800"
+												>
 													{currencies.map((currency) => (
 														<option key={currency}>{currency}</option>
 													))}
@@ -394,7 +406,8 @@ export default function Example() {
 											<select
 												id="desktop-currency"
 												name="currency"
-												className="flex items-center rounded-md border-transparent bg-gray-900 bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-white focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-100">
+												className="flex items-center rounded-md border-transparent bg-gray-900 bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-white focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-100"
+											>
 												{currencies.map((currency) => (
 													<option key={currency}>{currency}</option>
 												))}
@@ -412,12 +425,14 @@ export default function Example() {
 								<div className="flex items-center space-x-6">
 									<a
 										href="#"
-										className="text-sm font-medium text-white hover:text-gray-100">
+										className="text-sm font-medium text-white hover:text-gray-100"
+									>
 										Sign in
 									</a>
 									<a
 										href="#"
-										className="text-sm font-medium text-white hover:text-gray-100">
+										className="text-sm font-medium text-white hover:text-gray-100"
+									>
 										Create an account
 									</a>
 								</div>
@@ -469,7 +484,8 @@ export default function Example() {
 																		enterTo="opacity-100"
 																		leave="transition ease-in duration-150"
 																		leaveFrom="opacity-100"
-																		leaveTo="opacity-0">
+																		leaveTo="opacity-0"
+																	>
 																		<Popover.Panel className="absolute inset-x-0 top-full text-sm text-gray-500">
 																			{/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
 																			<div
@@ -483,7 +499,8 @@ export default function Example() {
 																						{category.featured.map((item) => (
 																							<div
 																								key={item.name}
-																								className="group relative">
+																								className="group relative"
+																							>
 																								<div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-md bg-gray-100 group-hover:opacity-75">
 																									<img
 																										src={item.imageSrc}
@@ -493,7 +510,8 @@ export default function Example() {
 																								</div>
 																								<a
 																									href={item.href}
-																									className="mt-4 block font-medium text-gray-900">
+																									className="mt-4 block font-medium text-gray-900"
+																								>
 																									<span
 																										className="absolute inset-0 z-10"
 																										aria-hidden="true"
@@ -502,7 +520,8 @@ export default function Example() {
 																								</a>
 																								<p
 																									aria-hidden="true"
-																									className="mt-1">
+																									className="mt-1"
+																								>
 																									Shop now
 																								</p>
 																							</div>
@@ -521,7 +540,8 @@ export default function Example() {
 														<a
 															key={page.name}
 															href={page.href}
-															className="flex items-center text-sm font-medium text-white">
+															className="flex items-center text-sm font-medium text-white"
+														>
 															{page.name}
 														</a>
 													))}
@@ -534,7 +554,8 @@ export default function Example() {
 											<button
 												type="button"
 												className="-ml-2 p-2 text-white"
-												onClick={() => setMobileMenuOpen(true)}>
+												onClick={() => setMobileMenuOpen(true)}
+											>
 												<span className="sr-only">Open menu</span>
 												<Bars3Icon className="h-6 w-6" aria-hidden="true" />
 											</button>
@@ -562,7 +583,8 @@ export default function Example() {
 										<div className="flex flex-1 items-center justify-end">
 											<a
 												href="#"
-												className="hidden text-sm font-medium text-white lg:block">
+												className="hidden text-sm font-medium text-white lg:block"
+											>
 												Search
 											</a>
 
@@ -577,7 +599,8 @@ export default function Example() {
 												</a>
 												<a
 													href="#"
-													className="hidden text-sm font-medium text-white lg:block">
+													className="hidden text-sm font-medium text-white lg:block"
+												>
 													Help
 												</a>
 
@@ -585,7 +608,8 @@ export default function Example() {
 												<div className="ml-4 flow-root lg:ml-8">
 													<a
 														href="#"
-														className="group -m-2 flex items-center p-2">
+														className="group -m-2 flex items-center p-2"
+													>
 														<ShoppingBagIcon
 															className="h-6 w-6 flex-shrink-0 text-white"
 															aria-hidden="true"
@@ -618,7 +642,8 @@ export default function Example() {
 					</p>
 					<a
 						href="#"
-						className="mt-8 inline-block rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-gray-900 hover:bg-gray-100">
+						className="mt-8 inline-block rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-gray-900 hover:bg-gray-100"
+					>
 						Shop New Arrivals
 					</a>
 				</div>
@@ -628,16 +653,19 @@ export default function Example() {
 				{/* Category section */}
 				<section
 					aria-labelledby="category-heading"
-					className="pt-24 sm:pt-32 xl:mx-auto xl:max-w-7xl xl:px-8">
+					className="pt-24 sm:pt-32 xl:mx-auto xl:max-w-7xl xl:px-8"
+				>
 					<div className="px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8 xl:px-0">
 						<h2
 							id="category-heading"
-							className="text-2xl font-bold tracking-tight text-gray-900">
+							className="text-2xl font-bold tracking-tight text-gray-900"
+						>
 							Shop by Category
 						</h2>
 						<a
 							href="#"
-							className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block">
+							className="hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block"
+						>
 							Browse all categories
 							<span aria-hidden="true"> &rarr;</span>
 						</a>
@@ -651,7 +679,8 @@ export default function Example() {
 										<a
 											key={category.name}
 											href={category.href}
-											className="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto">
+											className="relative flex h-80 w-56 flex-col overflow-hidden rounded-lg p-6 hover:opacity-75 xl:w-auto"
+										>
 											<span aria-hidden="true" className="absolute inset-0">
 												<img
 													src={category.imageSrc}
@@ -676,7 +705,8 @@ export default function Example() {
 					<div className="mt-6 px-4 sm:hidden">
 						<a
 							href="#"
-							className="block text-sm font-semibold text-indigo-600 hover:text-indigo-500">
+							className="block text-sm font-semibold text-indigo-600 hover:text-indigo-500"
+						>
 							Browse all categories
 							<span aria-hidden="true"> &rarr;</span>
 						</a>
@@ -686,7 +716,8 @@ export default function Example() {
 				{/* Featured section */}
 				<section
 					aria-labelledby="social-impact-heading"
-					className="mx-auto max-w-7xl px-4 pt-24 sm:px-6 sm:pt-32 lg:px-8">
+					className="mx-auto max-w-7xl px-4 pt-24 sm:px-6 sm:pt-32 lg:px-8"
+				>
 					<div className="relative overflow-hidden rounded-lg">
 						<div className="absolute inset-0">
 							<img
@@ -699,7 +730,8 @@ export default function Example() {
 							<div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
 								<h2
 									id="social-impact-heading"
-									className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+									className="text-3xl font-bold tracking-tight text-white sm:text-4xl"
+								>
 									<span className="block sm:inline">Level up</span>
 									<span className="block sm:inline">your desk</span>
 								</h2>
@@ -711,7 +743,8 @@ export default function Example() {
 								</p>
 								<a
 									href="#"
-									className="mt-8 block w-full rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-gray-900 hover:bg-gray-100 sm:w-auto">
+									className="mt-8 block w-full rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-gray-900 hover:bg-gray-100 sm:w-auto"
+								>
 									Shop Workspace
 								</a>
 							</div>
@@ -722,10 +755,12 @@ export default function Example() {
 				{/* Collection section */}
 				<section
 					aria-labelledby="collection-heading"
-					className="mx-auto max-w-xl px-4 pt-24 sm:px-6 sm:pt-32 lg:max-w-7xl lg:px-8">
+					className="mx-auto max-w-xl px-4 pt-24 sm:px-6 sm:pt-32 lg:max-w-7xl lg:px-8"
+				>
 					<h2
 						id="collection-heading"
-						className="text-2xl font-bold tracking-tight text-gray-900">
+						className="text-2xl font-bold tracking-tight text-gray-900"
+					>
 						Shop by Collection
 					</h2>
 					<p className="mt-4 text-base text-gray-500">
@@ -738,10 +773,12 @@ export default function Example() {
 							<a
 								key={collection.name}
 								href={collection.href}
-								className="group block">
+								className="group block"
+							>
 								<div
 									aria-hidden="true"
-									className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg lg:aspect-h-6 lg:aspect-w-5 group-hover:opacity-75">
+									className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg lg:aspect-h-6 lg:aspect-w-5 group-hover:opacity-75"
+								>
 									<img
 										src={collection.imageSrc}
 										alt={collection.imageAlt}
@@ -762,7 +799,8 @@ export default function Example() {
 				{/* Featured section */}
 				<section
 					aria-labelledby="comfort-heading"
-					className="mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
+					className="mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8"
+				>
 					<div className="relative overflow-hidden rounded-lg">
 						<div className="absolute inset-0">
 							<img
@@ -775,7 +813,8 @@ export default function Example() {
 							<div className="relative mx-auto flex max-w-3xl flex-col items-center text-center">
 								<h2
 									id="comfort-heading"
-									className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+									className="text-3xl font-bold tracking-tight text-white sm:text-4xl"
+								>
 									Simple productivity
 								</h2>
 								<p className="mt-3 text-xl text-white">
@@ -786,7 +825,8 @@ export default function Example() {
 								</p>
 								<a
 									href="#"
-									className="mt-8 block w-full rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-gray-900 hover:bg-gray-100 sm:w-auto">
+									className="mt-8 block w-full rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-gray-900 hover:bg-gray-100 sm:w-auto"
+								>
 									Shop Focus
 								</a>
 							</div>
@@ -810,7 +850,8 @@ export default function Example() {
 											<li key={item.name} className="text-sm">
 												<a
 													href={item.href}
-													className="text-gray-300 hover:text-white">
+													className="text-gray-300 hover:text-white"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -824,7 +865,8 @@ export default function Example() {
 											<li key={item.name} className="text-sm">
 												<a
 													href={item.href}
-													className="text-gray-300 hover:text-white">
+													className="text-gray-300 hover:text-white"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -840,7 +882,8 @@ export default function Example() {
 											<li key={item.name} className="text-sm">
 												<a
 													href={item.href}
-													className="text-gray-300 hover:text-white">
+													className="text-gray-300 hover:text-white"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -854,7 +897,8 @@ export default function Example() {
 											<li key={item.name} className="text-sm">
 												<a
 													href={item.href}
-													className="text-gray-300 hover:text-white">
+													className="text-gray-300 hover:text-white"
+												>
 													{item.name}
 												</a>
 											</li>
@@ -884,7 +928,8 @@ export default function Example() {
 								<div className="ml-4 flex-shrink-0">
 									<button
 										type="submit"
-										className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900">
+										className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+									>
 										Sign up
 									</button>
 								</div>

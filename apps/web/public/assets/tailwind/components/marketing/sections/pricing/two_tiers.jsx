@@ -43,7 +43,8 @@ export default function Example() {
 		<div className="relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
 			<div
 				className="absolute inset-x-0 -top-3 -z-10 transform-gpu overflow-hidden px-36 blur-3xl"
-				aria-hidden="true">
+				aria-hidden="true"
+			>
 				<div
 					className="mx-auto aspect-[1155/678] w-[72.1875rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30"
 					style={{
@@ -78,10 +79,12 @@ export default function Example() {
 									? "rounded-t-3xl sm:rounded-b-none lg:rounded-tr-none lg:rounded-bl-3xl"
 									: "sm:rounded-t-none lg:rounded-tr-3xl lg:rounded-bl-none",
 							"rounded-3xl p-8 ring-1 ring-gray-900/10 sm:p-10",
-						)}>
+						)}
+					>
 						<h3
 							id={tier.id}
-							className="text-base font-semibold leading-7 text-indigo-600">
+							className="text-base font-semibold leading-7 text-indigo-600"
+						>
 							{tier.name}
 						</h3>
 						<p className="mt-4 flex items-baseline gap-x-2">
@@ -95,7 +98,8 @@ export default function Example() {
 						</p>
 						<ul
 							role="list"
-							className="mt-8 space-y-3 text-sm leading-6 text-gray-600 sm:mt-10">
+							className="mt-8 space-y-3 text-sm leading-6 text-gray-600 sm:mt-10"
+						>
 							{tier.features.map((feature) => (
 								<li key={feature} className="flex gap-x-3">
 									<CheckIcon
@@ -114,7 +118,8 @@ export default function Example() {
 									? "bg-indigo-600 text-white shadow hover:bg-indigo-500"
 									: "text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300",
 								"mt-8 block rounded-md py-2.5 px-3.5 text-center text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:mt-10",
-							)}>
+							)}
+						>
 							Get started today
 						</a>
 					</div>

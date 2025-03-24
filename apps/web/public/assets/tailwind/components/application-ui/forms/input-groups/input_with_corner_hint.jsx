@@ -18,7 +18,8 @@ export default function Example() {
 			<div className="flex justify-between">
 				<label
 					htmlFor="email"
-					className="block text-sm font-medium leading-6 text-gray-900">
+					className="block text-sm font-medium leading-6 text-gray-900"
+				>
 					Email
 				</label>
 				<span className="text-sm leading-6 text-gray-500" id="email-optional">

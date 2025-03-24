@@ -8,7 +8,8 @@ export default function Example() {
 							<div>
 								<h2
 									id="sale-heading"
-									className="text-4xl font-bold tracking-tight text-white md:text-5xl">
+									className="text-4xl font-bold tracking-tight text-white md:text-5xl"
+								>
 									Final Stock.
 									<br />
 									Up to 50% off.

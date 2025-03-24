@@ -21,7 +21,8 @@ export default function Example() {
 					<div className="flex flex-col items-center text-center">
 						<h2
 							id="details-heading"
-							className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+							className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+						>
 							The Fine Details
 						</h2>
 						<p className="mt-3 max-w-3xl text-lg text-gray-600">
