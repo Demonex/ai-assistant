@@ -1,34 +1,30 @@
 {
-  "$schema": "https://turbo.build/schema.json",
-  "cacheDir": ".turbo/cache",
-  "ui": "stream",
-  "globalDependencies": [".env", "**/.env.*local"],
-  "globalEnv": [
-    "PORT",
-    "NODE_ENV",
-    "LOGGER_LEVEL"
-  ],
-  "tasks": {
-    "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
-    },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
-    "test": {
-      "dependsOn": ["^build"],
-      "outputs": ["coverage/**"],
-      "inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
-    },
-    "compile": {
-      "dependsOn": ["^compile"]
-    },
-    "clean": {
-      "dependsOn": ["^clean"]
-    },
-    "watch": {
-      "cache": false
-    }
-  }
+	"$schema": "https://turbo.build/schema.json",
+	"cacheDir": ".turbo/cache",
+	"ui": "stream",
+	"globalDependencies": [".env", "**/.env.*local"],
+	"globalEnv": ["PORT", "NODE_ENV", "LOGGER_LEVEL"],
+	"tasks": {
+		"build": {
+			"dependsOn": ["^build"],
+			"outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+		},
+		"lint": {
+			"dependsOn": ["^lint"]
+		},
+		"test": {
+			"dependsOn": ["^build"],
+			"outputs": ["coverage/**"],
+			"inputs": ["src/**/*.tsx", "src/**/*.ts", "test/**/*.ts", "test/**/*.tsx"]
+		},
+		"compile": {
+			"dependsOn": ["^compile"]
+		},
+		"clean": {
+			"dependsOn": ["^clean"]
+		},
+		"watch": {
+			"cache": false
+		}
+	}
 }

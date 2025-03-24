@@ -13,10 +13,10 @@ const server = express();
 server.use(cookieParser());
 
 server.all("*", (req, res) => {
-  return handle(req, res);
+	return handle(req, res);
 });
 
 server.listen(port, (err) => {
-  if (err) throw err;
-  console.log(`Payload: ready on http://localhost:${port}`);
+	if (err) throw err;
+	console.log(`Payload: ready on http://localhost:${port}`);
 });

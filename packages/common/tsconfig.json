@@ -9,11 +9,9 @@
     "noEmit": false,
     "strict": false,
     "moduleResolution": "bundler",
-    "lib": [
-      "esnext",
-    ],
+    "lib": ["esnext"],
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
+    "allowSyntheticDefaultImports": true
   }
 }

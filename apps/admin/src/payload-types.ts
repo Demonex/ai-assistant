@@ -7,587 +7,594 @@
  */
 
 export interface Config {
-  auth: {
-    user: UserAuthOperations;
-  };
-  collections: {
-    tenant: Tenant;
-    'tenant-media': TenantMedia;
-    user: User;
-    'user-media-avatar': UserMediaAvatar;
-    model: Model;
-    neuro: Neuro;
-    collection: Collection;
-    provider: Provider;
-    doc: Doc;
-    group: Group;
-    chatMessage: ChatMessage;
-    'payload-locked-documents': PayloadLockedDocument;
-    'payload-preferences': PayloadPreference;
-    'payload-migrations': PayloadMigration;
-  };
-  collectionsJoins: {};
-  collectionsSelect: {
-    tenant: TenantSelect<false> | TenantSelect<true>;
-    'tenant-media': TenantMediaSelect<false> | TenantMediaSelect<true>;
-    user: UserSelect<false> | UserSelect<true>;
-    'user-media-avatar': UserMediaAvatarSelect<false> | UserMediaAvatarSelect<true>;
-    model: ModelSelect<false> | ModelSelect<true>;
-    neuro: NeuroSelect<false> | NeuroSelect<true>;
-    collection: CollectionSelect<false> | CollectionSelect<true>;
-    provider: ProviderSelect<false> | ProviderSelect<true>;
-    doc: DocSelect<false> | DocSelect<true>;
-    group: GroupSelect<false> | GroupSelect<true>;
-    chatMessage: ChatMessageSelect<false> | ChatMessageSelect<true>;
-    'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
-    'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
-    'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
-  };
-  db: {
-    defaultIDType: number;
-  };
-  globals: {};
-  globalsSelect: {};
-  locale: null;
-  user: User & {
-    collection: 'user';
-  };
-  jobs: {
-    tasks: unknown;
-    workflows: unknown;
-  };
+	auth: {
+		user: UserAuthOperations;
+	};
+	collections: {
+		tenant: Tenant;
+		"tenant-media": TenantMedia;
+		user: User;
+		"user-media-avatar": UserMediaAvatar;
+		model: Model;
+		neuro: Neuro;
+		collection: Collection;
+		provider: Provider;
+		doc: Doc;
+		group: Group;
+		chatMessage: ChatMessage;
+		"payload-locked-documents": PayloadLockedDocument;
+		"payload-preferences": PayloadPreference;
+		"payload-migrations": PayloadMigration;
+	};
+	collectionsJoins: {};
+	collectionsSelect: {
+		tenant: TenantSelect<false> | TenantSelect<true>;
+		"tenant-media": TenantMediaSelect<false> | TenantMediaSelect<true>;
+		user: UserSelect<false> | UserSelect<true>;
+		"user-media-avatar":
+			| UserMediaAvatarSelect<false>
+			| UserMediaAvatarSelect<true>;
+		model: ModelSelect<false> | ModelSelect<true>;
+		neuro: NeuroSelect<false> | NeuroSelect<true>;
+		collection: CollectionSelect<false> | CollectionSelect<true>;
+		provider: ProviderSelect<false> | ProviderSelect<true>;
+		doc: DocSelect<false> | DocSelect<true>;
+		group: GroupSelect<false> | GroupSelect<true>;
+		chatMessage: ChatMessageSelect<false> | ChatMessageSelect<true>;
+		"payload-locked-documents":
+			| PayloadLockedDocumentsSelect<false>
+			| PayloadLockedDocumentsSelect<true>;
+		"payload-preferences":
+			| PayloadPreferencesSelect<false>
+			| PayloadPreferencesSelect<true>;
+		"payload-migrations":
+			| PayloadMigrationsSelect<false>
+			| PayloadMigrationsSelect<true>;
+	};
+	db: {
+		defaultIDType: number;
+	};
+	globals: {};
+	globalsSelect: {};
+	locale: null;
+	user: User & {
+		collection: "user";
+	};
+	jobs: {
+		tasks: unknown;
+		workflows: unknown;
+	};
 }
 export interface UserAuthOperations {
-  forgotPassword: {
-    email: string;
-    password: string;
-  };
-  login: {
-    email: string;
-    password: string;
-  };
-  registerFirstUser: {
-    email: string;
-    password: string;
-  };
-  unlock: {
-    email: string;
-    password: string;
-  };
+	forgotPassword: {
+		email: string;
+		password: string;
+	};
+	login: {
+		email: string;
+		password: string;
+	};
+	registerFirstUser: {
+		email: string;
+		password: string;
+	};
+	unlock: {
+		email: string;
+		password: string;
+	};
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tenant".
  */
 export interface Tenant {
-  id: number;
-  title: string;
-  description?: string | null;
-  preview?: (number | null) | TenantMedia;
-  updatedAt: string;
-  createdAt: string;
+	id: number;
+	title: string;
+	description?: string | null;
+	preview?: (number | null) | TenantMedia;
+	updatedAt: string;
+	createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tenant-media".
  */
 export interface TenantMedia {
-  id: number;
-  alt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
+	id: number;
+	alt?: string | null;
+	updatedAt: string;
+	createdAt: string;
+	url?: string | null;
+	thumbnailURL?: string | null;
+	filename?: string | null;
+	mimeType?: string | null;
+	filesize?: number | null;
+	width?: number | null;
+	height?: number | null;
+	focalX?: number | null;
+	focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "user".
  */
 export interface User {
-  id: number;
-  name?: string | null;
-  username?: string | null;
-  email?: string | null;
-  superadmin?: boolean | null;
-  password?: string | null;
-  avatar?: (number | null) | UserMediaAvatar;
-  updatedAt: string;
-  createdAt: string;
+	id: number;
+	name?: string | null;
+	username?: string | null;
+	email?: string | null;
+	superadmin?: boolean | null;
+	password?: string | null;
+	avatar?: (number | null) | UserMediaAvatar;
+	updatedAt: string;
+	createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "user-media-avatar".
  */
 export interface UserMediaAvatar {
-  id: number;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
+	id: number;
+	updatedAt: string;
+	createdAt: string;
+	url?: string | null;
+	thumbnailURL?: string | null;
+	filename?: string | null;
+	mimeType?: string | null;
+	filesize?: number | null;
+	width?: number | null;
+	height?: number | null;
+	focalX?: number | null;
+	focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "model".
  */
 export interface Model {
-  id: number;
-  tenant: number | Tenant;
-  title: string;
-  type: 'llm' | 'embedding' | 'reranker';
-  updatedAt: string;
-  createdAt: string;
+	id: number;
+	tenant: number | Tenant;
+	title: string;
+	type: "llm" | "embedding" | "reranker";
+	updatedAt: string;
+	createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "neuro".
  */
 export interface Neuro {
-  id: number;
-  title: string;
-  model?: (number | null) | Model;
-  modelSettings?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+	id: number;
+	title: string;
+	model?: (number | null) | Model;
+	modelSettings?:
+		| {
+				[k: string]: unknown;
+		  }
+		| unknown[]
+		| string
+		| number
+		| boolean
+		| null;
+	updatedAt: string;
+	createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collection".
  */
 export interface Collection {
-  id: number;
-  tenant: number | Tenant;
-  title: string;
-  description: string;
-  embedding: number | Neuro;
-  llm: number | Neuro;
-  reranker: number | Neuro;
-  providers?:
-    | {
-        provider: number | Provider;
-        enabled?: boolean | null;
-        settings?:
-          | {
-              [k: string]: unknown;
-            }
-          | unknown[]
-          | string
-          | number
-          | boolean
-          | null;
-        docs?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
+	id: number;
+	tenant: number | Tenant;
+	title: string;
+	description: string;
+	embedding: number | Neuro;
+	llm: number | Neuro;
+	reranker: number | Neuro;
+	providers?:
+		| {
+				provider: number | Provider;
+				enabled?: boolean | null;
+				settings?:
+					| {
+							[k: string]: unknown;
+					  }
+					| unknown[]
+					| string
+					| number
+					| boolean
+					| null;
+				docs?: string | null;
+				id?: string | null;
+		  }[]
+		| null;
+	updatedAt: string;
+	createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "provider".
  */
 export interface Provider {
-  id: number;
-  tenant: number | Tenant;
-  title: string;
-  description?: string | null;
-  type: 'minio' | 'confluence';
-  settings?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+	id: number;
+	tenant: number | Tenant;
+	title: string;
+	description?: string | null;
+	type: "minio" | "confluence";
+	settings?:
+		| {
+				[k: string]: unknown;
+		  }
+		| unknown[]
+		| string
+		| number
+		| boolean
+		| null;
+	updatedAt: string;
+	createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "doc".
  */
 export interface Doc {
-  id: number;
-  filename: string;
-  filesize: number;
-  mimeType: string;
-  vectorFilePath: string;
-  collection: number | Collection;
-  provider: number | Provider;
-  updatedAt: string;
-  createdAt: string;
+	id: number;
+	filename: string;
+	filesize: number;
+	mimeType: string;
+	vectorFilePath: string;
+	collection: number | Collection;
+	provider: number | Provider;
+	updatedAt: string;
+	createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "group".
  */
 export interface Group {
-  id: number;
-  tenant: number | Tenant;
-  title: string;
-  admins?: (number | User)[] | null;
-  users?: (number | User)[] | null;
-  groupPermissions: ('admin' | 'collection' | 'model' | 'group')[];
-  collectionPermissions?:
-    | {
-        collection: number | Collection;
-        permissions: 'r' | 'rw' | 'rwd';
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
+	id: number;
+	tenant: number | Tenant;
+	title: string;
+	admins?: (number | User)[] | null;
+	users?: (number | User)[] | null;
+	groupPermissions: ("admin" | "collection" | "model" | "group")[];
+	collectionPermissions?:
+		| {
+				collection: number | Collection;
+				permissions: "r" | "rw" | "rwd";
+				id?: string | null;
+		  }[]
+		| null;
+	updatedAt: string;
+	createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "chatMessage".
  */
 export interface ChatMessage {
-  id: number;
-  user: number | User;
-  collection: number | Collection;
-  request:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  response?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+	id: number;
+	user: number | User;
+	collection: number | Collection;
+	request:
+		| {
+				[k: string]: unknown;
+		  }
+		| unknown[]
+		| string
+		| number
+		| boolean
+		| null;
+	response?:
+		| {
+				[k: string]: unknown;
+		  }
+		| unknown[]
+		| string
+		| number
+		| boolean
+		| null;
+	updatedAt: string;
+	createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: number;
-  document?:
-    | ({
-        relationTo: 'tenant';
-        value: number | Tenant;
-      } | null)
-    | ({
-        relationTo: 'tenant-media';
-        value: number | TenantMedia;
-      } | null)
-    | ({
-        relationTo: 'user';
-        value: number | User;
-      } | null)
-    | ({
-        relationTo: 'user-media-avatar';
-        value: number | UserMediaAvatar;
-      } | null)
-    | ({
-        relationTo: 'model';
-        value: number | Model;
-      } | null)
-    | ({
-        relationTo: 'neuro';
-        value: number | Neuro;
-      } | null)
-    | ({
-        relationTo: 'collection';
-        value: number | Collection;
-      } | null)
-    | ({
-        relationTo: 'provider';
-        value: number | Provider;
-      } | null)
-    | ({
-        relationTo: 'doc';
-        value: number | Doc;
-      } | null)
-    | ({
-        relationTo: 'group';
-        value: number | Group;
-      } | null)
-    | ({
-        relationTo: 'chatMessage';
-        value: number | ChatMessage;
-      } | null);
-  globalSlug?: string | null;
-  user: {
-    relationTo: 'user';
-    value: number | User;
-  };
-  updatedAt: string;
-  createdAt: string;
+	id: number;
+	document?:
+		| ({
+				relationTo: "tenant";
+				value: number | Tenant;
+		  } | null)
+		| ({
+				relationTo: "tenant-media";
+				value: number | TenantMedia;
+		  } | null)
+		| ({
+				relationTo: "user";
+				value: number | User;
+		  } | null)
+		| ({
+				relationTo: "user-media-avatar";
+				value: number | UserMediaAvatar;
+		  } | null)
+		| ({
+				relationTo: "model";
+				value: number | Model;
+		  } | null)
+		| ({
+				relationTo: "neuro";
+				value: number | Neuro;
+		  } | null)
+		| ({
+				relationTo: "collection";
+				value: number | Collection;
+		  } | null)
+		| ({
+				relationTo: "provider";
+				value: number | Provider;
+		  } | null)
+		| ({
+				relationTo: "doc";
+				value: number | Doc;
+		  } | null)
+		| ({
+				relationTo: "group";
+				value: number | Group;
+		  } | null)
+		| ({
+				relationTo: "chatMessage";
+				value: number | ChatMessage;
+		  } | null);
+	globalSlug?: string | null;
+	user: {
+		relationTo: "user";
+		value: number | User;
+	};
+	updatedAt: string;
+	createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number;
-  user: {
-    relationTo: 'user';
-    value: number | User;
-  };
-  key?: string | null;
-  value?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
+	id: number;
+	user: {
+		relationTo: "user";
+		value: number | User;
+	};
+	key?: string | null;
+	value?:
+		| {
+				[k: string]: unknown;
+		  }
+		| unknown[]
+		| string
+		| number
+		| boolean
+		| null;
+	updatedAt: string;
+	createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number;
-  name?: string | null;
-  batch?: number | null;
-  updatedAt: string;
-  createdAt: string;
+	id: number;
+	name?: string | null;
+	batch?: number | null;
+	updatedAt: string;
+	createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tenant_select".
  */
 export interface TenantSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  preview?: T;
-  updatedAt?: T;
-  createdAt?: T;
+	title?: T;
+	description?: T;
+	preview?: T;
+	updatedAt?: T;
+	createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "tenant-media_select".
  */
 export interface TenantMediaSelect<T extends boolean = true> {
-  alt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
+	alt?: T;
+	updatedAt?: T;
+	createdAt?: T;
+	url?: T;
+	thumbnailURL?: T;
+	filename?: T;
+	mimeType?: T;
+	filesize?: T;
+	width?: T;
+	height?: T;
+	focalX?: T;
+	focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "user_select".
  */
 export interface UserSelect<T extends boolean = true> {
-  name?: T;
-  username?: T;
-  email?: T;
-  superadmin?: T;
-  password?: T;
-  avatar?: T;
-  updatedAt?: T;
-  createdAt?: T;
+	name?: T;
+	username?: T;
+	email?: T;
+	superadmin?: T;
+	password?: T;
+	avatar?: T;
+	updatedAt?: T;
+	createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "user-media-avatar_select".
  */
 export interface UserMediaAvatarSelect<T extends boolean = true> {
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
+	updatedAt?: T;
+	createdAt?: T;
+	url?: T;
+	thumbnailURL?: T;
+	filename?: T;
+	mimeType?: T;
+	filesize?: T;
+	width?: T;
+	height?: T;
+	focalX?: T;
+	focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "model_select".
  */
 export interface ModelSelect<T extends boolean = true> {
-  tenant?: T;
-  title?: T;
-  type?: T;
-  updatedAt?: T;
-  createdAt?: T;
+	tenant?: T;
+	title?: T;
+	type?: T;
+	updatedAt?: T;
+	createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "neuro_select".
  */
 export interface NeuroSelect<T extends boolean = true> {
-  title?: T;
-  model?: T;
-  modelSettings?: T;
-  updatedAt?: T;
-  createdAt?: T;
+	title?: T;
+	model?: T;
+	modelSettings?: T;
+	updatedAt?: T;
+	createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "collection_select".
  */
 export interface CollectionSelect<T extends boolean = true> {
-  tenant?: T;
-  title?: T;
-  description?: T;
-  embedding?: T;
-  llm?: T;
-  reranker?: T;
-  providers?:
-    | T
-    | {
-        provider?: T;
-        enabled?: T;
-        settings?: T;
-        docs?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
+	tenant?: T;
+	title?: T;
+	description?: T;
+	embedding?: T;
+	llm?: T;
+	reranker?: T;
+	providers?:
+		| T
+		| {
+				provider?: T;
+				enabled?: T;
+				settings?: T;
+				docs?: T;
+				id?: T;
+		  };
+	updatedAt?: T;
+	createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "provider_select".
  */
 export interface ProviderSelect<T extends boolean = true> {
-  tenant?: T;
-  title?: T;
-  description?: T;
-  type?: T;
-  settings?: T;
-  updatedAt?: T;
-  createdAt?: T;
+	tenant?: T;
+	title?: T;
+	description?: T;
+	type?: T;
+	settings?: T;
+	updatedAt?: T;
+	createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "doc_select".
  */
 export interface DocSelect<T extends boolean = true> {
-  filename?: T;
-  filesize?: T;
-  mimeType?: T;
-  vectorFilePath?: T;
-  collection?: T;
-  provider?: T;
-  updatedAt?: T;
-  createdAt?: T;
+	filename?: T;
+	filesize?: T;
+	mimeType?: T;
+	vectorFilePath?: T;
+	collection?: T;
+	provider?: T;
+	updatedAt?: T;
+	createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "group_select".
  */
 export interface GroupSelect<T extends boolean = true> {
-  tenant?: T;
-  title?: T;
-  admins?: T;
-  users?: T;
-  groupPermissions?: T;
-  collectionPermissions?:
-    | T
-    | {
-        collection?: T;
-        permissions?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
+	tenant?: T;
+	title?: T;
+	admins?: T;
+	users?: T;
+	groupPermissions?: T;
+	collectionPermissions?:
+		| T
+		| {
+				collection?: T;
+				permissions?: T;
+				id?: T;
+		  };
+	updatedAt?: T;
+	createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "chatMessage_select".
  */
 export interface ChatMessageSelect<T extends boolean = true> {
-  user?: T;
-  collection?: T;
-  request?: T;
-  response?: T;
-  updatedAt?: T;
-  createdAt?: T;
+	user?: T;
+	collection?: T;
+	request?: T;
+	response?: T;
+	updatedAt?: T;
+	createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
-  document?: T;
-  globalSlug?: T;
-  user?: T;
-  updatedAt?: T;
-  createdAt?: T;
+	document?: T;
+	globalSlug?: T;
+	user?: T;
+	updatedAt?: T;
+	createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-preferences_select".
  */
 export interface PayloadPreferencesSelect<T extends boolean = true> {
-  user?: T;
-  key?: T;
-  value?: T;
-  updatedAt?: T;
-  createdAt?: T;
+	user?: T;
+	key?: T;
+	value?: T;
+	updatedAt?: T;
+	createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-migrations_select".
  */
 export interface PayloadMigrationsSelect<T extends boolean = true> {
-  name?: T;
-  batch?: T;
-  updatedAt?: T;
-  createdAt?: T;
+	name?: T;
+	batch?: T;
+	updatedAt?: T;
+	createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "auth".
  */
 export interface Auth {
-  [k: string]: unknown;
+	[k: string]: unknown;
 }
 
-
-declare module 'payload' {
-  export interface GeneratedTypes extends Config {}
+declare module "payload" {
+	export interface GeneratedTypes extends Config {}
 }

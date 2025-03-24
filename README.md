@@ -99,7 +99,7 @@ are picked up.
 
 ### Services
 
-- [api](./services/api) 
+- [api](./services/api)
 
 ## The "built packages" strategy
 
@@ -217,7 +217,6 @@ want to use the
 
 ### Deploying
 
-
 ### Running Emulators
 
 I have stored these in `.env` files in the respective service packages. Normally
@@ -226,6 +225,7 @@ you would want to store them in a file that is not part of the repository like
 for setting them up just for running the demo.
 
 #### Secrets
-I have placed it in `.env` which is part of the repo, so you don't have to
-set anything up, but .env.local is the proper location probably because that
-file is not checked into git.
+
+I have placed it in `.env` which is part of the repo, so you don't have to set
+anything up, but .env.local is the proper location probably because that file is
+not checked into git.

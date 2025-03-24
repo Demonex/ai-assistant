@@ -20,12 +20,11 @@ config.
 - TSUP will not understand the tsconfig if you ask it to generate type
   definitions. I use tsc to generate the types, as demonstrated in monorepo.
 
-
 ## Usage
 
 ```json
 {
-  "extends": "@repo/typescript-config/single-react-library.json"
+	"extends": "@repo/typescript-config/single-react-library.json"
 }
 ```
 

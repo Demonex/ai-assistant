@@ -2,33 +2,35 @@
 import { defineConfig } from "tsup";
 import { writeFileSync } from "fs";
 var tsup_config_default = defineConfig({
-  entry: ["src"],
-  format: ["esm"],
-  target: "node23",
-  splitting: false,
-  clean: false,
-  sourcemap: true,
-  silent: true,
-  /**
-   * The common package is using the internal packages approach, so it needs to
-   * be transpiled / bundled together with the deployed code.
-   */
-  noExternal: ["@repo/common", "@repo/auth"],
-  /**
-   * Do not use tsup for generating d.ts files because it can not generate type
-   * the definition maps required for go-to-definition to work in our IDE. We
-   * use tsc for that.
-   */
-  esbuildOptions(options) {
-    options.platform = "node";
-    options.logLevel = "error";
-  },
-  onSuccess: async () => {
-    writeFileSync(`${import.meta.dirname}/dist/build.info`, (/* @__PURE__ */ new Date()).toISOString(), "utf-8");
-    console.info("build success");
-  }
+	entry: ["src"],
+	format: ["esm"],
+	target: "node23",
+	splitting: false,
+	clean: false,
+	sourcemap: true,
+	silent: true,
+	/**
+	 * The common package is using the internal packages approach, so it needs to
+	 * be transpiled / bundled together with the deployed code.
+	 */
+	noExternal: ["@repo/common", "@repo/auth"],
+	/**
+	 * Do not use tsup for generating d.ts files because it can not generate type
+	 * the definition maps required for go-to-definition to work in our IDE. We
+	 * use tsc for that.
+	 */
+	esbuildOptions(options) {
+		options.platform = "node";
+		options.logLevel = "error";
+	},
+	onSuccess: async () => {
+		writeFileSync(
+			`${import.meta.dirname}/dist/build.info`,
+			/* @__PURE__ */ new Date().toISOString(),
+			"utf-8",
+		);
+		console.info("build success");
+	},
 });
-export {
-  tsup_config_default as default
-};
+export { tsup_config_default as default };
 //# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsidHN1cC5jb25maWcudHMiXSwKICAic291cmNlc0NvbnRlbnQiOiBbImNvbnN0IF9faW5qZWN0ZWRfZmlsZW5hbWVfXyA9IFwiL2hvbWUvZGVtb25leC9zaWdtYS1jaGF0L3BhY2thZ2VzL2JhY2tlbmQvdHN1cC5jb25maWcudHNcIjtjb25zdCBfX2luamVjdGVkX2Rpcm5hbWVfXyA9IFwiL2hvbWUvZGVtb25leC9zaWdtYS1jaGF0L3BhY2thZ2VzL2JhY2tlbmRcIjtjb25zdCBfX2luamVjdGVkX2ltcG9ydF9tZXRhX3VybF9fID0gXCJmaWxlOi8vL2hvbWUvZGVtb25leC9zaWdtYS1jaGF0L3BhY2thZ2VzL2JhY2tlbmQvdHN1cC5jb25maWcudHNcIjtpbXBvcnQgeyBkZWZpbmVDb25maWcgfSBmcm9tIFwidHN1cFwiO1xuaW1wb3J0IHsgd3JpdGVGaWxlU3luYyB9IGZyb20gXCJmc1wiO1xuXG5leHBvcnQgZGVmYXVsdCBkZWZpbmVDb25maWcoe1xuICBlbnRyeTogW1wic3JjXCJdLFxuICBmb3JtYXQ6IFtcImVzbVwiXSxcbiAgdGFyZ2V0OiBcIm5vZGUyM1wiLFxuICBzcGxpdHRpbmc6IGZhbHNlLFxuICBjbGVhbjogZmFsc2UsXG4gIHNvdXJjZW1hcDogdHJ1ZSxcbiAgc2lsZW50OiB0cnVlLFxuICAvKipcbiAgICogVGhlIGNvbW1vbiBwYWNrYWdlIGlzIHVzaW5nIHRoZSBpbnRlcm5hbCBwYWNrYWdlcyBhcHByb2FjaCwgc28gaXQgbmVlZHMgdG9cbiAgICogYmUgdHJhbnNwaWxlZCAvIGJ1bmRsZWQgdG9nZXRoZXIgd2l0aCB0aGUgZGVwbG95ZWQgY29kZS5cbiAgICovXG4gIG5vRXh0ZXJuYWw6IFtcIkByZXBvL2NvbW1vblwiLCBcIkByZXBvL2F1dGhcIixdLFxuICAvKipcbiAgICogRG8gbm90IHVzZSB0c3VwIGZvciBnZW5lcmF0aW5nIGQudHMgZmlsZXMgYmVjYXVzZSBpdCBjYW4gbm90IGdlbmVyYXRlIHR5cGVcbiAgICogdGhlIGRlZmluaXRpb24gbWFwcyByZXF1aXJlZCBmb3IgZ28tdG8tZGVmaW5pdGlvbiB0byB3b3JrIGluIG91ciBJREUuIFdlXG4gICAqIHVzZSB0c2MgZm9yIHRoYXQuXG4gICAqL1xuICBlc2J1aWxkT3B0aW9ucyhvcHRpb25zKSB7XG4gICAgb3B0aW9ucy5wbGF0Zm9ybSA9IFwibm9kZVwiO1xuICAgIG9wdGlvbnMubG9nTGV2ZWwgPSBcImVycm9yXCI7XG4gIH0sXG4gIG9uU3VjY2VzczogYXN5bmMgKCkgPT4ge1xuICAgIHdyaXRlRmlsZVN5bmMoYCR7aW1wb3J0Lm1ldGEuZGlybmFtZX0vZGlzdC9idWlsZC5pbmZvYCwgbmV3IERhdGUoKS50b0lTT1N0cmluZygpLCBcInV0Zi04XCIpO1xuICAgIGNvbnNvbGUuaW5mbyhcImJ1aWxkIHN1Y2Nlc3NcIik7XG4gIH0sXG59KTtcbiJdLAogICJtYXBwaW5ncyI6ICI7QUFBeVEsU0FBUyxvQkFBb0I7QUFDdFMsU0FBUyxxQkFBcUI7QUFFOUIsSUFBTyxzQkFBUSxhQUFhO0FBQUEsRUFDMUIsT0FBTyxDQUFDLEtBQUs7QUFBQSxFQUNiLFFBQVEsQ0FBQyxLQUFLO0FBQUEsRUFDZCxRQUFRO0FBQUEsRUFDUixXQUFXO0FBQUEsRUFDWCxPQUFPO0FBQUEsRUFDUCxXQUFXO0FBQUEsRUFDWCxRQUFRO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxFQUtSLFlBQVksQ0FBQyxnQkFBZ0IsWUFBYTtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQSxFQU0xQyxlQUFlLFNBQVM7QUFDdEIsWUFBUSxXQUFXO0FBQ25CLFlBQVEsV0FBVztBQUFBLEVBQ3JCO0FBQUEsRUFDQSxXQUFXLFlBQVk7QUFDckIsa0JBQWMsR0FBRyxZQUFZLE9BQU8scUJBQW9CLG9CQUFJLEtBQUssR0FBRSxZQUFZLEdBQUcsT0FBTztBQUN6RixZQUFRLEtBQUssZUFBZTtBQUFBLEVBQzlCO0FBQ0YsQ0FBQzsiLAogICJuYW1lcyI6IFtdCn0K
