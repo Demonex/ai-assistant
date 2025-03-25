@@ -4,32 +4,92 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from "@/components/ui/accordion.js";
+import { toast } from "@/hooks/use-toast.js";
+import { Copy, CopyPlus } from "lucide-react";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
+import { memo } from "react";
+import type { Fragment } from "@/types/types.js";
 
-export function AccordionComponent({ items }) {
-	const openFile = (item) => {
-		const fileURL = `${item.file_path}#page=${item.page_num}`;
-		window.open(fileURL, "_blank");
-	};
+export const AccordionComponent = memo<{ fragments: Fragment[] }>(
+	({ fragments }) => {
+		const getFileName = (name: string) => {
+			const getName = name.split("/").pop();
+			return getName.split(".pdf")[0];
+		};
 
-	return (
-		<Accordion type="single" collapsible className="w-full">
-			{items?.map((item) => (
-				<AccordionItem value={item._id} key={item._id}>
-					<AccordionTrigger>
-						{`${item.file_path.split("/").pop()} - Страница ${item.page_num}`}
-					</AccordionTrigger>
-					<AccordionContent>
-						<button
-							onClick={() => openFile(item)}
-							className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3 mb-2"
-						>
-							Открыть документ
-						</button>
-						<ReactMarkdownComponent textMarkdown={item.text} />
-					</AccordionContent>
-				</AccordionItem>
-			))}
-		</Accordion>
-	);
-}
+		const getFragmentTitle = (fragment: Fragment) => {
+			return `${getFileName(fragment.file_path)} - Страница ${fragment.page_num + 1}`;
+		};
+
+		const getFragmentLink = (fragment: Fragment) => {
+			return `${fragment.file_path}#page=${fragment.page_num + 1}`;
+		};
+
+		const handleCopy = async (isFull: boolean, fragment: Fragment) => {
+			const textArea = document.createElement("textarea");
+
+			const text = isFull
+				? `${getFragmentTitle(fragment)}\n\n${getFragmentLink(fragment)}\n\n******\n\n${fragment.text}`
+				: fragment.text;
+
+			textArea.value = text;
+			document.body.appendChild(textArea);
+			textArea.select();
+			document.execCommand("copy");
+			document.body.removeChild(textArea);
+
+			toast({
+				title: `${isFull ? "Фрагмент" : "Текст фрагмента"}  cкопирован!`,
+			});
+		};
+
+		const openFile = (fragment: Fragment) => {
+			const fileURL = `${fragment.file_path}#page=${fragment.page_num + 1}`;
+			window.open(fileURL, "_blank");
+		};
+
+		return (
+			<Accordion type="single" collapsible className="w-full">
+				{fragments?.map((fragment) => (
+					<AccordionItem
+						className="p-4 relative"
+						value={fragment._id}
+						key={fragment._id}
+					>
+						<AccordionTrigger>{getFragmentTitle(fragment)}</AccordionTrigger>
+
+						<AccordionContent>
+							<div className="flex items-center justify-between w-full mb-2">
+								<button
+									onClick={() => openFile(fragment)}
+									className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+								>
+									Открыть документ
+								</button>
+
+								<div className="flex items-center cursor-pointer rounded-lg border bg-card text-card-foreground p-2">
+									<div
+										className="hover:opacity-80"
+										title="Копировать текст фрагмента"
+										onClick={() => handleCopy(false, fragment)}
+									>
+										<Copy size={18} />
+									</div>
+									<div
+										className="ml-4 hover:opacity-80"
+										title="Копировать Фрагмент"
+										onClick={() => handleCopy(true, fragment)}
+									>
+										<CopyPlus size={18} />
+									</div>
+								</div>
+							</div>
+
+							<ReactMarkdownComponent textMarkdown={fragment.text} />
+						</AccordionContent>
+					</AccordionItem>
+				))}
+			</Accordion>
+		);
+	},
+);

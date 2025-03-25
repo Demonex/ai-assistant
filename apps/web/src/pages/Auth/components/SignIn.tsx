@@ -38,11 +38,20 @@ export function SignIn({
 	};
 
 	useEffect(() => {
-		if (errorSignIn) {
+		if (!errorSignIn) return;
+
+		if (errorSignIn.status === 500) {
 			toast({
 				variant: "destructive",
 				title: errorSignIn.status,
 				description: errorSignIn.message,
+			});
+		} else {
+			toast({
+				variant: "destructive",
+				title: "Не удалось войти",
+				description:
+					"Проверьте правильность введённых данных или зарегистрируйтесь.",
 			});
 		}
 	}, [errorSignIn]);
@@ -51,7 +60,7 @@ export function SignIn({
 		<div className={cn("flex flex-col gap-6", className)} {...props}>
 			<Card>
 				<CardHeader>
-					<CardTitle className="text-2xl">Логин</CardTitle>
+					<CardTitle className="text-2xl">Вход</CardTitle>
 					<CardDescription>
 						Введите ниже свое имя пользователя и пароль, чтобы войти в свою
 						учетную запись.
@@ -61,7 +70,7 @@ export function SignIn({
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<div className="flex flex-col gap-6">
 							<div className="grid gap-2">
-								<Label htmlFor="email">Вход</Label>
+								<Label htmlFor="email">Почта</Label>
 								<Input
 									id="email"
 									type="email"

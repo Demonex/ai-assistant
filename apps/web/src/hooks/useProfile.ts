@@ -29,7 +29,11 @@ const _useProfile = () => {
 		cache: false,
 	});
 
-	const [profile, setProfile] = useState(null);
+	const [profile, setProfile] = useState(() => {
+		const savedProfile = sessionStorage.getItem("profile");
+		return savedProfile ? JSON.parse(savedProfile) : null;
+		// return { id: "ads", email: "bla@bla.ru" };
+	});
 
 	const isAuthorized = useMemo(() => !!profile, [profile]);
 
@@ -39,6 +43,7 @@ const _useProfile = () => {
 		}
 		setProfile(data);
 		// setProfile({ id: "ads", email: "bla@bla.ru" });
+		sessionStorage.setItem("profile", JSON.stringify(data));
 	}, [data]);
 
 	useEffect(() => {
@@ -46,6 +51,8 @@ const _useProfile = () => {
 			return;
 		}
 		setProfile(dataSignIn);
+		// setProfile({ id: "ads", email: "bla@bla.ru" });
+		sessionStorage.setItem("profile", JSON.stringify(dataSignIn));
 	}, [dataSignIn]);
 
 	const handleSignOut = useCallback(async () => {
@@ -54,6 +61,7 @@ const _useProfile = () => {
 			data: data,
 		});
 		setProfile(null);
+		sessionStorage.removeItem("profile");
 	}, []);
 
 	const handleSignIn = useCallback(
@@ -62,6 +70,15 @@ const _useProfile = () => {
 		},
 		[],
 	);
+
+	useEffect(() => {
+		if (!errorProfile && profile) {
+			return;
+		}
+
+		setProfile(null);
+		sessionStorage.removeItem("profile");
+	}, [errorProfile, profile]);
 
 	console.log({
 		isAuthorized,

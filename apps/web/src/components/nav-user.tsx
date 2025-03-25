@@ -39,7 +39,9 @@ export function NavUser() {
 	const [darkTheme, setDarkTheme] = useState(theme);
 
 	useEffect(() => {
-		setTheme(darkTheme);
+		//TODO - изменить позже тему
+		// setTheme(darkTheme);
+		setTheme("light");
 	}, [darkTheme]);
 
 	const toggleTheme = () => {

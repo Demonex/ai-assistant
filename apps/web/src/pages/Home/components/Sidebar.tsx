@@ -1,6 +1,6 @@
 import { memo, useState } from "react";
 import { Input } from "@/components/ui/input.js";
-import MessageList from "./MessageList.js";
+import ChatList from "./ChatList.js";
 import { useChats } from "../hooks/useChats.js";
 import { FormNewCollection } from "./FormNewCollection.js";
 import { collectionMockData } from "@/DataBase.js";
@@ -23,12 +23,12 @@ export const Sidebar = memo(() => {
 		);
 	}
 
-	//   filteredChats = collectionMockData;
+	// filteredChats = collectionMockData;
 
 	return (
 		<div className="w-full lg:w-96">
 			<div className="shadow-base h-full rounded-lg border bg-card text-card-foreground">
-				<div className="flex flex-col space-y-1.5 p-6 py-4 lg:py-10">
+				<div className="flex flex-col space-y-1.5 px-6 lg:pt-16 lg:pb-4 py-4">
 					<div className="flex items-center justify-between">
 						<h3 className="text-lg leading-none tracking-tight font-bold">
 							Чаты
@@ -59,7 +59,7 @@ export const Sidebar = memo(() => {
 							>
 								<div data-radix-scroll-area-content>
 									<div className="block min-w-0 divide-y">
-										<MessageList chats={filteredChats} />
+										<ChatList chats={filteredChats} />
 									</div>
 								</div>
 							</div>

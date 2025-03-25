@@ -15,6 +15,10 @@ const groupAccess = {
 export const group: CollectionConfig = {
 	slug: "group",
 	access: groupAccess,
+	labels: {
+		singular: "Группа",
+		plural: "Группы",
+	},
 	admin: {
 		defaultColumns: ["title", "users", "groupPermissions"],
 		useAsTitle: "title",
@@ -25,23 +29,27 @@ export const group: CollectionConfig = {
 			type: "relationship",
 			relationTo: tenant.slug as "tenant",
 			required: true,
+			label: "Тенант",
 		},
 		{
 			name: "title",
 			type: "text",
 			required: true,
+			label: "Название",
 		},
 		{
 			name: "admins",
 			type: "relationship",
 			relationTo: user.slug as "user",
 			hasMany: true,
+			label: "Админы группы",
 		},
 		{
 			name: "users",
 			type: "relationship",
 			relationTo: user.slug as "user",
 			hasMany: true,
+			label: "Пользователи группы",
 		},
 		{
 			name: "groupPermissions",
@@ -49,14 +57,15 @@ export const group: CollectionConfig = {
 			options: Object.values(GROUP_PERMISSIONS),
 			hasMany: true,
 			required: true,
+			label: "Разрешения группы",
 		},
 		{
 			name: "collectionPermissions",
 			type: "array",
-			label: "Permissions for specific collections",
+			label: "Разрешения для конкретных коллекций",
 			labels: {
-				singular: "permissions for collection",
-				plural: "permissions for collections",
+				singular: "Разрешения для коллекции",
+				plural: "Разрешения для коллекций",
 			},
 			fields: [
 				{
@@ -64,6 +73,7 @@ export const group: CollectionConfig = {
 					type: "relationship",
 					relationTo: collection.slug as "collection",
 					required: true,
+					label: "Коллекция",
 				},
 				{
 					name: "permissions",
@@ -85,6 +95,7 @@ export const group: CollectionConfig = {
 						value,
 					})),
 					required: true,
+					label: "Разрешения",
 				},
 			],
 			admin: {

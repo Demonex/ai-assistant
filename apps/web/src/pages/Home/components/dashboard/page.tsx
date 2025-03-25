@@ -34,7 +34,7 @@ export function DashboardPage() {
 				<section className="sticky top-0 bottom-0 w-full">
 					<iframe
 						title="admin"
-						src={`${admin.URL}/admin`}
+						src={`${import.meta.env.VITE_ADMIN_URL}/admin`}
 						width="100%"
 						height="100%"
 						allowFullScreen
@@ -42,7 +42,7 @@ export function DashboardPage() {
 				</section>
 			) : (
 				<SidebarInset>
-					<header className="sticky top-0 flex shrink-0 items-center gap-2 border-b bg-background p-4">
+					<header className="sticky top-0 flex shrink-0 items-center gap-2 border-b bg-[#fbfbfb] p-4">
 						<SidebarTrigger className="-ml-1" />
 						<Separator orientation="vertical" className="mr-2 h-4" />
 						<Breadcrumb>

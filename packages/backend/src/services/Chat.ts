@@ -45,7 +45,7 @@ export class ChatService {
 			},
 		);
 
-		const isAdminOrCollectionPermission =
+		const hasCollectionPermission =
 			user?.superadmin ||
 			groups.some((group) => {
 				return group.groupPermissions
@@ -57,17 +57,25 @@ export class ChatService {
 					.some((el) => !!el);
 			});
 
-		if (isAdminOrCollectionPermission) {
-			return await this.em.find<CollectionEntity>(CollectionEntity, {
-				tenant: currentTenant,
-			});
+		if (hasCollectionPermission) {
+			const collections = await this.em.find<CollectionEntity>(
+				CollectionEntity,
+				{
+					tenant: currentTenant,
+				},
+				{
+					exclude: ["tenant", "providers", "groups"],
+				},
+			);
+
+			return collections;
 		}
 
 		const collectionKeys = groups.flatMap((group) => {
 			return group.groupCollectionPermissions.map((perm) => perm.collection.id);
 		});
 
-		return await this.em.find<CollectionEntity>(
+		const collections = await this.em.find<CollectionEntity>(
 			CollectionEntity,
 			{
 				id: {
@@ -79,12 +87,21 @@ export class ChatService {
 				exclude: ["tenant", "providers", "groups"],
 			},
 		);
+
+		return collections;
 	}
 
 	async chat(
 		userId: ChatMessageEntity["user"]["id"],
 		chatId: ChatMessageEntity["id"],
 	) {
+		const collection = await this.em.findOne<CollectionEntity>(
+			CollectionEntity,
+			{
+				id: chatId,
+			},
+		);
+
 		const messages = await this.em.find<ChatMessageEntity>(
 			ChatMessageEntity,
 			{
@@ -92,10 +109,20 @@ export class ChatService {
 				collection: chatId,
 			},
 			{
-				exclude: ["user", "collection"],
+				fields: ["id", "request", "response"],
+				orderBy: { id: "asc" },
 			},
 		);
-		return messages;
+
+		const docs = await this.em.find<DocEntity>(DocEntity, {
+			collection,
+		});
+
+		return {
+			description: collection.description,
+			isEmpty: !docs.length,
+			messages,
+		};
 	}
 
 	async messageCreate(
@@ -120,7 +147,7 @@ export class ChatService {
 			},
 		);
 
-		const isAdminOrCollectionPermission =
+		const hasCollectionPermission =
 			user?.superadmin ||
 			groups.some((group) => {
 				return group.groupPermissions
@@ -132,7 +159,7 @@ export class ChatService {
 					.some((el) => !!el);
 			});
 
-		if (!isAdminOrCollectionPermission) {
+		if (!hasCollectionPermission) {
 			const collectionKeys = groups.flatMap((group) => {
 				return group.groupCollectionPermissions.map(
 					(perm) => perm.collection.id,
@@ -147,6 +174,19 @@ export class ChatService {
 					HttpStatus.INTERNAL_SERVER_ERROR,
 				);
 			}
+		}
+
+		const docs = await this.em.find<DocEntity>(DocEntity, {
+			collection: chatId,
+		});
+
+		if (!docs.length) {
+			console.error("no documents in collection");
+
+			throw new HttpException(
+				"Internal Server Error",
+				HttpStatus.INTERNAL_SERVER_ERROR,
+			);
 		}
 
 		try {
@@ -193,6 +233,7 @@ export class ChatService {
 			{
 				populate: ["providers", "providers.provider"],
 				populateWhere: "infer",
+				exclude: ["user", "collection"],
 			},
 		);
 
@@ -209,17 +250,15 @@ export class ChatService {
 			throw new HttpException("Provider not found", HttpStatus.BAD_REQUEST);
 		}
 
-		const bucket =
-			(provider.settings?.bucket as string) || (settings?.bucket as string);
-		const login =
-			(provider.settings?.login as string) || (settings?.login as string);
-		const password =
-			(provider.settings?.password as string) || (settings?.password as string);
-		const endpoint =
-			(provider.settings?.endpoint as string) || (settings?.endpoint as string);
-		const dockerEndpoint =
+		const endpointExternal =
+			process.env.S3_ENDPOINT_EXTERNAL ||
 			(provider.settings?.dockerEndpoint as string) ||
 			(settings?.dockerEndpoint as string);
+
+		const bucket =
+			(provider.settings?.bucket as string) ||
+			(settings?.bucket as string) ||
+			process.env.S3_BUCKET_DOC_MEDIA;
 
 		// try {
 		const copyFlow = await this.flowService.getFlow({ filter: "RETRIEVE" });
@@ -227,7 +266,7 @@ export class ChatService {
 
 		const newFlowId = newFlow.id;
 		const qdrantId = newFlow.data.nodes.find(
-			(node) => node.data.node.display_name === "Qdrant hybrid",
+			(node) => node.data.node.display_name === "Qdrant",
 		).id;
 
 		try {
@@ -244,6 +283,7 @@ export class ChatService {
 					},
 				},
 			});
+
 			response.fragments.map((frag) => {
 				const file_path = frag.file_path;
 				const filenameWithDate = path.basename(file_path);
@@ -251,7 +291,7 @@ export class ChatService {
 					/^\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}_/,
 					"",
 				);
-				const fileLink = `${endpoint}/${bucket}/${filename}`;
+				const fileLink = `${endpointExternal}/${bucket}/${filename}`;
 				frag.file_path = fileLink;
 
 				return frag;
@@ -278,6 +318,9 @@ export class ChatService {
 				ChatMessageEntity,
 				{
 					id: messageId,
+				},
+				{
+					exclude: ["user", "collection"],
 				},
 			);
 
@@ -313,7 +356,7 @@ export class ChatService {
 			},
 		);
 
-		const isAdminOrCollectionPermission =
+		const hasCollectionPermission =
 			user?.superadmin ||
 			groups.some((group) => {
 				return group.groupPermissions
@@ -325,7 +368,7 @@ export class ChatService {
 					.some((el) => !!el);
 			});
 
-		if (!isAdminOrCollectionPermission) {
+		if (!hasCollectionPermission) {
 			const collectionKeys = groups.flatMap((group) => {
 				return group.groupCollectionPermissions.map(
 					(perm) => perm.collection.id,
@@ -375,17 +418,46 @@ export class ChatService {
 			throw new HttpException("Provider not found", HttpStatus.BAD_REQUEST);
 		}
 
+		const login =
+			process.env.S3_ACCESS_KEY_ID ||
+			(provider.settings?.login as string) ||
+			(settings?.login as string);
+
+		const password =
+			process.env.S3_SECRET_ACCESS_KEY ||
+			(provider.settings?.password as string) ||
+			(settings?.password as string);
+
+		const endpoint =
+			process.env.S3_ENDPOINT ||
+			(provider.settings?.endpoint as string) ||
+			(settings?.endpoint as string);
+
+		const bucket =
+			(provider.settings?.bucket as string) ||
+			(settings?.bucket as string) ||
+			process.env.S3_BUCKET_DOC_MEDIA;
+
+		console.log("credentials ", {
+			credentials: {
+				accessKeyId: login,
+				secretAccessKey: password,
+			},
+			region: process.env.S3_REGION,
+			endpoint,
+			forcePathStyle: true,
+		});
+
 		const upload = getHandleUpload({
-			bucket:
-				(settings?.bucket as string) || (provider.settings?.bucket as string),
+			bucket,
 			acl: "public-read",
 			getStorageClient: () => ({
 				credentials: {
-					accessKeyId: provider.settings?.login as string,
-					secretAccessKey: provider.settings?.password as string,
+					accessKeyId: login,
+					secretAccessKey: password,
 				},
 				region: process.env.S3_REGION,
-				endpoint: provider.settings?.endpoint as string,
+				endpoint,
 				forcePathStyle: true,
 			}),
 		});
@@ -393,44 +465,35 @@ export class ChatService {
 		await promiseMap(data.media, async (media) => {
 			const fileKey = await upload({ file: media });
 
-			const bucket =
-				(provider.settings?.bucket as string) || (settings?.bucket as string);
-			const login =
-				(provider.settings?.login as string) || (settings?.login as string);
-			const password =
-				(provider.settings?.password as string) ||
-				(settings?.password as string);
-			const endpoint =
-				(provider.settings?.endpoint as string) ||
-				(settings?.endpoint as string);
-			const dockerEndpoint =
-				(provider.settings?.dockerEndpoint as string) ||
-				(settings?.dockerEndpoint as string);
+			console.log("after upload", fileKey);
 
 			const copyFlow = await this.flowService.getFlow({ filter: "UPLOAD" });
 			const newFlow = await this.flowService.createFlow({ flow: copyFlow });
+
+			console.log("after create flows", newFlow);
 
 			const newFlowId = newFlow.id;
 			// const fileId = newFlow.data.nodes.find(node => node.data.type === 'File').id;
 			// const qdrantId = newFlow.data.nodes.find(node => node.data.type === 'CustomComponent').id;
 			// const flowId = "e37720bf-bb8e-487d-9138-3bd1869c8330";
 
-			const fileId = newFlow.data.nodes.find(
-				(node) => node.data.node.display_name === "File",
-			).id;
-			const qdrantId = newFlow.data.nodes.find(
-				(node) => node.data.node.display_name === "Qdrant hybrid",
-			).id;
-
 			try {
-				const { file_path: filepath } =
-					await this.gotenbergService.convertFromS3({
+				let resultUpload: { file_path: string } | null = null;
+
+				if (media.originalname.split(".").pop() === "pdf") {
+					resultUpload = await this.flowService.uploadFile({
+						flowId: newFlowId,
+						media,
+						name: fileKey,
+					});
+				} else {
+					resultUpload = await this.gotenbergService.convertFromS3({
 						flowId: newFlowId,
 						fileKey,
 						params: {
 							bucket,
 							acl: "public-read",
-							dockerEndpoint,
+							endpoint,
 							getStorageClient: () => ({
 								credentials: {
 									accessKeyId: login,
@@ -443,31 +506,43 @@ export class ChatService {
 						},
 					});
 
+					console.log("after gotenb", resultUpload);
+				}
+
+				const { file_path: filepath } = resultUpload;
+
 				// const { file_path: filePath } = await this.flowService.uploadFile({
 				// 	flowId: newFlowId,
 				// 	media,
 				// });
 
-				const vectorFilePath = `/app/langflow/${filepath}`;
+				const fileId = newFlow.data.nodes.find(
+					(node) => node.data.node.display_name === "File",
+				).id;
+				const qdrantId = newFlow.data.nodes.find(
+					(node) => node.data.node.display_name === "Qdrant",
+				).id;
 
-				try {
-					const doc = this.em.create<DocEntity>(DocEntity, {
-						filename: media.originalname,
-						filesize: media.size,
-						mimeType: media.mimetype,
-						collection: chatId,
-						provider: provider.id,
-						vectorFilePath,
-					});
-					await this.em.persistAndFlush(doc);
-				} catch (error) {
-					console.error("Error creating doc:", error);
+				console.log(
+					JSON.stringify({
+						method: "UPLOAD",
+						flowId: newFlowId,
+						payload: {
+							tweaks: {
+								[fileId]: {
+									path: `${filepath}`,
+									concurrency_multithreading: 4,
+									silent_errors: false,
+									use_multithreading: false,
+								},
+								[qdrantId]: {
+									collection_name: collection.title.toString(),
+								},
+							},
+						},
+					}),
+				);
 
-					throw new HttpException(
-						"Internal Server Error",
-						HttpStatus.INTERNAL_SERVER_ERROR,
-					);
-				}
 				await this.flowService.runFlow({
 					method: "UPLOAD",
 					flowId: newFlowId,
@@ -485,6 +560,30 @@ export class ChatService {
 						},
 					},
 				});
+
+				console.log("after run flow");
+				const vectorFilePath = `/app/langflow/${filepath}`;
+
+				try {
+					const doc = this.em.create<DocEntity>(DocEntity, {
+						filename: media.originalname,
+						filesize: media.size,
+						mimeType: media.mimetype,
+						collection: chatId,
+						provider: provider.id,
+						vectorFilePath,
+					});
+					await this.em.persistAndFlush(doc);
+
+					console.log("after create doc entity", doc);
+				} catch (error) {
+					console.error("Error creating doc:", error);
+
+					throw new HttpException(
+						"Internal Server Error",
+						HttpStatus.INTERNAL_SERVER_ERROR,
+					);
+				}
 			} catch (error) {
 				console.error("Request failed:", error.message);
 				console.error("Status code:", error.response?.statusCode);

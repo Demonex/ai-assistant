@@ -1,4 +1,8 @@
 import * as AWS from "@aws-sdk/client-s3";
+import {
+	CreateBucketCommand,
+	PutBucketPolicyCommand,
+} from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
 
 interface Args {
@@ -25,10 +29,38 @@ export const getHandleUpload = ({
 			.replace(/\(/g, "%28")
 			.replace(/\)/g, "%29");
 
-		// res.setHeader('Content-Disposition', `attachment; filename*=UTF-8''${encodedFileName}`);
+		const s3Client = new AWS.S3(getStorageClient());
+
+		try {
+			await s3Client.send(new CreateBucketCommand({ Bucket: bucket }));
+			console.log(`Bucket "${bucket}" created successfully.`);
+
+			const bucketPolicy = {
+				Version: "2012-10-17",
+				Statement: [
+					{
+						Sid: "PublicReadGetObject",
+						Effect: "Allow",
+						Principal: "*",
+						Action: "s3:GetObject",
+						Resource: `arn:aws:s3:::${bucket}/*`,
+					},
+				],
+			};
+			const putBucketPolicyParams = {
+				Bucket: bucket,
+				Policy: JSON.stringify(bucketPolicy),
+			};
+			await s3Client.send(new PutBucketPolicyCommand(putBucketPolicyParams));
+			console.log(
+				`Bucket policy set to grant public read access for bucket "${bucket}".`,
+			);
+		} catch (error) {
+			console.error("Error creating bucket or setting policies:", error);
+		}
 
 		if (file.buffer.length > 0 && file.buffer.length < multipartThreshold) {
-			await new AWS.S3(getStorageClient()).putObject({
+			await s3Client.putObject({
 				ACL: acl,
 				Body: fileBufferOrStream,
 				Bucket: bucket,
@@ -41,7 +73,7 @@ export const getHandleUpload = ({
 		}
 
 		const parallelUploadS3 = new Upload({
-			client: new AWS.S3(getStorageClient()),
+			client: s3Client,
 			params: {
 				ACL: acl,
 				Body: fileBufferOrStream,

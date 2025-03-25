@@ -1,21 +1,21 @@
 {
-  "jsc": {
-    "parser": {
-      "syntax": "typescript",
-      "decorators": true
-    },
-    "target": "es2022",
-    "keepClassNames": true,
-    "transform": {
-      "legacyDecorator": true,
-      "decoratorMetadata": true
-    }
-  },
-  "module": {
-    "type": "es6",
-    "strict": true,
-    "resolveFully": true,
-    "ignoreDynamic": false
-  },
-  "sourceMaps": true
+	"jsc": {
+		"parser": {
+			"syntax": "typescript",
+			"decorators": true
+		},
+		"target": "es2022",
+		"keepClassNames": true,
+		"transform": {
+			"legacyDecorator": true,
+			"decoratorMetadata": true
+		}
+	},
+	"module": {
+		"type": "es6",
+		"strict": true,
+		"resolveFully": true,
+		"ignoreDynamic": false
+	},
+	"sourceMaps": true
 }

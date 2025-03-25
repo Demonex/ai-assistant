@@ -1,5 +1,13 @@
 {
-  "trailingComma": "es5",
-  "proseWrap": "always",
-  "plugins": []
+	"trailingComma": "all",
+	"proseWrap": "always",
+	"printWidth": 80,
+	"tabWidth": 2,
+	"useTabs": true,
+	"endOfLine": "lf",
+	"bracketSpacing": true,
+	"bracketSameLine": false,
+	"htmlWhitespaceSensitivity": "ignore",
+	"singleAttributePerLine": false,
+	"embeddedLanguageFormatting": "auto"
 }
