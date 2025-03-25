@@ -1,11 +1,10 @@
-import { getCollectionAccess } from "@/access/collectionAccess";
+import { getCollectionAccess, getDropDownAccess } from "@/access/collection";
 import { neuro } from "@/collections/neuro";
 import { MODEL_TYPE } from "@/types/types";
 import defaultAccess from "@/utilities/defaultAccess";
 import type { CollectionConfig } from "payload";
 import { provider } from "../provider";
 import { tenant } from "../tenant";
-// import { CustomUploadField } from "../../components/Field";
 
 const collectionAccess = {
 	...defaultAccess,
@@ -97,6 +96,7 @@ export const collection: CollectionConfig = {
 						},
 					},
 					virtual: true,
+					access: getDropDownAccess(),
 				},
 				// {
 				// 	name: "docs",

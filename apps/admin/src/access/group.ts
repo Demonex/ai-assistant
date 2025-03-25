@@ -1,8 +1,8 @@
 import { GROUP_PERMISSIONS } from "@/types/types";
-import { getUserContext, getUserGroups } from "@/utilities/defaultAccess";
 import { parse } from "cookie";
+import { getUserContext, getUserGroups } from "./coreAccess";
 
-export const getNeuroAccess = () => {
+export const getGroupAccess = () => {
 	// const groups = await payload.find({
 	// 	collection: "group",
 	// 	where: {
@@ -76,15 +76,15 @@ export const getNeuroAccess = () => {
 			return defaultAccess;
 		}
 
-		console.log(
-			groups.docs.flatMap((doc) => {
-				return doc.collectionPermissions?.map((perm) => {
-					console.log(perm, perm.collection);
+		// console.log(
+		// 	groups.docs.flatMap((doc) => {
+		// 		return doc.collectionPermissions?.map((perm) => {
+		// 			console.log(perm, perm.collection);
 
-					return perm.collection;
-				});
-			}),
-		);
+		// 			return perm.collection;
+		// 		});
+		// 	}),
+		// );
 
 		return false;
 	};

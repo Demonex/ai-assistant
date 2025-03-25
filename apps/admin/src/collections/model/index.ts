@@ -1,9 +1,9 @@
 import type { CollectionConfig } from "payload";
 
-import defaultAccess from "@/utilities/defaultAccess";
 import { tenant } from "@/collections/tenant";
 import { MODEL_TYPE } from "@/types/types";
-import { getModelAccess } from "@/access/modelAccess";
+import defaultAccess from "@/utilities/defaultAccess";
+import { getModelAccess } from "@/access/model";
 
 const modelAccess = {
 	...defaultAccess,

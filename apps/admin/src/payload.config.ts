@@ -19,6 +19,7 @@ import { provider } from "./collections/provider";
 import { tenant } from "./collections/tenant";
 import { user } from "./collections/user";
 import { getServerSideURL } from "./utilities/getURL";
+import defaultAccess, { isAuthorized } from "./utilities/defaultAccess";
 // import Logo from "@/components/Logo/Logo";
 // import Icon from "@/components/Logo/Icon";
 
@@ -32,6 +33,8 @@ export default buildConfig({
 		},
 	}),
 	admin: {
+		theme: "light",
+
 		meta: {
 			title: "Admin Panel",
 			titleSuffix: "- Admin",
