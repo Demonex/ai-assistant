@@ -18,6 +18,9 @@ export class CollectionEntity {
 	@Property()
 	title: string;
 
+	isEmpty: boolean;
+	description: string;
+
 	@ManyToOne(() => TenantEntity)
 	tenant!: Rel<TenantEntity>;
 

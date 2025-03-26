@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useInsertionEffect } from "react";
+import { memo, useEffect, useInsertionEffect } from "react";
 import { Link } from "wouter";
 import { useRouterApp } from "hooks/useRouter.js";
 

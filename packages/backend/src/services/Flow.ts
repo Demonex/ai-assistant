@@ -19,7 +19,12 @@ export class LangFlowService {
 		media,
 		stream,
 		name,
-	}: { flowId?; media?; stream?; name? }) {
+	}: {
+		flowId?;
+		media?;
+		stream?;
+		name?;
+	}) {
 		if (media) {
 			const form = new FormData();
 			form.append("file", media.buffer, media.originalname);
@@ -88,7 +93,12 @@ export class LangFlowService {
 		flowId: string;
 		payload?: { [key: string]: unknown };
 		method?: "RETRIEVE" | "UPLOAD";
-	}): Promise<{ message?: string; fragments?: any[]; created_at?: Date }> {
+	}): Promise<{
+		id?: number;
+		message?: string;
+		fragments?: any[];
+		created_at?: Date;
+	}> {
 		console.log(
 			"RUN FLOW",
 			`${this.endpoint}/api/v1/run/${flowId}?stream=false`,

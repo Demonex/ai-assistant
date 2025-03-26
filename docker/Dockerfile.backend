@@ -1,4 +1,4 @@
-FROM gitlab.sigma-it.ru:4567/mkuznetsov/sigmachat/node:22.14.0 as base
+FROM docker-group.sigma-it.ru/node:22.14.0 as base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"

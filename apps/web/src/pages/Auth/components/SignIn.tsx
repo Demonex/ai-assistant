@@ -38,6 +38,8 @@ export function SignIn({
 	};
 
 	useEffect(() => {
+		if (!errorSignIn) return;
+
 		if (errorSignIn.status === 500) {
 			toast({
 				variant: "destructive",

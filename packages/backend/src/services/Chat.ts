@@ -45,7 +45,7 @@ export class ChatService {
 			},
 		);
 
-		const isAdminOrCollectionPermission =
+		const hasCollectionPermission =
 			user?.superadmin ||
 			groups.some((group) => {
 				return group.groupPermissions
@@ -57,17 +57,25 @@ export class ChatService {
 					.some((el) => !!el);
 			});
 
-		if (isAdminOrCollectionPermission) {
-			return await this.em.find<CollectionEntity>(CollectionEntity, {
-				tenant: currentTenant,
-			});
+		if (hasCollectionPermission) {
+			const collections = await this.em.find<CollectionEntity>(
+				CollectionEntity,
+				{
+					tenant: currentTenant,
+				},
+				{
+					exclude: ["tenant", "providers", "groups"],
+				},
+			);
+
+			return collections;
 		}
 
 		const collectionKeys = groups.flatMap((group) => {
 			return group.groupCollectionPermissions.map((perm) => perm.collection.id);
 		});
 
-		return await this.em.find<CollectionEntity>(
+		const collections = await this.em.find<CollectionEntity>(
 			CollectionEntity,
 			{
 				id: {
@@ -79,12 +87,21 @@ export class ChatService {
 				exclude: ["tenant", "providers", "groups"],
 			},
 		);
+
+		return collections;
 	}
 
 	async chat(
 		userId: ChatMessageEntity["user"]["id"],
 		chatId: ChatMessageEntity["id"],
 	) {
+		const collection = await this.em.findOne<CollectionEntity>(
+			CollectionEntity,
+			{
+				id: chatId,
+			},
+		);
+
 		const messages = await this.em.find<ChatMessageEntity>(
 			ChatMessageEntity,
 			{
@@ -92,10 +109,20 @@ export class ChatService {
 				collection: chatId,
 			},
 			{
-				exclude: ["user", "collection"],
+				fields: ["id", "request", "response"],
+				orderBy: { id: "asc" },
 			},
 		);
-		return messages;
+
+		const docs = await this.em.find<DocEntity>(DocEntity, {
+			collection,
+		});
+
+		return {
+			description: collection.description,
+			isEmpty: !docs.length,
+			messages,
+		};
 	}
 
 	async messageCreate(
@@ -120,7 +147,7 @@ export class ChatService {
 			},
 		);
 
-		const isAdminOrCollectionPermission =
+		const hasCollectionPermission =
 			user?.superadmin ||
 			groups.some((group) => {
 				return group.groupPermissions
@@ -132,7 +159,7 @@ export class ChatService {
 					.some((el) => !!el);
 			});
 
-		if (!isAdminOrCollectionPermission) {
+		if (!hasCollectionPermission) {
 			const collectionKeys = groups.flatMap((group) => {
 				return group.groupCollectionPermissions.map(
 					(perm) => perm.collection.id,
@@ -147,6 +174,19 @@ export class ChatService {
 					HttpStatus.INTERNAL_SERVER_ERROR,
 				);
 			}
+		}
+
+		const docs = await this.em.find<DocEntity>(DocEntity, {
+			collection: chatId,
+		});
+
+		if (!docs.length) {
+			console.error("no documents in collection");
+
+			throw new HttpException(
+				"Internal Server Error",
+				HttpStatus.INTERNAL_SERVER_ERROR,
+			);
 		}
 
 		try {
@@ -193,6 +233,7 @@ export class ChatService {
 			{
 				populate: ["providers", "providers.provider"],
 				populateWhere: "infer",
+				exclude: ["user", "collection"],
 			},
 		);
 
@@ -242,6 +283,7 @@ export class ChatService {
 					},
 				},
 			});
+
 			response.fragments.map((frag) => {
 				const file_path = frag.file_path;
 				const filenameWithDate = path.basename(file_path);
@@ -277,6 +319,9 @@ export class ChatService {
 				{
 					id: messageId,
 				},
+				{
+					exclude: ["user", "collection"],
+				},
 			);
 
 			chatMessage.response = data.response;
@@ -311,7 +356,7 @@ export class ChatService {
 			},
 		);
 
-		const isAdminOrCollectionPermission =
+		const hasCollectionPermission =
 			user?.superadmin ||
 			groups.some((group) => {
 				return group.groupPermissions
@@ -323,7 +368,7 @@ export class ChatService {
 					.some((el) => !!el);
 			});
 
-		if (!isAdminOrCollectionPermission) {
+		if (!hasCollectionPermission) {
 			const collectionKeys = groups.flatMap((group) => {
 				return group.groupCollectionPermissions.map(
 					(perm) => perm.collection.id,
@@ -432,15 +477,6 @@ export class ChatService {
 			// const qdrantId = newFlow.data.nodes.find(node => node.data.type === 'CustomComponent').id;
 			// const flowId = "e37720bf-bb8e-487d-9138-3bd1869c8330";
 
-			const fileId = newFlow.data.nodes.find(
-				(node) => node.data.node.display_name === "File",
-			).id;
-			const qdrantId = newFlow.data.nodes.find(
-				(node) => node.data.node.display_name === "Qdrant",
-			).id;
-
-			console.log(media);
-
 			try {
 				let resultUpload: { file_path: string } | null = null;
 
@@ -479,6 +515,13 @@ export class ChatService {
 				// 	flowId: newFlowId,
 				// 	media,
 				// });
+
+				const fileId = newFlow.data.nodes.find(
+					(node) => node.data.node.display_name === "File",
+				).id;
+				const qdrantId = newFlow.data.nodes.find(
+					(node) => node.data.node.display_name === "Qdrant",
+				).id;
 
 				console.log(
 					JSON.stringify({

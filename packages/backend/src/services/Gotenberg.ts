@@ -15,8 +15,7 @@ export class GotenbergService {
 	private endpoint =
 		process.env.GOTENBERG_API_URL || "http://10.199.20.10:3000";
 	private authorization =
-		`Basic ${Buffer.from(`${process.env.GOTENBERG_API_BASIC_AUTH_USERNAME}:${process.env.GOTENBERG_API_BASIC_AUTH_PASSWORD}`, "utf-8").toString("base64")}` ||
-		`Basic ${Buffer.from("root:root123", "utf-8").toString("base64")}`;
+		`Basic ${Buffer.from(`${process.env.GOTENBERG_API_BASIC_AUTH_USERNAME}:${process.env.GOTENBERG_API_BASIC_AUTH_PASSWORD}`, "utf-8").toString("base64")}`;
 	// private authorization =
 	// 	"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxZmQ0ZTkwNS1kODc1LTQwZjEtODdmNS0xM2NiYWRlNjY4M2YiLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY4NTU0MzM5fQ.hdWCV_FBjKPvbqBL6HB1IKrVbq1y2wtI0hVvKuDEAmQ";
 

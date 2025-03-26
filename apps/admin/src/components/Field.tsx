@@ -59,7 +59,6 @@ import {
 import { useState } from "react";
 
 import { toast } from "sonner";
-import { useLocation } from "wouter";
 
 // 1 MB
 const MAX_FILE_SIZE = 1024 * 1024 * 512;
@@ -92,7 +91,6 @@ const DropzoneForm = () => {
 	});
 
 	const [fileLoading, setFileLoading] = useState(false);
-	const [location, setLocation] = useLocation();
 
 	function onSubmit({ files }: z.infer<typeof FormSchema>) {
 		if (files.length) {
@@ -107,13 +105,14 @@ const DropzoneForm = () => {
 			});
 
 			setFileLoading(true);
+
 			CollectionService.filesUpload(Number(collectionId), formData)
 				.then(() => {
-					toast.success("Documents uploaded successfully");
+					toast.success("Документы успешно загружены");
 					setFileLoading(false);
 				})
 				.catch(() => {
-					toast.error("Some errors occurred while uploading");
+					toast.error("При загрузке возникла ошибка");
 					setFileLoading(false);
 				})
 				.finally(() => {
@@ -152,7 +151,7 @@ const DropzoneForm = () => {
 									(err) => err.code === ErrorCode.FileTooLarge,
 								)
 							) {
-								toast("File size too large");
+								toast("Слишком большой размер файла!");
 							}
 						});
 					}}
@@ -177,7 +176,7 @@ const DropzoneForm = () => {
 											<DropzoneUploadIcon />
 											<div className="grid gap-0.5">
 												<DropzoneTitle>
-													Browse to upload your file
+													Перетащите файлы сюда или кликните для загрузки.
 												</DropzoneTitle>
 												{/* <DropzoneDescription>
 													{`Maximum file size: ${prettyBytes(maxSize ?? 0)}`}
@@ -194,7 +193,7 @@ const DropzoneForm = () => {
 				</Dropzone>
 				{!!fields.length && (
 					<div className="grid gap-4">
-						<h6 className="font-semibold leading-none tracking-tight">{`Files (${fields.length})`}</h6>
+						<h6 className="font-semibold leading-none tracking-tight">{`Добавлено файлов (${fields.length})`}</h6>
 						<FileList>
 							{fields.map((field, index) => (
 								<FileListItem key={field.id}>
@@ -207,14 +206,14 @@ const DropzoneForm = () => {
 												{fileLoading && (
 													<FileListDescriptionText>
 														<Loader2 className="size-3 animate-spin" />
-														Uploading...
+														Загрузка...
 													</FileListDescriptionText>
 												)}
 											</FileListDescription>
 										</FileListInfo>
 										<FileListAction onClick={() => remove(index)}>
 											<X />
-											<span className="sr-only">Remove</span>
+											<span className="sr-only">Удалить</span>
 										</FileListAction>
 									</FileListHeader>
 								</FileListItem>
@@ -222,13 +221,27 @@ const DropzoneForm = () => {
 						</FileList>
 					</div>
 				)}
-				<Button onClick={form.handleSubmit(onSubmit)}>Submit</Button>
-				<Button
-					style={{ background: "#d0d0d0", color: "black" }}
-					onClick={onShowAllDocuments}
-				>
-					Show all documents
-				</Button>
+
+				<div className="flex gap-2">
+					<Button
+						style={{ cursor: "pointer", border: "none" }}
+						onClick={form.handleSubmit(onSubmit)}
+						disabled={fields.length === 0}
+					>
+						Загрузить
+					</Button>
+					<Button
+						style={{
+							background: "#d0d0d0",
+							color: "black",
+							cursor: "pointer",
+							border: "none",
+						}}
+						onClick={onShowAllDocuments}
+					>
+						Показать все документы
+					</Button>
+				</div>
 			</div>
 		</Form>
 	);
