@@ -1,22 +1,21 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDateString, IsObject, IsOptional, IsString } from "class-validator";
+import {
+	IsDateString,
+	IsEmail,
+	IsObject,
+	IsOptional,
+	IsString,
+} from "class-validator";
 
 export class ChatMessageDto {
 	@IsString()
 	@ApiProperty()
 	readonly raw: string;
 
-	// @IsObject()
-	// @IsOptional()
-	// @ApiProperty()
-	// readonly response: {
-	// 	[key: string]: unknown;
-	// };
-
-	@IsDateString()
 	@IsOptional()
-	@ApiProperty()
-	readonly created_at: string;
+	@IsEmail()
+	@ApiProperty({ required: true })
+	readonly email!: string;
 }
 
 export class ChatUploadMediaDto {

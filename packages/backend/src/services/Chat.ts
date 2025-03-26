@@ -195,7 +195,7 @@ export class ChatService {
 				collection: chatId,
 				request: {
 					message: chatMessageDto.raw,
-					created_at: chatMessageDto.created_at || new Date(),
+					created_at: new Date(),
 				},
 			});
 			await this.em.persistAndFlush(chatMessage);
