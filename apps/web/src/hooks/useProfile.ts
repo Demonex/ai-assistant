@@ -58,7 +58,7 @@ const _useProfile = () => {
 	const handleSignOut = useCallback(async () => {
 		await fetchSignOut({
 			url: `${import.meta.env.VITE_BACKEND_URL}/auth/sign-out`,
-			data: profile,
+			data: data || dataSignIn,
 		});
 		setProfile(null);
 		sessionStorage.removeItem("profile");
