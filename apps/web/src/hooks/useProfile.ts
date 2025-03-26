@@ -43,7 +43,7 @@ const _useProfile = () => {
 		}
 		setProfile(data);
 		// setProfile({ id: "ads", email: "bla@bla.ru" });
-		sessionStorage.setItem("profile", JSON.stringify(data || dataSignIn));
+		sessionStorage.setItem("profile", JSON.stringify(data));
 	}, [data]);
 
 	useEffect(() => {
@@ -52,13 +52,13 @@ const _useProfile = () => {
 		}
 		setProfile(dataSignIn);
 		// setProfile({ id: "ads", email: "bla@bla.ru" });
-		sessionStorage.setItem("profile", JSON.stringify(data || dataSignIn));
+		sessionStorage.setItem("profile", JSON.stringify(dataSignIn));
 	}, [dataSignIn]);
 
 	const handleSignOut = useCallback(async () => {
 		await fetchSignOut({
 			url: `${import.meta.env.VITE_BACKEND_URL}/auth/sign-out`,
-			data: data,
+			data: profile,
 		});
 		setProfile(null);
 		sessionStorage.removeItem("profile");
@@ -70,6 +70,15 @@ const _useProfile = () => {
 		},
 		[],
 	);
+
+	useEffect(() => {
+		if (!errorProfile && profile) {
+			return;
+		}
+
+		setProfile(null);
+		sessionStorage.removeItem("profile");
+	}, [errorProfile, profile]);
 
 	console.log({
 		isAuthorized,
