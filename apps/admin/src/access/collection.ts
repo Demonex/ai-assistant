@@ -1,117 +1,99 @@
 import { GROUP_PERMISSIONS } from "@/types/types";
-import { getUserContext, getUserGroups } from "@/utilities/defaultAccess";
 import { parse } from "cookie";
+import type { FieldAccess } from "payload";
+import { getUserContext, getUserGroups } from "./coreAccess";
 
 export const getCollectionAccess = () => {
-	// const groups = await payload.find({
-	// 	collection: "group",
-	// 	where: {
-	// 		tenant: {
-	// 			equals: tenant,
-	// 		},
-	// 		or: [
-	// 			{
-	// 				admins: {
-	// 					contains: user.id,
-	// 				},
-	// 			},
-	// 			{
-	// 				users: {
-	// 					contains: user.id,
-	// 				},
-	// 			},
-	// 		],
-	// 	},
-	// 	select: {
-	// 		groupPermissions: true,
-	// 		collectionPermissions: true
-	// 	},
-	// });
-
-	// const access = groups.docs.some(
-	// 	(doc) =>
-	// 		doc.groupPermissions.includes(GROUP_PERMISSIONS.collection) ||
-	// 		doc.groupPermissions.includes(GROUP_PERMISSIONS.admin),
-	// );
-
-	// console.log(
-
-	// 	groups.docs.flatMap(doc => {
-	// 		return doc.collectionPermissions?.map(perm => {
-	// 			console.log(perm, perm.collection);
-
-	// 			return perm.collection
-	// 		})
-	// 	})
-	// );
-
-	// return {
-	// 	...defaultAccess,
-	// 	// collection: {
-	// 	// 	contains: groups.docs.flatMap(doc => {
-	// 	// 		return doc.collectionPermissions?.map(perm => {
-	// 	// 			console.log(perm, perm.collection);
-
-	// 	// 			return perm.collection
-	// 	// 		})
-	// 	// 	})
-	// 	// }
-	// };
-
 	const create = async ({ req }) => {
 		const { user } = await getUserContext({ req });
 
-		// const tenant = parse(req.headers.get("cookie") || "")?.tenant;
-		// console.log('t',tenant)
-		// if (!tenant) {
-		// 	return false
-		// }
-
-		const defaultAccess = {
-			// tenant: {
-			// 	equals: tenant,
-			// }
-		};
-
 		if (user?.superadmin) {
-			return defaultAccess;
+			return true;
 		}
 
 		const { groups } = await getUserGroups({ req });
 
 		const hasAccess = groups.docs.some(
 			(doc) =>
-				doc.groupPermissions.includes(GROUP_PERMISSIONS.collection) ||
-				doc.groupPermissions.includes(GROUP_PERMISSIONS.admin),
+				doc.groupPermissions.includes(GROUP_PERMISSIONS.admin) ||
+				doc.groupPermissions.includes(GROUP_PERMISSIONS.collection),
 		);
 
-		if (hasAccess) {
-			return defaultAccess;
-		}
-
-		console.log(
-			groups.docs.flatMap((doc) => {
-				return doc.collectionPermissions?.map((perm) => {
-					console.log(perm, perm.collection);
-
-					return perm.collection;
-				});
-			}),
-		);
-
-		return false;
+		return hasAccess;
 	};
 
 	const read = async ({ req }) => {
-		return await create({ req });
+		const { user } = await getUserContext({ req });
+
+		if (user?.superadmin) {
+			return true;
+		}
+
+		const { groups } = await getUserGroups({ req });
+
+		const hasAccess = groups.docs.some(
+			(doc) =>
+				doc.groupPermissions.includes(GROUP_PERMISSIONS.admin) ||
+				doc.groupPermissions.includes(GROUP_PERMISSIONS.collection),
+		);
+
+		if (hasAccess) {
+			return true;
+		}
+
+		const collections = groups.docs.flatMap((doc) => {
+			return doc.collectionPermissions?.map((perm) => {
+				// console.log(perm, perm.collection);
+
+				return perm.collection.id;
+			});
+		});
+
+		if (!collections.length) {
+			return false;
+		}
+
+		return {
+			id: {
+				in: collections,
+			},
+		};
 	};
 
 	const update = async ({ req }) => {
-		return await create({ req });
+		const { user } = await getUserContext({ req });
+
+		if (user?.superadmin) {
+			return true;
+		}
+
+		const { groups } = await getUserGroups({ req });
+
+		const hasAccess = groups.docs.some(
+			(doc) =>
+				doc.groupPermissions.includes(GROUP_PERMISSIONS.admin) ||
+				doc.groupPermissions.includes(GROUP_PERMISSIONS.collection),
+		);
+
+		return hasAccess;
 	};
 
 	const _delete = async ({ req }) => {
-		return await create({ req });
+		const { user } = await getUserContext({ req });
+
+		if (user?.superadmin) {
+			return true;
+		}
+
+		const { groups } = await getUserGroups({ req });
+
+		const hasAccess = groups.docs.some(
+			(doc) =>
+				doc.groupPermissions.includes(GROUP_PERMISSIONS.admin) ||
+				doc.groupPermissions.includes(GROUP_PERMISSIONS.collection),
+		);
+
+		return hasAccess;
 	};
 
 	return {
@@ -119,5 +101,76 @@ export const getCollectionAccess = () => {
 		read,
 		update,
 		delete: _delete,
+	};
+};
+
+export const getDropDownAccess = () => {
+	const read: FieldAccess = async ({ req, id, doc, siblingData }) => {
+		const { user } = await getUserContext({ req });
+
+		if (user?.superadmin) {
+			return true;
+		}
+
+		const { groups } = await getUserGroups({ req });
+
+		const hasAccess = groups.docs.some(
+			(doc) =>
+				doc.groupPermissions.includes(GROUP_PERMISSIONS.admin) ||
+				doc.groupPermissions.includes(GROUP_PERMISSIONS.collection),
+		);
+
+		if (hasAccess) {
+			return true;
+		}
+
+		const access = groups.docs.some((group) => {
+			return group.collectionPermissions?.some((perm) => {
+				// console.log(perm, perm.collection);
+
+				return perm.collection.id === doc?.id && perm.permissions.includes("w");
+			});
+		});
+
+		// console.log(collections, id, doc, collections.includes(Number(id)), "CHECK");
+
+		return access;
+	};
+
+	const update: FieldAccess = async ({ req, id, data, doc, siblingData }) => {
+		const { user } = await getUserContext({ req });
+
+		if (user?.superadmin) {
+			return true;
+		}
+
+		const { groups } = await getUserGroups({ req });
+
+		const hasAccess = groups.docs.some(
+			(doc) =>
+				doc.groupPermissions.includes(GROUP_PERMISSIONS.admin) ||
+				doc.groupPermissions.includes(GROUP_PERMISSIONS.collection),
+		);
+
+		if (hasAccess) {
+			return true;
+		}
+
+		const access = groups.docs.some((group) => {
+			return group.collectionPermissions?.some((perm) => {
+				// console.log(perm, perm.collection);
+
+				return perm.collection.id === doc?.id && perm.permissions.includes("w");
+			});
+		});
+
+		// console.log(collections, id, doc, collections.includes(Number(id)), "CHECK");
+
+		return access;
+	};
+
+	return {
+		read,
+		update,
 	};
 };

@@ -1,52 +1,50 @@
 {
- "extends": [
-  "@repo/config-biome/library"
- ],
-  "files": {
-    "ignore": ["src/payload-types.ts","src/app/(payload)/admin/importMap.js"]
-  },
- "linter": {
-  "enabled": true,
-  "rules": {
-   "a11y": {
-    "noSvgWithoutTitle": "off",
-    "useButtonType": "off",
-    "useAltText": "off",
-    "useValidAnchor": "off",
-    "noRedundantRoles": "off",
-    "noNoninteractiveElementToInteractiveRole": "off",
-    "useFocusableInteractive": "off",
-    "useSemanticElements": "off",
-    "useKeyWithClickEvents": "off",
-    "noLabelWithoutControl": "off",
-    "useMediaCaption": "off",
-    "useAriaPropsForRole": "off"
-   },
-   "suspicious": {
-    "noArrayIndexKey": "off",
-    "noExplicitAny": "off",
-    "noImplicitAnyLet": "off",
-    "noCommentText": "off"
-   },
-   "correctness": {
-    "useExhaustiveDependencies": "off",
-    "noEmptyPattern": "off",
-    "noChildrenProp": "off"
-   },
-   "style": {
-    "useSelfClosingElements": "off"
-   },
-   "complexity":{
-    "noBannedTypes": "off",
-    "noForEach": "off"
-   },
-   "performance": {
-    "noAccumulatingSpread": "off"
-   },
-   "security": {
-    "noDangerouslySetInnerHtml": "off",
-    "noDangerouslySetInnerHtmlWithChildren": "off"
-   }
-  }
- }
+	"extends": ["@repo/config-biome/library"],
+	"files": {
+		"ignore": ["src/payload-types.ts", "src/app/(payload)/admin/importMap.js"]
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"a11y": {
+				"noSvgWithoutTitle": "off",
+				"useButtonType": "off",
+				"useAltText": "off",
+				"useValidAnchor": "off",
+				"noRedundantRoles": "off",
+				"noNoninteractiveElementToInteractiveRole": "off",
+				"useFocusableInteractive": "off",
+				"useSemanticElements": "off",
+				"useKeyWithClickEvents": "off",
+				"noLabelWithoutControl": "off",
+				"useMediaCaption": "off",
+				"useAriaPropsForRole": "off"
+			},
+			"suspicious": {
+				"noArrayIndexKey": "off",
+				"noExplicitAny": "off",
+				"noImplicitAnyLet": "off",
+				"noCommentText": "off"
+			},
+			"correctness": {
+				"useExhaustiveDependencies": "off",
+				"noEmptyPattern": "off",
+				"noChildrenProp": "off"
+			},
+			"style": {
+				"useSelfClosingElements": "off"
+			},
+			"complexity": {
+				"noBannedTypes": "off",
+				"noForEach": "off"
+			},
+			"performance": {
+				"noAccumulatingSpread": "off"
+			},
+			"security": {
+				"noDangerouslySetInnerHtml": "off",
+				"noDangerouslySetInnerHtmlWithChildren": "off"
+			}
+		}
+	}
 }

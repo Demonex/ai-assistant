@@ -2,9 +2,11 @@ import type { CollectionConfig } from "payload";
 
 import { tenantMedia } from "@/collections/tenant/media";
 import defaultAccess from "@/utilities/defaultAccess";
+import { getTenantAccess } from "@/access/tenant";
 
 const tenantAccess = {
 	...defaultAccess,
+	...getTenantAccess(),
 };
 
 export const tenant: CollectionConfig = {
@@ -19,6 +21,16 @@ export const tenant: CollectionConfig = {
 		useAsTitle: "title",
 	},
 	fields: [
+		// {
+		//   name: "id",
+		//   type: "integer",
+		//   required: true,
+		//   unique: true,
+		//   virtual: true,
+		//   admin: {
+		//     hidden: true
+		//   }
+		// },
 		{
 			name: "title",
 			type: "text",

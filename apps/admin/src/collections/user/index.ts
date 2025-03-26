@@ -1,10 +1,14 @@
-import type { CollectionAfterChangeHook, CollectionConfig } from "payload";
+import {
+	getEmailAccess,
+	getSuperadminAccess,
+	getUserAccess,
+} from "@/access/user";
+import { userMediaAvatar } from "@/collections/user/media/avatar";
+import defaultAccess from "@/utilities/defaultAccess";
 import { parse } from "cookie";
 import { unsign } from "cookie-signature";
 import Redis from "ioredis";
-import defaultAccess from "@/utilities/defaultAccess";
-import { userMediaAvatar } from "@/collections/user/media/avatar";
-import { tenant } from "../tenant";
+import type { CollectionConfig } from "payload";
 
 const RedisSessionStore = new Redis(
 	`redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
@@ -12,6 +16,7 @@ const RedisSessionStore = new Redis(
 
 const userAccess = {
 	...defaultAccess,
+	...getUserAccess(),
 };
 
 export const user: CollectionConfig = {
@@ -20,7 +25,7 @@ export const user: CollectionConfig = {
 		singular: "Пользователь",
 		plural: "Пользователи",
 	},
-	access: defaultAccess,
+	access: userAccess,
 	admin: {
 		// hideAPIURL: true,
 		defaultColumns: ["name", "email", "superadmin"],
@@ -75,6 +80,7 @@ export const user: CollectionConfig = {
 			name: "email",
 			type: "email",
 			unique: true,
+			access: getEmailAccess(),
 		},
 		// {
 		// 	name: "reset password token",
@@ -130,6 +136,7 @@ export const user: CollectionConfig = {
 					},
 				],
 			},
+			access: getSuperadminAccess(),
 		},
 		{
 			name: "password",

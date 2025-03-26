@@ -1,26 +1,24 @@
 {
- "extends": [
-  "@repo/config-biome/library"
- ],
- "javascript": {
-  "parser": {
-   "unsafeParameterDecoratorsEnabled": true
-  }
- },
- "linter": {
-  "rules": {
-   "suspicious": {
-    "noExplicitAny": "off"
-   },
-   "performance": {
-    "noAccumulatingSpread": "off"
-   },
-   "complexity": {
-    "noBannedTypes": "off"
-   },
-   "style": {
-    "useImportType": "off"
-   }
-  }
- }
+	"extends": ["@repo/config-biome/library"],
+	"javascript": {
+		"parser": {
+			"unsafeParameterDecoratorsEnabled": true
+		}
+	},
+	"linter": {
+		"rules": {
+			"suspicious": {
+				"noExplicitAny": "off"
+			},
+			"performance": {
+				"noAccumulatingSpread": "off"
+			},
+			"complexity": {
+				"noBannedTypes": "off"
+			},
+			"style": {
+				"useImportType": "off"
+			}
+		}
+	}
 }

@@ -1,9 +1,9 @@
 import type { CollectionConfig } from "payload";
 
 // import defaultAccess from "@/utilities/defaultAccess";
-import defaultAccess from "@/utilities/defaultAccess";
 import { collection } from "@/collections/collection";
 import { provider } from "@/collections/provider";
+import defaultAccess from "@/utilities/defaultAccess";
 
 const docAccess = {
 	...defaultAccess,

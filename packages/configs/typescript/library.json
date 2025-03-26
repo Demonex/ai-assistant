@@ -1,11 +1,11 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "A Shared Library",
-  "extends": "./base.json",
-  "compilerOptions": {
-    "declaration": true,
-    "declarationMap": true,
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"display": "A Shared Library",
+	"extends": "./base.json",
+	"compilerOptions": {
+		"declaration": true,
+		"declarationMap": true,
 
-    "composite": true
-  }
+		"composite": true
+	}
 }

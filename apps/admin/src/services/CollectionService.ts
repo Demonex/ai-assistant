@@ -31,7 +31,6 @@ const makeRequest = async <T>(options: RequestOptions): Promise<T> => {
 		if (axios.isAxiosError(error)) {
 			throw new Error(`Request failed: ${error.message}`);
 		}
-
 		throw error;
 	}
 };

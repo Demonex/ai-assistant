@@ -11,11 +11,14 @@ const RouterApp = memo(() => {
 		router: { location } = {},
 		Component,
 	} = useRouterApp();
+
 	if (!route || !location) {
 		return null;
 	}
+
 	return <Suspense fallback={""}>{Component && <Component />}</Suspense>;
 });
+
 export const App = memo(() => {
 	return (
 		<MonoHooksProvider>
