@@ -4,8 +4,28 @@ import {
 	HttpException,
 	HttpStatus,
 	Injectable,
+	UnauthorizedException,
 } from "@nestjs/common";
 import { HttpStatusMessages } from "@repo/backend/messages/http.js";
+
+@Injectable()
+export class ApiKeyGuard implements CanActivate {
+	canActivate(context: ExecutionContext): boolean | Promise<boolean> {
+		const request = context.switchToHttp().getRequest();
+		const apiKey = request.headers["x-api-key"]; // или 'authorization'
+
+		if (!apiKey) {
+			throw new UnauthorizedException("API Key is missing");
+		}
+
+		if (apiKey !== "your-secret-api-key-123sigma") {
+			// лучше хранить в .env
+			throw new UnauthorizedException("Invalid API Key");
+		}
+
+		return true;
+	}
+}
 
 @Injectable()
 export class AuthorizedGuard implements CanActivate {

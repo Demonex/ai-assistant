@@ -32,6 +32,7 @@ export default buildConfig({
 		},
 	}),
 	admin: {
+		theme: "light",
 		meta: {
 			title: "Admin Panel",
 			titleSuffix: "- Admin",

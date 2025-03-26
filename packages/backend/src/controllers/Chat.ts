@@ -18,7 +18,7 @@ import {
 	ApiOperation,
 	ApiTags,
 } from "@nestjs/swagger";
-import { Authorized } from "@repo/backend/decorators/auth.js";
+import { ApiKey, Authorized } from "@repo/backend/decorators/auth.js";
 import { TenantId, UserId } from "@repo/backend/decorators/user.js";
 import { ChatService } from "@repo/backend/services/Chat.js";
 import { ChatMessageDto, ChatUploadMediaDto } from "../dto/Chat.js";
@@ -64,6 +64,31 @@ export class ChatController {
 		);
 
 		const response = await this.chatService.messageSend(userId, chatId, data);
+
+		await this.chatService.messagePatch(messageId, {
+			response: {
+				success: response.success,
+				...response.response,
+			},
+		});
+
+		return response;
+	}
+
+	@ApiKey()
+	@Post("/chat/:id/message-external")
+	@HttpCode(200)
+	async sendMessageCringe(
+		@Param("id") chatId: number,
+		@Body() data: ChatMessageDto,
+	) {
+		const { id: messageId } = await this.chatService.messageCreate(
+			2,
+			chatId,
+			data,
+		);
+
+		const response = await this.chatService.messageSend(2, chatId, data);
 
 		await this.chatService.messagePatch(messageId, {
 			response: {

@@ -1,36 +1,19 @@
-import {
-	BadRequestException,
-	Body,
-	Controller,
-	Get,
-	HttpCode,
-	HttpStatus,
-	InternalServerErrorException,
-	Param,
-	Post,
-	Redirect,
-	Request,
-	Res,
-} from "@nestjs/common";
-import {
-	AuthRecoverDto,
-	AuthSignInDto,
-	AuthSignUpDto,
-	RequestPasswordResetDto,
-	ResetPasswordDto,
-} from "@repo/backend/dto/Auth.js";
-import { AuthService } from "@repo/backend/services/Auth.js";
-import { Authorized, Unauthorized } from "@repo/backend/decorators/auth.js";
-import { UserId } from "@repo/backend/decorators/user.js";
+import { Body, Controller, HttpCode, Post, Request } from "@nestjs/common";
 import {
 	ApiBearerAuth,
 	ApiExcludeEndpoint,
 	ApiOperation,
-	ApiResponse,
 	ApiTags,
 } from "@nestjs/swagger";
-import type { RedirectResponse } from "@nestjs/core/router/router-response-controller.js";
+import {
+	ApiKey,
+	Authorized,
+	Unauthorized,
+} from "@repo/backend/decorators/auth.js";
+import { UserId } from "@repo/backend/decorators/user.js";
+import { AuthSignInDto, AuthSignUpDto } from "@repo/backend/dto/Auth.js";
 import { validateDto } from "@repo/backend/middlewares/validateDto.js";
+import { AuthService } from "@repo/backend/services/Auth.js";
 
 @ApiTags("auth")
 @Controller("/api")
@@ -76,81 +59,4 @@ export class AuthController {
 		const profile = await this.service.signUpByEmail(args, false);
 		return profile;
 	}
-	/*
-
-	@Get("/rest/auth/activate/:link")
-	async activate(@Param("link") link: string, @Res() res) {
-		await this.service.activateAccount(link);
-		return res.redirect(process.env.FRONTEND_URL);
-	}
-
-	@Post("/rest/auth/email/resend/:userId")
-	async resend(@Param("userId") userId: string) {
-		const result = await this.service.resendEmailConfirm(userId);
-
-		if (result.success) {
-			return result;
-		}
-		throw new InternalServerErrorException(result.message);
-	}
-*/
-	/*
-	@Unauthorized()
-	@Post("/rest/auth/email/recover")
-	@HttpCode(200)
-	async recover(@Request() request: any, @Body() args: AuthRecoverDto) {
-		await validateDto(AuthRecoverDto, args, request);
-		await this.service.recover(args);
-		return {
-			success: true,
-		};
-	}*/
-	/*
-	@ApiOperation({ summary: "Request password reset link" })
-	@ApiResponse({ status: 201, description: "Password reset link sent" })
-	@ApiResponse({ status: 400, description: "Invalid email address" })
-	@Unauthorized()
-	@Post("/rest/auth/request-password-reset")
-	async requestPasswordReset(@Body() dto: RequestPasswordResetDto) {
-		try {
-			await this.service.requestPasswordReset(dto.email);
-
-			return {
-				success: true,
-				message: "Password reset link sent",
-			};
-		} catch (error) {
-			throw new BadRequestException(error.message);
-		}
-	}*/
-	/*
-	@Post("/rest/auth/email/reset-password")
-	@ApiOperation({ summary: "Reset password" })
-	@ApiResponse({ status: 201, description: "Password successfully reset" })
-	@ApiResponse({ status: 400, description: "Invalid or expired token" })
-	async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
-		const { token, email, newPassword } = resetPasswordDto;
-		try {
-			await this.service.resetPassword(token, email, newPassword);
-			return { success: true, message: "Password successfully reset" };
-		} catch (error) {
-			throw new BadRequestException(error.message);
-		}
-	}*/
-	/*
-	@ApiExcludeEndpoint(process.env.NODE_ENV !== "development")
-	@Get("/rest/auth/email/recover/:code/:state")
-	@Redirect(`${process.env.FRONTEND_URL || "/"}`, HttpStatus.SEE_OTHER)
-	@ApiResponse({ status: HttpStatus.SEE_OTHER })
-	async recoverVerify(
-		@Param("code") recoverCode: string,
-		@Param("state") verifyCode: string,
-	): Promise<RedirectResponse> {
-		const url = (await this.service.recover({ recoverCode, verifyCode }))
-			.redirect;
-		return {
-			url,
-			statusCode: HttpStatus.SEE_OTHER,
-		};
-	}*/
 }
