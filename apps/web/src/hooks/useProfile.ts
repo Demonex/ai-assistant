@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useFetch, createMonoHook, useLazyFetch } from "use-mono-hook";
+import { BACKEND_URL } from "@repo/web/constants/index.js";
 
 const _useProfile = () => {
 	const {
@@ -7,15 +8,17 @@ const _useProfile = () => {
 		error: errorProfile,
 		loading,
 	} = useFetch({
-		url: `${import.meta.env.VITE_BACKEND_URL}/profile`,
-		cache: false,
+		url: `${BACKEND_URL}/profile`,
+		params: {
+			formatForAdmin: false,
+		},
 	});
 
 	const [
 		{ data: dataSignIn, error: errorSignIn, loading: loadingSignIn },
 		fetchSignIn,
 	] = useLazyFetch({
-		url: `${import.meta.env.VITE_BACKEND_URL}/auth/email/sign-in`,
+		url: `${BACKEND_URL}/auth/email/sign-in`,
 		method: "post",
 		cache: false,
 	});
@@ -24,7 +27,7 @@ const _useProfile = () => {
 		{ data: dataSignOut, error: errorSignOut, loading: loadingSignOut },
 		fetchSignOut,
 	] = useLazyFetch({
-		url: `${import.meta.env.VITE_BACKEND_URL}/auth/sign-out`,
+		url: `${BACKEND_URL}/auth/sign-out`,
 		method: "post",
 		cache: false,
 	});
@@ -57,7 +60,7 @@ const _useProfile = () => {
 
 	const handleSignOut = useCallback(async () => {
 		await fetchSignOut({
-			url: `${import.meta.env.VITE_BACKEND_URL}/auth/sign-out`,
+			url: `${BACKEND_URL}/auth/sign-out`,
 			data: data || dataSignIn,
 		});
 		setProfile(null);
@@ -80,13 +83,6 @@ const _useProfile = () => {
 		sessionStorage.removeItem("profile");
 	}, [errorProfile, profile]);
 
-	console.log({
-		isAuthorized,
-		profile,
-		handleSignOut,
-		handleSignIn,
-		loading,
-	});
 	return {
 		isAuthorized,
 		profile,

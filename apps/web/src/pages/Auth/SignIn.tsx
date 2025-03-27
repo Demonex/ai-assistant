@@ -1,4 +1,4 @@
-import { SignIn } from "@/pages/Auth/components/SignIn.js";
+import { SignIn } from "@repo/web/pages/Auth/components/SignIn.js";
 
 export default function SignInPage() {
 	return (

@@ -110,7 +110,12 @@ export default buildConfig({
 		group,
 		chatMessage,
 	],
-	cors: [getServerSideURL()].filter(Boolean),
+	cors: {
+		headers: ["x-http-method-override"],
+		origins: [getServerSideURL(), process.env.NEXT_PUBLIC_FRONTEND_URL].filter(
+			Boolean,
+		) as string[],
+	},
 	globals: [],
 	plugins: [
 		s3Storage({
@@ -134,7 +139,7 @@ export default buildConfig({
 				endpoint: process.env.S3_ENDPOINT,
 				forcePathStyle: true,
 			},
-		}),
+		}) as any,
 	],
 	secret: process.env.PAYLOAD_SECRET,
 	// sharp,

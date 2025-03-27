@@ -5,12 +5,7 @@ import {
 	Injectable,
 	Scope,
 } from "@nestjs/common";
-import { InjectModel } from "nestjs-typegoose";
-import type { ReturnModelType } from "@typegoose/typegoose";
-import type {
-	UpdateProfileAvatarDto,
-	UpdateProfileDto,
-} from "@repo/backend/dto/Profile.js";
+import type { UpdateProfileAvatarDto } from "@repo/backend/dto/Profile.js";
 import { get } from "lodash-es";
 import type { Redis } from "ioredis";
 import { InjectRedis } from "@nestjs-modules/ioredis";
@@ -26,16 +21,17 @@ export class UserService {
 		@InjectRedis() private readonly redisClient: Redis,
 		private readonly em: EntityManager,
 	) {}
+
 	/*
   async findById(id?: Types.ObjectId): Promise<UserEntity | null> {
     if (!id) return null;
     return this.repo.findById(id).select(UserEntityDefaultSelect);
   }*/
 
-	async me(id: number, email?: string) {
-		const isAdminRequest = String(
-			get(this.request, "headers.referer", ""),
-		).includes("/admin");
+	async me(id: number, email?: string, disablePayloadFormatting = false) {
+		const isAdminRequest =
+			String(get(this.request, "headers.referer", "")).includes("/admin") &&
+			!disablePayloadFormatting;
 		if (!id && !isAdminRequest) {
 			throw new HttpException(
 				{
@@ -192,6 +188,7 @@ export class UserService {
     }*/
 		return null;
 	}
+
 	/*
   async findByIdAndDelete(userId: Types.ObjectId): Promise<boolean> {
     try {

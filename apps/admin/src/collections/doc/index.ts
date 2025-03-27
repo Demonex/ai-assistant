@@ -13,10 +13,10 @@ const docAccess = {
 
 export const doc: CollectionConfig = {
 	slug: "doc",
-	labels: {
+	/*labels: {
 		singular: "Документ",
 		plural: "Документы",
-	},
+	},*/
 	access: docAccess,
 	admin: {
 		defaultColumns: ["filename", "collection", "provider"],
@@ -62,14 +62,14 @@ export const doc: CollectionConfig = {
 			type: "relationship",
 			relationTo: collection.slug as "collection",
 			required: true,
-			label: "Коллекция",
+			// label: "Коллекция",
 		},
 		{
 			name: "provider",
 			type: "relationship",
 			relationTo: provider.slug as "provider",
 			required: true,
-			label: "Провайдер",
+			// label: "Провайдер",
 		},
 	],
 	versions: false,

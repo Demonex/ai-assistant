@@ -6,10 +6,10 @@ import {
 	useMemo,
 	useState,
 } from "react";
-import { lazyWithPreload } from "@/utils/lazyWithPreload.js";
+import { lazyWithPreload } from "@repo/web/utils/lazyWithPreload.js";
 import { useLocation } from "wouter";
 import { createMonoHook } from "use-mono-hook";
-import { useProfile } from "hooks/useProfile.js";
+import { useProfile } from "@repo/web/hooks/useProfile.js";
 
 type RouteApp = {
 	path: string;
@@ -21,11 +21,17 @@ type RouteApp = {
 const routesShared = [
 	{
 		path: "/",
-		component: lazyWithPreload(() => import("pages/Home/index.js")),
+		component: lazyWithPreload(() => import("@repo/web/pages/Home/index.js")),
+	},
+	{
+		path: "/chats",
+		component: lazyWithPreload(() => import("@repo/web/pages/Home/index.js")),
 	},
 	{
 		path: "*",
-		component: lazyWithPreload(() => import("pages/NotFound/index.js")),
+		component: lazyWithPreload(
+			() => import("@repo/web/pages/NotFound/index.js"),
+		),
 	},
 ] satisfies RouteApp[];
 
@@ -35,7 +41,7 @@ const routesUnAuthorized = [
 	...routesShared,
 	{
 		path: "/sign-in",
-		component: lazyWithPreload(() => import("pages/Auth/SignIn.js")),
+		component: lazyWithPreload(() => import("@repo/web/pages/Auth/SignIn.js")),
 	},
 ] satisfies RouteApp[];
 
