@@ -16,7 +16,7 @@ import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 import { ALLOWED_EXTENSIONS } from "@/constants/index.js";
 import { formatLocalTime } from "@/helpers/index.js";
 import type { GroupMessages } from "@/types/types.js";
-import { ScrollToBottomButtont } from "./ScrollToBottomButton.js";
+import { ScrollToBottomButton } from "./ScrollToBottomButton.js";
 
 export const DialogWindow = () => {
 	const {
@@ -34,7 +34,6 @@ export const DialogWindow = () => {
 
 	const [files, setFiles] = useState([]);
 	const [isOverlay, setIsOverlay] = useState(false);
-	const [isVisible, setIsVisible] = useState(false);
 
 	const onReturnToMenu = () => {
 		setActiveChat(false);
@@ -116,13 +115,6 @@ export const DialogWindow = () => {
 		return Object.entries(grouping);
 	}, [messages]);
 
-	const scrollToBottom = useCallback(() => {
-		chatContainerRef.current?.scrollTo({
-			top: chatContainerRef.current.scrollHeight,
-			behavior: "smooth",
-		});
-	}, [chatContainerRef]);
-
 	useEffect(() => {
 		requestAnimationFrame(() => {
 			messagesEndRef.current?.scrollIntoView();
@@ -152,20 +144,6 @@ export const DialogWindow = () => {
 		}
 	}, [fetchErrors]);
 
-	useEffect(() => {
-		const container = chatContainerRef.current;
-
-		if (!container) return;
-
-		const handleScroll = () => {
-			const { scrollTop, scrollHeight, clientHeight } = container;
-			setIsVisible(scrollTop + clientHeight < scrollHeight - 1000);
-		};
-
-		container.addEventListener("scroll", handleScroll);
-		return () => container.removeEventListener("scroll", handleScroll);
-	}, []);
-
 	return (
 		<div className="flex-grow">
 			<div className="fixed inset-0 flex flex-col bg-background p-4 lg:relative lg:bg-transparent lg:p-0">
@@ -176,7 +154,7 @@ export const DialogWindow = () => {
 
 				<div
 					dir="ltr"
-					className="overflow-hidden relative h-screen w-full lg:h-[calc(100vh_-_9rem)]"
+					className="overflow-hidden relative h-screen w-full lg:h-[calc(100vh-9rem)]"
 					onDragEnter={handleDragEnter}
 				>
 					{isOverlay && !messageLoading && (
@@ -207,38 +185,27 @@ export const DialogWindow = () => {
 						className="overflow-scroll h-full w-full rounded-[inherit]"
 					>
 						<div data-radix-scroll-area-content>
-							<div>
-								<div className="flex flex-col items-start space-y-10 pb-[12rem] min-h-screen justify-center first:pt-4">
-									{groupingMessages?.map(([date, messages]) => (
-										<Fragment key={date}>
-											<div className="mx-auto max-w-max text-center text-gray-500 text-sm">
-												{formatLocalTime(date, "date")}
-											</div>
-											{messages?.map((message) => (
-												<Fragment key={message.id}>
-													{message.request && (
-														<MessageBubble message={message} isRequest={true} />
-													)}
-													{message.response && (
-														<MessageBubble
-															message={message}
-															isRequest={false}
-														/>
-													)}
-												</Fragment>
-											))}
-										</Fragment>
-									))}
-									<div className="fixed bottom-40 right-12 z-50">
-										<ScrollToBottomButtont
-											isVisible={isVisible}
-											scrollToBottom={scrollToBottom}
-										/>
-									</div>
-								</div>
-
-								<div ref={messagesEndRef} />
+							<div className="flex flex-col items-start space-y-10 pb-[12rem] min-h-screen justify-center first:pt-4">
+								{groupingMessages?.map(([date, messages]) => (
+									<Fragment key={date}>
+										<div className="mx-auto max-w-max text-center text-gray-500 text-sm">
+											{formatLocalTime(date, "date")}
+										</div>
+										{messages?.map((message) => (
+											<Fragment key={message.id}>
+												{message.request && (
+													<MessageBubble message={message} isRequest={true} />
+												)}
+												{message.response && (
+													<MessageBubble message={message} isRequest={false} />
+												)}
+											</Fragment>
+										))}
+									</Fragment>
+								))}
 							</div>
+
+							<div ref={messagesEndRef} />
 						</div>
 					</div>
 				</div>
@@ -250,6 +217,10 @@ export const DialogWindow = () => {
 							handleDrop={handleDrop}
 							setFiles={setFiles}
 						/>
+					</div>
+
+					<div className="absolute bottom-[calc(100%+20px)] right-0 z-50">
+						<ScrollToBottomButton ref={chatContainerRef} />
 					</div>
 				</div>
 			</div>
