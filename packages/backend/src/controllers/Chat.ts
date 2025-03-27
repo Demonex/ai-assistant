@@ -94,7 +94,6 @@ export class ChatController {
 		return response;
 	}
 
-	@ApiKey()
 	@Post("/chat/:id/message-external")
 	@HttpCode(200)
 	async sendMessageCringe(
