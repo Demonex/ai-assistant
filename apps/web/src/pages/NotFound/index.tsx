@@ -7,13 +7,13 @@ export const NotFoundPage = memo(() => {
 	const { preloadPage } = useRouterApp();
 	const { theme } = useTheme();
 
-	console.log(theme, "тема");
-
 	useInsertionEffect(() => {
 		const style = document.createElement("style");
+
 		style.innerHTML = `body,html { ${
 			theme === "light" ? "background: #fff;" : "background: #000;"
 		} overflow: auto; } #app { position: relative; }`;
+
 		document.head.appendChild(style);
 		return () => {
 			document.head.removeChild(style);
