@@ -16,6 +16,7 @@ import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 import { ALLOWED_EXTENSIONS } from "@/constants/index.js";
 import { formatLocalTime } from "@/helpers/index.js";
 import type { GroupMessages } from "@/types/types.js";
+import { ScrollToBottomButtont } from "./ScrollToBottomButton.js";
 
 export const DialogWindow = () => {
 	const {
@@ -29,9 +30,11 @@ export const DialogWindow = () => {
 	} = useChats();
 
 	const messagesEndRef = useRef(null);
+	const chatContainerRef = useRef(null);
 
 	const [files, setFiles] = useState([]);
 	const [isOverlay, setIsOverlay] = useState(false);
+	const [isVisible, setIsVisible] = useState(false);
 
 	const onReturnToMenu = () => {
 		setActiveChat(false);
@@ -113,6 +116,13 @@ export const DialogWindow = () => {
 		return Object.entries(grouping);
 	}, [messages]);
 
+	const scrollToBottom = useCallback(() => {
+		chatContainerRef.current?.scrollTo({
+			top: chatContainerRef.current.scrollHeight,
+			behavior: "smooth",
+		});
+	}, [chatContainerRef]);
+
 	useEffect(() => {
 		requestAnimationFrame(() => {
 			messagesEndRef.current?.scrollIntoView();
@@ -141,6 +151,20 @@ export const DialogWindow = () => {
 			setFetchErrors([]);
 		}
 	}, [fetchErrors]);
+
+	useEffect(() => {
+		const container = chatContainerRef.current;
+
+		if (!container) return;
+
+		const handleScroll = () => {
+			const { scrollTop, scrollHeight, clientHeight } = container;
+			setIsVisible(scrollTop + clientHeight < scrollHeight - 1000);
+		};
+
+		container.addEventListener("scroll", handleScroll);
+		return () => container.removeEventListener("scroll", handleScroll);
+	}, []);
 
 	return (
 		<div className="flex-grow">
@@ -178,6 +202,7 @@ export const DialogWindow = () => {
 						</div>
 					)}
 					<div
+						ref={chatContainerRef}
 						data-radix-scroll-area-viewport
 						className="overflow-scroll h-full w-full rounded-[inherit]"
 					>
@@ -204,7 +229,14 @@ export const DialogWindow = () => {
 											))}
 										</Fragment>
 									))}
+									<div className="fixed bottom-40 right-12 z-50">
+										<ScrollToBottomButtont
+											isVisible={isVisible}
+											scrollToBottom={scrollToBottom}
+										/>
+									</div>
 								</div>
+
 								<div ref={messagesEndRef} />
 							</div>
 						</div>
