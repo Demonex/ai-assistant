@@ -1,9 +1,11 @@
-import { CodeBlock, type CodeBlockProps } from "@/blocks/Code/Component";
 import React, { Fragment, type JSX } from "react";
+
 import type {
 	DefaultNodeTypes,
 	SerializedBlockNode,
 } from "@payloadcms/richtext-lexical";
+
+import { CodeBlock, type CodeBlockProps } from "@/blocks/Code/Component";
 
 import {
 	IS_BOLD,

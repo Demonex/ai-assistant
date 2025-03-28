@@ -1,13 +1,6 @@
 "use client";
 
-import {
-	BadgeCheck,
-	Bell,
-	ChevronsUpDown,
-	CreditCard,
-	LogOut,
-	Sparkles,
-} from "lucide-react";
+import { useEffect, useState } from "react";
 
 import {
 	Avatar,
@@ -29,11 +22,19 @@ import {
 	SidebarMenuItem,
 	useSidebar,
 } from "@repo/web/components/ui/sidebar.js";
-import { ModeToggle } from "./mode-toggle.js";
 import { useProfile } from "@repo/web/hooks/useProfile.js";
-import { useEffect, useState } from "react";
-import { useTheme } from "./theme-provider.js";
 import { AvatarComponent } from "@repo/web/pages/Home/components/AvatarComponent.js";
+import {
+	BadgeCheck,
+	Bell,
+	ChevronsUpDown,
+	CreditCard,
+	LogOut,
+	Sparkles,
+} from "lucide-react";
+
+import { ModeToggle } from "./mode-toggle.js";
+import { useTheme } from "./theme-provider.js";
 
 export function NavUser() {
 	const { isMobile } = useSidebar();

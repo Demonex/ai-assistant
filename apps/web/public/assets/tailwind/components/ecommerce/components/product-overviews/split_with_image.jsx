@@ -13,12 +13,13 @@
   ```
 */
 import { useState } from "react";
+
+import { RadioGroup } from "@headlessui/react";
 import {
 	CheckIcon,
 	QuestionMarkCircleIcon,
 	StarIcon,
 } from "@heroicons/react/20/solid";
-import { RadioGroup } from "@headlessui/react";
 import { ShieldCheckIcon } from "@heroicons/react/24/outline";
 
 const product = {

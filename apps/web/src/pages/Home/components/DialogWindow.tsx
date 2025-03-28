@@ -1,7 +1,3 @@
-import { ALLOWED_EXTENSIONS } from "@repo/web/constants/index.js";
-import { formatLocalTime } from "@repo/web/helpers/index.js";
-import { toast } from "@repo/web/hooks/use-toast.js";
-import type { GroupMessages } from "@repo/web/types/types.js";
 import {
 	Fragment,
 	useCallback,
@@ -10,6 +6,12 @@ import {
 	useRef,
 	useState,
 } from "react";
+
+import { ALLOWED_EXTENSIONS } from "@repo/web/constants/index.js";
+import { formatLocalTime } from "@repo/web/helpers/index.js";
+import { toast } from "@repo/web/hooks/use-toast.js";
+import type { GroupMessages } from "@repo/web/types/types.js";
+
 import { useChats } from "../hooks/useChats.js";
 import { ChatForm } from "./ChatForm.js";
 import { HeaderDialogWindow } from "./HeaderDialogWindow.js";
@@ -35,7 +37,7 @@ export const DialogWindow = () => {
 	const [isOverlay, setIsOverlay] = useState(false);
 
 	const onReturnToMenu = () => {
-		setActiveChat(false);
+		setActiveChat(null);
 	};
 
 	const handleDragEnter = (event) => {

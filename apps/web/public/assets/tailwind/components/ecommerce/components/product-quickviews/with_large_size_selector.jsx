@@ -13,13 +13,14 @@
   ```
 */
 import { Fragment, useState } from "react";
+
 import { Dialog, RadioGroup, Transition } from "@headlessui/react";
-import { ShieldCheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
 	CheckIcon,
 	QuestionMarkCircleIcon,
 	StarIcon,
 } from "@heroicons/react/20/solid";
+import { ShieldCheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const product = {
 	name: "Everyday Ruck Snack",

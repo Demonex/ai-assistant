@@ -13,8 +13,9 @@
   ```
 */
 import { Fragment } from "react";
-import { ChevronRightIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
+
 import { Popover, Transition } from "@headlessui/react";
+import { ChevronRightIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 
 const steps = [
 	{ name: "Cart", href: "#", status: "complete" },

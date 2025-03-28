@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+
 import defaultAccess from "@/utilities/defaultAccess";
 
 const userMediaAccess = {

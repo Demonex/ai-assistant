@@ -13,6 +13,7 @@
   ```
 */
 import { Fragment } from "react";
+
 import { Tab } from "@headlessui/react";
 
 const tabs = [

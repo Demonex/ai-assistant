@@ -1,10 +1,12 @@
+import { memo } from "react";
+
 import { formatLocalTime } from "@repo/web/helpers/index.js";
+import { toast } from "@repo/web/hooks/use-toast.js";
+import type { Message } from "@repo/web/types/types.js";
+import { Copy } from "lucide-react";
+
 import { AccordionComponent } from "./AccordionComponent.js";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
-import { memo } from "react";
-import type { Message } from "@repo/web/types/types.js";
-import { toast } from "@repo/web/hooks/use-toast.js";
-import { Copy } from "lucide-react";
 
 export const MessageBubble = memo<{
 	message: Message;

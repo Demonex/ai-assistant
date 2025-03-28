@@ -13,7 +13,12 @@
   ```
 */
 import { Fragment, useState } from "react";
+
 import { Dialog, Menu, Transition } from "@headlessui/react";
+import {
+	ChevronDownIcon,
+	MagnifyingGlassIcon,
+} from "@heroicons/react/20/solid";
 import {
 	Bars3Icon,
 	BellIcon,
@@ -26,10 +31,6 @@ import {
 	UsersIcon,
 	XMarkIcon,
 } from "@heroicons/react/24/outline";
-import {
-	ChevronDownIcon,
-	MagnifyingGlassIcon,
-} from "@heroicons/react/20/solid";
 
 const navigation = [
 	{ name: "Dashboard", href: "#", icon: HomeIcon, current: true },

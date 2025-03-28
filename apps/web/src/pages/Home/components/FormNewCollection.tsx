@@ -9,8 +9,9 @@ import {
 } from "@repo/web/components/ui/dialog.js";
 import { Input } from "@repo/web/components/ui/input.js";
 import { Label } from "@repo/web/components/ui/label.js";
-import { SelectComponent } from "./SelectComponent.js";
+
 import { FormFineTuning } from "./FormFineTuning.js";
+import { SelectComponent } from "./SelectComponent.js";
 
 export function FormNewCollection() {
 	return (

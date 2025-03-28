@@ -6,10 +6,11 @@ import {
 	useMemo,
 	useState,
 } from "react";
-import { lazyWithPreload } from "@repo/web/utils/lazyWithPreload.js";
-import { useLocation } from "wouter";
-import { createMonoHook } from "use-mono-hook";
+
 import { useProfile } from "@repo/web/hooks/useProfile.js";
+import { lazyWithPreload } from "@repo/web/utils/lazyWithPreload.js";
+import { createMonoHook } from "use-mono-hook";
+import { useLocation } from "wouter";
 
 type RouteApp = {
 	path: string;

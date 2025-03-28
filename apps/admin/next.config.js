@@ -1,5 +1,5 @@
-import { withPayload } from "@payloadcms/next/withPayload";
 import importMetaEnv from "@import-meta-env/unplugin";
+import { withPayload } from "@payloadcms/next/withPayload";
 
 const getServerSideURL = () => {
 	let url = process.env.NEXT_PUBLIC_SERVER_URL;

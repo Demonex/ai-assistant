@@ -13,9 +13,10 @@
   ```
 */
 import { Fragment, useState } from "react";
+
+import { Combobox, Dialog, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { FaceFrownIcon, GlobeAmericasIcon } from "@heroicons/react/24/outline";
-import { Combobox, Dialog, Transition } from "@headlessui/react";
 
 const items = [
 	{ id: 1, name: "Workflow Inc.", category: "Clients", url: "#" },

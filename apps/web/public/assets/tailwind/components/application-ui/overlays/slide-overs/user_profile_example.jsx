@@ -1,7 +1,8 @@
 import { Fragment, useState } from "react";
+
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");

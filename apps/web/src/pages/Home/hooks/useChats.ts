@@ -1,5 +1,6 @@
-import type { MessagesType } from "@repo/web/types/types.js";
 import { useCallback, useEffect, useState } from "react";
+
+import type { ActiveChat, MessagesType } from "@repo/web/types/types.js";
 import { createMonoHook, useFetch, useLazyFetch } from "use-mono-hook";
 
 const _useChats = () => {
@@ -8,9 +9,7 @@ const _useChats = () => {
 	});
 
 	const [fetchErrors, setFetchErrors] = useState([]);
-	const [activeChat, setActiveChat] = useState<{
-		id: number;
-	}>();
+	const [activeChat, setActiveChat] = useState<ActiveChat>(null);
 
 	const [messages, setMessages] = useState<MessagesType>();
 
@@ -140,6 +139,10 @@ const _useChats = () => {
 export const useChats = createMonoHook<typeof _useChats>(_useChats, {
 	defaults: {
 		chats: [],
-		messages: [],
+		messages: {
+			isEmpty: true,
+			messages: [],
+			description: "",
+		},
 	},
 }).useHook;

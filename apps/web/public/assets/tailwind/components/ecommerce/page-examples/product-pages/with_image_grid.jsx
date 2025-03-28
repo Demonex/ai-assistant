@@ -21,6 +21,7 @@
   ```
 */
 import { Fragment, useState } from "react";
+
 import {
 	Dialog,
 	Popover,
@@ -28,6 +29,7 @@ import {
 	Tab,
 	Transition,
 } from "@headlessui/react";
+import { ChevronDownIcon, StarIcon } from "@heroicons/react/20/solid";
 import {
 	Bars3Icon,
 	MagnifyingGlassIcon,
@@ -35,7 +37,6 @@ import {
 	UserIcon,
 	XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { ChevronDownIcon, StarIcon } from "@heroicons/react/20/solid";
 
 const currencies = ["CAD", "USD", "AUD", "EUR", "GBP"];
 const navigation = {

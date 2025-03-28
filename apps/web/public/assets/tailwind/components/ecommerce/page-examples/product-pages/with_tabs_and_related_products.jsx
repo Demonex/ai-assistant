@@ -15,14 +15,15 @@
   ```
 */
 import { Fragment, useState } from "react";
+
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
+import { StarIcon } from "@heroicons/react/20/solid";
 import {
 	Bars3Icon,
 	MagnifyingGlassIcon,
 	ShoppingBagIcon,
 	XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { StarIcon } from "@heroicons/react/20/solid";
 
 const navigation = {
 	categories: [

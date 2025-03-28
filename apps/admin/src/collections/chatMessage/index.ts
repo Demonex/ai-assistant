@@ -1,8 +1,10 @@
-import defaultAccess from "@/utilities/defaultAccess";
 import type { CollectionConfig } from "payload";
+
+import { getChatMessageAccess } from "@/access/chatMessage";
+import defaultAccess from "@/utilities/defaultAccess";
+
 import { collection } from "../collection";
 import { user } from "../user";
-import { getChatMessageAccess } from "@/access/chatMessage";
 
 const chatMessageAccess = {
 	...defaultAccess,

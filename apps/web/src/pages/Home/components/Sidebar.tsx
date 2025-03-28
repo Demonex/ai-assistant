@@ -1,9 +1,11 @@
 import { memo, useState } from "react";
-import { Input } from "@repo/web/components/ui/input.js";
-import ChatList from "./ChatList.js";
-import { useChats } from "../hooks/useChats.js";
-import { FormNewCollection } from "./FormNewCollection.js";
+
 import { collectionMockData } from "@repo/web/DataBase.js";
+import { Input } from "@repo/web/components/ui/input.js";
+
+import { useChats } from "../hooks/useChats.js";
+import ChatList from "./ChatList.js";
+import { FormNewCollection } from "./FormNewCollection.js";
 
 export const Sidebar = memo(() => {
 	const { chats } = useChats();

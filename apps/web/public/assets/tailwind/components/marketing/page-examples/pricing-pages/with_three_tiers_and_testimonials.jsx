@@ -13,9 +13,10 @@
   ```
 */
 import { useState } from "react";
+
 import { Dialog, RadioGroup } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { CheckIcon } from "@heroicons/react/20/solid";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const navigation = [
 	{ name: "Product", href: "#" },

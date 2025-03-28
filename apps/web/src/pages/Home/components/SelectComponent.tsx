@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import {
 	Select,
 	SelectContent,
@@ -7,7 +9,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@repo/web/components/ui/select.js";
-import { memo } from "react";
 
 export const SelectComponent = memo<{ placeholder: string }>(
 	({ placeholder }) => {

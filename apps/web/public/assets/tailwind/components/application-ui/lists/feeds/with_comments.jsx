@@ -13,7 +13,8 @@
   ```
 */
 import { Fragment, useState } from "react";
-import { CheckCircleIcon } from "@heroicons/react/24/solid";
+
+import { Listbox, Transition } from "@headlessui/react";
 import {
 	FaceFrownIcon,
 	FaceSmileIcon,
@@ -23,7 +24,7 @@ import {
 	PaperClipIcon,
 	XMarkIcon,
 } from "@heroicons/react/20/solid";
-import { Listbox, Transition } from "@headlessui/react";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
 
 const activity = [
 	{

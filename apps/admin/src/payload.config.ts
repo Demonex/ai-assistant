@@ -1,7 +1,7 @@
 // storage-adapter-import-placeholder
-import { s3Storage } from "@stigma.io/payloadcms-storage-s3";
 // import sharp from 'sharp' // sharp-import
 import { postgresAdapter } from "@payloadcms/db-postgres";
+import { s3Storage } from "@stigma.io/payloadcms-storage-s3";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildConfig } from "payload";
@@ -9,6 +9,7 @@ import { buildConfig } from "payload";
 import { tenantMedia } from "@/collections/tenant/media";
 import { userMediaAvatar } from "@/collections/user/media/avatar";
 import { defaultLexical } from "@/fields/defaultLexical";
+
 import { chatMessage } from "./collections/chatMessage";
 import { collection } from "./collections/collection";
 import { doc } from "./collections/doc";
@@ -18,8 +19,9 @@ import { neuro } from "./collections/neuro";
 import { provider } from "./collections/provider";
 import { tenant } from "./collections/tenant";
 import { user } from "./collections/user";
-import { getServerSideURL } from "./utilities/getURL";
 import defaultAccess, { isAuthorized } from "./utilities/defaultAccess";
+import { getServerSideURL } from "./utilities/getURL";
+
 // import Logo from "@/components/Logo/Logo";
 // import Icon from "@/components/Logo/Icon";
 

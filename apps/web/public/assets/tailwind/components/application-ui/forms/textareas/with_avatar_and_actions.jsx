@@ -13,6 +13,8 @@
   ```
 */
 import { Fragment, useState } from "react";
+
+import { Listbox, Transition } from "@headlessui/react";
 import {
 	FaceFrownIcon,
 	FaceSmileIcon,
@@ -22,7 +24,6 @@ import {
 	PaperClipIcon,
 	XMarkIcon,
 } from "@heroicons/react/20/solid";
-import { Listbox, Transition } from "@headlessui/react";
 
 const moods = [
 	{

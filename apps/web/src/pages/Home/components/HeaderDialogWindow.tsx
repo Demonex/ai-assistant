@@ -1,6 +1,8 @@
 import { memo } from "react";
-import { AvatarComponent } from "./AvatarComponent.js";
+
 import type { ActiveChat } from "@repo/web/types/types.js";
+
+import { AvatarComponent } from "./AvatarComponent.js";
 
 export const HeaderDialogWindow = memo<{
 	onReturnToMenu: () => void;

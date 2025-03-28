@@ -14,8 +14,9 @@
   ```
 */
 import { Fragment } from "react";
-import { StarIcon } from "@heroicons/react/20/solid";
+
 import { Tab } from "@headlessui/react";
+import { StarIcon } from "@heroicons/react/20/solid";
 
 const product = {
 	name: "Application UI Icon Pack",

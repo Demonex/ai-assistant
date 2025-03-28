@@ -1,6 +1,6 @@
 import * as React from "react";
-import * as SliderPrimitive from "@radix-ui/react-slider";
 
+import * as SliderPrimitive from "@radix-ui/react-slider";
 import { cn } from "@repo/web/lib/utils.js";
 
 const Slider = React.forwardRef<

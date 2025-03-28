@@ -1,7 +1,7 @@
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import {
-	BookmarkSquareIcon,
 	BookOpenIcon,
+	BookmarkSquareIcon,
 	QueueListIcon,
 	RssIcon,
 } from "@heroicons/react/24/solid";

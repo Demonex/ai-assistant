@@ -13,13 +13,14 @@
   ```
 */
 import { Fragment } from "react";
+
 import { Menu, Popover, Transition } from "@headlessui/react";
+import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import {
 	EllipsisVerticalIcon,
 	MagnifyingGlassIcon,
 	ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
-import { CheckCircleIcon } from "@heroicons/react/20/solid";
 
 const navigation = {
 	categories: [

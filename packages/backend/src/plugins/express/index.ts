@@ -1,12 +1,12 @@
-import type Express from "express";
-import cors from "cors";
-import session from "express-session";
-import { RedisStore } from "connect-redis";
-import Redis from "ioredis";
-import cookieParser from "cookie-parser";
-import memoize from "memoizee";
-import { REDIS_SESSION_PREFIX } from "@repo/backend/constants.js";
 import { type OpenAPIObject } from "@nestjs/swagger";
+import { REDIS_SESSION_PREFIX } from "@repo/backend/constants.js";
+import { RedisStore } from "connect-redis";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import type Express from "express";
+import session from "express-session";
+import Redis from "ioredis";
+import memoize from "memoizee";
 
 const redisClient = new Redis(
 	`redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,

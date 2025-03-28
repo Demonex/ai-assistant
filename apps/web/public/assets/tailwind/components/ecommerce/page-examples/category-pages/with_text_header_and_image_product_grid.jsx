@@ -14,6 +14,7 @@
   ```
 */
 import { Fragment, useState } from "react";
+
 import {
 	Dialog,
 	Disclosure,
@@ -22,6 +23,7 @@ import {
 	Tab,
 	Transition,
 } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import {
 	Bars3Icon,
 	MagnifyingGlassIcon,
@@ -29,7 +31,6 @@ import {
 	ShoppingBagIcon,
 	XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 const currencies = ["CAD", "USD", "AUD", "EUR", "GBP"];
 const navigation = {

@@ -1,4 +1,3 @@
-import escapeHTML from "escape-html";
 import {
 	IS_BOLD,
 	IS_CODE,
@@ -9,6 +8,7 @@ import {
 	IS_UNDERLINE,
 } from "@repo/backend/utils/richtext/RichTextNodeFormat.js";
 import type { SerializedLexicalNode } from "@repo/backend/utils/richtext/types.js";
+import escapeHTML from "escape-html";
 
 function getLinkForPage(doc) {
 	return "implement this";

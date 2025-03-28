@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 import {
 	Accordion,
 	AccordionContent,
@@ -5,10 +7,10 @@ import {
 	AccordionTrigger,
 } from "@repo/web/components/ui/accordion.js";
 import { toast } from "@repo/web/hooks/use-toast.js";
-import { Copy, CopyPlus } from "lucide-react";
-import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
-import { memo } from "react";
 import type { Fragment } from "@repo/web/types/types.js";
+import { Copy, CopyPlus } from "lucide-react";
+
+import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 
 export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 	({ fragments }) => {

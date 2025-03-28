@@ -1,9 +1,9 @@
 import type { Config } from "tailwindcss";
-import { fontFamily } from "tailwindcss/defaultTheme";
 import {
 	isolateInsideOfContainer,
 	scopedPreflightStyles,
 } from "tailwindcss-scoped-preflight";
+import { fontFamily } from "tailwindcss/defaultTheme";
 
 export default {
 	darkMode: ["class", "selector", '[data-theme="dark"]'],

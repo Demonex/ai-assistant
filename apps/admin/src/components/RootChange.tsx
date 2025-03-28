@@ -1,10 +1,11 @@
 "use client";
+
+import { WebMonoHooksStore } from "@repo/web/components/App.js";
+import { AppSidebar } from "@repo/web/components/app-sidebar.js";
 import {
 	SidebarInset,
 	SidebarProvider,
 } from "@repo/web/components/ui/sidebar.js";
-import { AppSidebar } from "@repo/web/components/app-sidebar.js";
-import { WebMonoHooksStore } from "@repo/web/components/App.js";
 
 export const WebWrapper = ({ children }: any) => {
 	return (

@@ -1,7 +1,8 @@
 import { Fragment, useState } from "react";
+
 import { Transition } from "@headlessui/react";
-import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/20/solid";
+import { CheckCircleIcon } from "@heroicons/react/24/outline";
 
 export default function Notification() {
 	const [show, setShow] = useState(true);

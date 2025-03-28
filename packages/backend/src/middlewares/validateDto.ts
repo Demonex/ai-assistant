@@ -1,5 +1,5 @@
-import { validate } from "class-validator";
 import { HttpException, HttpStatus } from "@nestjs/common";
+import { validate } from "class-validator";
 
 export const validateDto = async (dto: any, data: any, request: any) => {
 	const errors = await validate(Object.assign(new dto(), data), {

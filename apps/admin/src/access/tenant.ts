@@ -1,6 +1,8 @@
-import { GROUP_PERMISSIONS } from "@/types/types";
 import { parse } from "cookie";
 import type { Access } from "payload";
+
+import { GROUP_PERMISSIONS } from "@/types/types";
+
 import { getUserContext, getUserGroups } from "./coreAccess";
 
 export const getTenantAccess = () => {

@@ -1,4 +1,6 @@
 import { Fragment } from "react";
+
+import { Menu, Transition } from "@headlessui/react";
 import {
 	CalendarIcon,
 	ChevronLeftIcon,
@@ -6,7 +8,6 @@ import {
 	EllipsisHorizontalIcon,
 	MapPinIcon,
 } from "@heroicons/react/20/solid";
-import { Menu, Transition } from "@headlessui/react";
 
 const meetings = [
 	{

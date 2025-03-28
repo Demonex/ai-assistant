@@ -1,5 +1,11 @@
 import { Fragment, useState } from "react";
+
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
+import {
+	ChevronDownIcon,
+	PhoneIcon,
+	PlayCircleIcon,
+} from "@heroicons/react/20/solid";
 import {
 	ArrowPathIcon,
 	Bars3Icon,
@@ -9,11 +15,6 @@ import {
 	SquaresPlusIcon,
 	XMarkIcon,
 } from "@heroicons/react/24/outline";
-import {
-	ChevronDownIcon,
-	PhoneIcon,
-	PlayCircleIcon,
-} from "@heroicons/react/20/solid";
 
 const products = [
 	{

@@ -1,5 +1,6 @@
-import { formatFileSize, getColorFile } from "@repo/web/helpers/index.js";
 import { memo } from "react";
+
+import { formatFileSize, getColorFile } from "@repo/web/helpers/index.js";
 
 export const FileUpload = memo<{
 	files: File[];

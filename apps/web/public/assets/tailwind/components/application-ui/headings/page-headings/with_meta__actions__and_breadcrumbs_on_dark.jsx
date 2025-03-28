@@ -1,4 +1,6 @@
 import { Fragment } from "react";
+
+import { Menu, Transition } from "@headlessui/react";
 import {
 	BriefcaseIcon,
 	CalendarIcon,
@@ -10,7 +12,6 @@ import {
 	MapPinIcon,
 	PencilIcon,
 } from "@heroicons/react/20/solid";
-import { Menu, Transition } from "@headlessui/react";
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");

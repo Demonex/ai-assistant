@@ -1,15 +1,16 @@
 "use client";
 
 import * as React from "react";
-import { composeEventHandlers } from "@radix-ui/primitive";
-import { Primitive } from "@radix-ui/react-primitive";
 import {
+	type DropzoneOptions,
+	type DropzoneState,
 	type FileRejection,
 	type FileWithPath,
 	useDropzone,
-	type DropzoneOptions,
-	type DropzoneState,
 } from "react-dropzone";
+
+import { composeEventHandlers } from "@radix-ui/primitive";
+import { Primitive } from "@radix-ui/react-primitive";
 
 export type DropzoneContextProps = DropzoneState & DropzoneOptions;
 

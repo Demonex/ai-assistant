@@ -13,8 +13,9 @@
   ```
 */
 import { Fragment, useState } from "react";
-import { UsersIcon } from "@heroicons/react/24/outline";
+
 import { Combobox, Dialog, Transition } from "@headlessui/react";
+import { UsersIcon } from "@heroicons/react/24/outline";
 
 const people = [
 	{ id: 1, name: "Leslie Alexander", url: "#" },

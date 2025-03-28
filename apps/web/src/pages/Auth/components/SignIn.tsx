@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { cn } from "@repo/web/lib/utils.js";
+import { type SubmitHandler, useForm } from "react-hook-form";
+
 import { Button } from "@repo/web/components/ui/button.js";
 import {
 	Card,
@@ -10,10 +11,10 @@ import {
 } from "@repo/web/components/ui/card.js";
 import { Input } from "@repo/web/components/ui/input.js";
 import { Label } from "@repo/web/components/ui/label.js";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import { useProfile } from "@repo/web/hooks/useProfile.js";
-import { useLocation } from "wouter";
 import { toast } from "@repo/web/hooks/use-toast.js";
+import { useProfile } from "@repo/web/hooks/useProfile.js";
+import { cn } from "@repo/web/lib/utils.js";
+import { useLocation } from "wouter";
 
 type Inputs = {
 	email: string;

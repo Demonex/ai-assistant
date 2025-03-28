@@ -1,8 +1,9 @@
-import type { User } from "@/payload-types";
-import { GROUP_PERMISSIONS } from "@/types/types";
 import config from "@payload-config";
 import { parse } from "cookie";
 import { getPayload } from "payload";
+
+import type { User } from "@/payload-types";
+import { GROUP_PERMISSIONS } from "@/types/types";
 
 export const getUserContext = async ({ req }) => {
 	const payload = await getPayload({

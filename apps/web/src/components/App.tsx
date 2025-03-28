@@ -1,9 +1,11 @@
-import { memo, Suspense } from "react";
-import { useRouterApp } from "@repo/web/hooks/useRouter.js";
+import { Suspense, memo } from "react";
+
 import { ThemeProvider } from "@repo/web/components/theme-provider.js";
+import { useRouterApp } from "@repo/web/hooks/useRouter.js";
+import "@repo/web/index.css";
 // @ts-ignore
 import { MonoHooksStore } from "use-mono-hook";
-import "@repo/web/index.css";
+
 import { Toaster } from "./ui/toaster.js";
 
 const RouterApp = memo(() => {

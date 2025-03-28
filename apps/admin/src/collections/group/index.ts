@@ -1,11 +1,12 @@
 import type { CollectionConfig } from "payload";
 
+import { getGroupAccess } from "@/access/group";
 import { tenant } from "@/collections/tenant";
 import { user } from "@/collections/user";
 import { COLLECTION_PERMISSIONS, GROUP_PERMISSIONS } from "@/types/types";
 import defaultAccess from "@/utilities/defaultAccess";
+
 import { collection } from "../collection";
-import { getGroupAccess } from "@/access/group";
 
 const groupAccess = {
 	...defaultAccess,

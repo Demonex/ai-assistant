@@ -1,3 +1,4 @@
+import { Badge } from "@repo/web/components/ui/badge.js";
 import { Button } from "@repo/web/components/ui/button.js";
 import {
 	Dialog,
@@ -8,10 +9,10 @@ import {
 	DialogTrigger,
 } from "@repo/web/components/ui/dialog.js";
 import { Label } from "@repo/web/components/ui/label.js";
-import { SliderComponent } from "./SliderComponent.js";
 import { Textarea } from "@repo/web/components/ui/textarea.js";
-import { Badge } from "@repo/web/components/ui/badge.js";
+
 import { RadioGroupComponent } from "./RadioGroupComponent.js";
+import { SliderComponent } from "./SliderComponent.js";
 
 export function FormFineTuning() {
 	return (

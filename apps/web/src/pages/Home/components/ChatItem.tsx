@@ -1,4 +1,5 @@
 import { memo } from "react";
+
 import { useChats } from "../hooks/useChats.js";
 import { AvatarComponent } from "./AvatarComponent.js";
 import { DropdownMenuButton } from "./DropdownMenuButton.js";

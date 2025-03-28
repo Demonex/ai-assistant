@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { ArchiveX, Command, File, Inbox, Send, Trash2 } from "lucide-react";
 
 import { NavUser } from "@repo/web/components/nav-user.js";
 import { Label } from "@repo/web/components/ui/label.js";
@@ -19,6 +18,7 @@ import {
 	useSidebar,
 } from "@repo/web/components/ui/sidebar.js";
 import { Switch } from "@repo/web/components/ui/switch.js";
+import { ArchiveX, Command, File, Inbox, Send, Trash2 } from "lucide-react";
 
 // This is sample data
 const data = {

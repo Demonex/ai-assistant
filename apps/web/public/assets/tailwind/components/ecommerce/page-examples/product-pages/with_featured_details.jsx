@@ -14,6 +14,7 @@
   ```
 */
 import { Fragment, useState } from "react";
+
 import {
 	Dialog,
 	Popover,
@@ -22,17 +23,17 @@ import {
 	Transition,
 } from "@headlessui/react";
 import {
+	CheckIcon,
+	QuestionMarkCircleIcon,
+	StarIcon,
+} from "@heroicons/react/20/solid";
+import {
 	Bars3Icon,
 	MagnifyingGlassIcon,
 	ShieldCheckIcon,
 	ShoppingBagIcon,
 	XMarkIcon,
 } from "@heroicons/react/24/outline";
-import {
-	CheckIcon,
-	QuestionMarkCircleIcon,
-	StarIcon,
-} from "@heroicons/react/20/solid";
 
 const navigation = {
 	categories: [

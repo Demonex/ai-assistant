@@ -1,5 +1,8 @@
 "use server";
 
+import config from "@payload-config";
+import { getPayload } from "payload";
+
 import {
 	Select,
 	SelectContent,
@@ -7,8 +10,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import config from "@payload-config";
-import { getPayload } from "payload";
+
 import HeaderAction from "./HeaderAction";
 
 const CustomHeaderAction = async () => {

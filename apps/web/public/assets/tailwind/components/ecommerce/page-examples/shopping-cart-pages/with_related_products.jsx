@@ -14,19 +14,20 @@
   ```
 */
 import { Fragment, useState } from "react";
+
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
-import {
-	Bars3Icon,
-	MagnifyingGlassIcon,
-	ShoppingBagIcon,
-	XMarkIcon as XMarkIconOutline,
-} from "@heroicons/react/24/outline";
 import {
 	CheckIcon,
 	ClockIcon,
 	QuestionMarkCircleIcon,
 	XMarkIcon as XMarkIconMini,
 } from "@heroicons/react/20/solid";
+import {
+	Bars3Icon,
+	MagnifyingGlassIcon,
+	ShoppingBagIcon,
+	XMarkIcon as XMarkIconOutline,
+} from "@heroicons/react/24/outline";
 
 const navigation = {
 	categories: [

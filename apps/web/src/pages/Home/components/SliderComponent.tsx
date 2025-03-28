@@ -1,5 +1,5 @@
-import { cn } from "@repo/web/lib/utils.js";
 import { Slider } from "@repo/web/components/ui/slider.js";
+import { cn } from "@repo/web/lib/utils.js";
 
 type SliderProps = React.ComponentProps<typeof Slider>;
 

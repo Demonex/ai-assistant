@@ -1,18 +1,18 @@
 "use client";
 
-import type { GenericLabelProps } from "payload";
-
 import type React from "react";
 import { useState } from "react";
+
+import { getTranslation } from "@payloadcms/translations";
 import {
-	useForm,
-	useEditDepth,
-	useTranslation,
-	useLocale,
 	Tooltip,
+	useEditDepth,
+	useForm,
+	useLocale,
+	useTranslation,
 } from "@payloadcms/ui";
 import { generateFieldID } from "@payloadcms/ui/utilities/generateFieldID";
-import { getTranslation } from "@payloadcms/translations";
+import type { GenericLabelProps } from "payload";
 
 import "./index.scss";
 

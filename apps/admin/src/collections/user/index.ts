@@ -1,3 +1,8 @@
+import { parse } from "cookie";
+import { unsign } from "cookie-signature";
+import Redis from "ioredis";
+import type { CollectionConfig } from "payload";
+
 import {
 	getEmailAccess,
 	getSuperadminAccess,
@@ -5,10 +10,6 @@ import {
 } from "@/access/user";
 import { userMediaAvatar } from "@/collections/user/media/avatar";
 import defaultAccess from "@/utilities/defaultAccess";
-import { parse } from "cookie";
-import { unsign } from "cookie-signature";
-import Redis from "ioredis";
-import type { CollectionConfig } from "payload";
 
 const RedisSessionStore = new Redis(
 	`redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,

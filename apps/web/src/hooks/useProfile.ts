@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useFetch, createMonoHook, useLazyFetch } from "use-mono-hook";
+
 import { BACKEND_URL } from "@repo/web/constants/index.js";
+import { createMonoHook, useFetch, useLazyFetch } from "use-mono-hook";
 
 const _useProfile = () => {
 	const {

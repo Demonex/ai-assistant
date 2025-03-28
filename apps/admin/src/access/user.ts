@@ -1,4 +1,5 @@
 import type { Access, FieldAccess } from "payload";
+
 import { getUserContext } from "./coreAccess";
 
 export const getUserAccess = () => {

@@ -1,5 +1,6 @@
+import { type RefObject, useEffect, useState } from "react";
+
 import { ChevronDown } from "lucide-react";
-import { useEffect, useState, type RefObject } from "react";
 
 interface ScrollToBottomButtonProps {
 	ref: RefObject<HTMLDivElement>;

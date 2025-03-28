@@ -13,7 +13,14 @@
   ```
 */
 import { Fragment, useState } from "react";
+
 import { Dialog, Menu, Transition } from "@headlessui/react";
+import {
+	Bars3Icon,
+	ChevronRightIcon,
+	ChevronUpDownIcon,
+	MagnifyingGlassIcon,
+} from "@heroicons/react/20/solid";
 import {
 	ChartBarSquareIcon,
 	Cog6ToothIcon,
@@ -23,12 +30,6 @@ import {
 	SignalIcon,
 	XMarkIcon,
 } from "@heroicons/react/24/outline";
-import {
-	Bars3Icon,
-	ChevronRightIcon,
-	ChevronUpDownIcon,
-	MagnifyingGlassIcon,
-} from "@heroicons/react/20/solid";
 
 const navigation = [
 	{ name: "Projects", href: "#", icon: FolderIcon, current: false },

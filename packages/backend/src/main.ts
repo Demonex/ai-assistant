@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import { HttpException, HttpStatus, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import {
@@ -7,15 +6,15 @@ import {
 } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AppModule } from "@repo/backend/app.module.js";
-import { Logger, LogLevel } from "@repo/backend/config/logger/api-logger.js";
+import { LogLevel, Logger } from "@repo/backend/config/logger/api-logger.js";
 import { DefaultLogger } from "@repo/backend/config/logger/default-logger.js";
-import type { Express } from "express";
-import express from "express";
 import expressPlugins, {
 	spotlightElements,
 } from "@repo/backend/plugins/express/index.js";
-
+import type { Express } from "express";
+import express from "express";
 import { networkInterfaces } from "node:os";
+import "reflect-metadata";
 
 const interfaces = Object.values(
 	Object.fromEntries(Object.entries(networkInterfaces())),

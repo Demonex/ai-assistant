@@ -13,9 +13,10 @@
   ```
 */
 import { Fragment, useState } from "react";
+
 import { Dialog, RadioGroup, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/20/solid";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 const product = {
 	name: "Zip Tote Basket",

@@ -1,5 +1,7 @@
-import { GROUP_PERMISSIONS } from "@/types/types";
 import { parse } from "cookie";
+
+import { GROUP_PERMISSIONS } from "@/types/types";
+
 import { getUserContext, getUserGroups } from "./coreAccess";
 
 export const getNeuroAccess = () => {

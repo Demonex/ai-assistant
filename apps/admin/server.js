@@ -1,7 +1,7 @@
-import express from "express";
-import next from "next";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import express from "express";
+import next from "next";
 
 const getServerSideURL = () => {
 	let url = process.env.NEXT_PUBLIC_SERVER_URL;

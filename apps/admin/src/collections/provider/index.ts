@@ -1,8 +1,8 @@
 import type { CollectionConfig } from "payload";
 
+import { getProviderAccess } from "@/access/provider";
 import { tenant } from "@/collections/tenant";
 import defaultAccess from "@/utilities/defaultAccess";
-import { getProviderAccess } from "@/access/provider";
 
 const providerAccess = {
 	...defaultAccess,

@@ -1,7 +1,8 @@
 import { Fragment, useState } from "react";
+
 import { Transition } from "@headlessui/react";
-import { InboxIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/20/solid";
+import { InboxIcon } from "@heroicons/react/24/outline";
 
 export default function Example() {
 	const [show, setShow] = useState(true);

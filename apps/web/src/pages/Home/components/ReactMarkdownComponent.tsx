@@ -1,4 +1,4 @@
-import { memo, type FC } from "react";
+import { type FC, memo } from "react";
 import ReactMarkdown from "react-markdown";
 
 interface ReactMarkdownProps {

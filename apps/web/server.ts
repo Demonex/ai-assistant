@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from "express";
+import compression from "compression";
+import { NextFunction, Request, Response } from "express";
+import express from "express";
 import fs from "fs/promises";
 import path from "path";
-import express from "express";
-import compression from "compression";
 import serveStatic from "serve-static";
 import { createServer as createViteServer } from "vite";
 

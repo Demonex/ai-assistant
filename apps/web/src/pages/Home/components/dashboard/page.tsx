@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { admin } from "@repo/web/shared/config/index.js";
+
 import { AppSidebar } from "@repo/web/components/app-sidebar.js";
 import {
 	Breadcrumb,
@@ -15,6 +15,8 @@ import {
 	SidebarProvider,
 	SidebarTrigger,
 } from "@repo/web/components/ui/sidebar.js";
+import { admin } from "@repo/web/shared/config/index.js";
+
 import { ChatComponent } from "../ChatComponent.js";
 
 export function DashboardPage() {

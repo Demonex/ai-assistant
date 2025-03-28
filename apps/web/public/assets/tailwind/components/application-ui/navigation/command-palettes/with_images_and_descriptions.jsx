@@ -13,9 +13,11 @@
   ```
 */
 import { Fragment, useState } from "react";
+
 import { Combobox, Dialog, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import {
+	Bars4Icon,
 	CalendarIcon,
 	CodeBracketIcon,
 	DocumentIcon,
@@ -26,7 +28,6 @@ import {
 	TableCellsIcon,
 	VideoCameraIcon,
 	ViewColumnsIcon,
-	Bars4Icon,
 } from "@heroicons/react/24/outline";
 
 const items = [

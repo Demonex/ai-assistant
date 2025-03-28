@@ -1,8 +1,8 @@
 import type { CollectionConfig } from "payload";
 
+import { getTenantAccess } from "@/access/tenant";
 import { tenantMedia } from "@/collections/tenant/media";
 import defaultAccess from "@/utilities/defaultAccess";
-import { getTenantAccess } from "@/access/tenant";
 
 const tenantAccess = {
 	...defaultAccess,
