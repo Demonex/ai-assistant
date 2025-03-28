@@ -27,6 +27,8 @@
 			"assets/*": ["assets/*"],
 			"components/*": ["components/*"],
 			"constants/*": ["constants/*"],
+			"types/*": ["types/*"],
+			"lib/*": ["lib/*"],
 			"hooks/*": ["hooks/*"],
 			"pages/*": ["pages/*"],
 			"utils/*": ["utils/*"],

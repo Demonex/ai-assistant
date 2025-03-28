@@ -13,7 +13,7 @@ const template = readFileSync(toAbsolute("client/index.html"), "utf-8");
 
 const routesToPrerender = readdirSync(toAbsolute("../src/routes"))
 	.filter((file) => !file.includes(":"))
-	.reduce((prev, file) => {
+	.reduce((prev: any, file) => {
 		if (!file.match(/\.ts$/)) {
 			return prev;
 		}

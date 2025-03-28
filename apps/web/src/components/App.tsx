@@ -1,6 +1,7 @@
-import React, { memo, Suspense } from "react";
+import { memo, Suspense } from "react";
 import { useRouterApp } from "@repo/web/hooks/useRouter.js";
 import { ThemeProvider } from "@repo/web/components/theme-provider.js";
+// @ts-ignore
 import { MonoHooksStore } from "use-mono-hook";
 import "@repo/web/index.css";
 import { Toaster } from "./ui/toaster.js";

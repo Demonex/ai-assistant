@@ -6,9 +6,7 @@
 	"scripts": {
 		"dev:server": "cross-env NODE_ENV=development npx ts-node-dev server",
 		"dev:client": "vite --config vite.config.ts dev --host",
-		"dev:client:office": "vite --config vite.office.config.ts dev --host",
 		"dev": "pnpm run dev:client",
-		"dev:office": "pnpm run dev:client:office",
 		"build": "rimraf dist && pnpm run build:client && pnpm run build:server && pnpm run build:client",
 		"build:client": "cross-env vite build --outDir dist/client",
 		"build:server": "cross-env vite build --ssr src/entry-server.tsx --outDir dist/server",
@@ -123,6 +121,7 @@
 		"./helpers/*": "./src/helpers/*",
 		"./utils/*": "./src/utils/*",
 		"./constants/*": "./src/constants/*",
+		"./types/*": "./src/types/*",
 		"./shared/*": "./src/shared/*",
 		"./index.css": "./src/index.css"
 	}

@@ -8,7 +8,6 @@ const _useChats = () => {
 	});
 
 	const [fetchErrors, setFetchErrors] = useState([]);
-
 	const [activeChat, setActiveChat] = useState<{
 		id: number;
 	}>();
