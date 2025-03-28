@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@trivago/prettier-plugin-sort-imports':
+        specifier: ^5.2.2
+        version: 5.2.2(prettier@3.5.3)
       lefthook:
         specifier: 1.10.0
         version: 1.10.0
@@ -635,7 +638,7 @@ importers:
         version: 1.9.4
       '@nestjs/cli':
         specifier: ^11.0.2
-        version: 11.0.5(@swc/cli@0.6.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(chokidar@4.0.3))(@swc/core@1.10.9(@swc/helpers@0.5.15))(@types/node@22.10.7)(esbuild@0.24.2)
+        version: 11.0.5(@swc/cli@0.6.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(chokidar@4.0.3))(@swc/core@1.10.9(@swc/helpers@0.5.15))(@types/node@22.10.7)
       '@repo/config-biome':
         specifier: workspace:*
         version: link:../configs/biome
@@ -4517,6 +4520,22 @@ packages:
   '@tokenizer/token@0.3.0':
     resolution: {integrity: sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==}
 
+  '@trivago/prettier-plugin-sort-imports@5.2.2':
+    resolution: {integrity: sha512-fYDQA9e6yTNmA13TLVSA+WMQRc5Bn/c0EUBditUHNfMMxN7M82c38b1kEggVE3pLpZ0FwkwJkUEKMiOi52JXFA==}
+    engines: {node: '>18.12'}
+    peerDependencies:
+      '@vue/compiler-sfc': 3.x
+      prettier: 2.x - 3.x
+      prettier-plugin-svelte: 3.x
+      svelte: 4.x || 5.x
+    peerDependenciesMeta:
+      '@vue/compiler-sfc':
+        optional: true
+      prettier-plugin-svelte:
+        optional: true
+      svelte:
+        optional: true
+
   '@types/acorn@4.0.6':
     resolution: {integrity: sha512-veQTnWP+1D/xbxVrPC3zHnCZRjSrKfhbMUlEA43iMZLu7EsnTtkJklIuwrCPbOi8YkvDQAiW05VQQFvvz9oieQ==}
 
@@ -6963,6 +6982,9 @@ packages:
   jackspeak@4.1.0:
     resolution: {integrity: sha512-9DDdhb5j6cpeitCbvLO7n7J4IxnbM6hoF6O1g4HQ5TfhvvKN8ywDM7668ZhMHRqVmxqhps/F6syWK2KcPxYlkw==}
     engines: {node: 20 || >=22}
+
+  javascript-natural-sort@0.7.1:
+    resolution: {integrity: sha512-nO6jcEfZWQXDhOiBtG2KvKyEptz7RVbpGP4vTD2hLBdmNQSsCiicO2Ioinv6UI4y9ukqnBpy+XZ9H6uLNgJTlw==}
 
   jest-worker@27.5.1:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
@@ -12073,7 +12095,7 @@ snapshots:
       - sequelize
       - typeorm
 
-  '@nestjs/cli@11.0.5(@swc/cli@0.6.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(chokidar@4.0.3))(@swc/core@1.10.9(@swc/helpers@0.5.15))(@types/node@22.10.7)(esbuild@0.24.2)':
+  '@nestjs/cli@11.0.5(@swc/cli@0.6.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(chokidar@4.0.3))(@swc/core@1.10.9(@swc/helpers@0.5.15))(@types/node@22.10.7)':
     dependencies:
       '@angular-devkit/core': 19.1.8(chokidar@4.0.3)
       '@angular-devkit/schematics': 19.1.8(chokidar@4.0.3)
@@ -12084,7 +12106,7 @@ snapshots:
       chokidar: 4.0.3
       cli-table3: 0.6.5
       commander: 4.1.1
-      fork-ts-checker-webpack-plugin: 9.0.2(typescript@5.7.3)(webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2))
+      fork-ts-checker-webpack-plugin: 9.0.2(typescript@5.7.3)(webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15)))
       glob: 11.0.1
       node-emoji: 1.11.0
       ora: 5.4.1
@@ -12092,7 +12114,7 @@ snapshots:
       tsconfig-paths: 4.2.0
       tsconfig-paths-webpack-plugin: 4.2.0
       typescript: 5.7.3
-      webpack: 5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2)
+      webpack: 5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))
       webpack-node-externals: 3.0.0
     optionalDependencies:
       '@swc/cli': 0.6.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(chokidar@4.0.3)
@@ -14364,6 +14386,18 @@ snapshots:
 
   '@tokenizer/token@0.3.0': {}
 
+  '@trivago/prettier-plugin-sort-imports@5.2.2(prettier@3.5.3)':
+    dependencies:
+      '@babel/generator': 7.26.10
+      '@babel/parser': 7.26.10
+      '@babel/traverse': 7.26.10
+      '@babel/types': 7.26.10
+      javascript-natural-sort: 0.7.1
+      lodash: 4.17.21
+      prettier: 3.5.3
+    transitivePeerDependencies:
+      - supports-color
+
   '@types/acorn@4.0.6':
     dependencies:
       '@types/estree': 1.0.6
@@ -14667,14 +14701,6 @@ snapshots:
       '@vitest/utils': 2.1.8
       chai: 5.2.0
       tinyrainbow: 1.2.0
-
-  '@vitest/mocker@2.1.8(vite@5.4.14(@types/node@22.10.2)(sass@1.86.0)(terser@5.39.0))':
-    dependencies:
-      '@vitest/spy': 2.1.8
-      estree-walker: 3.0.3
-      magic-string: 0.30.17
-    optionalDependencies:
-      vite: 5.4.14(@types/node@22.10.2)(sass@1.86.0)(terser@5.39.0)
 
   '@vitest/mocker@2.1.8(vite@5.4.14(@types/node@22.10.7)(sass@1.86.0)(terser@5.39.0))':
     dependencies:
@@ -16590,7 +16616,7 @@ snapshots:
       cross-spawn: 7.0.6
       signal-exit: 4.1.0
 
-  fork-ts-checker-webpack-plugin@9.0.2(typescript@5.7.3)(webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2)):
+  fork-ts-checker-webpack-plugin@9.0.2(typescript@5.7.3)(webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))):
     dependencies:
       '@babel/code-frame': 7.26.2
       chalk: 4.1.2
@@ -16605,7 +16631,7 @@ snapshots:
       semver: 7.7.1
       tapable: 2.2.1
       typescript: 5.7.3
-      webpack: 5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2)
+      webpack: 5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))
 
   form-data-encoder@2.1.4: {}
 
@@ -17231,6 +17257,8 @@ snapshots:
   jackspeak@4.1.0:
     dependencies:
       '@isaacs/cliui': 8.0.2
+
+  javascript-natural-sort@0.7.1: {}
 
   jest-worker@27.5.1:
     dependencies:
@@ -19655,17 +19683,16 @@ snapshots:
 
   tarn@3.0.2: {}
 
-  terser-webpack-plugin@5.3.14(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2)(webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2)):
+  terser-webpack-plugin@5.3.14(@swc/core@1.10.9(@swc/helpers@0.5.15))(webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       jest-worker: 27.5.1
       schema-utils: 4.3.0
       serialize-javascript: 6.0.2
       terser: 5.39.0
-      webpack: 5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2)
+      webpack: 5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))
     optionalDependencies:
       '@swc/core': 1.10.9(@swc/helpers@0.5.15)
-      esbuild: 0.24.2
 
   terser@5.39.0:
     dependencies:
@@ -20300,7 +20327,7 @@ snapshots:
   vitest@2.1.8(@types/node@22.10.2)(sass@1.86.0)(terser@5.39.0):
     dependencies:
       '@vitest/expect': 2.1.8
-      '@vitest/mocker': 2.1.8(vite@5.4.14(@types/node@22.10.2)(sass@1.86.0)(terser@5.39.0))
+      '@vitest/mocker': 2.1.8(vite@5.4.14(@types/node@22.10.7)(sass@1.86.0)(terser@5.39.0))
       '@vitest/pretty-format': 2.1.9
       '@vitest/runner': 2.1.8
       '@vitest/snapshot': 2.1.8
@@ -20396,7 +20423,7 @@ snapshots:
 
   webpack-virtual-modules@0.6.2: {}
 
-  webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2):
+  webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15)):
     dependencies:
       '@types/eslint-scope': 3.7.7
       '@types/estree': 1.0.6
@@ -20418,7 +20445,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 4.3.0
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.14(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2)(webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2))
+      terser-webpack-plugin: 5.3.14(@swc/core@1.10.9(@swc/helpers@0.5.15))(webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15)))
       watchpack: 2.4.2
       webpack-sources: 3.2.3
     transitivePeerDependencies:

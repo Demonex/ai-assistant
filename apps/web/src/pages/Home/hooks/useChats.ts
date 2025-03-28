@@ -1,6 +1,6 @@
 import type { MessagesType } from "@repo/web/types/types.js";
 import { useCallback, useEffect, useState } from "react";
-import { useFetch, createMonoHook, useLazyFetch } from "use-mono-hook";
+import { createMonoHook, useFetch, useLazyFetch } from "use-mono-hook";
 
 const _useChats = () => {
 	const { data: chats } = useFetch({
