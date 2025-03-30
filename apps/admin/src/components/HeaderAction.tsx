@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import config from "@payload-config";
 import { getCookie, setCookie } from "cookies-next/client";
-import { getPayload } from "payload";
 
 import {
 	Select,
@@ -18,7 +16,7 @@ const HeaderAction = ({ docs }) => {
 	const [tenant, setTenant] = useState(getCookie("tenant") || "");
 
 	useEffect(() => {
-		tenant && setCookie("tenant", tenant);
+		if (tenant) setCookie("tenant", tenant);
 	}, [tenant]);
 
 	return (

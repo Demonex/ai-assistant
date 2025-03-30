@@ -9,6 +9,7 @@
 		}
 	],
 	"compilerOptions": {
+		"rootDir": "./",
 		"paths": {
 			"@repo/backend/*": ["./src/*"]
 		},

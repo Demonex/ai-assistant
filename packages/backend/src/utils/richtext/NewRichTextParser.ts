@@ -68,7 +68,6 @@ export function serialize(
 				case "linebreak":
 					return "<br>";
 				case "link": {
-					// eslint-disable-next-line no-case-declarations
 					const attributes: {
 						doc?;
 						linkType?: "custom" | "internal";

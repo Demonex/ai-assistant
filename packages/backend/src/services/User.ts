@@ -17,7 +17,7 @@ import { UserEntity } from "@repo/backend/entities/User/index.js";
 @Injectable({ scope: Scope.REQUEST })
 export class UserService {
 	constructor(
-		@Inject(REQUEST) private readonly request: any,
+		@Inject(REQUEST) private readonly request,
 		@InjectRedis() private readonly redisClient: Redis,
 		private readonly em: EntityManager,
 	) {}
@@ -157,10 +157,7 @@ export class UserService {
     }
   }*/
 
-	async findByIdAndUpdateAvatar(
-		userId: Types.ObjectId,
-		{ file }: UpdateProfileAvatarDto,
-	): Promise<any | null> {
+	async findByIdAndUpdateAvatar() {
 		/*const result = await payload.create({
       user: {
         id: userId
@@ -209,7 +206,7 @@ export class UserService {
 		_id: number,
 		email?: string,
 		fields: (keyof UserEntity)[] = [],
-	): Promise<any | null> {
+	) {
 		if (!_id && !email) return null;
 
 		const select = await this.em.findOne<UserEntity>(

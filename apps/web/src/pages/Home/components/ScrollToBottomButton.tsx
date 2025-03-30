@@ -10,7 +10,7 @@ export const ScrollToBottomButton = ({ ref }: ScrollToBottomButtonProps) => {
 	const [isVisible, setIsVisible] = useState(false);
 
 	const scrollToBottom = () => {
-		ref.current?.scrollTo({
+		ref.current.scrollTo({
 			top: ref.current.scrollHeight,
 			behavior: "smooth",
 		});
@@ -27,7 +27,9 @@ export const ScrollToBottomButton = ({ ref }: ScrollToBottomButtonProps) => {
 		};
 
 		container.addEventListener("scroll", handleScroll);
-		return () => container.removeEventListener("scroll", handleScroll);
+		return () => {
+			container.removeEventListener("scroll", handleScroll);
+		};
 	}, []);
 
 	return (

@@ -311,6 +311,21 @@ export class ChatService {
 
 	async messagePatch(
 		messageId: ChatMessageEntity["id"],
+		p0: {
+			response: {
+				success: boolean;
+				message: string;
+				created_at: Date;
+				fragments: {
+					file_path: string;
+					page_num: number;
+					text: string;
+					uuid: string | number;
+					_collection_name: string;
+					_id: string;
+				}[];
+			};
+		},
 		data: Partial<ChatMessageEntity>,
 	) {
 		try {

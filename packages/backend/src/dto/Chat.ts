@@ -18,11 +18,22 @@ export class ChatMessageDto {
 	readonly email!: string;
 }
 
+interface UploadedFile {
+	fieldname: string;
+	originalname: string;
+	encoding: string;
+	mimetype: string;
+	size: number;
+	buffer: Buffer;
+	destination?: string;
+	filename?: string;
+	path?: string;
+}
 export class ChatUploadMediaDto {
 	@ApiProperty({
 		type: "file",
 		format: "binary",
 		isArray: true,
 	})
-	media: any[];
+	media: UploadedFile[];
 }

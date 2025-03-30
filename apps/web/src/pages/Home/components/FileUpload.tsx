@@ -26,7 +26,9 @@ export const FileUpload = memo<{
 						<p className="truncate">{file.name}</p>
 						<div className="text-gray-500">{formatFileSize(file.size)}</div>
 						<div
-							onClick={() => handleCloseDocument(file.lastModified)}
+							onClick={() => {
+								handleCloseDocument(file.lastModified);
+							}}
 							className="absolute right-0 top-0 z-10 -translate-y-2 translate-x-2 cursor-pointer rounded-full bg-white p-1 shadow shadow-slate-200 hover:bg-stone-100"
 						>
 							<span>

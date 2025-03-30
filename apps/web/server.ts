@@ -11,7 +11,6 @@ const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
 const resolve = (p: string) => path.resolve(__dirname, p);
 
 async function createServer(
-	root = process.cwd(),
 	isProd = process.env.NODE_ENV === "production",
 	hmrPort?: number,
 ) {
@@ -62,7 +61,7 @@ async function createServer(
 			const appHtml = await SSRRender(url);
 			const html = template.replace(`<!--app-html-->`, appHtml);
 			res.status(200).set({ "Content-Type": "text/html" }).end(html);
-		} catch (e: any) {
+		} catch (e) {
 			!isProd && vite.ssrFixStacktrace(e);
 			console.error(e.stack);
 			vite.ssrFixStacktrace(e);

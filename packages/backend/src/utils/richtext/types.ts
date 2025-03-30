@@ -18,5 +18,6 @@ export type SerializedLexicalNode = {
 	style?: string;
 	mode?: string;
 	text?: string;
-	[other: string]: any;
+	value?: { id: string };
+	[key: string]: unknown;
 };

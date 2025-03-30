@@ -20,7 +20,7 @@ export class ProviderService {
 	private appleAuth: AppleAuth;
 	private appleAuthIos: AppleAuth;
 
-	constructor(@Inject(REQUEST) private readonly request: any) {
+	constructor(@Inject(REQUEST) private readonly request) {
 		this.appleAuth = new AppleAuth(
 			{
 				client_id: process.env.APPLE_AUTH_SERVICE_ID,

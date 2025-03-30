@@ -24,14 +24,14 @@ const _useChats = () => {
 		]) || [{}];
 
 	useEffect(() => {
-		if (!activeChat?.id || !fetchMessages) {
+		if (!activeChat.id || !fetchMessages) {
 			return;
 		}
 
 		fetchMessages({
 			url: `/api/rest/chat/${activeChat.id}`,
 		});
-	}, [activeChat?.id, fetchMessages]);
+	}, [activeChat.id, fetchMessages]);
 
 	useEffect(() => {
 		if (!messagesData) {
@@ -49,10 +49,7 @@ const _useChats = () => {
 	] = useLazyFetch({
 		url: "/api/rest/chat/{activeChat.id}/message",
 		method: "post",
-	}) as [
-		{ data: any; loading: boolean; error: Error },
-		(options: { url: string; data: { raw: string } }) => void,
-	];
+	});
 
 	const sendMessage = useCallback(
 		({ message }) => {
@@ -63,7 +60,7 @@ const _useChats = () => {
 				},
 			});
 		},
-		[activeChat?.id, fetchSendMessage],
+		[activeChat.id, fetchSendMessage],
 	);
 
 	useEffect(() => {
@@ -90,14 +87,7 @@ const _useChats = () => {
 	] = useLazyFetch({
 		url: "/api/rest/chat/{activeChat.id}/upload",
 		method: "post",
-	}) as [
-		{ data: any; loading: boolean; error: Error },
-		(options: {
-			url: string;
-			data: FormData;
-			headers: { "Content-Type": string };
-		}) => void,
-	];
+	});
 
 	const sendUploadFile = useCallback(
 		({ formData }: { formData: FormData }) => {
@@ -107,15 +97,13 @@ const _useChats = () => {
 				headers: { "Content-Type": "multipart/form-data" },
 			});
 		},
-		[activeChat?.id, fetchUploadFile],
+		[activeChat.id, fetchUploadFile],
 	);
 
 	// setErrors //
 
 	useEffect(() => {
-		const newErrors = [messagesError, messageError, fileError].filter(
-			Boolean,
-		) as Error[];
+		const newErrors = [messagesError, messageError, fileError].filter(Boolean);
 
 		if (newErrors.length) setFetchErrors(newErrors);
 	}, [messagesError, messageError, fileError]);

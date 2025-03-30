@@ -16,7 +16,7 @@ import { useProfile } from "@repo/web/hooks/useProfile.js";
 import _globalThis from "globalthis";
 import { Command, MessageCircleMore, UserRoundCog } from "lucide-react";
 
-interface AppSidebarProps extends ComponentProps<typeof Sidebar> {}
+type AppSidebarProps = ComponentProps<typeof Sidebar>;
 
 export function AppSidebar({ ...props }: AppSidebarProps) {
 	// Note: I'm using state to show active item.

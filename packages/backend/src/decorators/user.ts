@@ -10,13 +10,13 @@ import { HttpStatusMessages } from "../messages/http.js";
 
 export const UserId = createParamDecorator(
 	(key: string, ctx: ExecutionContext): number => {
-		return Number(get(ctx.switchToHttp().getRequest<any>(), "session.user.id"));
+		return Number(get(ctx.switchToHttp().getRequest(), "session.user.id"));
 	},
 );
 export const TenantId = createParamDecorator(
 	(key: string, ctx: ExecutionContext): number => {
 		const res = Number(
-			get(ctx.switchToHttp().getRequest<any>(), "headers.x-tenant", 1),
+			get(ctx.switchToHttp().getRequest(), "headers.x-tenant", 1),
 		);
 		if (Number.isNaN(res)) {
 			throw new HttpException(
@@ -30,14 +30,14 @@ export const TenantId = createParamDecorator(
 );
 export const UserEmail = createParamDecorator(
 	(key: string, ctx: ExecutionContext): number | undefined => {
-		return get(ctx.switchToHttp().getRequest<any>(), "session.user.email");
+		return get(ctx.switchToHttp().getRequest(), "session.user.email");
 	},
 );
 /*
 export const UserLanguage = createParamDecorator(
 	(key: string, ctx: ExecutionContext): Languages.EN | Languages.RU => {
 		const lang = get(
-			ctx.switchToHttp().getRequest<any>(),
+			ctx.switchToHttp().getRequest(),
 			"session.user.language",
 			Languages.EN,
 		);
@@ -47,7 +47,7 @@ export const UserLanguage = createParamDecorator(
 export const Language = createParamDecorator(
 	(key: string, ctx: ExecutionContext): Languages.EN | Languages.RU => {
 		const lang = get(
-			ctx.switchToHttp().getRequest<any>(),
+			ctx.switchToHttp().getRequest(),
 			"cookies.i18next",
 			Languages.EN,
 		);

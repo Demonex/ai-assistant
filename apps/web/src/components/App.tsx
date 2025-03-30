@@ -3,17 +3,12 @@ import { Suspense, memo } from "react";
 import { ThemeProvider } from "@repo/web/components/theme-provider.js";
 import { useRouterApp } from "@repo/web/hooks/useRouter.js";
 import "@repo/web/index.css";
-// @ts-ignore
 import { MonoHooksStore } from "use-mono-hook";
 
 import { Toaster } from "./ui/toaster.js";
 
 const RouterApp = memo(() => {
-	const {
-		route,
-		router: { location } = {},
-		Component,
-	} = useRouterApp();
+	const { route, router: { location } = {}, Component } = useRouterApp();
 
 	if (!route || !location) {
 		return Component && <Component />;

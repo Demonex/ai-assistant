@@ -35,7 +35,7 @@ export const HeaderDialogWindow = memo<{
 				<AvatarComponent />
 			</span>
 			<div className="flex flex-col">
-				<span className="font-semibold">{activeChat?.title}</span>
+				<span className="font-semibold">{activeChat.title}</span>
 			</div>
 		</div>
 		{/* <DropdownMenuButton /> */}

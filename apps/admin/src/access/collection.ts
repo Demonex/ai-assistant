@@ -1,4 +1,3 @@
-import { parse } from "cookie";
 import type { FieldAccess } from "payload";
 
 import { GROUP_PERMISSIONS } from "@/types/types";

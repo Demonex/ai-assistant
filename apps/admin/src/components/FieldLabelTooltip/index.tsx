@@ -29,7 +29,6 @@ export const FieldLabelTooltip: (
 	const {
 		as: Element = "label",
 		hideLocale = true,
-		// hideLocale = false,
 		htmlFor: htmlForFromProps,
 		label: labelLocal,
 		localized = false,
@@ -37,9 +36,13 @@ export const FieldLabelTooltip: (
 		required = false,
 		unstyled = false,
 		schemaPath = "",
-	} = props;
+		field,
+	} = props as GenericLabelProps & {
+		schemaPath: string;
+		field?: { label?: string };
+	};
 
-	const label = labelLocal || (props as any).field?.label;
+	const label = labelLocal || field?.label;
 
 	const { uuid } = useForm();
 	const editDepth = useEditDepth();

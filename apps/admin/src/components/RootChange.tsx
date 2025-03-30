@@ -1,5 +1,7 @@
 "use client";
 
+import { ReactNode } from "react";
+
 import { WebMonoHooksStore } from "@repo/web/components/App.js";
 import { AppSidebar } from "@repo/web/components/app-sidebar.js";
 import {
@@ -7,7 +9,11 @@ import {
 	SidebarProvider,
 } from "@repo/web/components/ui/sidebar.js";
 
-export const WebWrapper = ({ children }: any) => {
+interface WebWrapperProps {
+	children: ReactNode;
+}
+
+export const WebWrapper = ({ children }: WebWrapperProps) => {
 	return (
 		<>
 			<SidebarProvider

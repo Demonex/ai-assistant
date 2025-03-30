@@ -5,10 +5,22 @@
 	"editor.wordWrap": "on",
 	"editor.tabSize": 2,
 	"editor.formatOnSave": true,
+	"eslint.format.enable": true,
+	"eslint.run": "onSave",
+	"eslint.debug": true,
+	"eslint.enable": true,
 	"diffEditor.ignoreTrimWhitespace": false,
-	"editor.codeActionsOnSave": {
-		"source.organizeImports": "explicit"
-	},
+	"javascript.updateImportsOnFileMove.enabled": "always",
+	"eslint.validate": [
+		"javascript",
+		"javascriptreact",
+		"typescript",
+		"typescriptreact"
+	],
+	"eslint.ignoreUntitled": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"notebook.defaultFormatter": "esbenp.prettier-vscode",
+	"reactSnippets.settings.prettierEnabled": true,
 	"[javascript]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
@@ -21,5 +33,7 @@
 	"[typescript]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
-	"editor.defaultFormatter": "esbenp.prettier-vscode"
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "always"
+	}
 }

@@ -15,7 +15,7 @@ import "./custom.scss";
 type Args = {
 	children: React.ReactNode;
 };
-// biome-ignore lint: next.js need this!
+
 const serverFunction: ServerFunctionClient = async function (args) {
 	"use server";
 	return handleServerFunctions({
@@ -27,17 +27,20 @@ const serverFunction: ServerFunctionClient = async function (args) {
 
 const originalFetch = global.fetch;
 
-global.fetch = async (url: string | Request | URL, options = {}) => {
-	const defaultOptions = {
+global.fetch = async (
+	url: string | Request | URL,
+	options: RequestInit = {},
+) => {
+	const defaultOptions: RequestInit = {
 		credentials: "include", // Always include credentials (cookies, etc.)
 	};
 
-	const combinedOptions = {
+	const combinedOptions: RequestInit = {
 		...defaultOptions,
 		...options, // Allow overriding other options if needed
 	};
 
-	return originalFetch(url, combinedOptions as any);
+	return originalFetch(url, combinedOptions);
 };
 
 const Layout = ({ children }: Args) => {

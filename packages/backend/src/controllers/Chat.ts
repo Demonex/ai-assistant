@@ -25,6 +25,26 @@ import { ChatMessageDto, ChatUploadMediaDto } from "../dto/Chat.js";
 import { HttpStatusMessages } from "../messages/http.js";
 import { LangFlowService } from "../services/Flow.js";
 
+interface Fragment {
+	file_path: string;
+	page_num: number;
+	text: string;
+	uuid: string;
+	_collection_name: string;
+	_id: string;
+}
+
+interface MessageResponse {
+	success: boolean;
+	message: string;
+	created_at: Date;
+	fragments: Fragment[];
+}
+
+interface PatchPayload {
+	response: MessageResponse;
+}
+
 @ApiTags("chat")
 @Controller("/api/rest")
 export class ChatController {
@@ -64,7 +84,7 @@ export class ChatController {
 		);
 
 		const response = await this.chatService.messageSend(userId, chatId, data);
-		// biome-ignore lint: responce shity, need this!
+
 		const cleanText = (str: string) => str.replace(/\u0000/g, "");
 
 		try {
@@ -83,7 +103,7 @@ export class ChatController {
 							_id: el._id,
 						};
 					}),
-				} as any,
+				} satisfies PatchPayload["response"],
 			});
 		} catch (e) {
 			console.error(e);
@@ -108,11 +128,24 @@ export class ChatController {
 
 		const response = await this.chatService.messageSend(2, chatId, data);
 
+		const cleanText = (str: string) => str.replace(/\u0000/g, "");
+
 		await this.chatService.messagePatch(messageId, {
 			response: {
 				success: response.success,
-				...response.response,
-			},
+				message: cleanText(response.response.message),
+				created_at: response.response.created_at,
+				fragments: response.response.fragments.map((el) => {
+					return {
+						file_path: el.file_path,
+						page_num: el.page_num,
+						text: cleanText(el.text),
+						uuid: el.uuid,
+						_collection_name: el._collection_name,
+						_id: el._id,
+					};
+				}),
+			} satisfies PatchPayload["response"],
 		});
 
 		return response;

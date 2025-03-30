@@ -1,7 +1,10 @@
 // storage-adapter-import-placeholder
 // import sharp from 'sharp' // sharp-import
 import { postgresAdapter } from "@payloadcms/db-postgres";
-import { s3Storage } from "@stigma.io/payloadcms-storage-s3";
+import {
+	s3Storage,
+	type S3StorageOptions,
+} from "@stigma.io/payloadcms-storage-s3";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildConfig } from "payload";
@@ -19,7 +22,7 @@ import { neuro } from "./collections/neuro";
 import { provider } from "./collections/provider";
 import { tenant } from "./collections/tenant";
 import { user } from "./collections/user";
-import defaultAccess, { isAuthorized } from "./utilities/defaultAccess";
+// import defaultAccess, { isAuthorized } from "./utilities/defaultAccess";
 import { getServerSideURL } from "./utilities/getURL";
 
 // import Logo from "@/components/Logo/Logo";
@@ -27,6 +30,29 @@ import { getServerSideURL } from "./utilities/getURL";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
+
+const s3Config: S3StorageOptions = {
+	collections: {
+		[userMediaAvatar.slug]: {
+			bucket: process.env.S3_BUCKET_USER_MEDIA,
+		},
+		[tenantMedia.slug]: {
+			bucket: process.env.S3_BUCKET_TENANT_MEDIA,
+		},
+		[doc.slug]: {
+			bucket: process.env.S3_BUCKET_DOC_FILE,
+		},
+	},
+	config: {
+		credentials: {
+			accessKeyId: process.env.S3_ACCESS_KEY_ID,
+			secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+		},
+		region: process.env.S3_REGION,
+		endpoint: process.env.S3_ENDPOINT,
+		forcePathStyle: true,
+	},
+};
 
 export default buildConfig({
 	db: postgresAdapter({
@@ -119,30 +145,7 @@ export default buildConfig({
 		) as string[],
 	},
 	globals: [],
-	plugins: [
-		s3Storage({
-			collections: {
-				[userMediaAvatar.slug]: {
-					bucket: process.env.S3_BUCKET_USER_MEDIA,
-				},
-				[tenantMedia.slug]: {
-					bucket: process.env.S3_BUCKET_TENANT_MEDIA,
-				},
-				[doc.slug]: {
-					bucket: process.env.S3_BUCKET_DOC_FILE,
-				},
-			},
-			config: {
-				credentials: {
-					accessKeyId: process.env.S3_ACCESS_KEY_ID,
-					secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-				},
-				region: process.env.S3_REGION,
-				endpoint: process.env.S3_ENDPOINT,
-				forcePathStyle: true,
-			},
-		}) as any,
-	],
+	plugins: [s3Storage(s3Config)],
 	secret: process.env.PAYLOAD_SECRET,
 	// sharp,
 	typescript: {

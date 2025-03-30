@@ -10,7 +10,26 @@
 			"outputs": ["dist/**", ".next/**", "!.next/cache/**"]
 		},
 		"lint": {
-			"dependsOn": ["^lint"]
+			"dependsOn": ["^lint"],
+			"inputs": [
+				"src/**/*.{ts,tsx,js,jsx}",
+				"eslint.config.js",
+				".eslintrc.*",
+				"!**/dist/**",
+				"!**/node_modules/**"
+			],
+			"outputs": []
+		},
+		"format": {
+			"cache": false,
+			"inputs": [
+				"src/**/*.{ts,tsx,js,jsx,json,md}",
+				".prettierrc*",
+				".prettierignore",
+				"!**/dist/**",
+				"!**/node_modules/**"
+			],
+			"outputs": []
 		},
 		"test": {
 			"dependsOn": ["^build"],

@@ -1,5 +1,3 @@
-import { parse } from "cookie";
-
 import { GROUP_PERMISSIONS } from "@/types/types";
 
 import { getUserContext, getUserGroups } from "./coreAccess";

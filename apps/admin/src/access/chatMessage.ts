@@ -1,11 +1,9 @@
 import type { Access } from "payload";
 
-import { isAuthorized } from "@/utilities/defaultAccess";
-
 import { getUserContext } from "./coreAccess";
 
 export const getChatMessageAccess = () => {
-	const create: Access = async ({ req }) => {
+	const create: Access = async () => {
 		return false;
 	};
 

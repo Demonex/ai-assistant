@@ -63,7 +63,7 @@ export class UpdateProfileAvatarDto {
 		// type: 'file',
 		format: "binary",
 	})
-	readonly file?: any;
+	readonly file?;
 }
 export class UpdateProfileSubscriptionDto {
 	@IsOptional()

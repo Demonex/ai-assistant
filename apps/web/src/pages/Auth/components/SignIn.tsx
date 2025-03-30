@@ -16,10 +16,10 @@ import { useProfile } from "@repo/web/hooks/useProfile.js";
 import { cn } from "@repo/web/lib/utils.js";
 import { useLocation } from "wouter";
 
-type Inputs = {
+interface Inputs {
 	email: string;
 	password: string;
-};
+}
 export function SignIn({
 	className,
 	...props

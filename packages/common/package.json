@@ -14,7 +14,6 @@
     "remeda": "2.19.0"
   },
   "devDependencies": {
-    "@repo/config-biome": "workspace:*",
     "@repo/config-typescript": "workspace:*",
     "typescript": "5.7.2",
     "vitest": "2.1.8"

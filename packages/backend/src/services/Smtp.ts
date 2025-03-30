@@ -9,7 +9,7 @@ export class SmtpService {
 			`${process.env.MAILCHIMP_TRANSACTIONAL_API_KEY}`,
 		);
 	}
-	async sendEmail(type: string, args: any) {
+	async sendEmail(type: string, args) {
 		switch (type) {
 			case "recover-by-email": {
 				const {

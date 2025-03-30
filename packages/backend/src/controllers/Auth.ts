@@ -46,7 +46,7 @@ export class AuthController {
 	@Unauthorized()
 	@Post("/rest/auth/email/sign-in")
 	@HttpCode(200)
-	async signIn(@Request() request: any, @Body() args: AuthSignInDto) {
+	async signIn(@Request() request, @Body() args: AuthSignInDto) {
 		await validateDto(AuthSignInDto, args, request);
 		const profile = await this.service.signInByEmail(args);
 		return profile;
@@ -54,7 +54,7 @@ export class AuthController {
 
 	@Unauthorized()
 	@Post("/rest/auth/email/sign-up")
-	async signUp(@Request() request: any, @Body() args: AuthSignUpDto) {
+	async signUp(@Request() request, @Body() args: AuthSignUpDto) {
 		await validateDto(AuthSignUpDto, args, request);
 		const profile = await this.service.signUpByEmail(args, false);
 		return profile;

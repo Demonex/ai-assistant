@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:2050";
 
@@ -9,9 +9,9 @@ const api = axios.create({
 interface RequestOptions {
 	method: "GET" | "POST" | "PUT" | "DELETE";
 	url: string;
-	data?: any;
-	params?: any;
-	headers?: any;
+	data?: unknown;
+	params?: Record<string, unknown>;
+	headers?: Record<string, string>;
 }
 
 const makeRequest = async <T>(options: RequestOptions): Promise<T> => {
@@ -35,7 +35,7 @@ const makeRequest = async <T>(options: RequestOptions): Promise<T> => {
 };
 
 const CollectionService = {
-	filesUpload: async <T>(collectionId: number, data: any): Promise<T> => {
+	filesUpload: async <T>(collectionId: number, data: FormData): Promise<T> => {
 		return makeRequest({
 			method: "POST",
 			url: `/api/rest/chat/${collectionId}/upload`,

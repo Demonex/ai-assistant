@@ -1,9 +1,10 @@
 // vite.config.ts
-import { defineConfig } from "file:///C:/Users/mkuznetsov/Desktop/Sigma/sigma-chat/sigma-chat/node_modules/.pnpm/vite@5.4.11_@types+node@22.10.7_lightningcss@1.28.2_sass-embedded@1.83.0_sass@1.83.4_terser@5.37.0/node_modules/vite/dist/node/index.js";
 import react from "file:///C:/Users/mkuznetsov/Desktop/Sigma/sigma-chat/sigma-chat/node_modules/.pnpm/@vitejs+plugin-react-swc@3.7.2_@swc+helpers@0.5.15_vite@5.4.11_@types+node@22.10.7_lightningc_svigwkxulnasxr26aok2kfy6tm/node_modules/@vitejs/plugin-react-swc/index.mjs";
 import tsconfigPaths from "file:///C:/Users/mkuznetsov/Desktop/Sigma/sigma-chat/sigma-chat/node_modules/.pnpm/vite-tsconfig-paths@5.1.4_typescript@5.7.3_vite@5.4.11_@types+node@22.10.7_lightningcss@1.28._rwkdvn7abfnlgpf3iqluuwgusq/node_modules/vite-tsconfig-paths/dist/index.js";
+import { defineConfig } from "file:///C:/Users/mkuznetsov/Desktop/Sigma/sigma-chat/sigma-chat/node_modules/.pnpm/vite@5.4.11_@types+node@22.10.7_lightningcss@1.28.2_sass-embedded@1.83.0_sass@1.83.4_terser@5.37.0/node_modules/vite/dist/node/index.js";
 import { networkInterfaces } from "os";
 import path from "path";
+
 var __vite_injected_original_dirname =
 	"C:\\Users\\mkuznetsov\\Desktop\\Sigma\\sigma-chat\\sigma-chat\\apps\\web";
 var interfaces = Object.values(

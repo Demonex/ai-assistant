@@ -49,9 +49,9 @@ export function NavUser() {
 		setTheme("light");
 	}, [darkTheme]);
 
-	const toggleTheme = () => {
-		darkTheme === "dark" ? setDarkTheme("light") : setDarkTheme("dark");
-	};
+	// const toggleTheme = () => {
+	// 	darkTheme === "dark" ? setDarkTheme("light") : setDarkTheme("dark");
+	// };
 
 	return (
 		<SidebarMenu>

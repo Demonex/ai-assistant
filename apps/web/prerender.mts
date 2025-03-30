@@ -1,9 +1,9 @@
-import { readFileSync, readdirSync } from "node:fs";
+import dirname from "es-dirname";
 // @ts-ignore
 import { outputFileSync } from "fs-extra/esm";
-import { resolve, join } from "node:path";
+import { readFileSync, readdirSync } from "node:fs";
+import { join, resolve } from "node:path";
 import { createServer as createViteServer } from "vite";
-import dirname from "es-dirname";
 
 const __dirname = dirname();
 
