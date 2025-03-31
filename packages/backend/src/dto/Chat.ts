@@ -18,7 +18,7 @@ export class ChatMessageDto {
 	readonly email!: string;
 }
 
-interface UploadedFile {
+type UploadedFile = {
 	fieldname: string;
 	originalname: string;
 	encoding: string;
@@ -28,7 +28,8 @@ interface UploadedFile {
 	destination?: string;
 	filename?: string;
 	path?: string;
-}
+};
+
 export class ChatUploadMediaDto {
 	@ApiProperty({
 		type: "file",

@@ -8,12 +8,12 @@ export enum SocialProviders {
 	apple = "apple",
 }
 
-export interface AuthByProvider {
+export type AuthByProvider = {
 	name?: string;
 	email?: string;
 	emailVerified?: boolean;
 	// photo?: string
-}
+};
 
 @Injectable({ scope: Scope.REQUEST })
 export class ProviderService {

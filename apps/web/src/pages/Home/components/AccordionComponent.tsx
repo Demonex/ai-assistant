@@ -54,6 +54,8 @@ export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 			window.open(fileURL, "_blank");
 		};
 
+		if (!fragments && !fragments.length) return;
+
 		return (
 			<Accordion type="single" collapsible className="w-full">
 				{fragments.map((fragment) => (

@@ -2,9 +2,9 @@
 
 import { ReactNode, useEffect } from "react";
 
-interface ForceLightModeProviderProps {
+type ForceLightModeProviderProps = {
 	children: ReactNode;
-}
+};
 
 const ForceLightModeProvider = ({ children }: ForceLightModeProviderProps) => {
 	useEffect(() => {

@@ -1,39 +1,39 @@
-export interface Message {
-	id: number;
+export type Message = {
+	id: string;
 	response?: ResponseAndRequest;
 	request?: ResponseAndRequest;
-}
+};
 
-export interface ResponseAndRequest {
+export type ResponseAndRequest = {
 	created_at: string;
 	message: string;
 	fragments?: Fragment[];
-}
+};
 
-export interface Fragment {
+export type Fragment = {
 	file_path: string;
 	page_num: number;
 	text: string;
 	uuid: string;
 	_collection_name: string;
 	_id: string;
-}
+};
 
-export interface Chats {
+export type Chats = {
 	id: number;
 	title: string;
 	tenant: number;
-}
+};
 
-export interface ActiveChat {
+export type ActiveChat = {
 	id: number;
 	title: string;
-}
+};
 
-export interface MessagesType {
+export type MessagesType = {
 	isEmpty: boolean;
 	messages: Message[];
 	description: string;
-}
+};
 
 export type GroupMessages = [string, Message[]];

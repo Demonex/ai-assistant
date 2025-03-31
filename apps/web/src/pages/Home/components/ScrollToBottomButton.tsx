@@ -2,15 +2,15 @@ import { type RefObject, useEffect, useState } from "react";
 
 import { ChevronDown } from "lucide-react";
 
-interface ScrollToBottomButtonProps {
+type ScrollToBottomButtonProps = {
 	ref: RefObject<HTMLDivElement>;
-}
+};
 
 export const ScrollToBottomButton = ({ ref }: ScrollToBottomButtonProps) => {
 	const [isVisible, setIsVisible] = useState(false);
 
 	const scrollToBottom = () => {
-		ref.current.scrollTo({
+		ref.current?.scrollTo({
 			top: ref.current.scrollHeight,
 			behavior: "smooth",
 		});

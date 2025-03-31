@@ -6,13 +6,13 @@ const api = axios.create({
 	baseURL,
 });
 
-interface RequestOptions {
+type RequestOptions = {
 	method: "GET" | "POST" | "PUT" | "DELETE";
 	url: string;
 	data?: unknown;
 	params?: Record<string, unknown>;
 	headers?: Record<string, string>;
-}
+};
 
 const makeRequest = async <T>(options: RequestOptions): Promise<T> => {
 	try {

@@ -12,14 +12,14 @@ import { lazyWithPreload } from "@repo/web/utils/lazyWithPreload.js";
 import { createMonoHook } from "use-mono-hook";
 import { useLocation } from "wouter";
 
-interface RouteApp<P = object> {
+type RouteApp<P = object> = {
 	path: string;
 	component: LazyExoticComponent<ComponentType<P>> & {
 		preload?: () => Promise<void>;
 	};
 	loading?: boolean;
 	finished?: boolean;
-}
+};
 
 const routesShared = [
 	{

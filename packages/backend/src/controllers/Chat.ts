@@ -25,25 +25,25 @@ import { ChatMessageDto, ChatUploadMediaDto } from "../dto/Chat.js";
 import { HttpStatusMessages } from "../messages/http.js";
 import { LangFlowService } from "../services/Flow.js";
 
-interface Fragment {
+type Fragment = {
 	file_path: string;
 	page_num: number;
 	text: string;
 	uuid: string;
 	_collection_name: string;
 	_id: string;
-}
+};
 
-interface MessageResponse {
+type MessageResponse = {
 	success: boolean;
 	message: string;
 	created_at: Date;
 	fragments: Fragment[];
-}
+};
 
-interface PatchPayload {
+type PatchPayload = {
 	response: MessageResponse;
-}
+};
 
 @ApiTags("chat")
 @Controller("/api/rest")

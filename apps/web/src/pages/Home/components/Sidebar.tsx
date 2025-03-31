@@ -1,8 +1,8 @@
 import { memo, useState } from "react";
 
-import { collectionMockData } from "@repo/web/DataBase.js";
 import { Input } from "@repo/web/components/ui/input.js";
 
+// import { collectionMockData } from "../../../DataBase.js";
 import { useChats } from "../hooks/useChats.js";
 import ChatList from "./ChatList.js";
 import { FormNewCollection } from "./FormNewCollection.js";

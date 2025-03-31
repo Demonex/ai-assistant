@@ -24,14 +24,14 @@ const _useChats = () => {
 		]) || [{}];
 
 	useEffect(() => {
-		if (!activeChat.id || !fetchMessages) {
+		if (!activeChat?.id || !fetchMessages) {
 			return;
 		}
 
 		fetchMessages({
 			url: `/api/rest/chat/${activeChat.id}`,
 		});
-	}, [activeChat.id, fetchMessages]);
+	}, [activeChat?.id, fetchMessages]);
 
 	useEffect(() => {
 		if (!messagesData) {
@@ -60,7 +60,7 @@ const _useChats = () => {
 				},
 			});
 		},
-		[activeChat.id, fetchSendMessage],
+		[activeChat?.id, fetchSendMessage],
 	);
 
 	useEffect(() => {
@@ -97,7 +97,7 @@ const _useChats = () => {
 				headers: { "Content-Type": "multipart/form-data" },
 			});
 		},
-		[activeChat.id, fetchUploadFile],
+		[activeChat?.id, fetchUploadFile],
 	);
 
 	// setErrors //

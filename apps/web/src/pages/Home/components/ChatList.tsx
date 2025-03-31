@@ -9,7 +9,7 @@ const ChatList = memo<{ chats: Chats[] }>(({ chats }) => (
 	<ScrollArea.Root className="ScrollAreaRoot">
 		<ScrollArea.Viewport className="ScrollAreaViewport">
 			<div className="block min-w-0 divide-y">
-				{chats.map((chat) => (
+				{chats?.map((chat) => (
 					<div className="Tag" key={chat.id}>
 						<ChatItem title={chat.title} id={chat.id} />
 					</div>

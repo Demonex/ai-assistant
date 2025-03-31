@@ -13,7 +13,7 @@ export const ChatItem = memo<{
 	return (
 		<div
 			className={`group relative flex min-w-0 cursor-pointer items-center gap-4 px-6 py-4 hover:bg-muted ${
-				activeChat.id === id
+				activeChat?.id === id
 					? "bg-[rgb(244,244,244)] text-black"
 					: "bg-transparent"
 			}`}
@@ -21,7 +21,7 @@ export const ChatItem = memo<{
 				setActiveChat({ id, title });
 			}}
 		>
-			{activeChat.id === id && (
+			{activeChat?.id === id && (
 				<span className="absolute right-0 top-0 h-full w-[3px] bg-black" />
 			)}
 

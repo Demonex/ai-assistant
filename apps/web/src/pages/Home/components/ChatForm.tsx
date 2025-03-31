@@ -8,11 +8,11 @@ import { useChats } from "../hooks/useChats.js";
 import { FileUpload } from "./FileUpload.js";
 import { Spinner } from "./Spinner.js";
 
-export interface ChatInputProps {
+type ChatInputProps = {
 	files: File[];
 	handleDrop: (event: ChangeEvent<HTMLInputElement>) => void;
 	setFiles: Dispatch<SetStateAction<File[]>>;
-}
+};
 
 export const ChatForm = memo<ChatInputProps>(
 	({ files, handleDrop, setFiles }) => {
@@ -43,10 +43,10 @@ export const ChatForm = memo<ChatInputProps>(
 				reset();
 			} else {
 				setMessages({
-					isEmpty: messages.isEmpty,
-					description: messages.description,
+					isEmpty: messages?.isEmpty,
+					description: messages?.description,
 					messages: [
-						...(messages.messages ?? []),
+						...(messages?.messages ?? []),
 						{
 							id: Date.now().toString(),
 							request: {
@@ -105,7 +105,7 @@ export const ChatForm = memo<ChatInputProps>(
 							textareaRef.current = el;
 							register("message").ref(el);
 						}}
-						disabled={fileLoading || messageLoading || messages.isEmpty}
+						disabled={fileLoading || messageLoading || messages?.isEmpty}
 						onInput={handleTextarea}
 						placeholder="Введите сообщение..."
 						onChange={handleInputChange}
@@ -150,7 +150,7 @@ export const ChatForm = memo<ChatInputProps>(
 					</div>
 					<button
 						type="submit"
-						disabled={!message && !files.length}
+						disabled={!message && !files?.length}
 						className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 ms-3"
 					>
 						{messageLoading || fileLoading ? <Spinner /> : "Отправить"}

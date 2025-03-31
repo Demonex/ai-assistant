@@ -9,9 +9,9 @@ import {
 	SidebarProvider,
 } from "@repo/web/components/ui/sidebar.js";
 
-interface WebWrapperProps {
+type WebWrapperProps = {
 	children: ReactNode;
-}
+};
 
 export const WebWrapper = ({ children }: WebWrapperProps) => {
 	return (

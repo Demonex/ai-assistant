@@ -3,33 +3,33 @@ import FormData from "form-data";
 import got from "got";
 import { PassThrough } from "node:stream";
 
-interface Fragment {
+type Fragment = {
 	file_path: string;
 	page_num: number;
 	text: string;
 	uuid: string;
 	_collection_name: string;
 	_id: string;
-}
+};
 
-interface FlowResponse {
+type FlowResponse = {
 	id?: number;
 	message?: string;
 	fragments?: Fragment[];
 	created_at?: Date;
-}
+};
 
-interface Folder {
+type Folder = {
 	id: string;
 	name: string;
-}
+};
 
-interface Flow {
+type Flow = {
 	id: string;
 	name: string;
 	folder_id: string;
 	data: unknown;
-}
+};
 
 @Injectable()
 export class LangFlowService {
