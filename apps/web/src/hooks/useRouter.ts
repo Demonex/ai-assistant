@@ -69,7 +69,7 @@ const _useRouterApp = () => {
 		return router.routes.reduce<(typeof router.routes)[number]>(
 			(_route, route) => {
 				return (route.path.length > 1
-					? router.location.startsWith(route.path)
+					? router.location?.startsWith(route.path)
 					: router.location === route.path) && route.finished
 					? route
 					: route.path === router.prevLocation && !_route
@@ -90,7 +90,7 @@ const _useRouterApp = () => {
 				prevLocation: prev.location,
 				routes: prev.routes.reduce((_prev, route) => {
 					return (route.path.length > 1
-						? router.location.startsWith(route.path)
+						? router.location?.startsWith(route.path)
 						: router.location === route.path) && !("finished" in route)
 						? [
 								..._prev,
@@ -142,8 +142,8 @@ const _useRouterApp = () => {
 
 	const Component = useMemo(() => {
 		return (
-			route.component ||
-			router.routes.find(({ path }) => path === "*" /*404 page*/).component
+			route?.component ||
+			router.routes.find(({ path }) => path === "*" /*404 page*/)?.component
 		);
 	}, [route]);
 
