@@ -18,7 +18,9 @@ export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 		};
 
 		const getFragmentTitle = (fragment: Fragment) => {
-			return `${getFileName(fragment.file_path)} - Страница ${fragment.page_num + 1}`;
+			return `${getFileName(fragment.file_path)} - Страница ${
+				fragment.page_num + 1
+			}`;
 		};
 
 		const getFragmentLink = (fragment: Fragment) => {
@@ -29,7 +31,9 @@ export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 			const textArea = document.createElement("textarea");
 
 			const text = isFull
-				? `${getFragmentTitle(fragment)}\n\n${getFragmentLink(fragment)}\n\n******\n\n${fragment.text}`
+				? `${getFragmentTitle(fragment)}\n\n${getFragmentLink(
+						fragment,
+					)}\n\n******\n\n${fragment.text}`
 				: fragment.text;
 
 			textArea.value = text;
@@ -73,14 +77,14 @@ export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 										title="Копировать текст фрагмента"
 										onClick={() => handleCopy(false, fragment)}
 									>
-										<Copy size={18} />
+										<Copy size={16} />
 									</div>
 									<div
 										className="ml-4 hover:opacity-80"
 										title="Копировать Фрагмент"
 										onClick={() => handleCopy(true, fragment)}
 									>
-										<CopyPlus size={18} />
+										<CopyPlus size={16} />
 									</div>
 								</div>
 							</div>
