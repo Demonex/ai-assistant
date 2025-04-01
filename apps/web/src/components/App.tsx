@@ -12,7 +12,7 @@ const RouterApp = memo(() => {
 		Component,
 	} = useRouterApp();
 	if (!route || !location) {
-		return null;
+		return Component && <Component />;
 	}
 	return <Suspense fallback={""}>{Component && <Component />}</Suspense>;
 });

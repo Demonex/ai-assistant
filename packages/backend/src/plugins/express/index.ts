@@ -17,7 +17,7 @@ const RedisSessionStore = new RedisStore({
 });
 
 export const spotlightElements = (
-	express: Express,
+	express: Express.Application,
 	swaggerDoc: OpenAPIObject,
 ) => {
 	express.use((req, res, next) => {
@@ -69,7 +69,8 @@ const expressSession = memoize(
 		primitive: true,
 	},
 );
-const expressPlugins = (express: Express) => {
+
+const expressPlugins = (express: Express.Application) => {
 	express.disable("x-powered-by");
 	express.set("trust proxy", true);
 	express.use(
@@ -115,12 +116,14 @@ const expressPlugins = (express: Express) => {
 		}),
 	);
 	express.use(cookieParser());
+
 	express.use((req, res, next) => {
 		if ("OPTIONS" === req.method) {
 			res.sendStatus(204);
 		}
 		return next();
 	});
+
 	express.use((req, res, next) => {
 		let domain = process.env.BACKEND_COOKIE_HOST || process.env.BACKEND_HOST;
 		let webDomain: string = undefined;
@@ -132,7 +135,9 @@ const expressPlugins = (express: Express) => {
 		} catch (e) {
 			// console.error(e)
 		}
+
 		expressSession(domain)(req, res, next);
 	});
 };
+
 export default expressPlugins;
