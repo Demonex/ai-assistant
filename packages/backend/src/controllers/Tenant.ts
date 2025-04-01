@@ -4,7 +4,7 @@ import { UserId } from "@repo/backend/decorators/user.js";
 import { TenantService } from "../services/Tenant.js";
 
 @ApiTags("tenant")
-@Controller("/api/tenants")
+@Controller("/api/v1/tenants")
 export class TenantController {
 	constructor(public service: TenantService) {}
 

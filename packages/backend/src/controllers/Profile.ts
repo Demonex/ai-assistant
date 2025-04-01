@@ -22,7 +22,7 @@ import {
 import { FileInterceptor } from "@nestjs/platform-express";
 
 @ApiTags("profile")
-@Controller("/api/rest/profile")
+@Controller("/api/v1/profile")
 export class ProfileController {
 	constructor(public service: UserService) {}
 

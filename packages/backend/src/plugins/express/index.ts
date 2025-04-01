@@ -72,48 +72,7 @@ const expressSession = memoize(
 const expressPlugins = (express: Express) => {
 	express.disable("x-powered-by");
 	express.set("trust proxy", true);
-	express.use(
-		cors({
-			origin: [
-				`${process.env.BACKEND_URL}`,
-				`${process.env.FRONTEND_URL}`,
-				`${process.env.ADMIN_URL}`,
-			],
-			allowedHeaders: [
-				"Origin",
-				"Keep-Alive",
-				"User-Agent",
-				"If-Modified-Since",
-				"Cache-Control",
-				"Content-Type",
-				"X-Requested-With",
-				"Accept",
-				"Content-Encoding",
-				"Cookie",
-				"Set-Cookie",
-				"Tus-Resumable",
-				"Upload-Length",
-				"Upload-Metadata",
-				"Upload-Offset",
-				//
-				"last-modified",
-				"if-none-match",
-				"pragma",
-				"e-tag",
-				"expires",
-				"age",
-				"x-axios-cache-etag",
-				"x-axios-cache-last-modified",
-				"x-axios-cache-stale-if-error",
-				"referer",
-				"sec-ch-ua",
-				"sec-ch-ua-mobile",
-				"sec-ch-ua-platform",
-			],
-			preflightContinue: true,
-			credentials: true,
-		}),
-	);
+	express.use(cors());
 	express.use(cookieParser());
 	express.use((req, res, next) => {
 		if ("OPTIONS" === req.method) {

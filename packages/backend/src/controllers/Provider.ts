@@ -34,7 +34,7 @@ class CallbackResponse {
 }
 
 @ApiTags("auth")
-@Controller("/api/rest/auth/provider")
+@Controller("/api/v1/auth/provider")
 export class ProviderController {
 	constructor(private readonly providerService: ProviderService) {}
 

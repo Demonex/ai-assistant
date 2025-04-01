@@ -31,7 +31,7 @@ import { ChatService } from "@repo/backend/services/Chat.js";
 import { ChatMessageDto, ChatUploadMediaDto } from "../dto/Chat.js";
 
 @ApiTags("chat")
-@Controller("/api/rest")
+@Controller("/api/v1")
 export class ChatController {
 	constructor(private readonly chatService: ChatService) {}
 
