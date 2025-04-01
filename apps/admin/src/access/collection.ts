@@ -106,7 +106,12 @@ export const getCollectionAccess = () => {
 };
 
 export const getDropDownAccess = () => {
-	const read: FieldAccess = async ({ req, id, doc, siblingData }) => {
+	const read: FieldAccess = async ({
+		req,
+		id: _id,
+		doc,
+		siblingData: _siblingData,
+	}) => {
 		const { user } = await getUserContext({ req });
 
 		if (user?.superadmin) {
@@ -138,7 +143,13 @@ export const getDropDownAccess = () => {
 		return access;
 	};
 
-	const update: FieldAccess = async ({ req, id, data, doc, siblingData }) => {
+	const update: FieldAccess = async ({
+		req,
+		id: _id,
+		data: _data,
+		doc,
+		siblingData: _siblingData,
+	}) => {
 		const { user } = await getUserContext({ req });
 
 		if (user?.superadmin) {

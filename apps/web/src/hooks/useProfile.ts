@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import { BACKEND_URL } from "@repo/web/constants/index.js";
 import { createMonoHook, useFetch, useLazyFetch } from "use-mono-hook";
 
 const _useProfile = () => {
@@ -16,7 +15,7 @@ const _useProfile = () => {
 	});
 
 	const [
-		{ data: dataSignIn, error: errorSignIn, loading: loadingSignIn },
+		{ data: dataSignIn, error: errorSignIn, loading: _loadingSignIn },
 		fetchSignIn,
 	] = useLazyFetch({
 		url: `api/rest/auth/email/sign-in`,
@@ -25,7 +24,7 @@ const _useProfile = () => {
 	});
 
 	const [
-		{ data: dataSignOut, error: errorSignOut, loading: loadingSignOut },
+		{ data: _dataSignOut, error: errorSignOut, loading: _loadingSignOut },
 		fetchSignOut,
 	] = useLazyFetch({
 		url: `api/rest/auth/sign-out`,

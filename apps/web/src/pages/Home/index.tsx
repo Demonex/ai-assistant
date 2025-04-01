@@ -7,7 +7,7 @@ import { useLocation } from "wouter";
 
 export const HomePage = memo(() => {
 	const { isAuthorized, loading, errorProfile } = useProfile();
-	const [location, navigate] = useLocation();
+	const [_location, navigate] = useLocation();
 
 	useEffect(() => {
 		if (isAuthorized || loading) {

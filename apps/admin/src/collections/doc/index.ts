@@ -49,7 +49,7 @@ export const doc: CollectionConfig = {
 			name: "vectorFilePath",
 			type: "text",
 			required: true,
-			defaultValue: ({ req }) => {
+			defaultValue: ({ req: _req }) => {
 				// console.log(user, locale, req.query, req.id, req.body, req.payload);
 				// console.log(req.doc_collection);
 			},

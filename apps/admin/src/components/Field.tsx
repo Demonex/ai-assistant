@@ -150,7 +150,7 @@ const DropzoneForm = () => {
 						});
 					}}
 				>
-					{({ maxSize }) => (
+					{({ maxSize: _maxSize }) => (
 						<FormField
 							control={form.control}
 							name="files"
