@@ -9,7 +9,7 @@ const _useProfile = () => {
 		error: errorProfile,
 		loading,
 	} = useFetch({
-		url: `${BACKEND_URL}/profile`,
+		url: `api/rest/profile`,
 		params: {
 			formatForAdmin: false,
 		},
@@ -19,7 +19,7 @@ const _useProfile = () => {
 		{ data: dataSignIn, error: errorSignIn, loading: loadingSignIn },
 		fetchSignIn,
 	] = useLazyFetch({
-		url: `${BACKEND_URL}/auth/email/sign-in`,
+		url: `api/rest/auth/email/sign-in`,
 		method: "post",
 		cache: false,
 	});
@@ -28,7 +28,7 @@ const _useProfile = () => {
 		{ data: dataSignOut, error: errorSignOut, loading: loadingSignOut },
 		fetchSignOut,
 	] = useLazyFetch({
-		url: `${BACKEND_URL}/auth/sign-out`,
+		url: `api/rest/auth/sign-out`,
 		method: "post",
 		cache: false,
 	});
@@ -59,22 +59,21 @@ const _useProfile = () => {
 		sessionStorage.setItem("profile", JSON.stringify(dataSignIn));
 	}, [dataSignIn]);
 
-	const handleSignOut = useCallback(async () => {
+	const handleSignOut = async () => {
 		await fetchSignOut({
-			url: `${BACKEND_URL}/auth/sign-out`,
+			url: `api/rest/auth/sign-out`,
 			data: data || dataSignIn,
 		});
 		setProfile(null);
 		sessionStorage.removeItem("profile");
-	}, []);
+	};
 
-	const handleSignIn = useCallback(
-		async (data: { email: string; password: string }) => {
-			await fetchSignIn({ data });
-		},
-		[],
-	);
-
+	const handleSignIn = async (data: { email: string; password: string }) => {
+		await fetchSignIn({
+			url: `api/rest/auth/email/sign-in`,
+			data,
+		});
+	};
 	useEffect(() => {
 		if (!errorProfile && profile) {
 			return;
