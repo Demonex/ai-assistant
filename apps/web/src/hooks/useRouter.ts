@@ -24,11 +24,11 @@ type RouteApp<P = object> = {
 const routesShared = [
 	{
 		path: "/",
-		component: lazyWithPreload(() => import("@/pages/Home/index.js")),
+		component: lazyWithPreload(() => import("@repo/web/pages/Home/index.js")),
 	},
 	{
 		path: "/chats",
-		component: lazyWithPreload(() => import("@/pages/Home/index.js")),
+		component: lazyWithPreload(() => import("@repo/web/pages/Home/index.js")),
 	},
 	{
 		path: "*",

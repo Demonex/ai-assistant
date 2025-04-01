@@ -1,18 +1,18 @@
 import * as React from "react";
 
 import { Slot } from "@radix-ui/react-slot";
-import { Button } from "@repo/web/components/ui/button.jsx";
-import { Input } from "@repo/web/components/ui/input.jsx";
-import { Separator } from "@repo/web/components/ui/separator.jsx";
-import { Sheet, SheetContent } from "@repo/web/components/ui/sheet.jsx";
-import { Skeleton } from "@repo/web/components/ui/skeleton.jsx";
+import { Button } from "@repo/web/components/ui/button.js";
+import { Input } from "@repo/web/components/ui/input.js";
+import { Separator } from "@repo/web/components/ui/separator.js";
+import { Sheet, SheetContent } from "@repo/web/components/ui/sheet.js";
+import { Skeleton } from "@repo/web/components/ui/skeleton.js";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from "@repo/web/components/ui/tooltip.jsx";
-import { useIsMobile } from "@repo/web/hooks/use-mobile.jsx";
+} from "@repo/web/components/ui/tooltip.js";
+import { useIsMobile } from "@repo/web/hooks/use-mobile.js";
 import { cn } from "@repo/web/lib/utils.js";
 import { type VariantProps, cva } from "class-variance-authority";
 import { PanelLeft } from "lucide-react";

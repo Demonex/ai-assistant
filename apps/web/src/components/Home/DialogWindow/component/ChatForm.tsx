@@ -2,11 +2,10 @@ import { memo, useRef, useState } from "react";
 import type { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
 
+import { FileUpload } from "@repo/web/components/FileUpload.js";
+import { Spinner } from "@repo/web/components/Spinner.js";
 import { ALLOWED_EXTENSIONS } from "@repo/web/constants/index.js";
-
-import { FileUpload } from "@/components/FileUpload.js";
-import { Spinner } from "@/components/Spinner.js";
-import { useChats } from "@/hooks/useChats.js";
+import { useChats } from "@repo/web/hooks/useChats.js";
 
 type ChatInputProps = {
 	files: File[];

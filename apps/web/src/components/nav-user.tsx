@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import { AvatarComponent } from "@repo/web/components/AvatarComponent.js";
 import {
 	Avatar,
 	AvatarFallback,
@@ -31,8 +32,6 @@ import {
 	LogOut,
 	Sparkles,
 } from "lucide-react";
-
-import { AvatarComponent } from "@/components/AvatarComponent.js";
 
 import { ModeToggle } from "./mode-toggle.js";
 import { useTheme } from "./theme-provider.js";

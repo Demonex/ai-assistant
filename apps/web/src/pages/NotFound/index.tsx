@@ -1,9 +1,8 @@
 import { memo, useEffect, useInsertionEffect } from "react";
 
+import { useTheme } from "@repo/web/components/theme-provider.js";
 import { useRouterApp } from "@repo/web/hooks/useRouter.js";
 import { Link } from "wouter";
-
-import { useTheme } from "@/components/theme-provider.js";
 
 export const NotFoundPage = memo(() => {
 	const { preloadPage } = useRouterApp();

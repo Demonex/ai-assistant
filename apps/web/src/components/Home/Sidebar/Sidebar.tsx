@@ -1,9 +1,9 @@
 import { memo, useState } from "react";
 
 import { Input } from "@repo/web/components/ui/input.js";
-
 // import { collectionMockData } from "../../../DataBase.js";
-import { useChats } from "../../../hooks/useChats.js";
+import { useChats } from "@repo/web/hooks/useChats.js";
+
 import { FormNewCollection } from "../../FormNewCollection.js";
 import ChatList from "./components/ChatList.js";
 

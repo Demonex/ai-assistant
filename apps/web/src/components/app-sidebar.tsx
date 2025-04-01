@@ -1,8 +1,6 @@
 import { type ComponentProps, useEffect, useState } from "react";
 
-import { Command, MessageCircleMore, UserRoundCog } from "lucide-react";
-
-import { NavUser } from "@/components/nav-user.js";
+import { NavUser } from "@repo/web/components/nav-user.js";
 import {
 	Sidebar,
 	SidebarContent,
@@ -14,8 +12,9 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 	useSidebar,
-} from "@/components/ui/sidebar.js";
-import { useProfile } from "@/hooks/useProfile.js";
+} from "@repo/web/components/ui/sidebar.js";
+import { useProfile } from "@repo/web/hooks/useProfile.js";
+import { Command, MessageCircleMore, UserRoundCog } from "lucide-react";
 
 interface AppSidebarProps extends ComponentProps<typeof Sidebar> {
 	handleAdmin?: (value: boolean) => void;
@@ -41,7 +40,7 @@ export function AppSidebar({ handleAdmin }: AppSidebarProps) {
 			prev.map((el) => ({ ...el, isActive: el.id === item.id })),
 		);
 
-		if (profile.superadmin && item.isAdmin) {
+		if (profile?.superadmin && item.isAdmin) {
 			handleAdmin(true);
 		} else {
 			handleAdmin(false);
@@ -53,7 +52,7 @@ export function AppSidebar({ handleAdmin }: AppSidebarProps) {
 
 	useEffect(() => {
 		setNav((prev) => {
-			if (profile.superadmin && !prev.some((item) => item.isAdmin)) {
+			if (profile?.superadmin && !prev.some((item) => item.isAdmin)) {
 				return [
 					...prev,
 					{
@@ -67,7 +66,7 @@ export function AppSidebar({ handleAdmin }: AppSidebarProps) {
 			}
 			return prev;
 		});
-	}, [profile.superadmin]);
+	}, [profile?.superadmin]);
 
 	return (
 		<Sidebar>

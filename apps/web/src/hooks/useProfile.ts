@@ -74,14 +74,15 @@ const _useProfile = () => {
 			data,
 		});
 	};
-	useEffect(() => {
-		if (!errorProfile && profile) {
-			return;
-		}
 
-		setProfile(null);
-		sessionStorage.removeItem("profile");
-	}, [errorProfile, profile]);
+	// useEffect(() => {
+	// 	if (!errorProfile && profile) {
+	// 		return;
+	// 	}
+
+	// 	setProfile(null);
+	// 	sessionStorage.removeItem("profile");
+	// }, [errorProfile, profile]);
 
 	return {
 		isAuthorized,

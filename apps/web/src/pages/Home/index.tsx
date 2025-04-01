@@ -1,10 +1,9 @@
 import { memo, useEffect } from "react";
 
+import { DashboardPage } from "@repo/web/components/Home/Dashboard.js";
 import { toast } from "@repo/web/hooks/use-toast.js";
 import { useProfile } from "@repo/web/hooks/useProfile.js";
 import { useLocation } from "wouter";
-
-import { DashboardPage } from "@/components/Home/Dashboard.js";
 
 export const HomePage = memo(() => {
 	const { isAuthorized, loading, errorProfile } = useProfile();

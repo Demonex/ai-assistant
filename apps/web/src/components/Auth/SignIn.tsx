@@ -30,7 +30,8 @@ export function SignIn({
 	const { handleSignIn, errorSignIn } = useProfile();
 
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {
-		await handleSignIn(data);
+		const status = await handleSignIn(data);
+		console.log(data, "aa");
 		navigate("/");
 	};
 
