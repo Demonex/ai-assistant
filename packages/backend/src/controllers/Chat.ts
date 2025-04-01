@@ -5,7 +5,6 @@ import {
 	HttpCode,
 	HttpException,
 	HttpStatus,
-	NotAcceptableException,
 	Param,
 	Post,
 	UploadedFiles,
@@ -18,20 +17,23 @@ import {
 	ApiOperation,
 	ApiTags,
 } from "@nestjs/swagger";
-import { ApiKey, Authorized } from "@repo/backend/decorators/auth.js";
-import { TenantId, UserId } from "@repo/backend/decorators/user.js";
+import {
+	ApiKey,
+	Authorized,
+	UserEmailKey,
+} from "@repo/backend/decorators/auth.js";
+import {
+	ExternalEmail,
+	TenantId,
+	UserId,
+} from "@repo/backend/decorators/user.js";
 import { ChatService } from "@repo/backend/services/Chat.js";
 import { ChatMessageDto, ChatUploadMediaDto } from "../dto/Chat.js";
-import { HttpStatusMessages } from "../messages/http.js";
-import { LangFlowService } from "../services/Flow.js";
 
 @ApiTags("chat")
 @Controller("/api/rest")
 export class ChatController {
-	constructor(
-		private readonly chatService: ChatService,
-		private readonly flowService: LangFlowService,
-	) {}
+	constructor(private readonly chatService: ChatService) {}
 
 	@ApiBearerAuth("bearer-sid")
 	@ApiOperation({ summary: "get chats" })
@@ -39,7 +41,7 @@ export class ChatController {
 	@Get("/chats")
 	@HttpCode(200)
 	async getChats(@UserId() userId: number, @TenantId() currentTenant: number) {
-		return this.chatService.chats(userId, currentTenant);
+		return (await this.chatService.chats({ userId })).collections;
 	}
 
 	@Authorized()
@@ -94,15 +96,25 @@ export class ChatController {
 		return response;
 	}
 
-	@ApiKey()
-	@Post("/chat/:id/message-external")
+	@UserEmailKey()
+	@Post("/chat/message-external")
 	@HttpCode(200)
 	async sendMessageCringe(
-		@Param("id") chatId: number,
+		@ExternalEmail() userEmail: string,
 		@Body() data: ChatMessageDto,
 	) {
+		const { userId, collections: chats } = await this.chatService.chats({
+			userEmail,
+		});
+
+		if (!chats?.length) {
+			throw new HttpException("Collection Not Found", HttpStatus.NOT_FOUND);
+		}
+
+		const chatId = chats[0].id;
+
 		const { id: messageId } = await this.chatService.messageCreate(
-			2,
+			userId,
 			chatId,
 			data,
 		);
