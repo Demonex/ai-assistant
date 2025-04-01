@@ -99,7 +99,7 @@ export class ChatController {
 	@UserEmailKey()
 	@Post("/chat/message-external")
 	@HttpCode(200)
-	async sendMessageCringe(
+	async sendMessageExternal(
 		@ExternalEmail() userEmail: string,
 		@Body() data: ChatMessageDto,
 	) {
