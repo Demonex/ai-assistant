@@ -1,8 +1,8 @@
 import { memo } from "react";
 
 import { useChats } from "../hooks/useChats.js";
-import { DialogWindow } from "./DialogWindow.js";
-import { Sidebar } from "./Sidebar.js";
+import { DialogWindow } from "./Home/DialogWindow/DialogWindow.js";
+import { Sidebar } from "./Home/Sidebar/Sidebar.js";
 
 export const ChatComponent = memo(() => {
 	const { activeChat } = useChats();

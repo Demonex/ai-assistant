@@ -13,12 +13,12 @@ import { toast } from "@repo/web/hooks/use-toast.js";
 import type { GroupMessages } from "@repo/web/types/types.js";
 
 // import { messageMockData } from "../../../DataBase.js";
-import { useChats } from "../hooks/useChats.js";
-import { ChatForm } from "./ChatForm.js";
-import { HeaderDialogWindow } from "./HeaderDialogWindow.js";
-import { MessageBubble } from "./MessageBubble.js";
-import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
-import { ScrollToBottomButton } from "./ScrollToBottomButton.js";
+import { useChats } from "../../../hooks/useChats.js";
+import { ChatForm } from "./component/ChatForm.js";
+import { HeaderDialogWindow } from "./component/HeaderDialogWindow.js";
+import { MessageBubble } from "./component/MessageBubble.js";
+import { ReactMarkdownComponent } from "./component/ReactMarkdownComponent.js";
+import { ScrollToBottomButton } from "./component/ScrollToBottomButton.js";
 
 export const DialogWindow = () => {
 	const {

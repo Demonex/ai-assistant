@@ -4,7 +4,7 @@ import { toast } from "@repo/web/hooks/use-toast.js";
 import { useProfile } from "@repo/web/hooks/useProfile.js";
 import { useLocation } from "wouter";
 
-import { DashboardPage } from "./components/dashboard/page.js";
+import { DashboardPage } from "@/components/Home/Dashboard.js";
 
 export const HomePage = memo(() => {
 	const { isAuthorized, loading, errorProfile } = useProfile();
@@ -22,7 +22,7 @@ export const HomePage = memo(() => {
 		if (errorProfile && errorProfile.status !== 401) {
 			toast({
 				variant: "destructive",
-				title: errorProfile.status,
+				title: errorProfile.status.toString(),
 				description: errorProfile.message,
 			});
 		}

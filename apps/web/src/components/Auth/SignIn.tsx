@@ -25,17 +25,13 @@ export function SignIn({
 	className,
 	...props
 }: React.ComponentPropsWithoutRef<"div">) {
-	const {
-		register,
-		handleSubmit,
-		watch,
-		formState: { errors },
-	} = useForm<Inputs>();
+	const { register, handleSubmit } = useForm<Inputs>();
 	const [, navigate] = useLocation();
 	const { handleSignIn, errorSignIn } = useProfile();
 
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {
-		await handleSignIn(data);
+		const status = await handleSignIn(data);
+		console.log(data, "aa");
 		navigate("/");
 	};
 
@@ -45,7 +41,7 @@ export function SignIn({
 		if (errorSignIn.status === 500) {
 			toast({
 				variant: "destructive",
-				title: errorSignIn.status,
+				title: errorSignIn.status.toString(),
 				description: errorSignIn.message,
 			});
 		} else {

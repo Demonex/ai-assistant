@@ -2,7 +2,7 @@ import { memo } from "react";
 
 import type { ActiveChat } from "@repo/web/types/types.js";
 
-import { AvatarComponent } from "./AvatarComponent.js";
+import { AvatarComponent } from "@/components/AvatarComponent.js";
 
 export const HeaderDialogWindow = memo<{
 	onReturnToMenu: () => void;

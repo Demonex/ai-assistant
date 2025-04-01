@@ -23,7 +23,6 @@ import {
 	useSidebar,
 } from "@repo/web/components/ui/sidebar.js";
 import { useProfile } from "@repo/web/hooks/useProfile.js";
-import { AvatarComponent } from "@repo/web/pages/Home/components/AvatarComponent.js";
 import {
 	BadgeCheck,
 	Bell,
@@ -32,6 +31,8 @@ import {
 	LogOut,
 	Sparkles,
 } from "lucide-react";
+
+import { AvatarComponent } from "@/components/AvatarComponent.js";
 
 import { ModeToggle } from "./mode-toggle.js";
 import { useTheme } from "./theme-provider.js";

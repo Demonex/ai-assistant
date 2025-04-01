@@ -5,7 +5,8 @@ import { toast } from "@repo/web/hooks/use-toast.js";
 import type { Message } from "@repo/web/types/types.js";
 import { Copy } from "lucide-react";
 
-import { AccordionComponent } from "./AccordionComponent.js";
+import { AccordionComponent } from "@/components/AccordionComponent.js";
+
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 
 export const MessageBubble = memo<{

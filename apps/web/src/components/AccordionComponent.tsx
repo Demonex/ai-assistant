@@ -10,7 +10,7 @@ import { toast } from "@repo/web/hooks/use-toast.js";
 import type { Fragment } from "@repo/web/types/types.js";
 import { Copy, CopyPlus } from "lucide-react";
 
-import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
+import { ReactMarkdownComponent } from "./Home/DialogWindow/component/ReactMarkdownComponent.js";
 
 export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 	({ fragments }) => {

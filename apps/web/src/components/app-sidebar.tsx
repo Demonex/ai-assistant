@@ -1,6 +1,8 @@
-import { type ComponentProps, useMemo } from "react";
+import { type ComponentProps, useEffect, useState } from "react";
 
-import { NavUser } from "@repo/web/components/nav-user.js";
+import { Command, MessageCircleMore, UserRoundCog } from "lucide-react";
+
+import { NavUser } from "@/components/nav-user.js";
 import {
 	Sidebar,
 	SidebarContent,
@@ -11,38 +13,61 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-} from "@repo/web/components/ui/sidebar.js";
-import { useProfile } from "@repo/web/hooks/useProfile.js";
-import _globalThis from "globalthis";
-import { Command, MessageCircleMore, UserRoundCog } from "lucide-react";
+	useSidebar,
+} from "@/components/ui/sidebar.js";
+import { useProfile } from "@/hooks/useProfile.js";
 
-type AppSidebarProps = ComponentProps<typeof Sidebar>;
+interface AppSidebarProps extends ComponentProps<typeof Sidebar> {
+	handleAdmin?: (value: boolean) => void;
+}
 
-export function AppSidebar({ ...props }: AppSidebarProps) {
+export function AppSidebar({ handleAdmin }: AppSidebarProps) {
 	// Note: I'm using state to show active item.
 	// IRL you should use the url/router.
+	const [nav, setNav] = useState([
+		{
+			id: Date.now(),
+			title: "Чаты",
+			icon: MessageCircleMore,
+			isActive: true,
+			isAdmin: false,
+		},
+	]);
+	const { setOpen } = useSidebar();
 	const { profile } = useProfile();
-	// const [location, setLocation] = useLocation();
-	const nav = useMemo(
-		() => [
-			{
-				title: "Чаты",
-				path: "/chats",
-				icon: MessageCircleMore,
-				isActive: true,
-			},
-			...(profile?.superadmin
-				? [
-						{
-							title: "Админ",
-							path: "/admin",
-							icon: UserRoundCog,
-						},
-					]
-				: []),
-		],
-		[profile?.superadmin, location],
-	);
+
+	const toggleMenuItem = (item) => {
+		setNav((prev) =>
+			prev.map((el) => ({ ...el, isActive: el.id === item.id })),
+		);
+
+		if (profile.superadmin && item.isAdmin) {
+			handleAdmin(true);
+		} else {
+			handleAdmin(false);
+			window.location.reload();
+		}
+
+		setOpen(true);
+	};
+
+	useEffect(() => {
+		setNav((prev) => {
+			if (profile.superadmin && !prev.some((item) => item.isAdmin)) {
+				return [
+					...prev,
+					{
+						id: Date.now(),
+						title: "Админ",
+						icon: UserRoundCog,
+						isActive: false,
+						isAdmin: true,
+					},
+				];
+			}
+			return prev;
+		});
+	}, [profile.superadmin]);
 
 	return (
 		<Sidebar>
@@ -76,19 +101,15 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
 						<SidebarGroupContent className="px-1.5 md:px-0">
 							<SidebarMenu>
 								{nav.map((item) => (
-									<SidebarMenuItem key={item.path}>
+									<SidebarMenuItem key={item.id}>
 										<SidebarMenuButton
 											tooltip={{
 												children: item.title,
 												hidden: false,
 												className: "hidden md:block",
 											}}
-											onClick={() => {
-												if (_globalThis()?.location?.pathname) {
-													_globalThis().location.pathname = item.path;
-												}
-											}}
-											isActive={/*location*/ "true" === item.path}
+											onClick={() => toggleMenuItem(item)}
+											isActive={item.isActive}
 											className="px-2.5 md:px-2"
 										>
 											<item.icon />
