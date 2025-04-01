@@ -1,6 +1,6 @@
-import { Body, Controller, Get, HttpCode } from "@nestjs/common";
-import { UserEmail, UserId } from "@repo/backend/decorators/user.js";
+import { Controller, Get, HttpCode } from "@nestjs/common";
 import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { UserId } from "@repo/backend/decorators/user.js";
 import { TenantService } from "../services/Tenant.js";
 
 @ApiTags("tenant")

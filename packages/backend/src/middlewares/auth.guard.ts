@@ -12,7 +12,7 @@ import { HttpStatusMessages } from "@repo/backend/messages/http.js";
 export class ApiKeyGuard implements CanActivate {
 	canActivate(context: ExecutionContext): boolean | Promise<boolean> {
 		const request = context.switchToHttp().getRequest();
-		const apiKey = request.headers["x-api-key"]; // или 'authorization'
+		const apiKey = request.headers["x-api-key"];
 
 		if (!apiKey) {
 			throw new UnauthorizedException("API Key is missing");
@@ -21,6 +21,20 @@ export class ApiKeyGuard implements CanActivate {
 		if (apiKey !== "your-secret-api-key-123sigma") {
 			// лучше хранить в .env
 			throw new UnauthorizedException("Invalid API Key");
+		}
+
+		return true;
+	}
+}
+
+@Injectable()
+export class UserEmailGuard implements CanActivate {
+	canActivate(context: ExecutionContext): boolean | Promise<boolean> {
+		const request = context.switchToHttp().getRequest();
+		const userEmailKey = request.headers["x-ad-user"];
+
+		if (!userEmailKey) {
+			throw new UnauthorizedException("Key is missing");
 		}
 
 		return true;

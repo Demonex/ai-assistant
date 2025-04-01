@@ -27,6 +27,11 @@ export const TenantId = createParamDecorator(
 		return res;
 	},
 );
+export const ExternalEmail = createParamDecorator(
+	(key: string, ctx: ExecutionContext): number | undefined => {
+		return get(ctx.switchToHttp().getRequest<any>(), "headers.x-ad-user");
+	},
+);
 export const UserEmail = createParamDecorator(
 	(key: string, ctx: ExecutionContext): number | undefined => {
 		return get(ctx.switchToHttp().getRequest<any>(), "session.user.email");
