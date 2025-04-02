@@ -9,30 +9,22 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-	useSidebar,
 } from "@repo/web/components/ui/sidebar.js";
 import { Command, MessageCircleMore, UserRoundCog } from "lucide-react";
 
 export function AppSidebar({ isAdminPage = false }) {
-	const { setOpen } = useSidebar();
-
 	const toggleMenuItem = () => {
 		const url = window.location.protocol + "//" + window.location.host;
 
-		if (!isAdminPage) {
+		if (isAdminPage) {
 			window.location.href = url;
 		} else {
 			window.location.href = `${url}/admin`;
 		}
-
-		setOpen(true);
 	};
 
 	return (
 		<Sidebar>
-			{/* This is the first sidebar */}
-			{/* We disable collapsible and adjust width to icon. */}
-			{/* This will make the sidebar appear as icons. */}
 			<Sidebar
 				collapsible="none"
 				className="!w-[calc(var(--sidebar-width-icon)_+_1px)] border-r"
@@ -67,7 +59,7 @@ export function AppSidebar({ isAdminPage = false }) {
 											className: "hidden md:block",
 										}}
 										onClick={toggleMenuItem}
-										isActive={isAdminPage}
+										isActive={!isAdminPage}
 										className="px-2.5 md:px-2"
 									>
 										<MessageCircleMore />
@@ -78,16 +70,16 @@ export function AppSidebar({ isAdminPage = false }) {
 								<SidebarMenuItem>
 									<SidebarMenuButton
 										tooltip={{
-											children: "Админ Панель",
+											children: "Админ панель",
 											hidden: false,
 											className: "hidden md:block",
 										}}
 										onClick={toggleMenuItem}
-										isActive={!isAdminPage}
+										isActive={isAdminPage}
 										className="px-2.5 md:px-2"
 									>
 										<UserRoundCog />
-										<span>Админ Панель</span>
+										<span>Админ панель</span>
 									</SidebarMenuButton>
 								</SidebarMenuItem>
 							</SidebarMenu>

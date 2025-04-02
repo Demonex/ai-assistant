@@ -7,8 +7,6 @@ import {
 	SidebarTrigger,
 } from "@repo/web/components/ui/sidebar.js";
 
-// import { admin } from "@repo/web/shared/config/index.js";
-
 import { ChatComponent } from "../ChatComponent.js";
 
 export function DashboardPage() {
@@ -20,7 +18,7 @@ export function DashboardPage() {
 				} as React.CSSProperties
 			}
 		>
-			<AppSidebar isAdminPage={true} />
+			<AppSidebar />
 
 			<SidebarInset>
 				<header className="sticky top-0 flex shrink-0 items-center gap-2 border-b bg-[#fbfbfb] p-4">

@@ -40,7 +40,7 @@ const routesUnAuthorized = [
 	...routesShared,
 	{
 		path: "/sign-in",
-		component: lazyWithPreload(() => import("@repo/web/pages/Auth/SignIn.js")),
+		component: lazyWithPreload(() => import("@repo/web/pages/Auth/index.js")),
 	},
 ] satisfies RouteApp[];
 

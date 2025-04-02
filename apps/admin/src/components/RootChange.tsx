@@ -27,7 +27,7 @@ export const WebWrapper = ({ children }: WebWrapperProps) => {
 					} as React.CSSProperties
 				}
 			>
-				<AppSidebar />
+				<AppSidebar isAdminPage={true} />
 
 				<SidebarInset>
 					<div className="tailwind-container">

@@ -27,12 +27,15 @@ export function SignIn({
 }: React.ComponentPropsWithoutRef<"div">) {
 	const { register, handleSubmit } = useForm<Inputs>();
 	const [, navigate] = useLocation();
-	const { handleSignIn, errorSignIn } = useProfile();
+	const { handleSignIn, errorSignIn, isAuthorized } = useProfile();
 
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {
 		handleSignIn(data);
-		navigate("/");
 	};
+
+	useEffect(() => {
+		if (isAuthorized) navigate("/");
+	}, [isAuthorized, navigate]);
 
 	useEffect(() => {
 		if (!errorSignIn) return;

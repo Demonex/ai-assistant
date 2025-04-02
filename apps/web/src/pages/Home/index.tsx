@@ -10,12 +10,14 @@ export const HomePage = memo(() => {
 	const [_location, navigate] = useLocation();
 
 	useEffect(() => {
-		if (isAuthorized || loading) {
-			return;
-		}
+		if (loading) return;
 
-		navigate("/sign-in");
-	}, [isAuthorized]);
+		if (!isAuthorized) {
+			navigate("/sign-in");
+		} else {
+			navigate("/");
+		}
+	}, [isAuthorized, loading, navigate]);
 
 	useEffect(() => {
 		if (errorProfile && errorProfile.status !== 401) {
