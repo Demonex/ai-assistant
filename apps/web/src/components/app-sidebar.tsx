@@ -15,12 +15,9 @@ import {
 } from "@repo/web/components/ui/sidebar.js";
 import { useProfile } from "@repo/web/hooks/useProfile.js";
 import { Command, MessageCircleMore, UserRoundCog } from "lucide-react";
+import { navigate } from "wouter/use-browser-location";
 
-interface AppSidebarProps extends ComponentProps<typeof Sidebar> {
-	handleAdmin?: (value: boolean) => void;
-}
-
-export function AppSidebar({ handleAdmin }: AppSidebarProps) {
+export function AppSidebar() {
 	// Note: I'm using state to show active item.
 	// IRL you should use the url/router.
 	const [nav, setNav] = useState([
@@ -36,16 +33,7 @@ export function AppSidebar({ handleAdmin }: AppSidebarProps) {
 	const { profile } = useProfile();
 
 	const toggleMenuItem = (item) => {
-		setNav((prev) =>
-			prev.map((el) => ({ ...el, isActive: el.id === item.id })),
-		);
-
-		if (profile?.superadmin && item.isAdmin) {
-			handleAdmin(true);
-		} else {
-			handleAdmin(false);
-			window.location.reload();
-		}
+		window.location.href = "http://localhost:2051/admin";
 
 		setOpen(true);
 	};

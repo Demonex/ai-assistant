@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { BACKEND_URL } from "@repo/web/constants/index.js";
 import { createMonoHook, useFetch, useLazyFetch } from "use-mono-hook";
 
 const _useProfile = () => {
@@ -33,11 +32,14 @@ const _useProfile = () => {
 		cache: false,
 	});
 
-	const [profile, setProfile] = useState(() => {
-		const savedProfile = sessionStorage.getItem("profile");
-		return savedProfile ? JSON.parse(savedProfile) : null;
-		// return { id: "ads", email: "bla@bla.ru" };
-	});
+	const [profile, setProfile] = useState(
+		null,
+		// 	() => {
+		// 	const savedProfile = sessionStorage.getItem("profile");
+		// 	return savedProfile ? JSON.parse(savedProfile) : null;
+		// 	// return { id: "ads", email: "bla@bla.ru" };
+		// }
+	);
 
 	const isAuthorized = useMemo(() => !!profile, [profile]);
 
@@ -47,7 +49,7 @@ const _useProfile = () => {
 		}
 		setProfile(data);
 		// setProfile({ id: "ads", email: "bla@bla.ru" });
-		sessionStorage.setItem("profile", JSON.stringify(data));
+		// sessionStorage.setItem("profile", JSON.stringify(data));
 	}, [data]);
 
 	useEffect(() => {
@@ -56,7 +58,7 @@ const _useProfile = () => {
 		}
 		setProfile(dataSignIn);
 		// setProfile({ id: "ads", email: "bla@bla.ru" });
-		sessionStorage.setItem("profile", JSON.stringify(dataSignIn));
+		// sessionStorage.setItem("profile", JSON.stringify(dataSignIn));
 	}, [dataSignIn]);
 
 	const handleSignOut = async () => {
@@ -65,7 +67,7 @@ const _useProfile = () => {
 			data: data || dataSignIn,
 		});
 		setProfile(null);
-		sessionStorage.removeItem("profile");
+		// sessionStorage.removeItem("profile");
 	};
 
 	const handleSignIn = async (data: { email: string; password: string }) => {

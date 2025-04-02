@@ -27,10 +27,6 @@ const routesShared = [
 		component: lazyWithPreload(() => import("@repo/web/pages/Home/index.js")),
 	},
 	{
-		path: "/chats",
-		component: lazyWithPreload(() => import("@repo/web/pages/Home/index.js")),
-	},
-	{
 		path: "*",
 		component: lazyWithPreload(
 			() => import("@repo/web/pages/NotFound/index.js"),

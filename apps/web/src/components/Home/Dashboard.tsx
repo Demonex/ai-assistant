@@ -14,8 +14,6 @@ import {
 import { ChatComponent } from "../ChatComponent.js";
 
 export function DashboardPage() {
-	const [isAdmin, setIsAdmin] = useState(false);
-
 	return (
 		<SidebarProvider
 			style={
@@ -24,20 +22,16 @@ export function DashboardPage() {
 				} as React.CSSProperties
 			}
 		>
-			<AppSidebar handleAdmin={setIsAdmin} />
+			<AppSidebar />
 
-			{isAdmin ? (
-				<section className="sticky top-0 bottom-0 w-full"></section>
-			) : (
-				<SidebarInset>
-					<header className="sticky top-0 flex shrink-0 items-center gap-2 border-b bg-[#fbfbfb] p-4">
-						<SidebarTrigger className="-ml-1" />
-						<Separator orientation="vertical" className="mr-2 h-4" />
-						<Breadcrumb></Breadcrumb>
-					</header>
-					<ChatComponent />
-				</SidebarInset>
-			)}
+			<SidebarInset>
+				<header className="sticky top-0 flex shrink-0 items-center gap-2 border-b bg-[#fbfbfb] p-4">
+					<SidebarTrigger className="-ml-1" />
+					<Separator orientation="vertical" className="mr-2 h-4" />
+					<Breadcrumb></Breadcrumb>
+				</header>
+				<ChatComponent />
+			</SidebarInset>
 		</SidebarProvider>
 	);
 }
