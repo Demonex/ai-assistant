@@ -20,7 +20,7 @@ export function DashboardPage() {
 				} as React.CSSProperties
 			}
 		>
-			<AppSidebar />
+			<AppSidebar isAdminPage={true} />
 
 			<SidebarInset>
 				<header className="sticky top-0 flex shrink-0 items-center gap-2 border-b bg-[#fbfbfb] p-4">

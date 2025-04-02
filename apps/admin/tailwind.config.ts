@@ -6,16 +6,13 @@ import {
 import { fontFamily } from "tailwindcss/defaultTheme";
 
 export default {
-	darkMode: ["class", "selector", '[data-theme="dark"]'],
+	darkMode: ["class", "selector"],
 	content: [
 		"./index.html",
 		"./src/**/*.{js,ts,jsx,tsx}",
 		// "../web/index.html",
 		"../web/src/**/*.{js,ts,jsx,tsx}",
 	],
-	corePlugins: {
-		preflight: false,
-	},
 	theme: {
 		screens: {
 			tablet: "768px",

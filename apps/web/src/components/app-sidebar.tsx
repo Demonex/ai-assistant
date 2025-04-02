@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import { NavUser } from "@repo/web/components/nav-user.js";
 import {
 	Sidebar,
@@ -13,47 +11,22 @@ import {
 	SidebarMenuItem,
 	useSidebar,
 } from "@repo/web/components/ui/sidebar.js";
-import { useProfile } from "@repo/web/hooks/useProfile.js";
 import { Command, MessageCircleMore, UserRoundCog } from "lucide-react";
 
-export function AppSidebar() {
-	// Note: I'm using state to show active item.
-	// IRL you should use the url/router.
-	const [nav, setNav] = useState([
-		{
-			id: Date.now(),
-			title: "Чаты",
-			icon: MessageCircleMore,
-			isActive: true,
-			isAdmin: false,
-		},
-	]);
+export function AppSidebar({ isAdminPage = false }) {
 	const { setOpen } = useSidebar();
-	const { profile } = useProfile();
 
-	const toggleMenuItem = (_item) => {
-		window.location.href = "http://localhost:2051/admin";
+	const toggleMenuItem = () => {
+		const url = window.location.protocol + "//" + window.location.host;
+
+		if (!isAdminPage) {
+			window.location.href = url;
+		} else {
+			window.location.href = `${url}/admin`;
+		}
 
 		setOpen(true);
 	};
-
-	useEffect(() => {
-		setNav((prev) => {
-			if (profile?.superadmin && !prev.some((item) => item.isAdmin)) {
-				return [
-					...prev,
-					{
-						id: Date.now(),
-						title: "Админ",
-						icon: UserRoundCog,
-						isActive: false,
-						isAdmin: true,
-					},
-				];
-			}
-			return prev;
-		});
-	}, [profile?.superadmin]);
 
 	return (
 		<Sidebar>
@@ -73,8 +46,8 @@ export function AppSidebar() {
 										<Command className="size-4" />
 									</div>
 									<div className="grid flex-1 text-left text-sm leading-tight">
-										<span className="truncate font-semibold">Acme Inc</span>
-										<span className="truncate text-xs">Enterprise</span>
+										<span className="truncate font-semibold">ChatDoc</span>
+										<span className="truncate text-xs">Sigma</span>
 									</div>
 								</a>
 							</SidebarMenuButton>
@@ -86,23 +59,37 @@ export function AppSidebar() {
 					<SidebarGroup>
 						<SidebarGroupContent className="px-1.5 md:px-0">
 							<SidebarMenu>
-								{nav.map((item) => (
-									<SidebarMenuItem key={item.id}>
-										<SidebarMenuButton
-											tooltip={{
-												children: item.title,
-												hidden: false,
-												className: "hidden md:block",
-											}}
-											onClick={() => toggleMenuItem(item)}
-											isActive={item.isActive}
-											className="px-2.5 md:px-2"
-										>
-											<item.icon />
-											<span>{item.title}</span>
-										</SidebarMenuButton>
-									</SidebarMenuItem>
-								))}
+								<SidebarMenuItem>
+									<SidebarMenuButton
+										tooltip={{
+											children: "Чаты",
+											hidden: false,
+											className: "hidden md:block",
+										}}
+										onClick={toggleMenuItem}
+										isActive={isAdminPage}
+										className="px-2.5 md:px-2"
+									>
+										<MessageCircleMore />
+										<span>Чаты</span>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+
+								<SidebarMenuItem>
+									<SidebarMenuButton
+										tooltip={{
+											children: "Админ Панель",
+											hidden: false,
+											className: "hidden md:block",
+										}}
+										onClick={toggleMenuItem}
+										isActive={!isAdminPage}
+										className="px-2.5 md:px-2"
+									>
+										<UserRoundCog />
+										<span>Админ Панель</span>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
 							</SidebarMenu>
 						</SidebarGroupContent>
 					</SidebarGroup>
