@@ -14,12 +14,7 @@ type Args = {
 
 const multipartThreshold = 1024 * 1024 * 50; // 50MB
 
-export const getHandleUpload = ({
-	acl,
-	bucket,
-	getStorageClient,
-	prefix = "",
-}: Args) => {
+export const getHandleUpload = ({ acl, bucket, getStorageClient }: Args) => {
 	return async ({ file }) => {
 		const fileKey = file.originalname;
 		const fileBufferOrStream = file.buffer;

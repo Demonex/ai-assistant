@@ -5,7 +5,7 @@ import { type ClassConstructor } from "class-transformer";
 export const validateDto = async (
 	dto: ClassConstructor<object>,
 	data: Record<string, unknown>,
-	request: unknown,
+	_request: unknown,
 ): Promise<void> => {
 	const errors: ValidationError[] = await validate(
 		Object.assign(new dto(), data),

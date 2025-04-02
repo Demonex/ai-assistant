@@ -1,7 +1,6 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import FormData from "form-data";
 import got from "got";
-import { PassThrough } from "node:stream";
 
 type Fragment = {
 	file_path: string;
@@ -33,14 +32,8 @@ type Flow = {
 
 @Injectable()
 export class LangFlowService {
-	private endpoint = process.env.LANGFLOW_URL || "http://10.199.20.10:7862";
-	private langflowApiKey =
-		process.env.LANGFLOW_API_KEY ||
-		"sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww";
-	private authorization =
-		"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlZWU3ZGU1OS1hZWZhLTQzNGItYjhiMy03YTkxMWFlZjJkODciLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY5NjA1NTM1fQ.JvS26u_1-R4NWieeKGWshIaNFfFaxA8CNxcdt3GhMYM";
-	// private authorization =
-	// 	"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxZmQ0ZTkwNS1kODc1LTQwZjEtODdmNS0xM2NiYWRlNjY4M2YiLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY4NTU0MzM5fQ.hdWCV_FBjKPvbqBL6HB1IKrVbq1y2wtI0hVvKuDEAmQ";
+	private endpoint = process.env.LANGFLOW_URL;
+	private langflowApiKey = process.env.LANGFLOW_API_KEY;
 
 	async uploadFile({
 		flowId,
@@ -64,7 +57,6 @@ export class LangFlowService {
 					body: form,
 					headers: {
 						"x-api-key": this.langflowApiKey,
-						// "x-api-key": "sk-nJL5Mhq1M0_5_Y-pVCAZwQFtU6aM7fu5UbkOiBPW5ec",
 					},
 					responseType: "json",
 					resolveBodyOnly: true,
@@ -78,7 +70,7 @@ export class LangFlowService {
 			const formData = new FormData();
 			const bufs = [];
 
-			await new Promise((resolve, reject) => {
+			await new Promise((resolve) => {
 				stream.on("data", (d) => {
 					bufs.push(d);
 				});
@@ -130,7 +122,6 @@ export class LangFlowService {
 				headers: {
 					"Content-Type": "application/json",
 					"x-api-key": this.langflowApiKey,
-					// "x-api-key": "sk-nJL5Mhq1M0_5_Y-pVCAZwQFtU6aM7fu5UbkOiBPW5ec",
 				},
 				json: {
 					input_value: payload.message,
@@ -154,7 +145,6 @@ export class LangFlowService {
 			headers: {
 				"Content-Type": "application/json",
 				"x-api-key": this.langflowApiKey,
-				// "x-api-key": "sk-nJL5Mhq1M0_5_Y-pVCAZwQFtU6aM7fu5UbkOiBPW5ec",
 			},
 			json: {
 				input_value: payload.message,

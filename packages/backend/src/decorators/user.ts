@@ -33,25 +33,3 @@ export const UserEmail = createParamDecorator(
 		return get(ctx.switchToHttp().getRequest(), "session.user.email");
 	},
 );
-/*
-export const UserLanguage = createParamDecorator(
-	(key: string, ctx: ExecutionContext): Languages.EN | Languages.RU => {
-		const lang = get(
-			ctx.switchToHttp().getRequest(),
-			"session.user.language",
-			Languages.EN,
-		);
-		return lang === Languages.RU ? Languages.RU : Languages.EN;
-	},
-);*/ /*
-export const Language = createParamDecorator(
-	(key: string, ctx: ExecutionContext): Languages.EN | Languages.RU => {
-		const lang = get(
-			ctx.switchToHttp().getRequest(),
-			"cookies.i18next",
-			Languages.EN,
-		);
-		return lang === Languages.RU ? Languages.RU : Languages.EN;
-	},
-);
-*/

@@ -3,9 +3,6 @@ import {
 	Controller,
 	Get,
 	HttpCode,
-	HttpException,
-	HttpStatus,
-	NotAcceptableException,
 	Param,
 	Post,
 	UploadedFiles,
@@ -18,11 +15,10 @@ import {
 	ApiOperation,
 	ApiTags,
 } from "@nestjs/swagger";
-import { ApiKey, Authorized } from "@repo/backend/decorators/auth.js";
+import { Authorized } from "@repo/backend/decorators/auth.js";
 import { TenantId, UserId } from "@repo/backend/decorators/user.js";
 import { ChatService } from "@repo/backend/services/Chat.js";
 import { ChatMessageDto, ChatUploadMediaDto } from "../dto/Chat.js";
-import { HttpStatusMessages } from "../messages/http.js";
 import { LangFlowService } from "../services/Flow.js";
 
 type Fragment = {

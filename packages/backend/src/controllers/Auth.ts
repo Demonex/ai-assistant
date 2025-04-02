@@ -5,12 +5,7 @@ import {
 	ApiOperation,
 	ApiTags,
 } from "@nestjs/swagger";
-import {
-	ApiKey,
-	Authorized,
-	Unauthorized,
-} from "@repo/backend/decorators/auth.js";
-import { UserId } from "@repo/backend/decorators/user.js";
+import { Authorized, Unauthorized } from "@repo/backend/decorators/auth.js";
 import { AuthSignInDto, AuthSignUpDto } from "@repo/backend/dto/Auth.js";
 import { validateDto } from "@repo/backend/middlewares/validateDto.js";
 import { AuthService } from "@repo/backend/services/Auth.js";
@@ -25,7 +20,7 @@ export class AuthController {
 	@Authorized()
 	@Post("/rest/auth/sign-out")
 	@HttpCode(200)
-	async signOut(@UserId() userId: number) {
+	async signOut() {
 		const result = await this.service.signOut();
 		return {
 			success: result,
@@ -36,7 +31,7 @@ export class AuthController {
 	@Authorized()
 	@Post("/admin/user/logout")
 	@HttpCode(200)
-	async logOut(@UserId() userId: number) {
+	async logOut() {
 		const result = await this.service.signOut();
 		return {
 			success: result,

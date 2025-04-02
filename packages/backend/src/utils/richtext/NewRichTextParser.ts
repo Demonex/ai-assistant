@@ -10,7 +10,7 @@ import {
 import type { SerializedLexicalNode } from "@repo/backend/utils/richtext/types.js";
 import escapeHTML from "escape-html";
 
-function getLinkForPage(doc) {
+function getLinkForPage(_doc) {
 	return "implement this";
 }
 

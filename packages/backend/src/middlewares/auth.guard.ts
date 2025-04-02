@@ -11,8 +11,8 @@ import { HttpStatusMessages } from "@repo/backend/messages/http.js";
 @Injectable()
 export class ApiKeyGuard implements CanActivate {
 	canActivate(context: ExecutionContext): boolean | Promise<boolean> {
-		const request = context.switchToHttp().getRequest();
-		const apiKey = request.headers["x-api-key"]; // или 'authorization'
+		const { headers } = context.switchToHttp().getRequest();
+		const apiKey = headers["x-api-key"]; // или 'authorization'
 
 		if (!apiKey) {
 			throw new UnauthorizedException("API Key is missing");
@@ -30,7 +30,7 @@ export class ApiKeyGuard implements CanActivate {
 @Injectable()
 export class AuthorizedGuard implements CanActivate {
 	canActivate(context: ExecutionContext): boolean {
-		const { session, headers } = context.switchToHttp().getRequest();
+		const { session } = context.switchToHttp().getRequest();
 		const authorized = session.user;
 		if (!authorized) {
 			throw new HttpException(
@@ -49,7 +49,7 @@ export class AuthorizedGuard implements CanActivate {
 @Injectable()
 export class UnAuthorizedGuard implements CanActivate {
 	canActivate(context: ExecutionContext): boolean {
-		const { session, headers } = context.switchToHttp().getRequest();
+		const { session } = context.switchToHttp().getRequest();
 		const unAuthorized = !session.user;
 		if (!unAuthorized) {
 			throw new HttpException(
