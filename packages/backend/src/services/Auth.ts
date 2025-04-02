@@ -1,31 +1,27 @@
+import { EntityManager } from "@mikro-orm/core";
+import { InjectRedis } from "@nestjs-modules/ioredis";
 import {
 	HttpException,
 	HttpStatus,
 	Inject,
 	Injectable,
-	NotFoundException,
 	Scope,
 } from "@nestjs/common";
 import { REQUEST } from "@nestjs/core";
-import * as bcrypt from "bcryptjs";
-import { InjectRedis } from "@nestjs-modules/ioredis";
-import type { Redis } from "ioredis";
-import { isEmail } from "class-validator";
-import { randstr as randomStringGenerator } from "better-randstr";
 import { BCRYPT_SALT_ROUNDS } from "@repo/backend/constants.js";
-import { HttpStatusMessages } from "@repo/backend/messages/http.js";
-import type { AuthRecoverDto, AuthSignUpDto } from "@repo/backend/dto/Auth.js";
-import { SmtpService } from "./Smtp.js";
-import { v4 as uuidv4 } from "uuid";
-import { EntityManager } from "@mikro-orm/core";
+import type { AuthSignUpDto } from "@repo/backend/dto/Auth.js";
 import { UserEntity } from "@repo/backend/entities/User/index.js";
+import { HttpStatusMessages } from "@repo/backend/messages/http.js";
+import * as bcrypt from "bcryptjs";
+import { isEmail } from "class-validator";
 import { type Request } from "express";
+import type { Redis } from "ioredis";
+import { v4 as uuidv4 } from "uuid";
 
 @Injectable({ scope: Scope.REQUEST })
 export class AuthService {
 	constructor(
 		@Inject(REQUEST) private readonly request: Request,
-		@Inject(SmtpService) private readonly smtp: SmtpService,
 		@InjectRedis() private readonly redisClient: Redis,
 		private readonly em: EntityManager,
 	) {}

@@ -1,3 +1,4 @@
+import { EntityManager } from "@mikro-orm/core";
 import {
 	HttpException,
 	HttpStatus,
@@ -5,28 +6,17 @@ import {
 	Injectable,
 	Scope,
 } from "@nestjs/common";
-import type { UpdateProfileAvatarDto } from "@repo/backend/dto/Profile.js";
-import { get } from "lodash-es";
-import type { Redis } from "ioredis";
-import { InjectRedis } from "@nestjs-modules/ioredis";
-import { HttpStatusMessages } from "@repo/backend/messages/http.js";
 import { REQUEST } from "@nestjs/core";
-import { EntityManager } from "@mikro-orm/core";
 import { UserEntity } from "@repo/backend/entities/User/index.js";
+import { HttpStatusMessages } from "@repo/backend/messages/http.js";
+import { get } from "lodash-es";
 
 @Injectable({ scope: Scope.REQUEST })
 export class UserService {
 	constructor(
 		@Inject(REQUEST) private readonly request,
-		@InjectRedis() private readonly redisClient: Redis,
 		private readonly em: EntityManager,
 	) {}
-
-	/*
-  async findById(id?: Types.ObjectId): Promise<UserEntity | null> {
-    if (!id) return null;
-    return this.repo.findById(id).select(UserEntityDefaultSelect);
-  }*/
 
 	async me(id: number, email?: string, disablePayloadFormatting = false) {
 		const isAdminRequest =
@@ -69,7 +59,6 @@ export class UserService {
 				});
 			} catch (err) {
 				console.error(err.message);
-				//
 			}
 		}
 		return isAdminRequest && user
@@ -85,7 +74,42 @@ export class UserService {
 			: user;
 	}
 
-	/* async findByIdAndUpdate(
+	async findByIdOrEmail(
+		_id: number,
+		email?: string,
+		fields: (keyof UserEntity)[] = [],
+	) {
+		if (!_id && !email) return null;
+
+		const select = await this.em.findOne<UserEntity>(
+			UserEntity,
+			_id && email
+				? [
+						{
+							id: _id,
+						},
+						{
+							email,
+						},
+					]
+				: _id
+					? { id: _id }
+					: { email },
+			{
+				fields,
+			},
+		);
+
+		return select;
+	}
+}
+
+/* async findById(id?: Types.ObjectId): Promise<UserEntity | null> {
+    if (!id) return null;
+    return this.repo.findById(id).select(UserEntityDefaultSelect);
+  } */
+
+/* async findByIdAndUpdate(
     id: Types.ObjectId,
     args: UpdateProfileDto,
   ): Promise<any | null> {
@@ -157,36 +181,7 @@ export class UserService {
     }
   }*/
 
-	async findByIdAndUpdateAvatar() {
-		/*const result = await payload.create({
-      user: {
-        id: userId
-      },
-      collection: 'user-media-avatar',
-      data: {},
-      file: {
-        data: file.buffer,
-        mimetype: file.mimetype,
-        name: file.originalname,
-        size: file.size
-      }
-    });*/
-		/*if(result) {
-      try {
-        await this.repo.findByIdAndUpdate(userId, {
-            avatar: result.id
-          }
-        );
-      } catch(e) {
-        console.error(e);
-      }
-      const select = (await this.repo.findById(userId).select(UserEntityDefaultSelect)).toJSON();
-      return select;
-    }*/
-		return null;
-	}
-
-	/*
+/*
   async findByIdAndDelete(userId: Types.ObjectId): Promise<boolean> {
     try {
       await this.repo.findByIdAndDelete(userId);
@@ -201,30 +196,3 @@ export class UserService {
     }
     return true;
   }*/
-
-	async findByIdOrEmail(
-		_id: number,
-		email?: string,
-		fields: (keyof UserEntity)[] = [],
-	) {
-		if (!_id && !email) return null;
-
-		const select = await this.em.findOne<UserEntity>(
-			UserEntity,
-			_id && email
-				? [
-						{
-							id: _id,
-						},
-						{
-							email,
-						},
-					]
-				: _id
-					? { id: _id }
-					: { email },
-		);
-
-		return select;
-	}
-}
