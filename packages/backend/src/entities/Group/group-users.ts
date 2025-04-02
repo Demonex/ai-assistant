@@ -1,9 +1,8 @@
 import {
 	Entity,
+	ManyToOne,
 	PrimaryKey,
 	Property,
-	OneToOne,
-	ManyToOne,
 	type Rel,
 } from "@mikro-orm/core";
 import { UserEntity } from "../User/index.js";

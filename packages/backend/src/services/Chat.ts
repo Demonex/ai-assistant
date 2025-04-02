@@ -1,10 +1,10 @@
 import { EntityManager } from "@mikro-orm/core";
-import { InjectRedis } from "@nestjs-modules/ioredis";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { ChatMessageEntity } from "@repo/backend/entities/Chat/index.js";
-import type { Redis } from "ioredis";
+import path from "node:path";
 import type { ChatMessageDto } from "../dto/Chat.js";
 import { CollectionEntity } from "../entities/Collection/index.js";
+import { DocEntity } from "../entities/Doc/index.js";
 import { GROUP_PERMISSION } from "../entities/Group/group-group-permissions.js";
 import { GroupEntity } from "../entities/Group/index.js";
 import { PROVIDER_TYPE } from "../entities/Provider/index.js";
@@ -12,16 +12,13 @@ import { UserEntity } from "../entities/User/index.js";
 import { getHandleUpload } from "../utils/handleUpload.js";
 import { promiseMap } from "../utils/index.js";
 import { LangFlowService } from "./Flow.js";
-import { DocEntity } from "../entities/Doc/index.js";
 import { GotenbergService } from "./Gotenberg.js";
-import path from "node:path";
 
 type HintType = "users" | "groupPermissions" | "groupCollectionPermissions";
 
 @Injectable()
 export class ChatService {
 	constructor(
-		@InjectRedis() private readonly redisClient: Redis,
 		private readonly em: EntityManager,
 		private readonly flowService: LangFlowService,
 		private readonly gotenbergService: GotenbergService,
