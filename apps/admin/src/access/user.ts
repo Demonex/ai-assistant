@@ -60,11 +60,11 @@ export const getUserAccess = () => {
 };
 
 export const getEmailAccess = () => {
-	const read: FieldAccess = async ({ req, id, doc, siblingData }) => {
+	const read: FieldAccess = async () => {
 		return true;
 	};
 
-	const update: FieldAccess = async ({ req, id, data, doc, siblingData }) => {
+	const update: FieldAccess = async ({ req }) => {
 		const { user } = await getUserContext({ req });
 
 		if (user?.superadmin) {
@@ -81,7 +81,7 @@ export const getEmailAccess = () => {
 };
 
 export const getSuperadminAccess = () => {
-	const read: FieldAccess = async ({ req, id, doc, siblingData }) => {
+	const read: FieldAccess = async ({ req }) => {
 		const { user } = await getUserContext({ req });
 
 		if (user?.superadmin) {
@@ -91,7 +91,7 @@ export const getSuperadminAccess = () => {
 		return false;
 	};
 
-	const update: FieldAccess = async ({ req, id, data, doc, siblingData }) => {
+	const update: FieldAccess = async ({ req }) => {
 		const { user } = await getUserContext({ req });
 
 		if (user?.superadmin) {

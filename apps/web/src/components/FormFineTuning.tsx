@@ -1,4 +1,4 @@
-import { Badge } from "@repo/web/components/ui/badge.js";
+// import { Badge } from "@repo/web/components/ui/badge.js";
 import { Button } from "@repo/web/components/ui/button.js";
 import {
 	Dialog,

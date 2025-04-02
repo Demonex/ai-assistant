@@ -6,12 +6,12 @@ import { AvatarComponent } from "@repo/web/components/AvatarComponent.js";
 import {
 	Avatar,
 	AvatarFallback,
-	AvatarImage,
+	// AvatarImage,
 } from "@repo/web/components/ui/avatar.js";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
-	DropdownMenuGroup,
+	// DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
@@ -25,15 +25,15 @@ import {
 } from "@repo/web/components/ui/sidebar.js";
 import { useProfile } from "@repo/web/hooks/useProfile.js";
 import {
-	BadgeCheck,
-	Bell,
+	// BadgeCheck,
+	// Bell,
 	ChevronsUpDown,
-	CreditCard,
+	// CreditCard,
 	LogOut,
-	Sparkles,
+	// Sparkles,
 } from "lucide-react";
 
-import { ModeToggle } from "./mode-toggle.js";
+// import { ModeToggle } from "./mode-toggle.js";
 import { useTheme } from "./theme-provider.js";
 
 export function NavUser() {
@@ -41,7 +41,7 @@ export function NavUser() {
 	const { profile } = useProfile();
 	const { theme, setTheme } = useTheme();
 	const { handleSignOut } = useProfile();
-	const [darkTheme, setDarkTheme] = useState(theme);
+	const [darkTheme, _setDarkTheme] = useState(theme);
 
 	useEffect(() => {
 		//TODO - изменить позже тему

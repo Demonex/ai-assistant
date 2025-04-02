@@ -1,4 +1,4 @@
-import { type ComponentProps, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { NavUser } from "@repo/web/components/nav-user.js";
 import {
@@ -15,7 +15,6 @@ import {
 } from "@repo/web/components/ui/sidebar.js";
 import { useProfile } from "@repo/web/hooks/useProfile.js";
 import { Command, MessageCircleMore, UserRoundCog } from "lucide-react";
-import { navigate } from "wouter/use-browser-location";
 
 export function AppSidebar() {
 	// Note: I'm using state to show active item.
@@ -32,7 +31,7 @@ export function AppSidebar() {
 	const { setOpen } = useSidebar();
 	const { profile } = useProfile();
 
-	const toggleMenuItem = (item) => {
+	const toggleMenuItem = (_item) => {
 		window.location.href = "http://localhost:2051/admin";
 
 		setOpen(true);

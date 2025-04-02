@@ -3,21 +3,21 @@
 import config from "@payload-config";
 import { getPayload } from "payload";
 
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from "@/components/ui/select";
+// import {
+// 	Select,
+// 	SelectContent,
+// 	SelectItem,
+// 	SelectTrigger,
+// 	SelectValue,
+// } from "@/components/ui/select";
 
 import HeaderAction from "./HeaderAction";
 
 const CustomHeaderAction = async () => {
-	const handleClick = () => {
-		// Define the action to be performed on click
-		alert("Custom header action triggered!");
-	};
+	// const handleClick = () => {
+	// 	// Define the action to be performed on click
+	// 	alert("Custom header action triggered!");
+	// };
 
 	// Fetch posts from the 'posts' collection
 	const payload = await getPayload({
