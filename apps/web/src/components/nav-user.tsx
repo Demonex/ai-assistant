@@ -43,6 +43,17 @@ export function NavUser() {
 	const { handleSignOut } = useProfile();
 	const [darkTheme, _setDarkTheme] = useState(theme);
 
+	const signOut = () => {
+		handleSignOut();
+
+		const href = window.location.href;
+		const url = window.location.protocol + "//" + window.location.host;
+
+		if (href.indexOf("/admin") !== -1) {
+			window.location.href = `${url}/sign-in`;
+		}
+	};
+
 	useEffect(() => {
 		//TODO - изменить позже тему
 		// setTheme(darkTheme);
@@ -120,7 +131,7 @@ export function NavUser() {
 							</DropdownMenuItem>
 						</DropdownMenuGroup> */}
 						<DropdownMenuSeparator />
-						<DropdownMenuItem onClick={() => handleSignOut()}>
+						<DropdownMenuItem onClick={signOut}>
 							<LogOut />
 							<span>Выйти</span>
 						</DropdownMenuItem>
