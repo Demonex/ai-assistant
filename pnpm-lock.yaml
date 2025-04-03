@@ -665,7 +665,7 @@ importers:
     devDependencies:
       '@nestjs/cli':
         specifier: ^11.0.5
-        version: 11.0.5(@swc/cli@0.6.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(chokidar@4.0.3))(@swc/core@1.10.9(@swc/helpers@0.5.15))(@types/node@22.10.7)
+        version: 11.0.5(@swc/cli@0.6.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(chokidar@4.0.3))(@swc/core@1.10.9(@swc/helpers@0.5.15))(@types/node@22.10.7)(esbuild@0.24.2)
       '@repo/config-typescript':
         specifier: workspace:*
         version: link:../configs/typescript
@@ -12214,7 +12214,7 @@ snapshots:
       - sequelize
       - typeorm
 
-  '@nestjs/cli@11.0.5(@swc/cli@0.6.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(chokidar@4.0.3))(@swc/core@1.10.9(@swc/helpers@0.5.15))(@types/node@22.10.7)':
+  '@nestjs/cli@11.0.5(@swc/cli@0.6.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(chokidar@4.0.3))(@swc/core@1.10.9(@swc/helpers@0.5.15))(@types/node@22.10.7)(esbuild@0.24.2)':
     dependencies:
       '@angular-devkit/core': 19.1.8(chokidar@4.0.3)
       '@angular-devkit/schematics': 19.1.8(chokidar@4.0.3)
@@ -12225,7 +12225,7 @@ snapshots:
       chokidar: 4.0.3
       cli-table3: 0.6.5
       commander: 4.1.1
-      fork-ts-checker-webpack-plugin: 9.0.2(typescript@5.7.3)(webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15)))
+      fork-ts-checker-webpack-plugin: 9.0.2(typescript@5.7.3)(webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2))
       glob: 11.0.1
       node-emoji: 1.11.0
       ora: 5.4.1
@@ -12233,7 +12233,7 @@ snapshots:
       tsconfig-paths: 4.2.0
       tsconfig-paths-webpack-plugin: 4.2.0
       typescript: 5.7.3
-      webpack: 5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))
+      webpack: 5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2)
       webpack-node-externals: 3.0.0
     optionalDependencies:
       '@swc/cli': 0.6.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(chokidar@4.0.3)
@@ -14528,17 +14528,17 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 22.10.7
+      '@types/node': 22.13.17
 
   '@types/busboy@1.5.4':
     dependencies:
-      '@types/node': 22.10.7
+      '@types/node': 22.13.17
 
   '@types/cacheable-request@6.0.3':
     dependencies:
       '@types/http-cache-semantics': 4.0.4
       '@types/keyv': 3.1.4
-      '@types/node': 22.10.7
+      '@types/node': 22.13.17
       '@types/responselike': 1.0.3
 
   '@types/compression@1.7.2':
@@ -14547,7 +14547,7 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 22.10.7
+      '@types/node': 22.13.17
 
   '@types/cookie-parser@1.4.8(@types/express@5.0.0)':
     dependencies:
@@ -14609,14 +14609,14 @@ snapshots:
 
   '@types/express-serve-static-core@4.19.6':
     dependencies:
-      '@types/node': 22.10.7
+      '@types/node': 22.13.17
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
 
   '@types/express-serve-static-core@5.0.6':
     dependencies:
-      '@types/node': 22.10.7
+      '@types/node': 22.13.17
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -14657,7 +14657,7 @@ snapshots:
 
   '@types/keyv@3.1.4':
     dependencies:
-      '@types/node': 22.10.7
+      '@types/node': 22.13.17
 
   '@types/lodash-es@4.17.12':
     dependencies:
@@ -14727,7 +14727,7 @@ snapshots:
 
   '@types/oauth@0.9.6':
     dependencies:
-      '@types/node': 22.10.7
+      '@types/node': 22.13.17
 
   '@types/parse-json@4.0.2': {}
 
@@ -14754,7 +14754,7 @@ snapshots:
 
   '@types/pg@8.10.2':
     dependencies:
-      '@types/node': 22.10.7
+      '@types/node': 22.13.17
       pg-protocol: 1.8.0
       pg-types: 4.0.2
 
@@ -14777,17 +14777,17 @@ snapshots:
 
   '@types/responselike@1.0.3':
     dependencies:
-      '@types/node': 22.10.7
+      '@types/node': 22.13.17
 
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 22.10.7
+      '@types/node': 22.13.17
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 22.10.7
+      '@types/node': 22.13.17
       '@types/send': 0.17.4
 
   '@types/tinycolor2@1.4.6': {}
@@ -15047,6 +15047,22 @@ snapshots:
       '@vitest/utils': 2.1.8
       chai: 5.2.0
       tinyrainbow: 1.2.0
+
+  '@vitest/mocker@2.1.8(vite@5.4.14(@types/node@22.10.2)(sass@1.86.0)(terser@5.39.0))':
+    dependencies:
+      '@vitest/spy': 2.1.8
+      estree-walker: 3.0.3
+      magic-string: 0.30.17
+    optionalDependencies:
+      vite: 5.4.14(@types/node@22.10.2)(sass@1.86.0)(terser@5.39.0)
+
+  '@vitest/mocker@2.1.8(vite@5.4.14(@types/node@22.10.7)(sass@1.86.0)(terser@5.39.0))':
+    dependencies:
+      '@vitest/spy': 2.1.8
+      estree-walker: 3.0.3
+      magic-string: 0.30.17
+    optionalDependencies:
+      vite: 5.4.14(@types/node@22.10.7)(sass@1.86.0)(terser@5.39.0)
 
   '@vitest/mocker@2.1.8(vite@5.4.14(@types/node@22.13.17)(sass@1.86.0)(terser@5.39.0))':
     dependencies:
@@ -17004,7 +17020,7 @@ snapshots:
       cross-spawn: 7.0.6
       signal-exit: 4.1.0
 
-  fork-ts-checker-webpack-plugin@9.0.2(typescript@5.7.3)(webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))):
+  fork-ts-checker-webpack-plugin@9.0.2(typescript@5.7.3)(webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2)):
     dependencies:
       '@babel/code-frame': 7.26.2
       chalk: 4.1.2
@@ -17019,7 +17035,7 @@ snapshots:
       semver: 7.7.1
       tapable: 2.2.1
       typescript: 5.7.3
-      webpack: 5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))
+      webpack: 5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2)
 
   form-data-encoder@2.1.4: {}
 
@@ -17652,7 +17668,7 @@ snapshots:
 
   jest-worker@27.5.1:
     dependencies:
-      '@types/node': 22.10.7
+      '@types/node': 22.13.17
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -20073,16 +20089,17 @@ snapshots:
 
   tarn@3.0.2: {}
 
-  terser-webpack-plugin@5.3.14(@swc/core@1.10.9(@swc/helpers@0.5.15))(webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))):
+  terser-webpack-plugin@5.3.14(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2)(webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2)):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       jest-worker: 27.5.1
       schema-utils: 4.3.0
       serialize-javascript: 6.0.2
       terser: 5.39.0
-      webpack: 5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))
+      webpack: 5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2)
     optionalDependencies:
       '@swc/core': 1.10.9(@swc/helpers@0.5.15)
+      esbuild: 0.24.2
 
   terser@5.39.0:
     dependencies:
@@ -20758,7 +20775,7 @@ snapshots:
   vitest@2.1.8(@types/node@22.10.2)(sass@1.86.0)(terser@5.39.0):
     dependencies:
       '@vitest/expect': 2.1.8
-      '@vitest/mocker': 2.1.8(vite@5.4.14(@types/node@22.13.17)(sass@1.86.0)(terser@5.39.0))
+      '@vitest/mocker': 2.1.8(vite@5.4.14(@types/node@22.10.2)(sass@1.86.0)(terser@5.39.0))
       '@vitest/pretty-format': 2.1.9
       '@vitest/runner': 2.1.8
       '@vitest/snapshot': 2.1.8
@@ -20793,7 +20810,7 @@ snapshots:
   vitest@2.1.8(@types/node@22.10.7)(sass@1.86.0)(terser@5.39.0):
     dependencies:
       '@vitest/expect': 2.1.8
-      '@vitest/mocker': 2.1.8(vite@5.4.14(@types/node@22.13.17)(sass@1.86.0)(terser@5.39.0))
+      '@vitest/mocker': 2.1.8(vite@5.4.14(@types/node@22.10.7)(sass@1.86.0)(terser@5.39.0))
       '@vitest/pretty-format': 2.1.9
       '@vitest/runner': 2.1.8
       '@vitest/snapshot': 2.1.8
@@ -20889,7 +20906,7 @@ snapshots:
 
   webpack-virtual-modules@0.6.2: {}
 
-  webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15)):
+  webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2):
     dependencies:
       '@types/eslint-scope': 3.7.7
       '@types/estree': 1.0.6
@@ -20911,7 +20928,7 @@ snapshots:
       neo-async: 2.6.2
       schema-utils: 4.3.0
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.14(@swc/core@1.10.9(@swc/helpers@0.5.15))(webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15)))
+      terser-webpack-plugin: 5.3.14(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2)(webpack@5.98.0(@swc/core@1.10.9(@swc/helpers@0.5.15))(esbuild@0.24.2))
       watchpack: 2.4.2
       webpack-sources: 3.2.3
     transitivePeerDependencies:
