@@ -10,13 +10,9 @@ export const HomePage = memo(() => {
 	const [_location, navigate] = useLocation();
 
 	useEffect(() => {
-		if (loading) return;
+		if (isAuthorized || loading) return;
 
-		if (!isAuthorized) {
-			navigate("/sign-in");
-		} else {
-			navigate("/");
-		}
+		navigate("/sign-in");
 	}, [isAuthorized, loading, navigate]);
 
 	useEffect(() => {
