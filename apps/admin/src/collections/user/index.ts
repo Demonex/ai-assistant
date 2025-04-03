@@ -50,7 +50,7 @@ export const user: CollectionConfig = {
 					const userCache = key
 						? (JSON.parse(
 								(await RedisSessionStore.get(
-									`${process.env.REDIS_SESSION_PREFIX}:${key}`,
+									`${process.env.REDIS_SESSION_PREFIX}${key}`,
 								)) || "null",
 							)?.user ?? null)
 						: null;
@@ -122,7 +122,7 @@ export const user: CollectionConfig = {
 						const userCache = key
 							? (JSON.parse(
 									(await RedisSessionStore.get(
-										`${process.env.REDIS_SESSION_PREFIX}:${key}`,
+										`${process.env.REDIS_SESSION_PREFIX}${key}`,
 									)) || "null",
 								)?.user ?? null)
 							: null;
