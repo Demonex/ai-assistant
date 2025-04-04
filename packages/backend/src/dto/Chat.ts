@@ -6,9 +6,9 @@ export class ChatMessageDto {
 	@ApiProperty()
 	readonly raw: string;
 
-	@IsOptional()
 	@IsEmail()
-	@ApiProperty({ required: true })
+	@IsOptional()
+	@ApiProperty()
 	readonly email!: string;
 }
 

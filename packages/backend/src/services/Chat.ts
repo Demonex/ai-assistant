@@ -24,16 +24,30 @@ export class ChatService {
 		private readonly gotenbergService: GotenbergService,
 	) {}
 
-	async chats(userId: ChatMessageEntity["user"]["id"], currentTenant) {
-		const user = await this.em.findOneOrFail<UserEntity, HintType>(UserEntity, {
-			id: userId,
-		});
+	async chats({
+		userId,
+		userEmail,
+	}: {
+		userId?: ChatMessageEntity["user"]["id"];
+		userEmail?: ChatMessageEntity["user"]["email"];
+	}) {
+		const Where: { id?: number; email?: string } = {};
+		if (userId) {
+			Where.id = userId;
+		}
+		if (userEmail) {
+			Where.email = userEmail;
+		}
+		const user = await this.em.findOneOrFail<UserEntity, HintType>(
+			UserEntity,
+			Where,
+		);
 
 		const groups = await this.em.find<GroupEntity, HintType>(
 			GroupEntity,
 			{
 				users: {
-					user: userId,
+					user,
 				},
 			},
 			{
@@ -58,14 +72,14 @@ export class ChatService {
 			const collections = await this.em.find<CollectionEntity>(
 				CollectionEntity,
 				{
-					tenant: currentTenant,
+					// tenant: currentTenant,
 				},
 				{
-					exclude: ["tenant", "providers", "groups"],
+					fields: ["id", "title"],
 				},
 			);
 
-			return collections;
+			return { collections, userId: user.id };
 		}
 
 		const collectionKeys = groups.flatMap((group) => {
@@ -78,14 +92,14 @@ export class ChatService {
 				id: {
 					$in: collectionKeys,
 				},
-				tenant: currentTenant,
+				// tenant: currentTenant,
 			},
 			{
-				exclude: ["tenant", "providers", "groups"],
+				fields: ["id", "title"],
 			},
 		);
 
-		return collections;
+		return { collections, userId: user.id };
 	}
 
 	async chat(

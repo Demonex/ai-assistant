@@ -38,7 +38,7 @@ const CollectionService = {
 	filesUpload: async <T>(collectionId: number, data: FormData): Promise<T> => {
 		return makeRequest({
 			method: "POST",
-			url: `/api/rest/chat/${collectionId}/upload`,
+			url: `/api/v1/chat/${collectionId}/upload`,
 			data,
 			headers: {
 				"Content-Type": "multipart/form-data",
