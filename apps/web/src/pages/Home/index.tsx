@@ -6,14 +6,14 @@ import { useProfile } from "@repo/web/hooks/useProfile.js";
 import { useLocation } from "wouter";
 
 export const HomePage = memo(() => {
-	const { isAuthorized, loading, errorProfile } = useProfile();
+	const { isAuthorized, errorProfile } = useProfile();
 	const [_location, navigate] = useLocation();
 
 	useEffect(() => {
-		if (isAuthorized || loading) return;
-
-		navigate("/sign-in");
-	}, [isAuthorized, loading, navigate]);
+		if (!isAuthorized) {
+			navigate("/sign-in");
+		}
+	}, [isAuthorized, navigate]);
 
 	useEffect(() => {
 		if (errorProfile && errorProfile.status !== 401) {
@@ -24,10 +24,6 @@ export const HomePage = memo(() => {
 			});
 		}
 	}, [errorProfile]);
-
-	if (!isAuthorized) {
-		return null;
-	}
 
 	return <DashboardPage />;
 });
