@@ -1,10 +1,19 @@
 import { Entity, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
 import { GroupUsersEntity } from "../Group/group-users.js";
+import { IsOptional } from "class-validator";
 
 @Entity({ tableName: "user" })
 export class UserEntity {
 	@PrimaryKey()
 	id!: number;
+
+	@Property()
+	@IsOptional()
+	username!: string;
+
+	@Property()
+	@IsOptional()
+	name!: string;
 
 	@Property()
 	email!: string;

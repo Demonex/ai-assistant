@@ -1,10 +1,4 @@
-import {
-	DateType,
-	Entity,
-	OneToOne,
-	PrimaryKey,
-	Property,
-} from "@mikro-orm/core";
+import { Entity, OneToOne, PrimaryKey, Property } from "@mikro-orm/core";
 import { CollectionEntity } from "@repo/backend/entities/Collection/index.js";
 import { UserEntity } from "@repo/backend/entities/User/index.js";
 
@@ -18,7 +12,7 @@ export class ChatMessageEntity {
 	})
 	request: {
 		[k: string]: unknown;
-		created_at: DateType;
+		created_at: Date;
 	};
 
 	@Property({
@@ -27,7 +21,7 @@ export class ChatMessageEntity {
 	})
 	response: {
 		[k: string]: unknown;
-		created_at: DateType;
+		created_at: Date;
 	};
 
 	@OneToOne({

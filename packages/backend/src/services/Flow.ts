@@ -1,34 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import FormData from "form-data";
 import got from "got";
-
-type Fragment = {
-	file_path: string;
-	page_num: number;
-	text: string;
-	uuid: string;
-	_collection_name: string;
-	_id: string;
-};
-
-type FlowResponse = {
-	id?: number;
-	message?: string;
-	fragments?: Fragment[];
-	created_at?: Date;
-};
-
-type Folder = {
-	id: string;
-	name: string;
-};
-
-type Flow = {
-	id: string;
-	name: string;
-	folder_id: string;
-	data: unknown;
-};
+import type { FlowResponse, Fragment, Folder, Flow } from "../types/FLow.js";
 
 @Injectable()
 export class LangFlowService {
@@ -108,32 +81,12 @@ export class LangFlowService {
 	async runFlow({
 		flowId,
 		payload,
-		method = "RETRIEVE",
+		action = "RETRIEVE",
 	}: {
 		flowId: string;
 		payload?: { [key: string]: unknown };
-		method?: "RETRIEVE" | "UPLOAD";
+		action?: "RETRIEVE" | "UPLOAD";
 	}): Promise<FlowResponse> {
-		console.log(
-			"RUN FLOW",
-			`${this.endpoint}/api/v1/run/${flowId}?stream=false`,
-			JSON.stringify({
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					"x-api-key": this.langflowApiKey,
-				},
-				json: {
-					input_value: payload.message,
-					output_type: "chat",
-					input_type: "chat",
-					tweaks: payload.tweaks,
-				},
-				responseType: "json",
-				resolveBodyOnly: true,
-			}),
-		);
-
 		const langflowResponse = await got.post<{
 			outputs: Array<{
 				outputs: Array<{
@@ -156,9 +109,7 @@ export class LangFlowService {
 			resolveBodyOnly: true,
 		});
 
-		console.log("langflow response achived", method, langflowResponse);
-
-		if (method === "UPLOAD") {
+		if (action === "UPLOAD") {
 			return;
 		}
 
@@ -173,8 +124,10 @@ export class LangFlowService {
 		return response;
 	}
 
-	async getFlow({ filter } = { filter: "UPLOAD" }) {
-		const { id: layoutFolderId } = (
+	async getFlow({
+		action = "UPLOAD",
+	}: { action?: "UPLOAD" | "RETRIEVE" } = {}) {
+		const { id: folderId } = (
 			await got.get<Folder[]>(`${this.endpoint}/api/v1/folders/`, {
 				headers: {
 					"x-api-key": this.langflowApiKey,
@@ -192,13 +145,13 @@ export class LangFlowService {
 				responseType: "json",
 				resolveBodyOnly: true,
 			})
-		).find((flow) => flow.folder_id === layoutFolderId && flow.name === filter);
+		).find((flow) => flow.folder_id === folderId && flow.name === action);
 
 		return flow;
 	}
 
-	async createFlow({ flow }) {
-		const newFlow = await got.post(`${this.endpoint}/api/v1/flows/`, {
+	async copyFlow(flow: Flow) {
+		const newFlow = await got.post<Flow>(`${this.endpoint}/api/v1/flows/`, {
 			json: {
 				name: `${Date.now().toString()}-${flow.name}`,
 				data: flow.data,
@@ -213,7 +166,7 @@ export class LangFlowService {
 		return newFlow;
 	}
 
-	async deleteFlow({ flow }) {
+	async deleteFlow(flow: Flow) {
 		await got.delete(`${this.endpoint}/api/v1/flows/${flow.id}`, {
 			headers: {
 				"x-api-key": this.langflowApiKey,

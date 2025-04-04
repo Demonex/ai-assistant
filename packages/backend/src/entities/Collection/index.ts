@@ -19,6 +19,8 @@ export class CollectionEntity {
 	title: string;
 
 	isEmpty: boolean;
+
+	@Property()
 	description: string;
 
 	@ManyToOne(() => TenantEntity)

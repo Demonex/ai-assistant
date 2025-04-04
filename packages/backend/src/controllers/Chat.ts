@@ -19,7 +19,6 @@ import { Authorized } from "@repo/backend/decorators/auth.js";
 import { TenantId, UserId } from "@repo/backend/decorators/user.js";
 import { ChatService } from "@repo/backend/services/Chat.js";
 import { ChatMessageDto, ChatUploadMediaDto } from "../dto/Chat.js";
-import { LangFlowService } from "../services/Flow.js";
 
 type Fragment = {
 	file_path: string;
@@ -44,10 +43,7 @@ type PatchPayload = {
 @ApiTags("chat")
 @Controller("/api/rest")
 export class ChatController {
-	constructor(
-		private readonly chatService: ChatService,
-		private readonly flowService: LangFlowService,
-	) {}
+	constructor(private readonly chatService: ChatService) {}
 
 	@ApiBearerAuth("bearer-sid")
 	@ApiOperation({ summary: "get chats" })
@@ -61,8 +57,12 @@ export class ChatController {
 	@Authorized()
 	@Get("/chat/:id")
 	@HttpCode(200)
-	async getChat(@UserId() userId: number, @Param("id") chatId: number) {
-		return this.chatService.chat(userId, chatId);
+	async getChat(
+		@UserId() userId: number,
+		@Param("id") chatId: number,
+		@TenantId() currentTenant: number,
+	) {
+		return this.chatService.chat(userId, chatId, currentTenant);
 	}
 
 	@Authorized()
@@ -79,35 +79,10 @@ export class ChatController {
 			data,
 		);
 
-		const response = await this.chatService.messageSend(userId, chatId, data);
+		const rawResponse = await this.chatService.initiateFlow(chatId, data);
+		const response = this.chatService.optimiseResponse(rawResponse);
 
-		const cleanText = (str: string) => str.replace(/\u0000/g, "");
-
-		try {
-			await this.chatService.messagePatch(messageId, {
-				response: {
-					success: response.success,
-					message: cleanText(response.response.message),
-					created_at: response.response.created_at,
-					fragments: response.response.fragments.map((el) => {
-						return {
-							file_path: el.file_path,
-							page_num: el.page_num,
-							text: cleanText(el.text),
-							uuid: el.uuid,
-							_collection_name: el._collection_name,
-							_id: el._id,
-						};
-					}),
-				} satisfies PatchPayload["response"],
-			});
-		} catch (e) {
-			console.error(e);
-		}
-
-		response.response.id = messageId;
-
-		return response;
+		return await this.chatService.messagePatch(messageId, response);
 	}
 
 	@Post("/chat/:id/message-external")
