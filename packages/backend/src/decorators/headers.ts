@@ -1,4 +1,4 @@
-import { createParamDecorator, type ExecutionContext } from "@nestjs/common";
+import { type ExecutionContext, createParamDecorator } from "@nestjs/common";
 
 export const CustomHeaders = createParamDecorator(
 	(data, ctx: ExecutionContext) => {

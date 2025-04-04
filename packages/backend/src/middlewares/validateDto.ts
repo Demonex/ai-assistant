@@ -1,13 +1,22 @@
-import { validate } from "class-validator";
 import { HttpException, HttpStatus } from "@nestjs/common";
+import { validate, ValidationError } from "class-validator";
+import { type ClassConstructor } from "class-transformer";
 
-export const validateDto = async (dto: any, data: any, request: any) => {
-	const errors = await validate(Object.assign(new dto(), data), {
-		validationError: {
-			target: false,
-			value: false,
+export const validateDto = async (
+	dto: ClassConstructor<object>,
+	data: Record<string, unknown>,
+	_request: unknown,
+): Promise<void> => {
+	const errors: ValidationError[] = await validate(
+		Object.assign(new dto(), data),
+		{
+			validationError: {
+				target: false,
+				value: false,
+			},
 		},
-	});
+	);
+
 	if (errors.length) {
 		throw new HttpException(
 			{

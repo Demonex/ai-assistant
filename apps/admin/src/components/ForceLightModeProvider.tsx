@@ -1,8 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 
-const ForceLightModeProvider = ({ children }: any) => {
+type ForceLightModeProviderProps = {
+	children: ReactNode;
+};
+
+const ForceLightModeProvider = ({ children }: ForceLightModeProviderProps) => {
 	useEffect(() => {
 		document.documentElement.setAttribute("data-theme", "light");
 	}, []);

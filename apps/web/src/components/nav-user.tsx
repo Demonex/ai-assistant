@@ -1,42 +1,58 @@
 "use client";
 
-import {
-	BadgeCheck,
-	Bell,
-	ChevronsUpDown,
-	CreditCard,
-	LogOut,
-	Sparkles,
-} from "lucide-react";
+import { useEffect, useState } from "react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar.js";
+import { AvatarComponent } from "@repo/web/components/AvatarComponent.js";
+import {
+	Avatar,
+	AvatarFallback,
+	// AvatarImage,
+} from "@repo/web/components/ui/avatar.js";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
-	DropdownMenuGroup,
+	// DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu.js";
+} from "@repo/web/components/ui/dropdown-menu.js";
 import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
 	useSidebar,
-} from "@/components/ui/sidebar.js";
-import { ModeToggle } from "./mode-toggle.js";
-import { useProfile } from "@/hooks/useProfile.js";
-import { useEffect, useState } from "react";
+} from "@repo/web/components/ui/sidebar.js";
+import { useProfile } from "@repo/web/hooks/useProfile.js";
+import {
+	// BadgeCheck,
+	// Bell,
+	ChevronsUpDown,
+	// CreditCard,
+	LogOut,
+	// Sparkles,
+} from "lucide-react";
+
+// import { ModeToggle } from "./mode-toggle.js";
 import { useTheme } from "./theme-provider.js";
-import { AvatarComponent } from "@/pages/Home/components/AvatarComponent.js";
 
 export function NavUser() {
 	const { isMobile } = useSidebar();
 	const { profile } = useProfile();
 	const { theme, setTheme } = useTheme();
 	const { handleSignOut } = useProfile();
-	const [darkTheme, setDarkTheme] = useState(theme);
+	const [darkTheme, _setDarkTheme] = useState(theme);
+
+	const signOut = () => {
+		handleSignOut();
+
+		const href = window.location.href;
+		const url = window.location.protocol + "//" + window.location.host;
+
+		if (href.indexOf("/admin") !== -1) {
+			window.location.href = `${url}/sign-in`;
+		}
+	};
 
 	useEffect(() => {
 		//TODO - изменить позже тему
@@ -44,9 +60,9 @@ export function NavUser() {
 		setTheme("light");
 	}, [darkTheme]);
 
-	const toggleTheme = () => {
-		darkTheme === "dark" ? setDarkTheme("light") : setDarkTheme("dark");
-	};
+	// const toggleTheme = () => {
+	// 	darkTheme === "dark" ? setDarkTheme("light") : setDarkTheme("dark");
+	// };
 
 	return (
 		<SidebarMenu>
@@ -63,7 +79,7 @@ export function NavUser() {
 							</Avatar>
 							<div className="grid flex-1 text-left text-sm leading-tight">
 								{/* <span className="truncate font-semibold">{user.name}</span> */}
-								<span className="truncate text-xs">{profile.email}</span>
+								<span className="truncate text-xs">{profile?.email}</span>
 							</div>
 							<ChevronsUpDown className="ml-auto size-4" />
 						</SidebarMenuButton>
@@ -82,7 +98,7 @@ export function NavUser() {
 								</Avatar>
 								<div className="grid flex-1 text-left text-sm leading-tight">
 									<span className="truncate font-semibold">
-										{profile.email}
+										{profile?.email}
 									</span>
 									{/* <span className="truncate text-xs">{profile.email}</span> */}
 								</div>
@@ -115,7 +131,7 @@ export function NavUser() {
 							</DropdownMenuItem>
 						</DropdownMenuGroup> */}
 						<DropdownMenuSeparator />
-						<DropdownMenuItem onClick={() => handleSignOut()}>
+						<DropdownMenuItem onClick={signOut}>
 							<LogOut />
 							<span>Выйти</span>
 						</DropdownMenuItem>

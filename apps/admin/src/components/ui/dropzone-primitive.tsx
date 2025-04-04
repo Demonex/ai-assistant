@@ -1,15 +1,16 @@
 "use client";
 
 import * as React from "react";
-import { composeEventHandlers } from "@radix-ui/primitive";
-import { Primitive } from "@radix-ui/react-primitive";
 import {
+	type DropzoneOptions,
+	type DropzoneState,
 	type FileRejection,
 	type FileWithPath,
 	useDropzone,
-	type DropzoneOptions,
-	type DropzoneState,
 } from "react-dropzone";
+
+import { composeEventHandlers } from "@radix-ui/primitive";
+import { Primitive } from "@radix-ui/react-primitive";
 
 export type DropzoneContextProps = DropzoneState & DropzoneOptions;
 
@@ -105,9 +106,9 @@ export const DropzoneTrigger = React.forwardRef<
 });
 DropzoneTrigger.displayName = "DropzoneTrigger";
 
-export interface DropzoneDragAcceptedProps {
+export type DropzoneDragAcceptedProps = {
 	children?: React.ReactNode;
-}
+};
 
 export const DropzoneDragAccepted = ({
 	children,
@@ -121,9 +122,9 @@ export const DropzoneDragAccepted = ({
 	return children;
 };
 
-export interface DropzoneDragRejectedProps {
+export type DropzoneDragRejectedProps = {
 	children?: React.ReactNode;
-}
+};
 
 export const DropzoneDragRejected = ({
 	children,
@@ -137,9 +138,9 @@ export const DropzoneDragRejected = ({
 	return children;
 };
 
-export interface DropzoneDragDefaultProps {
+export type DropzoneDragDefaultProps = {
 	children?: React.ReactNode;
-}
+};
 
 export const DropzoneDragDefault = ({ children }: DropzoneDragDefaultProps) => {
 	const { isDragActive } = useDropzoneContext();
@@ -151,9 +152,9 @@ export const DropzoneDragDefault = ({ children }: DropzoneDragDefaultProps) => {
 	return children;
 };
 
-export interface DropzoneAcceptedProps {
+export type DropzoneAcceptedProps = {
 	children: (acceptedFiles: Readonly<FileWithPath[]>) => React.ReactNode;
-}
+};
 
 export const DropzoneAccepted = ({ children }: DropzoneAcceptedProps) => {
 	const { acceptedFiles } = useDropzoneContext();
@@ -161,9 +162,9 @@ export const DropzoneAccepted = ({ children }: DropzoneAcceptedProps) => {
 	return children(acceptedFiles);
 };
 
-export interface DropzoneRejectedProps {
+export type DropzoneRejectedProps = {
 	children: (fileRejections: Readonly<FileRejection[]>) => React.ReactNode;
-}
+};
 
 export const DropzoneRejected = ({ children }: DropzoneRejectedProps) => {
 	const { fileRejections } = useDropzoneContext();

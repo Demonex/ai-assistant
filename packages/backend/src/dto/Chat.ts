@@ -1,11 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import {
-	IsDateString,
-	IsEmail,
-	IsObject,
-	IsOptional,
-	IsString,
-} from "class-validator";
+import { IsEmail, IsOptional, IsString } from "class-validator";
 
 export class ChatMessageDto {
 	@IsString()
@@ -18,11 +12,23 @@ export class ChatMessageDto {
 	readonly email!: string;
 }
 
+type UploadedFile = {
+	fieldname: string;
+	originalname: string;
+	encoding: string;
+	mimetype: string;
+	size: number;
+	buffer: Buffer;
+	destination?: string;
+	filename?: string;
+	path?: string;
+};
+
 export class ChatUploadMediaDto {
 	@ApiProperty({
-		type: "file",
+		type: "array",
 		format: "binary",
 		isArray: true,
 	})
-	media: any[];
+	media: UploadedFile[];
 }

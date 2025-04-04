@@ -17,11 +17,14 @@ build-prod:
     - echo "$WRITE_REGISTRY_TOKEN" | docker login $CI_REGISTRY -u
       "write_registry" --password-stdin
     - git submodule update --init --recursive --remote
+    - docker build -t $IMAGE:$VERSION . -f docker/Dockerfile.$APP_TYPE
+    - docker push $IMAGE:$VERSION
     - docker build -t $IMAGE:$IMAGE_TAG . -f docker/Dockerfile.$APP_TYPE
     - docker push $IMAGE:$IMAGE_TAG
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
 
+deploy:
 build-test:
   stage: build
   parallel:
@@ -49,6 +52,9 @@ deploy-prod:
     - chmod 400 "$SSH_PRIVATE_KEY"
   script:
     - ssh -o StrictHostKeychecking=no -i "$SSH_PRIVATE_KEY"
+      user@dpis-scd1.sigma-it.local "cd demo-stand-deploy && sed -i
+      \"s/^\(.*APP_VERSION=\).*/\1${VERSION}/\" .env && docker compose up -d"
+    - ssh -o StrictHostKeychecking=no -i "$SSH_PRIVATE_KEY"
       user@dpis-scd1.sigma-it.local "cd dev-stand-deploy && sed -i
       \"s/^\(.*APP_VERSION=\).*/\1${IMAGE_TAG}/\" .env && docker compose up -d"
   rules:
@@ -70,4 +76,6 @@ deploy-test:
   rules:
     - if: $CI_COMMIT_BRANCH == "develop"
   needs:
+    - build
+
     - build-test

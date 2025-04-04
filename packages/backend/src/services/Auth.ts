@@ -1,30 +1,27 @@
+import { EntityManager } from "@mikro-orm/core";
+import { InjectRedis } from "@nestjs-modules/ioredis";
 import {
 	HttpException,
 	HttpStatus,
 	Inject,
 	Injectable,
-	NotFoundException,
 	Scope,
 } from "@nestjs/common";
 import { REQUEST } from "@nestjs/core";
-import * as bcrypt from "bcryptjs";
-import { InjectRedis } from "@nestjs-modules/ioredis";
-import type { Redis } from "ioredis";
-import { isEmail } from "class-validator";
-import { randstr as randomStringGenerator } from "better-randstr";
 import { BCRYPT_SALT_ROUNDS } from "@repo/backend/constants.js";
-import { HttpStatusMessages } from "@repo/backend/messages/http.js";
-import type { AuthRecoverDto, AuthSignUpDto } from "@repo/backend/dto/Auth.js";
-import { SmtpService } from "./Smtp.js";
-import { v4 as uuidv4 } from "uuid";
-import { EntityManager } from "@mikro-orm/core";
+import type { AuthSignUpDto } from "@repo/backend/dto/Auth.js";
 import { UserEntity } from "@repo/backend/entities/User/index.js";
+import { HttpStatusMessages } from "@repo/backend/messages/http.js";
+import * as bcrypt from "bcryptjs";
+import { isEmail } from "class-validator";
+import { type Request } from "express";
+import type { Redis } from "ioredis";
+import { v4 as uuidv4 } from "uuid";
 
 @Injectable({ scope: Scope.REQUEST })
 export class AuthService {
 	constructor(
-		@Inject(REQUEST) private readonly request: any,
-		@Inject(SmtpService) private readonly smtp: SmtpService,
+		@Inject(REQUEST) private readonly request: Request,
 		@InjectRedis() private readonly redisClient: Redis,
 		private readonly em: EntityManager,
 	) {}
@@ -43,11 +40,11 @@ export class AuthService {
 		return false;
 	}
 
-	async signInByEmail(args: any): Promise<UserEntity> {
+	async signInByEmail(args): Promise<UserEntity> {
 		const keys = ["email", "password"];
 		const { email, password: passwordCheck } = Object.fromEntries(
 			Object.entries(args).filter(([_, __]) => keys.includes(_)),
-		) as any;
+		) as { email: string; password: string };
 		const user = await this.getUserByEmailOrUsername(email);
 		if (user.password) {
 			await this.verifyUserPassword(user.password, passwordCheck);
@@ -122,7 +119,7 @@ export class AuthService {
 		return user;
 	}
 
-	private async createUserByEmail(args): Promise<any> {
+	private async createUserByEmail(args): Promise<UserEntity> {
 		try {
 			const user = this.em.create<UserEntity>(UserEntity, args);
 			await this.em.persistAndFlush(user);
@@ -149,7 +146,7 @@ export class AuthService {
 		}
 	}
 
-	private async getUserByEmailOrUsername(login: string): Promise<any> {
+	private async getUserByEmailOrUsername(login: string): Promise<UserEntity> {
 		const criteria: { [k: string]: unknown } = {};
 		if (isEmail(login)) {
 			criteria.email = login;

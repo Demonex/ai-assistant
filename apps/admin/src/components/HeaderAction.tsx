@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
+import { getCookie, setCookie } from "cookies-next/client";
+
 import {
 	Select,
 	SelectContent,
@@ -8,16 +11,12 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import config from "@payload-config";
-import { getPayload } from "payload";
-
-import { getCookie, setCookie } from "cookies-next/client";
 
 const HeaderAction = ({ docs }) => {
 	const [tenant, setTenant] = useState(getCookie("tenant") || "");
 
 	useEffect(() => {
-		tenant && setCookie("tenant", tenant);
+		if (tenant) setCookie("tenant", tenant);
 	}, [tenant]);
 
 	return (

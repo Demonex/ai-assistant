@@ -5,27 +5,22 @@ import {
 	ApiOperation,
 	ApiTags,
 } from "@nestjs/swagger";
-import {
-	ApiKey,
-	Authorized,
-	Unauthorized,
-} from "@repo/backend/decorators/auth.js";
-import { UserId } from "@repo/backend/decorators/user.js";
+import { Authorized, Unauthorized } from "@repo/backend/decorators/auth.js";
 import { AuthSignInDto, AuthSignUpDto } from "@repo/backend/dto/Auth.js";
 import { validateDto } from "@repo/backend/middlewares/validateDto.js";
 import { AuthService } from "@repo/backend/services/Auth.js";
 
 @ApiTags("auth")
-@Controller("/api")
+@Controller("/api/v1/auth")
 export class AuthController {
 	constructor(public service: AuthService) {}
 
 	@ApiBearerAuth("bearer-sid")
 	@ApiOperation({ summary: "sign-out user" })
 	@Authorized()
-	@Post("/rest/auth/sign-out")
+	@Post("/user/sign-out")
 	@HttpCode(200)
-	async signOut(@UserId() userId: number) {
+	async signOut() {
 		const result = await this.service.signOut();
 		return {
 			success: result,
@@ -36,7 +31,7 @@ export class AuthController {
 	@Authorized()
 	@Post("/admin/user/logout")
 	@HttpCode(200)
-	async logOut(@UserId() userId: number) {
+	async logOut() {
 		const result = await this.service.signOut();
 		return {
 			success: result,
@@ -44,17 +39,17 @@ export class AuthController {
 	}
 
 	@Unauthorized()
-	@Post("/rest/auth/email/sign-in")
+	@Post("/email/sign-in")
 	@HttpCode(200)
-	async signIn(@Request() request: any, @Body() args: AuthSignInDto) {
+	async signIn(@Request() request, @Body() args: AuthSignInDto) {
 		await validateDto(AuthSignInDto, args, request);
 		const profile = await this.service.signInByEmail(args);
 		return profile;
 	}
 
 	@Unauthorized()
-	@Post("/rest/auth/email/sign-up")
-	async signUp(@Request() request: any, @Body() args: AuthSignUpDto) {
+	@Post("/email/sign-up")
+	async signUp(@Request() request, @Body() args: AuthSignUpDto) {
 		await validateDto(AuthSignUpDto, args, request);
 		const profile = await this.service.signUpByEmail(args, false);
 		return profile;

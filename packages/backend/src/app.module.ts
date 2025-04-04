@@ -62,7 +62,7 @@ export class AppModule implements NestModule, OnApplicationShutdown {
 		}
 	}
 
-	configure(_consumer: MiddlewareConsumer): any {
+	configure(_consumer: MiddlewareConsumer) {
 		//
 	}
 }

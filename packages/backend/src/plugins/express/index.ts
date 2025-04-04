@@ -1,19 +1,18 @@
-import type Express from "express";
-import cors from "cors";
-import session from "express-session";
-import { RedisStore } from "connect-redis";
-import Redis from "ioredis";
-import cookieParser from "cookie-parser";
-import memoize from "memoizee";
-import { REDIS_SESSION_PREFIX } from "@repo/backend/constants.js";
 import { type OpenAPIObject } from "@nestjs/swagger";
+import { RedisStore } from "connect-redis";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import type Express from "express";
+import session from "express-session";
+import { Redis } from "ioredis";
+import memoize from "memoizee";
 
 const redisClient = new Redis(
 	`redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
 );
 const RedisSessionStore = new RedisStore({
 	client: redisClient,
-	prefix: REDIS_SESSION_PREFIX,
+	prefix: process.env.REDIS_SESSION_PREFIX,
 });
 
 export const spotlightElements = (
@@ -75,11 +74,7 @@ const expressPlugins = (express: Express.Application) => {
 	express.set("trust proxy", true);
 	express.use(
 		cors({
-			origin: [
-				`${process.env.BACKEND_URL}`,
-				`${process.env.FRONTEND_URL}`,
-				`${process.env.ADMIN_URL}`,
-			],
+			origin: [`${process.env.FRONTEND_URL}`, `${process.env.ADMIN_URL}`],
 			allowedHeaders: [
 				"Origin",
 				"Keep-Alive",
@@ -125,7 +120,8 @@ const expressPlugins = (express: Express.Application) => {
 	});
 
 	express.use((req, res, next) => {
-		let domain = process.env.BACKEND_COOKIE_HOST || process.env.BACKEND_HOST;
+		let domain = process.env.BACKEND_HOST;
+		// let domain = process.env.BACKEND_COOKIE_HOST || process.env.BACKEND_HOST;
 		let webDomain: string = undefined;
 		try {
 			webDomain = new URL(req.headers.referer || req.headers.origin).hostname;
@@ -133,7 +129,7 @@ const expressPlugins = (express: Express.Application) => {
 				domain = webDomain;
 			}
 		} catch (e) {
-			// console.error(e)
+			console.error(e);
 		}
 
 		expressSession(domain)(req, res, next);

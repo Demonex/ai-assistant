@@ -1,9 +1,9 @@
 import type { CollectionConfig } from "payload";
 
 // import defaultAccess from "@/utilities/defaultAccess";
-import defaultAccess from "@/utilities/defaultAccess";
 import { collection } from "@/collections/collection";
 import { provider } from "@/collections/provider";
+import defaultAccess from "@/utilities/defaultAccess";
 
 const docAccess = {
 	...defaultAccess,
@@ -13,10 +13,10 @@ const docAccess = {
 
 export const doc: CollectionConfig = {
 	slug: "doc",
-	labels: {
+	/*labels: {
 		singular: "Документ",
 		plural: "Документы",
-	},
+	},*/
 	access: docAccess,
 	admin: {
 		defaultColumns: ["filename", "collection", "provider"],
@@ -49,7 +49,7 @@ export const doc: CollectionConfig = {
 			name: "vectorFilePath",
 			type: "text",
 			required: true,
-			defaultValue: ({ req }) => {
+			defaultValue: ({ req: _req }) => {
 				// console.log(user, locale, req.query, req.id, req.body, req.payload);
 				// console.log(req.doc_collection);
 			},
@@ -62,14 +62,14 @@ export const doc: CollectionConfig = {
 			type: "relationship",
 			relationTo: collection.slug as "collection",
 			required: true,
-			label: "Коллекция",
+			// label: "Коллекция",
 		},
 		{
 			name: "provider",
 			type: "relationship",
 			relationTo: provider.slug as "provider",
 			required: true,
-			label: "Провайдер",
+			// label: "Провайдер",
 		},
 	],
 	versions: false,

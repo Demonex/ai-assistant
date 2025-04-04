@@ -1,8 +1,9 @@
 "use client";
 
-import { FieldLabel, TextInput, useField } from "@payloadcms/ui";
 import type React from "react";
 import { type ChangeEvent, useEffect, useRef } from "react";
+
+import { FieldLabel, TextInput, useField } from "@payloadcms/ui";
 
 const CollectionDescriptionInput: React.FC<{
 	path: string;

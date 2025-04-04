@@ -56,19 +56,3 @@ export class UpdateProfileDto {
 	})
 	readonly providersSafe?: string[];
 }
-
-export class UpdateProfileAvatarDto {
-	@IsOptional()
-	@ApiPropertyOptional({
-		// type: 'file',
-		format: "binary",
-	})
-	readonly file?: any;
-}
-export class UpdateProfileSubscriptionDto {
-	@IsOptional()
-	@IsString()
-	@MaxLength(256)
-	@ApiPropertyOptional()
-	readonly artist?: string;
-}

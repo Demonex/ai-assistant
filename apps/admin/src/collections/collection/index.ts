@@ -1,15 +1,16 @@
-import { getCollectionAccess } from "@/access/collection";
+import type { CollectionConfig } from "payload";
+
+import { getCollectionAccess, getDropDownAccess } from "@/access/collection";
 import { neuro } from "@/collections/neuro";
 import { MODEL_TYPE } from "@/types/types";
 import defaultAccess from "@/utilities/defaultAccess";
-import type { CollectionConfig } from "payload";
+
 import { provider } from "../provider";
 import { tenant } from "../tenant";
-// import { CustomUploadField } from "../../components/Field";
 
 const collectionAccess = {
 	...defaultAccess,
-	// ...getCollectionAccess()
+	...getCollectionAccess(),
 };
 
 export const collection: CollectionConfig = {
@@ -119,8 +120,9 @@ export const collection: CollectionConfig = {
 							Field: "@/components/Field",
 						},
 					},
-					label: "Документы",
 					virtual: true,
+					access: getDropDownAccess(),
+					label: "Документы",
 				},
 				// {
 				// 	name: "docs",

@@ -1,7 +1,10 @@
 // storage-adapter-import-placeholder
-import { s3Storage } from "@stigma.io/payloadcms-storage-s3";
 // import sharp from 'sharp' // sharp-import
 import { postgresAdapter } from "@payloadcms/db-postgres";
+import {
+	s3Storage,
+	type S3StorageOptions,
+} from "@stigma.io/payloadcms-storage-s3";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildConfig } from "payload";
@@ -9,6 +12,7 @@ import { buildConfig } from "payload";
 import { tenantMedia } from "@/collections/tenant/media";
 import { userMediaAvatar } from "@/collections/user/media/avatar";
 import { defaultLexical } from "@/fields/defaultLexical";
+
 import { chatMessage } from "./collections/chatMessage";
 import { collection } from "./collections/collection";
 import { doc } from "./collections/doc";
@@ -18,16 +22,37 @@ import { neuro } from "./collections/neuro";
 import { provider } from "./collections/provider";
 import { tenant } from "./collections/tenant";
 import { user } from "./collections/user";
+// import defaultAccess, { isAuthorized } from "./utilities/defaultAccess";
 import { getServerSideURL } from "./utilities/getURL";
+
 // import Logo from "@/components/Logo/Logo";
 // import Icon from "@/components/Logo/Icon";
 
-import { en } from "@payloadcms/translations/languages/en";
-
-import { ru } from "@payloadcms/translations/languages/ru";
-
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
+
+const s3Config: S3StorageOptions = {
+	collections: {
+		[userMediaAvatar.slug]: {
+			bucket: process.env.S3_BUCKET_USER_MEDIA,
+		},
+		[tenantMedia.slug]: {
+			bucket: process.env.S3_BUCKET_TENANT_MEDIA,
+		},
+		[doc.slug]: {
+			bucket: process.env.S3_BUCKET_DOC_FILE,
+		},
+	},
+	config: {
+		credentials: {
+			accessKeyId: process.env.S3_ACCESS_KEY_ID,
+			secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+		},
+		region: process.env.S3_REGION,
+		endpoint: process.env.S3_ENDPOINT,
+		forcePathStyle: true,
+	},
+};
 
 export default buildConfig({
 	db: postgresAdapter({
@@ -50,6 +75,7 @@ export default buildConfig({
 			],
 		},
 		components: {
+			providers: ["@/components/ForceLightModeProvider"],
 			// The `BeforeLogin` component renders a message that you see while logging into your admin panel.
 			// Feel free to delete this at any time. Simply remove the line below and the import `BeforeLogin` statement on line 15.
 			beforeLogin: ["@/components/BeforeLogin"],
@@ -62,7 +88,6 @@ export default buildConfig({
 			},
 			// actions: ["@/components/CustomHeaderAction"],
 			// header: ["@/components/ui/sonner"]
-			providers: ["@/components/ForceLightModeProvider"],
 		},
 		importMap: {
 			baseDir: path.resolve(dirname),
@@ -113,37 +138,22 @@ export default buildConfig({
 		group,
 		chatMessage,
 	],
-	cors: [getServerSideURL()].filter(Boolean),
+	cors: {
+		headers: ["x-http-method-override"],
+		origins: [getServerSideURL(), process.env.NEXT_PUBLIC_FRONTEND_URL].filter(
+			Boolean,
+		) as string[],
+	},
 	globals: [],
-	plugins: [
-		s3Storage({
-			collections: {
-				[userMediaAvatar.slug]: {
-					bucket: process.env.S3_BUCKET_USER_MEDIA,
-				},
-				[tenantMedia.slug]: {
-					bucket: process.env.S3_BUCKET_TENANT_MEDIA,
-				},
-			},
-			config: {
-				credentials: {
-					accessKeyId: process.env.S3_ACCESS_KEY_ID,
-					secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-				},
-				region: process.env.S3_REGION,
-				endpoint: process.env.S3_ENDPOINT,
-				forcePathStyle: true,
-			},
-		}),
-	],
+	plugins: [s3Storage(s3Config)],
 	secret: process.env.PAYLOAD_SECRET,
 	// sharp,
 	typescript: {
 		outputFile: path.resolve(dirname, "payload-types.ts"),
 	},
 	// localization: {
-	// 	defaultLocale: "ru",
-	// 	locales: ["ru"],
+	// 	defaultLocale: "en",
+	// 	locales: ["en", "ru"],
 	// },
 	upload: {
 		defCharset: "utf8",
@@ -156,10 +166,5 @@ export default buildConfig({
 	telemetry: false,
 	onInit: (app) => {
 		app.logger.info("Payload Initialized");
-	},
-	i18n: {
-		fallbackLanguage: "en",
-		supportedLanguages: { en, ru },
-		// supportedLanguages: ['ru'],
 	},
 });

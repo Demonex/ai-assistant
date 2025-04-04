@@ -1,5 +1,5 @@
 export type Message = {
-	id: number;
+	id: string;
 	response?: ResponseAndRequest;
 	request?: ResponseAndRequest;
 };

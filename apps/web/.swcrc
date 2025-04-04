@@ -1,15 +1,15 @@
 {
-  "jsc": {
-    "parser": {
-      "syntax": "typescript",
-      "tsx": true,
-      "decorators": false,
-      "dynamicImport": true
-    },
-    "target": "esnext",
-    "baseUrl": "."
-  },
-  "module": {
-    "type": "nodenext"
-  }
+	"jsc": {
+		"parser": {
+			"syntax": "typescript",
+			"tsx": true,
+			"decorators": false,
+			"dynamicImport": true
+		},
+		"target": "esnext",
+		"baseUrl": "."
+	},
+	"module": {
+		"type": "nodenext"
+	}
 }

@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import { HttpException, HttpStatus, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import {
@@ -7,23 +6,14 @@ import {
 } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AppModule } from "@repo/backend/app.module.js";
-import { Logger, LogLevel } from "@repo/backend/config/logger/api-logger.js";
+import { LogLevel, Logger } from "@repo/backend/config/logger/api-logger.js";
 import { DefaultLogger } from "@repo/backend/config/logger/default-logger.js";
-import type { Express } from "express";
-import express from "express";
 import expressPlugins, {
 	spotlightElements,
 } from "@repo/backend/plugins/express/index.js";
-
-import { networkInterfaces } from "node:os";
-
-const interfaces = Object.values(
-	Object.fromEntries(Object.entries(networkInterfaces())),
-);
-
-const network = Object.values(networkInterfaces()).reduce((prev, next) => {
-	return prev ?? next.find(({ family }) => family === "IPv4")?.address;
-}, undefined);
+import type { Express } from "express";
+import express from "express";
+import "reflect-metadata";
 
 process.on("warning", (e) => console.warn(e.stack));
 Logger.useLogger(

@@ -3,7 +3,10 @@
 // Inspired by react-hot-toast library
 import * as React from "react";
 
-import type { ToastActionElement, ToastProps } from "@/components/ui/toast";
+import type {
+	ToastActionElement,
+	ToastProps,
+} from "@repo/web/components/ui/toast.js";
 
 const TOAST_LIMIT = 1;
 const TOAST_REMOVE_DELAY = 1000000;
@@ -15,7 +18,7 @@ type ToasterToast = ToastProps & {
 	action?: ToastActionElement;
 };
 
-const actionTypes = {
+const _actionTypes = {
 	ADD_TOAST: "ADD_TOAST",
 	UPDATE_TOAST: "UPDATE_TOAST",
 	DISMISS_TOAST: "DISMISS_TOAST",
@@ -29,7 +32,7 @@ function genId() {
 	return count.toString();
 }
 
-type ActionType = typeof actionTypes;
+type ActionType = typeof _actionTypes;
 
 type Action =
 	| {
@@ -49,9 +52,9 @@ type Action =
 			toastId?: ToasterToast["id"];
 	  };
 
-interface State {
+type State = {
 	toasts: ToasterToast[];
-}
+};
 
 const toastTimeouts = new Map<string, ReturnType<typeof setTimeout>>();
 
@@ -126,7 +129,7 @@ export const reducer = (state: State, action: Action): State => {
 	}
 };
 
-const listeners: Array<(state: State) => void> = [];
+const listeners: ((state: State) => void)[] = [];
 
 let memoryState: State = { toasts: [] };
 
@@ -142,12 +145,15 @@ type Toast = Omit<ToasterToast, "id">;
 function toast({ ...props }: Toast) {
 	const id = genId();
 
-	const update = (props: ToasterToast) =>
+	const update = (props: ToasterToast) => {
 		dispatch({
 			type: "UPDATE_TOAST",
 			toast: { ...props, id },
 		});
-	const dismiss = () => dispatch({ type: "DISMISS_TOAST", toastId: id });
+	};
+	const dismiss = () => {
+		dispatch({ type: "DISMISS_TOAST", toastId: id });
+	};
 
 	dispatch({
 		type: "ADD_TOAST",
@@ -184,7 +190,9 @@ function useToast() {
 	return {
 		...state,
 		toast,
-		dismiss: (toastId?: string) => dispatch({ type: "DISMISS_TOAST", toastId }),
+		dismiss: (toastId?: string) => {
+			dispatch({ type: "DISMISS_TOAST", toastId });
+		},
 	};
 }
 

@@ -1,34 +1,29 @@
 import { memo, useEffect } from "react";
-import { DashboardPage } from "./components/dashboard/page.js";
-import { useProfile } from "@/hooks/useProfile.js";
+
+import { DashboardPage } from "@repo/web/components/Home/Dashboard.js";
+import { toast } from "@repo/web/hooks/use-toast.js";
+import { useProfile } from "@repo/web/hooks/useProfile.js";
 import { useLocation } from "wouter";
-import { toast } from "@/hooks/use-toast.js";
 
 export const HomePage = memo(() => {
-	const { isAuthorized, loading, errorProfile } = useProfile();
-	const [location, navigate] = useLocation();
+	const { isAuthorized, errorProfile } = useProfile();
+	const [_location, navigate] = useLocation();
 
 	useEffect(() => {
-		if (isAuthorized || loading) {
-			return;
+		if (!isAuthorized) {
+			navigate("/sign-in");
 		}
-
-		navigate("/sign-in");
-	}, [isAuthorized]);
+	}, [isAuthorized, navigate]);
 
 	useEffect(() => {
 		if (errorProfile && errorProfile.status !== 401) {
 			toast({
 				variant: "destructive",
-				title: errorProfile.status,
+				title: errorProfile.status.toString(),
 				description: errorProfile.message,
 			});
 		}
 	}, [errorProfile]);
-
-	if (!isAuthorized) {
-		return null;
-	}
 
 	return <DashboardPage />;
 });

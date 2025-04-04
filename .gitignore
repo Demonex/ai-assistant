@@ -5,7 +5,7 @@ node_modules
 dist
 .vercel
 .turbo
-.vscode
+#.vscode
 
 # debug
 *.log

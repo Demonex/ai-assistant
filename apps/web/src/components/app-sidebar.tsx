@@ -1,9 +1,4 @@
-import { type ComponentProps, useState, useEffect } from "react";
-import { Command, MessageCircleMore, UserRoundCog } from "lucide-react";
-
-import { useProfile } from "@/hooks/useProfile.js";
-
-import { NavUser } from "@/components/nav-user.js";
+import { NavUser } from "@repo/web/components/nav-user.js";
 import {
 	Sidebar,
 	SidebarContent,
@@ -14,66 +9,22 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-	useSidebar,
-} from "@/components/ui/sidebar.js";
+} from "@repo/web/components/ui/sidebar.js";
+import { Command, MessageCircleMore, UserRoundCog } from "lucide-react";
 
-interface AppSidebarProps extends ComponentProps<typeof Sidebar> {
-	handleAdmin?: (value: boolean) => void;
-}
+export function AppSidebar({ isAdminPage = false }) {
+	const toggleMenuItem = () => {
+		const url = window.location.protocol + "//" + window.location.host;
 
-export function AppSidebar({ handleAdmin, ...props }: AppSidebarProps) {
-	// Note: I'm using state to show active item.
-	// IRL you should use the url/router.
-	const [nav, setNav] = useState([
-		{
-			id: Date.now(),
-			title: "Чаты",
-			icon: MessageCircleMore,
-			isActive: true,
-			isAdmin: false,
-		},
-	]);
-	const { setOpen } = useSidebar();
-	const { profile } = useProfile();
-
-	const toggleMenuItem = (item) => {
-		setNav((prev) =>
-			prev.map((el) => ({ ...el, isActive: el.id === item.id })),
-		);
-
-		if (profile.superadmin && item.isAdmin) {
-			handleAdmin(true);
+		if (isAdminPage) {
+			window.location.href = url;
 		} else {
-			handleAdmin(false);
-			window.location.reload();
+			window.location.href = `${url}/admin`;
 		}
-
-		setOpen(true);
 	};
-
-	useEffect(() => {
-		setNav((prev) => {
-			if (profile.superadmin && !prev.some((item) => item.isAdmin)) {
-				return [
-					...prev,
-					{
-						id: Date.now(),
-						title: "Админ",
-						icon: UserRoundCog,
-						isActive: false,
-						isAdmin: true,
-					},
-				];
-			}
-			return prev;
-		});
-	}, [profile.superadmin]);
 
 	return (
 		<Sidebar>
-			{/* This is the first sidebar */}
-			{/* We disable collapsible and adjust width to icon. */}
-			{/* This will make the sidebar appear as icons. */}
 			<Sidebar
 				collapsible="none"
 				className="!w-[calc(var(--sidebar-width-icon)_+_1px)] border-r"
@@ -87,8 +38,8 @@ export function AppSidebar({ handleAdmin, ...props }: AppSidebarProps) {
 										<Command className="size-4" />
 									</div>
 									<div className="grid flex-1 text-left text-sm leading-tight">
-										<span className="truncate font-semibold">Acme Inc</span>
-										<span className="truncate text-xs">Enterprise</span>
+										<span className="truncate font-semibold">ChatDoc</span>
+										<span className="truncate text-xs">Sigma</span>
 									</div>
 								</a>
 							</SidebarMenuButton>
@@ -100,23 +51,37 @@ export function AppSidebar({ handleAdmin, ...props }: AppSidebarProps) {
 					<SidebarGroup>
 						<SidebarGroupContent className="px-1.5 md:px-0">
 							<SidebarMenu>
-								{nav.map((item) => (
-									<SidebarMenuItem key={item.id}>
-										<SidebarMenuButton
-											tooltip={{
-												children: item.title,
-												hidden: false,
-												className: "hidden md:block",
-											}}
-											onClick={() => toggleMenuItem(item)}
-											isActive={item.isActive}
-											className="px-2.5 md:px-2"
-										>
-											<item.icon />
-											<span>{item.title}</span>
-										</SidebarMenuButton>
-									</SidebarMenuItem>
-								))}
+								<SidebarMenuItem>
+									<SidebarMenuButton
+										tooltip={{
+											children: "Чаты",
+											hidden: false,
+											className: "hidden md:block",
+										}}
+										onClick={toggleMenuItem}
+										isActive={!isAdminPage}
+										className="px-2.5 md:px-2"
+									>
+										<MessageCircleMore />
+										<span>Чаты</span>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+
+								<SidebarMenuItem>
+									<SidebarMenuButton
+										tooltip={{
+											children: "Админ панель",
+											hidden: false,
+											className: "hidden md:block",
+										}}
+										onClick={toggleMenuItem}
+										isActive={isAdminPage}
+										className="px-2.5 md:px-2"
+									>
+										<UserRoundCog />
+										<span>Админ панель</span>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
 							</SidebarMenu>
 						</SidebarGroupContent>
 					</SidebarGroup>

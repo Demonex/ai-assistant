@@ -1,5 +1,6 @@
 import { UseGuards } from "@nestjs/common";
 import {
+	ApiKeyGuard,
 	AuthorizedGuard,
 	UnAuthorizedGuard,
 	ApiKeyGuard,

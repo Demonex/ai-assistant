@@ -1,19 +1,20 @@
 import { memo, useEffect, useInsertionEffect } from "react";
+
+import { useTheme } from "@repo/web/components/theme-provider.js";
+import { useRouterApp } from "@repo/web/hooks/useRouter.js";
 import { Link } from "wouter";
-import { useRouterApp } from "hooks/useRouter.js";
-import { useTheme } from "@/components/theme-provider.js";
 
 export const NotFoundPage = memo(() => {
 	const { preloadPage } = useRouterApp();
 	const { theme } = useTheme();
 
-	console.log(theme, "тема");
-
 	useInsertionEffect(() => {
 		const style = document.createElement("style");
+
 		style.innerHTML = `body,html { ${
 			theme === "light" ? "background: #fff;" : "background: #000;"
 		} overflow: auto; } #app { position: relative; }`;
+
 		document.head.appendChild(style);
 		return () => {
 			document.head.removeChild(style);

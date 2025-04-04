@@ -5,21 +5,16 @@ import {
 } from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
 
-interface Args {
+type Args = {
 	acl?: "private" | "public-read";
 	bucket: string;
 	getStorageClient: () => AWS.S3ClientConfig;
 	prefix?: string;
-}
+};
 
 const multipartThreshold = 1024 * 1024 * 50; // 50MB
 
-export const getHandleUpload = ({
-	acl,
-	bucket,
-	getStorageClient,
-	prefix = "",
-}: Args) => {
+export const getHandleUpload = ({ acl, bucket, getStorageClient }: Args) => {
 	return async ({ file }) => {
 		const fileKey = file.originalname;
 		const fileBufferOrStream = file.buffer;

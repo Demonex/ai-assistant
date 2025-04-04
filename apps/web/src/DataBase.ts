@@ -1,7 +1,5 @@
 //Файл используется, как заглушка для отображений коллекций и сообщений в этой коллекции
 
-import { isEmpty } from "validator";
-
 //Вывод списка доступных коллекций
 //Используется в Sidebar.tsx
 export const collectionMockData = [

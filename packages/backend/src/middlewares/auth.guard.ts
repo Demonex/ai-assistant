@@ -44,7 +44,7 @@ export class UserEmailGuard implements CanActivate {
 @Injectable()
 export class AuthorizedGuard implements CanActivate {
 	canActivate(context: ExecutionContext): boolean {
-		const { session, headers } = context.switchToHttp().getRequest<any>();
+		const { session } = context.switchToHttp().getRequest();
 		const authorized = session.user;
 		if (!authorized) {
 			throw new HttpException(
@@ -63,7 +63,7 @@ export class AuthorizedGuard implements CanActivate {
 @Injectable()
 export class UnAuthorizedGuard implements CanActivate {
 	canActivate(context: ExecutionContext): boolean {
-		const { session, headers } = context.switchToHttp().getRequest<any>();
+		const { session } = context.switchToHttp().getRequest();
 		const unAuthorized = !session.user;
 		if (!unAuthorized) {
 			throw new HttpException(
