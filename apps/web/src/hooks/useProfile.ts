@@ -14,6 +14,16 @@ const _useProfile = () => {
 		},
 	});
 
+	const {
+		data: dataWiki,
+		error: errorWiki,
+		loading: loadingWiki,
+	} = useFetch({
+		url: `http://localhost:2050/wiki/tree`,
+	});
+
+	console.log({ dataWiki, errorWiki, loadingWiki });
+
 	const [profile, setProfile] = useState(null);
 
 	useEffect(() => {
