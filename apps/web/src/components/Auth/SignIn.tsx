@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
+import { Spinner } from "@repo/web/components/Spinner.js";
 import { Button } from "@repo/web/components/ui/button.js";
 import {
 	Card,
@@ -16,6 +17,8 @@ import { useProfile } from "@repo/web/hooks/useProfile.js";
 import { cn } from "@repo/web/lib/utils.js";
 import { useLocation } from "wouter";
 
+import { useChats } from "@/hooks/useChats.js";
+
 type Inputs = {
 	email: string;
 	password: string;
@@ -27,7 +30,8 @@ export function SignIn({
 }: React.ComponentPropsWithoutRef<"div">) {
 	const { register, handleSubmit } = useForm<Inputs>();
 	const [, navigate] = useLocation();
-	const { handleSignIn, errorSignIn, isAuthorized } = useProfile();
+	const { handleSignIn, errorSignIn, isAuthorized, loading } = useProfile();
+	const { loadingChats } = useChats();
 
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {
 		handleSignIn(data);
@@ -55,6 +59,14 @@ export function SignIn({
 			});
 		}
 	}, [errorSignIn]);
+
+	if (loading || loadingChats) {
+		return (
+			<div className="fixed top-[50%] left-[50%]">
+				<Spinner />
+			</div>
+		);
+	}
 
 	return (
 		<div className={cn("flex flex-col gap-6", className)} {...props}>
