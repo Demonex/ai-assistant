@@ -16,7 +16,12 @@ import * as bcrypt from "bcryptjs";
 import { isEmail } from "class-validator";
 import { type Request } from "express";
 import type { Redis } from "ioredis";
-import { v4 as uuidv4 } from "uuid";
+
+declare module "express-session" {
+	export interface SessionData {
+		user: Partial<UserEntity>;
+	}
+}
 
 @Injectable({ scope: Scope.REQUEST })
 export class AuthService {
@@ -63,10 +68,10 @@ export class AuthService {
 		}
 		this.request.session.user = {
 			id: user.id,
-			language: user.language || "en",
-			// superadmin: Boolean(user.superadmin),
 			email: user.email,
+			superadmin: user.superadmin,
 		};
+
 		return user as UserEntity;
 	}
 
@@ -77,7 +82,6 @@ export class AuthService {
 		const ipReg = `ip.reg:${this.request.ip}`;
 		const counter = await this.redisClient.get(ipReg);
 		if (ipRegLimit) {
-			// console.log(ipReg,counter);
 			if (counter && Number(counter) > 10) {
 				throw new HttpException(
 					{
@@ -88,24 +92,19 @@ export class AuthService {
 			}
 		}
 
-		const { name, email, password, consent } = args;
+		const { name, email, password } = args;
 		const hashPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
-		const activationLink = uuidv4();
 
 		const user = await this.createUserByEmail({
 			name,
 			email,
 			password: hashPassword,
-			consent,
-			activationLink,
 		});
-
-		// await this.sendConfirmEmail(email, activationLink);
 
 		this.request.session.user = {
 			id: user.id,
-			language: user.language,
-			// // superadmin: Boolean(user.superadmin),
+			email: user.email,
+			superadmin: user.superadmin,
 		};
 
 		if (ipRegLimit) {
@@ -119,7 +118,9 @@ export class AuthService {
 		return user;
 	}
 
-	private async createUserByEmail(args): Promise<UserEntity> {
+	private async createUserByEmail(
+		args: Partial<UserEntity>,
+	): Promise<UserEntity> {
 		try {
 			const user = this.em.create<UserEntity>(UserEntity, args);
 			await this.em.persistAndFlush(user);

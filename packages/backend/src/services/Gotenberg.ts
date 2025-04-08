@@ -1,11 +1,9 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import got from "got";
 
-import { S3Client } from "@aws-sdk/client-s3";
-import { Upload } from "@aws-sdk/lib-storage";
 import FormData from "form-data";
-import { PassThrough } from "node:stream";
-import { LangFlowService } from "./Flow.js";
+import type { UploadedFile } from "../types/Chat.js";
+import { logErrors } from "../utils/index.js";
 
 @Injectable()
 export class GotenbergService {
@@ -15,91 +13,43 @@ export class GotenbergService {
 		"utf-8",
 	).toString("base64")}`;
 
-	constructor(private readonly flowService: LangFlowService) {}
-
-	async convertFromS3({
-		flowId,
-		fileKey: key,
-		params,
-	}): Promise<{ flowId: string; file_path: string }> {
+	async convert(media: UploadedFile): Promise<UploadedFile> {
 		try {
-			const passThrough1 = new PassThrough();
-			const passThrough2 = new PassThrough();
-
-			const pdfKey = key.replace(/\.[^/.]+$/, ".pdf");
-
-			const { endpoint, ...rest } = params.getStorageClient();
-			const bucket = params.bucket;
-
-			const s3Client = new S3Client({
-				endpoint,
-				...rest,
-			});
-
-			const downloadFromPayload = JSON.stringify([
-				{
-					url: `${params.dockerEndpoint || endpoint}/${bucket}/${key}`,
-				},
-			]);
-
-			const encodedFileName = encodeURIComponent(pdfKey)
-				.replace(/'/g, "%27")
-				.replace(/\(/g, "%28")
-				.replace(/\)/g, "%29");
-
-			const upload = new Upload({
-				client: s3Client,
-				params: {
-					Bucket: bucket,
-					Key: Buffer.from(pdfKey, "utf-8").toString(),
-					Body: passThrough1,
-					ContentDisposition: `inline; filename*=UTF-8''${encodedFileName}`,
-					ContentType: "application/pdf",
-				},
-				queueSize: 4,
-				partSize: 5 * 1024 * 1024,
-			});
+			const pdfKey = media.originalname.replace(/\.[^/.]+$/, ".pdf");
 
 			const form = new FormData();
-			form.append("downloadFrom", downloadFromPayload);
+			form.append("files", media.buffer, pdfKey);
 
-			const pdfReponse = got.stream(
+			const response = await got.post(
 				`${this.endpoint}/forms/libreoffice/convert`,
 				{
-					method: "POST",
 					body: form,
 					headers: {
 						authorization: this.authorization,
 						...form.getHeaders(),
 					},
+					responseType: "buffer",
 				},
 			);
 
-			pdfReponse.pipe(passThrough1);
-			pdfReponse.pipe(passThrough2);
+			const buffer = response.body;
+			const mimetype = response.headers["content-type"];
+			const size = response.body.length;
 
-			upload.on("httpUploadProgress", (progress) => {
-				console.log(
-					`Uploaded ${progress.loaded} bytes out of ${progress.total}`,
-				);
-			});
+			return {
+				buffer,
+				mimetype,
+				size,
+				filename: pdfKey,
+				originalname: pdfKey,
+			};
+		} catch (error) {
+			logErrors(error);
 
-			try {
-				const data = upload.done();
-				console.log("Upload successful:", data);
-			} catch (err) {
-				console.error("Error uploading file:", err);
-			}
-
-			const result = await this.flowService.uploadFile({
-				flowId,
-				stream: passThrough2,
-				name: pdfKey,
-			});
-
-			return result;
-		} catch (err) {
-			console.error(err);
+			throw new HttpException(
+				"Convert Pipeline Failed",
+				HttpStatus.INTERNAL_SERVER_ERROR,
+			);
 		}
 	}
 }

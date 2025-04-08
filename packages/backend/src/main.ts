@@ -41,7 +41,6 @@ app.useGlobalPipes(
 		transform: true,
 		whitelist: true,
 		exceptionFactory: (errors) => {
-			// console.log('errors', errors);
 			const result = errors.map((error) => ({
 				property: error.property,
 				messages: Object.values(error.constraints as never),
