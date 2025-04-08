@@ -8,7 +8,7 @@ const _useProfile = () => {
 		error: errorProfile,
 		loading,
 	} = useFetch({
-		url: `api/rest/profile`,
+		url: `api/v1/profile`,
 		params: {
 			formatForAdmin: false,
 		},
@@ -28,14 +28,14 @@ const _useProfile = () => {
 		{ data: dataSignIn, error: errorSignIn, loading: _loadingSignIn },
 		fetchSignIn,
 	] = useLazyFetch({
-		url: `api/rest/auth/email/sign-in`,
+		url: `api/v1/auth/email/sign-in`,
 		method: "post",
 		cache: false,
 	});
 
 	const handleSignIn = async (data: { email: string; password: string }) => {
 		await fetchSignIn({
-			url: `api/rest/auth/email/sign-in`,
+			url: `api/v1/auth/email/sign-in`,
 			data,
 		});
 	};
@@ -52,14 +52,14 @@ const _useProfile = () => {
 		{ data: _dataSignOut, error: errorSignOut, loading: _loadingSignOut },
 		fetchSignOut,
 	] = useLazyFetch({
-		url: `api/rest/auth/sign-out`,
+		url: `api/v1/auth/user/sign-out`,
 		method: "post",
 		cache: false,
 	});
 
 	const handleSignOut = async () => {
 		await fetchSignOut({
-			url: `api/rest/auth/sign-out`,
+			url: `api/v1/auth/user/sign-out`,
 			data: data || dataSignIn,
 		});
 		setProfile(null);

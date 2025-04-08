@@ -3,6 +3,8 @@ import {
 	Controller,
 	Get,
 	HttpCode,
+	HttpException,
+	HttpStatus,
 	Param,
 	Post,
 	UploadedFiles,
@@ -15,11 +17,10 @@ import {
 	ApiOperation,
 	ApiTags,
 } from "@nestjs/swagger";
-import { Authorized } from "@repo/backend/decorators/auth.js";
-import { TenantId, UserId } from "@repo/backend/decorators/user.js";
+import { Authorized, UserEmailKey } from "@repo/backend/decorators/auth.js";
+import { ExternalEmail, UserId } from "@repo/backend/decorators/user.js";
 import { ChatService } from "@repo/backend/services/Chat.js";
 import { ChatMessageDto, ChatUploadMediaDto } from "../dto/Chat.js";
-import { LangFlowService } from "../services/Flow.js";
 
 type Fragment = {
 	file_path: string;
@@ -42,20 +43,17 @@ type PatchPayload = {
 };
 
 @ApiTags("chat")
-@Controller("/api/rest")
+@Controller("/api/v1")
 export class ChatController {
-	constructor(
-		private readonly chatService: ChatService,
-		private readonly flowService: LangFlowService,
-	) {}
+	constructor(private readonly chatService: ChatService) {}
 
 	@ApiBearerAuth("bearer-sid")
 	@ApiOperation({ summary: "get chats" })
 	@Authorized()
 	@Get("/chats")
 	@HttpCode(200)
-	async getChats(@UserId() userId: number, @TenantId() currentTenant: number) {
-		return this.chatService.chats(userId, currentTenant);
+	async getChats(@UserId() userId: number) {
+		return (await this.chatService.chats({ userId })).collections;
 	}
 
 	@Authorized()
@@ -110,14 +108,25 @@ export class ChatController {
 		return response;
 	}
 
-	@Post("/chat/:id/message-external")
+	@UserEmailKey()
+	@Post("/chat/message-external")
 	@HttpCode(200)
-	async sendMessageCringe(
-		@Param("id") chatId: number,
+	async sendMessageExternal(
+		@ExternalEmail() userEmail: string,
 		@Body() data: ChatMessageDto,
 	) {
+		const { userId, collections: chats } = await this.chatService.chats({
+			userEmail,
+		});
+
+		if (!chats?.length) {
+			throw new HttpException("Collection Not Found", HttpStatus.NOT_FOUND);
+		}
+
+		const chatId = chats[0].id;
+
 		const { id: messageId } = await this.chatService.messageCreate(
-			2,
+			userId,
 			chatId,
 			data,
 		);
