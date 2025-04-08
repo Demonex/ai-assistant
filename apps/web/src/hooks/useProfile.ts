@@ -9,9 +9,9 @@ const _useProfile = () => {
 		loading,
 	} = useFetch({
 		url: `api/v1/profile`,
-		params: {
-			formatForAdmin: false,
-		},
+		// params: {
+		// 	formatForAdmin: false,
+		// },
 	});
 
 	const {
@@ -62,14 +62,14 @@ const _useProfile = () => {
 		{ data: _dataSignOut, error: errorSignOut, loading: _loadingSignOut },
 		fetchSignOut,
 	] = useLazyFetch({
-		url: `api/v1/auth/sign-out`,
+		url: `api/v1/auth/user/sign-out`,
 		method: "post",
 		cache: false,
 	});
 
 	const handleSignOut = async () => {
 		await fetchSignOut({
-			url: `api/v1/auth/sign-out`,
+			url: `api/v1/auth/user/sign-out`,
 			data: data || dataSignIn,
 		});
 		setProfile(null);

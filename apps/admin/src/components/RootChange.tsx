@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 
-import { WebMonoHooksStore } from "@repo/web/components/App.js";
+// import { WebMonoHooksStore } from "@repo/web/components/App.js";
 import { AppSidebar } from "@repo/web/components/app-sidebar.js";
 import { Breadcrumb } from "@repo/web/components/ui/breadcrumb.js";
 import { Separator } from "@repo/web/components/ui/separator.js";
@@ -41,7 +41,7 @@ export const WebWrapper = ({ children }: WebWrapperProps) => {
 					<div className="test-ui">{children}</div>
 				</SidebarInset>
 			</SidebarProvider>
-			<WebMonoHooksStore />
+			{/* <WebMonoHooksStore /> */}
 		</>
 	);
 };

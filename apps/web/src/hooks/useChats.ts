@@ -4,7 +4,7 @@ import type { ActiveChat, MessagesType } from "@repo/web/types/types.js";
 import { createMonoHook, useFetch, useLazyFetch } from "use-mono-hook";
 
 const _useChats = () => {
-	const { data: chats } = useFetch({
+	const { data: chats, loading: loadingChats } = useFetch({
 		url: "/api/v1/chats",
 	});
 
@@ -110,6 +110,7 @@ const _useChats = () => {
 
 	return {
 		chats,
+		loadingChats,
 		activeChat,
 		setActiveChat,
 		setMessages,

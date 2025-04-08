@@ -1,11 +1,9 @@
-import { memo, useEffect, useInsertionEffect } from "react";
+import { memo, useInsertionEffect } from "react";
+import { Link } from "react-router";
 
 import { useTheme } from "@repo/web/components/theme-provider.js";
-import { useRouterApp } from "@repo/web/hooks/useRouter.js";
-import { Link } from "wouter";
 
 export const NotFoundPage = memo(() => {
-	const { preloadPage } = useRouterApp();
 	const { theme } = useTheme();
 
 	useInsertionEffect(() => {
@@ -19,10 +17,6 @@ export const NotFoundPage = memo(() => {
 		return () => {
 			document.head.removeChild(style);
 		};
-	}, []);
-
-	useEffect(() => {
-		preloadPage("/").catch(console.error);
 	}, []);
 
 	return (
