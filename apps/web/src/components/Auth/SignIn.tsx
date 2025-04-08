@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 
-import { Spinner } from "@repo/web/components/Spinner.js";
 import { Button } from "@repo/web/components/ui/button.js";
 import {
 	Card,
@@ -56,14 +55,6 @@ export function SignIn({
 			});
 		}
 	}, [errorSignIn]);
-
-	if (loading || loadingChats) {
-		return (
-			<div className="fixed top-[50%] left-[50%]">
-				<Spinner />
-			</div>
-		);
-	}
 
 	return (
 		<div className={cn("flex flex-col gap-6", className)} {...props}>

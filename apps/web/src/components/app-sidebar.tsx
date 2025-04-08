@@ -16,15 +16,6 @@ import { Boxes, Command, MessageCircleMore, UserRoundCog } from "lucide-react";
 
 export function AppSidebar({ isAdminPage = false }) {
 	const navigate = useNavigate();
-	const toggleMenuItem = () => {
-		const url = window.location.protocol + "//" + window.location.host;
-
-		if (isAdminPage) {
-			window.location.href = url;
-		} else {
-			window.location.href = `${url}/admin`;
-		}
-	};
 
 	return (
 		<Sidebar>
@@ -77,7 +68,7 @@ export function AppSidebar({ isAdminPage = false }) {
 											hidden: false,
 											className: "hidden md:block",
 										}}
-										onClick={toggleMenuItem}
+										onClick={() => navigate("/admin")}
 										isActive={isAdminPage}
 										className="px-2.5 md:px-2"
 									>

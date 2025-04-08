@@ -1,15 +1,10 @@
-import { memo, useEffect, useInsertionEffect } from "react";
-import { Link, useNavigate } from "react-router";
+import { memo, useInsertionEffect } from "react";
+import { Link } from "react-router";
 
 import { useTheme } from "@repo/web/components/theme-provider.js";
 
-import { useProfile } from "@/hooks/useProfile.js";
-
 export const NotFoundPage = memo(() => {
-	const navigate = useNavigate();
-	// const { preloadPage } = useRouterApp();
 	const { theme } = useTheme();
-	const { isAuthorized } = useProfile();
 
 	useInsertionEffect(() => {
 		const style = document.createElement("style");
@@ -23,10 +18,6 @@ export const NotFoundPage = memo(() => {
 			document.head.removeChild(style);
 		};
 	}, []);
-
-	useEffect(() => {
-		if (isAuthorized) navigate("/");
-	}, [isAuthorized, navigate]);
 
 	return (
 		<div className="flex flex-col pt-4 pb-8 items-center w-full h-full max-w-[40.5rem] mx-auto">
