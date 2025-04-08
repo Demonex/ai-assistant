@@ -8,15 +8,15 @@ export class UserEntity {
 	id!: number;
 
 	@Property()
+	email!: string;
+
+	@Property()
 	@IsOptional()
 	username!: string;
 
 	@Property()
 	@IsOptional()
 	name!: string;
-
-	@Property()
-	email!: string;
 
 	@Property({ hidden: true })
 	password!: string;

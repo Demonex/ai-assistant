@@ -10,6 +10,7 @@ import { REQUEST } from "@nestjs/core";
 import { UserEntity } from "@repo/backend/entities/User/index.js";
 import { HttpStatusMessages } from "@repo/backend/messages/http.js";
 import { get } from "lodash-es";
+import { type ChatMessageEntity } from "../entities/Chat/index.js";
 
 @Injectable({ scope: Scope.REQUEST })
 export class UserService {
@@ -18,7 +19,7 @@ export class UserService {
 		private readonly em: EntityManager,
 	) {}
 
-	async me(id: number, email?: string, disablePayloadFormatting = false) {
+	async me(id: number, _email?: string, disablePayloadFormatting = false) {
 		const isAdminRequest =
 			String(get(this.request, "headers.referer", "")).includes("/admin") &&
 			!disablePayloadFormatting;
@@ -38,7 +39,7 @@ export class UserService {
 		if (!id && isAdminRequest) {
 			return { user: null };
 		}
-		const user = await this.findByIdOrEmail({ id, email, fields: ["email"] });
+		const user = await this.findByIdOrEmail({ user: id, fields: ["email"] });
 		if (!user) {
 			if (!isAdminRequest) {
 				throw new HttpException(
@@ -74,36 +75,21 @@ export class UserService {
 	}
 
 	async findByIdOrEmail({
-		id: _id,
-		email,
+		user,
 		fields,
 	}: {
-		id?: number;
-		email?: string;
+		user: ChatMessageEntity["user"]["id"] | ChatMessageEntity["user"]["email"];
 		fields?: (keyof UserEntity)[];
 	}) {
-		if (!_id && !email) return null;
-
-		const user = await this.em.findOne<UserEntity, never, keyof UserEntity>(
+		const search = await this.em.findOne<UserEntity, never, keyof UserEntity>(
 			UserEntity,
-			_id && email
-				? [
-						{
-							id: _id,
-						},
-						{
-							email,
-						},
-					]
-				: _id
-					? { id: _id }
-					: { email },
+			typeof user === "number" ? { id: user } : { email: user },
 			{
 				fields,
 			},
 		);
 
-		if (!user) {
+		if (!search) {
 			console.error("No Such User Found: 404");
 
 			throw new HttpException(
@@ -112,7 +98,7 @@ export class UserService {
 			);
 		}
 
-		return user;
+		return search;
 	}
 }
 

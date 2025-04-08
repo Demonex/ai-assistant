@@ -20,25 +20,25 @@ import { TenantId, UserId } from "@repo/backend/decorators/user.js";
 import { ChatService } from "@repo/backend/services/Chat.js";
 import { ChatMessageDto, ChatUploadMediaDto } from "../dto/Chat.js";
 
-type Fragment = {
-	file_path: string;
-	page_num: number;
-	text: string;
-	uuid: string;
-	_collection_name: string;
-	_id: string;
-};
+// type Fragment = {
+// 	file_path: string;
+// 	page_num: number;
+// 	text: string;
+// 	uuid: string;
+// 	_collection_name: string;
+// 	_id: string;
+// };
 
-type MessageResponse = {
-	success: boolean;
-	message: string;
-	created_at: Date;
-	fragments: Fragment[];
-};
+// type MessageResponse = {
+// 	success: boolean;
+// 	message: string;
+// 	created_at: Date;
+// 	fragments: Fragment[];
+// };
 
-type PatchPayload = {
-	response: MessageResponse;
-};
+// type PatchPayload = {
+// 	response: MessageResponse;
+// };
 
 @ApiTags("chat")
 @Controller("/api/rest")
@@ -79,7 +79,11 @@ export class ChatController {
 			data,
 		);
 
-		const rawResponse = await this.chatService.initiateFlow(chatId, data);
+		const rawResponse = await this.chatService.initiateRetrieveFlow(
+			userId,
+			chatId,
+			data,
+		);
 		const response = this.chatService.optimiseResponse(rawResponse);
 
 		return await this.chatService.messagePatch(messageId, response);
@@ -87,7 +91,7 @@ export class ChatController {
 
 	@Post("/chat/:id/message-external")
 	@HttpCode(200)
-	async sendMessageCringe(
+	async sendMessageExternal(
 		@Param("id") chatId: number,
 		@Body() data: ChatMessageDto,
 	) {
@@ -97,50 +101,15 @@ export class ChatController {
 			data,
 		);
 
-		const response = await this.chatService.messageSend(2, chatId, data);
+		const rawResponse = await this.chatService.initiateRetrieveFlow(
+			2,
+			chatId,
+			data,
+		);
+		const response = this.chatService.optimiseResponse(rawResponse);
 
-		const cleanText = (str: string) => str.replace(/\u0000/g, "");
-
-		await this.chatService.messagePatch(messageId, {
-			response: {
-				success: response.success,
-				message: cleanText(response.response.message),
-				created_at: response.response.created_at,
-				fragments: response.response.fragments.map((el) => {
-					return {
-						file_path: el.file_path,
-						page_num: el.page_num,
-						text: cleanText(el.text),
-						uuid: el.uuid,
-						_collection_name: el._collection_name,
-						_id: el._id,
-					};
-				}),
-			} satisfies PatchPayload["response"],
-		});
-
-		return response;
+		return await this.chatService.messagePatch(messageId, response);
 	}
-	// @ApiOperation({ summary: "avatar update in profile" })
-	// @UseInterceptors(
-	// 	FileInterceptor(
-	// 		"file" /*{
-	// 			limits: {
-	// 				fieldNameSize: 100,
-	// 				fieldSize: 1000000,
-	// 				fields: 20,
-	// 				fileSize: 5000000,
-	// 				files: 1,
-	// 				headerPairs: 2000
-	// 			}
-	// 			}*/,
-	// 	),
-	// )
-	// @ApiConsumes("multipart/form-data")
-	// async updateAvatar(@UserId() id: Types.ObjectId, @UploadedFile("file") file) {
-	// 	// console.log('avatar update', get(request, 'headers.authorization'), get(request, 'session.id'), id);
-	// 	return this.chatService.findByIdAndUpdateAvatar(id, { file });
-	// }
 
 	@Authorized()
 	@Post("/chat/:id/upload")

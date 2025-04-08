@@ -3,12 +3,19 @@ import { UserEntity } from "@repo/backend/entities/User/index.js";
 import { GROUP_PERMISSION } from "../entities/Group/group-group-permissions.js";
 import { GroupEntity } from "../entities/Group/index.js";
 import { Injectable } from "@nestjs/common";
+import type { ChatMessageEntity } from "../entities/Chat/index.js";
 
 @Injectable()
 export class GroupService {
 	constructor(private readonly em: EntityManager) {}
 
-	async findGroups(user: number | UserEntity, fields?: (keyof GroupEntity)[]) {
+	async findGroups(
+		userKey:
+			| ChatMessageEntity["user"]["id"]
+			| ChatMessageEntity["user"]["email"]
+			| UserEntity,
+		fields?: (keyof GroupEntity)[],
+	) {
 		const groups = await this.em.find<
 			GroupEntity,
 			keyof GroupEntity,
@@ -17,7 +24,15 @@ export class GroupService {
 			GroupEntity,
 			{
 				users: {
-					user,
+					user: (function () {
+						if (userKey instanceof UserEntity) {
+							return userKey;
+						} else if (typeof userKey === "number") {
+							return { id: userKey };
+						} else {
+							return { email: userKey };
+						}
+					})(),
 				},
 			},
 			{
@@ -34,18 +49,12 @@ export class GroupService {
 		user: UserEntity,
 		groups: GroupEntity[],
 		permissions: GROUP_PERMISSION[] = [],
-		includeAdminVerification: boolean = true,
 	) {
 		const verified =
 			user.superadmin ||
 			groups.some((group) => {
 				return group.groupPermissions
-					.map(
-						(entity) =>
-							(includeAdminVerification &&
-								entity.permission === GROUP_PERMISSION.admin) ||
-							permissions.includes(entity.permission),
-					)
+					.map((entity) => permissions.includes(entity.permission))
 					.some((el) => !!el);
 			});
 
