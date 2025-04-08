@@ -1,11 +1,10 @@
 export type UploadedFile = {
-	fieldname: string;
-	originalname: string;
-	encoding: string;
-	mimetype: string;
-	size: number;
 	buffer: Buffer;
-	destination?: string;
 	filename?: string;
+	originalname?: string;
+	encoding?: string;
+	mimetype?: string;
+	size?: number;
+	destination?: string;
 	path?: string;
 };

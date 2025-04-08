@@ -1,9 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import FormData from "form-data";
 import got from "got";
-import type { FlowResponse, Fragment, Folder, Flow } from "../types/FLow.js";
 import type { UploadedFile } from "../types/Chat.js";
-import type { PassThrough } from "node:stream";
+import type { Flow, FlowResponse, Folder, Fragment } from "../types/FLow.js";
 import { logErrors } from "../utils/index.js";
 
 @Injectable()
@@ -14,61 +13,27 @@ export class LangFlowService {
 	async uploadFile({
 		flowId,
 		media,
-		stream,
-		filename,
 	}: {
 		flowId: Flow["id"];
 		filename: string;
 		media?: UploadedFile;
-		stream?: PassThrough;
 	}) {
 		try {
-			if (media) {
-				const form = new FormData();
-				form.append("file", media.buffer, media.originalname);
+			const form = new FormData();
+			form.append("file", media.buffer, media.originalname);
 
-				return got.post<{ flowId: string; file_path: string }>(
-					`${this.endpoint}/api/v1/files/upload/${flowId}`,
-					{
-						method: "POST",
-						body: form,
-						headers: {
-							"x-api-key": this.langflowApiKey,
-						},
-						responseType: "json",
-						resolveBodyOnly: true,
+			return got.post<{ flowId: string; file_path: string }>(
+				`${this.endpoint}/api/v1/files/upload/${flowId}`,
+				{
+					method: "POST",
+					body: form,
+					headers: {
+						"x-api-key": this.langflowApiKey,
 					},
-				);
-			} else if (stream) {
-				const formData = new FormData();
-				const bufs = [];
-
-				await new Promise((resolve) => {
-					stream.on("data", (d) => {
-						bufs.push(d);
-					});
-					stream.on("end", async () => {
-						formData.append("file", Buffer.concat(bufs), {
-							filename: filename,
-							contentType: "application/pdf",
-						});
-						resolve(true);
-					});
-				});
-
-				return await got.post<{ flowId: string; file_path: string }>(
-					`${this.endpoint}/api/v1/files/upload/${flowId}`,
-					{
-						body: formData,
-						headers: {
-							"x-api-key": this.langflowApiKey,
-							...formData.getHeaders(),
-						},
-						responseType: "json",
-						resolveBodyOnly: true,
-					},
-				);
-			}
+					responseType: "json",
+					resolveBodyOnly: true,
+				},
+			);
 		} catch (error) {
 			logErrors(error);
 
@@ -96,7 +61,6 @@ export class LangFlowService {
 					}>;
 				}>;
 			}>(`${this.endpoint}/api/v1/run/${flowId}?stream=false`, {
-				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 					"x-api-key": this.langflowApiKey,

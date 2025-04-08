@@ -281,72 +281,6 @@ export class ChatService {
 		chatId: CollectionEntity["id"],
 		data: ChatUploadMediaDto,
 	) {
-		// const user = await this.em.findOneOrFail<UserEntity>(UserEntity, {
-		// 	id: userId,
-		// });
-
-		// const groups = await this.em.find<GroupEntity, keyof GroupEntity>(
-		// 	GroupEntity,
-		// 	{
-		// 		users: {
-		// 			user: userId,
-		// 		},
-		// 	},
-		// 	{
-		// 		populate: ["users", "groupPermissions", "groupCollectionPermissions"],
-		// 		populateWhere: "infer",
-		// 	},
-		// );
-
-		// const hasCollectionPermission =
-		// 	user?.superadmin ||
-		// 	groups.some((group) => {
-		// 		return group.groupPermissions
-		// 			.map(
-		// 				(entity) =>
-		// 					entity.permission === GROUP_PERMISSION.admin ||
-		// 					entity.permission === GROUP_PERMISSION.collection,
-		// 			)
-		// 			.some((el) => !!el);
-		// 	});
-
-		// if (!hasCollectionPermission) {
-		// 	const collectionKeys = groups.flatMap((group) => {
-		// 		return group.groupCollectionPermissions.map(
-		// 			(perm) => perm.collection.id,
-		// 		);
-		// 	});
-
-		// 	if (!collectionKeys.includes(chatId)) {
-		// 		console.error("Error uploading media: 404");
-
-		// 		throw new HttpException(
-		// 			"Internal Server Error",
-		// 			HttpStatus.INTERNAL_SERVER_ERROR,
-		// 		);
-		// 	}
-		// }
-
-		// const collection = await this.em.findOne<
-		// 	CollectionEntity,
-		// 	"providers" | "providers.provider"
-		// >(
-		// 	CollectionEntity,
-		// 	{
-		// 		id: chatId,
-		// 		providers: {
-		// 			enabled: true,
-		// 			provider: {
-		// 				type: PROVIDER_TYPE.minio,
-		// 			},
-		// 		},
-		// 	},
-		// 	{
-		// 		populate: ["providers", "providers.provider"],
-		// 		populateWhere: "infer",
-		// 	},
-		// );
-
 		const collection = await this.validateAndGetCollection(userKey, chatId);
 
 		const { provider, settings } =
@@ -371,16 +305,6 @@ export class ChatService {
 			(provider.settings?.bucket as string) ||
 			(settings?.bucket as string) ||
 			process.env.S3_BUCKET_DOC_MEDIA;
-
-		console.log("credentials ", {
-			credentials: {
-				accessKeyId: login,
-				secretAccessKey: password,
-			},
-			region: process.env.S3_REGION,
-			endpoint,
-			forcePathStyle: true,
-		});
 
 		const upload = getHandleUpload({
 			bucket,
@@ -411,7 +335,7 @@ export class ChatService {
 				const fileKey = media.originalname;
 
 				try {
-					const docExists = this.em.count<DocEntity>(DocEntity, {
+					const docExists = await this.em.count<DocEntity>(DocEntity, {
 						filename: `${collection.title}/${fileKey}`,
 					});
 
@@ -478,7 +402,7 @@ export class ChatService {
 					const vectorFilePath = `/app/langflow/${filepath}`;
 
 					const doc = this.em.create<DocEntity>(DocEntity, {
-						filename: `${collection.title}/${media.originalname}`,
+						filename: `${collection.title}/${fileKey}`,
 						filesize: media.size,
 						mimeType: media.mimetype,
 						collection: chatId,
@@ -486,6 +410,11 @@ export class ChatService {
 						vectorFilePath,
 					});
 					await this.em.persistAndFlush(doc);
+
+					return {
+						filename: fileKey,
+						success: true,
+					};
 				} catch (error) {
 					logErrors(error);
 
@@ -517,7 +446,7 @@ export class ChatService {
 	async getMinioProviderAndSettings(chatId: CollectionEntity["id"]) {
 		const collection = await this.em.findOne<
 			CollectionEntity,
-			keyof CollectionEntity,
+			keyof CollectionEntity | "providers.provider",
 			keyof CollectionEntity
 		>(
 			CollectionEntity,
@@ -531,7 +460,7 @@ export class ChatService {
 				},
 			},
 			{
-				populate: ["providers", "providers."],
+				populate: ["providers", "providers.provider"],
 				populateWhere: "infer",
 			},
 		);

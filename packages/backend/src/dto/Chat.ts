@@ -11,8 +11,10 @@ export class ChatMessageDto {
 export class ChatUploadMediaDto {
 	@ApiProperty({
 		type: "array",
-		format: "binary",
-		isArray: true,
+		items: {
+			type: "file",
+			format: "binary",
+		},
 	})
 	media: UploadedFile[];
 }
