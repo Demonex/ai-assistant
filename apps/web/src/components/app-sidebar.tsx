@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router";
+
 import { NavUser } from "@repo/web/components/nav-user.js";
 import {
 	Sidebar,
@@ -10,9 +12,10 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "@repo/web/components/ui/sidebar.js";
-import { Command, MessageCircleMore, UserRoundCog } from "lucide-react";
+import { Boxes, Command, MessageCircleMore, UserRoundCog } from "lucide-react";
 
 export function AppSidebar({ isAdminPage = false }) {
+	const navigate = useNavigate();
 	const toggleMenuItem = () => {
 		const url = window.location.protocol + "//" + window.location.host;
 
@@ -58,7 +61,7 @@ export function AppSidebar({ isAdminPage = false }) {
 											hidden: false,
 											className: "hidden md:block",
 										}}
-										onClick={toggleMenuItem}
+										onClick={() => navigate("chat")}
 										isActive={!isAdminPage}
 										className="px-2.5 md:px-2"
 									>
@@ -80,6 +83,22 @@ export function AppSidebar({ isAdminPage = false }) {
 									>
 										<UserRoundCog />
 										<span>Админ панель</span>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+
+								<SidebarMenuItem>
+									<SidebarMenuButton
+										tooltip={{
+											children: "Коллекции",
+											hidden: false,
+											className: "hidden md:block",
+										}}
+										onClick={() => navigate("/collections")}
+										isActive={isAdminPage}
+										className="px-2.5 md:px-2"
+									>
+										<Boxes />
+										<span>Коллекции</span>
 									</SidebarMenuButton>
 								</SidebarMenuItem>
 							</SidebarMenu>

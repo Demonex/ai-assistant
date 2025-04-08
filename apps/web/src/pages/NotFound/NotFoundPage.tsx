@@ -1,19 +1,15 @@
 import { memo, useEffect, useInsertionEffect } from "react";
+import { Link, useNavigate } from "react-router";
 
-import { Spinner } from "@repo/web/components/Spinner.js";
 import { useTheme } from "@repo/web/components/theme-provider.js";
-import { useProfile } from "@repo/web/hooks/useProfile.js";
-import { useRouterApp } from "@repo/web/hooks/useRouter.js";
-import { Link, useLocation } from "wouter";
 
-import { useChats } from "@/hooks/useChats.js";
+import { useProfile } from "@/hooks/useProfile.js";
 
 export const NotFoundPage = memo(() => {
-	const { preloadPage } = useRouterApp();
+	const navigate = useNavigate();
+	// const { preloadPage } = useRouterApp();
 	const { theme } = useTheme();
-	const { isAuthorized, loading } = useProfile();
-	const { loadingChats } = useChats();
-	const [, navigate] = useLocation();
+	const { isAuthorized } = useProfile();
 
 	useInsertionEffect(() => {
 		const style = document.createElement("style");
@@ -31,18 +27,6 @@ export const NotFoundPage = memo(() => {
 	useEffect(() => {
 		if (isAuthorized) navigate("/");
 	}, [isAuthorized, navigate]);
-
-	useEffect(() => {
-		preloadPage("/").catch(console.error);
-	}, []);
-
-	if (loading || loadingChats) {
-		return (
-			<div className="fixed top-[50%] left-[50%]">
-				<Spinner />
-			</div>
-		);
-	}
 
 	return (
 		<div className="flex flex-col pt-4 pb-8 items-center w-full h-full max-w-[40.5rem] mx-auto">

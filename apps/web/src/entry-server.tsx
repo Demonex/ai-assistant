@@ -3,7 +3,7 @@ import ReactDOMServer from "react-dom/server";
 
 import { Router } from "wouter";
 
-import { App } from "./components/App.js";
+import { App } from "./App.js";
 
 export const SSRRender = (url: string) => {
 	return ReactDOMServer.renderToString(

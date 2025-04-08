@@ -19,7 +19,6 @@ export const getCollectionAccess = () => {
 				doc.groupPermissions.includes(GROUP_PERMISSIONS.admin) ||
 				doc.groupPermissions.includes(GROUP_PERMISSIONS.collection),
 		);
-
 		return hasAccess;
 	};
 
@@ -53,6 +52,8 @@ export const getCollectionAccess = () => {
 		if (!collections.length) {
 			return false;
 		}
+
+		console.log(collections, "aaa");
 
 		return {
 			id: {

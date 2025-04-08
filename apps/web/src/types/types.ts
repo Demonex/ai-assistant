@@ -37,3 +37,12 @@ export type MessagesType = {
 };
 
 export type GroupMessages = [string, Message[]];
+
+export type Payment = {
+	id: string;
+	collection: string;
+	embedding: string;
+	llm: string;
+	reranker: string;
+	providers: string;
+};
