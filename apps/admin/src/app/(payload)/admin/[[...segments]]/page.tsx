@@ -4,7 +4,7 @@ import config from "@payload-config";
 import { RootPage, generatePageMetadata } from "@payloadcms/next/views";
 import type { Metadata } from "next";
 
-import { WebWrapper } from "@/components/RootChange";
+// import { WebWrapper } from "@/components/RootChange";
 
 import { importMap } from "../importMap";
 
@@ -25,7 +25,8 @@ export const generateMetadata = ({
 
 const Page = ({ params, searchParams }: Args) => {
 	const PageComponent = RootPage({ config, params, searchParams, importMap });
-	return <WebWrapper>{PageComponent}</WebWrapper>;
+	// return <WebWrapper>{PageComponent}</WebWrapper>;
+	return PageComponent;
 };
 
 export default Page;
