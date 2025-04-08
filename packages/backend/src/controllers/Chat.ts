@@ -76,7 +76,7 @@ export class ChatController {
 	}
 
 	@UserEmailKey()
-	@Post("/chat/message-external")
+	@Post("/completions")
 	@HttpCode(200)
 	async sendMessageExternal(
 		@ExternalEmail() userEmail: string,
