@@ -1,10 +1,10 @@
 import { isEmail } from "class-validator";
 
-export function promiseMap(
-	inputValues: unknown[],
-	mapper: (arg: unknown) => Promise<unknown>,
-) {
-	const reducer = (acc$: Promise<unknown[]>, inputValue: unknown) =>
+export function promiseMap<T, V>(
+	inputValues: V[],
+	mapper: (arg: V) => Promise<T>,
+): Promise<T[]> {
+	const reducer = (acc$: Promise<T[]>, inputValue: V) =>
 		acc$.then((acc) =>
 			mapper(inputValue).then((result) => acc.push(result) && acc),
 		);

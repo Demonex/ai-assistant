@@ -320,112 +320,128 @@ export class ChatService {
 			}),
 		});
 
-		const uploadResult = await promiseMap(
-			data.media,
-			async (
-				media: UploadedFile,
-			): Promise<
-				{
-					filename: string;
-					reason?: string;
-				} & {
-					[key in "success" | "skipped" | "failed"]?: true;
+		const uploadData = await promiseMap<
+			{
+				file: string;
+				status: "success" | "duplicates" | "errors";
+				message?: string;
+			},
+			UploadedFile
+		>(data.media, async (media) => {
+			const fileKey = media.originalname;
+
+			try {
+				const docExists = await this.em.count<DocEntity>(DocEntity, {
+					filename: `${collection.title}/${fileKey}`,
+				});
+
+				if (docExists) {
+					return {
+						file: fileKey,
+						status: "duplicates",
+						message: "File Already Exists",
+					};
 				}
-			> => {
-				const fileKey = media.originalname;
 
-				try {
-					const docExists = await this.em.count<DocEntity>(DocEntity, {
-						filename: `${collection.title}/${fileKey}`,
-					});
+				const oldFLow = await this.flowService.getFlow({ action: "UPLOAD" });
+				const newFlow = await this.flowService.copyFlow(oldFLow);
+				const newFlowId = newFlow.id;
 
-					if (docExists) {
-						return {
-							filename: fileKey,
-							skipped: true,
-							reason: "File Already Exists",
-						};
-					}
+				const pdfMedia =
+					fileKey.split(".").pop() !== "pdf"
+						? await this.gotenbergService.convert(media)
+						: media;
 
-					const oldFLow = await this.flowService.getFlow({ action: "UPLOAD" });
-					const newFlow = await this.flowService.copyFlow(oldFLow);
-					const newFlowId = newFlow.id;
+				const { file_path: filepath } = await this.flowService.uploadFile({
+					flowId: newFlowId,
+					filename: fileKey,
+					media: pdfMedia,
+				});
 
-					const pdfMedia =
-						fileKey.split(".").pop() !== "pdf"
-							? await this.gotenbergService.convert(media)
-							: media;
+				const { id: fileId } = newFlow.data.nodes.find(
+					(node) => node.data.node.display_name === "File",
+				);
+				const { id: qdrantId } = newFlow.data.nodes.find(
+					(node) => node.data.node.display_name === "Qdrant",
+				);
 
-					const { file_path: filepath } = await this.flowService.uploadFile({
-						flowId: newFlowId,
-						filename: fileKey,
-						media: pdfMedia,
-					});
+				if (!fileId || !qdrantId) {
+					console.error("LangFlow Error: - Failed To Find Components");
 
-					const { id: fileId } = newFlow.data.nodes.find(
-						(node) => node.data.node.display_name === "File",
+					throw new HttpException(
+						"Pipeline Components Not Found",
+						HttpStatus.INTERNAL_SERVER_ERROR,
 					);
-					const { id: qdrantId } = newFlow.data.nodes.find(
-						(node) => node.data.node.display_name === "Qdrant",
-					);
+				}
 
-					if (!fileId || !qdrantId) {
-						console.error("LangFlow Error: - Failed To Find Components");
-
-						throw new HttpException(
-							"Pipeline Components Not Found",
-							HttpStatus.INTERNAL_SERVER_ERROR,
-						);
-					}
-
-					await this.flowService.runFlow({
-						action: "UPLOAD",
-						flowId: newFlowId,
-						payload: {
-							tweaks: {
-								[fileId]: {
-									path: `${filepath}`,
-								},
-								[qdrantId]: {
-									collection_name: collection.title.toString(),
-								},
+				await this.flowService.runFlow({
+					action: "UPLOAD",
+					flowId: newFlowId,
+					payload: {
+						tweaks: {
+							[fileId]: {
+								path: `${filepath}`,
+							},
+							[qdrantId]: {
+								collection_name: collection.title.toString(),
 							},
 						},
-					});
-					await this.flowService.deleteFlow(newFlow);
+					},
+				});
+				await this.flowService.deleteFlow(newFlow);
 
-					if (media !== pdfMedia) {
-						upload({ file: media });
-					}
-					upload({ file: pdfMedia });
-
-					const vectorFilePath = `/app/langflow/${filepath}`;
-
-					const doc = this.em.create<DocEntity>(DocEntity, {
-						filename: `${collection.title}/${fileKey}`,
-						filesize: media.size,
-						mimeType: media.mimetype,
-						collection: chatId,
-						provider: provider.id,
-						vectorFilePath,
-					});
-					await this.em.persistAndFlush(doc);
-
-					return {
-						filename: fileKey,
-						success: true,
-					};
-				} catch (error) {
-					logErrors(error);
-
-					return {
-						filename: fileKey,
-						failed: true,
-						reason: error.message,
-					};
+				if (media !== pdfMedia) {
+					upload({ file: media });
 				}
-			},
-		);
+				upload({ file: pdfMedia });
+
+				const vectorFilePath = `/app/langflow/${filepath}`;
+
+				const doc = this.em.create<DocEntity>(DocEntity, {
+					filename: `${collection.title}/${fileKey}`,
+					filesize: media.size,
+					mimeType: media.mimetype,
+					collection: chatId,
+					provider: provider.id,
+					vectorFilePath,
+				});
+				await this.em.persistAndFlush(doc);
+
+				return {
+					file: fileKey,
+					status: "success",
+				};
+			} catch (error) {
+				logErrors(error);
+
+				return {
+					file: fileKey,
+					status: "errors",
+					message: error.message,
+				};
+			}
+		});
+
+		const uploadResult = {
+			success: uploadData
+				.filter((upload) => upload.status === "success")
+				.map((elem) => {
+					delete elem.status;
+					return elem;
+				}),
+			duplicates: uploadData
+				.filter((upload) => upload.status === "duplicates")
+				.map((elem) => {
+					delete elem.status;
+					return elem;
+				}),
+			errors: uploadData
+				.filter((upload) => upload.status === "errors")
+				.map((elem) => {
+					delete elem.status;
+					return elem;
+				}),
+		};
 
 		return uploadResult;
 	}
