@@ -36,6 +36,7 @@ const DashboardPage = () => {
 	if (!isAuthorized) {
 		return null;
 	}
+
 	return (
 		<SidebarProvider
 			style={

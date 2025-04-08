@@ -9,9 +9,9 @@ const _useProfile = () => {
 		loading,
 	} = useFetch({
 		url: `api/v1/profile`,
-		params: {
-			formatForAdmin: false,
-		},
+		// params: {
+		// 	formatForAdmin: false,
+		// },
 	});
 
 	const [profile, setProfile] = useState(null);

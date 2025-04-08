@@ -15,6 +15,7 @@ const CollectionsPage = lazy(
 	() => import("@/pages/Collection/CollectionsPage.js"),
 );
 const SignInPage = lazy(() => import("@/pages/Auth/SignInPage.js"));
+const AdminPage = lazy(() => import("@/pages/Admin/Admin.js"));
 
 const LoadingFallback = () => (
 	<div className="flex items-center justify-center h-screen w-full">
@@ -27,6 +28,7 @@ export const AppRoutes = () => {
 		<Suspense fallback={<LoadingFallback />}>
 			<Routes>
 				<Route path="/" element={<DashboardPage />}>
+					<Route path="admin" element={<AdminPage />} />
 					<Route path="chat" element={<ChatPage />} />
 					<Route path="collections" element={<CollectionsPage />} />
 					<Route
