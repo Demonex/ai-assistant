@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { createMonoHook, useFetch, useLazyFetch } from "use-mono-hook";
 
@@ -8,86 +8,65 @@ const _useProfile = () => {
 		error: errorProfile,
 		loading,
 	} = useFetch({
-		url: `api/rest/profile`,
-		params: {
-			formatForAdmin: false,
-		},
+		url: `api/v1/profile`,
+		// params: {
+		// 	formatForAdmin: false,
+		// },
 	});
+
+	const [profile, setProfile] = useState(null);
+
+	useEffect(() => {
+		if (data) {
+			setProfile(data);
+		}
+	}, [data]);
+
+	// fetchSignIn
 
 	const [
 		{ data: dataSignIn, error: errorSignIn, loading: _loadingSignIn },
 		fetchSignIn,
 	] = useLazyFetch({
-		url: `api/rest/auth/email/sign-in`,
+		url: `api/v1/auth/email/sign-in`,
 		method: "post",
 		cache: false,
 	});
+
+	const handleSignIn = async (data: { email: string; password: string }) => {
+		await fetchSignIn({
+			url: `api/v1/auth/email/sign-in`,
+			data,
+		});
+	};
+
+	useEffect(() => {
+		if (dataSignIn) {
+			setProfile(dataSignIn);
+		}
+	}, [dataSignIn]);
+
+	// fetchSignOut
 
 	const [
 		{ data: _dataSignOut, error: errorSignOut, loading: _loadingSignOut },
 		fetchSignOut,
 	] = useLazyFetch({
-		url: `api/rest/auth/sign-out`,
+		url: `api/v1/auth/user/sign-out`,
 		method: "post",
 		cache: false,
 	});
 
-	const [profile, setProfile] = useState(
-		null,
-		// 	() => {
-		// 	const savedProfile = sessionStorage.getItem("profile");
-		// 	return savedProfile ? JSON.parse(savedProfile) : null;
-		// 	// return { id: "ads", email: "bla@bla.ru" };
-		// }
-	);
-
-	const isAuthorized = useMemo(() => !!profile, [profile]);
-
-	useEffect(() => {
-		if (!data) {
-			return;
-		}
-		setProfile(data);
-		// setProfile({ id: "ads", email: "bla@bla.ru" });
-		// sessionStorage.setItem("profile", JSON.stringify(data));
-	}, [data]);
-
-	useEffect(() => {
-		if (!dataSignIn) {
-			return;
-		}
-		setProfile(dataSignIn);
-		// setProfile({ id: "ads", email: "bla@bla.ru" });
-		// sessionStorage.setItem("profile", JSON.stringify(dataSignIn));
-	}, [dataSignIn]);
-
 	const handleSignOut = async () => {
 		await fetchSignOut({
-			url: `api/rest/auth/sign-out`,
+			url: `api/v1/auth/user/sign-out`,
 			data: data || dataSignIn,
 		});
 		setProfile(null);
-		// sessionStorage.removeItem("profile");
 	};
-
-	const handleSignIn = async (data: { email: string; password: string }) => {
-		await fetchSignIn({
-			url: `api/rest/auth/email/sign-in`,
-			data,
-		});
-	};
-
-	// useEffect(() => {
-	// 	if (!errorProfile && profile) {
-	// 		return;
-	// 	}
-
-	// 	setProfile(null);
-	// 	sessionStorage.removeItem("profile");
-	// }, [errorProfile, profile]);
 
 	return {
-		isAuthorized,
+		isAuthorized: !!profile,
 		profile,
 		handleSignOut,
 		handleSignIn,

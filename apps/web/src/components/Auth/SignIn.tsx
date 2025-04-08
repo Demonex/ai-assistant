@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 
 import { Button } from "@repo/web/components/ui/button.js";
 import {
@@ -14,7 +15,6 @@ import { Label } from "@repo/web/components/ui/label.js";
 import { toast } from "@repo/web/hooks/use-toast.js";
 import { useProfile } from "@repo/web/hooks/useProfile.js";
 import { cn } from "@repo/web/lib/utils.js";
-import { useLocation } from "wouter";
 
 type Inputs = {
 	email: string;
@@ -25,14 +25,17 @@ export function SignIn({
 	className,
 	...props
 }: React.ComponentPropsWithoutRef<"div">) {
+	const navigate = useNavigate();
 	const { register, handleSubmit } = useForm<Inputs>();
-	const [, navigate] = useLocation();
-	const { handleSignIn, errorSignIn } = useProfile();
+	const { handleSignIn, errorSignIn, isAuthorized } = useProfile();
 
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {
 		handleSignIn(data);
-		navigate("/");
 	};
+
+	useEffect(() => {
+		if (isAuthorized) navigate("/");
+	}, [isAuthorized, navigate]);
 
 	useEffect(() => {
 		if (!errorSignIn) return;

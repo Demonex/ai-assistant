@@ -3,6 +3,8 @@ import {
 	Controller,
 	Get,
 	HttpCode,
+	HttpException,
+	HttpStatus,
 	Param,
 	Post,
 	UploadedFiles,
@@ -15,33 +17,17 @@ import {
 	ApiOperation,
 	ApiTags,
 } from "@nestjs/swagger";
-import { Authorized } from "@repo/backend/decorators/auth.js";
-import { TenantId, UserId } from "@repo/backend/decorators/user.js";
+import { Authorized, UserEmailKey } from "@repo/backend/decorators/auth.js";
+import {
+	ExternalEmail,
+	TenantId,
+	UserId,
+} from "@repo/backend/decorators/user.js";
 import { ChatService } from "@repo/backend/services/Chat.js";
 import { ChatMessageDto, ChatUploadMediaDto } from "../dto/Chat.js";
 
-// type Fragment = {
-// 	file_path: string;
-// 	page_num: number;
-// 	text: string;
-// 	uuid: string;
-// 	_collection_name: string;
-// 	_id: string;
-// };
-
-// type MessageResponse = {
-// 	success: boolean;
-// 	message: string;
-// 	created_at: Date;
-// 	fragments: Fragment[];
-// };
-
-// type PatchPayload = {
-// 	response: MessageResponse;
-// };
-
 @ApiTags("chat")
-@Controller("/api/rest")
+@Controller("/api/v1")
 export class ChatController {
 	constructor(private readonly chatService: ChatService) {}
 
@@ -89,20 +75,29 @@ export class ChatController {
 		return await this.chatService.messagePatch(messageId, response);
 	}
 
-	@Post("/chat/:id/message-external")
+	@UserEmailKey()
+	@Post("/chat/message-external")
 	@HttpCode(200)
 	async sendMessageExternal(
-		@Param("id") chatId: number,
+		@ExternalEmail() userEmail: string,
 		@Body() data: ChatMessageDto,
 	) {
+		const chats = await this.chatService.chats(userEmail);
+
+		if (!chats.length) {
+			throw new HttpException("Collection Not Found", HttpStatus.NOT_FOUND);
+		}
+
+		const [{ id: chatId }] = chats;
+
 		const { id: messageId } = await this.chatService.messageCreate(
-			2,
+			userEmail,
 			chatId,
 			data,
 		);
 
 		const rawResponse = await this.chatService.initiateRetrieveFlow(
-			2,
+			userEmail,
 			chatId,
 			data,
 		);

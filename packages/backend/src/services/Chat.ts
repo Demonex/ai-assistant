@@ -236,10 +236,7 @@ export class ChatService {
 
 			return response;
 		} catch (error) {
-			console.error("Request failed:", error.message);
-			console.error("Status code:", error.response?.statusCode);
-			console.error("Response body:", error.response?.body);
-			console.error("Headers:", error.response?.headers);
+			logErrors(error);
 
 			throw new HttpException(
 				"Retrieve Pipeline Failed",

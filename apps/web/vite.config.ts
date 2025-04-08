@@ -8,22 +8,22 @@ export default defineConfig({
 	server: {
 		port: 2051,
 		proxy: {
-			"/api/rest": {
+			"/api/v1": {
 				target: `http://localhost:2050`,
 				changeOrigin: true,
 			},
-			"/admin": {
-				target: "http://localhost:2055",
-				changeOrigin: true,
-			},
-			"/_next/webpack-hmr": {
-				target: "ws://localhost:2055/_next/webpack-hmr",
-				changeOrigin: true,
-			},
-			"/_next": {
-				target: "http://localhost:2055",
-				changeOrigin: true,
-			},
+			// "/admin": {
+			// 	target: "http://localhost:2055",
+			// 	changeOrigin: true,
+			// },
+			// "/_next/webpack-hmr": {
+			// 	target: "ws://localhost:2055/_next/webpack-hmr",
+			// 	changeOrigin: true,
+			// },
+			// "/_next": {
+			// 	target: "http://localhost:2055",
+			// 	changeOrigin: true,
+			// },
 		},
 	},
 	plugins: [tsconfigPaths(), react()],
