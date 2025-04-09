@@ -1,21 +1,5 @@
 "use client";
 
-// import { Field } from "payload";
-// import { useState } from "react";
-// const CustomUploadField = () => {
-// 	const [file, setFile] = useState(null);
-// 	const handleFileChange = (event) => {
-// 		setFile(event.target.files[0]);
-// 		console.log("in upload");
-// 		// Handle file upload without showing a modal
-// 		// You might use an API call here to upload the file directly
-// 	};
-// 	return (
-// 		<div>
-// 			<input type="file" onChange={handleFileChange} multiple />
-// 		</div>
-// 	);
-// };
 import { useState } from "react";
 import { ErrorCode } from "react-dropzone";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -100,9 +84,55 @@ const DropzoneForm = () => {
 
 			setFileLoading(true);
 
-			CollectionService.filesUpload(Number(collectionId), formData)
-				.then(() => {
-					toast.success("Документы успешно загружены");
+			CollectionService.filesUpload<{
+				duplicates: {
+					file: string;
+					status: "success" | "duplicates" | "errors";
+					message?: string;
+				}[];
+				errors: {
+					file: string;
+					status: "success" | "duplicates" | "errors";
+					message?: string;
+				}[];
+				success: {
+					file: string;
+					status: "success" | "duplicates" | "errors";
+					message?: string;
+				}[];
+			}>(Number(collectionId), formData)
+				.then((response) => {
+					const mapFilesToString = (files) => {
+						return files.map((item: { file: string }) => item.file).join(", ");
+					};
+
+					const { duplicates, errors, success } = response;
+					const totalFiles = success.length + duplicates.length + errors.length;
+
+					const hasDuplicates = duplicates.length > 0;
+					const hasErrors = errors.length > 0;
+
+					// toast('My action toast', {
+					// 	action: <Button onClick={() => console.log('Action!')}>Action</Button>,
+					// });
+
+					toast.success(`Загружено ${success.length} из ${totalFiles}`);
+
+					if (hasDuplicates) {
+						toast.info(
+							"Некоторые файлы уже были загружены ранее в коллекцию!",
+							{
+								description: <div>{mapFilesToString(duplicates)}</div>,
+							},
+						);
+					}
+					if (hasErrors) {
+						toast.error("Некоторые файлы не были загружены!", {
+							description: <div>{mapFilesToString(duplicates)}</div>,
+						});
+					}
+
+					// toast.success("Документы успешно загружены");
 					setFileLoading(false);
 				})
 				.catch(() => {
@@ -128,116 +158,118 @@ const DropzoneForm = () => {
 	}
 
 	return (
-		<Form {...form}>
-			<div
-				// onSubmit={form.handleSubmit(onSubmit)}
-				className="w-full space-y-6"
-			>
-				<Dropzone
-					maxSize={MAX_FILE_SIZE}
-					onDropAccepted={(acceptedFiles) =>
-						append(acceptedFiles.map((file) => ({ file })))
-					}
-					onDropRejected={(fileRejections) => {
-						fileRejections.forEach((fileRejection) => {
-							if (
-								fileRejection.errors.some(
-									(err) => err.code === ErrorCode.FileTooLarge,
-								)
-							) {
-								toast("Слишком большой размер файла!");
-							}
-						});
-					}}
+		<div className="tailwind-container">
+			<Form {...form}>
+				<div
+					// onSubmit={form.handleSubmit(onSubmit)}
+					className="w-full space-y-6"
 				>
-					{({ maxSize: _maxSize }) => (
-						<FormField
-							control={form.control}
-							name="files"
-							render={({ field }) => (
-								<FormItem className="mt-4">
-									{/* <FormLabel>File upload</FormLabel> */}
-									<DropzoneZone className="flex justify-center">
-										<FormControl>
-											<DropzoneInput
-												disabled={field.disabled}
-												name={field.name}
-												onBlur={field.onBlur}
-												ref={field.ref}
-											/>
-										</FormControl>
-										<div className="flex items-center gap-6">
-											<DropzoneUploadIcon />
-											<div className="grid gap-0.5">
-												<DropzoneTitle>
-													Перетащите файлы сюда или кликните для загрузки.
-												</DropzoneTitle>
-												{/* <DropzoneDescription>
+					<Dropzone
+						maxSize={MAX_FILE_SIZE}
+						onDropAccepted={(acceptedFiles) =>
+							append(acceptedFiles.map((file) => ({ file })))
+						}
+						onDropRejected={(fileRejections) => {
+							fileRejections.forEach((fileRejection) => {
+								if (
+									fileRejection.errors.some(
+										(err) => err.code === ErrorCode.FileTooLarge,
+									)
+								) {
+									toast("Слишком большой размер файла!");
+								}
+							});
+						}}
+					>
+						{({ maxSize: _maxSize }) => (
+							<FormField
+								control={form.control}
+								name="files"
+								render={({ field }) => (
+									<FormItem className="mt-4">
+										{/* <FormLabel>File upload</FormLabel> */}
+										<DropzoneZone className="flex justify-center">
+											<FormControl>
+												<DropzoneInput
+													disabled={field.disabled}
+													name={field.name}
+													onBlur={field.onBlur}
+													ref={field.ref}
+												/>
+											</FormControl>
+											<div className="flex items-center gap-6">
+												<DropzoneUploadIcon />
+												<div className="grid gap-0.5">
+													<DropzoneTitle>
+														Перетащите файлы сюда или кликните для загрузки.
+													</DropzoneTitle>
+													{/* <DropzoneDescription>
 													{`Maximum file size: ${prettyBytes(maxSize ?? 0)}`}
 												</DropzoneDescription> */}
+												</div>
 											</div>
-										</div>
-									</DropzoneZone>
-									{/* <FormDescription>Drag and drop is supported.</FormDescription> */}
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+										</DropzoneZone>
+										{/* <FormDescription>Drag and drop is supported.</FormDescription> */}
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						)}
+					</Dropzone>
+					{!!fields.length && (
+						<div className="grid gap-4">
+							<h6 className="font-semibold leading-none tracking-tight">{`Добавлено файлов (${fields.length})`}</h6>
+							<FileList>
+								{fields.map((field, index) => (
+									<FileListItem key={field.id}>
+										<FileListHeader>
+											<FileListIcon />
+											<FileListInfo>
+												<FileListName>{field.file.name}</FileListName>
+												<FileListDescription>
+													<FileListSize>{field.file.size}</FileListSize>
+													{fileLoading && (
+														<FileListDescriptionText>
+															<Loader2 className="size-3 animate-spin" />
+															Загрузка...
+														</FileListDescriptionText>
+													)}
+												</FileListDescription>
+											</FileListInfo>
+											<FileListAction onClick={() => remove(index)}>
+												<X />
+												<span className="sr-only">Удалить</span>
+											</FileListAction>
+										</FileListHeader>
+									</FileListItem>
+								))}
+							</FileList>
+						</div>
 					)}
-				</Dropzone>
-				{!!fields.length && (
-					<div className="grid gap-4">
-						<h6 className="font-semibold leading-none tracking-tight">{`Добавлено файлов (${fields.length})`}</h6>
-						<FileList>
-							{fields.map((field, index) => (
-								<FileListItem key={field.id}>
-									<FileListHeader>
-										<FileListIcon />
-										<FileListInfo>
-											<FileListName>{field.file.name}</FileListName>
-											<FileListDescription>
-												<FileListSize>{field.file.size}</FileListSize>
-												{fileLoading && (
-													<FileListDescriptionText>
-														<Loader2 className="size-3 animate-spin" />
-														Загрузка...
-													</FileListDescriptionText>
-												)}
-											</FileListDescription>
-										</FileListInfo>
-										<FileListAction onClick={() => remove(index)}>
-											<X />
-											<span className="sr-only">Удалить</span>
-										</FileListAction>
-									</FileListHeader>
-								</FileListItem>
-							))}
-						</FileList>
-					</div>
-				)}
 
-				<div className="flex gap-2">
-					<Button
-						style={{ cursor: "pointer", border: "none" }}
-						onClick={form.handleSubmit(onSubmit)}
-						disabled={fields.length === 0}
-					>
-						Загрузить
-					</Button>
-					<Button
-						style={{
-							background: "#d0d0d0",
-							color: "black",
-							cursor: "pointer",
-							border: "none",
-						}}
-						onClick={onShowAllDocuments}
-					>
-						Показать все документы
-					</Button>
+					<div className="flex gap-2">
+						<Button
+							style={{ cursor: "pointer", border: "none" }}
+							onClick={form.handleSubmit(onSubmit)}
+							disabled={fields.length === 0}
+						>
+							Загрузить
+						</Button>
+						<Button
+							style={{
+								background: "#d0d0d0",
+								color: "black",
+								cursor: "pointer",
+								border: "none",
+							}}
+							onClick={onShowAllDocuments}
+						>
+							Показать все документы
+						</Button>
+					</div>
 				</div>
-			</div>
-		</Form>
+			</Form>
+		</div>
 	);
 };
 
