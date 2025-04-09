@@ -18,29 +18,13 @@ import {
 	ApiTags,
 } from "@nestjs/swagger";
 import { Authorized, UserEmailKey } from "@repo/backend/decorators/auth.js";
-import { ExternalEmail, UserId } from "@repo/backend/decorators/user.js";
+import {
+	ExternalEmail,
+	TenantId,
+	UserId,
+} from "@repo/backend/decorators/user.js";
 import { ChatService } from "@repo/backend/services/Chat.js";
 import { ChatMessageDto, ChatUploadMediaDto } from "../dto/Chat.js";
-
-type Fragment = {
-	file_path: string;
-	page_num: number;
-	text: string;
-	uuid: string;
-	_collection_name: string;
-	_id: string;
-};
-
-type MessageResponse = {
-	success: boolean;
-	message: string;
-	created_at: Date;
-	fragments: Fragment[];
-};
-
-type PatchPayload = {
-	response: MessageResponse;
-};
 
 @ApiTags("chat")
 @Controller("/api/v1")
@@ -52,15 +36,19 @@ export class ChatController {
 	@Authorized()
 	@Get("/chats")
 	@HttpCode(200)
-	async getChats(@UserId() userId: number) {
-		return (await this.chatService.chats({ userId })).collections;
+	async getChats(@UserId() userId: number, @TenantId() currentTenant: number) {
+		return this.chatService.chats(userId, currentTenant);
 	}
 
 	@Authorized()
 	@Get("/chat/:id")
 	@HttpCode(200)
-	async getChat(@UserId() userId: number, @Param("id") chatId: number) {
-		return this.chatService.chat(userId, chatId);
+	async getChat(
+		@UserId() userId: number,
+		@Param("id") chatId: number,
+		@TenantId() currentTenant: number,
+	) {
+		return this.chatService.chat(userId, chatId, currentTenant);
 	}
 
 	@Authorized()
@@ -77,104 +65,46 @@ export class ChatController {
 			data,
 		);
 
-		const response = await this.chatService.messageSend(userId, chatId, data);
+		const rawResponse = await this.chatService.initiateRetrieveFlow(
+			userId,
+			chatId,
+			data,
+		);
+		const response = this.chatService.optimiseResponse(rawResponse);
 
-		const cleanText = (str: string) => str.replace(/\u0000/g, "");
-
-		try {
-			await this.chatService.messagePatch(messageId, {
-				response: {
-					success: response.success,
-					message: cleanText(response.response.message),
-					created_at: response.response.created_at,
-					fragments: response.response.fragments.map((el) => {
-						return {
-							file_path: el.file_path,
-							page_num: el.page_num,
-							text: cleanText(el.text),
-							uuid: el.uuid,
-							_collection_name: el._collection_name,
-							_id: el._id,
-						};
-					}),
-				} satisfies PatchPayload["response"],
-			});
-		} catch (e) {
-			console.error(e);
-		}
-
-		response.response.id = messageId;
-
-		return response;
+		return await this.chatService.messagePatch(messageId, response);
 	}
 
 	@UserEmailKey()
-	@Post("/chat/message-external")
+	@Post("/completions")
 	@HttpCode(200)
 	async sendMessageExternal(
 		@ExternalEmail() userEmail: string,
 		@Body() data: ChatMessageDto,
 	) {
-		const { userId, collections: chats } = await this.chatService.chats({
-			userEmail,
-		});
+		const chats = await this.chatService.chats(userEmail);
 
-		if (!chats?.length) {
+		if (!chats.length) {
 			throw new HttpException("Collection Not Found", HttpStatus.NOT_FOUND);
 		}
 
-		const chatId = chats[0].id;
+		const [{ id: chatId }] = chats;
 
 		const { id: messageId } = await this.chatService.messageCreate(
-			userId,
+			userEmail,
 			chatId,
 			data,
 		);
 
-		const response = await this.chatService.messageSend(2, chatId, data);
+		const rawResponse = await this.chatService.initiateRetrieveFlow(
+			userEmail,
+			chatId,
+			data,
+		);
+		const response = this.chatService.optimiseResponse(rawResponse);
 
-		const cleanText = (str: string) => str.replace(/\u0000/g, "");
-
-		await this.chatService.messagePatch(messageId, {
-			response: {
-				success: response.success,
-				message: cleanText(response.response.message),
-				created_at: response.response.created_at,
-				fragments: response.response.fragments.map((el) => {
-					return {
-						file_path: el.file_path,
-						page_num: el.page_num,
-						text: cleanText(el.text),
-						uuid: el.uuid,
-						_collection_name: el._collection_name,
-						_id: el._id,
-					};
-				}),
-			} satisfies PatchPayload["response"],
-		});
-
-		return response;
+		return await this.chatService.messagePatch(messageId, response);
 	}
-	// @ApiOperation({ summary: "avatar update in profile" })
-	// @UseInterceptors(
-	// 	FileInterceptor(
-	// 		"file" /*{
-	// 			limits: {
-	// 				fieldNameSize: 100,
-	// 				fieldSize: 1000000,
-	// 				fields: 20,
-	// 				fileSize: 5000000,
-	// 				files: 1,
-	// 				headerPairs: 2000
-	// 			}
-	// 			}*/,
-	// 	),
-	// )
-	// @ApiConsumes("multipart/form-data")
-	// async updateAvatar(@UserId() id: Types.ObjectId, @UploadedFile("file") file) {
-	// 	// console.log('avatar update', get(request, 'headers.authorization'), get(request, 'session.id'), id);
-	// 	return this.chatService.findByIdAndUpdateAvatar(id, { file });
-	// }
 
 	@Authorized()
 	@Post("/chat/:id/upload")

@@ -1,13 +1,11 @@
+import { ApiProperty } from "@nestjs/swagger";
 import {
-	IsBoolean,
 	IsEmail,
 	IsNotEmpty,
-	IsOptional,
 	IsString,
 	MaxLength,
 	MinLength,
 } from "class-validator";
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class AuthSignInDto {
 	@IsEmail()
@@ -42,10 +40,6 @@ export class AuthSignUpDto {
 	@MinLength(6)
 	@ApiProperty({ required: true })
 	readonly password!: string;
-	@IsOptional()
-	@IsBoolean()
-	@ApiPropertyOptional()
-	readonly consent?: boolean;
 }
 
 export class AuthRecoverDto {
