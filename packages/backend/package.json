@@ -51,6 +51,7 @@
 		"express-session": "1.18.1",
 		"form-data": "^4.0.1",
 		"got": "14.4.5",
+		"graphql-request": "^7.1.2",
 		"ioredis": "5.4.2",
 		"lodash-es": "4.17.21",
 		"memoizee": "^0.4.15",
