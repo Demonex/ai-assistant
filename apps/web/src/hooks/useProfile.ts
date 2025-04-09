@@ -11,15 +11,15 @@ const _useProfile = () => {
 		url: `api/v1/profile`,
 	});
 
-	const {
-		data: dataWiki,
-		error: errorWiki,
-		loading: loadingWiki,
-	} = useFetch({
-		url: `http://localhost:2050/wiki/tree`,
-	});
+	// const {
+	// 	data: dataWiki,
+	// 	error: errorWiki,
+	// 	loading: loadingWiki,
+	// } = useFetch({
+	// 	url: `http://localhost:2050/wiki/tree`,
+	// });
 
-	console.log({ dataWiki, errorWiki, loadingWiki });
+	// console.log({ dataWiki, errorWiki, loadingWiki });
 
 	const [profile, setProfile] = useState(null);
 
