@@ -4,6 +4,7 @@ import { useCollection } from "@/hooks/useCollection.js";
 
 const CollectionPage = () => {
 	const { collections } = useCollection();
+
 	return (
 		collections && (
 			<main className="p-4 bg-[#fbfbfb]">

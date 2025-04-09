@@ -1,7 +1,8 @@
-import { Suspense, lazy } from "react";
-import { Route, Routes } from "react-router";
+import { Suspense, lazy, useEffect, useState } from "react";
+import { Navigate, Outlet, Route, Routes } from "react-router";
 
 import { Spinner } from "@/components/Spinner.js";
+import { useProfile } from "@/hooks/useProfile.js";
 
 // import { CustomizeCollectionPage } from "@/pages/Collection/CustomizeCollectionPage.js";
 
@@ -23,19 +24,43 @@ const LoadingFallback = () => (
 	</div>
 );
 
+const PrivateRoute = () => {
+	const { isAuthorized, isFetchingProfile, dataProfile } = useProfile();
+	const [isRedirect, setIsRedirect] = useState(false);
+
+	useEffect(() => {
+		const time = setTimeout(() => {
+			if (!isAuthorized || !dataProfile || isFetchingProfile) {
+				setIsRedirect(true);
+			}
+		}, 500);
+
+		return () => clearTimeout(time);
+	}, [isAuthorized, dataProfile, isFetchingProfile]);
+
+	if (!isRedirect) {
+		return <Outlet />;
+	} else {
+		return <Navigate to="/sign-in" />;
+	}
+};
+
 export const AppRoutes = () => {
 	return (
 		<Suspense fallback={<LoadingFallback />}>
 			<Routes>
-				<Route path="/" element={<DashboardPage />}>
-					<Route path="admin" element={<AdminPage />} />
-					<Route path="chat" element={<ChatPage />} />
-					<Route path="collections" element={<CollectionsPage />} />
-					<Route
-						path="/collections/collection"
-						element={<CustomizeCollectionPage />}
-					/>
+				<Route element={<PrivateRoute />}>
+					<Route path="/" element={<DashboardPage />}>
+						<Route path="admin" element={<AdminPage />} />
+						<Route path="chat" element={<ChatPage />} />
+						<Route path="collections" element={<CollectionsPage />} />
+						<Route
+							path="collections/collection"
+							element={<CustomizeCollectionPage />}
+						/>
+					</Route>
 				</Route>
+
 				<Route path="/sign-in" element={<SignInPage />} />
 				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
