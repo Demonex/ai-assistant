@@ -100,6 +100,12 @@ const _useChats = () => {
 		[activeChat?.id, fetchUploadFile],
 	);
 
+	useEffect(() => {
+		if (fileResponse) {
+			localStorage.removeItem("uploadMedia");
+		}
+	}, [fileResponse]);
+
 	// setErrors //
 
 	useEffect(() => {
