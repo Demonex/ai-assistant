@@ -26,7 +26,6 @@ export const DialogWindow = () => {
 		activeChat,
 		setActiveChat,
 		messageLoading,
-		fileLoading,
 		fetchErrors,
 		setFetchErrors,
 	} = useChats();
@@ -124,16 +123,6 @@ export const DialogWindow = () => {
 	}, [messages]);
 
 	useEffect(() => {
-		if (fileLoading) {
-			toast({
-				title: "Файл загружается!",
-				description:
-					"Загрузка займет некоторое время, после чего информация из файла станет доступна.",
-			});
-		}
-	}, [fileLoading]);
-
-	useEffect(() => {
 		if (fetchErrors.length) {
 			fetchErrors.forEach((error) => {
 				toast({
@@ -164,7 +153,7 @@ export const DialogWindow = () => {
 							onDragOver={handleDragOver}
 							onDrop={handleDrop}
 							onDragLeave={handleDragLeave}
-							className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-90 flex items-center justify-center text-black z-[2]"
+							className="absolute border top-0 left-0 w-full h-full bg-white bg-opacity-90 flex items-center justify-center text-black z-[2]"
 						>
 							{`Перенесите файл сюда (${ALLOWED_EXTENSIONS.join(", ")})`}
 						</div>

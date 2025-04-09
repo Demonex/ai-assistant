@@ -9,9 +9,6 @@ const _useProfile = () => {
 		loading,
 	} = useFetch({
 		url: `api/v1/profile`,
-		// params: {
-		// 	formatForAdmin: false,
-		// },
 	});
 
 	const {

@@ -82,7 +82,7 @@ const _useChats = () => {
 	// fetchUploadFile //
 
 	const [
-		{ data: _uploadFile, loading: fileLoading, error: fileError },
+		{ data: fileResponse, loading: fileLoading, error: fileError },
 		fetchUploadFile,
 	] = useLazyFetch({
 		url: "/api/v1/chat/{activeChat.id}/upload",
@@ -119,9 +119,9 @@ const _useChats = () => {
 		messageLoading,
 		sendUploadFile,
 		fileLoading,
+		fileResponse,
 		fetchErrors,
 		setFetchErrors,
-		uploadFile: _uploadFile,
 	};
 };
 

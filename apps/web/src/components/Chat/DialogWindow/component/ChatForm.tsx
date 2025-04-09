@@ -1,10 +1,11 @@
-import { memo, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import type { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
 
 import { FileUpload } from "@repo/web/components/FileUpload.js";
 import { Spinner } from "@repo/web/components/Spinner.js";
 import { ALLOWED_EXTENSIONS } from "@repo/web/constants/index.js";
+import { toast } from "@repo/web/hooks/use-toast.js";
 import { useChats } from "@repo/web/hooks/useChats.js";
 
 type ChatInputProps = {
@@ -23,6 +24,7 @@ export const ChatForm = memo<ChatInputProps>(
 			sendMessage,
 			messageLoading,
 			fileLoading,
+			fileResponse,
 		} = useChats();
 
 		const [message, setMessage] = useState("");
@@ -37,6 +39,7 @@ export const ChatForm = memo<ChatInputProps>(
 				files.forEach((file) => {
 					formData.append("media", file);
 				});
+
 				sendUploadFile({ formData });
 				setFiles([]);
 				reset();
@@ -89,6 +92,38 @@ export const ChatForm = memo<ChatInputProps>(
 			textarea.style.height = "auto";
 			textarea.style.height = `${textarea.scrollHeight}px`;
 		};
+
+		const mapFilesToString = (files: { file: string }[]): string => {
+			return files.map((item: { file: string }) => item.file).join(", ");
+		};
+
+		useEffect(() => {
+			if (!fileResponse) return;
+
+			const { duplicates, errors, success } = fileResponse;
+			const totalFiles = success.length + duplicates.length + errors.length;
+
+			const hasDuplicates = duplicates.length > 0;
+			const hasErrors = errors.length > 0;
+
+			toast({
+				title: `Загружено ${success.length} из ${totalFiles}`,
+			});
+
+			if (hasDuplicates) {
+				toast({
+					title: "Некоторые файлы уже были загружены ранее в коллекцию!",
+					description: `${mapFilesToString(duplicates)}`,
+				});
+			}
+			if (hasErrors) {
+				toast({
+					variant: "destructive",
+					title: "Некоторые файлы не были загружены!",
+					description: `${mapFilesToString(errors)}`,
+				});
+			}
+		}, [fileResponse]);
 
 		return (
 			<form
