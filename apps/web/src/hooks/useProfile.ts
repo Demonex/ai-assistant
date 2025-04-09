@@ -1,14 +1,19 @@
-import { useEffect, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { createMonoHook, useFetch, useLazyFetch } from "use-mono-hook";
+export const useProfile = () => {
+	const queryClient = useQueryClient();
 
-const _useProfile = () => {
 	const {
-		data,
+		data: dataProfile,
+		isLoading: isLoadingProfile,
 		error: errorProfile,
-		loading,
-	} = useFetch({
-		url: `api/v1/profile`,
+		isFetching: isFetchingProfile,
+	} = useQuery({
+		queryKey: ["profile"],
+		queryFn: async () => {
+			const data = await fetch("api/v1/profile");
+			return await data.json();
+		},
 	});
 
 	// const {
@@ -21,68 +26,47 @@ const _useProfile = () => {
 
 	// console.log({ dataWiki, errorWiki, loadingWiki });
 
-	const [profile, setProfile] = useState(null);
-
-	useEffect(() => {
-		if (data) {
-			setProfile(data);
-		}
-	}, [data]);
-
 	// fetchSignIn
 
-	const [
-		{ data: dataSignIn, error: errorSignIn, loading: _loadingSignIn },
-		fetchSignIn,
-	] = useLazyFetch({
-		url: `api/v1/auth/email/sign-in`,
-		method: "post",
-		cache: false,
+	const { error: errorSignIn, mutate: handleSignIn } = useMutation({
+		mutationFn: async (data: { email: string; password: string }) => {
+			return await fetch("api/v1/auth/email/sign-in", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			});
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["profile"] });
+		},
 	});
-
-	const handleSignIn = async (data: { email: string; password: string }) => {
-		await fetchSignIn({
-			url: `api/v1/auth/email/sign-in`,
-			data,
-		});
-	};
-
-	useEffect(() => {
-		if (dataSignIn) {
-			setProfile(dataSignIn);
-		}
-	}, [dataSignIn]);
 
 	// fetchSignOut
 
-	const [
-		{ data: _dataSignOut, error: errorSignOut, loading: _loadingSignOut },
-		fetchSignOut,
-	] = useLazyFetch({
-		url: `api/v1/auth/user/sign-out`,
-		method: "post",
-		cache: false,
+	const { error: errorSignOut, mutate: handleSignOut } = useMutation({
+		mutationFn: async () => {
+			const response = await fetch("api/v1/auth/user/sign-out", {
+				method: "POST",
+				body: JSON.stringify(dataProfile),
+			});
+			return response.json();
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["profile"] });
+		},
 	});
 
-	const handleSignOut = async () => {
-		await fetchSignOut({
-			url: `api/v1/auth/user/sign-out`,
-			data: data || dataSignIn,
-		});
-		setProfile(null);
-	};
-
 	return {
-		isAuthorized: !!profile,
-		profile,
+		isAuthorized: !!dataProfile?.email,
+		dataProfile,
 		handleSignOut,
 		handleSignIn,
 		errorSignIn,
 		errorSignOut,
 		errorProfile,
-		loading,
+		isLoadingProfile,
+		isFetchingProfile,
 	};
 };
-
-export const useProfile =
-	createMonoHook<typeof _useProfile>(_useProfile).useHook;

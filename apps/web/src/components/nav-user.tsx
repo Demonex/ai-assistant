@@ -38,21 +38,10 @@ import { useTheme } from "./theme-provider.js";
 
 export function NavUser() {
 	const { isMobile } = useSidebar();
-	const { profile } = useProfile();
+	const { dataProfile } = useProfile();
 	const { theme, setTheme } = useTheme();
 	const { handleSignOut } = useProfile();
 	const [darkTheme, _setDarkTheme] = useState(theme);
-
-	const signOut = () => {
-		handleSignOut();
-
-		const href = window.location.href;
-		const url = window.location.protocol + "//" + window.location.host;
-
-		if (href.indexOf("/admin") !== -1) {
-			window.location.href = `${url}/sign-in`;
-		}
-	};
 
 	useEffect(() => {
 		//TODO - изменить позже тему
@@ -79,7 +68,7 @@ export function NavUser() {
 							</Avatar>
 							<div className="grid flex-1 text-left text-sm leading-tight">
 								{/* <span className="truncate font-semibold">{user.name}</span> */}
-								<span className="truncate text-xs">{profile?.email}</span>
+								<span className="truncate text-xs">{dataProfile?.email}</span>
 							</div>
 							<ChevronsUpDown className="ml-auto size-4" />
 						</SidebarMenuButton>
@@ -98,7 +87,7 @@ export function NavUser() {
 								</Avatar>
 								<div className="grid flex-1 text-left text-sm leading-tight">
 									<span className="truncate font-semibold">
-										{profile?.email}
+										{dataProfile?.email}
 									</span>
 									{/* <span className="truncate text-xs">{profile.email}</span> */}
 								</div>
@@ -131,7 +120,7 @@ export function NavUser() {
 							</DropdownMenuItem>
 						</DropdownMenuGroup> */}
 						<DropdownMenuSeparator />
-						<DropdownMenuItem onClick={signOut}>
+						<DropdownMenuItem onClick={() => handleSignOut()}>
 							<LogOut />
 							<span>Выйти</span>
 						</DropdownMenuItem>

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router";
+import { Outlet } from "react-router";
 
 import { AppSidebar } from "@repo/web/components/app-sidebar.js";
 import { Breadcrumb } from "@repo/web/components/ui/breadcrumb.js";
@@ -14,14 +14,7 @@ import { toast } from "@/hooks/use-toast.js";
 import { useProfile } from "@/hooks/useProfile.js";
 
 const DashboardPage = () => {
-	const navigate = useNavigate();
-	const { isAuthorized, loading, errorProfile } = useProfile();
-
-	useEffect(() => {
-		if (isAuthorized || loading) return;
-
-		navigate("/sign-in");
-	}, [isAuthorized, loading, navigate]);
+	const { errorProfile } = useProfile();
 
 	useEffect(() => {
 		if (errorProfile && errorProfile.status !== 401) {
@@ -32,10 +25,6 @@ const DashboardPage = () => {
 			});
 		}
 	}, [errorProfile]);
-
-	if (!isAuthorized) {
-		return null;
-	}
 
 	return (
 		<SidebarProvider
