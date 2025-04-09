@@ -32,51 +32,6 @@ import {
 	TableRow,
 } from "@/components/ui/table.js";
 
-// import { Payment } from "@/types/types.js";
-
-// const data: Payment[] = [
-// 	{
-// 		id: "m5gr84i9",
-// 		embedding: "Embedding",
-// 		collection: "Инструкция Авансовый отчет в учете",
-// 		llm: "Llm",
-// 		reranker: "Reranker",
-// 		providers: "1 Провайдер",
-// 	},
-// 	{
-// 		id: "3u1reuv4",
-// 		embedding: "Embedding",
-// 		collection: "Тест Бота",
-// 		llm: "Llm",
-// 		reranker: "Reranker",
-// 		providers: "1 Провайдер",
-// 	},
-// 	{
-// 		id: "derv1ws0",
-// 		embedding: "Embedding",
-// 		collection: "Водоканал Общее OLMO",
-// 		llm: "Llm",
-// 		reranker: "Reranker",
-// 		providers: "1 Провайдер",
-// 	},
-// 	{
-// 		id: "5kma53ae",
-// 		embedding: "Embedding",
-// 		collection: "Документ отдела учёта Дебиторской задолженности OLMOCR",
-// 		llm: "Llm",
-// 		reranker: "Reranker",
-// 		providers: "1 Провайдер",
-// 	},
-// 	{
-// 		id: "bhqecj4p",
-// 		embedding: "Embedding",
-// 		collection: "Учет судебных решений_1",
-// 		llm: "Llm",
-// 		reranker: "Reranker",
-// 		providers: "1 Провайдер",
-// 	},
-// ];
-
 export const DataTableComponent = ({ columns, data }) => {
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -104,6 +59,8 @@ export const DataTableComponent = ({ columns, data }) => {
 			rowSelection,
 		},
 	});
+
+	console.log(data);
 
 	return (
 		<div className="w-full">

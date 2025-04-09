@@ -99,21 +99,21 @@ export const ColumnCollection: ColumnDef<Payment>[] = [
 			<div className="lowercase">{row.getValue("reranker")}</div>
 		),
 	},
-	{
-		accessorKey: "providers",
-		header: ({ column }) => {
-			return (
-				<Button
-					variant="ghost"
-					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-				>
-					Провайдеры
-					<ArrowUpDown />
-				</Button>
-			);
-		},
-		cell: ({ row }) => (
-			<div className="lowercase">{row.getValue("providers")}</div>
-		),
-	},
+	// {
+	// 	accessorKey: "providers",
+	// 	header: ({ column }) => {
+	// 		return (
+	// 			<Button
+	// 				variant="ghost"
+	// 				onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+	// 			>
+	// 				Провайдеры
+	// 				<ArrowUpDown />
+	// 			</Button>
+	// 		);
+	// 	},
+	// 	cell: ({ row }) => (
+	// 		<div className="lowercase">{row.getValue("providers")}</div>
+	// 	),
+	// },
 ];
