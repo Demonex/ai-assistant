@@ -25,6 +25,7 @@ export const ChatForm = memo<ChatInputProps>(
 			messageLoading,
 			fileLoading,
 			fileResponse,
+			activeChat,
 		} = useChats();
 
 		const [message, setMessage] = useState("");
@@ -40,6 +41,7 @@ export const ChatForm = memo<ChatInputProps>(
 					formData.append("media", file);
 				});
 
+				localStorage.setItem("uploadMedia", JSON.stringify(activeChat?.id));
 				sendUploadFile({ formData });
 				setFiles([]);
 				reset();
@@ -96,6 +98,23 @@ export const ChatForm = memo<ChatInputProps>(
 		const mapFilesToString = (files: { file: string }[]): string => {
 			return files.map((item: { file: string }) => item.file).join(", ");
 		};
+
+		useEffect(() => {
+			const storedUpload = localStorage.getItem("uploadMedia");
+
+			if (!storedUpload) return;
+
+			const collectionId = JSON.parse(storedUpload);
+			const isCurrentCollection = collectionId === activeChat?.id;
+
+			if (!fileResponse && isCurrentCollection) {
+				toast({
+					variant: "destructive",
+					title: "Загрузка файлов была прервана!",
+					description: "Возможно, не все файлы были загружены.",
+				});
+			}
+		}, [fileResponse, activeChat]);
 
 		useEffect(() => {
 			if (!fileResponse) return;
