@@ -181,7 +181,7 @@ export const ChatForm = memo<ChatInputProps>(
 						/>
 						<button
 							type="button"
-							className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-11 w-11 rounded-full p-0"
+							className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 w-9 rounded-full p-0"
 							data-state="closed"
 							onClick={handlePinFileButton}
 							disabled={messageLoading || fileLoading}
@@ -193,12 +193,12 @@ export const ChatForm = memo<ChatInputProps>(
 						title="Отправить"
 						type="submit"
 						disabled={!message.trim() && !files?.length}
-						className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 w-11 rounded-full p-0 ms-3"
+						className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 w-9 rounded-full p-0 ms-3"
 					>
 						{messageLoading || fileLoading ? (
 							<Spinner size="small" />
 						) : (
-							<Play size={20} />
+							<Play size={16} />
 						)}
 					</button>
 				</div>

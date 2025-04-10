@@ -1,16 +1,16 @@
 import { ApiError, Profile, SignInData } from "@/types/types.js";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router";
 
 export const useProfile = () => {
-	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 
+	// profile
 	const {
 		data: dataProfile,
 		isLoading: isLoadingProfile,
 		error: errorProfile,
 		isFetching: isFetchingProfile,
+		refetch: refetchProfile,
 	} = useQuery<ResponseType, ApiError, Profile>({
 		queryKey: ["profile"],
 		queryFn: async () => {
@@ -23,32 +23,20 @@ export const useProfile = () => {
 
 			return await response.json();
 		},
+		staleTime: 5 * 60 * 1000,
 	});
 
-	// const {
-	// 	data: dataWiki,
-	// 	error: errorWiki,
-	// 	loading: loadingWiki,
-	// } = useFetch({
-	// 	url: `http://localhost:2050/wiki/tree`,
-	// });
-
-	// console.log({ dataWiki, errorWiki, loadingWiki });
-
-	// fetchSignIn
-
+	// sign-in
 	const {
 		error: errorSignIn,
 		mutate: handleSignIn,
 		isPending: pendingSignIn,
 	} = useMutation<ResponseType, ApiError, SignInData>({
-		mutationFn: async (data: { email: string; password: string }) => {
+		mutationFn: async ({ email, password }) => {
 			const response = await fetch("api/v1/auth/email/sign-in", {
 				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(data),
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ email, password }),
 			});
 
 			if (!response.ok) {
@@ -63,17 +51,15 @@ export const useProfile = () => {
 		},
 	});
 
-	// fetchSignOut
-
-	const { error: errorSignOut, mutate: handleSignOut } = useMutation<
+	// sign-out
+	const { mutate: handleSignOut, error: errorSignOut } = useMutation<
 		ResponseType,
 		ApiError,
-		Profile
+		void
 	>({
 		mutationFn: async () => {
 			const response = await fetch("api/v1/auth/user/sign-out", {
 				method: "POST",
-				body: JSON.stringify(dataProfile),
 			});
 
 			if (!response.ok) {
@@ -86,20 +72,19 @@ export const useProfile = () => {
 		onSuccess: () => {
 			queryClient.removeQueries({ queryKey: ["profile"] });
 			queryClient.invalidateQueries({ queryKey: ["profile"] });
-			navigate("/sign-in");
 		},
 	});
 
 	return {
-		isAuthorized: !!dataProfile?.email,
 		dataProfile,
-		handleSignOut,
+		isLoadingProfile,
+		isFetchingProfile,
+		errorProfile,
+		refetchProfile,
 		handleSignIn,
 		pendingSignIn,
 		errorSignIn,
+		handleSignOut,
 		errorSignOut,
-		errorProfile,
-		isLoadingProfile,
-		isFetchingProfile,
 	};
 };
