@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 import { NavUser } from "@repo/web/components/nav-user.js";
 import {
@@ -20,8 +20,32 @@ import {
 	UserRoundCog,
 } from "lucide-react";
 
-export function AppSidebar({ isAdminPage = false }) {
+export function AppSidebar() {
+	const { pathname } = useLocation();
 	const navigate = useNavigate();
+
+	const navigateList = [
+		{
+			name: "Чаты",
+			path: "/chat",
+			icon: <MessageCircleMore />,
+		},
+		{
+			name: "Админ панель",
+			path: "/admin",
+			icon: <UserRoundCog />,
+		},
+		{
+			name: "Коллекции",
+			path: "/collections",
+			icon: <Boxes />,
+		},
+		{
+			name: "Нейросервисы",
+			path: "/neuro",
+			icon: <Atom />,
+		},
+	];
 
 	return (
 		<Sidebar>
@@ -51,68 +75,23 @@ export function AppSidebar({ isAdminPage = false }) {
 					<SidebarGroup>
 						<SidebarGroupContent className="px-1.5 md:px-0">
 							<SidebarMenu>
-								<SidebarMenuItem>
-									<SidebarMenuButton
-										tooltip={{
-											children: "Чаты",
-											hidden: false,
-											className: "hidden md:block",
-										}}
-										onClick={() => navigate("chat")}
-										isActive={!isAdminPage}
-										className="px-2.5 md:px-2"
-									>
-										<MessageCircleMore />
-										<span>Чаты</span>
-									</SidebarMenuButton>
-								</SidebarMenuItem>
-
-								<SidebarMenuItem>
-									<SidebarMenuButton
-										tooltip={{
-											children: "Админ панель",
-											hidden: false,
-											className: "hidden md:block",
-										}}
-										onClick={() => navigate("/admin")}
-										isActive={isAdminPage}
-										className="px-2.5 md:px-2"
-									>
-										<UserRoundCog />
-										<span>Админ панель</span>
-									</SidebarMenuButton>
-								</SidebarMenuItem>
-
-								<SidebarMenuItem>
-									<SidebarMenuButton
-										tooltip={{
-											children: "Коллекции",
-											hidden: false,
-											className: "hidden md:block",
-										}}
-										onClick={() => navigate("/collections")}
-										isActive={isAdminPage}
-										className="px-2.5 md:px-2"
-									>
-										<Boxes />
-										<span>Коллекции</span>
-									</SidebarMenuButton>
-								</SidebarMenuItem>
-
-								<SidebarMenuItem>
-									<SidebarMenuButton
-										tooltip={{
-											children: "Нейросервисы",
-											hidden: false,
-											className: "hidden md:block",
-										}}
-										onClick={() => navigate("/Neuro")}
-										className="px-2.5 md:px-2"
-									>
-										<Atom />
-										<span>Нейросервисы</span>
-									</SidebarMenuButton>
-								</SidebarMenuItem>
+								{navigateList.map((item) => (
+									<SidebarMenuItem key={item.path}>
+										<SidebarMenuButton
+											tooltip={{
+												children: item.name,
+												hidden: false,
+												className: "hidden md:block",
+											}}
+											onClick={() => navigate(item.path)}
+											isActive={pathname === item.path}
+											className="px-2.5 md:px-2"
+										>
+											{item.icon}
+											<span>{item.name}</span>
+										</SidebarMenuButton>
+									</SidebarMenuItem>
+								))}
 							</SidebarMenu>
 						</SidebarGroupContent>
 					</SidebarGroup>
