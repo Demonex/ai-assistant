@@ -12,7 +12,13 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "@repo/web/components/ui/sidebar.js";
-import { Boxes, Command, MessageCircleMore, UserRoundCog } from "lucide-react";
+import {
+	Atom,
+	Boxes,
+	Command,
+	MessageCircleMore,
+	UserRoundCog,
+} from "lucide-react";
 
 export function AppSidebar({ isAdminPage = false }) {
 	const navigate = useNavigate();
@@ -90,6 +96,21 @@ export function AppSidebar({ isAdminPage = false }) {
 									>
 										<Boxes />
 										<span>Коллекции</span>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+
+								<SidebarMenuItem>
+									<SidebarMenuButton
+										tooltip={{
+											children: "Нейросервисы",
+											hidden: false,
+											className: "hidden md:block",
+										}}
+										onClick={() => navigate("/Neuro")}
+										className="px-2.5 md:px-2"
+									>
+										<Atom />
+										<span>Нейросервисы</span>
 									</SidebarMenuButton>
 								</SidebarMenuItem>
 							</SidebarMenu>

@@ -60,8 +60,6 @@ export const DataTableComponent = ({ columns, data }) => {
 		},
 	});
 
-	console.log(data);
-
 	return (
 		<div className="w-full">
 			<div className="flex items-center py-4">
