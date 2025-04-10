@@ -16,6 +16,7 @@ import { LangFlowService } from "./Flow.js";
 import { GotenbergService } from "./Gotenberg.js";
 import { GroupService } from "./Group.js";
 import { UserService } from "./User.js";
+import { AudioService } from "./Audio.js";
 
 @Injectable()
 export class ChatService {
@@ -25,6 +26,7 @@ export class ChatService {
 		private readonly userService: UserService,
 		private readonly groupService: GroupService,
 		private readonly gotenbergService: GotenbergService,
+		private readonly audioSerivce: AudioService,
 	) {}
 
 	async validateAndGetCollection(
@@ -317,6 +319,14 @@ export class ChatService {
 			}),
 		});
 
+		const audioFormats = [
+			"video/mp4",
+			"video/webm",
+			"audio/x-wav",
+			"audio/mpeg",
+			"audio/x-m4a",
+		];
+
 		const uploadData = await promiseMap<
 			{
 				file: string;
@@ -340,14 +350,19 @@ export class ChatService {
 					};
 				}
 
-				const oldFLow = await this.flowService.getFlow({ action: "UPLOAD" });
-				const newFlow = await this.flowService.copyFlow(oldFLow);
-				const newFlowId = newFlow.id;
+				if (audioFormats.includes(media.mimetype)) {
+					// TODO
+					return await this.audioSerivce.convert(media);
+				}
 
 				const pdfMedia =
 					fileKey.split(".").pop() !== "pdf"
 						? await this.gotenbergService.convert(media)
 						: media;
+
+				const oldFLow = await this.flowService.getFlow({ action: "UPLOAD" });
+				const newFlow = await this.flowService.copyFlow(oldFLow);
+				const newFlowId = newFlow.id;
 
 				const { file_path: filepath } = await this.flowService.uploadFile({
 					flowId: newFlowId,
