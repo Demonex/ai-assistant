@@ -1,3 +1,20 @@
+export type ApiError = {
+	statusCode: number;
+	message: string;
+};
+
+export type Profile = {
+	email: string;
+	id: number;
+	name: string;
+	superadmin: boolean;
+};
+
+export type SignInData = {
+	email: string;
+	password: string;
+};
+
 export type Message = {
 	id: string;
 	response?: ResponseAndRequest;

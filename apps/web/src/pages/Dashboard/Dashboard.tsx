@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 
 import { AppSidebar } from "@repo/web/components/app-sidebar.js";
 import { Breadcrumb } from "@repo/web/components/ui/breadcrumb.js";
@@ -14,13 +14,14 @@ import { toast } from "@/hooks/use-toast.js";
 import { useProfile } from "@/hooks/useProfile.js";
 
 const DashboardPage = () => {
+	const { pathname } = useLocation();
 	const { errorProfile } = useProfile();
 
 	useEffect(() => {
-		if (errorProfile && errorProfile.status !== 401) {
+		if (errorProfile && errorProfile.statusCode !== 401) {
 			toast({
 				variant: "destructive",
-				title: errorProfile.status.toString(),
+				title: errorProfile.statusCode.toString(),
 				description: errorProfile.message,
 			});
 		}
@@ -42,6 +43,11 @@ const DashboardPage = () => {
 					<Separator orientation="vertical" className="mr-2 h-4" />
 					<Breadcrumb></Breadcrumb>
 				</header>
+				{pathname === "/" && (
+					<div className="text-2xl font-bold flex justify-center items-center w-full h-full">
+						Добро пожаловать в SigmaChatDoc!
+					</div>
+				)}
 				<Outlet />
 			</SidebarInset>
 		</SidebarProvider>
