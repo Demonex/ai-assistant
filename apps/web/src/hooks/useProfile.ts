@@ -1,7 +1,9 @@
 import { ApiError, Profile, SignInData } from "@/types/types.js";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
 
 export const useProfile = () => {
+	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 
 	const {
@@ -82,7 +84,9 @@ export const useProfile = () => {
 			return response.json();
 		},
 		onSuccess: () => {
+			queryClient.removeQueries({ queryKey: ["profile"] });
 			queryClient.invalidateQueries({ queryKey: ["profile"] });
+			navigate("/sign-in");
 		},
 	});
 
