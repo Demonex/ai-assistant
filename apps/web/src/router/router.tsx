@@ -3,6 +3,7 @@ import { Navigate, Outlet, Route, Routes } from "react-router";
 
 import { Spinner } from "@/components/Spinner.js";
 import { useProfile } from "@/hooks/useProfile.js";
+import DashboardPage from "@/pages/Dashboard/Dashboard.js";
 
 const SuspenseFallback = () => {
 	return (
@@ -24,9 +25,6 @@ export const withSuspense = (
 
 const CustomizeCollectionPage = withSuspense(
 	lazy(() => import("@/pages/CustomizeCollection/CustomizeCollectionPage.js")),
-);
-const DashboardPage = withSuspense(
-	lazy(() => import("@/pages/Dashboard/Dashboard.js")),
 );
 const NotFoundPage = withSuspense(
 	lazy(() => import("@/pages/NotFound/NotFoundPage.js")),

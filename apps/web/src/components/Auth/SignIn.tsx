@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 
@@ -24,21 +24,31 @@ export function SignIn({
 	...props
 }: React.ComponentPropsWithoutRef<"div">) {
 	const navigate = useNavigate();
+	const [loading, setLoading] = useState(false);
 	const { register, handleSubmit } = useForm<SignInData>();
 	const { handleSignIn, refetchProfile, errorSignIn, pendingSignIn } =
 		useProfile();
 
 	const onSubmit = async (data: SignInData) => {
-		handleSignIn(data, {
-			onSuccess: async () => {
-				const profile = await refetchProfile();
+		setLoading(true);
 
-				if (profile.data?.email) {
-					navigate("/");
-				}
-			},
-		});
+		try {
+			handleSignIn(data, {
+				onSuccess: async () => {
+					const profile = await refetchProfile();
+					if (profile.data?.email) {
+						navigate("/");
+					}
+				},
+			});
+		} finally {
+			setLoading(false);
+		}
 	};
+
+	const isLoading = useMemo(() => {
+		return pendingSignIn || loading;
+	}, [pendingSignIn, loading]);
 
 	useEffect(() => {
 		if (!errorSignIn) return;
@@ -74,7 +84,7 @@ export function SignIn({
 							<div className="grid gap-2">
 								<Label htmlFor="email">Почта</Label>
 								<Input
-									disabled={pendingSignIn}
+									disabled={isLoading}
 									id="email"
 									type="email"
 									{...register("email", {
@@ -87,7 +97,7 @@ export function SignIn({
 									<Label htmlFor="password">Пароль</Label>
 								</div>
 								<Input
-									disabled={pendingSignIn}
+									disabled={isLoading}
 									id="password"
 									type="password"
 									{...register("password", {
@@ -95,8 +105,8 @@ export function SignIn({
 									})}
 								/>
 							</div>
-							<Button type="submit" className="w-full" disabled={pendingSignIn}>
-								{pendingSignIn ? <Spinner className="text-white" /> : "Войти"}
+							<Button type="submit" className="w-full" disabled={isLoading}>
+								{isLoading ? <Spinner className="text-white" /> : "Войти"}
 							</Button>
 						</div>
 					</form>

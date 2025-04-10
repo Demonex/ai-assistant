@@ -24,6 +24,7 @@ export const useProfile = () => {
 			return await response.json();
 		},
 		staleTime: 5 * 60 * 1000,
+		retry: false,
 	});
 
 	// sign-in
@@ -49,6 +50,7 @@ export const useProfile = () => {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["profile"] });
 		},
+		retry: false,
 	});
 
 	// sign-out
@@ -73,6 +75,7 @@ export const useProfile = () => {
 			queryClient.removeQueries({ queryKey: ["profile"] });
 			queryClient.invalidateQueries({ queryKey: ["profile"] });
 		},
+		retry: false,
 	});
 
 	return {
