@@ -60,7 +60,7 @@ export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 			<Accordion type="single" collapsible className="w-full">
 				{fragments.map((fragment) => (
 					<AccordionItem
-						className="p-4 relative"
+						className="px-4 relative"
 						value={fragment._id}
 						key={fragment._id}
 					>
@@ -95,7 +95,9 @@ export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 								</div>
 							</div>
 
-							<ReactMarkdownComponent textMarkdown={fragment.text} />
+							<div className="py-4">
+								<ReactMarkdownComponent textMarkdown={fragment.text} />
+							</div>
 						</AccordionContent>
 					</AccordionItem>
 				))}

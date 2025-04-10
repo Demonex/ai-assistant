@@ -18,10 +18,10 @@ const DashboardPage = () => {
 	const { errorProfile } = useProfile();
 
 	useEffect(() => {
-		if (errorProfile && errorProfile.status !== 401) {
+		if (errorProfile && errorProfile.statusCode !== 401) {
 			toast({
 				variant: "destructive",
-				title: errorProfile.status.toString(),
+				title: errorProfile.statusCode.toString(),
 				description: errorProfile.message,
 			});
 		}
