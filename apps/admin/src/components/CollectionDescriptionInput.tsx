@@ -9,7 +9,7 @@ const CollectionDescriptionInput: React.FC<{
 	path: string;
 	field: { label: string };
 	required?: boolean;
-}> = ({ path, field: { label }, required }) => {
+}> = ({ path, field: { label }, required: _required }) => {
 	const { value, setValue } = useField<string>({ path });
 	const { value: title } = useField<string>({ path: "title" });
 	const { value: description } = useField<string>({ path: "description" });
@@ -41,7 +41,7 @@ const CollectionDescriptionInput: React.FC<{
 
 	return (
 		<div className="mb-[var(--spacing-field)]">
-			<FieldLabel htmlFor={path} label={label} required={required} />
+			<FieldLabel htmlFor={path} label={label} required={true} />
 			<TextInput path={path} value={value} onChange={handleChange} />
 		</div>
 	);

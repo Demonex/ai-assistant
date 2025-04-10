@@ -54,6 +54,8 @@ import {
 } from "@/components/ui/form";
 import { CollectionService } from "@/services/CollectionService";
 
+import "./components.scss";
+
 // 1 MB
 const MAX_FILE_SIZE = 1024 * 1024 * 512;
 
@@ -131,7 +133,7 @@ const DropzoneForm = () => {
 		<Form {...form}>
 			<div
 				// onSubmit={form.handleSubmit(onSubmit)}
-				className="w-full space-y-6"
+				className="w-full space-y-6 rounded-[5px]"
 			>
 				<Dropzone
 					maxSize={MAX_FILE_SIZE}
