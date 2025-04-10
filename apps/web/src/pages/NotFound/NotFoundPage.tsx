@@ -1,9 +1,9 @@
-import { memo, useInsertionEffect } from "react";
+import { useInsertionEffect } from "react";
 import { Link } from "react-router";
 
 import { useTheme } from "@repo/web/components/theme-provider.js";
 
-export const NotFoundPage = memo(() => {
+export const NotFoundPage = () => {
 	const { theme } = useTheme();
 
 	useInsertionEffect(() => {
@@ -60,6 +60,6 @@ export const NotFoundPage = memo(() => {
 			</Link>
 		</div>
 	);
-});
+};
 
 export default NotFoundPage;

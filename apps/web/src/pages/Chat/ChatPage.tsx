@@ -1,10 +1,8 @@
-import { memo } from "react";
-
 import { DialogWindow } from "@repo/web/components/Chat/DialogWindow/DialogWindow.js";
 import { Sidebar } from "@repo/web/components/Chat/Sidebar/Sidebar.js";
 import { useChats } from "@repo/web/hooks/useChats.js";
 
-const ChatPage = memo(() => {
+const ChatPage = () => {
 	const { activeChat } = useChats();
 
 	return (
@@ -15,6 +13,6 @@ const ChatPage = memo(() => {
 			</div>
 		</main>
 	);
-});
+};
 
 export default ChatPage;

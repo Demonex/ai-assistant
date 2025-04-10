@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { type SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 
 import { Spinner } from "@repo/web/components/Spinner.js";
@@ -25,16 +25,20 @@ export function SignIn({
 }: React.ComponentPropsWithoutRef<"div">) {
 	const navigate = useNavigate();
 	const { register, handleSubmit } = useForm<SignInData>();
-	const { handleSignIn, errorSignIn, isAuthorized, pendingSignIn } =
+	const { handleSignIn, refetchProfile, errorSignIn, pendingSignIn } =
 		useProfile();
 
-	const onSubmit: SubmitHandler<SignInData> = async (data) => {
-		handleSignIn(data);
-	};
+	const onSubmit = async (data: SignInData) => {
+		handleSignIn(data, {
+			onSuccess: async () => {
+				const profile = await refetchProfile();
 
-	useEffect(() => {
-		if (isAuthorized) navigate("/");
-	}, [isAuthorized, navigate]);
+				if (profile.data?.email) {
+					navigate("/");
+				}
+			},
+		});
+	};
 
 	useEffect(() => {
 		if (!errorSignIn) return;
