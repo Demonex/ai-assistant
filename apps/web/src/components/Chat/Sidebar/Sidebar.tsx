@@ -42,7 +42,7 @@ export const Sidebar = memo(() => {
 					<div className="relative flex items-center px-6 py-3">
 						<Input
 							type="text"
-							placeholder="Поиск по чатам..."
+							placeholder="Поиск чата..."
 							onChange={handleInputChange}
 						/>
 					</div>
