@@ -6,8 +6,7 @@ import { serializeLexical } from "./serialize";
 
 type Props = {
 	className?: string;
-	// eslint-disable-next-line
-	content: Record<string, any>;
+	content: Record<string, unknown>;
 	enableGutter?: boolean;
 	enableProse?: boolean;
 };
