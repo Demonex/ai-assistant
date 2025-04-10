@@ -1,3 +1,4 @@
+import { ApiError, Profile, SignInData } from "@/types/types.js";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useProfile = () => {
@@ -8,11 +9,17 @@ export const useProfile = () => {
 		isLoading: isLoadingProfile,
 		error: errorProfile,
 		isFetching: isFetchingProfile,
-	} = useQuery({
+	} = useQuery<ResponseType, ApiError, Profile>({
 		queryKey: ["profile"],
 		queryFn: async () => {
-			const data = await fetch("api/v1/profile");
-			return await data.json();
+			const response = await fetch("api/v1/profile");
+
+			if (!response.ok) {
+				const errorData = await response.json();
+				throw errorData;
+			}
+
+			return await response.json();
 		},
 	});
 
@@ -28,15 +35,26 @@ export const useProfile = () => {
 
 	// fetchSignIn
 
-	const { error: errorSignIn, mutate: handleSignIn } = useMutation({
+	const {
+		error: errorSignIn,
+		mutate: handleSignIn,
+		isPending: pendingSignIn,
+	} = useMutation<ResponseType, ApiError, SignInData>({
 		mutationFn: async (data: { email: string; password: string }) => {
-			return await fetch("api/v1/auth/email/sign-in", {
+			const response = await fetch("api/v1/auth/email/sign-in", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify(data),
 			});
+
+			if (!response.ok) {
+				const errorData = await response.json();
+				throw errorData;
+			}
+
+			return response.json();
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["profile"] });
@@ -45,12 +63,22 @@ export const useProfile = () => {
 
 	// fetchSignOut
 
-	const { error: errorSignOut, mutate: handleSignOut } = useMutation({
+	const { error: errorSignOut, mutate: handleSignOut } = useMutation<
+		ResponseType,
+		ApiError,
+		Profile
+	>({
 		mutationFn: async () => {
 			const response = await fetch("api/v1/auth/user/sign-out", {
 				method: "POST",
 				body: JSON.stringify(dataProfile),
 			});
+
+			if (!response.ok) {
+				const errorData = await response.json();
+				throw errorData;
+			}
+
 			return response.json();
 		},
 		onSuccess: () => {
@@ -63,6 +91,7 @@ export const useProfile = () => {
 		dataProfile,
 		handleSignOut,
 		handleSignIn,
+		pendingSignIn,
 		errorSignIn,
 		errorSignOut,
 		errorProfile,

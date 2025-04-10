@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 
+import { Spinner } from "@repo/web/components/Spinner.js";
 import { Button } from "@repo/web/components/ui/button.js";
 import {
 	Card,
@@ -16,20 +17,18 @@ import { toast } from "@repo/web/hooks/use-toast.js";
 import { useProfile } from "@repo/web/hooks/useProfile.js";
 import { cn } from "@repo/web/lib/utils.js";
 
-type Inputs = {
-	email: string;
-	password: string;
-};
+import { SignInData } from "@/types/types.js";
 
 export function SignIn({
 	className,
 	...props
 }: React.ComponentPropsWithoutRef<"div">) {
 	const navigate = useNavigate();
-	const { register, handleSubmit } = useForm<Inputs>();
-	const { handleSignIn, errorSignIn, isAuthorized } = useProfile();
+	const { register, handleSubmit } = useForm<SignInData>();
+	const { handleSignIn, errorSignIn, isAuthorized, pendingSignIn } =
+		useProfile();
 
-	const onSubmit: SubmitHandler<Inputs> = async (data) => {
+	const onSubmit: SubmitHandler<SignInData> = async (data) => {
 		handleSignIn(data);
 	};
 
@@ -40,10 +39,10 @@ export function SignIn({
 	useEffect(() => {
 		if (!errorSignIn) return;
 
-		if (errorSignIn.status === 500) {
+		if (errorSignIn.statusCode === 500) {
 			toast({
 				variant: "destructive",
-				title: errorSignIn.status.toString(),
+				title: errorSignIn.statusCode.toString(),
 				description: errorSignIn.message,
 			});
 		} else {
@@ -62,8 +61,7 @@ export function SignIn({
 				<CardHeader>
 					<CardTitle className="text-2xl">Вход</CardTitle>
 					<CardDescription>
-						Введите ниже свое имя пользователя и пароль, чтобы войти в свою
-						учетную запись.
+						Введите почту и пароль, чтобы войти в свою учетную запись.
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
@@ -72,6 +70,7 @@ export function SignIn({
 							<div className="grid gap-2">
 								<Label htmlFor="email">Почта</Label>
 								<Input
+									disabled={pendingSignIn}
 									id="email"
 									type="email"
 									{...register("email", {
@@ -84,6 +83,7 @@ export function SignIn({
 									<Label htmlFor="password">Пароль</Label>
 								</div>
 								<Input
+									disabled={pendingSignIn}
 									id="password"
 									type="password"
 									{...register("password", {
@@ -91,8 +91,8 @@ export function SignIn({
 									})}
 								/>
 							</div>
-							<Button type="submit" className="w-full">
-								Войти
+							<Button type="submit" className="w-full" disabled={pendingSignIn}>
+								{pendingSignIn ? <Spinner className="text-white" /> : "Войти"}
 							</Button>
 						</div>
 					</form>
