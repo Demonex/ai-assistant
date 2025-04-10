@@ -1,5 +1,4 @@
 const AdminPage = () => {
-	console.log(import.meta.env.VITE_ADMIN_URL);
 	return (
 		<section className="sticky top-0 bottom-0 w-full h-full">
 			<iframe

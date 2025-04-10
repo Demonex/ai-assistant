@@ -10,10 +10,10 @@ import {
 import { ALLOWED_EXTENSIONS } from "@repo/web/constants/index.js";
 import { formatLocalTime } from "@repo/web/helpers/index.js";
 import { toast } from "@repo/web/hooks/use-toast.js";
+// import { messageMockData } from "../../../DataBase.js";
+import { useChats } from "@repo/web/hooks/useChats.js";
 import type { GroupMessages } from "@repo/web/types/types.js";
 
-// import { messageMockData } from "../../../DataBase.js";
-import { useChats } from "../../../hooks/useChats.js";
 import { ChatForm } from "./component/ChatForm.js";
 import { HeaderDialogWindow } from "./component/HeaderDialogWindow.js";
 import { MessageBubble } from "./component/MessageBubble.js";
