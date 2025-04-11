@@ -50,7 +50,6 @@ export const useProfile = () => {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["profile"] });
 		},
-		retry: false,
 	});
 
 	// sign-out
@@ -75,7 +74,6 @@ export const useProfile = () => {
 			queryClient.removeQueries({ queryKey: ["profile"] });
 			queryClient.invalidateQueries({ queryKey: ["profile"] });
 		},
-		retry: false,
 	});
 
 	return {
