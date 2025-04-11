@@ -48,7 +48,7 @@ export const ColumnModel: ColumnDef<Collection>[] = [
 			);
 		},
 		cell: ({ row }) => (
-			<Link to={"/collections/collection"} className=" cursor-pointer">
+			<Link to={"/models/model"} className=" cursor-pointer">
 				{row.getValue("title")}
 			</Link>
 		),

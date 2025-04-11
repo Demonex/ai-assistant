@@ -1,73 +1,82 @@
-import { Suspense, lazy, useEffect, useState } from "react";
+import { Suspense, lazy } from "react";
 import { Navigate, Outlet, Route, Routes } from "react-router";
 
 import { Spinner } from "@/components/Spinner.js";
 import { useProfile } from "@/hooks/useProfile.js";
+import DashboardPage from "@/pages/Dashboard/Dashboard.js";
 
-// import { CustomizeCollectionPage } from "@/pages/Collection/CustomizeCollectionPage.js";
+const SuspenseFallback = () => {
+	return (
+		<div className="flex items-center justify-center max-h-screen h-full w-full">
+			<Spinner size="large" />
+		</div>
+	);
+};
 
-const CustomizeCollectionPage = lazy(
-	() => import("@/pages/CustomizeCollection/CustomizeCollectionPage.js"),
+export const withSuspense = (
+	Component: React.LazyExoticComponent<() => JSX.Element>,
+) => {
+	return () => (
+		<Suspense fallback={<SuspenseFallback />}>
+			<Component />
+		</Suspense>
+	);
+};
+
+const CustomizeCollectionPage = withSuspense(
+	lazy(() => import("@/pages/CustomizeCollection/CustomizeCollectionPage.js")),
 );
-const DashboardPage = lazy(() => import("@/pages/Dashboard/Dashboard.js"));
-const NotFoundPage = lazy(() => import("@/pages/NotFound/NotFoundPage.js"));
-const ChatPage = lazy(() => import("@/pages/Chat/ChatPage.js"));
-const CollectionsPage = lazy(
-	() => import("@/pages/Collection/CollectionsPage.js"),
+const NotFoundPage = withSuspense(
+	lazy(() => import("@/pages/NotFound/NotFoundPage.js")),
 );
-const SignInPage = lazy(() => import("@/pages/Auth/SignInPage.js"));
-const AdminPage = lazy(() => import("@/pages/Admin/Admin.js"));
-const NeuroPage = lazy(() => import("@/pages/Neuro/NeuroPage.js"));
-const ModelPage = lazy(() => import("@/pages/Model/ModelPage.js"));
-
-const LoadingFallback = () => (
-	<div className="flex items-center justify-center h-screen w-full">
-		<Spinner size="large" />
-	</div>
+const ChatPage = withSuspense(lazy(() => import("@/pages/Chat/ChatPage.js")));
+const CollectionsPage = withSuspense(
+	lazy(() => import("@/pages/Collection/CollectionsPage.js")),
+);
+const SignInPage = withSuspense(
+	lazy(() => import("@/pages/Auth/SignInPage.js")),
+);
+const AdminPage = withSuspense(lazy(() => import("@/pages/Admin/Admin.js")));
+const ModelPage = withSuspense(
+	lazy(() => import("@/pages/Model/ModelPage.js")),
+);
+const NeuroPage = withSuspense(
+	lazy(() => import("@/pages/Neuro/NeuroPage.js")),
 );
 
-const PrivateRoute = () => {
-	const { isAuthorized, isFetchingProfile, dataProfile } = useProfile();
-	const [isRedirect, setIsRedirect] = useState(false);
+export const PrivateRoute = () => {
+	const { dataProfile, isFetchingProfile } = useProfile();
 
-	useEffect(() => {
-		const time = setTimeout(() => {
-			if (!isAuthorized || !dataProfile || isFetchingProfile) {
-				setIsRedirect(true);
-			}
-		}, 500);
-
-		return () => clearTimeout(time);
-	}, [isAuthorized, dataProfile, isFetchingProfile]);
-
-	if (!isRedirect) {
-		return <Outlet />;
-	} else {
-		return <Navigate to="/sign-in" />;
+	if (isFetchingProfile) {
+		return <SuspenseFallback />;
 	}
+
+	if (!dataProfile) {
+		return <Navigate to="/sign-in" replace />;
+	}
+
+	return <Outlet />;
 };
 
 export const AppRoutes = () => {
 	return (
-		<Suspense fallback={<LoadingFallback />}>
-			<Routes>
-				<Route element={<PrivateRoute />}>
-					<Route path="/" element={<DashboardPage />}>
-						<Route path="admin" element={<AdminPage />} />
-						<Route path="neuro" element={<NeuroPage />} />
-						<Route path="models" element={<ModelPage />} />
-						<Route path="chat" element={<ChatPage />} />
-						<Route path="collections" element={<CollectionsPage />} />
-						<Route
-							path="collections/collection"
-							element={<CustomizeCollectionPage />}
-						/>
-					</Route>
+		<Routes>
+			<Route element={<PrivateRoute />}>
+				<Route path="/" element={<DashboardPage />}>
+					<Route path="admin" element={<AdminPage />} />
+					<Route path="chat" element={<ChatPage />} />
+					<Route path="neuro" element={<NeuroPage />} />
+					<Route path="models" element={<ModelPage />} />
+					<Route path="collections" element={<CollectionsPage />} />
+					<Route
+						path="collections/collection"
+						element={<CustomizeCollectionPage />}
+					/>
 				</Route>
+			</Route>
 
-				<Route path="/sign-in" element={<SignInPage />} />
-				<Route path="*" element={<NotFoundPage />} />
-			</Routes>
-		</Suspense>
+			<Route path="/sign-in" element={<SignInPage />} />
+			<Route path="*" element={<NotFoundPage />} />
+		</Routes>
 	);
 };
