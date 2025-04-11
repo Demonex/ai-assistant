@@ -12,7 +12,9 @@ export const useProfile = () => {
 		isFetching: isFetchingProfile,
 		refetch: refetchProfile,
 	} = useQuery<ResponseType, ApiError, Profile>({
+		retry: false,
 		queryKey: ["profile"],
+		staleTime: 5 * 60 * 1000,
 		queryFn: async () => {
 			const response = await fetch("api/v1/profile");
 
@@ -23,8 +25,6 @@ export const useProfile = () => {
 
 			return await response.json();
 		},
-		staleTime: 5 * 60 * 1000,
-		retry: false,
 	});
 
 	// sign-in
