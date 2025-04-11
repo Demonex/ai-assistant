@@ -16,6 +16,7 @@ import {
 	Atom,
 	Boxes,
 	Command,
+	FileBox,
 	MessageCircleMore,
 	UserRoundCog,
 } from "lucide-react";
@@ -44,6 +45,11 @@ export function AppSidebar() {
 			name: "Нейросервисы",
 			path: "/neuro",
 			icon: <Atom />,
+		},
+		{
+			name: "Модели",
+			path: "/models",
+			icon: <FileBox />,
 		},
 	];
 

@@ -38,11 +38,31 @@ export type MessagesType = {
 
 export type GroupMessages = [string, Message[]];
 
-export type Payment = {
+export type Collection = {
 	id: string;
-	collection: string;
-	embedding: string;
-	llm: string;
-	reranker: string;
-	providers: string;
+	title: string;
+	embedding: EmbeddingType;
+	llm: LLMType;
+	reranker: RerankerType;
+	providers: ProviderType[];
+};
+
+export type EmbeddingType = {
+	id: number;
+	title: string;
+};
+
+export type LLMType = {
+	id: number;
+	title: string;
+};
+
+export type RerankerType = {
+	id: number;
+	title: string;
+};
+
+export type ProviderType = {
+	id: number;
+	provider: number;
 };

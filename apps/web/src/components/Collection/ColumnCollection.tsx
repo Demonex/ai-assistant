@@ -3,19 +3,22 @@ import { Link } from "react-router";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
-import { Payment } from "@/types/types.js";
+import { Collection } from "@/types/types.js";
 
 import { Button } from "../ui/button.js";
 import { Checkbox } from "../ui/checkbox.js";
 
-export const ColumnCollection: ColumnDef<Payment>[] = [
+export const ColumnCollection: ColumnDef<Collection>[] = [
 	{
 		id: "select",
 		header: ({ table }) => (
 			<Checkbox
 				checked={
-					table.getIsAllPageRowsSelected() ||
-					(table.getIsSomePageRowsSelected() && "indeterminate")
+					table.getIsAllPageRowsSelected()
+						? true
+						: table.getIsSomePageRowsSelected()
+							? "indeterminate"
+							: false
 				}
 				onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
 				aria-label="Select all"
@@ -45,7 +48,7 @@ export const ColumnCollection: ColumnDef<Payment>[] = [
 			);
 		},
 		cell: ({ row }) => (
-			<Link to={"/collections/collection"} className="lowercase cursor-pointer">
+			<Link to={"/collections/collection"} className=" cursor-pointer">
 				{row.getValue("title")}
 			</Link>
 		),
@@ -63,9 +66,10 @@ export const ColumnCollection: ColumnDef<Payment>[] = [
 				</Button>
 			);
 		},
-		cell: ({ row }) => (
-			<div className="lowercase">{row.getValue("embedding")}</div>
-		),
+		cell: ({ row }) => {
+			const embedding = row.original.embedding;
+			return <div>{embedding?.title || "Не указано"}</div>;
+		},
 	},
 	{
 		accessorKey: "llm",
@@ -80,7 +84,10 @@ export const ColumnCollection: ColumnDef<Payment>[] = [
 				</Button>
 			);
 		},
-		cell: ({ row }) => <div className="lowercase">{row.getValue("llm")}</div>,
+		cell: ({ row }) => {
+			const llm = row.original.llm;
+			return <div>{llm?.title || "Не указано"}</div>;
+		},
 	},
 	{
 		accessorKey: "reranker",
@@ -95,25 +102,29 @@ export const ColumnCollection: ColumnDef<Payment>[] = [
 				</Button>
 			);
 		},
-		cell: ({ row }) => (
-			<div className="lowercase">{row.getValue("reranker")}</div>
-		),
+		cell: ({ row }) => {
+			const reranker = row.original.reranker;
+			return <div>{reranker?.title || "Не указано"}</div>;
+		},
 	},
-	// {
-	// 	accessorKey: "providers",
-	// 	header: ({ column }) => {
-	// 		return (
-	// 			<Button
-	// 				variant="ghost"
-	// 				onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-	// 			>
-	// 				Провайдеры
-	// 				<ArrowUpDown />
-	// 			</Button>
-	// 		);
-	// 	},
-	// 	cell: ({ row }) => (
-	// 		<div className="lowercase">{row.getValue("providers")}</div>
-	// 	),
-	// },
+	{
+		accessorKey: "providers",
+		header: ({ column }) => {
+			return (
+				<Button
+					variant="ghost"
+					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+				>
+					Провайдеры
+					<ArrowUpDown />
+				</Button>
+			);
+		},
+		cell: ({ row }) => {
+			const providers = row.original.providers;
+			return providers.map((item) => (
+				<span key={item.id}>{item.provider}</span>
+			));
+		},
+	},
 ];

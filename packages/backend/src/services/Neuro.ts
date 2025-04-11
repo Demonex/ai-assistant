@@ -8,7 +8,7 @@ export class NeuroService {
 	constructor(private readonly em: EntityManager) {}
 
 	async getNeuro() {
-		const tenants = await this.em.find<NeuroEntity>(NeuroEntity, {});
-		return tenants;
+		const neuro = await this.em.find<NeuroEntity>(NeuroEntity, {});
+		return neuro;
 	}
 }

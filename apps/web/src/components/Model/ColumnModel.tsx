@@ -8,7 +8,7 @@ import { Collection } from "@/types/types.js";
 import { Button } from "../ui/button.js";
 import { Checkbox } from "../ui/checkbox.js";
 
-export const ColumnNeuro: ColumnDef<Collection>[] = [
+export const ColumnModel: ColumnDef<Collection>[] = [
 	{
 		id: "select",
 		header: ({ table }) => (
@@ -42,7 +42,7 @@ export const ColumnNeuro: ColumnDef<Collection>[] = [
 					variant="ghost"
 					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
 				>
-					Нейросервис
+					Название модели
 					<ArrowUpDown />
 				</Button>
 			);
@@ -54,33 +54,18 @@ export const ColumnNeuro: ColumnDef<Collection>[] = [
 		),
 	},
 	{
-		accessorKey: "embedding",
+		accessorKey: "type",
 		header: ({ column }) => {
 			return (
 				<Button
 					variant="ghost"
 					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
 				>
-					Модель
+					Тип модели
 					<ArrowUpDown />
 				</Button>
 			);
 		},
-		cell: ({ row }) => <div className="lowercase">{row.getValue("title")}</div>,
-	},
-	{
-		accessorKey: "llm",
-		header: ({ column }) => {
-			return (
-				<Button
-					variant="ghost"
-					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-				>
-					Настройка модели
-					<ArrowUpDown />
-				</Button>
-			);
-		},
-		cell: ({ row }) => <div className="lowercase">{row.getValue("llm")}</div>,
+		cell: ({ row }) => <div className="lowercase">{row.getValue("type")}</div>,
 	},
 ];

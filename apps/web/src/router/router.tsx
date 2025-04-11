@@ -18,6 +18,7 @@ const CollectionsPage = lazy(
 const SignInPage = lazy(() => import("@/pages/Auth/SignInPage.js"));
 const AdminPage = lazy(() => import("@/pages/Admin/Admin.js"));
 const NeuroPage = lazy(() => import("@/pages/Neuro/NeuroPage.js"));
+const ModelPage = lazy(() => import("@/pages/Model/ModelPage.js"));
 
 const LoadingFallback = () => (
 	<div className="flex items-center justify-center h-screen w-full">
@@ -54,6 +55,7 @@ export const AppRoutes = () => {
 					<Route path="/" element={<DashboardPage />}>
 						<Route path="admin" element={<AdminPage />} />
 						<Route path="neuro" element={<NeuroPage />} />
+						<Route path="models" element={<ModelPage />} />
 						<Route path="chat" element={<ChatPage />} />
 						<Route path="collections" element={<CollectionsPage />} />
 						<Route

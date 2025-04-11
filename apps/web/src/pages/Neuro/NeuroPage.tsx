@@ -5,7 +5,6 @@ import { useNeuro } from "@/hooks/useNeuro.js";
 const NeuroPage = () => {
 	const { neuro } = useNeuro();
 
-	console.log(neuro);
 	return (
 		neuro && (
 			<main className="p-4 bg-[#fbfbfb]">
