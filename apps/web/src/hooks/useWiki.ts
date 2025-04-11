@@ -7,8 +7,20 @@ export const useWiki = () => {
 		isLoading: loadingWiki,
 	} = useQuery({
 		queryKey: ["wiki"],
-		queryFn: async () => {
-			const response = await fetch("/wiki/tree");
+		retry: false,
+		queryFn: async (apiKey) => {
+			const response = await fetch(
+				`${import.meta.env.VITE_ADMIN_URL}/wiki/tree`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						apiKey: apiKey,
+					}),
+				},
+			);
 
 			if (!response.ok) {
 				const errorData = await response.json();

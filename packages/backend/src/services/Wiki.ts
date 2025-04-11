@@ -8,13 +8,19 @@ export class WikiService {
 	constructor() {
 		this.client = new GraphQLClient(process.env.WIKI_API_URL, {
 			headers: {
-				Authorization: `Bearer ${process.env.WIKI_API_KEY}`,
 				"Content-Type": "application/json",
 			},
 		});
 	}
 
-	async getPagesTree() {
+	async getPagesTree(apiKey: string) {
+		const tempClient = new GraphQLClient(process.env.WIKI_API_URL, {
+			headers: {
+				Authorization: `Bearer ${apiKey}`,
+				"Content-Type": "application/json",
+			},
+		});
+
 		const query = gql`
 			query {
 				pages {
@@ -30,7 +36,7 @@ export class WikiService {
 			}
 		`;
 
-		const data = await this.client.request(query);
+		const data = await tempClient.request(query);
 		return data;
 	}
 }
