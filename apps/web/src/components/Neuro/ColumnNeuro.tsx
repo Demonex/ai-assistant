@@ -8,7 +8,7 @@ import { Collection } from "@/types/types.js";
 import { Button } from "../ui/button.js";
 import { Checkbox } from "../ui/checkbox.js";
 
-export const ColumnCollection: ColumnDef<Collection>[] = [
+export const ColumnNeuro: ColumnDef<Collection>[] = [
 	{
 		id: "select",
 		header: ({ table }) => (
@@ -42,13 +42,13 @@ export const ColumnCollection: ColumnDef<Collection>[] = [
 					variant="ghost"
 					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
 				>
-					Коллекция
+					Нейросервис
 					<ArrowUpDown />
 				</Button>
 			);
 		},
 		cell: ({ row }) => (
-			<Link to={"/collections/collection"} className=" cursor-pointer">
+			<Link to={"/neuros/neuro"} className=" cursor-pointer">
 				{row.getValue("title")}
 			</Link>
 		),
@@ -61,15 +61,12 @@ export const ColumnCollection: ColumnDef<Collection>[] = [
 					variant="ghost"
 					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
 				>
-					Embedding Нейросервис
+					Модель
 					<ArrowUpDown />
 				</Button>
 			);
 		},
-		cell: ({ row }) => {
-			const embedding = row.original.embedding;
-			return <div>{embedding?.title || "Не указано"}</div>;
-		},
+		cell: ({ row }) => <div className="lowercase">{row.getValue("title")}</div>,
 	},
 	{
 		accessorKey: "llm",
@@ -79,52 +76,11 @@ export const ColumnCollection: ColumnDef<Collection>[] = [
 					variant="ghost"
 					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
 				>
-					LLM Нейросервис
+					Настройка модели
 					<ArrowUpDown />
 				</Button>
 			);
 		},
-		cell: ({ row }) => {
-			const llm = row.original.llm;
-			return <div>{llm?.title || "Не указано"}</div>;
-		},
-	},
-	{
-		accessorKey: "reranker",
-		header: ({ column }) => {
-			return (
-				<Button
-					variant="ghost"
-					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-				>
-					Reranker Нейросервис
-					<ArrowUpDown />
-				</Button>
-			);
-		},
-		cell: ({ row }) => {
-			const reranker = row.original.reranker;
-			return <div>{reranker?.title || "Не указано"}</div>;
-		},
-	},
-	{
-		accessorKey: "providers",
-		header: ({ column }) => {
-			return (
-				<Button
-					variant="ghost"
-					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-				>
-					Провайдеры
-					<ArrowUpDown />
-				</Button>
-			);
-		},
-		cell: ({ row }) => {
-			const providers = row.original.providers;
-			return providers.map((item) => (
-				<span key={item.id}>{item.provider}</span>
-			));
-		},
+		cell: ({ row }) => <div className="lowercase">{row.getValue("llm")}</div>,
 	},
 ];

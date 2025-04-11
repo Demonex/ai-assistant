@@ -4,3 +4,6 @@ export * from "./modules/Chat.js";
 export * from "./modules/Database.js";
 export * from "./modules/Collection.js";
 export * from "./modules/Wiki.js";
+export * from "./modules/Tenant.js";
+export * from "./modules/Neuro.js";
+export * from "./modules/Model.js";

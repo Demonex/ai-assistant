@@ -60,8 +60,6 @@ export const DataTableComponent = ({ columns, data }) => {
 		},
 	});
 
-	console.log(data);
-
 	return (
 		<div className="w-full">
 			<div className="flex items-center py-4">
@@ -107,7 +105,7 @@ export const DataTableComponent = ({ columns, data }) => {
 							<TableRow key={headerGroup.id}>
 								{headerGroup.headers.map((header) => {
 									return (
-										<TableHead key={header.id}>
+										<TableHead key={header.id} className="text-center">
 											{header.isPlaceholder
 												? null
 												: flexRender(
@@ -120,7 +118,7 @@ export const DataTableComponent = ({ columns, data }) => {
 							</TableRow>
 						))}
 					</TableHeader>
-					<TableBody>
+					<TableBody className="text-center">
 						{table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map((row) => (
 								<TableRow

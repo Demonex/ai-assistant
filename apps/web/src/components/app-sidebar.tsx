@@ -12,7 +12,14 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "@repo/web/components/ui/sidebar.js";
-import { Boxes, Command, MessageCircleMore, UserRoundCog } from "lucide-react";
+import {
+	Atom,
+	Boxes,
+	Command,
+	FileBox,
+	MessageCircleMore,
+	UserRoundCog,
+} from "lucide-react";
 
 export function AppSidebar() {
 	const { pathname } = useLocation();
@@ -33,6 +40,16 @@ export function AppSidebar() {
 			name: "Коллекции",
 			path: "/collections",
 			icon: <Boxes />,
+		},
+		{
+			name: "Нейросервисы",
+			path: "/neuro",
+			icon: <Atom />,
+		},
+		{
+			name: "Модели",
+			path: "/models",
+			icon: <FileBox />,
 		},
 	];
 

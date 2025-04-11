@@ -8,6 +8,7 @@ const CollectionPage = () => {
 	return (
 		collections && (
 			<main className="p-4 bg-[#fbfbfb]">
+				<div className="text-3xl font-medium mb-6">Коллекции</div>
 				<div className="gap-8 lg:flex">
 					<DataTableComponent columns={ColumnCollection} data={collections} />
 				</div>
