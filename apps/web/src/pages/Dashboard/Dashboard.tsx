@@ -13,9 +13,14 @@ import {
 import { toast } from "@/hooks/use-toast.js";
 import { useProfile } from "@/hooks/useProfile.js";
 
+// import { useWiki } from "@/hooks/useWiki.js";
+
 const DashboardPage = () => {
 	const { pathname } = useLocation();
 	const { errorProfile } = useProfile();
+	// const { dataWiki } = useWiki();
+
+	// console.log(dataWiki);
 
 	useEffect(() => {
 		if (errorProfile && errorProfile.statusCode !== 401) {
