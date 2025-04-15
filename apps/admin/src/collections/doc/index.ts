@@ -13,26 +13,27 @@ const docAccess = {
 
 export const doc: CollectionConfig = {
 	slug: "doc",
-	/*labels: {
+	labels: {
 		singular: "Документ",
 		plural: "Документы",
-	},*/
+	},
 	access: docAccess,
 	admin: {
 		defaultColumns: ["filename", "collection", "provider"],
 		useAsTitle: "filename",
-		// hidden: true,
 	},
 	fields: [
 		{
 			name: "filename",
 			type: "text",
 			required: true,
+			label: "Название",
 		},
 		{
 			name: "filesize",
 			type: "number",
 			required: true,
+			label: "Размер",
 			admin: {
 				hidden: true,
 			},
@@ -41,6 +42,7 @@ export const doc: CollectionConfig = {
 			name: "mimeType",
 			type: "text",
 			required: true,
+			label: "MIME Type",
 			admin: {
 				hidden: true,
 			},
@@ -49,10 +51,7 @@ export const doc: CollectionConfig = {
 			name: "vectorFilePath",
 			type: "text",
 			required: true,
-			defaultValue: ({ req: _req }) => {
-				// console.log(user, locale, req.query, req.id, req.body, req.payload);
-				// console.log(req.doc_collection);
-			},
+			label: "url",
 			admin: {
 				hidden: true,
 			},
@@ -62,14 +61,14 @@ export const doc: CollectionConfig = {
 			type: "relationship",
 			relationTo: collection.slug as "collection",
 			required: true,
-			// label: "Коллекция",
+			label: "Коллекция",
 		},
 		{
 			name: "provider",
 			type: "relationship",
 			relationTo: provider.slug as "provider",
 			required: true,
-			// label: "Провайдер",
+			label: "Провайдер",
 		},
 	],
 	versions: false,

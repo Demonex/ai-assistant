@@ -6,13 +6,12 @@ import {
 import { fontFamily } from "tailwindcss/defaultTheme";
 
 export default {
-	darkMode: ["class", "selector"],
-	content: [
-		"./index.html",
-		"./src/**/*.{js,ts,jsx,tsx}",
+  content: [
+		"./src/components/**/*.{js,ts,jsx,tsx}",
 		// "../web/index.html",
-		"../web/src/**/*.{js,ts,jsx,tsx}",
+		// "../web/src/**/*.{js,ts,jsx,tsx}",
 	],
+  darkMode: ["class", "selector"],
 	theme: {
 		screens: {
 			tablet: "768px",
@@ -286,11 +285,11 @@ export default {
 		},
 	},
 	plugins: [
-		// ...
+	// 	// ...
 		require("@tailwindcss/forms"),
 		require("tailwindcss-animate"),
 		scopedPreflightStyles({
-			isolationStrategy: isolateInsideOfContainer(".tailwind-container"),
+			isolationStrategy: isolateInsideOfContainer("tailwind-container"),
 		}),
 	],
 } satisfies Config;
