@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import FormData from "form-data";
 import got from "got";
 import type { UploadedFile } from "../types/Chat.js";
-import type { Flow, FlowResponse, Folder, Fragment } from "../types/FLow.js";
+import type { Flow, FlowResponse, Folder, Fragment } from "../types/Flow.js";
 import { logErrors } from "../utils/index.js";
 
 @Injectable()

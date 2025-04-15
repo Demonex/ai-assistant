@@ -30,4 +30,6 @@ export function logErrors(error: {
 	console.error("Status code:", error.response?.statusCode);
 	console.error("Response body:", error.response?.body);
 	console.error("Headers:", error.response?.headers);
+
+	console.error(error);
 }

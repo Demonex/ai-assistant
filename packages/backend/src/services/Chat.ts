@@ -9,7 +9,7 @@ import { GROUP_PERMISSION } from "../entities/Group/group-group-permissions.js";
 import { PROVIDER_TYPE } from "../entities/Provider/index.js";
 import { HttpStatusMessages } from "../messages/http.js";
 import type { UploadedFile } from "../types/Chat.js";
-import type { FlowResponse } from "../types/FLow.js";
+import type { FlowResponse } from "../types/Flow.js";
 import { getHandleUpload } from "../utils/handleUpload.js";
 import { logErrors, promiseMap } from "../utils/index.js";
 import { LangFlowService } from "./Flow.js";
@@ -17,6 +17,7 @@ import { GotenbergService } from "./Gotenberg.js";
 import { GroupService } from "./Group.js";
 import { UserService } from "./User.js";
 import { AudioService } from "./Audio.js";
+import type { AudioReponse } from "../types/Audio.js";
 
 @Injectable()
 export class ChatService {
@@ -325,40 +326,94 @@ export class ChatService {
 			"audio/x-wav",
 			"audio/mpeg",
 			"audio/x-m4a",
+			"audio/ogg",
+		];
+
+		const textFormats = [
+			"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+			"application/msword",
+			"text/plain",
+			"application/pdf",
+		];
+
+		const convertableFormats = [
+			"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+			"application/msword",
+			"text/plain",
 		];
 
 		const uploadData = await promiseMap<
-			{
-				file: string;
-				status: "success" | "duplicates" | "errors";
-				message?: string;
-			},
+			| {
+					type: "text";
+					file: string;
+					status: "success" | "duplicates" | "errors";
+					message?: string;
+			  }
+			| {
+					type: "audio";
+					file: string;
+					transciption?: AudioReponse["transcription"];
+					fullText?: AudioReponse["fullText"];
+					status: "success" | "errors";
+					message?: string;
+			  }
+			| {
+					type: "unsupported";
+					status: "errors";
+					message: string;
+			  },
 			UploadedFile
 		>(data.media, async (media) => {
 			const fileKey = media.originalname;
 
 			try {
+				if (audioFormats.includes(media.mimetype)) {
+					const response = await this.audioSerivce.transcribe(media);
+
+					return {
+						type: "audio",
+						file: media.originalname,
+						transciption: response.transcription,
+						fullText: response.fullText,
+						status: response.status === "OK" ? "success" : "errors",
+					};
+				}
+			} catch (error) {
+				logErrors(error);
+
+				return {
+					type: "audio",
+					file: media.originalname,
+					status: "errors",
+					message: error.response?.body.detail,
+				};
+			}
+
+			try {
+				if (!textFormats.includes(media.mimetype)) {
+					return {
+						type: "unsupported",
+						status: "errors",
+						message: "Unsupported Type",
+					};
+				}
+
 				const docExists = await this.em.count<DocEntity>(DocEntity, {
 					filename: `${collection.title}/${fileKey}`,
 				});
-
 				if (docExists) {
 					return {
+						type: "text",
 						file: fileKey,
 						status: "duplicates",
 						message: "File Already Exists",
 					};
 				}
 
-				if (audioFormats.includes(media.mimetype)) {
-					// TODO
-					return await this.audioSerivce.convert(media);
+				let pdfMedia = media;
+				if (convertableFormats.includes(media.mimetype)) {
+					pdfMedia = await this.gotenbergService.convert(media);
 				}
-
-				const pdfMedia =
-					fileKey.split(".").pop() !== "pdf"
-						? await this.gotenbergService.convert(media)
-						: media;
 
 				const oldFLow = await this.flowService.getFlow({ action: "UPLOAD" });
 				const newFlow = await this.flowService.copyFlow(oldFLow);
@@ -420,6 +475,7 @@ export class ChatService {
 				await this.em.persistAndFlush(doc);
 
 				return {
+					type: "text",
 					file: fileKey,
 					status: "success",
 				};
@@ -427,6 +483,7 @@ export class ChatService {
 				logErrors(error);
 
 				return {
+					type: "text",
 					file: fileKey,
 					status: "errors",
 					message: error.message,
@@ -434,26 +491,21 @@ export class ChatService {
 			}
 		});
 
-		const uploadResult = {
-			success: uploadData
-				.filter((upload) => upload.status === "success")
-				.map((elem) => {
-					delete elem.status;
-					return elem;
-				}),
-			duplicates: uploadData
-				.filter((upload) => upload.status === "duplicates")
-				.map((elem) => {
-					delete elem.status;
-					return elem;
-				}),
-			errors: uploadData
-				.filter((upload) => upload.status === "errors")
-				.map((elem) => {
-					delete elem.status;
-					return elem;
-				}),
-		};
+		const uploadResult = uploadData.reduce((acc, item) => {
+			const { type, status } = item;
+
+			if (!acc[type]) {
+				acc[type] = {};
+			}
+
+			if (!acc[type][status]) {
+				acc[type][status] = [];
+			}
+
+			acc[type][status].push(item);
+
+			return acc;
+		}, {});
 
 		return uploadResult;
 	}
