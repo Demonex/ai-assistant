@@ -30,31 +30,78 @@ import {
 } from "./select.js";
 import { Textarea } from "./textarea.js";
 
+//TODO: переписать типы
+interface CollectionFormProps {
+	collection?: {
+		title?: string;
+		tenant?: {
+			title: string;
+		};
+		description?: string;
+		embedding?: {
+			title: string;
+		};
+		llm?: {
+			title: string;
+		};
+		reranker?: {
+			title: string;
+		};
+	};
+	tenants?: TenantProps[];
+	neuros?: NeuroProps[];
+	providers?: ProviderProps[];
+}
+
+interface TenantProps {
+	title: string;
+	id: number;
+}
+
+interface NeuroProps {
+	id: number;
+	title: string;
+}
+
+interface ProviderProps {
+	id: number;
+	title: string;
+}
+
 const formSchema = z.object({
 	tenant: z.string().min(2, {
 		message: "Username must be at least 2 characters.",
 	}),
-	name: z.string(),
+	title: z.string(),
 	description: z.string(),
 	embedding: z.string(),
 	llm: z.string(),
 	reranker: z.string(),
+	provider: z.string(),
 });
 
-export function CollectionForm({ collection }) {
+export function CollectionForm({
+	collection,
+	tenants,
+	neuros,
+	providers,
+}: CollectionFormProps) {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			name: "",
-			tenant: collection.tenant.title,
+			title: collection?.title || "",
+			description: collection?.description || "",
+			tenant: collection?.tenant?.title || "",
+			embedding: collection?.embedding?.title || "",
+			llm: collection?.llm?.title || "",
+			reranker: collection?.embedding?.title || "",
+			provider: providers?.[0].title || "",
 		},
 	});
 
-	const onSubmit = () => {
-		console.log("клик");
+	const onSubmit = (e) => {
+		console.log(e);
 	};
-
-	console.log(collection);
 
 	return (
 		<Form {...form}>
@@ -62,105 +109,164 @@ export function CollectionForm({ collection }) {
 				<FormField
 					control={form.control}
 					name="tenant"
-					render={({ field }) => (
-						<>
+					render={({ field }) => {
+						const selectedTenant = tenants?.find(
+							(tenant) => tenant.title === field.value,
+						);
+						return (
 							<FormItem>
 								<FormLabel>Тенант</FormLabel>
-								<Select
-									onValueChange={field.onChange}
-									defaultValue={field.value}
-									value={field.value}
-								>
+								<Select onValueChange={field.onChange} value={field.value}>
 									<SelectTrigger>
-										<SelectValue placeholder="Выберите тенант" />
+										<SelectValue placeholder="Выберите тенант">
+											{selectedTenant?.title}
+										</SelectValue>
 									</SelectTrigger>
 									<SelectContent>
-										<SelectItem value="light">Тенант1</SelectItem>
-										<SelectItem value="dark">Тенант2</SelectItem>
-										<SelectItem value="system">Тенант3</SelectItem>
+										{tenants?.map((tenant) => (
+											<SelectItem key={tenant.id} value={tenant.title}>
+												{tenant.title}
+											</SelectItem>
+										))}
 									</SelectContent>
 								</Select>
 							</FormItem>
-							<FormItem>
-								<FormLabel>Название коллекции</FormLabel>
-								<FormControl>
-									<Input placeholder="shadcn" {...field} />
-								</FormControl>
-							</FormItem>
-							<FormItem>
-								<FormLabel>Описание коллекции</FormLabel>
-								<Textarea
-									name="description"
-									placeholder="Type your message here."
-								/>
-							</FormItem>
-							<FormItem>
-								<FormLabel>Embedding Нейросервис</FormLabel>
-								<Select>
-									<SelectTrigger>
-										<SelectValue placeholder="Embedding" />
-									</SelectTrigger>
-									<SelectContent>
-										<SelectItem value="light">Embedding1</SelectItem>
-										<SelectItem value="dark">Embedding2</SelectItem>
-										<SelectItem value="system">Embedding3</SelectItem>
-									</SelectContent>
-								</Select>
-							</FormItem>
-							<FormItem>
-								<FormLabel>LLM Нейросервис</FormLabel>
-								<Select>
-									<SelectTrigger>
-										<SelectValue placeholder="LLM" />
-									</SelectTrigger>
-									<SelectContent>
-										<SelectItem value="light">LLM1</SelectItem>
-										<SelectItem value="dark">LLM2</SelectItem>
-										<SelectItem value="system">LLM3</SelectItem>
-									</SelectContent>
-								</Select>
-							</FormItem>
-							<FormItem>
-								<FormLabel>Reranker Нейросервис</FormLabel>
-								<Select>
-									<SelectTrigger>
-										<SelectValue placeholder="Reranker" />
-									</SelectTrigger>
-									<SelectContent>
-										<SelectItem value="light">Reranker1</SelectItem>
-										<SelectItem value="dark">Reranker2</SelectItem>
-										<SelectItem value="system">Reranker3</SelectItem>
-									</SelectContent>
-								</Select>
-							</FormItem>
-							<FormItem>
-								<FormLabel>Провайдеры</FormLabel>
-								<Accordion type="single" collapsible>
-									<AccordionItem value="item-1">
-										<AccordionTrigger>Is it accessible?</AccordionTrigger>
-										<AccordionContent>
-											Yes. It adheres to the WAI-ARIA design pattern.
-										</AccordionContent>
-									</AccordionItem>
-									<AccordionItem value="item-2">
-										<AccordionTrigger>Is it styled?</AccordionTrigger>
-										<AccordionContent>
-											Yes. It comes with default styles that matches the other
-											components&apos; aesthetic.
-										</AccordionContent>
-									</AccordionItem>
-									<AccordionItem value="item-3">
-										<AccordionTrigger>Is it animated?</AccordionTrigger>
-										<AccordionContent>
-											Yes. It's animated by default, but you can disable it if
-											you prefer.
-										</AccordionContent>
-									</AccordionItem>
-								</Accordion>
-							</FormItem>
-						</>
+						);
+					}}
+				/>
+				<FormField
+					control={form.control}
+					name="title"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Название коллекции</FormLabel>
+							<FormControl>
+								<Input placeholder="title" {...field} />
+							</FormControl>
+						</FormItem>
 					)}
 				/>
+				<FormField
+					control={form.control}
+					name="description"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Описание коллекции</FormLabel>
+							<Textarea
+								name="description"
+								placeholder="Type your message here."
+								{...field}
+							/>
+						</FormItem>
+					)}
+				/>
+				{/* TODO: Потом переделать в массив */}
+				<FormField
+					control={form.control}
+					name="embedding"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Embedding Нейросервис</FormLabel>
+							<Select onValueChange={field.onChange} value={field.value}>
+								<SelectTrigger>
+									<SelectValue placeholder="Embedding">
+										{neuros?.[1]?.title}
+									</SelectValue>
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value={neuros?.[1]?.title}>
+										{neuros?.[1]?.title}
+									</SelectItem>
+								</SelectContent>
+							</Select>
+						</FormItem>
+					)}
+				/>
+				{/* TODO: Потом переделать в массив */}
+				<FormField
+					control={form.control}
+					name="llm"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>LLM Нейросервис</FormLabel>
+							<Select onValueChange={field.onChange} value={field.value}>
+								<SelectTrigger>
+									<SelectValue placeholder="LLM" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value={neuros?.[0].title}>
+										{neuros?.[0].title}
+									</SelectItem>
+								</SelectContent>
+							</Select>
+						</FormItem>
+					)}
+				/>
+				{/* TODO: Потом переделать в массив */}
+				<FormField
+					control={form.control}
+					name="reranker"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Reranker Нейросервис</FormLabel>
+							<Select onValueChange={field.onChange} value={field.value}>
+								<SelectTrigger>
+									<SelectValue placeholder="Reranker">
+										{neuros?.[2].title}
+									</SelectValue>
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value={neuros?.[2].title}>
+										{neuros?.[2].title}
+									</SelectItem>
+								</SelectContent>
+							</Select>
+						</FormItem>
+					)}
+				/>
+				{/* TODO: Потом переделать в массив */}
+				<FormItem>
+					<FormLabel>Провайдеры</FormLabel>
+					<Accordion type="single" collapsible>
+						<AccordionItem value="item-1" className="border my-2 ">
+							<AccordionTrigger className="bg-gray-100 ">
+								<span className="mx-4">Провайдер {providers?.[0]?.id}</span>
+							</AccordionTrigger>
+							<AccordionContent className="m-6">
+								<FormField
+									control={form.control}
+									name="provider"
+									render={({ field }) => (
+										<div className="space-y-4">
+											<FormItem>
+												<FormLabel>Провайдер</FormLabel>
+												<Select
+													onValueChange={field.onChange}
+													value={field.value}
+												>
+													<SelectTrigger>
+														<SelectValue placeholder="Provider">
+															{providers?.[0].title}
+														</SelectValue>
+													</SelectTrigger>
+													<SelectContent>
+														<SelectItem value={providers?.[0].title}>
+															{providers?.[0].title}
+														</SelectItem>
+													</SelectContent>
+												</Select>
+											</FormItem>
+											<FormItem>
+												<FormLabel>Настройки провайдера</FormLabel>
+												<Textarea name="settings" />
+											</FormItem>
+										</div>
+									)}
+								/>
+							</AccordionContent>
+						</AccordionItem>
+					</Accordion>
+				</FormItem>
 				<Button type="submit">Сохранить</Button>
 			</form>
 		</Form>
