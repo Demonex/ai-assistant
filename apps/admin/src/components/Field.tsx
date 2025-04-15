@@ -1,21 +1,5 @@
 "use client";
 
-// import { Field } from "payload";
-// import { useState } from "react";
-// const CustomUploadField = () => {
-// 	const [file, setFile] = useState(null);
-// 	const handleFileChange = (event) => {
-// 		setFile(event.target.files[0]);
-// 		console.log("in upload");
-// 		// Handle file upload without showing a modal
-// 		// You might use an API call here to upload the file directly
-// 	};
-// 	return (
-// 		<div>
-// 			<input type="file" onChange={handleFileChange} multiple />
-// 		</div>
-// 	);
-// };
 import { useState } from "react";
 import { ErrorCode } from "react-dropzone";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -102,9 +86,55 @@ const DropzoneForm = () => {
 
 			setFileLoading(true);
 
-			CollectionService.filesUpload(Number(collectionId), formData)
-				.then(() => {
-					toast.success("Документы успешно загружены");
+			CollectionService.filesUpload<{
+				duplicates: {
+					file: string;
+					status: "success" | "duplicates" | "errors";
+					message?: string;
+				}[];
+				errors: {
+					file: string;
+					status: "success" | "duplicates" | "errors";
+					message?: string;
+				}[];
+				success: {
+					file: string;
+					status: "success" | "duplicates" | "errors";
+					message?: string;
+				}[];
+			}>(Number(collectionId), formData)
+				.then((response) => {
+					const mapFilesToString = (files) => {
+						return files.map((item: { file: string }) => item.file).join(", ");
+					};
+
+					const { duplicates, errors, success } = response;
+					const totalFiles = success.length + duplicates.length + errors.length;
+
+					const hasDuplicates = duplicates.length > 0;
+					const hasErrors = errors.length > 0;
+
+					// toast('My action toast', {
+					// 	action: <Button onClick={() => console.log('Action!')}>Action</Button>,
+					// });
+
+					toast.success(`Загружено ${success.length} из ${totalFiles}`);
+
+					if (hasDuplicates) {
+						toast.info(
+							"Некоторые файлы уже были загружены ранее в коллекцию!",
+							{
+								description: <div>{mapFilesToString(duplicates)}</div>,
+							},
+						);
+					}
+					if (hasErrors) {
+						toast.error("Некоторые файлы не были загружены!", {
+							description: <div>{mapFilesToString(duplicates)}</div>,
+						});
+					}
+
+					// toast.success("Документы успешно загружены");
 					setFileLoading(false);
 				})
 				.catch(() => {
@@ -244,4 +274,3 @@ const DropzoneForm = () => {
 };
 
 export default DropzoneForm;
-// export default CustomUploadField;

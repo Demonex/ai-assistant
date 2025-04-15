@@ -7,6 +7,13 @@ import { Spinner } from "@repo/web/components/Spinner.js";
 import { ALLOWED_EXTENSIONS } from "@repo/web/constants/index.js";
 import { toast } from "@repo/web/hooks/use-toast.js";
 import { useChats } from "@repo/web/hooks/useChats.js";
+import { Paperclip, Play } from "lucide-react";
+
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@/components/ui/tooltip.js";
 
 type ChatInputProps = {
 	files: File[];
@@ -146,7 +153,7 @@ export const ChatForm = memo<ChatInputProps>(
 
 		return (
 			<form
-				className="w-full relative flex items-center p-2 lg:p-4"
+				className="w-full relative flex items-end p-2 lg:p-4"
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				{files.length > 0 ? (
@@ -167,47 +174,67 @@ export const ChatForm = memo<ChatInputProps>(
 					/>
 				)}
 				<div className="end-4 flex items-center">
-					<div
-						className="relative ml-3"
-						title={`Прикрепить файл (${ALLOWED_EXTENSIONS.join(", ")})`}
-					>
-						<input
-							type="file"
-							multiple
-							ref={fileInputRef}
-							onChange={handleDrop}
-							style={{ display: "none" }}
+					<Tooltip>
+						<TooltipTrigger asChild>
+							{
+								<div className="relative ml-3">
+									<input
+										type="file"
+										multiple
+										ref={fileInputRef}
+										onChange={handleDrop}
+										style={{ display: "none" }}
+									/>
+									<button
+										type="button"
+										className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 w-9 rounded-full p-0"
+										data-state="closed"
+										onClick={handlePinFileButton}
+										disabled={messageLoading || fileLoading}
+									>
+										<Paperclip size={16} />
+									</button>
+								</div>
+							}
+						</TooltipTrigger>
+						<TooltipContent
+							side="top"
+							align="center"
+							hidden={false}
+							{...{
+								children: `Прикрепить файлы (${ALLOWED_EXTENSIONS.join(", ")})`,
+								hidden: false,
+								className: "hidden md:block",
+							}}
 						/>
-						<button
-							type="button"
-							className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-11 w-11 rounded-full p-0"
-							data-state="closed"
-							onClick={handlePinFileButton}
-							disabled={messageLoading || fileLoading}
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width={24}
-								height={24}
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								strokeWidth={2}
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								className="lucide lucide-paperclip h-4 w-4"
-							>
-								<path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48" />
-							</svg>
-						</button>
-					</div>
-					<button
-						type="submit"
-						disabled={!message && !files?.length}
-						className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 ms-3"
-					>
-						{messageLoading || fileLoading ? <Spinner /> : "Отправить"}
-					</button>
+					</Tooltip>
+					<Tooltip>
+						<TooltipTrigger asChild>
+							{
+								<button
+									type="submit"
+									disabled={!message.trim() && !files?.length}
+									className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 w-9 rounded-full p-0 ms-3"
+								>
+									{messageLoading || fileLoading ? (
+										<Spinner size="small" />
+									) : (
+										<Play size={16} />
+									)}
+								</button>
+							}
+						</TooltipTrigger>
+						<TooltipContent
+							side="top"
+							align="center"
+							hidden={false}
+							{...{
+								children: "Отправить",
+								hidden: false,
+								className: "hidden md:block",
+							}}
+						/>
+					</Tooltip>
 				</div>
 			</form>
 		);

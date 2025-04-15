@@ -22,6 +22,8 @@ import { GroupUsersEntity } from "./entities/Group/group-users.js";
 import { GroupPermissionsEntity } from "./entities/Group/group-group-permissions.js";
 import { GroupCollectionPermissionsEntity } from "./entities/Group/group-collection-permissions.js";
 import "dotenv/config";
+import { NeuroEntity } from "./entities/Neuro/index.js";
+import { ModelEntity } from "./entities/Model/index.js";
 
 @Module({
 	imports: [
@@ -36,6 +38,8 @@ import "dotenv/config";
 				CollectionProvidersEntity,
 				GroupEntity,
 				GroupUsersEntity,
+				NeuroEntity,
+				ModelEntity,
 				GroupPermissionsEntity,
 				GroupCollectionPermissionsEntity,
 			],

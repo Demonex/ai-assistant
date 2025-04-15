@@ -6,6 +6,12 @@ import { toast } from "@repo/web/hooks/use-toast.js";
 import type { Message } from "@repo/web/types/types.js";
 import { Copy } from "lucide-react";
 
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipTrigger,
+} from "@/components/ui/tooltip.js";
+
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 
 export const MessageBubble = memo<{
@@ -40,21 +46,36 @@ export const MessageBubble = memo<{
 					}`}
 				>
 					<div
-						className={`relative inline-flex px-4 pt-6 ${!isRequest ? "w-full" : "pb-4"}`}
+						className={`relative inline-flex px-4 py-4 ${!isRequest && "w-full"}`}
 					>
-						<div
-							title="Копировать текст"
-							onClick={() =>
-								handleCopy(
-									isRequest
-										? message.request.message
-										: message.response.message,
-								)
-							}
-							className="absolute left-[calc(100%-50px)] top-[-16px] flex items-center cursor-pointer hover:opacity-80 rounded-lg border bg-card text-card-foreground p-2"
-						>
-							<Copy size={16} />
-						</div>
+						<Tooltip>
+							<TooltipTrigger asChild>
+								{
+									<div
+										onClick={() =>
+											handleCopy(
+												isRequest
+													? message.request.message
+													: message.response.message,
+											)
+										}
+										className="absolute right-0 bottom-[100%] flex items-center cursor-pointer hover:opacity-80 p-2"
+									>
+										<Copy size={14} />
+									</div>
+								}
+							</TooltipTrigger>
+							<TooltipContent
+								side="top"
+								align="center"
+								hidden={false}
+								{...{
+									children: "Копировать",
+									hidden: false,
+									className: "hidden md:block",
+								}}
+							/>
+						</Tooltip>
 
 						<ReactMarkdownComponent textMarkdown={text} />
 					</div>
@@ -66,12 +87,10 @@ export const MessageBubble = memo<{
 					)}
 				</div>
 			</div>
-			<div
-				className={`flex items-center gap-2 ${isRequest ? "justify-end" : ""}`}
-			>
+			<div className={`flex items-center gap-2 ${isRequest && "justify-end"}`}>
 				<time
 					className={`mt-1 flex items-center text-sm text-muted-foreground ${
-						isRequest ? "justify-end" : ""
+						isRequest && "justify-end"
 					}`}
 				>
 					{formatLocalTime(created_at || new Date().toString(), "time")}

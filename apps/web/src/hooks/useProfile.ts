@@ -1,72 +1,59 @@
+import { getProfile, signIn, signOut } from "@/api/Profile.js";
+import { ApiError, Profile, SignInData } from "@/types/types.js";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useProfile = () => {
 	const queryClient = useQueryClient();
 
+	// profile
 	const {
 		data: dataProfile,
 		isLoading: isLoadingProfile,
 		error: errorProfile,
 		isFetching: isFetchingProfile,
-	} = useQuery({
+		refetch: refetchProfile,
+	} = useQuery<ResponseType, ApiError, Profile>({
+		retry: false,
 		queryKey: ["profile"],
-		queryFn: async () => {
-			const data = await fetch("api/v1/profile");
-			return await data.json();
-		},
+		staleTime: 5 * 60 * 1000,
+		queryFn: getProfile,
 	});
 
-	// const {
-	// 	data: dataWiki,
-	// 	error: errorWiki,
-	// 	loading: loadingWiki,
-	// } = useFetch({
-	// 	url: `http://localhost:2050/wiki/tree`,
-	// });
-
-	// console.log({ dataWiki, errorWiki, loadingWiki });
-
-	// fetchSignIn
-
-	const { error: errorSignIn, mutate: handleSignIn } = useMutation({
-		mutationFn: async (data: { email: string; password: string }) => {
-			return await fetch("api/v1/auth/email/sign-in", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(data),
-			});
-		},
+	// sign-in
+	const {
+		error: errorSignIn,
+		mutate: handleSignIn,
+		isPending: pendingSignIn,
+	} = useMutation<ResponseType, ApiError, SignInData>({
+		mutationFn: signIn,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["profile"] });
 		},
 	});
 
-	// fetchSignOut
-
-	const { error: errorSignOut, mutate: handleSignOut } = useMutation({
-		mutationFn: async () => {
-			const response = await fetch("api/v1/auth/user/sign-out", {
-				method: "POST",
-				body: JSON.stringify(dataProfile),
-			});
-			return response.json();
-		},
+	// sign-out
+	const { mutate: handleSignOut, error: errorSignOut } = useMutation<
+		ResponseType,
+		ApiError,
+		void
+	>({
+		mutationFn: signOut,
 		onSuccess: () => {
+			queryClient.removeQueries({ queryKey: ["profile"] });
 			queryClient.invalidateQueries({ queryKey: ["profile"] });
 		},
 	});
 
 	return {
-		isAuthorized: !!dataProfile?.email,
 		dataProfile,
-		handleSignOut,
-		handleSignIn,
-		errorSignIn,
-		errorSignOut,
-		errorProfile,
 		isLoadingProfile,
 		isFetchingProfile,
+		errorProfile,
+		refetchProfile,
+		handleSignIn,
+		pendingSignIn,
+		errorSignIn,
+		handleSignOut,
+		errorSignOut,
 	};
 };

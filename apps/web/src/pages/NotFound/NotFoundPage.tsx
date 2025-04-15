@@ -1,9 +1,9 @@
-import { memo, useInsertionEffect } from "react";
+import { useInsertionEffect } from "react";
 import { Link } from "react-router";
 
 import { useTheme } from "@repo/web/components/theme-provider.js";
 
-export const NotFoundPage = memo(() => {
+export const NotFoundPage = () => {
 	const { theme } = useTheme();
 
 	useInsertionEffect(() => {
@@ -27,7 +27,7 @@ export const NotFoundPage = memo(() => {
 					theme === "light" ? "text-black" : "text-white"
 				}`}
 			>
-				Sigma
+				SigmaChatDoc
 			</Link>
 			<div
 				className="flex-grow flex justify-center items-center relative w-full h-full px-4 sm:px-0"
@@ -56,10 +56,10 @@ export const NotFoundPage = memo(() => {
 					theme === "light" ? "bg-black/90" : "bg-white/10"
 				} rounded-2xl whitespace-nowrap`}
 			>
-				Вернуться обратно →
+				&larr; Вернуться обратно
 			</Link>
 		</div>
 	);
-});
+};
 
 export default NotFoundPage;

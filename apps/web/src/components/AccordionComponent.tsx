@@ -11,6 +11,7 @@ import type { Fragment } from "@repo/web/types/types.js";
 import { Copy, CopyPlus } from "lucide-react";
 
 import { ReactMarkdownComponent } from "./Chat/DialogWindow/component/ReactMarkdownComponent.js";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip.js";
 
 export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 	({ fragments }) => {
@@ -60,7 +61,7 @@ export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 			<Accordion type="single" collapsible className="w-full">
 				{fragments.map((fragment) => (
 					<AccordionItem
-						className="p-4 relative"
+						className="px-4 relative"
 						value={fragment._id}
 						key={fragment._id}
 					>
@@ -78,24 +79,57 @@ export const AccordionComponent = memo<{ fragments: Fragment[] }>(
 								</button>
 
 								<div className="flex items-center cursor-pointer rounded-lg border bg-card text-card-foreground p-2">
-									<div
-										className="hover:opacity-80"
-										title="Копировать текст фрагмента"
-										onClick={() => handleCopy(false, fragment)}
-									>
-										<Copy size={16} />
-									</div>
-									<div
-										className="ml-4 hover:opacity-80"
-										title="Копировать Фрагмент"
-										onClick={() => handleCopy(true, fragment)}
-									>
-										<CopyPlus size={16} />
-									</div>
+									<Tooltip>
+										<TooltipTrigger asChild>
+											{
+												<div
+													className="hover:opacity-80"
+													onClick={() => handleCopy(false, fragment)}
+												>
+													<Copy size={16} />
+												</div>
+											}
+										</TooltipTrigger>
+										<TooltipContent
+											side="top"
+											align="center"
+											hidden={false}
+											{...{
+												children: "Копировать текст фрагмента",
+												hidden: false,
+												className: "hidden md:block",
+											}}
+										/>
+									</Tooltip>
+
+									<Tooltip>
+										<TooltipTrigger asChild>
+											{
+												<div
+													className="ml-4 hover:opacity-80"
+													onClick={() => handleCopy(true, fragment)}
+												>
+													<CopyPlus size={16} />
+												</div>
+											}
+										</TooltipTrigger>
+										<TooltipContent
+											side="top"
+											align="center"
+											hidden={false}
+											{...{
+												children: "Копировать Фрагмент",
+												hidden: false,
+												className: "hidden md:block",
+											}}
+										/>
+									</Tooltip>
 								</div>
 							</div>
 
-							<ReactMarkdownComponent textMarkdown={fragment.text} />
+							<div className="py-4">
+								<ReactMarkdownComponent textMarkdown={fragment.text} />
+							</div>
 						</AccordionContent>
 					</AccordionItem>
 				))}

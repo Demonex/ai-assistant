@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 import { AvatarComponent } from "@repo/web/components/AvatarComponent.js";
 import {
@@ -37,11 +38,20 @@ import {
 import { useTheme } from "./theme-provider.js";
 
 export function NavUser() {
+	const navigate = useNavigate();
 	const { isMobile } = useSidebar();
 	const { dataProfile } = useProfile();
 	const { theme, setTheme } = useTheme();
 	const { handleSignOut } = useProfile();
 	const [darkTheme, _setDarkTheme] = useState(theme);
+
+	const onSignOut = () => {
+		handleSignOut(undefined, {
+			onSuccess: () => {
+				navigate("/sign-in");
+			},
+		});
+	};
 
 	useEffect(() => {
 		//TODO - изменить позже тему
@@ -120,7 +130,7 @@ export function NavUser() {
 							</DropdownMenuItem>
 						</DropdownMenuGroup> */}
 						<DropdownMenuSeparator />
-						<DropdownMenuItem onClick={() => handleSignOut()}>
+						<DropdownMenuItem onClick={onSignOut}>
 							<LogOut />
 							<span>Выйти</span>
 						</DropdownMenuItem>
