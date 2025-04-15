@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
 
 import { NavUser } from "@repo/web/components/nav-user.js";
 import {
@@ -11,55 +11,86 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-	useSidebar,
 } from "@repo/web/components/ui/sidebar.js";
-import { useProfile } from "@repo/web/hooks/useProfile.js";
-import { Command, MessageCircleMore, UserRoundCog } from "lucide-react";
+import {
+	Atom,
+	Boxes,
+	Command,
+	File,
+	FileBox,
+	LayoutGrid,
+	Mails,
+	MessageCircleMore,
+	Network,
+	User,
+	UserRoundCog,
+	Users,
+} from "lucide-react";
 
 export function AppSidebar() {
-	// Note: I'm using state to show active item.
-	// IRL you should use the url/router.
-	const [nav, setNav] = useState([
+	const { pathname } = useLocation();
+	const navigate = useNavigate();
+
+	const navigateList = [
 		{
-			id: Date.now(),
-			title: "Чаты",
-			icon: MessageCircleMore,
-			isActive: true,
-			isAdmin: false,
+			name: "Чаты",
+			path: "/chat",
+			icon: <MessageCircleMore />,
 		},
-	]);
-	const { setOpen } = useSidebar();
-	const { profile } = useProfile();
-
-	const toggleMenuItem = (_item) => {
-		window.location.href = "http://localhost:2051/admin";
-
-		setOpen(true);
-	};
-
-	useEffect(() => {
-		setNav((prev) => {
-			if (profile?.superadmin && !prev.some((item) => item.isAdmin)) {
-				return [
-					...prev,
-					{
-						id: Date.now(),
-						title: "Админ",
-						icon: UserRoundCog,
-						isActive: false,
-						isAdmin: true,
-					},
-				];
-			}
-			return prev;
-		});
-	}, [profile?.superadmin]);
+		{
+			name: "Админ панель",
+			path: "/admin",
+			icon: <UserRoundCog />,
+		},
+		{
+			name: "Коллекции",
+			path: "/collections",
+			icon: <Boxes />,
+		},
+		{
+			name: "Нейросервисы",
+			path: "/neuro",
+			icon: <Atom />,
+		},
+		{
+			name: "Модели",
+			path: "/models",
+			icon: <FileBox />,
+		},
+		{
+			name: "Пользователи",
+			path: "/users",
+			icon: <User />,
+		},
+		{
+			name: "Группы",
+			path: "/groups",
+			icon: <Users />,
+		},
+		{
+			name: "Тенанты",
+			path: "/tenats",
+			icon: <LayoutGrid />,
+		},
+		{
+			name: "Сообщения",
+			path: "/chat-message",
+			icon: <Mails />,
+		},
+		{
+			name: "Docs",
+			path: "/docs",
+			icon: <File />,
+		},
+		{
+			name: "Провайдеры",
+			path: "/providers",
+			icon: <Network />,
+		},
+	];
 
 	return (
 		<Sidebar>
-			{/* This is the first sidebar */}
-			{/* We disable collapsible and adjust width to icon. */}
-			{/* This will make the sidebar appear as icons. */}
 			<Sidebar
 				collapsible="none"
 				className="!w-[calc(var(--sidebar-width-icon)_+_1px)] border-r"
@@ -73,8 +104,8 @@ export function AppSidebar() {
 										<Command className="size-4" />
 									</div>
 									<div className="grid flex-1 text-left text-sm leading-tight">
-										<span className="truncate font-semibold">Acme Inc</span>
-										<span className="truncate text-xs">Enterprise</span>
+										<span className="truncate font-semibold">ChatDoc</span>
+										<span className="truncate text-xs">Sigma</span>
 									</div>
 								</a>
 							</SidebarMenuButton>
@@ -86,20 +117,20 @@ export function AppSidebar() {
 					<SidebarGroup>
 						<SidebarGroupContent className="px-1.5 md:px-0">
 							<SidebarMenu>
-								{nav.map((item) => (
-									<SidebarMenuItem key={item.id}>
+								{navigateList.map((item) => (
+									<SidebarMenuItem key={item.path}>
 										<SidebarMenuButton
 											tooltip={{
-												children: item.title,
+												children: item.name,
 												hidden: false,
 												className: "hidden md:block",
 											}}
-											onClick={() => toggleMenuItem(item)}
-											isActive={item.isActive}
+											onClick={() => navigate(item.path)}
+											isActive={pathname === item.path}
 											className="px-2.5 md:px-2"
 										>
-											<item.icon />
-											<span>{item.title}</span>
+											{item.icon}
+											<span>{item.name}</span>
 										</SidebarMenuButton>
 									</SidebarMenuItem>
 								))}

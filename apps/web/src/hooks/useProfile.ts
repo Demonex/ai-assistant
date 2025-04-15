@@ -1,102 +1,59 @@
-import { useEffect, useMemo, useState } from "react";
+import { getProfile, signIn, signOut } from "@/api/Profile.js";
+import { ApiError, Profile, SignInData } from "@/types/types.js";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { createMonoHook, useFetch, useLazyFetch } from "use-mono-hook";
+export const useProfile = () => {
+	const queryClient = useQueryClient();
 
-const _useProfile = () => {
+	// profile
 	const {
-		data,
+		data: dataProfile,
+		isLoading: isLoadingProfile,
 		error: errorProfile,
-		loading,
-	} = useFetch({
-		url: `api/rest/profile`,
-		params: {
-			formatForAdmin: false,
+		isFetching: isFetchingProfile,
+		refetch: refetchProfile,
+	} = useQuery<ResponseType, ApiError, Profile>({
+		retry: false,
+		queryKey: ["profile"],
+		staleTime: 5 * 60 * 1000,
+		queryFn: getProfile,
+	});
+
+	// sign-in
+	const {
+		error: errorSignIn,
+		mutate: handleSignIn,
+		isPending: pendingSignIn,
+	} = useMutation<ResponseType, ApiError, SignInData>({
+		mutationFn: signIn,
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["profile"] });
 		},
 	});
 
-	const [
-		{ data: dataSignIn, error: errorSignIn, loading: _loadingSignIn },
-		fetchSignIn,
-	] = useLazyFetch({
-		url: `api/rest/auth/email/sign-in`,
-		method: "post",
-		cache: false,
+	// sign-out
+	const { mutate: handleSignOut, error: errorSignOut } = useMutation<
+		ResponseType,
+		ApiError,
+		void
+	>({
+		mutationFn: signOut,
+		onSuccess: () => {
+			queryClient.removeQueries({ queryKey: ["profile"] });
+			queryClient.invalidateQueries({ queryKey: ["profile"] });
+		},
 	});
-
-	const [
-		{ data: _dataSignOut, error: errorSignOut, loading: _loadingSignOut },
-		fetchSignOut,
-	] = useLazyFetch({
-		url: `api/rest/auth/sign-out`,
-		method: "post",
-		cache: false,
-	});
-
-	const [profile, setProfile] = useState(
-		null,
-		// 	() => {
-		// 	const savedProfile = sessionStorage.getItem("profile");
-		// 	return savedProfile ? JSON.parse(savedProfile) : null;
-		// 	// return { id: "ads", email: "bla@bla.ru" };
-		// }
-	);
-
-	const isAuthorized = useMemo(() => !!profile, [profile]);
-
-	useEffect(() => {
-		if (!data) {
-			return;
-		}
-		setProfile(data);
-		// setProfile({ id: "ads", email: "bla@bla.ru" });
-		// sessionStorage.setItem("profile", JSON.stringify(data));
-	}, [data]);
-
-	useEffect(() => {
-		if (!dataSignIn) {
-			return;
-		}
-		setProfile(dataSignIn);
-		// setProfile({ id: "ads", email: "bla@bla.ru" });
-		// sessionStorage.setItem("profile", JSON.stringify(dataSignIn));
-	}, [dataSignIn]);
-
-	const handleSignOut = async () => {
-		await fetchSignOut({
-			url: `api/rest/auth/sign-out`,
-			data: data || dataSignIn,
-		});
-		setProfile(null);
-		// sessionStorage.removeItem("profile");
-	};
-
-	const handleSignIn = async (data: { email: string; password: string }) => {
-		await fetchSignIn({
-			url: `api/rest/auth/email/sign-in`,
-			data,
-		});
-	};
-
-	// useEffect(() => {
-	// 	if (!errorProfile && profile) {
-	// 		return;
-	// 	}
-
-	// 	setProfile(null);
-	// 	sessionStorage.removeItem("profile");
-	// }, [errorProfile, profile]);
 
 	return {
-		isAuthorized,
-		profile,
-		handleSignOut,
-		handleSignIn,
-		errorSignIn,
-		errorSignOut,
+		dataProfile,
+		isLoadingProfile,
+		isFetchingProfile,
 		errorProfile,
-		loading,
+		refetchProfile,
+		handleSignIn,
+		pendingSignIn,
+		errorSignIn,
+		handleSignOut,
+		errorSignOut,
 	};
 };
-
-export const useProfile =
-	createMonoHook<typeof _useProfile>(_useProfile).useHook;

@@ -28,7 +28,6 @@ export const getHandleUpload = ({ acl, bucket, getStorageClient }: Args) => {
 
 		try {
 			await s3Client.send(new CreateBucketCommand({ Bucket: bucket }));
-			console.log(`Bucket "${bucket}" created successfully.`);
 
 			const bucketPolicy = {
 				Version: "2012-10-17",
@@ -47,9 +46,6 @@ export const getHandleUpload = ({ acl, bucket, getStorageClient }: Args) => {
 				Policy: JSON.stringify(bucketPolicy),
 			};
 			await s3Client.send(new PutBucketPolicyCommand(putBucketPolicyParams));
-			console.log(
-				`Bucket policy set to grant public read access for bucket "${bucket}".`,
-			);
 		} catch (error) {
 			console.error("Error creating bucket or setting policies:", error);
 		}

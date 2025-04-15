@@ -1,6 +1,8 @@
-import { useEffect } from "react";
-import { type SubmitHandler, useForm } from "react-hook-form";
+import { useEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 
+import { Spinner } from "@repo/web/components/Spinner.js";
 import { Button } from "@repo/web/components/ui/button.js";
 import {
 	Card,
@@ -14,33 +16,47 @@ import { Label } from "@repo/web/components/ui/label.js";
 import { toast } from "@repo/web/hooks/use-toast.js";
 import { useProfile } from "@repo/web/hooks/useProfile.js";
 import { cn } from "@repo/web/lib/utils.js";
-import { useLocation } from "wouter";
 
-type Inputs = {
-	email: string;
-	password: string;
-};
+import { SignInData } from "@/types/types.js";
 
 export function SignIn({
 	className,
 	...props
 }: React.ComponentPropsWithoutRef<"div">) {
-	const { register, handleSubmit } = useForm<Inputs>();
-	const [, navigate] = useLocation();
-	const { handleSignIn, errorSignIn } = useProfile();
+	const navigate = useNavigate();
+	const [loading, setLoading] = useState(false);
+	const { register, handleSubmit } = useForm<SignInData>();
+	const { handleSignIn, refetchProfile, errorSignIn, pendingSignIn } =
+		useProfile();
 
-	const onSubmit: SubmitHandler<Inputs> = async (data) => {
-		handleSignIn(data);
-		navigate("/");
+	const onSubmit = async (data: SignInData) => {
+		setLoading(true);
+
+		try {
+			handleSignIn(data, {
+				onSuccess: async () => {
+					const profile = await refetchProfile();
+					if (profile.data?.email) {
+						navigate("/");
+					}
+				},
+			});
+		} finally {
+			setLoading(false);
+		}
 	};
+
+	const isLoading = useMemo(() => {
+		return pendingSignIn || loading;
+	}, [pendingSignIn, loading]);
 
 	useEffect(() => {
 		if (!errorSignIn) return;
 
-		if (errorSignIn.status === 500) {
+		if (errorSignIn.statusCode === 500) {
 			toast({
 				variant: "destructive",
-				title: errorSignIn.status.toString(),
+				title: errorSignIn.statusCode.toString(),
 				description: errorSignIn.message,
 			});
 		} else {
@@ -59,8 +75,7 @@ export function SignIn({
 				<CardHeader>
 					<CardTitle className="text-2xl">Вход</CardTitle>
 					<CardDescription>
-						Введите ниже свое имя пользователя и пароль, чтобы войти в свою
-						учетную запись.
+						Введите почту и пароль, чтобы войти в свою учетную запись.
 					</CardDescription>
 				</CardHeader>
 				<CardContent>
@@ -69,6 +84,7 @@ export function SignIn({
 							<div className="grid gap-2">
 								<Label htmlFor="email">Почта</Label>
 								<Input
+									disabled={isLoading}
 									id="email"
 									type="email"
 									{...register("email", {
@@ -81,6 +97,7 @@ export function SignIn({
 									<Label htmlFor="password">Пароль</Label>
 								</div>
 								<Input
+									disabled={isLoading}
 									id="password"
 									type="password"
 									{...register("password", {
@@ -88,8 +105,8 @@ export function SignIn({
 									})}
 								/>
 							</div>
-							<Button type="submit" className="w-full">
-								Войти
+							<Button type="submit" className="w-full" disabled={isLoading}>
+								{isLoading ? <Spinner className="text-white" /> : "Войти"}
 							</Button>
 						</div>
 					</form>

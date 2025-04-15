@@ -4,8 +4,8 @@ import type { ActiveChat, MessagesType } from "@repo/web/types/types.js";
 import { createMonoHook, useFetch, useLazyFetch } from "use-mono-hook";
 
 const _useChats = () => {
-	const { data: chats } = useFetch({
-		url: "/api/rest/chats",
+	const { data: chats, loading: loadingChats } = useFetch({
+		url: "/api/v1/chats",
 	});
 
 	const [fetchErrors, setFetchErrors] = useState([]);
@@ -17,7 +17,7 @@ const _useChats = () => {
 
 	const [{ data: messagesData, error: messagesError }, fetchMessages] =
 		(useLazyFetch({
-			url: "/api/rest/chat/{activeChat.id}",
+			url: "/api/v1/chat/{activeChat.id}",
 		}) as [
 			{ data: MessagesType; error: Error },
 			(options: { url: string }) => void,
@@ -29,7 +29,7 @@ const _useChats = () => {
 		}
 
 		fetchMessages({
-			url: `/api/rest/chat/${activeChat.id}`,
+			url: `/api/v1/chat/${activeChat.id}`,
 		});
 	}, [activeChat?.id, fetchMessages]);
 
@@ -47,14 +47,14 @@ const _useChats = () => {
 		{ data: messageResponse, loading: messageLoading, error: messageError },
 		fetchSendMessage,
 	] = useLazyFetch({
-		url: "/api/rest/chat/{activeChat.id}/message",
+		url: "/api/v1/chat/{activeChat.id}/message",
 		method: "post",
 	});
 
 	const sendMessage = useCallback(
 		({ message }) => {
 			fetchSendMessage({
-				url: `/api/rest/chat/${activeChat.id}/message`,
+				url: `/api/v1/chat/${activeChat.id}/message`,
 				data: {
 					raw: message,
 				},
@@ -82,23 +82,29 @@ const _useChats = () => {
 	// fetchUploadFile //
 
 	const [
-		{ data: _uploadFile, loading: fileLoading, error: fileError },
+		{ data: fileResponse, loading: fileLoading, error: fileError },
 		fetchUploadFile,
 	] = useLazyFetch({
-		url: "/api/rest/chat/{activeChat.id}/upload",
+		url: "/api/v1/chat/{activeChat.id}/upload",
 		method: "post",
 	});
 
 	const sendUploadFile = useCallback(
 		({ formData }: { formData: FormData }) => {
 			fetchUploadFile({
-				url: `/api/rest/chat/${activeChat.id}/upload`,
+				url: `/api/v1/chat/${activeChat.id}/upload`,
 				data: formData,
 				headers: { "Content-Type": "multipart/form-data" },
 			});
 		},
 		[activeChat?.id, fetchUploadFile],
 	);
+
+	useEffect(() => {
+		if (fileResponse) {
+			localStorage.removeItem("uploadMedia");
+		}
+	}, [fileResponse]);
 
 	// setErrors //
 
@@ -110,6 +116,7 @@ const _useChats = () => {
 
 	return {
 		chats,
+		loadingChats,
 		activeChat,
 		setActiveChat,
 		setMessages,
@@ -118,9 +125,9 @@ const _useChats = () => {
 		messageLoading,
 		sendUploadFile,
 		fileLoading,
+		fileResponse,
 		fetchErrors,
 		setFetchErrors,
-		uploadFile: _uploadFile,
 	};
 };
 

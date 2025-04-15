@@ -2,108 +2,127 @@ import { EntityManager } from "@mikro-orm/core";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { ChatMessageEntity } from "@repo/backend/entities/Chat/index.js";
 import path from "node:path";
-import type { ChatMessageDto } from "../dto/Chat.js";
+import type { ChatMessageDto, ChatUploadMediaDto } from "../dto/Chat.js";
 import { CollectionEntity } from "../entities/Collection/index.js";
 import { DocEntity } from "../entities/Doc/index.js";
 import { GROUP_PERMISSION } from "../entities/Group/group-group-permissions.js";
-import { GroupEntity } from "../entities/Group/index.js";
 import { PROVIDER_TYPE } from "../entities/Provider/index.js";
-import { UserEntity } from "../entities/User/index.js";
+import { HttpStatusMessages } from "../messages/http.js";
+import type { UploadedFile } from "../types/Chat.js";
+import type { FlowResponse } from "../types/FLow.js";
 import { getHandleUpload } from "../utils/handleUpload.js";
-import { promiseMap } from "../utils/index.js";
+import { logErrors, promiseMap } from "../utils/index.js";
 import { LangFlowService } from "./Flow.js";
 import { GotenbergService } from "./Gotenberg.js";
-
-type HintType = "users" | "groupPermissions" | "groupCollectionPermissions";
+import { GroupService } from "./Group.js";
+import { UserService } from "./User.js";
+import { AudioService } from "./Audio.js";
 
 @Injectable()
 export class ChatService {
 	constructor(
 		private readonly em: EntityManager,
 		private readonly flowService: LangFlowService,
+		private readonly userService: UserService,
+		private readonly groupService: GroupService,
 		private readonly gotenbergService: GotenbergService,
+		private readonly audioSerivce: AudioService,
 	) {}
 
-	async chats(userId: ChatMessageEntity["user"]["id"], currentTenant) {
-		const user = await this.em.findOneOrFail<UserEntity, HintType>(UserEntity, {
-			id: userId,
-		});
+	async validateAndGetCollection(
+		userKey:
+			| ChatMessageEntity["user"]["id"]
+			| ChatMessageEntity["user"]["email"],
+		chatId: ChatMessageEntity["id"],
+	) {
+		const collections = await this.chats(userKey);
 
-		const groups = await this.em.find<GroupEntity, HintType>(
-			GroupEntity,
-			{
-				users: {
-					user: userId,
-				},
-			},
-			{
-				populate: ["users", "groupPermissions", "groupCollectionPermissions"],
-				populateWhere: "infer",
-			},
+		const collection = collections.find(
+			(collection) => collection.id === chatId,
 		);
 
-		const hasCollectionPermission =
-			user?.superadmin ||
-			groups.some((group) => {
-				return group.groupPermissions
-					.map(
-						(entity) =>
-							entity.permission === GROUP_PERMISSION.admin ||
-							entity.permission === GROUP_PERMISSION.collection,
-					)
-					.some((el) => !!el);
-			});
+		if (!collection) {
+			console.error("Error retrieving collection: 404");
 
-		if (hasCollectionPermission) {
-			const collections = await this.em.find<CollectionEntity>(
-				CollectionEntity,
-				{
-					tenant: currentTenant,
-				},
-				{
-					exclude: ["tenant", "providers", "groups"],
-				},
+			throw new HttpException(
+				"Collection " + HttpStatusMessages.NOT_FOUND,
+				HttpStatus.NOT_FOUND,
 			);
-
-			return collections;
 		}
 
-		const collectionKeys = groups.flatMap((group) => {
-			return group.groupCollectionPermissions.map((perm) => perm.collection.id);
-		});
+		return collection;
+	}
 
-		const collections = await this.em.find<CollectionEntity>(
-			CollectionEntity,
-			{
-				id: {
-					$in: collectionKeys,
+	async chats(
+		userKey:
+			| ChatMessageEntity["user"]["id"]
+			| ChatMessageEntity["user"]["email"],
+		_currentTenant?: number,
+	) {
+		const user = await this.userService.findByIdOrEmail({ user: userKey });
+		const groups = await this.groupService.findGroups(user);
+		const permission = this.groupService.verifyPermissions(user, groups, [
+			GROUP_PERMISSION.admin,
+			GROUP_PERMISSION.collection,
+		]);
+
+		if (Array.isArray(permission)) {
+			return await this.em.find<
+				CollectionEntity,
+				never,
+				keyof CollectionEntity
+			>(
+				CollectionEntity,
+				{
+					id: {
+						$in: permission,
+					},
+					// tenant: currentTenant,
 				},
-				tenant: currentTenant,
-			},
-			{
-				exclude: ["tenant", "providers", "groups"],
-			},
-		);
+				{
+					fields: ["title", "description"],
+				},
+			);
+		}
 
-		return collections;
+		if (permission) {
+			return await this.em.find<
+				CollectionEntity,
+				never,
+				keyof CollectionEntity
+			>(
+				CollectionEntity,
+				{
+					// tenant: currentTenant,
+				},
+				{
+					fields: ["title", "description"],
+				},
+			);
+		}
+
+		return [];
 	}
 
 	async chat(
-		userId: ChatMessageEntity["user"]["id"],
+		userKey:
+			| ChatMessageEntity["user"]["id"]
+			| ChatMessageEntity["user"]["email"],
 		chatId: ChatMessageEntity["id"],
+		_currentTenant?: number,
 	) {
-		const collection = await this.em.findOne<CollectionEntity>(
-			CollectionEntity,
-			{
-				id: chatId,
-			},
-		);
+		const collection = await this.validateAndGetCollection(userKey, chatId);
 
-		const messages = await this.em.find<ChatMessageEntity>(
+		const messages = await this.em.find<
+			ChatMessageEntity,
+			never,
+			keyof ChatMessageEntity
+		>(
 			ChatMessageEntity,
 			{
-				user: userId,
-				collection: chatId,
+				user:
+					typeof userKey === "number" ? { id: userKey } : { email: userKey },
+				collection,
 			},
 			{
 				fields: ["id", "request", "response"],
@@ -111,84 +130,41 @@ export class ChatService {
 			},
 		);
 
-		const docs = await this.em.find<DocEntity>(DocEntity, {
+		const docsNumber = await this.em.count<DocEntity>(DocEntity, {
 			collection,
 		});
 
 		return {
 			description: collection.description,
-			isEmpty: !docs.length,
+			isEmpty: !docsNumber,
 			messages,
 		};
 	}
 
 	async messageCreate(
-		userId: ChatMessageEntity["user"]["id"],
+		userKey:
+			| ChatMessageEntity["user"]["id"]
+			| ChatMessageEntity["user"]["email"],
 		chatId: CollectionEntity["id"],
 		chatMessageDto: ChatMessageDto,
+		_currentTenant?: number,
 	) {
-		const user = await this.em.findOneOrFail<UserEntity, HintType>(UserEntity, {
-			id: userId,
-		});
-
-		const groups = await this.em.find<GroupEntity, HintType>(
-			GroupEntity,
-			{
-				users: {
-					user: userId,
-				},
-			},
-			{
-				populate: ["users", "groupPermissions", "groupCollectionPermissions"],
-				populateWhere: "infer",
-			},
-		);
-
-		const hasCollectionPermission =
-			user?.superadmin ||
-			groups.some((group) => {
-				return group.groupPermissions
-					.map(
-						(entity) =>
-							entity.permission === GROUP_PERMISSION.admin ||
-							entity.permission === GROUP_PERMISSION.collection,
-					)
-					.some((el) => !!el);
-			});
-
-		if (!hasCollectionPermission) {
-			const collectionKeys = groups.flatMap((group) => {
-				return group.groupCollectionPermissions.map(
-					(perm) => perm.collection.id,
-				);
-			});
-
-			if (!collectionKeys.includes(chatId)) {
-				console.error("Error creating chatMessage: 404");
-
-				throw new HttpException(
-					"Internal Server Error",
-					HttpStatus.INTERNAL_SERVER_ERROR,
-				);
-			}
-		}
+		const collection = await this.validateAndGetCollection(userKey, chatId);
 
 		const docs = await this.em.find<DocEntity>(DocEntity, {
-			collection: chatId,
+			collection,
 		});
 
 		if (!docs.length) {
-			console.error("no documents in collection");
+			console.error("Collection Empty");
 
-			throw new HttpException(
-				"Internal Server Error",
-				HttpStatus.INTERNAL_SERVER_ERROR,
-			);
+			throw new HttpException("Collection Empty", HttpStatus.FORBIDDEN);
 		}
 
 		try {
 			const chatMessage = this.em.create<ChatMessageEntity>(ChatMessageEntity, {
-				user: userId,
+				user:
+					typeof userKey === "number" ? { id: userKey } : { email: userKey },
 				collection: chatId,
 				request: {
 					message: chatMessageDto.raw,
@@ -202,74 +178,41 @@ export class ChatService {
 			console.error("Error creating chatMessage:", error);
 
 			throw new HttpException(
-				"Internal Server Error",
+				"Postgres Error: - Failed To Create Message",
 				HttpStatus.INTERNAL_SERVER_ERROR,
 			);
 		}
 	}
 
-	async messageSend(
-		userId: ChatMessageEntity["user"]["id"],
+	async initiateRetrieveFlow(
+		userKey:
+			| ChatMessageEntity["user"]["id"]
+			| ChatMessageEntity["user"]["email"],
 		chatId: CollectionEntity["id"],
 		data: ChatMessageDto,
 	) {
-		const collection = await this.em.findOne<
-			CollectionEntity,
-			"providers" | "providers.provider"
-		>(
-			CollectionEntity,
-			{
-				id: chatId,
-				providers: {
-					enabled: true,
-					provider: {
-						type: PROVIDER_TYPE.minio,
-					},
-				},
-			},
-			{
-				populate: ["providers", "providers.provider"],
-				populateWhere: "infer",
-				exclude: ["user", "collection"],
-			},
-		);
+		const collection = await this.validateAndGetCollection(userKey, chatId);
 
-		if (!collection) {
-			throw new HttpException(
-				"Collection with active minio provider not found",
-				HttpStatus.BAD_REQUEST,
-			);
-		}
+		const { provider, settings } =
+			await this.getMinioProviderAndSettings(chatId);
 
-		const [{ provider, settings } = {}] = collection.providers;
-
-		if (!provider) {
-			throw new HttpException("Provider not found", HttpStatus.BAD_REQUEST);
-		}
-
-		const endpointExternal =
-			process.env.S3_ENDPOINT_EXTERNAL ||
-			(provider.settings?.dockerEndpoint as string) ||
-			(settings?.dockerEndpoint as string);
+		const endpointExternal = process.env.S3_ENDPOINT_EXTERNAL;
 
 		const bucket =
 			(provider.settings?.bucket as string) ||
 			(settings?.bucket as string) ||
 			process.env.S3_BUCKET_DOC_MEDIA;
 
-		// try {
-		const copyFlow = await this.flowService.getFlow({ filter: "RETRIEVE" });
-		const newFlow = await this.flowService.createFlow({ flow: copyFlow });
+		const copyFlow = await this.flowService.getFlow({ action: "RETRIEVE" });
+		const newFlow = await this.flowService.copyFlow(copyFlow);
 
 		const newFlowId = newFlow.id;
-		const qdrantId = newFlow.data.nodes.find(
+		const { id: qdrantId } = newFlow.data.nodes.find(
 			(node) => node.data.node.display_name === "Qdrant",
-		).id;
+		);
 
 		try {
-			// await this.flowService.deleteFlow({ flow: newFlow });
 			const response = await this.flowService.runFlow({
-				// flowId: "ec5c0e73-e348-4f1a-bc89-c0ed21167097",
 				flowId: newFlowId,
 				payload: {
 					message: data.raw,
@@ -280,7 +223,6 @@ export class ChatService {
 					},
 				},
 			});
-
 			response.fragments.map((frag) => {
 				const file_path = frag.file_path;
 				const filenameWithDate = path.basename(file_path);
@@ -294,36 +236,20 @@ export class ChatService {
 				return frag;
 			});
 
-			return {
-				success: true,
-				response,
-			};
+			return response;
 		} catch (error) {
-			console.error("Request failed:", error.message);
-			console.error("Status code:", error.response?.statusCode);
-			console.error("Response body:", error.response?.body);
-			console.error("Headers:", error.response?.headers);
+			logErrors(error);
+
+			throw new HttpException(
+				"Retrieve Pipeline Failed",
+				HttpStatus.INTERNAL_SERVER_ERROR,
+			);
 		}
 	}
 
 	async messagePatch(
 		messageId: ChatMessageEntity["id"],
-		p0: {
-			response: {
-				success: boolean;
-				message: string;
-				created_at: Date;
-				fragments: {
-					file_path: string;
-					page_num: number;
-					text: string;
-					uuid: string | number;
-					_collection_name: string;
-					_id: string;
-				}[];
-			};
-		},
-		data: Partial<ChatMessageEntity>,
+		response: FlowResponse,
 	) {
 		try {
 			const chatMessage = await this.em.findOne<ChatMessageEntity>(
@@ -331,104 +257,33 @@ export class ChatService {
 				{
 					id: messageId,
 				},
-				{
-					exclude: ["user", "collection"],
-				},
 			);
 
-			chatMessage.response = data.response;
+			chatMessage.response = response;
 			await this.em.flush();
 
 			return chatMessage;
 		} catch (error) {
-			console.error("Error creating chatMessage:", error);
+			console.error("Error patching chatMessage:", error);
 
 			throw new HttpException(
-				"Internal Server Error",
+				"Postgres Error: - Failed To Patch Message",
 				HttpStatus.INTERNAL_SERVER_ERROR,
 			);
 		}
 	}
 
-	async uploadMedia(userId, chatId, data) {
-		const user = await this.em.findOneOrFail<UserEntity, HintType>(UserEntity, {
-			id: userId,
-		});
+	async uploadMedia(
+		userKey:
+			| ChatMessageEntity["user"]["id"]
+			| ChatMessageEntity["user"]["email"],
+		chatId: CollectionEntity["id"],
+		data: ChatUploadMediaDto,
+	) {
+		const collection = await this.validateAndGetCollection(userKey, chatId);
 
-		const groups = await this.em.find<GroupEntity, HintType>(
-			GroupEntity,
-			{
-				users: {
-					user: userId,
-				},
-			},
-			{
-				populate: ["users", "groupPermissions", "groupCollectionPermissions"],
-				populateWhere: "infer",
-			},
-		);
-
-		const hasCollectionPermission =
-			user?.superadmin ||
-			groups.some((group) => {
-				return group.groupPermissions
-					.map(
-						(entity) =>
-							entity.permission === GROUP_PERMISSION.admin ||
-							entity.permission === GROUP_PERMISSION.collection,
-					)
-					.some((el) => !!el);
-			});
-
-		if (!hasCollectionPermission) {
-			const collectionKeys = groups.flatMap((group) => {
-				return group.groupCollectionPermissions.map(
-					(perm) => perm.collection.id,
-				);
-			});
-
-			if (!collectionKeys.includes(chatId)) {
-				console.error("Error uploading media: 404");
-
-				throw new HttpException(
-					"Internal Server Error",
-					HttpStatus.INTERNAL_SERVER_ERROR,
-				);
-			}
-		}
-
-		const collection = await this.em.findOne<
-			CollectionEntity,
-			"providers" | "providers.provider"
-		>(
-			CollectionEntity,
-			{
-				id: chatId,
-				providers: {
-					enabled: true,
-					provider: {
-						type: PROVIDER_TYPE.minio,
-					},
-				},
-			},
-			{
-				populate: ["providers", "providers.provider"],
-				populateWhere: "infer",
-			},
-		);
-
-		if (!collection) {
-			throw new HttpException(
-				"Collection with active minio provider not found",
-				HttpStatus.BAD_REQUEST,
-			);
-		}
-
-		const [{ provider, settings } = {}] = collection.providers;
-
-		if (!provider) {
-			throw new HttpException("Provider not found", HttpStatus.BAD_REQUEST);
-		}
+		const { provider, settings } =
+			await this.getMinioProviderAndSettings(chatId);
 
 		const login =
 			process.env.S3_ACCESS_KEY_ID ||
@@ -450,16 +305,6 @@ export class ChatService {
 			(settings?.bucket as string) ||
 			process.env.S3_BUCKET_DOC_MEDIA;
 
-		console.log("credentials ", {
-			credentials: {
-				accessKeyId: login,
-				secretAccessKey: password,
-			},
-			region: process.env.S3_REGION,
-			endpoint,
-			forcePathStyle: true,
-		});
-
 		const upload = getHandleUpload({
 			bucket,
 			acl: "public-read",
@@ -474,97 +319,80 @@ export class ChatService {
 			}),
 		});
 
-		await promiseMap(data.media, async (media) => {
-			const fileKey = await upload({ file: media });
+		const audioFormats = [
+			"video/mp4",
+			"video/webm",
+			"audio/x-wav",
+			"audio/mpeg",
+			"audio/x-m4a",
+		];
 
-			console.log("after upload", fileKey);
-
-			const copyFlow = await this.flowService.getFlow({ filter: "UPLOAD" });
-			const newFlow = await this.flowService.createFlow({ flow: copyFlow });
-
-			console.log("after create flows", newFlow);
-
-			const newFlowId = newFlow.id;
-			// const fileId = newFlow.data.nodes.find(node => node.data.type === 'File').id;
-			// const qdrantId = newFlow.data.nodes.find(node => node.data.type === 'CustomComponent').id;
-			// const flowId = "e37720bf-bb8e-487d-9138-3bd1869c8330";
+		const uploadData = await promiseMap<
+			{
+				file: string;
+				status: "success" | "duplicates" | "errors";
+				message?: string;
+			},
+			UploadedFile
+		>(data.media, async (media) => {
+			const fileKey = media.originalname;
 
 			try {
-				let resultUpload: { file_path: string } | null = null;
+				const docExists = await this.em.count<DocEntity>(DocEntity, {
+					filename: `${collection.title}/${fileKey}`,
+				});
 
-				if (media.originalname.split(".").pop() === "pdf") {
-					resultUpload = await this.flowService.uploadFile({
-						flowId: newFlowId,
-						media,
-						name: fileKey,
-					});
-				} else {
-					resultUpload = await this.gotenbergService.convertFromS3({
-						flowId: newFlowId,
-						fileKey,
-						params: {
-							bucket,
-							acl: "public-read",
-							endpoint,
-							getStorageClient: () => ({
-								credentials: {
-									accessKeyId: login,
-									secretAccessKey: password,
-								},
-								region: process.env.S3_REGION,
-								forcePathStyle: true,
-								endpoint,
-							}),
-						},
-					});
-
-					console.log("after gotenb", resultUpload);
+				if (docExists) {
+					return {
+						file: fileKey,
+						status: "duplicates",
+						message: "File Already Exists",
+					};
 				}
 
-				const { file_path: filepath } = resultUpload;
+				if (audioFormats.includes(media.mimetype)) {
+					// TODO
+					return await this.audioSerivce.convert(media);
+				}
 
-				// const { file_path: filePath } = await this.flowService.uploadFile({
-				// 	flowId: newFlowId,
-				// 	media,
-				// });
+				const pdfMedia =
+					fileKey.split(".").pop() !== "pdf"
+						? await this.gotenbergService.convert(media)
+						: media;
 
-				const fileId = newFlow.data.nodes.find(
+				const oldFLow = await this.flowService.getFlow({ action: "UPLOAD" });
+				const newFlow = await this.flowService.copyFlow(oldFLow);
+				const newFlowId = newFlow.id;
+
+				const { file_path: filepath } = await this.flowService.uploadFile({
+					flowId: newFlowId,
+					filename: fileKey,
+					media: pdfMedia,
+				});
+
+				const { id: fileId } = newFlow.data.nodes.find(
 					(node) => node.data.node.display_name === "File",
-				).id;
-				const qdrantId = newFlow.data.nodes.find(
+				);
+				const { id: qdrantId } = newFlow.data.nodes.find(
 					(node) => node.data.node.display_name === "Qdrant",
-				).id;
-
-				console.log(
-					JSON.stringify({
-						method: "UPLOAD",
-						flowId: newFlowId,
-						payload: {
-							tweaks: {
-								[fileId]: {
-									path: `${filepath}`,
-									concurrency_multithreading: 4,
-									silent_errors: false,
-									use_multithreading: false,
-								},
-								[qdrantId]: {
-									collection_name: collection.title.toString(),
-								},
-							},
-						},
-					}),
 				);
 
+				if (!fileId || !qdrantId) {
+					console.error("LangFlow Error: - Failed To Find Components");
+
+					throw new HttpException(
+						"Pipeline Components Not Found",
+						HttpStatus.INTERNAL_SERVER_ERROR,
+					);
+				}
+
 				await this.flowService.runFlow({
-					method: "UPLOAD",
+					action: "UPLOAD",
 					flowId: newFlowId,
 					payload: {
 						tweaks: {
 							[fileId]: {
 								path: `${filepath}`,
-								concurrency_multithreading: 4,
-								silent_errors: false,
-								use_multithreading: false,
 							},
 							[qdrantId]: {
 								collection_name: collection.title.toString(),
@@ -572,40 +400,118 @@ export class ChatService {
 						},
 					},
 				});
+				await this.flowService.deleteFlow(newFlow);
 
-				console.log("after run flow");
+				if (media !== pdfMedia) {
+					upload({ file: media });
+				}
+				upload({ file: pdfMedia });
+
 				const vectorFilePath = `/app/langflow/${filepath}`;
 
-				try {
-					const doc = this.em.create<DocEntity>(DocEntity, {
-						filename: media.originalname,
-						filesize: media.size,
-						mimeType: media.mimetype,
-						collection: chatId,
-						provider: provider.id,
-						vectorFilePath,
-					});
-					await this.em.persistAndFlush(doc);
+				const doc = this.em.create<DocEntity>(DocEntity, {
+					filename: `${collection.title}/${fileKey}`,
+					filesize: media.size,
+					mimeType: media.mimetype,
+					collection: chatId,
+					provider: provider.id,
+					vectorFilePath,
+				});
+				await this.em.persistAndFlush(doc);
 
-					console.log("after create doc entity", doc);
-				} catch (error) {
-					console.error("Error creating doc:", error);
-
-					throw new HttpException(
-						"Internal Server Error",
-						HttpStatus.INTERNAL_SERVER_ERROR,
-					);
-				}
+				return {
+					file: fileKey,
+					status: "success",
+				};
 			} catch (error) {
-				console.error("Request failed:", error.message);
-				console.error("Status code:", error.response?.statusCode);
-				console.error("Response body:", error.response?.body);
-				console.error("Headers:", error.response?.headers);
-			}
+				logErrors(error);
 
-			await this.flowService.deleteFlow({ flow: newFlow });
+				return {
+					file: fileKey,
+					status: "errors",
+					message: error.message,
+				};
+			}
 		});
 
-		return { success: true };
+		const uploadResult = {
+			success: uploadData
+				.filter((upload) => upload.status === "success")
+				.map((elem) => {
+					delete elem.status;
+					return elem;
+				}),
+			duplicates: uploadData
+				.filter((upload) => upload.status === "duplicates")
+				.map((elem) => {
+					delete elem.status;
+					return elem;
+				}),
+			errors: uploadData
+				.filter((upload) => upload.status === "errors")
+				.map((elem) => {
+					delete elem.status;
+					return elem;
+				}),
+		};
+
+		return uploadResult;
+	}
+
+	optimiseResponse(response: FlowResponse): FlowResponse {
+		const clearText = (str: string) => str.replace(/\u0000/g, "");
+
+		return {
+			...response,
+			message: clearText(response.message),
+			fragments: response.fragments.map((frag) => ({
+				...frag,
+				text: clearText(frag.text),
+			})),
+		};
+	}
+
+	async getMinioProviderAndSettings(chatId: CollectionEntity["id"]) {
+		const collection = await this.em.findOne<
+			CollectionEntity,
+			keyof CollectionEntity | "providers.provider",
+			keyof CollectionEntity
+		>(
+			CollectionEntity,
+			{
+				id: chatId,
+				providers: {
+					enabled: true,
+					provider: {
+						type: PROVIDER_TYPE.minio,
+					},
+				},
+			},
+			{
+				populate: ["providers", "providers.provider"],
+				populateWhere: "infer",
+			},
+		);
+
+		if (!collection) {
+			console.error("Collection With Active Minio Provider Not Found");
+
+			throw new HttpException(
+				"Collection With Active Minio Provider Not Found",
+				HttpStatus.BAD_REQUEST,
+			);
+		}
+
+		const { provider, settings } = collection.providers?.find(
+			(provider) => provider.provider.type === PROVIDER_TYPE.minio,
+		);
+
+		if (!provider) {
+			console.error("Provider Not Found");
+
+			throw new HttpException("Provider not found", HttpStatus.BAD_REQUEST);
+		}
+
+		return { provider, settings };
 	}
 }
