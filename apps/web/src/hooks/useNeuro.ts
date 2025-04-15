@@ -1,16 +1,10 @@
+import { getNeuros } from "@/api/neuro.js";
 import { useQuery } from "@tanstack/react-query";
 
 export const useNeuro = () => {
-	const {
-		data: neuro,
-		// error: errorCollections,
-		// isPending: isPendingCollections,
-	} = useQuery({
+	const { data: neuro } = useQuery({
 		queryKey: ["neuro"],
-		queryFn: async () => {
-			const data = await fetch("/api/v1/neuro");
-			return await data.json();
-		},
+		queryFn: getNeuros,
 	});
 	return { neuro };
 };

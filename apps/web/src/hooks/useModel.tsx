@@ -1,16 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 
+import { getModels } from "@/api/model.js";
+
 export const useModel = () => {
-	const {
-		data: models,
-		// error: errorCollections,
-		// isPending: isPendingCollections,
-	} = useQuery({
+	const { data: models } = useQuery({
 		queryKey: ["models"],
-		queryFn: async () => {
-			const data = await fetch("/api/v1/models");
-			return await data.json();
-		},
+		queryFn: getModels,
 	});
 
 	return {

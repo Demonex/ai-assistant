@@ -1,12 +1,10 @@
+import { getCollection } from "@/api/collection.js";
 import { useQuery } from "@tanstack/react-query";
 
-export const useCollection = (collectionId) => {
+export const useCollection = (collectionId: number) => {
 	const { data: collection } = useQuery({
 		queryKey: ["collection", collectionId],
-		queryFn: async () => {
-			const collectionItem = await fetch(`/api/v1/collections/${collectionId}`);
-			return await collectionItem.json();
-		},
+		queryFn: () => getCollection(collectionId),
 	});
 
 	return {

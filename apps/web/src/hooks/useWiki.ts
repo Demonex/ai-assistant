@@ -1,3 +1,4 @@
+import { getWiki } from "@/api/wiki.js";
 import { useQuery } from "@tanstack/react-query";
 
 export const useWiki = () => {
@@ -8,27 +9,7 @@ export const useWiki = () => {
 	} = useQuery({
 		queryKey: ["wiki"],
 		retry: false,
-		queryFn: async (apiKey) => {
-			const response = await fetch(
-				`${import.meta.env.VITE_ADMIN_URL}/wiki/tree`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						apiKey: apiKey,
-					}),
-				},
-			);
-
-			if (!response.ok) {
-				const errorData = await response.json();
-				throw errorData;
-			}
-
-			return await response.json();
-		},
+		queryFn: getWiki, //Нужно пробросить ApiKey
 	});
 
 	console.log({ dataWiki, errorWiki, loadingWiki });
