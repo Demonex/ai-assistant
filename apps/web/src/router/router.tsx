@@ -24,7 +24,10 @@ export const withSuspense = (
 };
 
 const CustomizeCollectionPage = withSuspense(
-	lazy(() => import("@/pages/CustomizeCollection/CustomizeCollectionPage.js")),
+	lazy(() => import("@/pages/Collection/CustomizeCollectionPage.js")),
+);
+const CreateNewCollectionPage = withSuspense(
+	lazy(() => import("@/pages/Collection/CreateNewCollectionPage.js")),
 );
 const NotFoundPage = withSuspense(
 	lazy(() => import("@/pages/NotFound/NotFoundPage.js")),
@@ -69,6 +72,10 @@ export const AppRoutes = () => {
 					<Route path="models" element={<ModelPage />} />
 					<Route path="collections" element={<CollectionsPage />} />
 					<Route path="collections/:id" element={<CustomizeCollectionPage />} />
+					<Route
+						path="collections/new-collection"
+						element={<CreateNewCollectionPage />}
+					/>
 				</Route>
 			</Route>
 

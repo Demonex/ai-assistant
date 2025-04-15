@@ -1,4 +1,4 @@
-import { getProfile, signIn, signOut } from "@/api/Profile.js";
+import { getProfile, signIn, signOut } from "@/api/profile.js";
 import { ApiError, Profile, SignInData } from "@/types/types.js";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 

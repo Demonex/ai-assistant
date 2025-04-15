@@ -3,13 +3,13 @@ import { DataTableComponent } from "@/components/Table.js";
 import { useNeuro } from "@/hooks/useNeuro.js";
 
 const NeuroPage = () => {
-	const { neuro } = useNeuro();
+	const { neuros } = useNeuro();
 
 	return (
-		neuro && (
+		neuros && (
 			<main className="p-4 bg-[#fbfbfb]">
 				<div className="gap-8 lg:flex">
-					<DataTableComponent columns={ColumnNeuro} data={neuro} />
+					<DataTableComponent columns={ColumnNeuro} data={neuros} />
 				</div>
 			</main>
 		)

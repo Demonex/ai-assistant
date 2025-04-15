@@ -7,3 +7,4 @@ export * from "./modules/Wiki.js";
 export * from "./modules/Tenant.js";
 export * from "./modules/Neuro.js";
 export * from "./modules/Model.js";
+export * from "./modules/Provider.js";
