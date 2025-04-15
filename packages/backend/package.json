@@ -31,7 +31,6 @@
 		"@nestjs/platform-express": "11.0.4",
 		"@nestjs/schedule": "5.0.0",
 		"@nestjs/swagger": "11.0.2",
-		"@repo/auth": "workspace:*",
 		"apple-auth": "1.0.9",
 		"awesome-phonenumber": "6.4.0",
 		"base64-url": "2.3.3",
