@@ -1,3 +1,4 @@
+import { getProfile, signIn, signOut } from "@/api/Profile.js";
 import { ApiError, Profile, SignInData } from "@/types/types.js";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -15,16 +16,7 @@ export const useProfile = () => {
 		retry: false,
 		queryKey: ["profile"],
 		staleTime: 5 * 60 * 1000,
-		queryFn: async () => {
-			const response = await fetch("api/v1/profile");
-
-			if (!response.ok) {
-				const errorData = await response.json();
-				throw errorData;
-			}
-
-			return await response.json();
-		},
+		queryFn: getProfile,
 	});
 
 	// sign-in
@@ -33,20 +25,7 @@ export const useProfile = () => {
 		mutate: handleSignIn,
 		isPending: pendingSignIn,
 	} = useMutation<ResponseType, ApiError, SignInData>({
-		mutationFn: async ({ email, password }) => {
-			const response = await fetch("api/v1/auth/email/sign-in", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ email, password }),
-			});
-
-			if (!response.ok) {
-				const errorData = await response.json();
-				throw errorData;
-			}
-
-			return response.json();
-		},
+		mutationFn: signIn,
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["profile"] });
 		},
@@ -58,18 +37,7 @@ export const useProfile = () => {
 		ApiError,
 		void
 	>({
-		mutationFn: async () => {
-			const response = await fetch("api/v1/auth/user/sign-out", {
-				method: "POST",
-			});
-
-			if (!response.ok) {
-				const errorData = await response.json();
-				throw errorData;
-			}
-
-			return response.json();
-		},
+		mutationFn: signOut,
 		onSuccess: () => {
 			queryClient.removeQueries({ queryKey: ["profile"] });
 			queryClient.invalidateQueries({ queryKey: ["profile"] });
