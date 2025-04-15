@@ -47,11 +47,14 @@ export const ColumnCollection: ColumnDef<Collection>[] = [
 				</Button>
 			);
 		},
-		cell: ({ row }) => (
-			<Link to={"/collections/collection"} className=" cursor-pointer">
-				{row.getValue("title")}
-			</Link>
-		),
+		cell: ({ row }) => {
+			const collectionId = row.original.id;
+			return (
+				<Link to={`/collections/${collectionId}`} className=" cursor-pointer">
+					{row.getValue("title")}
+				</Link>
+			);
+		},
 	},
 	{
 		accessorKey: "embedding",

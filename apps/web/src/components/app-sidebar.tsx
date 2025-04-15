@@ -16,9 +16,15 @@ import {
 	Atom,
 	Boxes,
 	Command,
+	File,
 	FileBox,
+	LayoutGrid,
+	Mails,
 	MessageCircleMore,
+	Network,
+	User,
 	UserRoundCog,
+	Users,
 } from "lucide-react";
 
 export function AppSidebar() {
@@ -50,6 +56,36 @@ export function AppSidebar() {
 			name: "Модели",
 			path: "/models",
 			icon: <FileBox />,
+		},
+		{
+			name: "Пользователи",
+			path: "/users",
+			icon: <User />,
+		},
+		{
+			name: "Группы",
+			path: "/groups",
+			icon: <Users />,
+		},
+		{
+			name: "Тенанты",
+			path: "/tenats",
+			icon: <LayoutGrid />,
+		},
+		{
+			name: "Сообщения",
+			path: "/chat-message",
+			icon: <Mails />,
+		},
+		{
+			name: "Docs",
+			path: "/docs",
+			icon: <File />,
+		},
+		{
+			name: "Провайдеры",
+			path: "/providers",
+			icon: <Network />,
 		},
 	];
 

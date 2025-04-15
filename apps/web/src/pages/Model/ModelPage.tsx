@@ -5,8 +5,6 @@ import { useModel } from "@/hooks/useModel.js";
 const ModelPage = () => {
 	const { models } = useModel();
 
-	console.log(models);
-
 	return (
 		models && (
 			<main className="p-4 bg-[#fbfbfb]">

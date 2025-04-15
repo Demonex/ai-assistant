@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { ChatMessageEntity } from "../entities/Chat/index.js";
 
 import { EntityManager } from "@mikro-orm/core";
@@ -9,7 +9,7 @@ import { CollectionEntity } from "../entities/Collection/index.js";
 export class CollectionService {
 	constructor(private readonly em: EntityManager) {}
 
-	async getCollections(userId: ChatMessageEntity["user"]["id"], currentTenant) {
+	async findAll(userId: ChatMessageEntity["user"]["id"], currentTenant) {
 		const collections = await this.em.find<CollectionEntity>(
 			CollectionEntity,
 			{
@@ -21,5 +21,24 @@ export class CollectionService {
 		);
 
 		return collections;
+	}
+
+	async findOne(collectionId) {
+		const collection = await this.em.findOne<CollectionEntity>(
+			CollectionEntity,
+			{
+				id: collectionId,
+			},
+			{
+				populate: ["embedding", "llm", "reranker", "providers", "tenant"],
+			},
+		);
+
+		if (!collection) {
+			throw new NotFoundException(
+				`Коллекции с id:${collectionId} не существует`,
+			);
+		}
+		return collection;
 	}
 }

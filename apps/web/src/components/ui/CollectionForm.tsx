@@ -41,17 +41,20 @@ const formSchema = z.object({
 	reranker: z.string(),
 });
 
-export function CollectionForm() {
+export function CollectionForm({ collection }) {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			username: "",
+			name: "",
+			tenant: collection.tenant.title,
 		},
 	});
 
 	const onSubmit = () => {
 		console.log("клик");
 	};
+
+	console.log(collection);
 
 	return (
 		<Form {...form}>
@@ -63,9 +66,13 @@ export function CollectionForm() {
 						<>
 							<FormItem>
 								<FormLabel>Тенант</FormLabel>
-								<Select>
+								<Select
+									onValueChange={field.onChange}
+									defaultValue={field.value}
+									value={field.value}
+								>
 									<SelectTrigger>
-										<SelectValue placeholder="Тенант" />
+										<SelectValue placeholder="Выберите тенант" />
 									</SelectTrigger>
 									<SelectContent>
 										<SelectItem value="light">Тенант1</SelectItem>
@@ -82,7 +89,10 @@ export function CollectionForm() {
 							</FormItem>
 							<FormItem>
 								<FormLabel>Описание коллекции</FormLabel>
-								<Textarea placeholder="Type your message here." />
+								<Textarea
+									name="description"
+									placeholder="Type your message here."
+								/>
 							</FormItem>
 							<FormItem>
 								<FormLabel>Embedding Нейросервис</FormLabel>
