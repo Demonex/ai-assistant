@@ -1,4 +1,4 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get, Param, ParseIntPipe, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { Authorized } from "../decorators/auth.js";
 import { CollectionService } from "../services/Collection.js";
@@ -15,6 +15,18 @@ export class CollectionController {
 		@UserId() userId: number,
 		@TenantId() currentTenant: number,
 	) {
-		return this.collectionService.getCollections(userId, currentTenant);
+		return this.collectionService.findAll(userId, currentTenant);
+	}
+
+	@Authorized()
+	@Get("/collections/:id")
+	async getCollectionItem(@Param("id", ParseIntPipe) id: number) {
+		return this.collectionService.findOne(id);
+	}
+
+	@Authorized()
+	@Post("/collections")
+	async createCollection() {
+		return "Коллекция создана";
 	}
 }

@@ -68,10 +68,7 @@ export const AppRoutes = () => {
 					<Route path="neuro" element={<NeuroPage />} />
 					<Route path="models" element={<ModelPage />} />
 					<Route path="collections" element={<CollectionsPage />} />
-					<Route
-						path="collections/collection"
-						element={<CustomizeCollectionPage />}
-					/>
+					<Route path="collections/:id" element={<CustomizeCollectionPage />} />
 				</Route>
 			</Route>
 

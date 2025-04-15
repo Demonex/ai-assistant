@@ -28,13 +28,13 @@ export class CollectionEntity {
 	tenant!: Rel<TenantEntity>;
 
 	@ManyToOne(() => NeuroEntity)
-	embedding?: Rel<NeuroEntity>;
+	embedding!: Rel<NeuroEntity>;
 
 	@ManyToOne(() => NeuroEntity)
-	llm?: Rel<NeuroEntity>;
+	llm!: Rel<NeuroEntity>;
 
 	@ManyToOne(() => NeuroEntity)
-	reranker?: Rel<NeuroEntity>;
+	reranker!: Rel<NeuroEntity>;
 
 	@OneToMany(() => CollectionProvidersEntity, "collection")
 	providers: CollectionProvidersEntity[];
