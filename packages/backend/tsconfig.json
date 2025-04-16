@@ -1,13 +1,6 @@
 {
 	"extends": "@repo/config-typescript/service.json",
-	"references": [
-		{
-			"path": "../common"
-		},
-		{
-			"path": "../../services/auth"
-		}
-	],
+	"references": [],
 	"compilerOptions": {
 		"rootDir": "./",
 		"paths": {
