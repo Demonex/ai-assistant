@@ -522,20 +522,13 @@ export class ChatService {
 		}, {});
 
 		if (uploadResult?.audio?.success) {
-			const fileNames = uploadResult.audio.success
-				.map((el) => el.file)
-				.join(", ");
-
 			const chatMessage = this.em.create<ChatMessageEntity>(ChatMessageEntity, {
 				user:
 					typeof userKey === "number" ? { id: userKey } : { email: userKey },
 				collection: chatId,
-				request: {
-					message: `Транскрипция ${fileNames}`,
-					created_at: new Date(),
-				},
+				request: null,
 				response: {
-					...uploadResult,
+					files: uploadResult.audio.success,
 					created_at: new Date(),
 				},
 			});

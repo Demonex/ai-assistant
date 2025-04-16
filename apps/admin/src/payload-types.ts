@@ -283,7 +283,7 @@ export interface ChatMessage {
 	id: number;
 	user: number | User;
 	collection: number | Collection;
-	request:
+	request?:
 		| {
 				[k: string]: unknown;
 		  }

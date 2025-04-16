@@ -7,7 +7,7 @@ import type { UploadedFile } from "../types/Chat.js";
 
 @Injectable()
 export class AudioService {
-	private endpoint = process.env.AUDIOSERVICE_URL;
+	private endpoint = process.env.AUDIO_SERVICE_URL;
 
 	async transcribe(media: UploadedFile): Promise<AudioReponse> {
 		const form = new FormData();

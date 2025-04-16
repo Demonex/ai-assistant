@@ -9,6 +9,7 @@ export class ChatMessageEntity {
 
 	@Property({
 		type: "jsonb",
+		nullable: true,
 	})
 	request: {
 		[k: string]: unknown;
