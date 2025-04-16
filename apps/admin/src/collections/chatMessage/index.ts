@@ -36,7 +36,6 @@ export const chatMessage: CollectionConfig = {
 		{
 			name: "request",
 			type: "json",
-			required: true,
 			label: "Запрос",
 		},
 		{
