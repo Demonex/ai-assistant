@@ -11,6 +11,8 @@
 	"eslint.enable": true,
 	"diffEditor.ignoreTrimWhitespace": false,
 	"javascript.updateImportsOnFileMove.enabled": "always",
+	"typescript.preferences.importModuleSpecifierEnding": "js",
+	"javascript.preferences.importModuleSpecifierEnding": "js",
 	"eslint.validate": [
 		"javascript",
 		"javascriptreact",
