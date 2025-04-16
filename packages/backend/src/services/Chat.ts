@@ -207,8 +207,15 @@ export class ChatService {
 		const newFlow = await this.flowService.copyFlow(copyFlow);
 
 		const newFlowId = newFlow.id;
+		// const { id: qdrantId } = newFlow.data.nodes.find(
+		// 	(node) => node.data.node.display_name === "Qdrant",
+		// );
+
 		const { id: qdrantId } = newFlow.data.nodes.find(
 			(node) => node.data.node.display_name === "Qdrant",
+		);
+		const { id: ollamaId } = newFlow.data.nodes.find(
+			(node) => node.data.node.display_name === "Ollama",
 		);
 
 		try {
@@ -219,6 +226,11 @@ export class ChatService {
 					tweaks: {
 						[qdrantId]: {
 							collection_name: collection.title,
+							url: process.env.VECTOR_STORE_URL,
+						},
+						[ollamaId]: {
+							base_url: process.env.MODEL_URL,
+							model_name: "qwen2.5:latest",
 						},
 					},
 				},
@@ -252,10 +264,17 @@ export class ChatService {
 		response: FlowResponse,
 	) {
 		try {
-			const chatMessage = await this.em.findOne<ChatMessageEntity>(
+			const chatMessage = await this.em.findOne<
+				ChatMessageEntity,
+				never,
+				keyof ChatMessageEntity
+			>(
 				ChatMessageEntity,
 				{
 					id: messageId,
+				},
+				{
+					fields: ["request", "response"],
 				},
 			);
 
@@ -376,6 +395,9 @@ export class ChatService {
 				const { id: qdrantId } = newFlow.data.nodes.find(
 					(node) => node.data.node.display_name === "Qdrant",
 				);
+				const { id: ollamaId } = newFlow.data.nodes.find(
+					(node) => node.data.node.display_name === "Ollama Embeddings",
+				);
 
 				if (!fileId || !qdrantId) {
 					console.error("LangFlow Error: - Failed To Find Components");
@@ -396,6 +418,11 @@ export class ChatService {
 							},
 							[qdrantId]: {
 								collection_name: collection.title.toString(),
+								url: process.env.VECTOR_STORE_URL,
+							},
+							[ollamaId]: {
+								base_url: process.env.EMBEDDING_URL,
+								model_name: "bge-m3:latest",
 							},
 						},
 					},
