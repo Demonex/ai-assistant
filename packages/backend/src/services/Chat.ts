@@ -491,7 +491,21 @@ export class ChatService {
 			}
 		});
 
-		const uploadResult = uploadData.reduce((acc, item) => {
+		type UploadResult = {
+			[key: string]: object;
+			audio?: {
+				success?: {
+					type: "audio";
+					file: string;
+					transciption?: AudioReponse["transcription"];
+					fullText?: AudioReponse["fullText"];
+					status: "success" | "errors";
+					message?: string;
+				}[];
+			};
+		};
+
+		const uploadResult: UploadResult = uploadData.reduce((acc, item) => {
 			const { type, status } = item;
 
 			if (!acc[type]) {
@@ -506,6 +520,27 @@ export class ChatService {
 
 			return acc;
 		}, {});
+
+		if (uploadResult?.audio?.success) {
+			const fileNames = uploadResult.audio.success
+				.map((el) => el.file)
+				.join(", ");
+
+			const chatMessage = this.em.create<ChatMessageEntity>(ChatMessageEntity, {
+				user:
+					typeof userKey === "number" ? { id: userKey } : { email: userKey },
+				collection: chatId,
+				request: {
+					message: `Транскрипция ${fileNames}`,
+					created_at: new Date(),
+				},
+				response: {
+					...uploadResult,
+					created_at: new Date(),
+				},
+			});
+			await this.em.persistAndFlush(chatMessage);
+		}
 
 		return uploadResult;
 	}
