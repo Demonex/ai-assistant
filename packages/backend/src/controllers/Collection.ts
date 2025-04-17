@@ -4,13 +4,14 @@ import {
 	Get,
 	Param,
 	ParseIntPipe,
+	Patch,
 	Post,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { Authorized } from "../decorators/auth.js";
 import { CollectionService } from "../services/Collection.js";
 import { TenantId, UserId } from "../decorators/user.js";
-import { CreateCollectionDto } from "../dto/Collection.js";
+import { CreateCollectionDto, UpdateCollectionDto } from "../dto/Collection.js";
 
 ApiTags("collection");
 @Controller("/api/v1")
@@ -36,5 +37,14 @@ export class CollectionController {
 	@Post("/collections")
 	async createCollection(@Body() createCollectionDto: CreateCollectionDto) {
 		return this.collectionService.createCollection(createCollectionDto);
+	}
+
+	@Authorized()
+	@Patch("collections/:id")
+	async updateCollection(
+		@Param("id", ParseIntPipe) id: number,
+		@Body() updateCollectionDto: UpdateCollectionDto,
+	) {
+		return this.collectionService.updateCollection(id, updateCollectionDto);
 	}
 }

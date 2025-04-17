@@ -8,7 +8,7 @@ import { ChatMessageEntity } from "../entities/Chat/index.js";
 import { EntityManager } from "@mikro-orm/core";
 
 import { CollectionEntity } from "../entities/Collection/index.js";
-import { CreateCollectionDto } from "../dto/Collection.js";
+import { CreateCollectionDto, UpdateCollectionDto } from "../dto/Collection.js";
 import { TenantEntity } from "../entities/Tenant/index.js";
 import { NeuroEntity } from "../entities/Neuro/index.js";
 import { ProviderEntity } from "../entities/Provider/index.js";
@@ -73,6 +73,27 @@ export class CollectionService {
 		});
 
 		await this.em.persistAndFlush(collection);
+		return collection;
+	}
+
+	async updateCollection(id: number, updateCollectionDto: UpdateCollectionDto) {
+		const collection = await this.em.findOne<CollectionEntity>(
+			CollectionEntity,
+			{ id },
+		);
+
+		if (!collection) {
+			throw new NotFoundException("Collection not found");
+		}
+
+		Object.keys(updateCollectionDto).forEach((item) => {
+			if (updateCollectionDto[item] !== undefined) {
+				collection[item] = updateCollectionDto[item];
+			}
+		});
+
+		await this.em.flush();
+
 		return collection;
 	}
 

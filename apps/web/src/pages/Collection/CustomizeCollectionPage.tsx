@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router";
 import { CollectionForm } from "@/components/CollectionForm.js";
 import { Button } from "@/components/ui/button.js";
 import { useCollection } from "@/hooks/Collection/useCollection.js";
+import { useUpdateCollection } from "@/hooks/Collection/useUpdateCollection.js";
+import { toast } from "@/hooks/use-toast.js";
 import { useNeuro } from "@/hooks/useNeuro.js";
 import { useProvider } from "@/hooks/useProviders.js";
 import { useTenant } from "@/hooks/useTenant.js";
@@ -15,6 +17,25 @@ const CustomizeCollectionPage = () => {
 	const { tenants } = useTenant();
 	const { neuros } = useNeuro();
 	const { providers } = useProvider();
+	const { handleUpdateCollection } = useUpdateCollection(+id);
+
+	const onSubmit = (data) => {
+		handleUpdateCollection(data, {
+			onSuccess: async () => {
+				navigate("/collections");
+				toast({
+					title: `Коллекция ${data.title} успешно обновлена`,
+				});
+			},
+			onError: async (e) => {
+				toast({
+					variant: "destructive",
+					title: "Произошла ошибка при содании коллекции",
+					description: e.message,
+				});
+			},
+		});
+	};
 
 	return (
 		collection &&
@@ -32,6 +53,7 @@ const CustomizeCollectionPage = () => {
 						tenants={tenants}
 						neuros={neuros}
 						providers={providers}
+						onSubmit={onSubmit}
 					/>
 				</div>
 			</main>
