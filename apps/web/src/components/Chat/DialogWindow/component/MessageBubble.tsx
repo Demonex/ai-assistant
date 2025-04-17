@@ -1,6 +1,5 @@
-import { memo } from "react";
+import { type FC, useMemo } from "react";
 
-import { AccordionComponent } from "@repo/web/components/AccordionComponent.js";
 import { formatLocalTime } from "@repo/web/helpers/index.js";
 import { toast } from "@repo/web/hooks/use-toast.js";
 import type { Message } from "@repo/web/types/types.js";
@@ -12,16 +11,24 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip.js";
 
+import { AccordionFiles } from "./AccordionFiles.js";
+import { AccordionFragments } from "./AccordionFragments.js";
 import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 
-export const MessageBubble = memo<{
+type MessageBubbleProps = {
 	message: Message;
 	isRequest: boolean;
-}>(({ message, isRequest }) => {
+};
+
+export const MessageBubble: FC<MessageBubbleProps> = ({
+	message,
+	isRequest,
+}) => {
 	const {
 		created_at,
 		message: text,
 		fragments,
+		files,
 	} = isRequest ? message.request : message.response;
 
 	const handleCopy = async (text: string) => {
@@ -37,6 +44,14 @@ export const MessageBubble = memo<{
 		});
 	};
 
+	const isFiles = useMemo(() => {
+		return files && files.length > 0;
+	}, [files]);
+
+	const isFragments = useMemo(() => {
+		return fragments && fragments.length > 0;
+	}, [files]);
+
 	return (
 		<div className={`max-w-screen-sm ${isRequest ? "self-end" : "w-full"}`}>
 			<div className={`flex items-center gap-2 ${!isRequest && "w-full"}`}>
@@ -45,44 +60,39 @@ export const MessageBubble = memo<{
 						isRequest ? "order-1" : "w-full"
 					}`}
 				>
-					<div
-						className={`relative inline-flex px-4 py-4 ${!isRequest && "w-full"}`}
-					>
-						<Tooltip>
-							<TooltipTrigger asChild>
-								{
+					{text && (
+						<div
+							className={`relative inline-flex px-4 py-4 ${!isRequest && "w-full"}`}
+						>
+							<Tooltip>
+								<TooltipTrigger asChild>
 									<div
-										onClick={() =>
-											handleCopy(
-												isRequest
-													? message.request.message
-													: message.response.message,
-											)
-										}
+										onClick={() => handleCopy(text)}
 										className="absolute right-0 bottom-[100%] flex items-center cursor-pointer hover:opacity-80 p-2"
 									>
 										<Copy size={14} />
 									</div>
-								}
-							</TooltipTrigger>
-							<TooltipContent
-								side="top"
-								align="center"
-								hidden={false}
-								{...{
-									children: "Копировать",
-									hidden: false,
-									className: "hidden md:block",
-								}}
-							/>
-						</Tooltip>
+								</TooltipTrigger>
+								<TooltipContent
+									side="top"
+									align="center"
+									hidden={false}
+									{...{
+										children: "Копировать",
+										hidden: false,
+										className: "hidden md:block",
+									}}
+								/>
+							</Tooltip>
 
-						<ReactMarkdownComponent textMarkdown={text} />
-					</div>
+							<ReactMarkdownComponent textMarkdown={text} />
+						</div>
+					)}
 
-					{!isRequest && fragments && fragments.length > 0 && (
+					{!isRequest && (
 						<div className="inline-flex w-full">
-							<AccordionComponent fragments={fragments} />
+							{isFiles && <AccordionFiles files={files} />}
+							{isFragments && <AccordionFragments fragments={fragments} />}
 						</div>
 					)}
 				</div>
@@ -98,4 +108,4 @@ export const MessageBubble = memo<{
 			</div>
 		</div>
 	);
-});
+};
