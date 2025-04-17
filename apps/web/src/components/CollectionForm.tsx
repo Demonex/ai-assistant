@@ -12,6 +12,7 @@ import {
 	FormField,
 	FormItem,
 	FormLabel,
+	FormMessage,
 } from "@/components/ui/form.js";
 import { Input } from "@/components/ui/input.js";
 
@@ -20,15 +21,15 @@ import {
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
-} from "./accordion.js";
+} from "./ui/accordion.js";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "./select.js";
-import { Textarea } from "./textarea.js";
+} from "./ui/select.js";
+import { Textarea } from "./ui/textarea.js";
 
 //TODO: переписать типы
 interface CollectionFormProps {
@@ -48,9 +49,10 @@ interface CollectionFormProps {
 			title: string;
 		};
 	};
-	tenants?: TenantProps[];
-	neuros?: NeuroProps[];
-	providers?: ProviderProps[];
+	tenants: TenantProps[];
+	neuros: NeuroProps[];
+	providers: ProviderProps[];
+	onSubmit: (data) => void;
 }
 
 interface TenantProps {
@@ -69,15 +71,29 @@ interface ProviderProps {
 }
 
 const formSchema = z.object({
-	tenant: z.string().min(2, {
-		message: "Username must be at least 2 characters.",
-	}),
-	title: z.string(),
-	description: z.string(),
-	embedding: z.string(),
-	llm: z.string(),
-	reranker: z.string(),
-	provider: z.string(),
+	tenantTitle: z.string(),
+	title: z
+		.string()
+		.min(1, { message: "Заполните поле" })
+		.refine(
+			(value) => {
+				return !/^\s|\s$|\s{2,}/.test(value);
+			},
+			{ message: "Некорректное использование пробелов" },
+		),
+	description: z
+		.string()
+		.min(1, { message: "Заполните поле" })
+		.refine(
+			(value) => {
+				return !/^\s|\s$|\s{2,}/.test(value);
+			},
+			{ message: "Некорректное использование пробелов" },
+		),
+	embeddingTitle: z.string().min(1, { message: "Выберите значение из списка" }),
+	llmTitle: z.string().min(1, { message: "Выберите значение из списка" }),
+	rerankerTitle: z.string().min(1, { message: "Выберите значение из списка" }),
+	providerTitle: z.string(),
 });
 
 export function CollectionForm({
@@ -85,30 +101,29 @@ export function CollectionForm({
 	tenants,
 	neuros,
 	providers,
+	onSubmit,
 }: CollectionFormProps) {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			title: collection?.title || "",
-			description: collection?.description || "",
-			tenant: collection?.tenant?.title || "",
-			embedding: collection?.embedding?.title || "",
-			llm: collection?.llm?.title || "",
-			reranker: collection?.embedding?.title || "",
-			provider: providers?.[0].title || "",
+			description:
+				collection?.description ||
+				"Здравствуйте! Это чат с документами. Вы можете задать вопросы по этим документам, и система постарается найти на них ответы.",
+			tenantTitle: collection?.tenant?.title || "",
+			embeddingTitle: collection?.embedding?.title || "",
+			llmTitle: collection?.llm?.title || "",
+			rerankerTitle: collection?.embedding?.title || "",
+			providerTitle: providers?.[0].title || "",
 		},
 	});
-
-	const onSubmit = (e) => {
-		console.log(e);
-	};
 
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 				<FormField
 					control={form.control}
-					name="tenant"
+					name="tenantTitle"
 					render={({ field }) => {
 						const selectedTenant = tenants?.find(
 							(tenant) => tenant.title === field.value,
@@ -143,6 +158,7 @@ export function CollectionForm({
 							<FormControl>
 								<Input placeholder="title" {...field} />
 							</FormControl>
+							<FormMessage />
 						</FormItem>
 					)}
 				/>
@@ -157,13 +173,14 @@ export function CollectionForm({
 								placeholder="Type your message here."
 								{...field}
 							/>
+							<FormMessage />
 						</FormItem>
 					)}
 				/>
 				{/* TODO: Потом переделать в массив */}
 				<FormField
 					control={form.control}
-					name="embedding"
+					name="embeddingTitle"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Embedding Нейросервис</FormLabel>
@@ -179,13 +196,14 @@ export function CollectionForm({
 									</SelectItem>
 								</SelectContent>
 							</Select>
+							<FormMessage />
 						</FormItem>
 					)}
 				/>
 				{/* TODO: Потом переделать в массив */}
 				<FormField
 					control={form.control}
-					name="llm"
+					name="llmTitle"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>LLM Нейросервис</FormLabel>
@@ -199,13 +217,14 @@ export function CollectionForm({
 									</SelectItem>
 								</SelectContent>
 							</Select>
+							<FormMessage />
 						</FormItem>
 					)}
 				/>
 				{/* TODO: Потом переделать в массив */}
 				<FormField
 					control={form.control}
-					name="reranker"
+					name="rerankerTitle"
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Reranker Нейросервис</FormLabel>
@@ -221,6 +240,7 @@ export function CollectionForm({
 									</SelectItem>
 								</SelectContent>
 							</Select>
+							<FormMessage />
 						</FormItem>
 					)}
 				/>
@@ -235,7 +255,7 @@ export function CollectionForm({
 							<AccordionContent className="m-6">
 								<FormField
 									control={form.control}
-									name="provider"
+									name="providerTitle"
 									render={({ field }) => (
 										<div className="space-y-4">
 											<FormItem>

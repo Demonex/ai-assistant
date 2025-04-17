@@ -41,4 +41,16 @@ export class CollectionEntity {
 
 	@OneToMany(() => GroupCollectionPermissionsEntity, "collection")
 	groups: GroupCollectionPermissionsEntity[];
+
+	@Property({
+		columnType: "timestamptz",
+		defaultRaw: "now()",
+	})
+	created_at!: Date;
+
+	@Property({
+		columnType: "timestamptz",
+		onUpdate: () => new Date(),
+	})
+	updated_at!: Date;
 }

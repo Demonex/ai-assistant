@@ -1,21 +1,32 @@
-import { IsInt, IsString } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
+import { IsString } from "class-validator";
 
-export class createCollectionDto {
-	@IsInt()
-	tenant: number;
-
+export class CreateCollectionDto {
+	@ApiProperty()
 	@IsString()
-	title: string;
+	title!: string;
 
-	@IsInt()
-	embedding: number;
-
-	@IsInt()
-	llm: number;
-
-	@IsInt()
-	reranker: number;
-
+	@ApiProperty()
 	@IsString()
-	description: string;
+	description!: string;
+
+	@ApiProperty()
+	@IsString()
+	tenantTitle!: string;
+
+	@ApiProperty()
+	@IsString()
+	embeddingTitle!: string;
+
+	@ApiProperty()
+	@IsString()
+	llmTitle!: string;
+
+	@ApiProperty()
+	@IsString()
+	rerankerTitle!: string;
+
+	@ApiProperty()
+	@IsString()
+	providerTitle!: string;
 }

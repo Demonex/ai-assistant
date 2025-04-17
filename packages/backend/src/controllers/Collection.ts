@@ -1,8 +1,16 @@
-import { Controller, Get, Param, ParseIntPipe, Post } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	Get,
+	Param,
+	ParseIntPipe,
+	Post,
+} from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { Authorized } from "../decorators/auth.js";
 import { CollectionService } from "../services/Collection.js";
 import { TenantId, UserId } from "../decorators/user.js";
+import { CreateCollectionDto } from "../dto/Collection.js";
 
 ApiTags("collection");
 @Controller("/api/v1")
@@ -26,7 +34,7 @@ export class CollectionController {
 
 	@Authorized()
 	@Post("/collections")
-	async createCollection() {
-		return "Коллекция создана";
+	async createCollection(@Body() createCollectionDto: CreateCollectionDto) {
+		return this.collectionService.createCollection(createCollectionDto);
 	}
 }
