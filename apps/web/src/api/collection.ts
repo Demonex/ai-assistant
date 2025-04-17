@@ -27,10 +27,15 @@ export const createCollection = async (newCollection) => {
 		body: JSON.stringify(newCollection),
 	});
 
-	if (!response.ok) {
-		const errorData = await response.json();
-		throw errorData;
-	}
+	return response;
+};
+
+export const updateCollection = async (id: number, data) => {
+	const response = await fetch(`/api/v1/collections/${id}`, {
+		method: "PATCH",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(data),
+	});
 
 	return response;
 };

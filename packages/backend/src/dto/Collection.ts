@@ -1,32 +1,76 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class CreateCollectionDto {
 	@ApiProperty()
 	@IsString()
-	title!: string;
+	@IsNotEmpty()
+	title: string;
 
 	@ApiProperty()
 	@IsString()
-	description!: string;
+	@IsNotEmpty()
+	description: string;
 
 	@ApiProperty()
 	@IsString()
-	tenantTitle!: string;
+	@IsNotEmpty()
+	tenantTitle: string;
 
 	@ApiProperty()
 	@IsString()
-	embeddingTitle!: string;
+	@IsNotEmpty()
+	embeddingTitle: string;
 
 	@ApiProperty()
 	@IsString()
-	llmTitle!: string;
+	@IsNotEmpty()
+	llmTitle: string;
 
 	@ApiProperty()
 	@IsString()
-	rerankerTitle!: string;
+	@IsNotEmpty()
+	rerankerTitle: string;
 
 	@ApiProperty()
 	@IsString()
-	providerTitle!: string;
+	@IsNotEmpty()
+	providerTitle: string;
+}
+
+export class UpdateCollectionDto {
+	@ApiProperty()
+	@IsString()
+	@IsOptional()
+	title: string;
+
+	@ApiProperty()
+	@IsString()
+	@IsOptional()
+	description: string;
+
+	@ApiProperty()
+	@IsString()
+	@IsOptional()
+	tenantTitle: string;
+
+	@ApiProperty()
+	@IsString()
+	@IsOptional()
+	embeddingTitle: string;
+
+	@ApiProperty()
+	@IsString()
+	@IsOptional()
+	llmTitle: string;
+
+	@ApiProperty()
+	@IsString()
+	@IsOptional()
+	rerankerTitle: string;
+
+	@ApiProperty()
+	@IsString()
+	@IsOptional()
+	providerTitle: string;
 }
