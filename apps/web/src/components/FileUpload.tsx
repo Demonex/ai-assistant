@@ -1,6 +1,7 @@
 import { memo } from "react";
 
 import { formatFileSize, getColorFile } from "@repo/web/helpers/index.js";
+import { X } from "lucide-react";
 
 export const FileUpload = memo<{
 	files: File[];
@@ -31,20 +32,7 @@ export const FileUpload = memo<{
 							}}
 							className="absolute right-0 top-0 z-10 -translate-y-2 translate-x-2 cursor-pointer rounded-full bg-white p-1 shadow shadow-slate-200 hover:bg-stone-100"
 						>
-							<span>
-								<svg
-									aria-hidden="true"
-									className="h-2 w-2 fill-stone-500"
-									preserveAspectRatio="none"
-									viewBox="0 0 1024 1024"
-								>
-									<path
-										clipRule="evenodd"
-										d="M587.19 506.246l397.116-397.263a52.029 52.029 0 0 0 0-73.143l-2.194-2.194a51.98 51.98 0 0 0-73.143 0l-397.068 397.8-397.068-397.8a51.98 51.98 0 0 0-73.143 0l-2.146 2.194a51.054 51.054 0 0 0 0 73.143l397.069 397.263L39.544 903.461a52.029 52.029 0 0 0 0 73.142l2.146 2.195a51.98 51.98 0 0 0 73.143 0L511.9 581.583l397.068 397.215a51.98 51.98 0 0 0 73.143 0l2.194-2.146a52.029 52.029 0 0 0 0-73.143L587.19 506.246z"
-										fillRule="evenodd"
-									/>
-								</svg>
-							</span>
+							<X size={12} />
 						</div>
 					</div>
 				</div>

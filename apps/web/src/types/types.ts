@@ -3,6 +3,31 @@ export type ApiError = {
 	message: string;
 };
 
+export type FileTranscription = {
+	file: string;
+	transciption: string;
+	fullText: string;
+	status: string;
+};
+
+export type UploadFileError = {
+	type: string;
+	file: string;
+	status: string;
+	message: string;
+};
+
+export type UploadFiles = {
+	audio?: {
+		success: FileTranscription[];
+		errors: UploadFileError[];
+	};
+	text?: {
+		success: FileTranscription[];
+		duplicates: UploadFileError[];
+	};
+};
+
 export type Profile = {
 	email: string;
 	id: number;
@@ -15,6 +40,15 @@ export type SignInData = {
 	password: string;
 };
 
+export type Fragment = {
+	file_path: string;
+	page_num: number;
+	text: string;
+	uuid: string;
+	_collection_name: string;
+	_id: string;
+};
+
 export type Message = {
 	id: string;
 	response?: ResponseAndRequest;
@@ -23,17 +57,9 @@ export type Message = {
 
 export type ResponseAndRequest = {
 	created_at: string;
-	message: string;
+	message?: string;
 	fragments?: Fragment[];
-};
-
-export type Fragment = {
-	file_path: string;
-	page_num: number;
-	text: string;
-	uuid: string;
-	_collection_name: string;
-	_id: string;
+	files?: FileTranscription[];
 };
 
 export type Chats = {

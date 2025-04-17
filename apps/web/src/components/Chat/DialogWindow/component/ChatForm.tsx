@@ -4,16 +4,19 @@ import { useForm } from "react-hook-form";
 
 import { FileUpload } from "@repo/web/components/FileUpload.js";
 import { Spinner } from "@repo/web/components/Spinner.js";
-import { ALLOWED_EXTENSIONS } from "@repo/web/constants/index.js";
 import { toast } from "@repo/web/hooks/use-toast.js";
 import { useChats } from "@repo/web/hooks/useChats.js";
-import { Paperclip, Play } from "lucide-react";
+import { CircleHelp, CircleX, Paperclip, Play } from "lucide-react";
 
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipTrigger,
 } from "@/components/ui/tooltip.js";
+import {
+	ALLOWED_EXTENSIONS_MEDIA,
+	ALLOWED_EXTENSIONS_TEXT,
+} from "@/constants/index.js";
 
 type ChatInputProps = {
 	files: File[];
@@ -35,6 +38,7 @@ export const ChatForm = memo<ChatInputProps>(
 			activeChat,
 		} = useChats();
 
+		const [isShowHelp, setIsShowHelp] = useState(false);
 		const [message, setMessage] = useState("");
 
 		const fileInputRef = useRef(null);
@@ -106,6 +110,50 @@ export const ChatForm = memo<ChatInputProps>(
 			return files.map((item: { file: string }) => item.file).join(", ");
 		};
 
+		const notificationDowloadText = (text) => {
+			const { duplicates, errors, success } = text;
+			const totalFilesText = success.length + duplicates.length + errors.length;
+			const hasDuplicates = duplicates.length > 0;
+			const hasErrors = errors.length > 0;
+
+			toast({
+				title: `Загружено ${success.length} из ${totalFilesText}`,
+			});
+
+			if (hasDuplicates) {
+				toast({
+					title: "Некоторые файлы уже были загружены ранее в коллекцию!",
+					description: `${mapFilesToString(duplicates)}`,
+				});
+			}
+
+			if (hasErrors) {
+				toast({
+					variant: "destructive",
+					title: "Некоторые файлы не были загружены!",
+					description: `${mapFilesToString(errors)}`,
+				});
+			}
+		};
+
+		const notificationDowloadMedia = (media) => {
+			const { errors, success } = media;
+			const totalFiles = success.length + errors.length;
+			const hasErrors = errors.length > 0;
+
+			toast({
+				title: `Транскрибировано ${success.length} из ${totalFiles}`,
+			});
+
+			if (hasErrors) {
+				toast({
+					variant: "destructive",
+					title: "Некоторые файлы не были транскрибированы!",
+					description: `${mapFilesToString(errors)}`,
+				});
+			}
+		};
+
 		useEffect(() => {
 			const storedUpload = localStorage.getItem("uploadMedia");
 
@@ -124,30 +172,15 @@ export const ChatForm = memo<ChatInputProps>(
 		}, [fileResponse, activeChat]);
 
 		useEffect(() => {
-			if (!fileResponse) return;
+			const { audio, text } = fileResponse || {};
+			if (!audio && !text) return;
 
-			const { duplicates, errors, success } = fileResponse;
-			const totalFiles = success.length + duplicates.length + errors.length;
-
-			const hasDuplicates = duplicates.length > 0;
-			const hasErrors = errors.length > 0;
-
-			toast({
-				title: `Загружено ${success.length} из ${totalFiles}`,
-			});
-
-			if (hasDuplicates) {
-				toast({
-					title: "Некоторые файлы уже были загружены ранее в коллекцию!",
-					description: `${mapFilesToString(duplicates)}`,
-				});
+			if (text) {
+				notificationDowloadText(text);
 			}
-			if (hasErrors) {
-				toast({
-					variant: "destructive",
-					title: "Некоторые файлы не были загружены!",
-					description: `${mapFilesToString(errors)}`,
-				});
+
+			if (audio) {
+				notificationDowloadMedia(audio);
 			}
 		}, [fileResponse]);
 
@@ -176,33 +209,31 @@ export const ChatForm = memo<ChatInputProps>(
 				<div className="end-4 flex items-center">
 					<Tooltip>
 						<TooltipTrigger asChild>
-							{
-								<div className="relative ml-3">
-									<input
-										type="file"
-										multiple
-										ref={fileInputRef}
-										onChange={handleDrop}
-										style={{ display: "none" }}
-									/>
-									<button
-										type="button"
-										className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 w-9 rounded-full p-0"
-										data-state="closed"
-										onClick={handlePinFileButton}
-										disabled={messageLoading || fileLoading}
-									>
-										<Paperclip size={16} />
-									</button>
-								</div>
-							}
+							<div className="relative ml-3">
+								<input
+									type="file"
+									multiple
+									ref={fileInputRef}
+									onChange={handleDrop}
+									style={{ display: "none" }}
+								/>
+								<button
+									type="button"
+									className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 w-9 rounded-full p-0"
+									data-state="closed"
+									onClick={handlePinFileButton}
+									disabled={messageLoading || fileLoading}
+								>
+									<Paperclip size={16} />
+								</button>
+							</div>
 						</TooltipTrigger>
 						<TooltipContent
 							side="top"
 							align="center"
 							hidden={false}
 							{...{
-								children: `Прикрепить файлы (${ALLOWED_EXTENSIONS.join(", ")})`,
+								children: `Прикрепить файлы`,
 								hidden: false,
 								className: "hidden md:block",
 							}}
@@ -210,19 +241,17 @@ export const ChatForm = memo<ChatInputProps>(
 					</Tooltip>
 					<Tooltip>
 						<TooltipTrigger asChild>
-							{
-								<button
-									type="submit"
-									disabled={!message.trim() && !files?.length}
-									className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 w-9 rounded-full p-0 ms-3"
-								>
-									{messageLoading || fileLoading ? (
-										<Spinner size="small" />
-									) : (
-										<Play size={16} />
-									)}
-								</button>
-							}
+							<button
+								type="submit"
+								disabled={!message.trim() && !files?.length}
+								className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 w-9 rounded-full p-0 ms-3"
+							>
+								{messageLoading || fileLoading ? (
+									<Spinner size="small" />
+								) : (
+									<Play size={16} />
+								)}
+							</button>
 						</TooltipTrigger>
 						<TooltipContent
 							side="top"
@@ -236,6 +265,59 @@ export const ChatForm = memo<ChatInputProps>(
 						/>
 					</Tooltip>
 				</div>
+
+				<div className="absolute right-0 bottom-[calc(100%+10px)]">
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<CircleHelp
+								className="cursor-pointer bg-background rounded-full"
+								size={18}
+								onClick={() => setIsShowHelp(true)}
+							/>
+						</TooltipTrigger>
+
+						<TooltipContent
+							side="top"
+							align="center"
+							hidden={false}
+							{...{
+								children: "Памятка пользователю",
+								hidden: false,
+								className: "hidden md:block",
+							}}
+						/>
+					</Tooltip>
+				</div>
+
+				{isShowHelp && (
+					<div className="absolute right-0 bottom-[calc(100%+10px)] w-full lg:w-[60%] max-h-[500px] bg-background p-2 lg:p-4 rounded-lg border">
+						<div className="text-l font-semibold mb-2">
+							Доступные форматы файлов:
+						</div>
+
+						<div className="flex flex-col text-sm">
+							<div>
+								Для загрузки:{" "}
+								<span className="font-semibold">
+									{ALLOWED_EXTENSIONS_TEXT.join(", ")}
+								</span>
+							</div>
+							<div>
+								Для транскрипции:{" "}
+								<span className="font-semibold">
+									{ALLOWED_EXTENSIONS_MEDIA.join(", ")}
+								</span>
+							</div>
+						</div>
+
+						<div
+							className="absolute right-0 top-0 p-2 cursor-pointer"
+							onClick={() => setIsShowHelp(false)}
+						>
+							<CircleX size={16} />
+						</div>
+					</div>
+				)}
 			</form>
 		);
 	},

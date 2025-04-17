@@ -7,13 +7,17 @@ import {
 	useState,
 } from "react";
 
-import { ALLOWED_EXTENSIONS } from "@repo/web/constants/index.js";
+import {
+	ALLOWED_EXTENSIONS_MEDIA,
+	ALLOWED_EXTENSIONS_TEXT,
+	EXTENSIONS_TYPES,
+} from "@repo/web/constants/index.js";
 import { formatLocalTime } from "@repo/web/helpers/index.js";
 import { toast } from "@repo/web/hooks/use-toast.js";
-// import { messageMockData } from "../../../DataBase.js";
 import { useChats } from "@repo/web/hooks/useChats.js";
 import type { GroupMessages } from "@repo/web/types/types.js";
 
+// import { messageMockData } from "../../../DataBase.js";
 import { ChatForm } from "./component/ChatForm.js";
 import { HeaderDialogWindow } from "./component/HeaderDialogWindow.js";
 import { MessageBubble } from "./component/MessageBubble.js";
@@ -54,13 +58,12 @@ export const DialogWindow = () => {
 		setIsOverlay(false);
 	};
 
-	const isFileAllowed = (fileName: string): boolean => {
-		const extension = fileName.split(".").pop()?.toLowerCase();
-		return !!extension && ALLOWED_EXTENSIONS.includes(extension);
+	const isFileAllowed = (fileType: string): boolean => {
+		return !!fileType && EXTENSIONS_TYPES.includes(fileType);
 	};
 
 	const filterAllowedFiles = (files: File[]): File[] => {
-		return files.filter((file) => isFileAllowed(file.name));
+		return files.filter((file) => isFileAllowed(file.type));
 	};
 
 	const getUniqueFiles = (existingFiles: File[], newFiles: File[]): File[] => {
@@ -82,9 +85,8 @@ export const DialogWindow = () => {
 			toast({
 				variant: "destructive",
 				title: "Ошибка формата!",
-				description: `Некоторые файлы имеют недопустимый формат и не были добавлены. Допустимые форматы (${ALLOWED_EXTENSIONS.join(
-					", ",
-				)})`,
+				description:
+					"Некоторые файлы имеют недопустимый формат и не были добавлены. Допустимые форматы указаны в памятке пользователя.",
 			});
 		}
 
@@ -103,7 +105,10 @@ export const DialogWindow = () => {
 		if (!messageList) return null;
 
 		const grouping = messageList?.reduce((grouped, message) => {
-			const date = message.request.created_at.split("T")[0];
+			const createTime = message.request
+				? message.request.created_at
+				: message.response.created_at;
+			const date = createTime.split("T")[0];
 
 			if (!grouped[date]) {
 				grouped[date] = [];
@@ -153,9 +158,28 @@ export const DialogWindow = () => {
 							onDragOver={handleDragOver}
 							onDrop={handleDrop}
 							onDragLeave={handleDragLeave}
-							className="absolute border top-0 left-0 w-full h-full bg-white bg-opacity-90 flex items-center justify-center text-black z-[2]"
+							className="absolute border top-0 py-10 left-0 w-full h-full bg-white bg-opacity-90 flex flex-col items-center justify-center text-black z-[2]"
 						>
-							{`Перенесите файл сюда (${ALLOWED_EXTENSIONS.join(", ")})`}
+							<div className="max-w-[70%]">
+								<div className="text-xl font-semibold mb-2">
+									Перетащите файлы в эту область
+								</div>
+
+								<div className="flex flex-col text-sm">
+									<div>
+										Для загрузки:{" "}
+										<span className="font-semibold">
+											{ALLOWED_EXTENSIONS_TEXT.join(", ")}
+										</span>
+									</div>
+									<div>
+										Для транскрипции:{" "}
+										<span className="font-semibold">
+											{ALLOWED_EXTENSIONS_MEDIA.join(", ")}
+										</span>
+									</div>
+								</div>
+							</div>
 						</div>
 					)}
 
@@ -166,7 +190,7 @@ export const DialogWindow = () => {
 						}}
 					/>
 					{messages?.messages?.length === 0 && (
-						<div className="w-full flex justify-center absolute left-0 top-[50%] transform translate-y-[-50%]">
+						<div className="w-full flex justify-center text-center font-semibold absolute left-0 top-[50%] transform translate-y-[-50%]">
 							<ReactMarkdownComponent textMarkdown={messages?.description} />
 						</div>
 					)}
@@ -176,7 +200,7 @@ export const DialogWindow = () => {
 						className="overflow-scroll h-full w-full rounded-[inherit]"
 					>
 						<div data-radix-scroll-area-content>
-							<div className="flex flex-col items-start space-y-10 pb-[12rem] min-h-screen justify-center first:pt-4">
+							<div className="flex flex-col items-start space-y-10 pb-[14rem] min-h-screen justify-center first:pt-4">
 								{groupingMessages?.map(([date, messages]) => (
 									<Fragment key={date}>
 										<div className="mx-auto max-w-max text-center text-gray-500 text-sm">
