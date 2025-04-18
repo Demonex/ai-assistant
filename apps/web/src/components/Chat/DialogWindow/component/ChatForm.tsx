@@ -112,15 +112,15 @@ export const ChatForm = memo<ChatInputProps>(
 
 		const notificationDowloadText = (text) => {
 			const { duplicates, errors, success } = text;
-			const totalFilesText =
-				(success?.length || 0) +
-				(duplicates?.length || 0) +
-				(errors?.length || 0);
-			const hasDuplicates = duplicates.length > 0;
-			const hasErrors = errors.length > 0;
+			const successCount = success?.length || 0;
+			const duplicatesCount = duplicates?.length || 0;
+			const errorsCount = errors?.length || 0;
+			const totalFilesText = successCount + duplicatesCount + errorsCount;
+			const hasDuplicates = duplicatesCount > 0;
+			const hasErrors = errorsCount > 0;
 
 			toast({
-				title: `Загружено ${success.length} из ${totalFilesText}`,
+				title: `Загружено ${successCount} из ${totalFilesText}`,
 			});
 
 			if (hasDuplicates) {
@@ -141,11 +141,13 @@ export const ChatForm = memo<ChatInputProps>(
 
 		const notificationDowloadMedia = (media) => {
 			const { errors, success } = media;
-			const totalFiles = (success?.length || 0) + (errors?.length || 0);
-			const hasErrors = errors.length > 0;
+			const successCount = success?.length || 0;
+			const errorsCount = errors?.length || 0;
+			const totalFiles = successCount + errorsCount;
+			const hasErrors = errorsCount > 0;
 
 			toast({
-				title: `Транскрибировано ${success.length} из ${totalFiles}`,
+				title: `Транскрибировано ${successCount} из ${totalFiles}`,
 			});
 
 			if (hasErrors) {
