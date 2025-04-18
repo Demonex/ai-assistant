@@ -112,7 +112,10 @@ export const ChatForm = memo<ChatInputProps>(
 
 		const notificationDowloadText = (text) => {
 			const { duplicates, errors, success } = text;
-			const totalFilesText = success.length + duplicates.length + errors.length;
+			const totalFilesText =
+				(success?.length || 0) +
+				(duplicates?.length || 0) +
+				(errors?.length || 0);
 			const hasDuplicates = duplicates.length > 0;
 			const hasErrors = errors.length > 0;
 
@@ -138,7 +141,7 @@ export const ChatForm = memo<ChatInputProps>(
 
 		const notificationDowloadMedia = (media) => {
 			const { errors, success } = media;
-			const totalFiles = success.length + errors.length;
+			const totalFiles = (success?.length || 0) + (errors?.length || 0);
 			const hasErrors = errors.length > 0;
 
 			toast({
