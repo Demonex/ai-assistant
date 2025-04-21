@@ -46,6 +46,7 @@ const ModelPage = withSuspense(
 const NeuroPage = withSuspense(
 	lazy(() => import("@/pages/Neuro/NeuroPage.js")),
 );
+const UserPage = withSuspense(lazy(() => import("@/pages/User/UserPage.js")));
 
 export const PrivateRoute = () => {
 	const { dataProfile, isFetchingProfile } = useProfile();
@@ -70,6 +71,7 @@ export const AppRoutes = () => {
 					<Route path="chat" element={<ChatPage />} />
 					<Route path="neuro" element={<NeuroPage />} />
 					<Route path="models" element={<ModelPage />} />
+					<Route path="users" element={<UserPage />} />
 					<Route path="collections" element={<CollectionsPage />} />
 					<Route path="collections/:id" element={<CustomizeCollectionPage />} />
 					<Route
