@@ -1,5 +1,5 @@
-export const getCollections = async () => {
-	const response = await fetch("/api/v1/collections");
+export const getCollections = async (tenantId: number) => {
+	const response = await fetch(`/api/v1/collections/${tenantId}`);
 
 	if (!response.ok) {
 		const errorData = await response.json();

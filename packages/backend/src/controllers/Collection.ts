@@ -10,7 +10,7 @@ import {
 import { ApiTags } from "@nestjs/swagger";
 import { Authorized } from "../decorators/auth.js";
 import { CollectionService } from "../services/Collection.js";
-import { TenantId, UserId } from "../decorators/user.js";
+import { UserId } from "../decorators/user.js";
 import { CreateCollectionDto, UpdateCollectionDto } from "../dto/Collection.js";
 
 ApiTags("collection");
@@ -19,12 +19,12 @@ export class CollectionController {
 	constructor(private readonly collectionService: CollectionService) {}
 
 	@Authorized()
-	@Get("/collections")
+	@Get("/collections/:tenantId")
 	async getCollections(
 		@UserId() userId: number,
-		@TenantId() currentTenant: number,
+		@Param("tenantId") tenantId: number,
 	) {
-		return this.collectionService.findAll(userId, currentTenant);
+		return this.collectionService.findAll(userId, tenantId);
 	}
 
 	@Authorized()
