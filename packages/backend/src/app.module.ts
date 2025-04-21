@@ -18,6 +18,7 @@ import { DocEntity } from "@repo/backend/entities/Doc/index.js";
 import { ProviderEntity } from "@repo/backend/entities/Provider/index.js";
 import { CollectionProvidersEntity } from "@repo/backend/entities/Collection/collection-providers.js";
 import { GroupEntity } from "@repo/backend/entities/Group/index.js";
+import { WikiDocEntity } from "@repo/backend/entities/Wiki/index.js";
 import { GroupUsersEntity } from "@repo/backend/entities/Group/group-users.js";
 import { GroupPermissionsEntity } from "@repo/backend/entities/Group/group-group-permissions.js";
 import { GroupCollectionPermissionsEntity } from "@repo/backend/entities/Group/group-collection-permissions.js";
@@ -42,6 +43,7 @@ import { ModelEntity } from "@repo/backend/entities/Model/index.js";
 				ModelEntity,
 				GroupPermissionsEntity,
 				GroupCollectionPermissionsEntity,
+				WikiDocEntity,
 			],
 			driver: PostgreSqlDriver,
 			dbName: process.env.DATABASE_NAME,

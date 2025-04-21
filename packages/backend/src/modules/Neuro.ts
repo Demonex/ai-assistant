@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
-import { NeuroService } from "../services/Neuro.js";
-import { NeuroController } from "../controllers/Neuro.js";
+import { NeuroService } from "@repo/backend/services/Neuro.js";
+import { NeuroController } from "@repo/backend/controllers/Neuro.js";
 
 @Module({
 	imports: [],

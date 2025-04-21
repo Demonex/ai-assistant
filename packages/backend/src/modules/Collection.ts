@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 
-import { CollectionController } from "../controllers/Collection.js";
-import { CollectionService } from "../services/Collection.js";
+import { CollectionController } from "@repo/backend/controllers/Collection.js";
+import { CollectionService } from "@repo/backend/services/Collection.js";
 
 @Module({
 	imports: [],

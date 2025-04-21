@@ -3,6 +3,12 @@ export type ApiError = {
 	message: string;
 };
 
+export type WikiSync = {
+	apiKey: string;
+	baseUrl: string;
+	collectionId: number;
+};
+
 export type FileTranscription = {
 	file: string;
 	transciption: string;

@@ -1,10 +1,10 @@
-export interface AudioTranscription {
+export type AudioTranscription = {
 	transcription: string;
 	summary: Summary;
 	processing_time: ProcessingTime;
-}
+};
 
-export interface Summary {
+export type Summary = {
 	overview: string;
 	main_points: unknown[];
 	key_insights: unknown[];
@@ -13,16 +13,16 @@ export interface Summary {
 	conclusions: unknown[];
 	full_text: string;
 	status: string;
-}
+};
 
-export interface ProcessingTime {
+export type ProcessingTime = {
 	transcription: number;
 	summarization: number;
 	total: number;
-}
+};
 
-export interface AudioReponse {
+export type AudioReponse = {
 	transcription: AudioTranscription["transcription"];
 	fullText: Summary["full_text"];
 	status: Summary["status"];
-}
+};

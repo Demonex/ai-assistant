@@ -296,7 +296,7 @@ export const ChatForm = memo<ChatInputProps>(
 
 				{isShowHelp && (
 					<div className="absolute right-0 bottom-[calc(100%+10px)] w-full lg:w-[60%] max-h-[500px] bg-background p-2 lg:p-4 rounded-lg border">
-						<div className="text-l font-semibold mb-2">
+						<div className="text-sm font-semibold mb-2">
 							Доступные форматы файлов:
 						</div>
 
