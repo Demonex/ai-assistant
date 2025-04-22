@@ -23,7 +23,7 @@ ENV NODE_ENV production
 ENV VITE_MODE=$VITE_MODE
 RUN pnpm run build:web
 
-FROM docker-group.sigma-it.ru/nginx:1.25-alpine AS runner
+FROM gitlab.sigma-it.ru:4567/sigma-chat-doc/registry/sigma-nginx-spnego:v2-86cba33 AS runner
 
 USER root
 
