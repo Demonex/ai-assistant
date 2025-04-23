@@ -33,7 +33,12 @@ export const createCollection = async (
 		body: JSON.stringify(newCollection),
 	});
 
-	return response;
+	if (!response.ok) {
+		const errorData = await response.json();
+		throw errorData;
+	}
+
+	return await response.json();
 };
 
 export const updateCollection = async (
@@ -46,5 +51,10 @@ export const updateCollection = async (
 		body: JSON.stringify(updatedCollection),
 	});
 
-	return response;
+	if (!response.ok) {
+		const errorData = await response.json();
+		throw errorData;
+	}
+
+	return await response.json();
 };

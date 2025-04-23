@@ -3,11 +3,21 @@ import { NeuroRequestType } from "@/types/types.js";
 export const getNeuros = async () => {
 	const response = await fetch("/api/v1/neuro");
 
+	if (!response.ok) {
+		const errorData = await response.json();
+		throw errorData;
+	}
+
 	return await response.json();
 };
 
 export const getNeuro = async (id: number) => {
 	const response = await fetch(`/api/v1/neuro/${id}`);
+
+	if (!response.ok) {
+		const errorData = await response.json();
+		throw errorData;
+	}
 
 	return await response.json();
 };
@@ -19,7 +29,12 @@ export const createNeuro = async (newNeuro: NeuroRequestType) => {
 		body: JSON.stringify(newNeuro),
 	});
 
-	return response;
+	if (!response.ok) {
+		const errorData = await response.json();
+		throw errorData;
+	}
+
+	return await response.json();
 };
 
 export const updateNeuro = async (
@@ -32,5 +47,10 @@ export const updateNeuro = async (
 		body: JSON.stringify(updatedNeuro),
 	});
 
-	return response;
+	if (!response.ok) {
+		const errorData = await response.json();
+		throw errorData;
+	}
+
+	return await response.json();
 };

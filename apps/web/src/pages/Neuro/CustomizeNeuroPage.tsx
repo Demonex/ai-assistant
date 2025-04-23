@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router";
 
-import { NeuroForm } from "@/components/NeuroForm.js";
+import { NeuroForm } from "@/components/Neuro/NeuroForm.js";
 import { Button } from "@/components/ui/button.js";
 import { useGetNeuro } from "@/hooks/Neuro/useGetNeuro.js";
 import { useUpdateNeuro } from "@/hooks/Neuro/useUpdateNeuro.js";
@@ -25,6 +25,7 @@ const CustomizeNeuroPage = () => {
 				});
 			},
 			onError: async (e) => {
+				console.log(e);
 				toast({
 					variant: "destructive",
 					title: "Произошла ошибка при обновлении нейросервиса",

@@ -49,7 +49,9 @@ const CollectionPage = () => {
 					<div className="flex justify-center">
 						<Select onValueChange={handleTenantSelect} value={selectedTenantId}>
 							<SelectTrigger className="w-[180px]">
-								<SelectValue placeholder="Тенант" />
+								<SelectValue placeholder="Тенант">
+									{tenants[0].title}
+								</SelectValue>
 							</SelectTrigger>
 							<SelectContent>
 								<SelectGroup>

@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router";
 
-import { CollectionForm } from "@/components/CollectionForm.js";
+import { CollectionForm } from "@/components/Collection/CollectionForm.js";
 import { Button } from "@/components/ui/button.js";
 import { useCollection } from "@/hooks/Collection/useCollection.js";
 import { useUpdateCollection } from "@/hooks/Collection/useUpdateCollection.js";
