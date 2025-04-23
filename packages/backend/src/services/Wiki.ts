@@ -1,8 +1,4 @@
-import { EntityManager } from "@mikro-orm/core";
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@mikro-orm/nestjs";
-import { EntityRepository } from "@mikro-orm/core";
-import { WikiDocEntity } from "@repo/backend/entities/Wiki/index.js";
 import { GraphQLClient, gql } from "graphql-request";
 import type {
 	WikiPageTree,
@@ -11,12 +7,6 @@ import type {
 
 @Injectable()
 export class WikiService {
-	constructor(
-		@InjectRepository(WikiDocEntity)
-		private readonly wikiRepo: EntityRepository<WikiDocEntity>,
-		private readonly em: EntityManager,
-	) {}
-
 	private createClient(apiKey: string, baseUrl: string) {
 		return new GraphQLClient(`${baseUrl}/graphql`, {
 			headers: {
