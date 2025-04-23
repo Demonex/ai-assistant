@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 
-import { NeuroForm } from "@/components/NeuroForm.js";
+import { NeuroForm } from "@/components/Neuro/NeuroForm.js";
 import { Button } from "@/components/ui/button.js";
 import { useCreateNeuro } from "@/hooks/Neuro/useCreateNeuro.js";
 import { toast } from "@/hooks/use-toast.js";

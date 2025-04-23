@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 
-import { CollectionForm } from "@/components/CollectionForm.js";
+import { CollectionForm } from "@/components/Collection/CollectionForm.js";
 import { Button } from "@/components/ui/button.js";
 import { useCreateCollection } from "@/hooks/Collection/useCreateCollection.js";
 import { useGetNeuros } from "@/hooks/Neuro/useGetNeuros.js";

@@ -13,16 +13,15 @@ import {
 	FormMessage,
 } from "@/components/ui/form.js";
 import { Input } from "@/components/ui/input.js";
-import { NeurpFormType } from "@/types/types.js";
-
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "./ui/select.js";
-import { Textarea } from "./ui/textarea.js";
+} from "@/components/ui/select.js";
+import { Textarea } from "@/components/ui/textarea.js";
+import { NeurpFormType } from "@/types/types.js";
 
 const formSchema = z.object({
 	title: z
