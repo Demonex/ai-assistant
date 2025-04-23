@@ -7,27 +7,26 @@ import { ApiBody, ApiTags } from "@nestjs/swagger";
 export class WikiController {
 	constructor(private readonly wikiService: WikiService) {}
 
-	@Post("sync")
+	@Post("tree")
 	@ApiBody({
 		schema: {
 			type: "object",
 			properties: {
 				apiKey: { type: "string" },
 				baseUrl: { type: "string" },
-				collectionId: { type: "number" },
+				locale: { type: "string", default: "en" },
 			},
-			required: ["apiKey", "baseUrl", "collectionId"],
+			required: ["apiKey", "baseUrl"],
 		},
 	})
-	async sync(
-		@Body() body: { apiKey: string; baseUrl: string; collectionId: number },
+	async getTree(
+		@Body() body: { apiKey: string; baseUrl: string; locale?: string },
 	) {
-		await this.wikiService.saveFetchedPages(
+		const tree = await this.wikiService.fetchPageTree(
 			body.apiKey,
 			body.baseUrl,
-			body.collectionId,
+			body.locale || "en",
 		);
-
-		return { status: "ok" };
+		return tree;
 	}
 }

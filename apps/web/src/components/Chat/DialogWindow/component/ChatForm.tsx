@@ -173,6 +173,7 @@ export const ChatForm = memo<ChatInputProps>(
 					title: "Загрузка файлов была прервана!",
 					description: "Возможно, не все файлы были загружены.",
 				});
+				localStorage.removeItem("uploadMedia");
 			}
 		}, [fileResponse, activeChat]);
 

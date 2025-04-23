@@ -28,7 +28,7 @@ export const Sidebar = memo(() => {
 	// filteredChats = collectionMockData;
 
 	return (
-		<div className="w-full lg:w-96">
+		<div className="w-full lg:min-w-[30%] lg:max-w-[30%]">
 			<div className="shadow-base h-full rounded-lg border bg-card text-card-foreground">
 				<div className="flex flex-col space-y-1.5 px-6 lg:pt-16 lg:pb-4 py-4">
 					<div className="flex items-center justify-between">

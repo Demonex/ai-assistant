@@ -1,8 +1,12 @@
-import { WikiSync } from "@/types/types.js";
-
-export const getWiki = async ({ apiKey, baseUrl, collectionId }: WikiSync) => {
+export const getWiki = async ({
+	apiKey,
+	baseUrl,
+}: {
+	apiKey: string;
+	baseUrl: string;
+}) => {
 	const response = await fetch(
-		`${import.meta.env.VITE_BACKEND_URL}/wiki/sync`,
+		`${import.meta.env.VITE_BACKEND_URL}/wiki/tree`,
 		{
 			method: "POST",
 			headers: {
@@ -11,7 +15,6 @@ export const getWiki = async ({ apiKey, baseUrl, collectionId }: WikiSync) => {
 			body: JSON.stringify({
 				apiKey,
 				baseUrl,
-				collectionId,
 			}),
 		},
 	);

@@ -1,6 +1,6 @@
 import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
 
-@Entity({ tableName: "wiki_docs" })
+@Entity({ tableName: "wikijs_docs" })
 export class WikiDocEntity {
 	@PrimaryKey()
 	id!: number;
@@ -21,7 +21,7 @@ export class WikiDocEntity {
 	view_url!: string;
 
 	@Property()
-	doc_collection_provider_id!: number;
+	collection_id!: number;
 
 	@Property({ onCreate: () => new Date() })
 	created_at: Date = new Date();

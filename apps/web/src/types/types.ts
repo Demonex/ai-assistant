@@ -3,10 +3,17 @@ export type ApiError = {
 	message: string;
 };
 
-export type WikiSync = {
-	apiKey: string;
-	baseUrl: string;
-	collectionId: number;
+export type WikiTreeType = {
+	id: number;
+	title: string;
+	path: string;
+	parent: number | null;
+	isFolder: boolean;
+	pageId: number | null;
+	children?: WikiTreeType[];
+	createdAt?: string;
+	updatedAt?: string;
+	depth?: number;
 };
 
 export type FileTranscription = {
