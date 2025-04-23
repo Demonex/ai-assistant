@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
-import { ModelController } from "../controllers/Model.js";
-import { ModelService } from "../services/Models.js";
+import { ModelController } from "@repo/backend/controllers/Model.js";
+import { ModelService } from "@repo/backend/services/Models.js";
 
 @Module({
 	imports: [],

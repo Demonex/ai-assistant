@@ -1,15 +1,16 @@
 import { getWiki } from "@/api/wiki.js";
 import { useQuery } from "@tanstack/react-query";
 
-export const useWiki = () => {
+export const useWiki = ({ apiKey, baseUrl }) => {
 	const {
 		data: dataWiki,
 		error: errorWiki,
 		isLoading: loadingWiki,
 	} = useQuery({
 		queryKey: ["wiki"],
+		queryFn: () => getWiki({ apiKey, baseUrl }),
 		retry: false,
-		queryFn: getWiki, //Нужно пробросить ApiKey
+		enabled: !!apiKey,
 	});
 
 	console.log({ dataWiki, errorWiki, loadingWiki });

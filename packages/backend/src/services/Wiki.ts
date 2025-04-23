@@ -1,33 +1,67 @@
 import { Injectable } from "@nestjs/common";
 import { GraphQLClient, gql } from "graphql-request";
+import type {
+	WikiPageTree,
+	WikiPageTreeNode,
+} from "@repo/backend/types/Wiki.js";
 
 @Injectable()
 export class WikiService {
-	private client: GraphQLClient;
-
-	constructor() {
-		this.client = new GraphQLClient(process.env.WIKI_API_URL, {
+	private createClient(apiKey: string, baseUrl: string) {
+		return new GraphQLClient(`${baseUrl}/graphql`, {
 			headers: {
-				"Content-Type": "application/json",
+				Authorization: `Bearer ${apiKey}`,
 			},
 		});
 	}
 
-	async getPagesTree(apiKey: string) {
-		const tempClient = new GraphQLClient(process.env.WIKI_API_URL, {
-			headers: {
-				Authorization: `Bearer ${apiKey}`,
-				"Content-Type": "application/json",
-			},
-		});
+	private async fetchRecursiveTree(
+		client: GraphQLClient,
+		locale: string,
+		parent?: number,
+		results: WikiPageTreeNode[] = [],
+	): Promise<WikiPageTreeNode[]> {
+		const query = gql`
+			query GetTree($parent: Int, $locale: String!) {
+				pages {
+					tree(parent: $parent, locale: $locale, mode: ALL) {
+						id
+						title
+						path
+						parent
+						isFolder
+						pageId
+						depth
+					}
+				}
+			}
+		`;
+		const { pages } = await client.request(query, { parent, locale });
 
+		for (const node of pages.tree) {
+			const item: WikiPageTreeNode = {
+				...node,
+				children: [],
+			};
+
+			results.push(item);
+
+			if (item.isFolder) {
+				await this.fetchRecursiveTree(client, locale, item.id, results);
+			}
+		}
+
+		return results;
+	}
+
+	private async fetchPageMeta(
+		client: GraphQLClient,
+	): Promise<WikiPageTreeNode[]> {
 		const query = gql`
 			query {
 				pages {
 					list {
 						id
-						title
-						path
 						isPublished
 						createdAt
 						updatedAt
@@ -35,8 +69,72 @@ export class WikiService {
 				}
 			}
 		`;
+		const data: WikiPageTree = await client.request(query);
+		return data.pages.list;
+	}
 
-		const data = await tempClient.request(query);
-		return data;
+	async fetchPageTree(
+		apiKey: string,
+		baseUrl: string,
+		locale = "en",
+	): Promise<WikiPageTreeNode[]> {
+		const client = this.createClient(apiKey, baseUrl);
+
+		const flatList = await this.fetchRecursiveTree(client, locale);
+
+		const pageMeta = await this.fetchPageMeta(client);
+
+		const metaMap = new Map<number, { createdAt: string; updatedAt: string }>();
+		for (const page of pageMeta) {
+			metaMap.set(page.id, {
+				createdAt: page.createdAt,
+				updatedAt: page.updatedAt,
+			});
+		}
+
+		const filtered = flatList.filter((node) => {
+			return node.isFolder || (node.pageId && metaMap.has(node.pageId));
+		});
+
+		for (const node of filtered) {
+			if (!node.isFolder && node.pageId && metaMap.has(node.pageId)) {
+				const meta = metaMap.get(node.pageId)!;
+				node.createdAt = meta.createdAt;
+				node.updatedAt = meta.updatedAt;
+			}
+		}
+
+		const map = new Map<number, WikiPageTreeNode>();
+		const roots: WikiPageTreeNode[] = [];
+
+		for (const node of filtered) {
+			node.children = [];
+			map.set(node.id, node);
+		}
+
+		for (const node of filtered) {
+			if (node.parent && map.has(node.parent)) {
+				map.get(node.parent)!.children!.push(node);
+			} else {
+				roots.push(node);
+			}
+		}
+
+		const pruneEmptyFolders = (nodes: WikiPageTreeNode[]): WikiPageTreeNode[] =>
+			nodes
+				.map((node) => {
+					if (node.children && node.children.length > 0) {
+						node.children = pruneEmptyFolders(node.children);
+					}
+					return node;
+				})
+				.filter((node) => {
+					if (node.isFolder) {
+						return node.children && node.children.length > 0;
+					}
+					return true;
+				});
+
+		return pruneEmptyFolders(roots);
 	}
 }

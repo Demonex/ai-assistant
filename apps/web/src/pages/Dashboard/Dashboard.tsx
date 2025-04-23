@@ -10,6 +10,7 @@ import {
 	SidebarTrigger,
 } from "@repo/web/components/ui/sidebar.js";
 
+// import TreeView from "@/components/TreeView/index.js";
 import { toast } from "@/hooks/use-toast.js";
 import { useProfile } from "@/hooks/useProfile.js";
 
@@ -18,9 +19,15 @@ import { useProfile } from "@/hooks/useProfile.js";
 const DashboardPage = () => {
 	const { pathname } = useLocation();
 	const { errorProfile } = useProfile();
-	// const { dataWiki } = useWiki();
+	// const { dataWiki } = useWiki({
+	// 	apiKey:
+	// 		"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJzaWdtYUBzaWdtYS1pdC5ydSIsIm5hbWUiOiJBZG1pbmlzdHJhdG9yIiwiYXYiOm51bGwsInR6IjoiQW1lcmljYS9OZXdfWW9yayIsImxjIjoiZW4iLCJkZiI6IiIsImFwIjoiIiwicGVybWlzc2lvbnMiOlsibWFuYWdlOnN5c3RlbSJdLCJncm91cHMiOlsxXSwiaWF0IjoxNzQ0MzcxMDg5LCJleHAiOjE3NDQzNzI4ODksImF1ZCI6InVybjp3aWtpLmpzIiwiaXNzIjoidXJuOndpa2kuanMifQ.Fa6EdLHLs0s3KzF-eTGtOI_adIis-8zg-ag3AfL5iy5wuGuh-8WfUg-xhN0GjDzKDcwFt6MINEWw1oiWoQAeqUuxIFkuYHsHItxrZSSikOG_JAG3x9sMtNrRaakiEgpub2ug3tdTHhPPFb4jKYpZn-Lmbmj3em6L-_Yy6mSen3a31UHtWQS4w91e_u5dMvTGe0ZwzJjVO9w0qiC49icZVHUVms2obF3JMf2Hm589RLI1l4ke5LOJ1WXnaaylHp6CPGArG7qNrPE1PIGmroUynYEivdc3k4rgonnIrrUeeqDldMyO82aGJ-Y3rbILUIAQNaz0rFRKCqUiaAgpIG5m1g",
+	// 	baseUrl: "http://localhost:3000",
+	// });
 
-	// console.log(dataWiki);
+	// const handleList = (list) => {
+	// 	console.log(list);
+	// };
 
 	useEffect(() => {
 		if (errorProfile && errorProfile.statusCode !== 401) {
@@ -51,6 +58,7 @@ const DashboardPage = () => {
 				{pathname === "/" && (
 					<div className="text-2xl font-bold flex justify-center items-center w-full h-full">
 						Добро пожаловать в SigmaChatDoc!
+						{/* {dataWiki && <TreeView data={dataWiki} onChange={handleList} />} */}
 					</div>
 				)}
 				<Outlet />

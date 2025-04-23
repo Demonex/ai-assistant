@@ -3,6 +3,19 @@ export type ApiError = {
 	message: string;
 };
 
+export type WikiTreeType = {
+	id: number;
+	title: string;
+	path: string;
+	parent: number | null;
+	isFolder: boolean;
+	pageId: number | null;
+	children?: WikiTreeType[];
+	createdAt?: string;
+	updatedAt?: string;
+	depth?: number;
+};
+
 export type FileTranscription = {
 	file: string;
 	transciption: string;

@@ -1,36 +1,32 @@
-// wiki.controller.ts
-import {
-	Controller,
-	Post,
-	Body,
-	HttpException,
-	HttpStatus,
-} from "@nestjs/common";
-import { ApiBody, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { Controller, Post, Body } from "@nestjs/common";
 import { WikiService } from "@repo/backend/services/Wiki.js";
-import { WikiRequestDto } from "@repo/backend/dto/Wiki.js";
+import { ApiBody, ApiTags } from "@nestjs/swagger";
 
-@Controller("wiki")
 @ApiTags("Wiki")
+@Controller("wiki")
 export class WikiController {
 	constructor(private readonly wikiService: WikiService) {}
 
 	@Post("tree")
-	@ApiOperation({ summary: "Получить структуру страниц Wiki" })
-	@ApiBody({ type: WikiRequestDto, description: "Данные запроса" })
-	async getPagesTree(@Body() body: { apiKey: string }) {
-		if (!body.apiKey) {
-			throw new HttpException(
-				"API ключ не предоставлен",
-				HttpStatus.BAD_REQUEST,
-			);
-		}
-
-		try {
-			const data = await this.wikiService.getPagesTree(body.apiKey);
-			return data;
-		} catch (error) {
-			throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	@ApiBody({
+		schema: {
+			type: "object",
+			properties: {
+				apiKey: { type: "string" },
+				baseUrl: { type: "string" },
+				locale: { type: "string", default: "en" },
+			},
+			required: ["apiKey", "baseUrl"],
+		},
+	})
+	async getTree(
+		@Body() body: { apiKey: string; baseUrl: string; locale?: string },
+	) {
+		const tree = await this.wikiService.fetchPageTree(
+			body.apiKey,
+			body.baseUrl,
+			body.locale || "en",
+		);
+		return tree;
 	}
 }

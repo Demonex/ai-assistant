@@ -234,7 +234,7 @@ export const DialogWindow = () => {
 						/>
 					</div>
 
-					<div className="absolute bottom-[calc(100%+20px)] right-0 z-50">
+					<div className="absolute bottom-[calc(100%+40px)] right-0 z-50">
 						<ScrollToBottomButton ref={chatContainerRef} />
 					</div>
 				</div>
