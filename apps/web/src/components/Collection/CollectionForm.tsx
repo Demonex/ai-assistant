@@ -5,6 +5,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from "@/components/ui/accordion.js";
 import { Button } from "@/components/ui/button.js";
 import {
 	Form,
@@ -15,60 +21,15 @@ import {
 	FormMessage,
 } from "@/components/ui/form.js";
 import { Input } from "@/components/ui/input.js";
-
-import {
-	Accordion,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
-} from "./ui/accordion.js";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "./ui/select.js";
-import { Textarea } from "./ui/textarea.js";
-
-//TODO: переписать типы
-interface CollectionFormProps {
-	collection?: {
-		title?: string;
-		tenant?: {
-			title: string;
-		};
-		description?: string;
-		embedding?: {
-			title: string;
-		};
-		llm?: {
-			title: string;
-		};
-		reranker?: {
-			title: string;
-		};
-	};
-	tenants: TenantProps[];
-	neuros: NeuroProps[];
-	providers: ProviderProps[];
-	onSubmit: (data) => void;
-}
-
-interface TenantProps {
-	title: string;
-	id: number;
-}
-
-interface NeuroProps {
-	id: number;
-	title: string;
-}
-
-interface ProviderProps {
-	id: number;
-	title: string;
-}
+} from "@/components/ui/select.js";
+import { Textarea } from "@/components/ui/textarea.js";
+import { CollectionFormType } from "@/types/types.js";
 
 const formSchema = z.object({
 	tenantTitle: z.string(),
@@ -102,7 +63,7 @@ export function CollectionForm({
 	neuros,
 	providers,
 	onSubmit,
-}: CollectionFormProps) {
+}: CollectionFormType) {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -181,68 +142,83 @@ export function CollectionForm({
 				<FormField
 					control={form.control}
 					name="embeddingTitle"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Embedding Нейросервис</FormLabel>
-							<Select onValueChange={field.onChange} value={field.value}>
-								<SelectTrigger>
-									<SelectValue placeholder="Embedding">
-										{neuros?.[1]?.title}
-									</SelectValue>
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value={neuros?.[1]?.title}>
-										{neuros?.[1]?.title}
-									</SelectItem>
-								</SelectContent>
-							</Select>
-							<FormMessage />
-						</FormItem>
-					)}
+					render={({ field }) => {
+						let neuro: string | null = null;
+						neuros.forEach((item) => {
+							if (item.title.toLowerCase().includes("emb")) {
+								neuro = item.title;
+							}
+						});
+						return (
+							<FormItem>
+								<FormLabel>Embedding Нейросервис</FormLabel>
+								<Select onValueChange={field.onChange} value={field.value}>
+									<SelectTrigger>
+										<SelectValue placeholder="Embedding">{neuro}</SelectValue>
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value={neuro}>{neuro}</SelectItem>
+									</SelectContent>
+								</Select>
+								<FormMessage />
+							</FormItem>
+						);
+					}}
 				/>
 				{/* TODO: Потом переделать в массив */}
 				<FormField
 					control={form.control}
 					name="llmTitle"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>LLM Нейросервис</FormLabel>
-							<Select onValueChange={field.onChange} value={field.value}>
-								<SelectTrigger>
-									<SelectValue placeholder="LLM" />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value={neuros?.[0].title}>
-										{neuros?.[0].title}
-									</SelectItem>
-								</SelectContent>
-							</Select>
-							<FormMessage />
-						</FormItem>
-					)}
+					render={({ field }) => {
+						let neuro: string | null = null;
+						neuros.forEach((item) => {
+							if (item.title.toLowerCase().includes("llm")) {
+								neuro = item.title;
+							}
+						});
+
+						return (
+							<FormItem>
+								<FormLabel>LLM Нейросервис</FormLabel>
+								<Select onValueChange={field.onChange} value={field.value}>
+									<SelectTrigger>
+										<SelectValue placeholder="LLM">{neuro}</SelectValue>
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value={neuro}>{neuro}</SelectItem>
+									</SelectContent>
+								</Select>
+								<FormMessage />
+							</FormItem>
+						);
+					}}
 				/>
 				{/* TODO: Потом переделать в массив */}
 				<FormField
 					control={form.control}
 					name="rerankerTitle"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Reranker Нейросервис</FormLabel>
-							<Select onValueChange={field.onChange} value={field.value}>
-								<SelectTrigger>
-									<SelectValue placeholder="Reranker">
-										{neuros?.[2].title}
-									</SelectValue>
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value={neuros?.[2].title}>
-										{neuros?.[2].title}
-									</SelectItem>
-								</SelectContent>
-							</Select>
-							<FormMessage />
-						</FormItem>
-					)}
+					render={({ field }) => {
+						let neuro: string | null = null;
+						neuros.forEach((item) => {
+							if (item.title.toLowerCase().includes("rer")) {
+								neuro = item.title;
+							}
+						});
+						return (
+							<FormItem>
+								<FormLabel>Reranker Нейросервис</FormLabel>
+								<Select onValueChange={field.onChange} value={field.value}>
+									<SelectTrigger>
+										<SelectValue placeholder="Reranker">{neuro}</SelectValue>
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value={neuro}>{neuro}</SelectItem>
+									</SelectContent>
+								</Select>
+								<FormMessage />
+							</FormItem>
+						);
+					}}
 				/>
 				{/* TODO: Потом переделать в массив */}
 				<FormItem>
@@ -270,9 +246,11 @@ export function CollectionForm({
 														</SelectValue>
 													</SelectTrigger>
 													<SelectContent>
-														<SelectItem value={providers?.[0].title}>
-															{providers?.[0].title}
-														</SelectItem>
+														{providers.map((provider) => (
+															<SelectItem value={provider?.title}>
+																{provider?.title}
+															</SelectItem>
+														))}
 													</SelectContent>
 												</Select>
 											</FormItem>

@@ -94,31 +94,71 @@ export type MessagesType = {
 
 export type GroupMessages = [string, Message[]];
 
-export type Collection = {
-	id: string;
-	title: string;
-	embedding: EmbeddingType;
-	llm: LLMType;
-	reranker: RerankerType;
+//////////////////////////////////////////////////////////////////////
+
+export type CollectionType = {
+	id?: string;
+	title?: string;
+	description?: string;
+	embedding?: NeuroType;
+	llm?: NeuroType;
+	reranker?: NeuroType;
+	tenant?: TenantType;
+	providers?: ProviderType[];
+};
+
+export type CollectionFormType = {
+	collection?: CollectionType;
+	tenants: TenantType[];
+	neuros: NeuroType[];
 	providers: ProviderType[];
+	onSubmit: (data: CollectionRequestType) => void;
 };
 
-export type EmbeddingType = {
+export type NeuroType = {
 	id: number;
 	title: string;
+	model?: ModelType;
+	modelSettings?: string | null;
 };
 
-export type LLMType = {
-	id: number;
-	title: string;
-};
-
-export type RerankerType = {
-	id: number;
-	title: string;
+export type NeurpFormType = {
+	neuro?: NeuroType;
+	models: ModelType[];
+	onSubmit: (data: NeuroRequestType) => void;
 };
 
 export type ProviderType = {
 	id: number;
-	provider: number;
+	title: string;
+	provider?: number;
+};
+
+export type TenantType = {
+	id: number;
+	title: string;
+};
+
+export type ModelType = {
+	id: number;
+	title: string;
+	type?: string;
+	modelSettings?: string | null;
+};
+
+//////////////////////////////////////////////////////////////////////
+export type CollectionRequestType = {
+	title?: string;
+	description?: string;
+	embeddingTitle?: string;
+	llmTitle?: string;
+	providerTitle?: string;
+	rerankerTitle?: string;
+	tenantTitle?: string;
+};
+
+export type NeuroRequestType = {
+	title?: string;
+	model?: string;
+	settings?: string;
 };

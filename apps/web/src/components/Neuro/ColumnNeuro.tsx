@@ -3,12 +3,12 @@ import { Link } from "react-router";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
-import { Collection } from "@/types/types.js";
+import { NeuroType } from "@/types/types.js";
 
 import { Button } from "../ui/button.js";
 import { Checkbox } from "../ui/checkbox.js";
 
-export const ColumnNeuro: ColumnDef<Collection>[] = [
+export const ColumnNeuro: ColumnDef<NeuroType>[] = [
 	{
 		id: "select",
 		header: ({ table }) => (
@@ -47,14 +47,17 @@ export const ColumnNeuro: ColumnDef<Collection>[] = [
 				</Button>
 			);
 		},
-		cell: ({ row }) => (
-			<Link to={"/neuros/neuro"} className=" cursor-pointer">
-				{row.getValue("title")}
-			</Link>
-		),
+		cell: ({ row }) => {
+			const neuroId = row.original.id;
+			return (
+				<Link to={`/neuro/${neuroId}`} className=" cursor-pointer">
+					{row.getValue("title")}
+				</Link>
+			);
+		},
 	},
 	{
-		accessorKey: "embedding",
+		accessorKey: "model",
 		header: ({ column }) => {
 			return (
 				<Button
@@ -66,10 +69,13 @@ export const ColumnNeuro: ColumnDef<Collection>[] = [
 				</Button>
 			);
 		},
-		cell: ({ row }) => <div className="lowercase">{row.getValue("title")}</div>,
+		cell: ({ row }) => {
+			const modelTitle = row.original.model.title;
+			return <div>{modelTitle}</div>;
+		},
 	},
 	{
-		accessorKey: "llm",
+		accessorKey: "modelSettings",
 		header: ({ column }) => {
 			return (
 				<Button
@@ -81,6 +87,8 @@ export const ColumnNeuro: ColumnDef<Collection>[] = [
 				</Button>
 			);
 		},
-		cell: ({ row }) => <div className="lowercase">{row.getValue("llm")}</div>,
+		cell: ({ row }) => (
+			<div>{row.getValue("modelSettings") || "No settings"}</div>
+		),
 	},
 ];

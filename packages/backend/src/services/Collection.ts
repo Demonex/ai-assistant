@@ -28,11 +28,13 @@ export class CollectionService {
 			},
 		);
 
+		if (!collections) throw new NotFoundException(`Collections does not exist`);
+
 		return collections;
 	}
 
-	async findOne(collectionId) {
-		const collection = await this.em.findOne<CollectionEntity>(
+	async findOne(collectionId: number) {
+		const collection = await this.em.findOneOrFail<CollectionEntity>(
 			CollectionEntity,
 			{
 				id: collectionId,
