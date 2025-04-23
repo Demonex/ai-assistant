@@ -15,11 +15,12 @@ import {
 } from "@/components/ui/select.js";
 import { useCollections } from "@/hooks/Collection/useCollections.js";
 import { useTenant } from "@/hooks/useTenant.js";
+import { TenantType } from "@/types/types.js";
 
 const CollectionPage = () => {
 	const navigate = useNavigate();
 	const { tenants } = useTenant();
-	const [selectedTenantId, setSelectedTenantId] = useState(null);
+	const [selectedTenantId, setSelectedTenantId] = useState<string | null>(null);
 
 	useEffect(() => {
 		if (tenants && tenants.length > 0) {
@@ -27,7 +28,7 @@ const CollectionPage = () => {
 		}
 	}, [tenants]);
 
-	const { collections } = useCollections(selectedTenantId);
+	const { collections } = useCollections(+selectedTenantId);
 
 	const handleTenantSelect = (value: string) => {
 		setSelectedTenantId(value);
@@ -53,8 +54,8 @@ const CollectionPage = () => {
 							<SelectContent>
 								<SelectGroup>
 									<SelectLabel>Теннаты</SelectLabel>
-									{tenants.map((tenant) => (
-										<SelectItem key={tenant.id} value={tenant.id}>
+									{tenants.map((tenant: TenantType) => (
+										<SelectItem key={tenant.id} value={tenant.id.toString()}>
 											{tenant.title}
 										</SelectItem>
 									))}

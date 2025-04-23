@@ -4,10 +4,11 @@ import { CollectionForm } from "@/components/CollectionForm.js";
 import { Button } from "@/components/ui/button.js";
 import { useCollection } from "@/hooks/Collection/useCollection.js";
 import { useUpdateCollection } from "@/hooks/Collection/useUpdateCollection.js";
+import { useGetNeuros } from "@/hooks/Neuro/useGetNeuros.js";
 import { toast } from "@/hooks/use-toast.js";
-import { useNeuro } from "@/hooks/useNeuro.js";
 import { useProvider } from "@/hooks/useProviders.js";
 import { useTenant } from "@/hooks/useTenant.js";
+import { CollectionRequestType } from "@/types/types.js";
 
 const CustomizeCollectionPage = () => {
 	const navigate = useNavigate();
@@ -15,22 +16,22 @@ const CustomizeCollectionPage = () => {
 
 	const { collection } = useCollection(+id);
 	const { tenants } = useTenant();
-	const { neuros } = useNeuro();
+	const { neuros } = useGetNeuros();
 	const { providers } = useProvider();
 	const { handleUpdateCollection } = useUpdateCollection(+id);
 
-	const onSubmit = (data) => {
+	const onSubmit = (data: CollectionRequestType) => {
 		handleUpdateCollection(data, {
 			onSuccess: async () => {
 				navigate("/collections");
 				toast({
-					title: `Коллекция ${data.title} успешно обновлена`,
+					title: `Коллекция "${data.title}" успешно обновлена`,
 				});
 			},
 			onError: async (e) => {
 				toast({
 					variant: "destructive",
-					title: "Произошла ошибка при содании коллекции",
+					title: "Произошла ошибка при обновлении коллекции",
 					description: e.message,
 				});
 			},

@@ -1,9 +1,9 @@
 import { ColumnNeuro } from "@/components/Neuro/ColumnNeuro.js";
 import { DataTableComponent } from "@/components/Table.js";
-import { useNeuro } from "@/hooks/useNeuro.js";
+import { useGetNeuros } from "@/hooks/Neuro/useGetNeuros.js";
 
 const UserPage = () => {
-	const { neuros } = useNeuro();
+	const { neuros } = useGetNeuros();
 
 	return (
 		neuros && (
