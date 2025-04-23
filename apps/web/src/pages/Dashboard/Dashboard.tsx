@@ -26,7 +26,7 @@ const DashboardPage = () => {
 		if (errorProfile && errorProfile.statusCode !== 401) {
 			toast({
 				variant: "destructive",
-				title: errorProfile.statusCode.toString(),
+				title: errorProfile?.statusCode?.toString(),
 				description: errorProfile.message,
 			});
 		}

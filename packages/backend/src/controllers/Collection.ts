@@ -28,7 +28,7 @@ export class CollectionController {
 	}
 
 	@Authorized()
-	@Get("/collections/:id")
+	@Get("/collections/collection/:id")
 	async getCollectionItem(@Param("id", ParseIntPipe) id: number) {
 		return this.collectionService.findOne(id);
 	}

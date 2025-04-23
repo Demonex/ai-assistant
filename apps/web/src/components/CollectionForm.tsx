@@ -15,6 +15,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form.js";
 import { Input } from "@/components/ui/input.js";
+import { CollectionFormType } from "@/types/types.js";
 
 import {
 	Accordion,
@@ -30,45 +31,6 @@ import {
 	SelectValue,
 } from "./ui/select.js";
 import { Textarea } from "./ui/textarea.js";
-
-//TODO: переписать типы
-interface CollectionFormProps {
-	collection?: {
-		title?: string;
-		tenant?: {
-			title: string;
-		};
-		description?: string;
-		embedding?: {
-			title: string;
-		};
-		llm?: {
-			title: string;
-		};
-		reranker?: {
-			title: string;
-		};
-	};
-	tenants: TenantProps[];
-	neuros: NeuroProps[];
-	providers: ProviderProps[];
-	onSubmit: (data) => void;
-}
-
-interface TenantProps {
-	title: string;
-	id: number;
-}
-
-interface NeuroProps {
-	id: number;
-	title: string;
-}
-
-interface ProviderProps {
-	id: number;
-	title: string;
-}
 
 const formSchema = z.object({
 	tenantTitle: z.string(),
@@ -102,7 +64,7 @@ export function CollectionForm({
 	neuros,
 	providers,
 	onSubmit,
-}: CollectionFormProps) {
+}: CollectionFormType) {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -270,9 +232,11 @@ export function CollectionForm({
 														</SelectValue>
 													</SelectTrigger>
 													<SelectContent>
-														<SelectItem value={providers?.[0].title}>
-															{providers?.[0].title}
-														</SelectItem>
+														{providers.map((provider) => (
+															<SelectItem value={provider?.title}>
+																{provider?.title}
+															</SelectItem>
+														))}
 													</SelectContent>
 												</Select>
 											</FormItem>

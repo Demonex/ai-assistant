@@ -3,12 +3,12 @@ import { Link } from "react-router";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 
-import { Collection } from "@/types/types.js";
+import { CollectionType } from "@/types/types.js";
 
 import { Button } from "../ui/button.js";
 import { Checkbox } from "../ui/checkbox.js";
 
-export const ColumnCollection: ColumnDef<Collection>[] = [
+export const ColumnCollection: ColumnDef<CollectionType>[] = [
 	{
 		id: "select",
 		header: ({ table }) => (

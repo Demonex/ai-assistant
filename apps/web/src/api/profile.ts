@@ -1,3 +1,5 @@
+import { SignInData } from "@/types/types.js";
+
 export const getProfile = async () => {
 	const response = await fetch("api/v1/profile");
 
@@ -9,7 +11,7 @@ export const getProfile = async () => {
 	return await response.json();
 };
 
-export const signIn = async ({ email, password }) => {
+export const signIn = async ({ email, password }: SignInData) => {
 	const response = await fetch("api/v1/auth/email/sign-in", {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },

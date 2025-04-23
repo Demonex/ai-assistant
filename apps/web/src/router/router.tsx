@@ -23,18 +23,18 @@ export const withSuspense = (
 	);
 };
 
-const CustomizeCollectionPage = withSuspense(
-	lazy(() => import("@/pages/Collection/CustomizeCollectionPage.js")),
-);
-const CreateNewCollectionPage = withSuspense(
-	lazy(() => import("@/pages/Collection/CreateNewCollectionPage.js")),
-);
 const NotFoundPage = withSuspense(
 	lazy(() => import("@/pages/NotFound/NotFoundPage.js")),
 );
 const ChatPage = withSuspense(lazy(() => import("@/pages/Chat/ChatPage.js")));
 const CollectionsPage = withSuspense(
 	lazy(() => import("@/pages/Collection/CollectionsPage.js")),
+);
+const CustomizeCollectionPage = withSuspense(
+	lazy(() => import("@/pages/Collection/CustomizeCollectionPage.js")),
+);
+const CreateNewCollectionPage = withSuspense(
+	lazy(() => import("@/pages/Collection/CreateNewCollectionPage.js")),
 );
 const SignInPage = withSuspense(
 	lazy(() => import("@/pages/Auth/SignInPage.js")),
@@ -45,6 +45,12 @@ const ModelPage = withSuspense(
 );
 const NeuroPage = withSuspense(
 	lazy(() => import("@/pages/Neuro/NeuroPage.js")),
+);
+const CustomizeNeuroPage = withSuspense(
+	lazy(() => import("@/pages/Neuro/CustomizeNeuroPage.js")),
+);
+const CreateNeuroPage = withSuspense(
+	lazy(() => import("@/pages/Neuro/CreateNeuroPage.js")),
 );
 const UserPage = withSuspense(lazy(() => import("@/pages/User/UserPage.js")));
 
@@ -70,6 +76,8 @@ export const AppRoutes = () => {
 					<Route path="admin" element={<AdminPage />} />
 					<Route path="chat" element={<ChatPage />} />
 					<Route path="neuro" element={<NeuroPage />} />
+					<Route path="neuro/new-neuro" element={<CreateNeuroPage />} />
+					<Route path="neuro/:id" element={<CustomizeNeuroPage />} />
 					<Route path="models" element={<ModelPage />} />
 					<Route path="users" element={<UserPage />} />
 					<Route path="collections" element={<CollectionsPage />} />
