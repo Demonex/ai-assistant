@@ -47,11 +47,14 @@ export const ColumnModel: ColumnDef<CollectionType>[] = [
 				</Button>
 			);
 		},
-		cell: ({ row }) => (
-			<Link to={"/models/model"} className=" cursor-pointer">
-				{row.getValue("title")}
-			</Link>
-		),
+		cell: ({ row }) => {
+			const modelId = row.original.id;
+			return (
+				<Link to={`/models/${modelId}`} className=" cursor-pointer">
+					{row.getValue("title")}
+				</Link>
+			);
+		},
 	},
 	{
 		accessorKey: "type",
@@ -66,6 +69,6 @@ export const ColumnModel: ColumnDef<CollectionType>[] = [
 				</Button>
 			);
 		},
-		cell: ({ row }) => <div className="lowercase">{row.getValue("type")}</div>,
+		cell: ({ row }) => <div>{row.getValue("type")}</div>,
 	},
 ];

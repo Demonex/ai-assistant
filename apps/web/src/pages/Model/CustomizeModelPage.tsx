@@ -1,23 +1,23 @@
 import { useNavigate, useParams } from "react-router";
 
-import { NeuroForm } from "@/components/Neuro/NeuroForm.js";
+import { ModelForm } from "@/components/Model/ModelForm.js";
 import { Button } from "@/components/ui/button.js";
-import { useGetModels } from "@/hooks/Model/useGetModels.js";
-import { useGetNeuro } from "@/hooks/Neuro/useGetNeuro.js";
-import { useUpdateNeuro } from "@/hooks/Neuro/useUpdateNeuro.js";
+import { useGetModel } from "@/hooks/Model/useGetModel.js";
+import { useUpdateModel } from "@/hooks/Model/useUpdateModel.js";
 import { toast } from "@/hooks/use-toast.js";
-import { NeuroRequestType } from "@/types/types.js";
+import { useTenant } from "@/hooks/useTenant.js";
+import { ModelRequestType } from "@/types/types.js";
 
 const CustomizeNeuroPage = () => {
 	const navigate = useNavigate();
 	const { id } = useParams();
 
-	const { neuro } = useGetNeuro(+id);
-	const { handleUpdateNeuro } = useUpdateNeuro(+id);
-	const { models } = useGetModels();
+	const { tenants } = useTenant();
+	const { model } = useGetModel(+id);
+	const { handleUpdateModel } = useUpdateModel(+id);
 
-	const onSubmit = (data: NeuroRequestType) => {
-		handleUpdateNeuro(data, {
+	const onSubmit = (data: ModelRequestType) => {
+		handleUpdateModel(data, {
 			onSuccess: async () => {
 				navigate("/neuro");
 				toast({
@@ -36,15 +36,15 @@ const CustomizeNeuroPage = () => {
 	};
 
 	return (
-		neuro &&
-		models && (
+		tenants &&
+		model && (
 			<main className="p-4">
-				<div className="text-3xl font-medium mx-6">{neuro.title}</div>
+				<div className="text-3xl font-medium mx-6">{model.title}</div>
 				<Button className="m-6" onClick={() => navigate(-1)}>
 					Назад
 				</Button>
 				<div className="gap-8 px-8">
-					<NeuroForm neuro={neuro} models={models} onSubmit={onSubmit} />
+					<ModelForm onSubmit={onSubmit} tenants={tenants} model={model} />
 				</div>
 			</main>
 		)

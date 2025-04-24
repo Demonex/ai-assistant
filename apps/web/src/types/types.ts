@@ -96,6 +96,26 @@ export type GroupMessages = [string, Message[]];
 
 //////////////////////////////////////////////////////////////////////
 
+export type CollectionFormType = {
+	collection?: CollectionType;
+	tenants: TenantType[];
+	neuros: NeuroType[];
+	providers: ProviderType[];
+	onSubmit: (data: CollectionRequestType) => void;
+};
+
+export type NeuroFormType = {
+	neuro?: NeuroType;
+	models: ModelType[];
+	onSubmit: (data: NeuroRequestType) => void;
+};
+
+export type ModelFormType = {
+	model?: ModelType;
+	tenants: TenantType[];
+	onSubmit: (data: ModelRequestType) => void;
+};
+
 export type CollectionType = {
 	id?: string;
 	title?: string;
@@ -107,25 +127,11 @@ export type CollectionType = {
 	providers?: ProviderType[];
 };
 
-export type CollectionFormType = {
-	collection?: CollectionType;
-	tenants: TenantType[];
-	neuros: NeuroType[];
-	providers: ProviderType[];
-	onSubmit: (data: CollectionRequestType) => void;
-};
-
 export type NeuroType = {
 	id: number;
 	title: string;
 	model?: ModelType;
 	modelSettings?: string | null;
-};
-
-export type NeurpFormType = {
-	neuro?: NeuroType;
-	models: ModelType[];
-	onSubmit: (data: NeuroRequestType) => void;
 };
 
 export type ProviderType = {
@@ -143,10 +149,9 @@ export type ModelType = {
 	id: number;
 	title: string;
 	type?: string;
-	modelSettings?: string | null;
+	tenant?: TenantType;
 };
 
-//////////////////////////////////////////////////////////////////////
 export type CollectionRequestType = {
 	title?: string;
 	description?: string;
@@ -161,4 +166,10 @@ export type NeuroRequestType = {
 	title?: string;
 	model?: string;
 	settings?: string;
+};
+
+export type ModelRequestType = {
+	title?: string;
+	tenant?: string;
+	type?: string;
 };
