@@ -14,18 +14,14 @@ export class WikiController {
 			properties: {
 				apiKey: { type: "string" },
 				baseUrl: { type: "string" },
-				locale: { type: "string", default: "en" },
 			},
 			required: ["apiKey", "baseUrl"],
 		},
 	})
-	async getTree(
-		@Body() body: { apiKey: string; baseUrl: string; locale?: string },
-	) {
+	async getTree(@Body() body: { apiKey: string; baseUrl: string }) {
 		const tree = await this.wikiService.fetchPageTree(
 			body.apiKey,
 			body.baseUrl,
-			body.locale || "en",
 		);
 		return tree;
 	}
