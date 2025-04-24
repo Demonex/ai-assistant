@@ -21,14 +21,14 @@ const CustomizeNeuroPage = () => {
 			onSuccess: async () => {
 				navigate("/neuro");
 				toast({
-					title: `Нейросервис "${data.title}" успешно обновлен`,
+					title: `Модель "${data.title}" успешно обновлена`,
 				});
 			},
 			onError: async (e) => {
 				console.log(e);
 				toast({
 					variant: "destructive",
-					title: "Произошла ошибка при обновлении нейросервиса",
+					title: "Произошла ошибка при обновлении модели",
 					description: e.message,
 				});
 			},
