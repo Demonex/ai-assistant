@@ -43,6 +43,12 @@ const AdminPage = withSuspense(lazy(() => import("@/pages/Admin/Admin.js")));
 const ModelPage = withSuspense(
 	lazy(() => import("@/pages/Model/ModelPage.js")),
 );
+const CustomizeModelPage = withSuspense(
+	lazy(() => import("@/pages/Model/CustomizeModelPage.js")),
+);
+const CreateModelPage = withSuspense(
+	lazy(() => import("@/pages/Model/CreateModelPage.js")),
+);
 const NeuroPage = withSuspense(
 	lazy(() => import("@/pages/Neuro/NeuroPage.js")),
 );
@@ -79,6 +85,8 @@ export const AppRoutes = () => {
 					<Route path="neuro/new-neuro" element={<CreateNeuroPage />} />
 					<Route path="neuro/:id" element={<CustomizeNeuroPage />} />
 					<Route path="models" element={<ModelPage />} />
+					<Route path="models/new-model" element={<CreateModelPage />} />
+					<Route path="models/:id" element={<CustomizeModelPage />} />
 					<Route path="users" element={<UserPage />} />
 					<Route path="collections" element={<CollectionsPage />} />
 					<Route path="collections/:id" element={<CustomizeCollectionPage />} />

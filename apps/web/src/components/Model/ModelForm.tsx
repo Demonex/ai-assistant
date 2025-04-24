@@ -20,8 +20,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select.js";
-import { Textarea } from "@/components/ui/textarea.js";
-import { NeuroFormType } from "@/types/types.js";
+import { ModelFormType } from "@/types/types.js";
 
 const formSchema = z.object({
 	title: z
@@ -33,17 +32,17 @@ const formSchema = z.object({
 			},
 			{ message: "Некорректное использование пробелов" },
 		),
-	model: z.string().min(1, { message: "Выберите значение из списка" }),
-	settings: z.string().optional(),
+	tenant: z.string().min(1, { message: "Выберите значение из списка" }),
+	type: z.string().min(1, { message: "Выберите значение из списка" }),
 });
 
-export function NeuroForm({ onSubmit, models, neuro }: NeuroFormType) {
+export function ModelForm({ onSubmit, tenants, model }: ModelFormType) {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			title: neuro?.title || "",
-			model: neuro?.model?.title || "",
-			settings: neuro?.modelSettings || "",
+			title: model?.title || "",
+			tenant: model?.tenant?.title || "",
+			type: model?.type || "",
 		},
 	});
 
@@ -55,7 +54,7 @@ export function NeuroForm({ onSubmit, models, neuro }: NeuroFormType) {
 					name="title"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Название нейросервиса</FormLabel>
+							<FormLabel>Название модели</FormLabel>
 							<FormControl>
 								<Input placeholder="title" {...field} />
 							</FormControl>
@@ -65,18 +64,18 @@ export function NeuroForm({ onSubmit, models, neuro }: NeuroFormType) {
 				/>
 				<FormField
 					control={form.control}
-					name="model"
+					name="tenant"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Модель</FormLabel>
+							<FormLabel>Тенант</FormLabel>
 							<Select onValueChange={field.onChange} value={field.value}>
 								<SelectTrigger>
-									<SelectValue placeholder="Выберите нейросервис" />
+									<SelectValue placeholder="Выберите тенант" />
 								</SelectTrigger>
 								<SelectContent>
-									{models?.map((model) => (
-										<SelectItem key={model.id} value={model.title}>
-											{model.title}
+									{tenants.map((tenant) => (
+										<SelectItem key={tenant.id} value={tenant.title}>
+											{tenant.title}
 										</SelectItem>
 									))}
 								</SelectContent>
@@ -87,15 +86,25 @@ export function NeuroForm({ onSubmit, models, neuro }: NeuroFormType) {
 				/>
 				<FormField
 					control={form.control}
-					name="settings"
-					render={() => (
-						<div className="space-y-4">
+					name="type"
+					render={({ field }) => {
+						return (
 							<FormItem>
-								<FormLabel>Настройки нейросервиса</FormLabel>
-								<Textarea name="settings" />
+								<FormLabel>Тип модели</FormLabel>
+								<Select onValueChange={field.onChange} value={field.value}>
+									<SelectTrigger>
+										<SelectValue placeholder="Выберите тип модель" />
+									</SelectTrigger>
+									<SelectContent>
+										<SelectItem value="llm">llm</SelectItem>
+										<SelectItem value="embedding">embedding</SelectItem>
+										<SelectItem value="reranker">reranker</SelectItem>
+									</SelectContent>
+								</Select>
+								<FormMessage />
 							</FormItem>
-						</div>
-					)}
+						);
+					}}
 				/>
 				<Button type="submit">Сохранить</Button>
 			</form>

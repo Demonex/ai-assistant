@@ -38,7 +38,7 @@ const formSchema = z.object({
 		.min(1, { message: "Заполните поле" })
 		.refine(
 			(value) => {
-				return !/^\s|\s$|\s{2,}/.test(value);
+				return value === value.trim();
 			},
 			{ message: "Некорректное использование пробелов" },
 		),
@@ -47,7 +47,7 @@ const formSchema = z.object({
 		.min(1, { message: "Заполните поле" })
 		.refine(
 			(value) => {
-				return !/^\s|\s$|\s{2,}/.test(value);
+				return value === value.trim();
 			},
 			{ message: "Некорректное использование пробелов" },
 		),
@@ -85,30 +85,23 @@ export function CollectionForm({
 				<FormField
 					control={form.control}
 					name="tenantTitle"
-					render={({ field }) => {
-						const selectedTenant = tenants?.find(
-							(tenant) => tenant.title === field.value,
-						);
-						return (
-							<FormItem>
-								<FormLabel>Тенант</FormLabel>
-								<Select onValueChange={field.onChange} value={field.value}>
-									<SelectTrigger>
-										<SelectValue placeholder="Выберите тенант">
-											{selectedTenant?.title}
-										</SelectValue>
-									</SelectTrigger>
-									<SelectContent>
-										{tenants?.map((tenant) => (
-											<SelectItem key={tenant.id} value={tenant.title}>
-												{tenant.title}
-											</SelectItem>
-										))}
-									</SelectContent>
-								</Select>
-							</FormItem>
-						);
-					}}
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Тенант</FormLabel>
+							<Select onValueChange={field.onChange} value={field.value}>
+								<SelectTrigger>
+									<SelectValue placeholder="Выберите тенант" />
+								</SelectTrigger>
+								<SelectContent>
+									{tenants?.map((tenant) => (
+										<SelectItem key={tenant.id} value={tenant.title}>
+											{tenant.title}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+						</FormItem>
+					)}
 				/>
 				<FormField
 					control={form.control}
@@ -224,9 +217,9 @@ export function CollectionForm({
 				<FormItem>
 					<FormLabel>Провайдеры</FormLabel>
 					<Accordion type="single" collapsible>
-						<AccordionItem value="item-1" className="border my-2 ">
+						<AccordionItem value="item-1" className="border my-2 px-4">
 							<AccordionTrigger className="bg-gray-100 ">
-								<span className="mx-4">Провайдер {providers?.[0]?.id}</span>
+								<span>Провайдер {providers?.[0]?.id}</span>
 							</AccordionTrigger>
 							<AccordionContent className="m-6">
 								<FormField
@@ -241,9 +234,7 @@ export function CollectionForm({
 													value={field.value}
 												>
 													<SelectTrigger>
-														<SelectValue placeholder="Provider">
-															{providers?.[0].title}
-														</SelectValue>
+														<SelectValue placeholder="Provider" />
 													</SelectTrigger>
 													<SelectContent>
 														{providers.map((provider) => (

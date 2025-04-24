@@ -1,4 +1,5 @@
-import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
+import { Entity, OneToOne, PrimaryKey, Property } from "@mikro-orm/core";
+import { TenantEntity } from "../Tenant/index.js";
 
 @Entity({ tableName: "model" })
 export class ModelEntity {
@@ -10,4 +11,7 @@ export class ModelEntity {
 
 	@Property()
 	type?: string;
+
+	@OneToOne(() => TenantEntity)
+	tenant!: TenantEntity;
 }
