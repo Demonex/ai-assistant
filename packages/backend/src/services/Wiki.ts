@@ -39,10 +39,14 @@ export class WikiService {
 		const { pages } = await client.request(query, { parent, locale });
 
 		for (const node of pages.tree) {
-			const item: WikiPageTreeNode = {
-				...node,
-				children: [],
-			};
+			const item: WikiPageTreeNode = node.isFolder
+				? {
+						...node,
+						children: [],
+					}
+				: {
+						...node,
+					};
 
 			results.push(item);
 
@@ -63,6 +67,7 @@ export class WikiService {
 					list {
 						id
 						isPublished
+						isPrivate
 						createdAt
 						updatedAt
 					}
@@ -79,20 +84,26 @@ export class WikiService {
 		locale = "en",
 	): Promise<WikiPageTreeNode[]> {
 		const client = this.createClient(apiKey, baseUrl);
-
 		const flatList = await this.fetchRecursiveTree(client, locale);
-
 		const pageMeta = await this.fetchPageMeta(client);
+		const metaMap = new Map<
+			number,
+			{ isPrivate: boolean; createdAt: string; updatedAt: string }
+		>();
 
-		const metaMap = new Map<number, { createdAt: string; updatedAt: string }>();
 		for (const page of pageMeta) {
 			metaMap.set(page.id, {
+				isPrivate: page.isPrivate,
 				createdAt: page.createdAt,
 				updatedAt: page.updatedAt,
 			});
 		}
 
 		const filtered = flatList.filter((node) => {
+			if (!node.isFolder && node.pageId && metaMap.has(node.pageId)) {
+				const meta = metaMap.get(node.pageId)!;
+				if (meta.isPrivate) return false;
+			}
 			return node.isFolder || (node.pageId && metaMap.has(node.pageId));
 		});
 
@@ -108,7 +119,9 @@ export class WikiService {
 		const roots: WikiPageTreeNode[] = [];
 
 		for (const node of filtered) {
-			node.children = [];
+			if (node.isFolder) {
+				node.children = [];
+			}
 			map.set(node.id, node);
 		}
 
@@ -123,7 +136,7 @@ export class WikiService {
 		const pruneEmptyFolders = (nodes: WikiPageTreeNode[]): WikiPageTreeNode[] =>
 			nodes
 				.map((node) => {
-					if (node.children && node.children.length > 0) {
+					if (node.isFolder && node.children) {
 						node.children = pruneEmptyFolders(node.children);
 					}
 					return node;

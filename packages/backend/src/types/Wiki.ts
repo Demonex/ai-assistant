@@ -8,6 +8,7 @@ export type WikiPageTreeNode = {
 	children?: WikiPageTreeNode[];
 	createdAt?: string;
 	updatedAt?: string;
+	isPrivate: boolean;
 	depth?: number;
 };
 
