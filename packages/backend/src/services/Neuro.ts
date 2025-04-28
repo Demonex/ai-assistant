@@ -15,7 +15,9 @@ export class NeuroService {
 			{},
 			{ populate: ["model"] as const },
 		);
+
 		if (!neuro) throw new NotFoundException("Neuro does not exist");
+
 		return neuro;
 	}
 
@@ -33,7 +35,7 @@ export class NeuroService {
 	}
 
 	async createNeuro(createNeuroDto: CreateNeuroDto) {
-		const model = await this.em.findOne(ModelEntity, {
+		const model = await this.em.findOne<ModelEntity>(ModelEntity, {
 			title: createNeuroDto.model,
 		});
 

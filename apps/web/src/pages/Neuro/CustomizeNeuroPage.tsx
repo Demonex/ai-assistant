@@ -2,10 +2,10 @@ import { useNavigate, useParams } from "react-router";
 
 import { NeuroForm } from "@/components/Neuro/NeuroForm.js";
 import { Button } from "@/components/ui/button.js";
+import { useGetModels } from "@/hooks/Model/useGetModels.js";
 import { useGetNeuro } from "@/hooks/Neuro/useGetNeuro.js";
 import { useUpdateNeuro } from "@/hooks/Neuro/useUpdateNeuro.js";
 import { toast } from "@/hooks/use-toast.js";
-import { useModel } from "@/hooks/useModel.js";
 import { NeuroRequestType } from "@/types/types.js";
 
 const CustomizeNeuroPage = () => {
@@ -14,7 +14,7 @@ const CustomizeNeuroPage = () => {
 
 	const { neuro } = useGetNeuro(+id);
 	const { handleUpdateNeuro } = useUpdateNeuro(+id);
-	const { models } = useModel();
+	const { models } = useGetModels();
 
 	const onSubmit = (data: NeuroRequestType) => {
 		handleUpdateNeuro(data, {
@@ -38,7 +38,7 @@ const CustomizeNeuroPage = () => {
 	return (
 		neuro &&
 		models && (
-			<main className="p-4 bg-[#fbfbfb]">
+			<main className="p-4">
 				<div className="text-3xl font-medium mx-6">{neuro.title}</div>
 				<Button className="m-6" onClick={() => navigate(-1)}>
 					Назад
