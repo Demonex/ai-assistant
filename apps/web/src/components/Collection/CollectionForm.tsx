@@ -31,6 +31,8 @@ import {
 import { Textarea } from "@/components/ui/textarea.js";
 import { CollectionFormType } from "@/types/types.js";
 
+import { DropZoneForm } from "./DropZoneForm.js";
+
 const formSchema = z.object({
 	tenantTitle: z.string(),
 	title: z
@@ -221,7 +223,7 @@ export function CollectionForm({
 							<AccordionTrigger className="bg-gray-100 ">
 								<span>Провайдер {providers?.[0]?.id}</span>
 							</AccordionTrigger>
-							<AccordionContent className="m-6">
+							<AccordionContent className="m-6 space-y-4">
 								<FormField
 									control={form.control}
 									name="providerTitle"
@@ -252,6 +254,7 @@ export function CollectionForm({
 										</div>
 									)}
 								/>
+								<DropZoneForm />
 							</AccordionContent>
 						</AccordionItem>
 					</Accordion>
