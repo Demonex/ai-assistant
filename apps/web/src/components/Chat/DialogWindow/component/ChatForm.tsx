@@ -13,10 +13,8 @@ import {
 	TooltipContent,
 	TooltipTrigger,
 } from "@/components/ui/tooltip.js";
-import {
-	ALLOWED_EXTENSIONS_MEDIA,
-	ALLOWED_EXTENSIONS_TEXT,
-} from "@/constants/index.js";
+
+import { AccordionHelp } from "./AccordionHelp.js";
 
 type ChatInputProps = {
 	files: File[];
@@ -296,25 +294,8 @@ export const ChatForm = memo<ChatInputProps>(
 				</div>
 
 				{isShowHelp && (
-					<div className="absolute right-0 bottom-[calc(100%+10px)] w-full lg:w-[60%] max-h-[500px] bg-background p-2 lg:p-4 rounded-lg border">
-						<div className="text-sm font-semibold mb-2">
-							Доступные форматы файлов:
-						</div>
-
-						<div className="flex flex-col text-sm">
-							<div>
-								Для загрузки:{" "}
-								<span className="font-semibold">
-									{ALLOWED_EXTENSIONS_TEXT.join(", ")}
-								</span>
-							</div>
-							<div>
-								Для транскрипции:{" "}
-								<span className="font-semibold">
-									{ALLOWED_EXTENSIONS_MEDIA.join(", ")}
-								</span>
-							</div>
-						</div>
+					<div className="absolute right-0 bottom-[calc(100%+10px)] w-full lg:w-[60%] max-h-[500px] bg-background p-2 lg:p-4 rounded-lg border z-[55]">
+						<AccordionHelp />
 
 						<div
 							className="absolute right-0 top-0 p-2 cursor-pointer"

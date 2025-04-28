@@ -5,6 +5,7 @@ import { toast } from "@repo/web/hooks/use-toast.js";
 import type { Message } from "@repo/web/types/types.js";
 import { Copy } from "lucide-react";
 
+import { ReactMarkdownComponent } from "@/components/ReactMarkdownComponent.js";
 import {
 	Tooltip,
 	TooltipContent,
@@ -13,7 +14,6 @@ import {
 
 import { AccordionFiles } from "./AccordionFiles.js";
 import { AccordionFragments } from "./AccordionFragments.js";
-import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 
 type MessageBubbleProps = {
 	message: Message;

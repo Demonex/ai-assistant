@@ -17,11 +17,12 @@ import { toast } from "@repo/web/hooks/use-toast.js";
 import { useChats } from "@repo/web/hooks/useChats.js";
 import type { GroupMessages } from "@repo/web/types/types.js";
 
+import { ReactMarkdownComponent } from "@/components/ReactMarkdownComponent.js";
+
 // import { messageMockData } from "../../../DataBase.js";
 import { ChatForm } from "./component/ChatForm.js";
 import { HeaderDialogWindow } from "./component/HeaderDialogWindow.js";
 import { MessageBubble } from "./component/MessageBubble.js";
-import { ReactMarkdownComponent } from "./component/ReactMarkdownComponent.js";
 import { ScrollToBottomButton } from "./component/ScrollToBottomButton.js";
 
 export const DialogWindow = () => {

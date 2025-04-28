@@ -10,13 +10,12 @@ import { toast } from "@repo/web/hooks/use-toast.js";
 import type { Fragment } from "@repo/web/types/types.js";
 import { Copy, CopyPlus } from "lucide-react";
 
+import { ReactMarkdownComponent } from "@/components/ReactMarkdownComponent.js";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipTrigger,
 } from "@/components/ui/tooltip.js";
-
-import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 
 type AccordionFragmentsProps = {
 	fragments: Fragment[];
