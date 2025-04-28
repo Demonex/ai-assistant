@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 
 import {
-	ALLOWED_EXTENSIONS_MEDIA,
 	ALLOWED_EXTENSIONS_TEXT,
 	EXTENSIONS_TYPES,
 } from "@/constants/index.js";
@@ -89,12 +88,6 @@ export const DropZoneForm = () => {
 							Для загрузки:{" "}
 							<span className="font-semibold">
 								{ALLOWED_EXTENSIONS_TEXT.join(", ")}
-							</span>
-						</div>
-						<div>
-							Для транскрипции:{" "}
-							<span className="font-semibold">
-								{ALLOWED_EXTENSIONS_MEDIA.join(", ")}
 							</span>
 						</div>
 					</div>
