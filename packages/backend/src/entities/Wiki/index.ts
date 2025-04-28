@@ -1,6 +1,6 @@
 import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
 
-@Entity({ tableName: "wikijs_docs" })
+@Entity({ tableName: "wikijs_doc" })
 export class WikiDocEntity {
 	@PrimaryKey()
 	id!: number;

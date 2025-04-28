@@ -1,12 +1,16 @@
 import { Injectable } from "@nestjs/common";
 import { GraphQLClient, gql } from "graphql-request";
+import { ProviderService } from "@repo/backend/services/Provider.js";
 import type {
 	WikiPageType,
 	WikiPageTreeType,
 } from "@repo/backend/types/Wiki.js";
+import { PROVIDER_TYPE } from "@repo/backend/entities/Provider/index.js";
 
 @Injectable()
 export class WikiService {
+	constructor(private readonly providerService: ProviderService) {}
+
 	private createClient(apiKey: string, baseUrl: string) {
 		return new GraphQLClient(`${baseUrl}/graphql`, {
 			headers: {
@@ -15,9 +19,7 @@ export class WikiService {
 		});
 	}
 
-	private async fetchPageList(
-		client: GraphQLClient,
-	): Promise<WikiPageTreeType[]> {
+	private async fetchPageList(client: GraphQLClient): Promise<WikiPageType[]> {
 		const query = gql`
 			query {
 				pages {
@@ -34,20 +36,30 @@ export class WikiService {
 			}
 		`;
 
-		const data: WikiPageType = await client.request(query);
+		const data: WikiPageTreeType = await client.request(query);
 		return data.pages.list;
 	}
 
-	async fetchPageTree(
-		apiKey: string,
-		baseUrl: string,
-	): Promise<WikiPageTreeType[]> {
-		const client = this.createClient(apiKey, baseUrl);
+	async fetchPageTree(): Promise<WikiPageType[]> {
+		const providers = await this.providerService.getProviders();
+
+		const provider = providers.find((p) => p.type === PROVIDER_TYPE.wikijs);
+
+		if (!provider) {
+			throw new Error("WikiJS provider not found");
+		}
+
+		const { url, apiKey } = provider.settings;
+
+		if (!url || !apiKey) {
+			throw new Error("WikiJS provider URL is missing");
+		}
+
+		const client = this.createClient(apiKey, url);
 		const pages = await this.fetchPageList(client);
 
 		const nodeMap = new Map();
-		const pathToId = new Map();
-		const roots: WikiPageTreeType[] = [];
+		const roots: WikiPageType[] = [];
 
 		for (const page of pages) {
 			if (!page.isPublished || page.isPrivate) continue;
@@ -64,7 +76,6 @@ export class WikiService {
 			};
 
 			nodeMap.set(page.path, node);
-			pathToId.set(page.path, page.id);
 		}
 
 		for (const node of nodeMap.values()) {
@@ -79,7 +90,7 @@ export class WikiService {
 					parent.children = [];
 				}
 
-				(parent.children as WikiPageTreeType[]).push(node);
+				parent.children.push(node);
 				node.parent = parent.id;
 			} else {
 				roots.push(node);

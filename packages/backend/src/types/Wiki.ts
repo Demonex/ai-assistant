@@ -1,10 +1,10 @@
-export type WikiPageTreeType = {
+export type WikiPageType = {
 	id: number;
 	title: string;
 	path: string;
 	parent: number | null;
 	isFolder: boolean;
-	children?: WikiPageTreeType[];
+	children?: WikiPageType[];
 	createdAt?: string;
 	updatedAt?: string;
 	isPrivate: boolean;
@@ -12,8 +12,8 @@ export type WikiPageTreeType = {
 	depth?: number;
 };
 
-export type WikiPageType = {
+export type WikiPageTreeType = {
 	pages: {
-		list: WikiPageTreeType[];
+		list: WikiPageType[];
 	};
 };

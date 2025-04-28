@@ -96,25 +96,11 @@ export type GroupMessages = [string, Message[]];
 
 //////////////////////////////////////////////////////////////////////
 
-export type CollectionFormType = {
-	collection?: CollectionType;
-	tenants: TenantType[];
-	neuros: NeuroType[];
-	providers: ProviderType[];
-	onSubmit: (data: CollectionRequestType) => void;
-};
-
-export type NeuroFormType = {
-	neuro?: NeuroType;
-	models: ModelType[];
-	onSubmit: (data: NeuroRequestType) => void;
-};
-
-export type ModelFormType = {
-	model?: ModelType;
-	tenants: TenantType[];
-	onSubmit: (data: ModelRequestType) => void;
-};
+export enum PROVIDER_ENUM_TYPE {
+	minio = "minio",
+	confluence = "confluence",
+	wikijs = "wikijs",
+}
 
 export type CollectionType = {
 	id?: string;
@@ -124,7 +110,7 @@ export type CollectionType = {
 	llm?: NeuroType;
 	reranker?: NeuroType;
 	tenant?: TenantType;
-	providers?: ProviderType[];
+	providers?: ProviderInCollectionType[];
 };
 
 export type NeuroType = {
@@ -134,10 +120,18 @@ export type NeuroType = {
 	modelSettings?: string | null;
 };
 
-export type ProviderType = {
+export type ProviderInCollectionType = {
 	id: number;
 	title: string;
 	provider?: number;
+};
+
+export type ProviderType<T = Record<string, unknown>> = {
+	id: number;
+	settings: T;
+	tenant: number;
+	title: string;
+	type: string;
 };
 
 export type TenantType = {

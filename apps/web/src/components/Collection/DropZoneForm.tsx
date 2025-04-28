@@ -33,8 +33,7 @@ export const DropZoneForm = () => {
 			toast({
 				variant: "destructive",
 				title: "Ошибка формата!",
-				description:
-					"Некоторые файлы имеют недопустимый формат и не были добавлены. Допустимые форматы указаны в памятке пользователя.",
+				description: `Некоторые файлы имеют недопустимый формат и не были добавлены. Допустимые форматы ${ALLOWED_EXTENSIONS_TEXT.join(", ")}`,
 			});
 		}
 
@@ -80,7 +79,7 @@ export const DropZoneForm = () => {
 			>
 				<div className="max-w-[70%]">
 					<div className="text-xl font-semibold mb-2">
-						Перетащите файлы в эту область или кликните для загрузки
+						Перетащите файлы в эту область или кликните
 					</div>
 
 					<div className="flex flex-col text-sm">

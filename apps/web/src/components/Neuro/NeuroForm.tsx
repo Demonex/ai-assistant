@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,7 +22,13 @@ import {
 	SelectValue,
 } from "@/components/ui/select.js";
 import { Textarea } from "@/components/ui/textarea.js";
-import { NeuroFormType } from "@/types/types.js";
+import { ModelType, NeuroRequestType, NeuroType } from "@/types/types.js";
+
+type NeuroFormProps = {
+	neuro?: NeuroType;
+	models: ModelType[];
+	onSubmit: (data: NeuroRequestType) => void;
+};
 
 const formSchema = z.object({
 	title: z
@@ -37,7 +44,7 @@ const formSchema = z.object({
 	settings: z.string().optional(),
 });
 
-export function NeuroForm({ onSubmit, models, neuro }: NeuroFormType) {
+export const NeuroForm = memo<NeuroFormProps>(({ onSubmit, models, neuro }) => {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -101,4 +108,4 @@ export function NeuroForm({ onSubmit, models, neuro }: NeuroFormType) {
 			</form>
 		</Form>
 	);
-}
+});

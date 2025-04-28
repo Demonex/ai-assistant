@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 
 import { Checkbox } from "@/components/ui/checkbox.js";
 import type { WikiTreeType } from "@/types/types.js";
 
-type TreeViewProps = {
+type WikiTreeViewProps = {
 	data: WikiTreeType[];
 	onChange: (selectedPages: WikiTreeType[]) => void;
 };
 
-const TreeView: React.FC<TreeViewProps> = ({ data, onChange }) => {
+export const WikiTreeView = memo<WikiTreeViewProps>(({ data, onChange }) => {
 	const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
 	const [flattenedData, setFlattenedData] = useState<WikiTreeType[]>([]);
 
@@ -103,6 +103,4 @@ const TreeView: React.FC<TreeViewProps> = ({ data, onChange }) => {
 	};
 
 	return <div className="space-y-2">{renderPages(data)}</div>;
-};
-
-export default TreeView;
+});
