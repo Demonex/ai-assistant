@@ -39,7 +39,7 @@ export class UserService {
 		if (!id && isAdminRequest) {
 			return { user: null };
 		}
-		const user = await this.findByIdOrEmail({ user: id, fields: ["email"] });
+		const user = await this.findByIdOrEmail(id, ["email"]);
 		if (!user) {
 			if (!isAdminRequest) {
 				throw new HttpException(
@@ -74,13 +74,10 @@ export class UserService {
 			: user;
 	}
 
-	async findByIdOrEmail({
-		user,
-		fields,
-	}: {
-		user: ChatMessageEntity["user"]["id"] | ChatMessageEntity["user"]["email"];
-		fields?: (keyof UserEntity)[];
-	}) {
+	async findByIdOrEmail(
+		user: ChatMessageEntity["user"]["id"] | ChatMessageEntity["user"]["email"],
+		fields?: (keyof UserEntity)[],
+	) {
 		const search = await this.em.findOne<UserEntity, never, keyof UserEntity>(
 			UserEntity,
 			typeof user === "number" ? { id: user } : { email: user },
