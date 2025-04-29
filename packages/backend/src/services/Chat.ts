@@ -8,16 +8,16 @@ import { DocEntity } from "../entities/Doc/index.js";
 import { GROUP_PERMISSION } from "../entities/Group/group-group-permissions.js";
 import { PROVIDER_TYPE } from "../entities/Provider/index.js";
 import { HttpStatusMessages } from "../messages/http.js";
+import type { AudioReponse } from "../types/Audio.js";
 import type { UploadedFile } from "../types/Chat.js";
 import type { FlowResponse } from "../types/Flow.js";
 import { getHandleUpload } from "../utils/handleUpload.js";
 import { logErrors, promiseMap } from "../utils/index.js";
+import { AudioService } from "./Audio.js";
 import { LangFlowService } from "./Flow.js";
 import { GotenbergService } from "./Gotenberg.js";
 import { GroupService } from "./Group.js";
 import { UserService } from "./User.js";
-import { AudioService } from "./Audio.js";
-import type { AudioReponse } from "../types/Audio.js";
 
 @Injectable()
 export class ChatService {
@@ -60,7 +60,7 @@ export class ChatService {
 			| ChatMessageEntity["user"]["email"],
 		_currentTenant?: number,
 	) {
-		const user = await this.userService.findByIdOrEmail({ user: userKey });
+		const user = await this.userService.findByIdOrEmail(userKey);
 		const groups = await this.groupService.findGroups(user);
 		const permission = this.groupService.verifyPermissions(user, groups, [
 			GROUP_PERMISSION.admin,
@@ -162,10 +162,15 @@ export class ChatService {
 			throw new HttpException("Collection Empty", HttpStatus.FORBIDDEN);
 		}
 
+		// const user = await this.em.findOne<UserEntity>(
+		// 	UserEntity,
+		// 	typeof userKey === "number" ? { id: userKey } : { email: userKey }
+		// )
+		const user = await this.userService.findByIdOrEmail(userKey);
+
 		try {
 			const chatMessage = this.em.create<ChatMessageEntity>(ChatMessageEntity, {
-				user:
-					typeof userKey === "number" ? { id: userKey } : { email: userKey },
+				user,
 				collection: chatId,
 				request: {
 					message: chatMessageDto.raw,
@@ -176,7 +181,7 @@ export class ChatService {
 
 			return chatMessage;
 		} catch (error) {
-			console.error("Error creating chatMessage:", error);
+			logErrors(error);
 
 			throw new HttpException(
 				"Postgres Error: - Failed To Create Message",
