@@ -17,7 +17,11 @@ import {
 	ApiOperation,
 	ApiTags,
 } from "@nestjs/swagger";
-import { Authorized, UserEmailKey } from "@repo/backend/decorators/auth.js";
+import {
+	ApiKey,
+	Authorized,
+	UserEmailKey,
+} from "@repo/backend/decorators/auth.js";
 import {
 	ExternalEmail,
 	TenantId,
@@ -76,6 +80,7 @@ export class ChatController {
 	}
 
 	@UserEmailKey()
+	@ApiKey()
 	@Post("/completions")
 	@HttpCode(200)
 	async sendMessageExternal(
