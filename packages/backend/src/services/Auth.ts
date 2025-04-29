@@ -1,12 +1,6 @@
 import { EntityManager } from "@mikro-orm/core";
 import { InjectRedis } from "@nestjs-modules/ioredis";
-import {
-	HttpException,
-	HttpStatus,
-	Inject,
-	Injectable,
-	Scope,
-} from "@nestjs/common";
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
 import { REQUEST } from "@nestjs/core";
 import { BCRYPT_SALT_ROUNDS } from "@repo/backend/constants.js";
 import type { AuthSignUpDto } from "@repo/backend/dto/Auth.js";
@@ -23,7 +17,7 @@ declare module "express-session" {
 	}
 }
 
-@Injectable({ scope: Scope.REQUEST })
+@Injectable()
 export class AuthService {
 	constructor(
 		@Inject(REQUEST) private readonly request: Request,
