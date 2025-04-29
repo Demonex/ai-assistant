@@ -1,13 +1,12 @@
 import { useRef, useState } from "react";
 
+import { FileUpload } from "@/components/FileUpload.js";
+import { Button } from "@/components/ui/button.js";
 import {
 	ALLOWED_EXTENSIONS_TEXT,
 	EXTENSIONS_TYPES,
 } from "@/constants/index.js";
 import { toast } from "@/hooks/use-toast.js";
-
-import { FileUpload } from "../FileUpload.js";
-import { Button } from "../ui/button.js";
 
 //TODO отрефакторить компонент
 export const DropZoneForm = () => {
@@ -105,7 +104,7 @@ export const DropZoneForm = () => {
 					<FileUpload files={files} handleCloseDocument={handleCloseDocument} />
 				</div>
 			)}
-			<Button disabled={!!!files.length} onClick={onUploadFile}>
+			<Button type="button" disabled={!!!files.length} onClick={onUploadFile}>
 				Загрузить
 			</Button>
 		</>

@@ -1,6 +1,7 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 
 import { Checkbox } from "@/components/ui/checkbox.js";
+import { Label } from "@/components/ui/label.js";
 import type { WikiTreeType } from "@/types/types.js";
 
 type WikiTreeViewProps = {
@@ -10,9 +11,8 @@ type WikiTreeViewProps = {
 
 export const WikiTreeView = memo<WikiTreeViewProps>(({ data, onChange }) => {
 	const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
-	const [flattenedData, setFlattenedData] = useState<WikiTreeType[]>([]);
 
-	useEffect(() => {
+	const flattenedData = useMemo(() => {
 		const flatten = (
 			pages: WikiTreeType[],
 			result: WikiTreeType[] = [],
@@ -25,82 +25,81 @@ export const WikiTreeView = memo<WikiTreeViewProps>(({ data, onChange }) => {
 			});
 			return result;
 		};
-
-		setFlattenedData(flatten(data));
+		return flatten(data);
 	}, [data]);
 
-	const getAllChildLeafIds = (page: WikiTreeType): number[] => {
-		let ids = [];
-
+	const getAllChildLeafIds = useCallback((page: WikiTreeType): number[] => {
+		let ids: number[] = [];
 		if (page.isFolder && page.children) {
 			page.children.forEach((child) => {
 				if (!child.isFolder) {
 					ids.push(child.id);
 				}
-				ids = [...ids, ...getAllChildLeafIds(child)];
+				ids.push(...getAllChildLeafIds(child));
 			});
 		}
 		return ids;
-	};
+	}, []);
 
-	const handleCheckboxChange = (page: WikiTreeType, isChecked: boolean) => {
-		const newSelectedIds = new Set(selectedIds);
+	const handleCheckboxChange = useCallback(
+		(page: WikiTreeType, isChecked: boolean) => {
+			setSelectedIds((prev) => {
+				const newSelectedIds = new Set(prev);
 
-		if (isChecked) {
-			if (page.isFolder) {
-				const childLeafIds = getAllChildLeafIds(page);
-				childLeafIds.forEach((id) => newSelectedIds.add(id));
-			} else {
-				newSelectedIds.add(page.id);
-			}
-		} else {
-			if (page.isFolder) {
-				const childLeafIds = getAllChildLeafIds(page);
-				childLeafIds.forEach((id) => newSelectedIds.delete(id));
-			} else {
-				newSelectedIds.delete(page.id);
-			}
-		}
+				if (isChecked) {
+					if (page.isFolder) {
+						getAllChildLeafIds(page).forEach((id) => newSelectedIds.add(id));
+					} else {
+						newSelectedIds.add(page.id);
+					}
+				} else {
+					if (page.isFolder) {
+						getAllChildLeafIds(page).forEach((id) => newSelectedIds.delete(id));
+					} else {
+						newSelectedIds.delete(page.id);
+					}
+				}
 
-		setSelectedIds(newSelectedIds);
-	};
+				return newSelectedIds;
+			});
+		},
+		[getAllChildLeafIds],
+	);
 
 	useEffect(() => {
-		const selectedLeafPages = flattenedData.filter(
+		const selectedPages = flattenedData.filter(
 			(page) => selectedIds.has(page.id) && !page.isFolder,
 		);
-		onChange(selectedLeafPages);
+		onChange(selectedPages);
 	}, [selectedIds, flattenedData, onChange]);
 
-	const renderPages = (pages: WikiTreeType[], depth = 0) => {
-		return pages.map((page) => (
-			<React.Fragment key={page.id}>
-				<div
-					className="flex items-center space-x-2"
-					style={{ marginLeft: `${depth * 20}px` }}
-				>
-					<Checkbox
-						id={page.id.toString()}
-						checked={
-							page.isFolder
-								? getAllChildLeafIds(page).every((id) => selectedIds.has(id))
-								: selectedIds.has(page.id)
-						}
-						onCheckedChange={(checked) =>
-							handleCheckboxChange(page, checked as boolean)
-						}
-					/>
-					<label
-						htmlFor={page.id.toString()}
-						className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+	const renderPages = useCallback(
+		(pages: WikiTreeType[], depth = 0) => {
+			return pages.map((page) => (
+				<React.Fragment key={page.id}>
+					<div
+						className="flex items-center space-x-2"
+						style={{ marginLeft: `${depth * 20}px` }}
 					>
-						{page.title}
-					</label>
-				</div>
-				{page.children && renderPages(page.children, depth + 1)}
-			</React.Fragment>
-		));
-	};
+						<Checkbox
+							id={page.id.toString()}
+							checked={
+								page.isFolder
+									? getAllChildLeafIds(page).every((id) => selectedIds.has(id))
+									: selectedIds.has(page.id)
+							}
+							onCheckedChange={(checked) =>
+								handleCheckboxChange(page, checked as boolean)
+							}
+						/>
+						<Label htmlFor={page.id.toString()}>{page.title}</Label>
+					</div>
+					{page.children && renderPages(page.children, depth + 1)}
+				</React.Fragment>
+			));
+		},
+		[selectedIds, handleCheckboxChange, getAllChildLeafIds],
+	);
 
 	return <div className="space-y-2">{renderPages(data)}</div>;
 });

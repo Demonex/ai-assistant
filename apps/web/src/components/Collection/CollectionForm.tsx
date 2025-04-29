@@ -28,7 +28,6 @@ import {
 	SelectValue,
 } from "@/components/ui/select.js";
 import { Textarea } from "@/components/ui/textarea.js";
-import { useWiki } from "@/hooks/useWiki.js";
 import {
 	CollectionRequestType,
 	CollectionType,
@@ -39,7 +38,7 @@ import {
 } from "@/types/types.js";
 
 import { DropZoneForm } from "./DropZoneForm.js";
-import { WikiTreeView } from "./WikiTreeView.js";
+import { WikiTreeForm } from "./WikiTreeForm.js";
 
 type CollectionFormProps = {
 	collection?: CollectionType;
@@ -89,8 +88,6 @@ export const CollectionForm = memo(
 		providers,
 		onSubmit,
 	}: CollectionFormProps) => {
-		const { dataWiki } = useWiki();
-
 		const form = useForm<z.infer<typeof formSchema>>({
 			resolver: zodResolver(formSchema),
 			defaultValues: {
@@ -113,16 +110,20 @@ export const CollectionForm = memo(
 
 		const providerElement = form.watch("providerElement");
 
-		const handleList = (list) => {
-			console.log(list);
+		const handleSettings = (e) => {
+			setErrorSettings(false);
+
+			const text = e.currentTarget.innerText;
+			const parsed = JSON.parse(text);
+
+			if (parsed) {
+				setValue("providerElement.settings", parsed, { shouldValidate: true });
+			}
 		};
 
-		const handleSettings = (e) => {
-			const text = e.currentTarget.innerText;
-
+		const validateSettingsJson = (e) => {
 			try {
-				const parsed = JSON.parse(text);
-				setValue("providerElement.settings", parsed, { shouldValidate: true });
+				JSON.parse(e.currentTarget.innerText);
 				setErrorSettings(false);
 			} catch (error) {
 				console.error(error);
@@ -317,7 +318,7 @@ export const CollectionForm = memo(
 												<FormItem>
 													<FormLabel>Настройки провайдера</FormLabel>
 													<pre
-														className="min-h-[60px] w-full rounded-md border bg-muted/50 p-3 text-sm font-mono overflow-auto"
+														className="min-h-[60px] w-full rounded-md border p-3 text-sm font-mono overflow-auto"
 														style={{
 															wordBreak: "break-word",
 															whiteSpace: "pre-wrap",
@@ -327,6 +328,7 @@ export const CollectionForm = memo(
 														<code
 															className="outline-none"
 															contentEditable
+															onBlur={validateSettingsJson}
 															onInput={handleSettings}
 															suppressContentEditableWarning
 														>
@@ -349,9 +351,7 @@ export const CollectionForm = memo(
 									{providerElement.type === PROVIDER_ENUM_TYPE.minio ? (
 										<DropZoneForm />
 									) : (
-										dataWiki && (
-											<WikiTreeView data={dataWiki} onChange={handleList} />
-										)
+										<WikiTreeForm />
 									)}
 								</AccordionContent>
 							</AccordionItem>
