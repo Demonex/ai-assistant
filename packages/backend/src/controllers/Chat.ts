@@ -13,6 +13,7 @@ import {
 import { FilesInterceptor } from "@nestjs/platform-express";
 import {
 	ApiBearerAuth,
+	ApiBody,
 	ApiConsumes,
 	ApiOperation,
 	ApiTags,
@@ -28,7 +29,8 @@ import {
 	UserId,
 } from "@repo/backend/decorators/user.js";
 import { ChatService } from "@repo/backend/services/Chat.js";
-import { ChatMessageDto, ChatUploadMediaDto } from "../dto/Chat.js";
+import { ChatMessageDto } from "../dto/Chat.js";
+import { ChatUploadMediaDto } from "../dto/Chat.js";
 
 @ApiTags("chat")
 @Controller("/api/v1")
@@ -114,6 +116,7 @@ export class ChatController {
 	@Authorized()
 	@Post("/chat/:id/upload")
 	@ApiConsumes("multipart/form-data")
+	@ApiBody({ type: ChatUploadMediaDto })
 	@UseInterceptors(
 		FilesInterceptor("media", 500, {
 			fileFilter: (_, file, callback) => {
