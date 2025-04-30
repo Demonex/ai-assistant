@@ -93,6 +93,11 @@ export const collection: CollectionConfig = {
 				singular: "Провайдер",
 				plural: "Провайдеры",
 			},
+			access: {
+				create: () => false,
+				read: () => true,
+				update: () => true,
+			},
 			fields: [
 				{
 					name: "provider",
