@@ -9,6 +9,7 @@ export type WikiTreeType = {
 	path: string;
 	parent: number | null;
 	isFolder: boolean;
+	isUpload: boolean;
 	pageId: number | null;
 	children?: WikiTreeType[];
 	createdAt?: string;
@@ -103,7 +104,7 @@ export enum PROVIDER_ENUM_TYPE {
 }
 
 export type CollectionType = {
-	id?: string;
+	id?: number;
 	title?: string;
 	description?: string;
 	embedding?: NeuroType;
@@ -166,4 +167,9 @@ export type ModelRequestType = {
 	title?: string;
 	tenant?: string;
 	type?: string;
+};
+
+export type WikiDocsRequesttype = {
+	collectionId: number;
+	ids: number[];
 };

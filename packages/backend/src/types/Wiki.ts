@@ -2,8 +2,9 @@ export type WikiPageType = {
 	id: number;
 	title: string;
 	path: string;
-	parent: number | null;
+	parent?: number | null;
 	isFolder: boolean;
+	isUpload: boolean;
 	children?: WikiPageType[];
 	createdAt?: string;
 	updatedAt?: string;
@@ -12,8 +13,24 @@ export type WikiPageType = {
 	depth?: number;
 };
 
+export type WikiSinglePageType = {
+	id: number;
+	title: string;
+	path: string;
+	updatedAt: string;
+	content: string;
+};
+
 export type WikiPageTreeType = {
 	pages: {
 		list: WikiPageType[];
+	};
+};
+
+export type WikiPageContentType = {
+	pages: {
+		single: {
+			content: WikiSinglePageType;
+		};
 	};
 };

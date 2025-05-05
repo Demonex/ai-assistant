@@ -6,100 +6,138 @@ import type { WikiTreeType } from "@/types/types.js";
 
 type WikiTreeViewProps = {
 	data: WikiTreeType[];
-	onChange: (selectedPages: WikiTreeType[]) => void;
+	onUpload: (selectedPages: number[]) => void;
+	onRemove: (selectedPages: number[]) => void;
 };
 
-export const WikiTreeView = memo<WikiTreeViewProps>(({ data, onChange }) => {
-	const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
+export const WikiTreeView = memo<WikiTreeViewProps>(
+	({ data, onUpload, onRemove }) => {
+		const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
+		const [removalIds, setRemovalIds] = useState<Set<number>>(new Set());
 
-	const flattenedData = useMemo(() => {
-		const flatten = (
-			pages: WikiTreeType[],
-			result: WikiTreeType[] = [],
-		): WikiTreeType[] => {
-			pages.forEach((page) => {
-				result.push(page);
-				if (page.children) {
-					flatten(page.children, result);
-				}
-			});
-			return result;
-		};
-		return flatten(data);
-	}, [data]);
-
-	const getAllChildLeafIds = useCallback((page: WikiTreeType): number[] => {
-		let ids: number[] = [];
-		if (page.isFolder && page.children) {
-			page.children.forEach((child) => {
-				if (!child.isFolder) {
-					ids.push(child.id);
-				}
-				ids.push(...getAllChildLeafIds(child));
-			});
-		}
-		return ids;
-	}, []);
-
-	const handleCheckboxChange = useCallback(
-		(page: WikiTreeType, isChecked: boolean) => {
-			setSelectedIds((prev) => {
-				const newSelectedIds = new Set(prev);
-
-				if (isChecked) {
-					if (page.isFolder) {
-						getAllChildLeafIds(page).forEach((id) => newSelectedIds.add(id));
-					} else {
-						newSelectedIds.add(page.id);
+		const flattenedData = useMemo(() => {
+			const flatten = (
+				pages: WikiTreeType[],
+				result: WikiTreeType[] = [],
+			): WikiTreeType[] => {
+				pages.forEach((page) => {
+					result.push(page);
+					if (page.children) {
+						flatten(page.children, result);
 					}
-				} else {
-					if (page.isFolder) {
-						getAllChildLeafIds(page).forEach((id) => newSelectedIds.delete(id));
-					} else {
-						newSelectedIds.delete(page.id);
+				});
+				return result;
+			};
+			return flatten(data);
+		}, [data]);
+
+		const getChildLeafIds = useCallback((page: WikiTreeType): number[] => {
+			let ids: number[] = [];
+			if (page.isFolder && page.children) {
+				page.children.forEach((child) => {
+					if (!child.isFolder) {
+						ids.push(child.id);
 					}
-				}
+					ids.push(...getChildLeafIds(child));
+				});
+			}
+			return ids;
+		}, []);
 
-				return newSelectedIds;
-			});
-		},
-		[getAllChildLeafIds],
-	);
+		const togglePage = useCallback(
+			(page: WikiTreeType) => {
+				setSelectedIds((prevSelected) => {
+					const newSelected = new Set(prevSelected);
+					const newRemoved = new Set(removalIds);
 
-	useEffect(() => {
-		const selectedPages = flattenedData.filter(
-			(page) => selectedIds.has(page.id) && !page.isFolder,
+					const toggleLeaf = (p: WikiTreeType) => {
+						if (p.isUpload) {
+							if (newRemoved.has(p.id)) {
+								newRemoved.delete(p.id);
+							} else {
+								newRemoved.add(p.id);
+							}
+						} else {
+							if (newSelected.has(p.id)) {
+								newSelected.delete(p.id);
+							} else {
+								newSelected.add(p.id);
+							}
+						}
+					};
+
+					if (page.isFolder) {
+						const childLeafIds = getChildLeafIds(page);
+						const childLeafs = flattenedData.filter((p) =>
+							childLeafIds.includes(p.id),
+						);
+
+						const allAreUploaded = childLeafs.every((p) => p.isUpload);
+						const anyRemoved = childLeafs.some((p) => newRemoved.has(p.id));
+
+						if (allAreUploaded && anyRemoved) {
+							childLeafs.forEach((p) => newRemoved.delete(p.id));
+						} else {
+							childLeafs.forEach((p) => toggleLeaf(p));
+						}
+					} else {
+						toggleLeaf(page);
+					}
+
+					setRemovalIds(newRemoved);
+					return newSelected;
+				});
+			},
+			[flattenedData, getChildLeafIds, removalIds],
 		);
-		onChange(selectedPages);
-	}, [selectedIds, flattenedData, onChange]);
 
-	const renderPages = useCallback(
-		(pages: WikiTreeType[], depth = 0) => {
-			return pages.map((page) => (
-				<React.Fragment key={page.id}>
-					<div
-						className="flex items-center space-x-2"
-						style={{ marginLeft: `${depth * 20}px` }}
-					>
-						<Checkbox
-							id={page.id.toString()}
-							checked={
-								page.isFolder
-									? getAllChildLeafIds(page).every((id) => selectedIds.has(id))
-									: selectedIds.has(page.id)
-							}
-							onCheckedChange={(checked) =>
-								handleCheckboxChange(page, checked as boolean)
-							}
-						/>
-						<Label htmlFor={page.id.toString()}>{page.title}</Label>
-					</div>
-					{page.children && renderPages(page.children, depth + 1)}
-				</React.Fragment>
-			));
-		},
-		[selectedIds, handleCheckboxChange, getAllChildLeafIds],
-	);
+		useEffect(() => {
+			const selectedPages = flattenedData
+				.filter((page) => selectedIds.has(page.id) && !page.isUpload)
+				.map((page) => page.id);
 
-	return <div className="space-y-2">{renderPages(data)}</div>;
-});
+			const removedPages = flattenedData
+				.filter((page) => removalIds.has(page.id) && page.isUpload)
+				.map((page) => page.id);
+
+			onUpload(selectedPages);
+			onRemove(removedPages);
+		}, [selectedIds, removalIds, flattenedData, onUpload, onRemove]);
+
+		const renderPages = useCallback(
+			(pages: WikiTreeType[], depth = 0) => {
+				return pages.map((page) => {
+					const isChecked = page.isFolder
+						? getChildLeafIds(page).every((id) => {
+								const p = flattenedData.find((p) => p.id === id);
+								return p?.isUpload ? !removalIds.has(id) : selectedIds.has(id);
+							})
+						: page.isUpload
+							? !removalIds.has(page.id)
+							: selectedIds.has(page.id);
+
+					return (
+						<React.Fragment key={page.id}>
+							<div
+								className={`flex items-center space-x-2 ${removalIds.has(page.id) && "text-red-700"}`}
+								style={{ marginLeft: `${depth * 20}px` }}
+							>
+								<Checkbox
+									id={page.id.toString()}
+									checked={isChecked}
+									onCheckedChange={() => togglePage(page)}
+									className={removalIds.has(page.id) && "border-red-700"}
+								/>
+								<Label htmlFor={page.id.toString()}>{page.title}</Label>
+							</div>
+							{page.children && renderPages(page.children, depth + 1)}
+						</React.Fragment>
+					);
+				});
+			},
+			[flattenedData, selectedIds, removalIds, getChildLeafIds, togglePage],
+		);
+
+		return <div className="space-y-2">{renderPages(data)}</div>;
+	},
+);

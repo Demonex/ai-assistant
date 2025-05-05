@@ -102,7 +102,7 @@ export const CollectionForm = memo(
 				providerElement:
 					providers.find(
 						(el) => collection?.providers[0]?.provider === el.id,
-					) || {},
+					) || providers[0],
 			},
 		});
 		const { setValue } = form;
@@ -111,7 +111,7 @@ export const CollectionForm = memo(
 		const providerElement = form.watch("providerElement");
 
 		const handleSettings = (e) => {
-			setErrorSettings(false);
+			if (errorSettings) setErrorSettings(false);
 
 			const text = e.currentTarget.innerText;
 			const parsed = JSON.parse(text);
@@ -351,7 +351,7 @@ export const CollectionForm = memo(
 									{providerElement.type === PROVIDER_ENUM_TYPE.minio ? (
 										<DropZoneForm />
 									) : (
-										<WikiTreeForm />
+										<WikiTreeForm collectionId={collection.id} />
 									)}
 								</AccordionContent>
 							</AccordionItem>
