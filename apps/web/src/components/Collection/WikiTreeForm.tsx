@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { WikiTreeView } from "@repo/web/components/Collection/WikiTreeView.js";
 import { Spinner } from "@repo/web/components/Spinner.js";
@@ -12,24 +12,62 @@ type WikiTreeFormProps = {
 };
 
 export const WikiTreeForm = ({ collectionId }: WikiTreeFormProps) => {
-	const { dataWiki, loadingWiki, errorWiki } = useWiki(collectionId);
+	const {
+		dataWiki,
+		loadingWiki,
+		errorWiki,
+		handleUploadWikiDocs,
+		handleRemoveWikiDocs,
+		refetchWikiTree,
+		errorUploadWikiDocs,
+		errorRemoveWikiDocs,
+	} = useWiki(collectionId);
 	const [upload, setUpload] = useState<number[]>([]);
 	const [remove, setRemove] = useState<number[]>([]);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
 
-	const onSubmit = useCallback(() => {
-		console.log("upload", upload);
-		console.log("remove", remove);
-	}, [upload, remove]);
+	const onSubmit = () => {
+		if (upload.length) {
+			setIsLoading(true);
 
-	useEffect(() => {
-		if (errorWiki) {
-			toast({
-				variant: "destructive",
-				title: errorWiki.statusCode.toString(),
-				description: errorWiki.message,
+			handleUploadWikiDocs(upload, {
+				onSuccess: async () => {
+					setUpload([]);
+					refetchWikiTree();
+					toast({
+						title: "Выбранные документы загружены в коллекцию!",
+					});
+				},
+				onSettled: () => setIsLoading(false),
 			});
 		}
-	}, [errorWiki]);
+		if (remove.length) {
+			setIsLoading(true);
+
+			handleRemoveWikiDocs(remove, {
+				onSuccess: async () => {
+					setRemove([]);
+					refetchWikiTree();
+					toast({
+						title: "Выбранные документы удалены из коллекции!",
+					});
+				},
+				onSettled: () => setIsLoading(false),
+			});
+		}
+	};
+
+	useEffect(() => {
+		const error = errorWiki || errorUploadWikiDocs || errorRemoveWikiDocs;
+
+		if (error) {
+			toast({
+				variant: "destructive",
+				title: error.statusCode.toString(),
+				description: error.message,
+			});
+		}
+	}, [errorWiki, errorUploadWikiDocs, errorRemoveWikiDocs]);
 
 	if (errorWiki) return;
 
@@ -47,13 +85,16 @@ export const WikiTreeForm = ({ collectionId }: WikiTreeFormProps) => {
 			<div>
 				Загрузить {upload.length} | Удалить {remove.length}
 			</div>
-			<Button
-				type="button"
-				disabled={!upload.length && !remove.length}
-				onClick={onSubmit}
-			>
-				Применить
-			</Button>
+			<div className="flex itmes-center">
+				<Button
+					type="button"
+					disabled={(!upload.length && !remove.length) || isLoading}
+					onClick={onSubmit}
+				>
+					Применить
+				</Button>
+				{isLoading && <Spinner size="small" className="ml-2" />}
+			</div>
 		</>
 	);
 };

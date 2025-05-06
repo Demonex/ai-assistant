@@ -1,5 +1,5 @@
-import { getWikiTree, uploadWikiDocs } from "@/api/wiki.js";
-import { ApiError, WikiDocsRequesttype, WikiTreeType } from "@/types/types.js";
+import { getWikiTree, uploadWikiDocs, removeWikiDocs } from "@/api/wiki.js";
+import { ApiError, WikiTreeType } from "@/types/types.js";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useWiki = (collectionId: number) => {
@@ -9,13 +9,12 @@ export const useWiki = (collectionId: number) => {
 		data: dataWiki,
 		error: errorWiki,
 		isLoading: loadingWiki,
+		refetch: refetchWikiTree,
 	} = useQuery<ResponseType, ApiError, WikiTreeType[]>({
 		queryKey: ["wikiTree"],
 		queryFn: () => getWikiTree(collectionId),
 		retry: false,
 	});
-
-	console.log({ dataWiki, errorWiki, loadingWiki });
 
 	// upload wiki docs
 
@@ -23,14 +22,23 @@ export const useWiki = (collectionId: number) => {
 		error: errorUploadWikiDocs,
 		mutate: handleUploadWikiDocs,
 		isPending: pendingUploadWikiDocs,
-	} = useMutation<ResponseType, ApiError, WikiDocsRequesttype>({
-		mutationFn: uploadWikiDocs,
+	} = useMutation<ResponseType, ApiError, number[]>({
+		mutationFn: (ids) => uploadWikiDocs(collectionId, ids),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["profile"] });
+			queryClient.invalidateQueries({ queryKey: ["wikiUpload"] });
 		},
 	});
 
-	console.log({ errorUploadWikiDocs, pendingUploadWikiDocs });
+	const {
+		error: errorRemoveWikiDocs,
+		mutate: handleRemoveWikiDocs,
+		isPending: pendingRemoveWikiDocs,
+	} = useMutation<ResponseType, ApiError, number[]>({
+		mutationFn: (ids) => removeWikiDocs(collectionId, ids),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["wikiRemove"] });
+		},
+	});
 
 	return {
 		dataWiki,
@@ -39,5 +47,9 @@ export const useWiki = (collectionId: number) => {
 		errorUploadWikiDocs,
 		handleUploadWikiDocs,
 		pendingUploadWikiDocs,
+		refetchWikiTree,
+		errorRemoveWikiDocs,
+		handleRemoveWikiDocs,
+		pendingRemoveWikiDocs,
 	};
 };

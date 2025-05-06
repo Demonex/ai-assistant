@@ -168,8 +168,3 @@ export type ModelRequestType = {
 	tenant?: string;
 	type?: string;
 };
-
-export type WikiDocsRequesttype = {
-	collectionId: number;
-	ids: number[];
-};

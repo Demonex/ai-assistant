@@ -83,7 +83,7 @@ export const DropZoneForm = () => {
 
 					<div className="flex flex-col text-sm">
 						<div>
-							Для загрузки:{" "}
+							Допустимые форматы:{" "}
 							<span className="font-semibold">
 								{ALLOWED_EXTENSIONS_TEXT.join(", ")}
 							</span>

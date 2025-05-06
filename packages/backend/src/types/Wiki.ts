@@ -27,10 +27,8 @@ export type WikiPageTreeType = {
 	};
 };
 
-export type WikiPageContentType = {
+export type WikiSinglePageResponseType = {
 	pages: {
-		single: {
-			content: WikiSinglePageType;
-		};
+		single: WikiSinglePageType;
 	};
 };

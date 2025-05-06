@@ -3,7 +3,7 @@ import { GraphQLClient, gql } from "graphql-request";
 import type {
 	WikiPageType,
 	WikiPageTreeType,
-	WikiPageContentType,
+	WikiSinglePageResponseType,
 	WikiSinglePageType,
 } from "@repo/backend/types/Wiki.js";
 import {
@@ -11,7 +11,7 @@ import {
 	ProviderEntity,
 } from "@repo/backend/entities/Provider/index.js";
 import { WikiJsDocEntity } from "@repo/backend/entities/Wiki/index.js";
-import { EntityManager } from "@mikro-orm/core";
+import { EntityManager, TableNotFoundException } from "@mikro-orm/core";
 
 @Injectable()
 export class WikiService {
@@ -71,21 +71,12 @@ export class WikiService {
 		let uploadedDocs: WikiJsDocEntity[] = [];
 
 		try {
-			const tableExists = await this.em.getConnection().execute(`
-				SELECT EXISTS (
-					SELECT FROM information_schema.tables 
-					WHERE table_name = 'wikijs_doc'
-				)
-			`);
-
-			if (tableExists[0].exists) {
-				uploadedDocs = await this.em.find(WikiJsDocEntity, {
-					collectionId,
-				});
-			}
+			uploadedDocs = await this.em.find(WikiJsDocEntity, { collectionId });
 		} catch (e) {
-			console.error(e);
-			throw new Error("Table not found");
+			if (!(e instanceof TableNotFoundException)) {
+				console.error(e);
+				throw new Error("Table not found");
+			}
 		}
 
 		const uploadedSet = new Set(
@@ -99,7 +90,7 @@ export class WikiService {
 			if (!page.isPublished || page.isPrivate) continue;
 
 			const depth = page.path.split("/").length;
-			const isUpload = !uploadedSet.has(`${page.id}_${collectionId}`);
+			const isUpload = uploadedSet.has(`${page.id}_${collectionId}`);
 
 			const node = {
 				id: page.id,
@@ -148,7 +139,7 @@ export class WikiService {
 
 	//// UPLOAD DOCS
 
-	private async fetchPageContent(
+	private async fetchPage(
 		client: GraphQLClient,
 		id: number,
 	): Promise<WikiSinglePageType> {
@@ -166,8 +157,10 @@ export class WikiService {
 			}
 		`;
 
-		const data: WikiPageContentType = await client.request(query, { id });
-		return data.pages.single.content;
+		const data: WikiSinglePageResponseType = await client.request(query, {
+			id,
+		});
+		return data.pages.single;
 	}
 
 	async uploadDocuments(collectionId: number, data: number[]) {
@@ -191,32 +184,47 @@ export class WikiService {
 		const client = this.createClient(api_key, url);
 
 		const qdrantDocs = [];
-		// const pgDocs = [];
+		const pgDocs = [];
 
 		for (const id of data) {
-			const content = await this.fetchPageContent(client, id);
+			const page = await this.fetchPage(client, id);
 
-			// const wikijsDoc = this.em.create(WikiJsDocEntity, {
-			// 	vectorFilePath: content.path,
-			// 	collectionId: collectionId,
-			// 	providerId: provider.id,
-			// 	fileId: content.id,
-			// 	fileName: content.title,
-			// 	fileUpdateAt: content.updatedAt,
-			// });
+			const wikijsDoc = this.em.create(WikiJsDocEntity, {
+				vectorFilePath: page.path,
+				collectionId: collectionId,
+				providerId: provider.id,
+				fileId: page.id,
+				fileName: page.title,
+				fileUpdateAt: page.updatedAt,
+			});
 
-			// pgDocs.push(wikijsDoc);
+			pgDocs.push(wikijsDoc);
 
 			qdrantDocs.push({
-				id: content.id,
+				id: page.id,
 				collection_id: collectionId,
-				file_name: content.title,
-				content,
+				file_name: page.title,
+				content: page.content,
 			});
 		}
 
-		// await this.em.persistAndFlush(pgDocs);
+		await this.em.persistAndFlush(pgDocs);
+		return { status: "success", uploadCount: pgDocs.length };
+	}
 
-		return qdrantDocs;
+	/// REMOVE DOCS
+
+	async removeDocuments(collectionId: number, data: number[]) {
+		const docs = await this.em.find(WikiJsDocEntity, {
+			collectionId,
+			fileId: { $in: data },
+		});
+
+		const deletedCount = await this.em.nativeDelete(WikiJsDocEntity, {
+			collectionId,
+			fileId: { $in: docs.map((d) => d.fileId) },
+		});
+
+		return { status: "deleted", deletedCount };
 	}
 }

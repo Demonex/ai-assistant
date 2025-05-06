@@ -1,8 +1,18 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumber } from "class-validator";
+import { ArrayNotEmpty, IsArray, IsNumber } from "class-validator";
 
-export class UploadWikiJsDocumentsDto {
+export class UploadWikiJsDocsDto {
+	@IsArray()
+	@ArrayNotEmpty()
 	@IsNumber({}, { each: true })
 	@ApiProperty({ type: [Number] })
 	readonly ids: number[];
+}
+
+export class RemoveWikiJsDocsDto {
+	@IsArray()
+	@ArrayNotEmpty()
+	@IsNumber({}, { each: true })
+	@ApiProperty({ type: [Number] })
+	ids: number[];
 }
