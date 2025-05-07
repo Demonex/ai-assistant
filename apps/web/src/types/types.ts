@@ -17,29 +17,29 @@ export type WikiTreeType = {
 	depth?: number;
 };
 
-export type FileTranscription = {
+export type FileTranscriptionType = {
 	file: string;
 	transciption: string;
 	fullText: string;
 	status: string;
 };
 
-export type UploadFileError = {
+export type UploadFileResponseType = {
 	type: string;
 	file: string;
 	status: string;
 	message: string;
 };
 
-export type UploadFiles = {
-	audio?: {
-		success: FileTranscription[];
-		errors: UploadFileError[];
-	};
-	text?: {
-		success: FileTranscription[];
-		duplicates: UploadFileError[];
-	};
+export type UploadFilesFullResponseType = {
+	success: UploadFileResponseType[];
+	duplicates: UploadFileResponseType[];
+	errors: UploadFileResponseType[];
+};
+
+export type FileTranscriptionResponseType = {
+	success: FileTranscriptionType[];
+	errors: UploadFileResponseType[];
 };
 
 export type Profile = {
@@ -73,7 +73,6 @@ export type ResponseAndRequest = {
 	created_at: string;
 	message?: string;
 	fragments?: Fragment[];
-	files?: FileTranscription[];
 };
 
 export type Chats = {

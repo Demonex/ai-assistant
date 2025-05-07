@@ -50,7 +50,7 @@ export const ChatForm = memo<ChatInputProps>(
 					formData.append("media", file);
 				});
 
-				localStorage.setItem("uploadMedia", JSON.stringify(activeChat?.id));
+				localStorage.setItem("uploadText", JSON.stringify(activeChat?.id));
 				sendUploadFile({ formData });
 				setFiles([]);
 				reset();
@@ -137,28 +137,8 @@ export const ChatForm = memo<ChatInputProps>(
 			}
 		};
 
-		const notificationDowloadMedia = (media) => {
-			const { errors, success } = media;
-			const successCount = success?.length || 0;
-			const errorsCount = errors?.length || 0;
-			const totalFiles = successCount + errorsCount;
-			const hasErrors = errorsCount > 0;
-
-			toast({
-				title: `Транскрибировано ${successCount} из ${totalFiles}`,
-			});
-
-			if (hasErrors) {
-				toast({
-					variant: "destructive",
-					title: "Некоторые файлы не были транскрибированы!",
-					description: `${mapFilesToString(errors)}`,
-				});
-			}
-		};
-
 		useEffect(() => {
-			const storedUpload = localStorage.getItem("uploadMedia");
+			const storedUpload = localStorage.getItem("uploadText");
 
 			if (!storedUpload) return;
 
@@ -171,21 +151,14 @@ export const ChatForm = memo<ChatInputProps>(
 					title: "Загрузка файлов была прервана!",
 					description: "Возможно, не все файлы были загружены.",
 				});
-				localStorage.removeItem("uploadMedia");
+				localStorage.removeItem("uploadText");
 			}
 		}, [fileResponse, activeChat]);
 
 		useEffect(() => {
-			const { audio, text } = fileResponse || {};
-			if (!audio && !text) return;
+			if (!fileResponse) return;
 
-			if (text) {
-				notificationDowloadText(text);
-			}
-
-			if (audio) {
-				notificationDowloadMedia(audio);
-			}
+			notificationDowloadText(fileResponse);
 		}, [fileResponse]);
 
 		return (
@@ -202,7 +175,7 @@ export const ChatForm = memo<ChatInputProps>(
 							textareaRef.current = el;
 							register("message").ref(el);
 						}}
-						disabled={fileLoading || messageLoading || messages?.isEmpty}
+						disabled={fileLoading || messageLoading}
 						onInput={handleTextarea}
 						placeholder="Введите сообщение..."
 						onChange={handleInputChange}
@@ -296,7 +269,6 @@ export const ChatForm = memo<ChatInputProps>(
 				{isShowHelp && (
 					<div className="absolute right-0 bottom-[calc(100%+10px)] w-full lg:w-[60%] max-h-[500px] bg-background p-2 lg:p-4 rounded-lg border z-[55]">
 						<AccordionHelp />
-
 						<div
 							className="absolute right-0 top-0 p-2 cursor-pointer"
 							onClick={() => setIsShowHelp(false)}

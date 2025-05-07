@@ -5,17 +5,14 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from "@/components/ui/accordion.js";
-import {
-	ALLOWED_EXTENSIONS_MEDIA,
-	ALLOWED_EXTENSIONS_TEXT,
-} from "@/constants/index.js";
+import { ALLOWED_EXTENSIONS_TEXT } from "@/constants/index.js";
 
 export const AccordionHelp = () => {
 	const helpList = [
 		{
 			id: 1,
-			title: "Доступные форматы файлов",
-			text: `Для загрузки: **${ALLOWED_EXTENSIONS_TEXT.join(", ")}**\n\nДля транскрипции: **${ALLOWED_EXTENSIONS_MEDIA.join(", ")}**`,
+			title: "Доступные форматы файлов для загрузки",
+			text: `**${ALLOWED_EXTENSIONS_TEXT.join(", ")}**`,
 		},
 	];
 

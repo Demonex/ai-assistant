@@ -1,4 +1,4 @@
-import { type FC, useMemo } from "react";
+import { type FC } from "react";
 
 import { formatLocalTime } from "@repo/web/helpers/index.js";
 import { toast } from "@repo/web/hooks/use-toast.js";
@@ -12,7 +12,6 @@ import {
 	TooltipTrigger,
 } from "@/components/ui/tooltip.js";
 
-import { AccordionFiles } from "./AccordionFiles.js";
 import { AccordionFragments } from "./AccordionFragments.js";
 
 type MessageBubbleProps = {
@@ -28,7 +27,6 @@ export const MessageBubble: FC<MessageBubbleProps> = ({
 		created_at,
 		message: text,
 		fragments,
-		files,
 	} = isRequest ? message.request : message.response;
 
 	const handleCopy = async (text: string) => {
@@ -43,14 +41,6 @@ export const MessageBubble: FC<MessageBubbleProps> = ({
 			title: "Текст cкопирован!",
 		});
 	};
-
-	const isFiles = useMemo(() => {
-		return files && files.length > 0;
-	}, [files]);
-
-	const isFragments = useMemo(() => {
-		return fragments && fragments.length > 0;
-	}, [files]);
 
 	return (
 		<div className={`max-w-screen-sm ${isRequest ? "self-end" : "w-full"}`}>
@@ -91,8 +81,7 @@ export const MessageBubble: FC<MessageBubbleProps> = ({
 
 					{!isRequest && (
 						<div className="inline-flex w-full">
-							{isFiles && <AccordionFiles files={files} />}
-							{isFragments && <AccordionFragments fragments={fragments} />}
+							<AccordionFragments fragments={fragments} />
 						</div>
 					)}
 				</div>

@@ -8,9 +8,8 @@ import {
 } from "react";
 
 import {
-	ALLOWED_EXTENSIONS_MEDIA,
 	ALLOWED_EXTENSIONS_TEXT,
-	EXTENSIONS_TYPES,
+	EXTENSIONS_TYPES_TEXT,
 } from "@repo/web/constants/index.js";
 import { formatLocalTime } from "@repo/web/helpers/index.js";
 import { toast } from "@repo/web/hooks/use-toast.js";
@@ -60,7 +59,7 @@ export const DialogWindow = () => {
 	};
 
 	const isFileAllowed = (fileType: string): boolean => {
-		return !!fileType && EXTENSIONS_TYPES.includes(fileType);
+		return !!fileType && EXTENSIONS_TYPES_TEXT.includes(fileType);
 	};
 
 	const filterAllowedFiles = (files: File[]): File[] => {
@@ -168,15 +167,9 @@ export const DialogWindow = () => {
 
 								<div className="flex flex-col text-sm">
 									<div>
-										Для загрузки:{" "}
+										Доступные форматы:{" "}
 										<span className="font-semibold">
 											{ALLOWED_EXTENSIONS_TEXT.join(", ")}
-										</span>
-									</div>
-									<div>
-										Для транскрипции:{" "}
-										<span className="font-semibold">
-											{ALLOWED_EXTENSIONS_MEDIA.join(", ")}
 										</span>
 									</div>
 								</div>

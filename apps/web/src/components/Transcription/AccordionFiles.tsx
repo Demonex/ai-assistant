@@ -7,7 +7,7 @@ import {
 	AccordionTrigger,
 } from "@repo/web/components/ui/accordion.js";
 import { toast } from "@repo/web/hooks/use-toast.js";
-import type { FileTranscription } from "@repo/web/types/types.js";
+import type { FileTranscriptionType } from "@repo/web/types/types.js";
 import { Copy } from "lucide-react";
 
 import { ReactMarkdownComponent } from "@/components/ReactMarkdownComponent.js";
@@ -18,13 +18,13 @@ import {
 } from "@/components/ui/tooltip.js";
 
 type AccordionFilesProps = {
-	files: FileTranscription[];
+	files: FileTranscriptionType[];
 };
 
 export const AccordionFiles: FC<AccordionFilesProps> = ({ files }) => {
-	const downloadFile = (file: FileTranscription) => {
+	const downloadFile = (file: FileTranscriptionType) => {
 		const content =
-			`Протокол:\n${file.fullText}\n\nТранскрипция:${file.transciption}`.trim();
+			`Протокол:\n${file.fullText}\n\nТранскрибация:${file.transciption}`.trim();
 
 		const blob = new Blob([content], { type: "text/plain" });
 
@@ -58,7 +58,7 @@ export const AccordionFiles: FC<AccordionFilesProps> = ({ files }) => {
 		<Accordion type="single" collapsible className="w-full">
 			{files.map((file, index) => (
 				<AccordionItem className="px-4 relative" value={`${index}`} key={index}>
-					<AccordionTrigger>Транскрипция файла - {file.file}</AccordionTrigger>
+					<AccordionTrigger>Транскрибация файла - {file.file}</AccordionTrigger>
 
 					<AccordionContent>
 						<div className="flex items-center justify-between w-full mb-2">

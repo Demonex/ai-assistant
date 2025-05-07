@@ -4,7 +4,7 @@ import { FileUpload } from "@/components/FileUpload.js";
 import { Button } from "@/components/ui/button.js";
 import {
 	ALLOWED_EXTENSIONS_TEXT,
-	EXTENSIONS_TYPES,
+	EXTENSIONS_TYPES_TEXT,
 } from "@/constants/index.js";
 import { toast } from "@/hooks/use-toast.js";
 
@@ -49,7 +49,7 @@ export const DropZoneForm = () => {
 	};
 
 	const isFileAllowed = (fileType: string): boolean => {
-		return !!fileType && EXTENSIONS_TYPES.includes(fileType);
+		return !!fileType && EXTENSIONS_TYPES_TEXT.includes(fileType);
 	};
 
 	const getUniqueFiles = (existingFiles: File[], newFiles: File[]): File[] => {
