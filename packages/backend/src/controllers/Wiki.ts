@@ -1,32 +1,54 @@
-import { Controller, Post, Body } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	HttpCode,
+	Param,
+	Post,
+} from "@nestjs/common";
 import { WikiService } from "@repo/backend/services/Wiki.js";
-import { ApiBody, ApiTags } from "@nestjs/swagger";
+import { ApiTags, ApiBody } from "@nestjs/swagger";
+// import { Authorized } from "@repo/backend/decorators/auth.js";
+import {
+	RemoveWikiJsDocsDto,
+	UploadWikiJsDocsDto,
+} from "@repo/backend/dto/Wiki.js";
 
 @ApiTags("Wiki")
 @Controller("wiki")
 export class WikiController {
 	constructor(private readonly wikiService: WikiService) {}
 
-	@Post("tree")
+	// @Authorized()
+	@Get(":collectionId/tree")
+	async getWikiTree(@Param("collectionId") collectionId: number) {
+		return await this.wikiService.fetchPageTree(collectionId);
+	}
+
+	// @Authorized()
+	@Post(":collectionId/upload")
+	@HttpCode(200)
 	@ApiBody({
-		schema: {
-			type: "object",
-			properties: {
-				apiKey: { type: "string" },
-				baseUrl: { type: "string" },
-				locale: { type: "string", default: "en" },
-			},
-			required: ["apiKey", "baseUrl"],
-		},
+		type: UploadWikiJsDocsDto,
 	})
-	async getTree(
-		@Body() body: { apiKey: string; baseUrl: string; locale?: string },
+	async postUploadDocuments(
+		@Param("collectionId") collectionId: number,
+		@Body() data: UploadWikiJsDocsDto,
 	) {
-		const tree = await this.wikiService.fetchPageTree(
-			body.apiKey,
-			body.baseUrl,
-			body.locale || "en",
-		);
-		return tree;
+		return this.wikiService.uploadDocuments(collectionId, data.ids);
+	}
+
+	// @Authorized()
+	@Delete(":collectionId/remove")
+	@HttpCode(200)
+	@ApiBody({
+		type: RemoveWikiJsDocsDto,
+	})
+	async removeDocuments(
+		@Param("collectionId") collectionId: number,
+		@Body() data: RemoveWikiJsDocsDto,
+	) {
+		return this.wikiService.removeDocuments(collectionId, data.ids);
 	}
 }

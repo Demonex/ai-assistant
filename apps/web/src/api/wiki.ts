@@ -1,22 +1,6 @@
-export const getWiki = async ({
-	apiKey,
-	baseUrl,
-}: {
-	apiKey: string;
-	baseUrl: string;
-}) => {
+export const getWikiTree = async (collectionId: number) => {
 	const response = await fetch(
-		`${import.meta.env.VITE_BACKEND_URL}/wiki/tree`,
-		{
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				apiKey,
-				baseUrl,
-			}),
-		},
+		`${import.meta.env.VITE_BACKEND_URL}/wiki/${collectionId}/tree`,
 	);
 
 	if (!response.ok) {
@@ -25,4 +9,40 @@ export const getWiki = async ({
 	}
 
 	return await response.json();
+};
+
+export const uploadWikiDocs = async (collectionId: number, ids: number[]) => {
+	const response = await fetch(
+		`${import.meta.env.VITE_BACKEND_URL}/wiki/${collectionId}/upload`,
+		{
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ ids }),
+		},
+	);
+
+	if (!response.ok) {
+		const errorData = await response.json();
+		throw errorData;
+	}
+
+	return response.json();
+};
+
+export const removeWikiDocs = async (collectionId: number, ids: number[]) => {
+	const response = await fetch(
+		`${import.meta.env.VITE_BACKEND_URL}/wiki/${collectionId}/remove`,
+		{
+			method: "DELETE",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ ids }),
+		},
+	);
+
+	if (!response.ok) {
+		const errorData = await response.json();
+		throw errorData;
+	}
+
+	return response.json();
 };

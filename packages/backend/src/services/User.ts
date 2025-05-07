@@ -10,7 +10,7 @@ import { REQUEST } from "@nestjs/core";
 import { UserEntity } from "@repo/backend/entities/User/index.js";
 import { HttpStatusMessages } from "@repo/backend/messages/http.js";
 import { get } from "lodash-es";
-import { type ChatMessageEntity } from "../entities/Chat/index.js";
+import { type ChatMessageEntity } from "@repo/backend/entities/Chat/index.js";
 
 @Injectable({ scope: Scope.REQUEST })
 export class UserService {

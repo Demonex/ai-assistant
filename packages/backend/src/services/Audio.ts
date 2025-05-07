@@ -32,15 +32,18 @@ export class AudioService {
 			  }
 			| {
 					type: "unsupported";
+					file: string;
 					status: "errors";
 					message: string;
 			  },
 			UploadedFile
 		>(data.media, async (media) => {
+			const fileKey = media.originalname;
+
 			try {
 				if (audioFormats.includes(media.mimetype)) {
 					const form = new FormData();
-					form.append("file", media.buffer, media.originalname);
+					form.append("file", media.buffer, fileKey);
 
 					const response = await got.post<AudioTranscription>(
 						`${this.endpoint}/transcribe`,
@@ -56,7 +59,7 @@ export class AudioService {
 
 					return {
 						type: "audio",
-						file: media.originalname,
+						file: fileKey,
 						transciption: response.transcription,
 						fullText: response.summary.full_text,
 						status: response.summary.status === "OK" ? "success" : "errors",
@@ -67,7 +70,7 @@ export class AudioService {
 
 				return {
 					type: "audio",
-					file: media.originalname,
+					file: fileKey,
 					status: "errors",
 					message: error.response?.body.detail,
 				};
@@ -75,6 +78,7 @@ export class AudioService {
 
 			return {
 				type: "unsupported",
+				file: fileKey,
 				status: "errors",
 				message: "Unsupported Type",
 			};
@@ -91,6 +95,7 @@ export class AudioService {
 			}[];
 			errors?: {
 				type: "unsupported";
+				file: string;
 				status: "errors";
 				message: string;
 			};

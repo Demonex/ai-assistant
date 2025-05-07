@@ -1,6 +1,6 @@
 import { EntityManager } from "@mikro-orm/core";
 import { Injectable } from "@nestjs/common";
-import { ProviderEntity } from "../entities/Provider/index.js";
+import { ProviderEntity } from "@repo/backend/entities/Provider/index.js";
 
 @Injectable()
 export class ProviderService {

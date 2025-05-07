@@ -1,13 +1,12 @@
 import { useRef, useState } from "react";
 
+import { FileUpload } from "@/components/FileUpload.js";
+import { Button } from "@/components/ui/button.js";
 import {
 	ALLOWED_EXTENSIONS_TEXT,
-	EXTENSIONS_TYPES,
+	EXTENSIONS_TYPES_TEXT,
 } from "@/constants/index.js";
 import { toast } from "@/hooks/use-toast.js";
-
-import { FileUpload } from "../FileUpload.js";
-import { Button } from "../ui/button.js";
 
 //TODO отрефакторить компонент
 export const DropZoneForm = () => {
@@ -33,8 +32,7 @@ export const DropZoneForm = () => {
 			toast({
 				variant: "destructive",
 				title: "Ошибка формата!",
-				description:
-					"Некоторые файлы имеют недопустимый формат и не были добавлены. Допустимые форматы указаны в памятке пользователя.",
+				description: `Некоторые файлы имеют недопустимый формат и не были добавлены. Допустимые форматы ${ALLOWED_EXTENSIONS_TEXT.join(", ")}`,
 			});
 		}
 
@@ -51,7 +49,7 @@ export const DropZoneForm = () => {
 	};
 
 	const isFileAllowed = (fileType: string): boolean => {
-		return !!fileType && EXTENSIONS_TYPES.includes(fileType);
+		return !!fileType && EXTENSIONS_TYPES_TEXT.includes(fileType);
 	};
 
 	const getUniqueFiles = (existingFiles: File[], newFiles: File[]): File[] => {
@@ -80,12 +78,12 @@ export const DropZoneForm = () => {
 			>
 				<div className="max-w-[70%]">
 					<div className="text-xl font-semibold mb-2">
-						Перетащите файлы в эту область или кликните для загрузки
+						Перетащите файлы в эту область или кликните
 					</div>
 
 					<div className="flex flex-col text-sm">
 						<div>
-							Для загрузки:{" "}
+							Допустимые форматы:{" "}
 							<span className="font-semibold">
 								{ALLOWED_EXTENSIONS_TEXT.join(", ")}
 							</span>
@@ -106,7 +104,7 @@ export const DropZoneForm = () => {
 					<FileUpload files={files} handleCloseDocument={handleCloseDocument} />
 				</div>
 			)}
-			<Button disabled={!!!files.length} onClick={onUploadFile}>
+			<Button type="button" disabled={!!!files.length} onClick={onUploadFile}>
 				Загрузить
 			</Button>
 		</>

@@ -8,20 +8,20 @@ import {
 } from "react";
 
 import {
-	ALLOWED_EXTENSIONS_MEDIA,
 	ALLOWED_EXTENSIONS_TEXT,
-	EXTENSIONS_TYPES,
+	EXTENSIONS_TYPES_TEXT,
 } from "@repo/web/constants/index.js";
 import { formatLocalTime } from "@repo/web/helpers/index.js";
 import { toast } from "@repo/web/hooks/use-toast.js";
 import { useChats } from "@repo/web/hooks/useChats.js";
 import type { GroupMessages } from "@repo/web/types/types.js";
 
+import { ReactMarkdownComponent } from "@/components/ReactMarkdownComponent.js";
+
 // import { messageMockData } from "../../../DataBase.js";
 import { ChatForm } from "./component/ChatForm.js";
 import { HeaderDialogWindow } from "./component/HeaderDialogWindow.js";
 import { MessageBubble } from "./component/MessageBubble.js";
-import { ReactMarkdownComponent } from "./component/ReactMarkdownComponent.js";
 import { ScrollToBottomButton } from "./component/ScrollToBottomButton.js";
 
 export const DialogWindow = () => {
@@ -59,7 +59,7 @@ export const DialogWindow = () => {
 	};
 
 	const isFileAllowed = (fileType: string): boolean => {
-		return !!fileType && EXTENSIONS_TYPES.includes(fileType);
+		return !!fileType && EXTENSIONS_TYPES_TEXT.includes(fileType);
 	};
 
 	const filterAllowedFiles = (files: File[]): File[] => {
@@ -167,15 +167,9 @@ export const DialogWindow = () => {
 
 								<div className="flex flex-col text-sm">
 									<div>
-										Для загрузки:{" "}
+										Доступные форматы:{" "}
 										<span className="font-semibold">
 											{ALLOWED_EXTENSIONS_TEXT.join(", ")}
-										</span>
-									</div>
-									<div>
-										Для транскрипции:{" "}
-										<span className="font-semibold">
-											{ALLOWED_EXTENSIONS_MEDIA.join(", ")}
 										</span>
 									</div>
 								</div>

@@ -1,18 +1,34 @@
-export type WikiPageTreeNode = {
+export type WikiPageType = {
 	id: number;
 	title: string;
 	path: string;
-	parent: number | null;
+	parent?: number | null;
 	isFolder: boolean;
-	pageId: number | null;
-	children?: WikiPageTreeNode[];
+	isUpload: boolean;
+	children?: WikiPageType[];
 	createdAt?: string;
 	updatedAt?: string;
+	isPrivate: boolean;
+	isPublished: boolean;
 	depth?: number;
 };
 
-export type WikiPageTree = {
+export type WikiSinglePageType = {
+	id: number;
+	title: string;
+	path: string;
+	updatedAt: string;
+	content: string;
+};
+
+export type WikiPageTreeType = {
 	pages: {
-		list: WikiPageTreeNode[];
+		list: WikiPageType[];
+	};
+};
+
+export type WikiSinglePageResponseType = {
+	pages: {
+		single: WikiSinglePageType;
 	};
 };

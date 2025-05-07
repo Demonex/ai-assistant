@@ -364,6 +364,7 @@ export class ChatService {
 			  }
 			| {
 					type: "unsupported";
+					file: string;
 					status: "errors";
 					message: string;
 			  },
@@ -375,6 +376,7 @@ export class ChatService {
 				if (!textFormats.includes(media.mimetype)) {
 					return {
 						type: "unsupported",
+						file: fileKey,
 						status: "errors",
 						message: "Unsupported Type",
 					};
