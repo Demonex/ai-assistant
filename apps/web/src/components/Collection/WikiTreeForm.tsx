@@ -21,15 +21,14 @@ export const WikiTreeForm = ({ collectionId }: WikiTreeFormProps) => {
 		refetchWikiTree,
 		errorUploadWikiDocs,
 		errorRemoveWikiDocs,
+		pendingRemoveWikiDocs,
+		pendingUploadWikiDocs,
 	} = useWiki(collectionId);
 	const [upload, setUpload] = useState<number[]>([]);
 	const [remove, setRemove] = useState<number[]>([]);
-	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	const onSubmit = () => {
 		if (upload.length) {
-			setIsLoading(true);
-
 			handleUploadWikiDocs(upload, {
 				onSuccess: async () => {
 					setUpload([]);
@@ -38,12 +37,9 @@ export const WikiTreeForm = ({ collectionId }: WikiTreeFormProps) => {
 						title: "Выбранные документы загружены в коллекцию!",
 					});
 				},
-				onSettled: () => setIsLoading(false),
 			});
 		}
 		if (remove.length) {
-			setIsLoading(true);
-
 			handleRemoveWikiDocs(remove, {
 				onSuccess: async () => {
 					setRemove([]);
@@ -52,7 +48,6 @@ export const WikiTreeForm = ({ collectionId }: WikiTreeFormProps) => {
 						title: "Выбранные документы удалены из коллекции!",
 					});
 				},
-				onSettled: () => setIsLoading(false),
 			});
 		}
 	};
@@ -88,12 +83,17 @@ export const WikiTreeForm = ({ collectionId }: WikiTreeFormProps) => {
 			<div className="flex itmes-center">
 				<Button
 					type="button"
-					disabled={(!upload.length && !remove.length) || isLoading}
+					disabled={
+						(!upload.length && !remove.length) ||
+						pendingRemoveWikiDocs ||
+						pendingUploadWikiDocs
+					}
 					onClick={onSubmit}
 				>
 					Применить
 				</Button>
-				{isLoading && <Spinner size="small" className="ml-2" />}
+				{pendingRemoveWikiDocs ||
+					(pendingUploadWikiDocs && <Spinner size="small" className="ml-2" />)}
 			</div>
 		</>
 	);
