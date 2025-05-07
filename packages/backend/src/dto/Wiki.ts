@@ -6,7 +6,7 @@ export class UploadWikiJsDocsDto {
 	@ArrayNotEmpty()
 	@IsNumber({}, { each: true })
 	@ApiProperty({ type: [Number] })
-	readonly ids: number[];
+	ids: number[];
 }
 
 export class RemoveWikiJsDocsDto {

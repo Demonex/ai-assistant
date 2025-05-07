@@ -29,6 +29,8 @@ export const useWiki = (collectionId: number) => {
 		},
 	});
 
+	// remove wiki docs
+
 	const {
 		error: errorRemoveWikiDocs,
 		mutate: handleRemoveWikiDocs,
