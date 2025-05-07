@@ -9,12 +9,16 @@ import { useTranscription } from "@/hooks/useTranscription.js";
 import { FileTranscriptionResponseType } from "@/types/types.js";
 
 import { FileUpload } from "../FileUpload.js";
+import { Spinner } from "../Spinner.js";
 import { Button } from "../ui/button.js";
 import { AccordionFiles } from "./AccordionFiles.js";
 
 export const TranscriptionForm = () => {
-	const { handleTranscriptionDocs, clearTranscriptionCache } =
-		useTranscription();
+	const {
+		handleTranscriptionDocs,
+		clearTranscriptionCache,
+		pendingTranscription,
+	} = useTranscription();
 
 	const fileInputRef = useRef(null);
 	const fileUploadRef = useRef(null);
@@ -60,7 +64,10 @@ export const TranscriptionForm = () => {
 	};
 
 	const handleClick = (e: React.MouseEvent) => {
-		if (fileUploadRef.current?.contains(e.target as Node)) {
+		if (
+			fileUploadRef.current?.contains(e.target as Node) ||
+			pendingTranscription
+		) {
 			return;
 		}
 		fileInputRef.current?.click();
@@ -93,6 +100,7 @@ export const TranscriptionForm = () => {
 	};
 
 	const handleDrop = (event) => {
+		if (pendingTranscription) return;
 		event.preventDefault();
 
 		const newFiles: File[] = Array.from(
@@ -201,6 +209,7 @@ export const TranscriptionForm = () => {
 						<input
 							type="file"
 							multiple
+							disabled={pendingTranscription}
 							ref={fileInputRef}
 							className="hidden"
 							onChange={handleDrop}
@@ -209,15 +218,20 @@ export const TranscriptionForm = () => {
 				)}
 			</div>
 
-			<Button
-				type="button"
-				disabled={!files.length && !dataTranscription.length}
-				onClick={onSubmit}
-			>
-				{dataTranscription.length
-					? "Загрузить новые файлы"
-					: "Транскрибировать"}
-			</Button>
+			<div className="flex itmes-center">
+				<Button
+					type="button"
+					disabled={
+						(!files.length && !dataTranscription.length) || pendingTranscription
+					}
+					onClick={onSubmit}
+				>
+					{dataTranscription.length
+						? "Загрузить новые файлы"
+						: "Транскрибировать"}
+				</Button>
+				{pendingTranscription && <Spinner size="small" className="ml-2" />}
+			</div>
 		</div>
 	);
 };
