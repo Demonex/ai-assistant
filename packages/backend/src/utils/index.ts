@@ -33,3 +33,23 @@ export function logErrors(error: {
 
 	console.error(error);
 }
+
+export function parsePeriod(period: string): number {
+	const match = /^(\d+)([smhd])$/.exec(period.trim());
+
+	if (!match) {
+		throw new Error("Invalid update_period format. Use like '5m', '2h', '1d'");
+	}
+
+	const value = parseInt(match[1], 10);
+	const unit = match[2];
+
+	const unitToMs = {
+		s: 1000,
+		m: 1000 * 60,
+		h: 1000 * 60 * 60,
+		d: 1000 * 60 * 60 * 24,
+	};
+
+	return value * unitToMs[unit];
+}
