@@ -18,7 +18,7 @@ import type { GroupMessages } from "@repo/web/types/types.js";
 
 import { ReactMarkdownComponent } from "@/components/ReactMarkdownComponent.js";
 
-// import { messageMockData } from "../../../DataBase.js";
+// import { messageMockData } from "@/DataBase.js";
 import { ChatForm } from "./component/ChatForm.js";
 import { HeaderDialogWindow } from "./component/HeaderDialogWindow.js";
 import { MessageBubble } from "./component/MessageBubble.js";

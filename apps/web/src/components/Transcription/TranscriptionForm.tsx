@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
+// import { transcriptionMockData } from "@/DataBase.js";
 import {
 	ALLOWED_EXTENSIONS_MEDIA,
 	EXTENSIONS_TYPES_MEDIA,
@@ -21,9 +22,9 @@ export const TranscriptionForm = () => {
 	} = useTranscription();
 
 	const fileInputRef = useRef(null);
-	const fileUploadRef = useRef(null);
 	const [files, setFiles] = useState([]);
 	const [dataTranscription, setDataTranscription] = useState([]);
+	// const [dataTranscription, setDataTranscription] = useState(transcriptionMockData);
 
 	const onSubmit = () => {
 		if (files.length) {
@@ -44,17 +45,16 @@ export const TranscriptionForm = () => {
 					} else clearTranscriptionCache();
 
 					notificationDowloadMedia(typedData);
-					localStorage.removeItem("uploadMedia");
 					setFiles([]);
 				},
 				onError: async (e) => {
-					localStorage.removeItem("uploadMedia");
 					toast({
 						variant: "destructive",
 						title: e.statusCode.toString(),
 						description: e.message,
 					});
 				},
+				onSettled: async () => localStorage.removeItem("uploadMedia"),
 			});
 		} else {
 			clearTranscriptionCache();
@@ -63,13 +63,7 @@ export const TranscriptionForm = () => {
 		}
 	};
 
-	const handleClick = (e: React.MouseEvent) => {
-		if (
-			fileUploadRef.current?.contains(e.target as Node) ||
-			pendingTranscription
-		) {
-			return;
-		}
+	const handleClick = () => {
 		fileInputRef.current?.click();
 	};
 
@@ -100,8 +94,9 @@ export const TranscriptionForm = () => {
 	};
 
 	const handleDrop = (event) => {
-		if (pendingTranscription) return;
 		event.preventDefault();
+
+		if (pendingTranscription) return;
 
 		const newFiles: File[] = Array.from(
 			event.dataTransfer?.files || event.target?.files,
@@ -164,7 +159,7 @@ export const TranscriptionForm = () => {
 
 	return (
 		<div className="h-full">
-			<h1 className="text-2xl text-center font-bold mb-2">
+			<h1 className="text-2xl text-center font-bold mb-6">
 				Загрузите аудио/видео файлы для преобразования в текст
 			</h1>
 
@@ -172,40 +167,28 @@ export const TranscriptionForm = () => {
 				{dataTranscription.length ? (
 					<AccordionFiles files={dataTranscription} />
 				) : (
-					<div
-						onDragOver={handleDragOver}
-						onDrop={handleDrop}
-						onDragLeave={handleDragLeave}
-						onClick={handleClick}
-						className="w-full rounded-lg h-full items-center justify-center text-black cursor-pointer"
-					>
-						{files.length > 0 ? (
-							<div
-								className="p-5 h-full w-full cursor-default"
-								ref={fileUploadRef}
-							>
-								<FileUpload
-									width="30"
-									files={files}
-									handleCloseDocument={handleCloseDocument}
-								/>
+					<div className="w-full rounded-lg h-full items-center justify-center text-black">
+						<div
+							onDragOver={handleDragOver}
+							onDrop={handleDrop}
+							onDragLeave={handleDragLeave}
+							onClick={handleClick}
+							className="flex justify-center w-full h-full px-5 py-10 flex-col cursor-pointer"
+						>
+							<div className="text-xl font-semibold mb-2">
+								Перетащите файлы в эту область или кликните
 							</div>
-						) : (
-							<div className="flex justify-center w-full h-full p-10 flex-col">
-								<div className="text-xl font-semibold mb-2">
-									Перетащите файлы в эту область или кликните
-								</div>
 
-								<div className="flex flex-col text-sm">
-									<div>
-										Доступные форматы:{" "}
-										<span className="font-semibold">
-											{ALLOWED_EXTENSIONS_MEDIA.join(", ")}
-										</span>
-									</div>
+							<div className="flex flex-col text-sm">
+								<div>
+									Доступные форматы:{" "}
+									<span className="font-semibold">
+										{ALLOWED_EXTENSIONS_MEDIA.join(", ")}
+									</span>
 								</div>
 							</div>
-						)}
+						</div>
+
 						<input
 							type="file"
 							multiple
@@ -214,6 +197,16 @@ export const TranscriptionForm = () => {
 							className="hidden"
 							onChange={handleDrop}
 						/>
+
+						{files.length > 0 && (
+							<div className="p-5 w-full">
+								<FileUpload
+									width="30"
+									files={files}
+									handleCloseDocument={handleCloseDocument}
+								/>
+							</div>
+						)}
 					</div>
 				)}
 			</div>
