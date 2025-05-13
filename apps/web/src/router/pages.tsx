@@ -26,6 +26,9 @@ export const NotFoundPage = withSuspense(
 export const ChatPage = withSuspense(
 	lazy(() => import("@/pages/Chat/ChatPage.js")),
 );
+export const DocComparison = withSuspense(
+	lazy(() => import("@/pages/DocComparison/DocComparison.js")),
+);
 export const TranscriptionPage = withSuspense(
 	lazy(() => import("@/pages/Transcription/TranscriptionPage.js")),
 );

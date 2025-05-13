@@ -18,6 +18,8 @@ import {
 	Command,
 	File,
 	FileBox,
+	FileDiff,
+	FileVolume,
 	LayoutGrid,
 	Mails,
 	MessageCircleMore,
@@ -36,6 +38,16 @@ export function AppSidebar() {
 			name: "Чаты",
 			path: "/chat",
 			icon: <MessageCircleMore />,
+		},
+		{
+			name: "Сравнение документов",
+			path: "/doc-comparison",
+			icon: <FileDiff />,
+		},
+		{
+			name: "Транскрибация",
+			path: "/transcription",
+			icon: <FileVolume />,
 		},
 		{
 			name: "Админ панель",
