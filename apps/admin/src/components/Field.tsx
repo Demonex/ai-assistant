@@ -87,17 +87,17 @@ const DropzoneForm = () => {
 			setFileLoading(true);
 
 			CollectionService.filesUpload<{
-				duplicates: {
+				duplicates?: {
 					file: string;
 					status: "success" | "duplicates" | "errors";
 					message?: string;
 				}[];
-				errors: {
+				errors?: {
 					file: string;
 					status: "success" | "duplicates" | "errors";
 					message?: string;
 				}[];
-				success: {
+				success?: {
 					file: string;
 					status: "success" | "duplicates" | "errors";
 					message?: string;
@@ -108,7 +108,7 @@ const DropzoneForm = () => {
 						return files.map((item: { file: string }) => item.file).join(", ");
 					};
 
-					const { duplicates, errors, success } = response;
+					const { duplicates = [], errors = [], success = [] } = response;
 					const totalFiles = success.length + duplicates.length + errors.length;
 
 					const hasDuplicates = duplicates.length > 0;

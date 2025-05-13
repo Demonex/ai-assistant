@@ -42,7 +42,7 @@ export const provider: CollectionConfig = {
 		{
 			name: "type",
 			type: "select",
-			options: ["minio", "confluence"],
+			options: ["minio", "confluence", "wikijs"],
 			required: true,
 			label: "Тип провайдера",
 		},
