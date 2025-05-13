@@ -34,8 +34,6 @@ export class WikiSyncService {
 				pages {
 					list {
 						id
-						title
-						path
 						isPublished
 						isPrivate
 						updatedAt
@@ -56,8 +54,6 @@ export class WikiSyncService {
 				pages {
 					single(id: $id) {
 						id
-						title
-						path
 						updatedAt
 						content
 					}
@@ -143,7 +139,7 @@ export class WikiSyncService {
 
 			const qdrantToDelete: { id: number; collectionId: number }[] = [];
 			const qdrantToUpdate: {
-				id: number;
+				id: number; /// uuid string!
 				collectionId: number;
 				content: string;
 			}[] = [];
