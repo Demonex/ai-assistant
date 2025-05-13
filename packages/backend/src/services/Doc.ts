@@ -2,18 +2,13 @@ import { Injectable } from "@nestjs/common";
 import { Agent } from "https";
 import got from "got";
 import FormData from "form-data";
-import { readFileSync } from "fs";
-import { resolve, dirname } from "path";
-import { fileURLToPath } from "url";
 
 interface FileData {
 	buffer: Buffer;
 	originalname: string;
 }
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
+//TODO отрефакторить код
 @Injectable()
 export class DocService {
 	private endpoint = process.env.COMPARISON_API_URL;
@@ -21,22 +16,21 @@ export class DocService {
 	private httpsAgent: Agent;
 
 	constructor() {
-		const certPath = resolve(
-			__dirname,
-			"../../src/certs/spb-ai01.sigma-it.local.pem",
-		);
-		const kaspPath = resolve(__dirname, "../../src/certs/Kaspersky.pem");
+		const certContent = Buffer.from(
+			process.env.COMPARISON_CONTENT!,
+			"base64",
+		).toString();
 
-		const certContent = readFileSync(certPath);
-		const kaspContent = readFileSync(kaspPath);
+		const kaspContent = Buffer.from(
+			process.env.KASPERSKY_CONTENT!,
+			"base64",
+		).toString();
 
 		this.httpsAgent = new Agent({
 			ca: [certContent, kaspContent],
 			rejectUnauthorized: true,
 		});
 	}
-
-	async setupCertificates() {}
 
 	async comporisonDoc(files: FileData[]) {
 		const formData = new FormData();
