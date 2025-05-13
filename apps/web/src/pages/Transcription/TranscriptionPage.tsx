@@ -2,7 +2,7 @@ import { TranscriptionForm } from "@/components/Transcription/TranscriptionForm.
 
 const TranscriptionPage = () => {
 	return (
-		<div className="p-4 bg-[#fbfbfb] h-full lg:h-[calc(100vh-4rem)] overflow-hidden">
+		<div className="p-4 bg-[#fbfbfb] h-full lg:h-[calc(100vh-4rem)] overflow-auto">
 			<TranscriptionForm />
 		</div>
 	);
