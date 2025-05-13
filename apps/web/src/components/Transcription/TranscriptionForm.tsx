@@ -68,6 +68,8 @@ export const TranscriptionForm = () => {
 	};
 
 	const handleCloseDocument = (id: number) => {
+		if (pendingTranscription) return;
+
 		setFiles((files) => files.filter((item) => item.lastModified !== id));
 		fileInputRef.current.value = "";
 	};
@@ -159,9 +161,12 @@ export const TranscriptionForm = () => {
 
 	return (
 		<div className="h-full">
-			<h1 className="text-2xl text-center font-bold mb-6">
-				Загрузите аудио/видео файлы для преобразования в текст
-			</h1>
+			<div className="flex flex-col items-center mb-8">
+				<h1 className="text-3xl font-bold tracking-tight">Транскрибация</h1>
+				<p className="text-muted-foreground mt-2">
+					Загрузите аудио/видео файлы для преобразования в текст
+				</p>
+			</div>
 
 			<div className="mb-2 max-h-[calc(100vh-12rem)] overflow-auto shadow-base rounded-lg border bg-card text-card-foreground">
 				{dataTranscription.length ? (

@@ -193,6 +193,7 @@ export class WikiService {
 				vectorFilePath: page.path,
 				collectionId: collectionId,
 				providerId: provider.id,
+				// uuid: string
 				fileId: page.id,
 				fileName: page.title,
 				fileUpdateAt: page.updatedAt,
@@ -201,9 +202,8 @@ export class WikiService {
 			pgDocs.push(wikijsDoc);
 
 			qdrantDocs.push({
-				id: page.id,
-				collection_id: collectionId,
-				file_name: page.title,
+				id: page.id, /// uuid !! string
+				collection_id: collectionId.toString(),
 				content: page.content,
 			});
 		}
