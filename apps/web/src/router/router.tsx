@@ -13,6 +13,7 @@ import {
 	CustomizeCollectionPage,
 	CustomizeModelPage,
 	CustomizeNeuroPage,
+	DocComparison,
 	ModelPage,
 	NeuroPage,
 	NotFoundPage,
@@ -43,6 +44,7 @@ export const AppRoutes = () => {
 				<Route path="/" element={<DashboardPage />}>
 					<Route path="admin" element={<AdminPage />} />
 					<Route path="chat" element={<ChatPage />} />
+					<Route path="doc-comparison" element={<DocComparison />} />
 					<Route path="transcription" element={<TranscriptionPage />} />
 					<Route path="neuro" element={<NeuroPage />} />
 					<Route path="neuro/new-neuro" element={<CreateNeuroPage />} />

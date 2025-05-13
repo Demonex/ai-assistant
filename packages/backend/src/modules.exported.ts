@@ -9,3 +9,4 @@ export * from "./modules/Neuro.js";
 export * from "./modules/Model.js";
 export * from "./modules/Provider.js";
 export * from "./modules/Audio.js";
+export * from "./modules/Doc.js";
