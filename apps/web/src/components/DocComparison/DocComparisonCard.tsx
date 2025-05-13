@@ -1,7 +1,7 @@
-import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
-import { CardContent, CardHeader, CardTitle } from "./ui/card.js";
-import { Input } from "./ui/input.js";
-import { ScrollArea } from "./ui/scroll-area.js";
+import { ReactMarkdownComponent } from "../ReactMarkdownComponent.js";
+import { CardContent, CardHeader, CardTitle } from "../ui/card.js";
+import { Input } from "../ui/input.js";
+import { ScrollArea } from "../ui/scroll-area.js";
 
 export const DocComparisonCard = ({ doc, setDoc }) => (
 	<div className="rounded-xl text-card-foreground ">
@@ -20,7 +20,7 @@ export const DocComparisonCard = ({ doc, setDoc }) => (
 						onChange={(e) => setDoc(e.target.files[0])}
 					/>
 				</div>
-				<ScrollArea className="rounded-md border bg-muted/50 p-4 h-[500px]">
+				<ScrollArea className="rounded-md border bg-white p-4 h-[500px]">
 					{doc ? (
 						<pre className="whitespace-pre-wrap text-sm">
 							<ReactMarkdownComponent textMarkdown={doc} />

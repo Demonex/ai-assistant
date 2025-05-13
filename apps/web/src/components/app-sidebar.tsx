@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router";
+import { useLocation } from "react-router";
 
 import { NavUser } from "@repo/web/components/nav-user.js";
 import {
@@ -29,9 +29,16 @@ import {
 	Users,
 } from "lucide-react";
 
+import { useProfile } from "@/hooks/useProfile.js";
+
+import { SidebarItem } from "./SidebarItem.js";
+
 export function AppSidebar() {
 	const { pathname } = useLocation();
-	const navigate = useNavigate();
+
+	const { dataProfile } = useProfile();
+
+	console.log(dataProfile.superadmin);
 
 	const navigateList = [
 		{
@@ -54,6 +61,9 @@ export function AppSidebar() {
 			path: "/admin",
 			icon: <UserRoundCog />,
 		},
+	];
+
+	const adminList = [
 		{
 			name: "Коллекции",
 			path: "/collections",
@@ -129,23 +139,34 @@ export function AppSidebar() {
 					<SidebarGroup>
 						<SidebarGroupContent className="px-1.5 md:px-0">
 							<SidebarMenu>
-								{navigateList.map((item) => (
-									<SidebarMenuItem key={item.path}>
-										<SidebarMenuButton
-											tooltip={{
-												children: item.name,
-												hidden: false,
-												className: "hidden md:block",
-											}}
-											onClick={() => navigate(item.path)}
-											isActive={pathname === item.path}
-											className="px-2.5 md:px-2"
-										>
-											{item.icon}
-											<span>{item.name}</span>
-										</SidebarMenuButton>
-									</SidebarMenuItem>
-								))}
+								{/* TODO Убрать фильтр, когда будет готова админка */}
+								{navigateList
+									.filter((item) => {
+										if (
+											!dataProfile.superadmin &&
+											item.name === "Админ панель"
+										) {
+											return false;
+										}
+										return true;
+									})
+									.map((item) => (
+										<SidebarItem
+											key={item.path}
+											item={item}
+											pathname={pathname}
+										/>
+									))}
+								<hr className="my-2 border-gray-200 dark:border-gray-700" />
+								{/* TODO Убрать проверку, когда будет готова админка */}
+								{window.location.host === "localhost:2051" &&
+									adminList.map((item) => (
+										<SidebarItem
+											key={item.path}
+											item={item}
+											pathname={pathname}
+										/>
+									))}
 							</SidebarMenu>
 						</SidebarGroupContent>
 					</SidebarGroup>
