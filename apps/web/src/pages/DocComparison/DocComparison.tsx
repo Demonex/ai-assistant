@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { DocComparisonCard } from "@/components/DocComparisonCard.js";
+import { DocComparisonCard } from "@/components/DocComparison/DocComparisonCard.js";
 import { Button } from "@/components/ui/button.js";
 import { useDocComparison } from "@/hooks/useDocComparison.js";
 
