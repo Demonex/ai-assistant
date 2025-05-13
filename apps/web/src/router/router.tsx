@@ -27,6 +27,9 @@ const NotFoundPage = withSuspense(
 	lazy(() => import("@/pages/NotFound/NotFoundPage.js")),
 );
 const ChatPage = withSuspense(lazy(() => import("@/pages/Chat/ChatPage.js")));
+const DocComparison = withSuspense(
+	lazy(() => import("@/pages/DocComparison/DocComparison.js")),
+);
 const CollectionsPage = withSuspense(
 	lazy(() => import("@/pages/Collection/CollectionsPage.js")),
 );
@@ -81,6 +84,7 @@ export const AppRoutes = () => {
 				<Route path="/" element={<DashboardPage />}>
 					<Route path="admin" element={<AdminPage />} />
 					<Route path="chat" element={<ChatPage />} />
+					<Route path="doc-comparison" element={<DocComparison />} />
 					<Route path="neuro" element={<NeuroPage />} />
 					<Route path="neuro/new-neuro" element={<CreateNeuroPage />} />
 					<Route path="neuro/:id" element={<CustomizeNeuroPage />} />
