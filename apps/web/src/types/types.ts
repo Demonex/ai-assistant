@@ -9,6 +9,7 @@ export type WikiTreeType = {
 	path: string;
 	parent: number | null;
 	isFolder: boolean;
+	isUpload: boolean;
 	pageId: number | null;
 	children?: WikiTreeType[];
 	createdAt?: string;
@@ -16,29 +17,29 @@ export type WikiTreeType = {
 	depth?: number;
 };
 
-export type FileTranscription = {
+export type FileTranscriptionType = {
 	file: string;
 	transciption: string;
 	fullText: string;
 	status: string;
 };
 
-export type UploadFileError = {
+export type UploadFileResponseType = {
 	type: string;
 	file: string;
 	status: string;
 	message: string;
 };
 
-export type UploadFiles = {
-	audio?: {
-		success: FileTranscription[];
-		errors: UploadFileError[];
-	};
-	text?: {
-		success: FileTranscription[];
-		duplicates: UploadFileError[];
-	};
+export type UploadFilesFullResponseType = {
+	success: UploadFileResponseType[];
+	duplicates: UploadFileResponseType[];
+	errors: UploadFileResponseType[];
+};
+
+export type FileTranscriptionResponseType = {
+	success: FileTranscriptionType[];
+	errors: UploadFileResponseType[];
 };
 
 export type Profile = {
@@ -72,7 +73,6 @@ export type ResponseAndRequest = {
 	created_at: string;
 	message?: string;
 	fragments?: Fragment[];
-	files?: FileTranscription[];
 };
 
 export type Chats = {
@@ -96,35 +96,21 @@ export type GroupMessages = [string, Message[]];
 
 //////////////////////////////////////////////////////////////////////
 
-export type CollectionFormType = {
-	collection?: CollectionType;
-	tenants: TenantType[];
-	neuros: NeuroType[];
-	providers: ProviderType[];
-	onSubmit: (data: CollectionRequestType) => void;
-};
-
-export type NeuroFormType = {
-	neuro?: NeuroType;
-	models: ModelType[];
-	onSubmit: (data: NeuroRequestType) => void;
-};
-
-export type ModelFormType = {
-	model?: ModelType;
-	tenants: TenantType[];
-	onSubmit: (data: ModelRequestType) => void;
-};
+export enum PROVIDER_ENUM_TYPE {
+	minio = "minio",
+	confluence = "confluence",
+	wikijs = "wikijs",
+}
 
 export type CollectionType = {
-	id?: string;
+	id?: number;
 	title?: string;
 	description?: string;
 	embedding?: NeuroType;
 	llm?: NeuroType;
 	reranker?: NeuroType;
 	tenant?: TenantType;
-	providers?: ProviderType[];
+	providers?: ProviderInCollectionType[];
 };
 
 export type NeuroType = {
@@ -134,10 +120,18 @@ export type NeuroType = {
 	modelSettings?: string | null;
 };
 
-export type ProviderType = {
+export type ProviderInCollectionType = {
 	id: number;
 	title: string;
 	provider?: number;
+};
+
+export type ProviderType<T = Record<string, unknown>> = {
+	id: number;
+	settings: T;
+	tenant: number;
+	title: string;
+	type: string;
 };
 
 export type TenantType = {

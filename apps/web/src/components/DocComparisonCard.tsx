@@ -1,4 +1,4 @@
-import { ReactMarkdownComponent } from "./Chat/DialogWindow/component/ReactMarkdownComponent.js";
+import { ReactMarkdownComponent } from "./ReactMarkdownComponent.js";
 import { CardContent, CardHeader, CardTitle } from "./ui/card.js";
 import { Input } from "./ui/input.js";
 import { ScrollArea } from "./ui/scroll-area.js";

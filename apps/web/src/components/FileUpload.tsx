@@ -4,15 +4,17 @@ import { formatFileSize, getColorFile } from "@repo/web/helpers/index.js";
 import { X } from "lucide-react";
 
 export const FileUpload = memo<{
+	width?: string;
 	files: File[];
 	handleCloseDocument: (id: number) => void;
-}>(({ files, handleCloseDocument }) => {
+}>(({ width = "10", files, handleCloseDocument }) => {
 	return (
 		<div className="w-full flex flex-wrap gap-2">
 			{files.map((file) => (
 				<div
+					style={{ width: width + "rem" }}
 					key={file.lastModified}
-					className="relative flex w-40 rounded-md border border-slate-100 text-xs shadow shadow-slate-200"
+					className="relative flex rounded-md border border-slate-100 text-xs shadow shadow-slate-200"
 				>
 					<div
 						style={{

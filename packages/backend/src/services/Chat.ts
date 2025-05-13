@@ -2,18 +2,17 @@ import { EntityManager } from "@mikro-orm/core";
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { ChatMessageEntity } from "@repo/backend/entities/Chat/index.js";
 import path from "node:path";
-import type { ChatMessageDto, ChatUploadMediaDto } from "../dto/Chat.js";
+import type { ChatMessageDto } from "../dto/Chat.js";
+import type { ChatUploadMediaDto } from "../dto/Chat.js";
 import { CollectionEntity } from "../entities/Collection/index.js";
 import { DocEntity } from "../entities/Doc/index.js";
 import { GROUP_PERMISSION } from "../entities/Group/group-group-permissions.js";
 import { PROVIDER_TYPE } from "../entities/Provider/index.js";
 import { HttpStatusMessages } from "../messages/http.js";
-import type { AudioReponse } from "../types/Audio.js";
 import type { UploadedFile } from "../types/Chat.js";
 import type { FlowResponse } from "../types/Flow.js";
 import { getHandleUpload } from "../utils/handleUpload.js";
 import { logErrors, promiseMap } from "../utils/index.js";
-import { AudioService } from "./Audio.js";
 import { LangFlowService } from "./Flow.js";
 import { GotenbergService } from "./Gotenberg.js";
 import { GroupService } from "./Group.js";
@@ -27,7 +26,6 @@ export class ChatService {
 		private readonly userService: UserService,
 		private readonly groupService: GroupService,
 		private readonly gotenbergService: GotenbergService,
-		private readonly audioSerivce: AudioService,
 	) {}
 
 	async validateAndGetCollection(
@@ -344,15 +342,6 @@ export class ChatService {
 			}),
 		});
 
-		const audioFormats = [
-			"video/mp4",
-			"video/webm",
-			"audio/x-wav",
-			"audio/mpeg",
-			"audio/x-m4a",
-			"audio/ogg",
-		];
-
 		const textFormats = [
 			"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 			"application/msword",
@@ -374,15 +363,8 @@ export class ChatService {
 					message?: string;
 			  }
 			| {
-					type: "audio";
-					file: string;
-					transciption?: AudioReponse["transcription"];
-					fullText?: AudioReponse["fullText"];
-					status: "success" | "errors";
-					message?: string;
-			  }
-			| {
 					type: "unsupported";
+					file: string;
 					status: "errors";
 					message: string;
 			  },
@@ -391,32 +373,10 @@ export class ChatService {
 			const fileKey = media.originalname;
 
 			try {
-				if (audioFormats.includes(media.mimetype)) {
-					const response = await this.audioSerivce.transcribe(media);
-
-					return {
-						type: "audio",
-						file: media.originalname,
-						transciption: response.transcription,
-						fullText: response.fullText,
-						status: response.status === "OK" ? "success" : "errors",
-					};
-				}
-			} catch (error) {
-				logErrors(error);
-
-				return {
-					type: "audio",
-					file: media.originalname,
-					status: "errors",
-					message: error.response?.body.detail,
-				};
-			}
-
-			try {
 				if (!textFormats.includes(media.mimetype)) {
 					return {
 						type: "unsupported",
+						file: fileKey,
 						status: "errors",
 						message: "Unsupported Type",
 					};
@@ -523,49 +483,17 @@ export class ChatService {
 			}
 		});
 
-		type UploadResult = {
-			[key: string]: object;
-			audio?: {
-				success?: {
-					type: "audio";
-					file: string;
-					transciption?: AudioReponse["transcription"];
-					fullText?: AudioReponse["fullText"];
-					status: "success" | "errors";
-					message?: string;
-				}[];
-			};
-		};
+		const uploadResult = uploadData.reduce((acc, item) => {
+			const { status } = item;
 
-		const uploadResult: UploadResult = uploadData.reduce((acc, item) => {
-			const { type, status } = item;
-
-			if (!acc[type]) {
-				acc[type] = {};
+			if (!acc[status]) {
+				acc[status] = [];
 			}
 
-			if (!acc[type][status]) {
-				acc[type][status] = [];
-			}
-
-			acc[type][status].push(item);
+			acc[status].push(item);
 
 			return acc;
 		}, {});
-
-		if (uploadResult?.audio?.success) {
-			const chatMessage = this.em.create<ChatMessageEntity>(ChatMessageEntity, {
-				user:
-					typeof userKey === "number" ? { id: userKey } : { email: userKey },
-				collection: chatId,
-				request: null,
-				response: {
-					files: uploadResult.audio.success,
-					created_at: new Date(),
-				},
-			});
-			await this.em.persistAndFlush(chatMessage);
-		}
 
 		return uploadResult;
 	}

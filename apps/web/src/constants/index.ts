@@ -1,5 +1,12 @@
 export const ALLOWED_EXTENSIONS_TEXT = ["docx", "doc", "pdf", "txt"];
 
+export const EXTENSIONS_TYPES_TEXT = [
+	"text/plain",
+	"application/pdf",
+	"application/msword",
+	"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+];
+
 export const ALLOWED_EXTENSIONS_MEDIA = [
 	// Видео
 	"mp4",
@@ -22,11 +29,7 @@ export const ALLOWED_EXTENSIONS_MEDIA = [
 	"opus",
 ];
 
-export const EXTENSIONS_TYPES = [
-	"text/plain",
-	"application/pdf",
-	"application/msword",
-	"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+export const EXTENSIONS_TYPES_MEDIA = [
 	"video/mp4",
 	"video/webm",
 	"audio/x-wav",

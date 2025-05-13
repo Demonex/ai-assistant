@@ -1,6 +1,6 @@
 export type UploadedFile = {
-	buffer: Buffer;
 	filename?: string;
+	buffer: Buffer;
 	originalname?: string;
 	encoding?: string;
 	mimetype?: string;

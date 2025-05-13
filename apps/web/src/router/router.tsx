@@ -1,67 +1,27 @@
-import { Suspense, lazy } from "react";
 import { Navigate, Outlet, Route, Routes } from "react-router";
 
-import { Spinner } from "@/components/Spinner.js";
 import { useProfile } from "@/hooks/useProfile.js";
 import DashboardPage from "@/pages/Dashboard/Dashboard.js";
 
-const SuspenseFallback = () => {
-	return (
-		<div className="flex items-center justify-center max-h-screen h-full w-full">
-			<Spinner size="large" />
-		</div>
-	);
-};
-
-export const withSuspense = (
-	Component: React.LazyExoticComponent<() => JSX.Element>,
-) => {
-	return () => (
-		<Suspense fallback={<SuspenseFallback />}>
-			<Component />
-		</Suspense>
-	);
-};
-
-const NotFoundPage = withSuspense(
-	lazy(() => import("@/pages/NotFound/NotFoundPage.js")),
-);
-const ChatPage = withSuspense(lazy(() => import("@/pages/Chat/ChatPage.js")));
-const DocComparison = withSuspense(
-	lazy(() => import("@/pages/DocComparison/DocComparison.js")),
-);
-const CollectionsPage = withSuspense(
-	lazy(() => import("@/pages/Collection/CollectionsPage.js")),
-);
-const CustomizeCollectionPage = withSuspense(
-	lazy(() => import("@/pages/Collection/CustomizeCollectionPage.js")),
-);
-const CreateNewCollectionPage = withSuspense(
-	lazy(() => import("@/pages/Collection/CreateNewCollectionPage.js")),
-);
-const SignInPage = withSuspense(
-	lazy(() => import("@/pages/Auth/SignInPage.js")),
-);
-const AdminPage = withSuspense(lazy(() => import("@/pages/Admin/Admin.js")));
-const ModelPage = withSuspense(
-	lazy(() => import("@/pages/Model/ModelPage.js")),
-);
-const CustomizeModelPage = withSuspense(
-	lazy(() => import("@/pages/Model/CustomizeModelPage.js")),
-);
-const CreateModelPage = withSuspense(
-	lazy(() => import("@/pages/Model/CreateModelPage.js")),
-);
-const NeuroPage = withSuspense(
-	lazy(() => import("@/pages/Neuro/NeuroPage.js")),
-);
-const CustomizeNeuroPage = withSuspense(
-	lazy(() => import("@/pages/Neuro/CustomizeNeuroPage.js")),
-);
-const CreateNeuroPage = withSuspense(
-	lazy(() => import("@/pages/Neuro/CreateNeuroPage.js")),
-);
-const UserPage = withSuspense(lazy(() => import("@/pages/User/UserPage.js")));
+import {
+	AdminPage,
+	ChatPage,
+	CollectionsPage,
+	CreateModelPage,
+	CreateNeuroPage,
+	CreateNewCollectionPage,
+	CustomizeCollectionPage,
+	CustomizeModelPage,
+	CustomizeNeuroPage,
+	DocComparison,
+	ModelPage,
+	NeuroPage,
+	NotFoundPage,
+	SignInPage,
+	SuspenseFallback,
+	TranscriptionPage,
+	UserPage,
+} from "./pages.js";
 
 export const PrivateRoute = () => {
 	const { dataProfile, isFetchingProfile } = useProfile();
@@ -85,6 +45,7 @@ export const AppRoutes = () => {
 					<Route path="admin" element={<AdminPage />} />
 					<Route path="chat" element={<ChatPage />} />
 					<Route path="doc-comparison" element={<DocComparison />} />
+					<Route path="transcription" element={<TranscriptionPage />} />
 					<Route path="neuro" element={<NeuroPage />} />
 					<Route path="neuro/new-neuro" element={<CreateNeuroPage />} />
 					<Route path="neuro/:id" element={<CustomizeNeuroPage />} />

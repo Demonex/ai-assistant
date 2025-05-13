@@ -1,31 +1,25 @@
 import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
 
-@Entity({ tableName: "wikijs_docs" })
-export class WikiDocEntity {
+@Entity({ tableName: "wikijs_doc" })
+export class WikiJsDocEntity {
 	@PrimaryKey()
 	id!: number;
 
 	@Property()
-	ext_id!: string;
-
-	@Property({ nullable: true })
-	ext_parent_id?: string;
+	vectorFilePath!: string;
 
 	@Property()
-	name!: string;
+	collectionId!: number;
 
 	@Property()
-	last_date_modified!: Date;
+	providerId!: number;
 
 	@Property()
-	view_url!: string;
+	fileId!: number;
 
 	@Property()
-	collection_id!: number;
+	fileName!: string;
 
-	@Property({ onCreate: () => new Date() })
-	created_at: Date = new Date();
-
-	@Property({ onUpdate: () => new Date() })
-	updated_at: Date = new Date();
+	@Property()
+	fileUpdateAt!: string;
 }

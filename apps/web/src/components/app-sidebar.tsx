@@ -19,6 +19,7 @@ import {
 	File,
 	FileBox,
 	FileDiff,
+	FileVolume,
 	LayoutGrid,
 	Mails,
 	MessageCircleMore,
@@ -42,6 +43,11 @@ export function AppSidebar() {
 			name: "Сравнение документов",
 			path: "/doc-comparison",
 			icon: <FileDiff />,
+		},
+		{
+			name: "Транскрибация",
+			path: "/transcription",
+			icon: <FileVolume />,
 		},
 		{
 			name: "Админ панель",

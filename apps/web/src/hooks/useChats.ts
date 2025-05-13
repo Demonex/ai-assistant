@@ -102,7 +102,7 @@ const _useChats = () => {
 
 	useEffect(() => {
 		if (fileResponse) {
-			localStorage.removeItem("uploadMedia");
+			localStorage.removeItem("uploadText");
 		}
 	}, [fileResponse]);
 

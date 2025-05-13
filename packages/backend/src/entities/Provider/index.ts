@@ -13,6 +13,7 @@ import { TenantEntity } from "../Tenant/index.js";
 export enum PROVIDER_TYPE {
 	minio = "minio",
 	confluence = "confluence",
+	wikijs = "wikijs",
 }
 
 @Entity({ tableName: "provider" })
