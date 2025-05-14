@@ -17,6 +17,7 @@ import { LangFlowService } from "./Flow.js";
 import { GotenbergService } from "./Gotenberg.js";
 import { GroupService } from "./Group.js";
 import { UserService } from "./User.js";
+import { v4 } from "uuid";
 
 @Injectable()
 export class ChatService {
@@ -428,6 +429,7 @@ export class ChatService {
 					);
 				}
 
+				const file_uuid = v4().toString();
 				await this.flowService.runFlow({
 					action: "UPLOAD",
 					flowId: newFlowId,
@@ -435,6 +437,7 @@ export class ChatService {
 						tweaks: {
 							[fileId]: {
 								path: `${filepath}`,
+								file_uuid,
 							},
 							[qdrantId]: {
 								collection_name: collection.title.toString(),
@@ -454,15 +457,13 @@ export class ChatService {
 				}
 				upload({ file: pdfMedia });
 
-				const vectorFilePath = `/app/langflow/${filepath}`;
-
 				const doc = this.em.create<DocEntity>(DocEntity, {
-					filename: `${collection.title}/${fileKey}`,
+					filename: fileKey,
 					filesize: media.size,
 					mimeType: media.mimetype,
 					collection: chatId,
 					provider: provider.id,
-					vectorFilePath,
+					file_uuid,
 				});
 				await this.em.persistAndFlush(doc);
 
