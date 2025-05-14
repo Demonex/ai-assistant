@@ -48,10 +48,10 @@ export const doc: CollectionConfig = {
 			},
 		},
 		{
-			name: "vectorFilePath",
+			name: "file_uuid",
 			type: "text",
 			required: true,
-			label: "url",
+			label: "uuid",
 			admin: {
 				hidden: true,
 			},
@@ -69,6 +69,14 @@ export const doc: CollectionConfig = {
 			relationTo: provider.slug as "provider",
 			required: true,
 			label: "Провайдер",
+		},
+		{
+			name: "metaData",
+			type: "json",
+			label: "Метаданные",
+			admin: {
+				hidden: true,
+			},
 		},
 	],
 	versions: false,
