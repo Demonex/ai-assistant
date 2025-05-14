@@ -45,30 +45,16 @@ const makeRequest = async <T>(options: RequestOptions): Promise<T> => {
 	}
 };
 
-const CollectionService = {
-	filesUpload: async <T>(collectionId: number, data: FormData): Promise<T> => {
+const DocService = {
+	delete: async (id: number) => {
 		return makeRequest({
-			method: "POST",
-			url: `/api/v1/chat/${collectionId}/upload`,
-			data,
+			method: "DELETE",
+			url: `/api/v1/docs/${id}`,
 			headers: {
-				"Content-Type": "multipart/form-data",
+				"x-api-key": "your-secret-api-key-123sigma",
 			},
-		});
-	},
-	profile: async () => {
-		return makeRequest({
-			method: "GET",
-			url: `/api/v1/profile`,
-		});
-	},
-	signIn: async () => {
-		return makeRequest({
-			method: "POST",
-			url: `/api/v1/auth/email/sign-in`,
-			data: { email: "dima@mail.ru", password: "dimadima" },
 		});
 	},
 };
 
-export { CollectionService };
+export { DocService };

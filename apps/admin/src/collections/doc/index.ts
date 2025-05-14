@@ -3,6 +3,7 @@ import type { CollectionConfig } from "payload";
 // import defaultAccess from "@/utilities/defaultAccess";
 import { collection } from "@/collections/collection";
 import { provider } from "@/collections/provider";
+import { DocService } from "@/services/DocService.js";
 import defaultAccess from "@/utilities/defaultAccess";
 
 const docAccess = {
@@ -21,6 +22,15 @@ export const doc: CollectionConfig = {
 	admin: {
 		defaultColumns: ["filename", "collection", "provider"],
 		useAsTitle: "filename",
+	},
+	hooks: {
+		beforeDelete: [
+			async ({ id }) => {
+				console.log("hello");
+				await DocService.delete(+id);
+				// console.log(, collection, context, id, req);
+			},
+		],
 	},
 	fields: [
 		{

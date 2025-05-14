@@ -1,6 +1,7 @@
 import {
 	Body,
 	Controller,
+	Delete,
 	Get,
 	Param,
 	ParseIntPipe,
@@ -10,7 +11,7 @@ import {
 	UseInterceptors,
 } from "@nestjs/common";
 import { ApiConsumes, ApiTags } from "@nestjs/swagger";
-import { Authorized } from "../decorators/auth.js";
+import { ApiKey, Authorized } from "../decorators/auth.js";
 import { DocService } from "../services/Doc.js";
 import { ChatUploadMediaDto } from "../dto/Chat.js";
 import { FilesInterceptor } from "@nestjs/platform-express";
@@ -53,5 +54,14 @@ export class DocController {
 		@UploadedFiles() files: ChatUploadMediaDto["media"],
 	) {
 		return this.docService.comporisonDoc(files);
+	}
+
+	// @Authorized()
+	@ApiKey()
+	@Delete("docs/:id")
+	async deleteDocument(@Param("id", ParseIntPipe) _id: number) {
+		console.log("HELP!!!");
+
+		return "Документ удален";
 	}
 }

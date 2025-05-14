@@ -384,7 +384,8 @@ export class ChatService {
 				}
 
 				const docExists = await this.em.count<DocEntity>(DocEntity, {
-					filename: `${collection.title}/${fileKey}`,
+					collection,
+					filename: fileKey,
 				});
 				if (docExists) {
 					return {
