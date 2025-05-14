@@ -79,19 +79,19 @@ export class WikiSyncService {
 		}
 
 		const settings = provider.settings || {};
-		const updatePeriodStr = settings.update_period;
+		const updatePeriod = settings.update_period;
 		const lastUpdate = settings.last_update_time
 			? new Date(settings.last_update_time)
 			: null;
 
-		if (!updatePeriodStr) {
+		if (!updatePeriod) {
 			this.logger.warn(`Provider ${provider.id} missing update_period`);
 			return;
 		}
 
 		let msPeriod: number;
 		try {
-			msPeriod = parsePeriod(updatePeriodStr);
+			msPeriod = parsePeriod(updatePeriod);
 		} catch {
 			this.logger.warn(`Invalid update_period for provider ${provider.id}`);
 			return;

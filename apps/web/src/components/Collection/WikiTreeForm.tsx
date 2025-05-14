@@ -9,9 +9,13 @@ import { toast } from "@/hooks/use-toast.js";
 
 type WikiTreeFormProps = {
 	collectionId: number;
+	providerUrl: string | unknown;
 };
 
-export const WikiTreeForm = ({ collectionId }: WikiTreeFormProps) => {
+export const WikiTreeForm = ({
+	collectionId,
+	providerUrl,
+}: WikiTreeFormProps) => {
 	const {
 		dataWiki,
 		loadingWiki,
@@ -73,6 +77,7 @@ export const WikiTreeForm = ({ collectionId }: WikiTreeFormProps) => {
 			<div className="w-full rounded-md border p-3 max-h-[500px] overflow-auto">
 				<WikiTreeView
 					data={dataWiki}
+					providerUrl={providerUrl}
 					onUpload={setUpload}
 					onRemove={setRemove}
 				/>

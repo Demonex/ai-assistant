@@ -1,4 +1,7 @@
 import React, { memo, useEffect, useMemo, useState } from "react";
+import { Link } from "react-router";
+
+import { SquareArrowOutUpRight } from "lucide-react";
 
 import { Checkbox } from "@/components/ui/checkbox.js";
 import { Label } from "@/components/ui/label.js";
@@ -6,12 +9,13 @@ import type { WikiTreeType } from "@/types/types.js";
 
 type WikiTreeViewProps = {
 	data: WikiTreeType[];
+	providerUrl: string | unknown;
 	onUpload: (selectedPages: number[]) => void;
 	onRemove: (selectedPages: number[]) => void;
 };
 
 export const WikiTreeView = memo<WikiTreeViewProps>(
-	({ data, onUpload, onRemove }) => {
+	({ data, providerUrl, onUpload, onRemove }) => {
 		const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
 		const [removalIds, setRemovalIds] = useState<Set<number>>(new Set());
 
@@ -31,7 +35,8 @@ export const WikiTreeView = memo<WikiTreeViewProps>(
 
 		const getChildLeafIds = (page: WikiTreeType): number[] => {
 			const ids: number[] = [];
-			if (page.isFolder && page.children) {
+
+			if (page.children) {
 				page.children.forEach((child) => {
 					if (!child.isFolder) ids.push(child.id);
 					ids.push(...getChildLeafIds(child));
@@ -53,51 +58,76 @@ export const WikiTreeView = memo<WikiTreeViewProps>(
 				: selectedIds.has(page.id);
 		};
 
-		const toggleLeaf = (
-			page: WikiTreeType,
-			newSelected: Set<number>,
-			newRemoved: Set<number>,
-		) => {
-			if (page.isUpload) {
-				if (newRemoved.has(page.id)) {
-					newRemoved.delete(page.id);
-				} else {
-					newRemoved.add(page.id);
-				}
-			} else {
-				if (newSelected.has(page.id)) {
-					newSelected.delete(page.id);
-				} else {
-					newSelected.add(page.id);
-				}
-			}
-		};
-
 		const togglePage = (page: WikiTreeType) => {
 			setSelectedIds((prevSelected) => {
 				const newSelected = new Set(prevSelected);
 				const newRemoved = new Set(removalIds);
 
 				if (page.isFolder) {
-					const childLeafIds = getChildLeafIds(page);
-					const childLeafs = flattenedData.filter((p) =>
-						childLeafIds.includes(p.id),
-					);
-					const allUploaded = childLeafs.every((p) => p.isUpload);
-					const anyRemoved = childLeafs.some((p) => newRemoved.has(p.id));
+					const childItems = getAllChildItems(page);
+					const shouldSelectAll = !isChecked(page);
 
-					if (allUploaded && anyRemoved) {
-						childLeafs.forEach((p) => newRemoved.delete(p.id));
-					} else {
-						childLeafs.forEach((p) => toggleLeaf(p, newSelected, newRemoved));
-					}
+					updateChildrenSelection(
+						childItems,
+						shouldSelectAll,
+						newSelected,
+						newRemoved,
+					);
 				} else {
-					toggleLeaf(page, newSelected, newRemoved);
+					toggleSingleItem(page, newSelected, newRemoved);
 				}
 
 				setRemovalIds(newRemoved);
 				return newSelected;
 			});
+		};
+
+		const getAllChildItems = (folder: WikiTreeType): WikiTreeType[] => {
+			const childIds = getChildLeafIds(folder);
+			return flattenedData.filter((item) => childIds.includes(item.id));
+		};
+
+		const updateChildrenSelection = (
+			children: WikiTreeType[],
+			select: boolean,
+			selectedSet: Set<number>,
+			removedSet: Set<number>,
+		) => {
+			children.forEach((child) => {
+				if (child.isUpload) {
+					if (select) {
+						removedSet.delete(child.id);
+					} else {
+						removedSet.add(child.id);
+					}
+				} else {
+					if (select) {
+						selectedSet.add(child.id);
+					} else {
+						selectedSet.delete(child.id);
+					}
+				}
+			});
+		};
+
+		const toggleSingleItem = (
+			item: WikiTreeType,
+			selectedSet: Set<number>,
+			removedSet: Set<number>,
+		) => {
+			if (item.isUpload) {
+				if (removedSet.has(item.id)) {
+					removedSet.delete(item.id);
+				} else {
+					removedSet.add(item.id);
+				}
+			} else {
+				if (selectedSet.has(item.id)) {
+					selectedSet.delete(item.id);
+				} else {
+					selectedSet.add(item.id);
+				}
+			}
 		};
 
 		useEffect(() => {
@@ -140,6 +170,9 @@ export const WikiTreeView = memo<WikiTreeViewProps>(
 							className={removalIds.has(page.id) ? "border-red-700" : ""}
 						/>
 						<Label htmlFor={page.id.toString()}>{page.title}</Label>
+						<Link target="_blank" to={`${providerUrl}/${page.path}`}>
+							<SquareArrowOutUpRight size={12} />
+						</Link>
 					</div>
 					{page.children && renderPages(page.children, depth + 1)}
 				</React.Fragment>

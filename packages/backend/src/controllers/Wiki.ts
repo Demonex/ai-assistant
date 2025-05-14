@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 import { WikiService } from "@repo/backend/services/Wiki.js";
 import { ApiTags } from "@nestjs/swagger";
-// import { Authorized } from "@repo/backend/decorators/auth.js";
+import { Authorized } from "@repo/backend/decorators/auth.js";
 import {
 	RemoveWikiJsDocsDto,
 	UploadWikiJsDocsDto,
@@ -12,13 +12,13 @@ import {
 export class WikiController {
 	constructor(private readonly wikiService: WikiService) {}
 
-	// @Authorized()
+	@Authorized()
 	@Get(":collectionId/tree")
 	getWikiTree(@Param("collectionId") collectionId: number) {
 		return this.wikiService.fetchPageTree(collectionId);
 	}
 
-	// @Authorized()
+	@Authorized()
 	@Post(":collectionId/upload")
 	postUploadDocuments(
 		@Param("collectionId") collectionId: number,
@@ -30,7 +30,7 @@ export class WikiController {
 		);
 	}
 
-	// @Authorized()
+	@Authorized()
 	@Delete(":collectionId/remove")
 	removeDocuments(
 		@Param("collectionId") collectionId: number,
