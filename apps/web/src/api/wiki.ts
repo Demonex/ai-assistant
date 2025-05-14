@@ -1,6 +1,6 @@
 export const getWikiTree = async (collectionId: number) => {
 	const response = await fetch(
-		`${import.meta.env.VITE_BACKEND_URL}/wiki/${collectionId}/tree`,
+		`${import.meta.env.VITE_BACKEND_URL}/api/v1/wiki/${collectionId}/tree`,
 	);
 
 	if (!response.ok) {
@@ -13,7 +13,7 @@ export const getWikiTree = async (collectionId: number) => {
 
 export const uploadWikiDocs = async (collectionId: number, ids: number[]) => {
 	const response = await fetch(
-		`${import.meta.env.VITE_BACKEND_URL}/wiki/${collectionId}/upload`,
+		`${import.meta.env.VITE_BACKEND_URL}/api/v1/wiki/${collectionId}/upload`,
 		{
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
@@ -31,7 +31,7 @@ export const uploadWikiDocs = async (collectionId: number, ids: number[]) => {
 
 export const removeWikiDocs = async (collectionId: number, ids: number[]) => {
 	const response = await fetch(
-		`${import.meta.env.VITE_BACKEND_URL}/wiki/${collectionId}/remove`,
+		`${import.meta.env.VITE_BACKEND_URL}/api/v1/wiki/${collectionId}/remove`,
 		{
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
