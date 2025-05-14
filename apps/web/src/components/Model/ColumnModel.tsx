@@ -50,7 +50,11 @@ export const ColumnModel: ColumnDef<CollectionType>[] = [
 		cell: ({ row }) => {
 			const modelId = row.original.id;
 			return (
-				<Link to={`/models/${modelId}`} className=" cursor-pointer">
+				<Link
+					target="_blank"
+					to={`/models/${modelId}`}
+					className=" cursor-pointer"
+				>
 					{row.getValue("title")}
 				</Link>
 			);

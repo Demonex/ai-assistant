@@ -10,7 +10,7 @@ export class UserEntity {
 	@Property()
 	email!: string;
 
-	@Property()
+	@Property({ nullable: true })
 	@IsOptional()
 	username!: string;
 

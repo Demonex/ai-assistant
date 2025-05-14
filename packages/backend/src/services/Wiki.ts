@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { GraphQLClient, gql } from "graphql-request";
 import type {
 	WikiPageType,
-	WikiPageTreeType,
+	WikiPageTreeResponseType,
 	WikiSinglePageResponseType,
 	WikiSinglePageType,
 } from "@repo/backend/types/Wiki.js";
@@ -42,7 +42,7 @@ export class WikiService {
 			}
 		`;
 
-		const data: WikiPageTreeType = await client.request(query);
+		const data: WikiPageTreeResponseType = await client.request(query);
 		return data.pages.list;
 	}
 
@@ -207,6 +207,9 @@ export class WikiService {
 				content: page.content,
 			});
 		}
+
+		// Для квадрантна
+		// qdrantDocs
 
 		await this.em.persistAndFlush(pgDocs);
 		return { status: "success", uploadCount: pgDocs.length };

@@ -175,7 +175,7 @@ export const ChatForm = memo<ChatInputProps>(
 							textareaRef.current = el;
 							register("message").ref(el);
 						}}
-						disabled={fileLoading || messageLoading}
+						disabled={fileLoading || messageLoading || messages?.isEmpty}
 						onInput={handleTextarea}
 						placeholder="Введите сообщение..."
 						onChange={handleInputChange}

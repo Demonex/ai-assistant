@@ -351,7 +351,10 @@ export const CollectionForm = memo(
 									{providerElement.type === PROVIDER_ENUM_TYPE.minio ? (
 										<DropZoneForm />
 									) : (
-										<WikiTreeForm collectionId={collection.id} />
+										<WikiTreeForm
+											collectionId={collection.id}
+											providerUrl={providerElement.settings.url}
+										/>
 									)}
 								</AccordionContent>
 							</AccordionItem>
