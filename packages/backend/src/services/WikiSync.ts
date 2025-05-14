@@ -9,7 +9,7 @@ import {
 import { WikiJsDocEntity } from "@repo/backend/entities/Wiki/index.js";
 import { parsePeriod } from "@repo/backend/utils/index.js";
 import type {
-	WikiPageTreeType,
+	WikiPageTreeResponseType,
 	WikiSinglePageResponseType,
 	WikiSinglePageType,
 } from "@repo/backend/types/Wiki.js";
@@ -41,7 +41,7 @@ export class WikiSyncService {
 				}
 			}
 		`;
-		const res: WikiPageTreeType = await client.request(query);
+		const res: WikiPageTreeResponseType = await client.request(query);
 		return res.pages.list;
 	}
 
@@ -186,7 +186,7 @@ export class WikiSyncService {
 			// qdrantToDelete
 			// qdrantToUpdate
 		} catch (e) {
-			throw new Error(`Error sync ${e.message}`);
+			this.logger.warn(`Error sync ${e.message}`);
 		}
 	}
 }

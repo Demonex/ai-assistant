@@ -21,7 +21,7 @@ export type WikiSinglePageType = {
 	content: string;
 };
 
-export type WikiPageTreeType = {
+export type WikiPageTreeResponseType = {
 	pages: {
 		list: WikiPageType[];
 	};

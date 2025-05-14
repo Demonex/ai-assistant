@@ -183,9 +183,14 @@ export const DialogWindow = () => {
 								"\n[data-radix-scroll-area-viewport] {\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n  -webkit-overflow-scrolling: touch;\n}\n[data-radix-scroll-area-viewport]::-webkit-scrollbar {\n  display: none;\n}\n:where([data-radix-scroll-area-viewport]) {\n  display: flex;\n  flex-direction: column;\n  align-items: stretch;\n}\n:where([data-radix-scroll-area-content]) {\n  flex-grow: 1;\n}\n",
 						}}
 					/>
-					{messages?.messages?.length === 0 && (
+					{messages?.messages?.length === 0 && !messages?.isEmpty && (
 						<div className="w-full flex justify-center text-center font-semibold absolute left-0 top-[50%] transform translate-y-[-50%]">
 							<ReactMarkdownComponent textMarkdown={messages?.description} />
+						</div>
+					)}
+					{messages?.isEmpty && (
+						<div className="w-full flex justify-center text-center font-semibold absolute left-0 top-[50%] transform translate-y-[-50%]">
+							Для начала работы загрузите документы в коллекцию!
 						</div>
 					)}
 					<div
