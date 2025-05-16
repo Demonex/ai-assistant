@@ -241,8 +241,8 @@ export class ChatService {
 				},
 			});
 			response.fragments.map((frag) => {
-				const file_path = frag.file_path;
-				const filenameWithDate = path.basename(file_path);
+				const filePath = frag.file_path;
+				const filenameWithDate = path.basename(filePath);
 				const filename = filenameWithDate.replace(
 					/^\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}_/,
 					"",
@@ -429,7 +429,7 @@ export class ChatService {
 					);
 				}
 
-				const file_uuid = v4().toString();
+				const fileUuid = v4().toString();
 				await this.flowService.runFlow({
 					action: "UPLOAD",
 					flowId: newFlowId,
@@ -437,7 +437,7 @@ export class ChatService {
 						tweaks: {
 							[fileId]: {
 								path: `${filepath}`,
-								file_uuid,
+								file_uuid: fileUuid,
 							},
 							[qdrantId]: {
 								collection_name: collection.title.toString(),
@@ -463,7 +463,7 @@ export class ChatService {
 					mimeType: media.mimetype,
 					collection: chatId,
 					provider: provider.id,
-					file_uuid,
+					fileUuid: fileUuid,
 				});
 				await this.em.persistAndFlush(doc);
 
