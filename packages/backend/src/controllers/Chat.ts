@@ -5,7 +5,6 @@ import {
 	HttpCode,
 	HttpException,
 	HttpStatus,
-	NotAcceptableException,
 	Param,
 	Post,
 	UploadedFiles,
@@ -14,24 +13,29 @@ import {
 import { FilesInterceptor } from "@nestjs/platform-express";
 import {
 	ApiBearerAuth,
+	ApiBody,
 	ApiConsumes,
 	ApiOperation,
 	ApiTags,
 } from "@nestjs/swagger";
-import { Authorized } from "@repo/backend/decorators/auth.js";
-import { TenantId, UserId } from "@repo/backend/decorators/user.js";
+import {
+	ApiKey,
+	Authorized,
+	UserEmailKey,
+} from "@repo/backend/decorators/auth.js";
+import {
+	ExternalEmail,
+	TenantId,
+	UserId,
+} from "@repo/backend/decorators/user.js";
 import { ChatService } from "@repo/backend/services/Chat.js";
-import { ChatMessageDto, ChatUploadMediaDto } from "../dto/Chat.js";
-import { HttpStatusMessages } from "../messages/http.js";
-import { LangFlowService } from "../services/Flow.js";
+import { ChatMessageDto } from "../dto/Chat.js";
+import { ChatUploadMediaDto } from "../dto/Chat.js";
 
 @ApiTags("chat")
-@Controller("/api/rest")
+@Controller("/api/v1")
 export class ChatController {
-	constructor(
-		private readonly chatService: ChatService,
-		private readonly flowService: LangFlowService,
-	) {}
+	constructor(private readonly chatService: ChatService) {}
 
 	@ApiBearerAuth("bearer-sid")
 	@ApiOperation({ summary: "get chats" })
@@ -45,8 +49,12 @@ export class ChatController {
 	@Authorized()
 	@Get("/chat/:id")
 	@HttpCode(200)
-	async getChat(@UserId() userId: number, @Param("id") chatId: number) {
-		return this.chatService.chat(userId, chatId);
+	async getChat(
+		@UserId() userId: number,
+		@Param("id") chatId: number,
+		@TenantId() currentTenant: number,
+	) {
+		return this.chatService.chat(userId, chatId, currentTenant);
 	}
 
 	@Authorized()
@@ -63,41 +71,52 @@ export class ChatController {
 			data,
 		);
 
-		const response = await this.chatService.messageSend(userId, chatId, data);
+		const rawResponse = await this.chatService.initiateRetrieveFlow(
+			userId,
+			chatId,
+			data,
+		);
+		const response = this.chatService.optimiseResponse(rawResponse);
 
-		await this.chatService.messagePatch(messageId, {
-			response: {
-				success: response.success,
-				...response.response,
-			},
-		});
-
-		return response;
+		return await this.chatService.messagePatch(messageId, response);
 	}
-	// @ApiOperation({ summary: "avatar update in profile" })
-	// @UseInterceptors(
-	// 	FileInterceptor(
-	// 		"file" /*{
-	// 			limits: {
-	// 				fieldNameSize: 100,
-	// 				fieldSize: 1000000,
-	// 				fields: 20,
-	// 				fileSize: 5000000,
-	// 				files: 1,
-	// 				headerPairs: 2000
-	// 			}
-	// 			}*/,
-	// 	),
-	// )
-	// @ApiConsumes("multipart/form-data")
-	// async updateAvatar(@UserId() id: Types.ObjectId, @UploadedFile("file") file) {
-	// 	// console.log('avatar update', get(request, 'headers.authorization'), get(request, 'session.id'), id);
-	// 	return this.chatService.findByIdAndUpdateAvatar(id, { file });
-	// }
+
+	@UserEmailKey()
+	@ApiKey()
+	@Post("/completions")
+	@HttpCode(200)
+	async sendMessageExternal(
+		@ExternalEmail() userEmail: string,
+		@Body() data: ChatMessageDto,
+	) {
+		const chats = await this.chatService.chats(userEmail);
+
+		if (!chats.length) {
+			throw new HttpException("Collection Not Found", HttpStatus.NOT_FOUND);
+		}
+
+		const [{ id: chatId }] = chats;
+
+		const { id: messageId } = await this.chatService.messageCreate(
+			userEmail,
+			chatId,
+			data,
+		);
+
+		const rawResponse = await this.chatService.initiateRetrieveFlow(
+			userEmail,
+			chatId,
+			data,
+		);
+		const response = this.chatService.optimiseResponse(rawResponse);
+
+		return await this.chatService.messagePatch(messageId, response);
+	}
 
 	@Authorized()
 	@Post("/chat/:id/upload")
 	@ApiConsumes("multipart/form-data")
+	@ApiBody({ type: ChatUploadMediaDto })
 	@UseInterceptors(
 		FilesInterceptor("media", 500, {
 			fileFilter: (_, file, callback) => {

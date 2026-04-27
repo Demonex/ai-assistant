@@ -1,30 +1,26 @@
-import {
-	HttpException,
-	HttpStatus,
-	Inject,
-	Injectable,
-	NotFoundException,
-	Scope,
-} from "@nestjs/common";
-import { REQUEST } from "@nestjs/core";
-import * as bcrypt from "bcryptjs";
-import { InjectRedis } from "@nestjs-modules/ioredis";
-import type { Redis } from "ioredis";
-import { isEmail } from "class-validator";
-import { randstr as randomStringGenerator } from "better-randstr";
-import { BCRYPT_SALT_ROUNDS } from "@repo/backend/constants.js";
-import { HttpStatusMessages } from "@repo/backend/messages/http.js";
-import type { AuthRecoverDto, AuthSignUpDto } from "@repo/backend/dto/Auth.js";
-import { SmtpService } from "./Smtp.js";
-import { v4 as uuidv4 } from "uuid";
 import { EntityManager } from "@mikro-orm/core";
+import { InjectRedis } from "@nestjs-modules/ioredis";
+import { HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
+import { REQUEST } from "@nestjs/core";
+import { BCRYPT_SALT_ROUNDS } from "@repo/backend/constants.js";
+import type { AuthSignUpDto } from "@repo/backend/dto/Auth.js";
 import { UserEntity } from "@repo/backend/entities/User/index.js";
+import { HttpStatusMessages } from "@repo/backend/messages/http.js";
+import * as bcrypt from "bcryptjs";
+import { isEmail } from "class-validator";
+import { type Request } from "express";
+import type { Redis } from "ioredis";
 
-@Injectable({ scope: Scope.REQUEST })
+declare module "express-session" {
+	export interface SessionData {
+		user: Partial<UserEntity>;
+	}
+}
+
+@Injectable()
 export class AuthService {
 	constructor(
-		@Inject(REQUEST) private readonly request: any,
-		@Inject(SmtpService) private readonly smtp: SmtpService,
+		@Inject(REQUEST) private readonly request: Request,
 		@InjectRedis() private readonly redisClient: Redis,
 		private readonly em: EntityManager,
 	) {}
@@ -43,11 +39,11 @@ export class AuthService {
 		return false;
 	}
 
-	async signInByEmail(args: any): Promise<UserEntity> {
+	async signInByEmail(args): Promise<UserEntity> {
 		const keys = ["email", "password"];
 		const { email, password: passwordCheck } = Object.fromEntries(
 			Object.entries(args).filter(([_, __]) => keys.includes(_)),
-		) as any;
+		) as { email: string; password: string };
 		const user = await this.getUserByEmailOrUsername(email);
 		if (user.password) {
 			await this.verifyUserPassword(user.password, passwordCheck);
@@ -66,10 +62,10 @@ export class AuthService {
 		}
 		this.request.session.user = {
 			id: user.id,
-			language: user.language || "en",
-			// superadmin: Boolean(user.superadmin),
 			email: user.email,
+			superadmin: user.superadmin,
 		};
+
 		return user as UserEntity;
 	}
 
@@ -80,7 +76,6 @@ export class AuthService {
 		const ipReg = `ip.reg:${this.request.ip}`;
 		const counter = await this.redisClient.get(ipReg);
 		if (ipRegLimit) {
-			// console.log(ipReg,counter);
 			if (counter && Number(counter) > 10) {
 				throw new HttpException(
 					{
@@ -91,24 +86,19 @@ export class AuthService {
 			}
 		}
 
-		const { name, email, password, consent } = args;
+		const { name, email, password } = args;
 		const hashPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
-		const activationLink = uuidv4();
 
 		const user = await this.createUserByEmail({
 			name,
 			email,
 			password: hashPassword,
-			consent,
-			activationLink,
 		});
-
-		// await this.sendConfirmEmail(email, activationLink);
 
 		this.request.session.user = {
 			id: user.id,
-			language: user.language,
-			// // superadmin: Boolean(user.superadmin),
+			email: user.email,
+			superadmin: user.superadmin,
 		};
 
 		if (ipRegLimit) {
@@ -121,121 +111,10 @@ export class AuthService {
 		}
 		return user;
 	}
-	/*
-  async resendEmailConfirm(userId: string) {
-	try {
-	  const user = await this.repoUser.findOne({ _id: userId });
-	  const { email, activationLink } = user;
-	  await this.sendConfirmEmail(email, activationLink);
 
-	  return { success: true };
-	} catch (error) {
-	  return { success: false, message: "Failed to resendEmailConfirm" };
-	}
-  }*/
-	/*
-  async recover({
-				  login: username,
-				  recoverCode,
-				  verifyCode,
-				}: AuthRecoverDto & {
-	recoverCode?: string;
-	verifyCode?: string;
-  }): Promise<{ redirect: string }> {
-	const user = username
-	  ? await this.repoUser.findOne(
-		isEmail(username) ? { email: username } : { username },
-	  )
-	  : null;
-	if (!user && !(recoverCode && verifyCode)) {
-	  return { redirect: `${process.env.FRONTEND_URL}/error?code=recover` };
-	}
-	const recoverExistRequest = (
-	  user ? md5(`${user.id}:email:recover`) : recoverCode
-	) as string;
-	const recoverExist = await this.redisClient.get(recoverExistRequest);
-	if (user && recoverExist) {
-	  return { redirect: `${process.env.FRONTEND_URL}/error?code=recover` };
-	}
-	if (!recoverExist && user) {
-	  const recoverExistRequestVerify = md5(
-		`${user.id}:email:recover:${randomStringGenerator()}`,
-	  );
-	  await this.redisClient.set(
-		recoverExistRequest,
-		JSON.stringify({
-		  user: user,
-		  recoverExistRequestVerify,
-		}),
-		"PX",
-		24 * 60 * 60 * 1000,
-	  );
-	  try {
-		console.log("smtp");
-		//language by user
-		/!*this.smtp
-		  .sendEmail('recover-by-email',{
-			appeal:`${user.firstName||user.username||''}`,
-			email:user.email,
-			recoverExistRequest,
-			recoverExistRequestVerify
-		  })
-		  .then();*!/
-	  } catch (e) {
-		console.error(e.message);
-	  }
-	} else if (recoverExist && verifyCode) {
-	  const { user, recoverExistRequestVerify } = JSON.parse(recoverExist);
-	  if (verifyCode === recoverExistRequestVerify) {
-		/!*if(this.request.session.user&&this.request.session.user.id!==user.id){
-		  return {redirect:`${process.env.FRONTEND_URL}/error?code=recover`};
-		}*!/
-		this.request.session.user = user;
-		await this.redisClient.del(recoverExistRequest);
-		return {
-		  redirect: `${process.env.FRONTEND_URL}/user/restorePassword`,
-		};
-	  }
-	  return { redirect: `${process.env.FRONTEND_URL}/error?code=recover` };
-	}
-	return { redirect: `${process.env.FRONTEND_URL}/error?code=recover` };
-  }*/
-
-	// private async createUserByEmail(args): Promise<UserEntity & { id?: string; _id?: Types.ObjectId }> {
-
-	//   try {
-	//     // return await this.repoUser.create(args);
-
-	//     const user = await this.repoUser.create(args);
-
-	//     return user;
-
-	//   } catch (e) {
-	//     console.error(e.message);
-	//     switch (e.code) {
-	//       case 11000: {
-	//         if ('email' in e.keyValue) throw new HttpException({
-	//           statusCode: HttpStatus.BAD_REQUEST,
-	//           messages: [{
-	//             property: 'email',
-	//             messages: [HttpStatusMessages.EMAIL_ALREADY_EXIST]
-	//           }]
-	//         }, HttpStatus.BAD_REQUEST);
-	//         /*if ('username' in e.keyValue) throw new HttpException({
-	//           statusCode: HttpStatus.BAD_REQUEST,
-	//           messages: [{
-	//             property: 'username',
-	//             messages: [HttpStatusMessages.USERNAME_ALREADY_EXIST]
-	//           }]
-	//         }, HttpStatus.BAD_REQUEST);*/
-	//         break;
-	//       }
-	//     }
-	//     throw new Error('Internal server error');
-	//   }
-	// }
-
-	private async createUserByEmail(args): Promise<any> {
+	private async createUserByEmail(
+		args: Partial<UserEntity>,
+	): Promise<UserEntity> {
 		try {
 			const user = this.em.create<UserEntity>(UserEntity, args);
 			await this.em.persistAndFlush(user);
@@ -262,7 +141,7 @@ export class AuthService {
 		}
 	}
 
-	private async getUserByEmailOrUsername(login: string): Promise<any> {
+	private async getUserByEmailOrUsername(login: string): Promise<UserEntity> {
 		const criteria: { [k: string]: unknown } = {};
 		if (isEmail(login)) {
 			criteria.email = login;
@@ -308,63 +187,4 @@ export class AuthService {
 		}
 		return true;
 	}
-	/*
-
-  async activateAccount(link: string) {
-	const user = await this.repoUser.findOne({ activationLink: link });
-
-	if (!user) {
-	  throw new NotFoundException(
-		"Activation link is invalid or user not found.",
-	  );
-	}
-
-	user.emailVerified = true;
-
-	await user.save();
-  }
-*/
-	/*
-  async requestPasswordReset(email: string) {
-	const user = await this.repoUser.findOne({ email });
-	if (!user) throw new Error("User not found");
-
-	const token = randomBytes(32).toString("hex");
-	const tokenHash = await bcrypt.hash(token, 10);
-	const expiration = new Date();
-	expiration.setHours(expiration.getHours() + 1);
-
-	user.resetToken = tokenHash;
-	user.resetTokenExpires = expiration;
-	await user.save();
-
-	const resetLink = `${process.env.FRONTEND_URL}/auth/new-password?token=${token}&email=${email}`;
-	await this.sendResetPasswordEmail(email, resetLink);
-  }*/
-	/*
-  async resetPassword(
-	token: string,
-	email: string,
-	newPassword: string,
-  ): Promise<void> {
-	const user = await this.repoUser.findOne({ email });
-	if (!user || !user.resetToken || !user.resetTokenExpires) {
-	  throw new Error("Invalid or expired reset token");
-	}
-
-	if (user.resetTokenExpires < new Date()) {
-	  throw new Error("Invalid or expired reset token");
-	}
-
-	const isTokenValid = await bcrypt.compare(token, user.resetToken);
-	if (!isTokenValid || user.resetTokenExpires < new Date()) {
-	  throw new Error("Invalid or expired reset token");
-	}
-
-	const hashedPassword = await bcrypt.hash(newPassword, BCRYPT_SALT_ROUNDS);
-	user.password = hashedPassword;
-	user.resetToken = undefined;
-	user.resetTokenExpires = undefined;
-	await user.save();
-  }*/
 }

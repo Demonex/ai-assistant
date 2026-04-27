@@ -1,21 +1,21 @@
 import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
-import { type VariantProps, cva } from "class-variance-authority";
-import { PanelLeft } from "lucide-react";
 
-import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { Sheet, SheetContent } from "@/components/ui/sheet";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Slot } from "@radix-ui/react-slot";
+import { Button } from "@repo/web/components/ui/button.js";
+import { Input } from "@repo/web/components/ui/input.js";
+import { Separator } from "@repo/web/components/ui/separator.js";
+import { Sheet, SheetContent } from "@repo/web/components/ui/sheet.js";
+import { Skeleton } from "@repo/web/components/ui/skeleton.js";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@repo/web/components/ui/tooltip.js";
+import { useIsMobile } from "@repo/web/hooks/use-mobile.js";
+import { cn } from "@repo/web/lib/utils.js";
+import { type VariantProps, cva } from "class-variance-authority";
+import { PanelLeft } from "lucide-react";
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -89,9 +89,11 @@ const SidebarProvider = React.forwardRef<
 
 		// Helper to toggle the sidebar.
 		const toggleSidebar = React.useCallback(() => {
-			return isMobile
-				? setOpenMobile((open) => !open)
-				: setOpen((open) => !open);
+			if (isMobile) {
+				setOpenMobile((open) => !open);
+			} else {
+				setOpen((open) => !open);
+			}
 		}, [isMobile, setOpen, setOpenMobile]);
 
 		// Adds a keyboard shortcut to toggle the sidebar.
@@ -107,7 +109,9 @@ const SidebarProvider = React.forwardRef<
 			};
 
 			window.addEventListener("keydown", handleKeyDown);
-			return () => window.removeEventListener("keydown", handleKeyDown);
+			return () => {
+				window.removeEventListener("keydown", handleKeyDown);
+			};
 		}, [toggleSidebar]);
 
 		// We add a state so that we can do data-state="expanded" or "collapsed".
@@ -147,7 +151,7 @@ const SidebarProvider = React.forwardRef<
 							} as React.CSSProperties
 						}
 						className={cn(
-							"group/sidebar-wrapper flex min-h-svh w-full has-[[data-variant=inset]]:bg-sidebar",
+							"group/sidebar-wrapper flex w-full has-[[data-variant=inset]]:bg-sidebar",
 							className,
 						)}
 						ref={ref}
@@ -187,7 +191,7 @@ const Sidebar = React.forwardRef<
 			return (
 				<div
 					className={cn(
-						"flex h-full w-[--sidebar-width] flex-col bg-sidebar text-sidebar-foreground",
+						"flex h-full w-[--sidebar-width] flex-col bg-sidebar text-sidebar-foreground tailwind-container",
 						className,
 					)}
 					ref={ref}
@@ -328,7 +332,7 @@ const SidebarInset = React.forwardRef<
 		<main
 			ref={ref}
 			className={cn(
-				"relative flex min-h-svh flex-1 flex-col bg-background",
+				"relative flex flex-1 flex-col bg-background",
 				"peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow",
 				className,
 			)}
@@ -364,7 +368,7 @@ const SidebarHeader = React.forwardRef<
 		<div
 			ref={ref}
 			data-sidebar="header"
-			className={cn("flex flex-col gap-2 p-2", className)}
+			className={cn("flex flex-col gap-2 p-2 bg-[#fbfbfb]", className)}
 			{...props}
 		/>
 	);
@@ -379,7 +383,7 @@ const SidebarFooter = React.forwardRef<
 		<div
 			ref={ref}
 			data-sidebar="footer"
-			className={cn("flex flex-col gap-2 p-2", className)}
+			className={cn("flex flex-col gap-2 p-2 bg-[#fbfbfb]", className)}
 			{...props}
 		/>
 	);
@@ -410,7 +414,7 @@ const SidebarContent = React.forwardRef<
 			ref={ref}
 			data-sidebar="content"
 			className={cn(
-				"flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
+				"flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden bg-[#fbfbfb]",
 				className,
 			)}
 			{...props}

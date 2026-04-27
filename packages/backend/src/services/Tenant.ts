@@ -1,13 +1,14 @@
-import { EntityManager, PopulateHint } from "@mikro-orm/core";
+import { Injectable } from "@nestjs/common";
+
+import { EntityManager } from "@mikro-orm/core";
 import { TenantEntity } from "../entities/Tenant/index.js";
-import { Injectable, Scope } from "@nestjs/common";
 
 @Injectable()
 export class TenantService {
 	constructor(private readonly em: EntityManager) {}
 
-	async tenants(id?: number) {
-		const tenants = await this.em.findAll<TenantEntity>(TenantEntity);
+	async getTenants() {
+		const tenants = await this.em.find<TenantEntity>(TenantEntity, {});
 		return tenants;
 	}
 }

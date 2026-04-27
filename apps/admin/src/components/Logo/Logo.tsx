@@ -1,4 +1,5 @@
 import React, { memo } from "react";
+
 import "./index.scss";
 
 const Logo = memo(({ width, height }: { width: number; height: number }) => {

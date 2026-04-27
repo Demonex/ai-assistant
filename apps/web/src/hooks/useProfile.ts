@@ -1,86 +1,59 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useFetch, createMonoHook, useLazyFetch } from "use-mono-hook";
+import { getProfile, signIn, signOut } from "@/api/profile.js";
+import { ApiError, Profile, SignInData } from "@/types/types.js";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-const _useProfile = () => {
+export const useProfile = () => {
+	const queryClient = useQueryClient();
+
+	// profile
 	const {
-		data,
+		data: dataProfile,
+		isLoading: isLoadingProfile,
 		error: errorProfile,
-		loading,
-	} = useFetch({
-		url: `${import.meta.env.VITE_BACKEND_URL}/profile`,
-		cache: false,
+		isFetching: isFetchingProfile,
+		refetch: refetchProfile,
+	} = useQuery<ResponseType, ApiError, Profile>({
+		retry: false,
+		queryKey: ["profile"],
+		staleTime: 5 * 60 * 1000,
+		queryFn: getProfile,
 	});
 
-	const [
-		{ data: dataSignIn, error: errorSignIn, loading: loadingSignIn },
-		fetchSignIn,
-	] = useLazyFetch({
-		url: `${import.meta.env.VITE_BACKEND_URL}/auth/email/sign-in`,
-		method: "post",
-		cache: false,
-	});
-
-	const [
-		{ data: dataSignOut, error: errorSignOut, loading: loadingSignOut },
-		fetchSignOut,
-	] = useLazyFetch({
-		url: `${import.meta.env.VITE_BACKEND_URL}/auth/sign-out`,
-		method: "post",
-		cache: false,
-	});
-
-	const [profile, setProfile] = useState(null);
-
-	const isAuthorized = useMemo(() => !!profile, [profile]);
-
-	useEffect(() => {
-		if (!data) {
-			return;
-		}
-		setProfile(data);
-		// setProfile({ id: "ads", email: "bla@bla.ru" });
-	}, [data]);
-
-	useEffect(() => {
-		if (!dataSignIn) {
-			return;
-		}
-		setProfile(dataSignIn);
-	}, [dataSignIn]);
-
-	const handleSignOut = useCallback(async () => {
-		await fetchSignOut({
-			url: `${import.meta.env.VITE_BACKEND_URL}/auth/sign-out`,
-			data: data,
-		});
-		setProfile(null);
-	}, []);
-
-	const handleSignIn = useCallback(
-		async (data: { email: string; password: string }) => {
-			await fetchSignIn({ data });
+	// sign-in
+	const {
+		error: errorSignIn,
+		mutate: handleSignIn,
+		isPending: pendingSignIn,
+	} = useMutation<ResponseType, ApiError, SignInData>({
+		mutationFn: signIn,
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["profile"] });
 		},
-		[],
-	);
-
-	console.log({
-		isAuthorized,
-		profile,
-		handleSignOut,
-		handleSignIn,
-		loading,
 	});
+
+	// sign-out
+	const { mutate: handleSignOut, error: errorSignOut } = useMutation<
+		ResponseType,
+		ApiError,
+		void
+	>({
+		mutationFn: signOut,
+		onSuccess: () => {
+			queryClient.removeQueries({ queryKey: ["profile"] });
+			queryClient.invalidateQueries({ queryKey: ["profile"] });
+		},
+	});
+
 	return {
-		isAuthorized,
-		profile,
-		handleSignOut,
-		handleSignIn,
-		errorSignIn,
-		errorSignOut,
+		dataProfile,
+		isLoadingProfile,
+		isFetchingProfile,
 		errorProfile,
-		loading,
+		refetchProfile,
+		handleSignIn,
+		pendingSignIn,
+		errorSignIn,
+		handleSignOut,
+		errorSignOut,
 	};
 };
-
-export const useProfile =
-	createMonoHook<typeof _useProfile>(_useProfile).useHook;

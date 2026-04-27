@@ -1,4 +1,4 @@
-FROM gitlab.sigma-it.ru:4567/mkuznetsov/sigmachat/node:22.14.0 as base
+FROM docker-group.sigma-it.ru/node:22.14.0 as base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -11,12 +11,15 @@ COPY . .
 RUN turbo prune @repo/admin --docker
 
 FROM base AS installer
+
+ARG NODE_ENV=production
+
 WORKDIR /app
 COPY --from=builder /app/out/json/ .
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --ignore-scripts
 
 COPY --from=builder /app/out/full/ .
-
+ENV NODE_ENV=$NODE_ENV
 RUN pnpm run build:admin
 
 FROM base AS runner

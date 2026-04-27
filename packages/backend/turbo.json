@@ -1,14 +1,9 @@
 {
-	"extends": [
-		"//"
-	],
+	"extends": ["//"],
 	"tasks": {
 		"build": {
-			"dependsOn": [
-			],
-			"outputs": [
-				"dist/**"
-			]
+			"dependsOn": [],
+			"outputs": ["dist/**"]
 		},
 		"dev": {
 			"cache": false,

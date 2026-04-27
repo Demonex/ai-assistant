@@ -16,8 +16,8 @@ export class DocEntity {
 	@Property()
 	filename: string;
 
-	@Property()
-	vectorFilePath: string;
+	@Property({ name: "file_uuid" })
+	fileUuid: string;
 
 	@Property()
 	filesize: number;

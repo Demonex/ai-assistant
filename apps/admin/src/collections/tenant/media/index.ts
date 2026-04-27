@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+
 import defaultAccess from "@/utilities/defaultAccess";
 
 const tenantMediaAccess = {
@@ -7,6 +8,10 @@ const tenantMediaAccess = {
 
 export const tenantMedia: CollectionConfig = {
 	slug: "tenant-media",
+	labels: {
+		singular: "Тенант-медиа",
+		plural: "Тенант-медиа",
+	},
 	hooks: {
 		beforeRead: [
 			({ doc, req }) => {

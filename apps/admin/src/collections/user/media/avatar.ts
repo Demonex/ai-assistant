@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+
 import defaultAccess from "@/utilities/defaultAccess";
 
 const userMediaAccess = {
@@ -7,6 +8,10 @@ const userMediaAccess = {
 
 export const userMediaAvatar: CollectionConfig = {
 	slug: "user-media-avatar",
+	labels: {
+		singular: "Пользователь-медиа",
+		plural: "Пользователи-медиа",
+	},
 	hooks: {
 		beforeRead: [
 			({ doc, req }) => {

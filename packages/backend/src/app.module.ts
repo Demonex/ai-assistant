@@ -11,17 +11,20 @@ import { ScheduleModule } from "@nestjs/schedule";
 import { MikroOrmModule } from "@mikro-orm/nestjs";
 import { PostgreSqlDriver } from "@mikro-orm/postgresql";
 import { UserEntity } from "@repo/backend/entities/User/index.js";
-import { TenantEntity } from "./entities/Tenant/index.js";
-import { ChatMessageEntity } from "./entities/Chat/index.js";
-import { CollectionEntity } from "./entities/Collection/index.js";
-import { DocEntity } from "./entities/Doc/index.js";
-import { ProviderEntity } from "./entities/Provider/index.js";
-import { CollectionProvidersEntity } from "./entities/Collection/collection-providers.js";
-import { GroupEntity } from "./entities/Group/index.js";
-import { GroupUsersEntity } from "./entities/Group/group-users.js";
-import { GroupPermissionsEntity } from "./entities/Group/group-group-permissions.js";
-import { GroupCollectionPermissionsEntity } from "./entities/Group/group-collection-permissions.js";
+import { TenantEntity } from "@repo/backend/entities/Tenant/index.js";
+import { ChatMessageEntity } from "@repo/backend/entities/Chat/index.js";
+import { CollectionEntity } from "@repo/backend/entities/Collection/index.js";
+import { DocEntity } from "@repo/backend/entities/Doc/index.js";
+import { ProviderEntity } from "@repo/backend/entities/Provider/index.js";
+import { CollectionProvidersEntity } from "@repo/backend/entities/Collection/collection-providers.js";
+import { GroupEntity } from "@repo/backend/entities/Group/index.js";
+import { WikiJsDocEntity } from "@repo/backend/entities/Wiki/index.js";
+import { GroupUsersEntity } from "@repo/backend/entities/Group/group-users.js";
+import { GroupPermissionsEntity } from "@repo/backend/entities/Group/group-group-permissions.js";
+import { GroupCollectionPermissionsEntity } from "@repo/backend/entities/Group/group-collection-permissions.js";
 import "dotenv/config";
+import { NeuroEntity } from "@repo/backend/entities/Neuro/index.js";
+import { ModelEntity } from "@repo/backend/entities/Model/index.js";
 
 @Module({
 	imports: [
@@ -36,8 +39,11 @@ import "dotenv/config";
 				CollectionProvidersEntity,
 				GroupEntity,
 				GroupUsersEntity,
+				NeuroEntity,
+				ModelEntity,
 				GroupPermissionsEntity,
 				GroupCollectionPermissionsEntity,
+				WikiJsDocEntity,
 			],
 			driver: PostgreSqlDriver,
 			dbName: process.env.DATABASE_NAME,
@@ -62,7 +68,7 @@ export class AppModule implements NestModule, OnApplicationShutdown {
 		}
 	}
 
-	configure(_consumer: MiddlewareConsumer): any {
+	configure(_consumer: MiddlewareConsumer) {
 		//
 	}
 }

@@ -1,17 +1,47 @@
-// "use client";
+"use client";
 
-// import { useEffect } from "react";
+import { ReactNode } from "react";
 
-// export const RootChange = async () => {
-// 	useEffect(() => {
-// 		const _self: any = window.fetch;
-// 		(window as any).fetch = (...args) => {
-// 			const [_, arg] = args;
-// 			if ("headers" in arg) {
-// 				arg.headers["x-tenant"] = localStorage.getItem("tenant");
-// 			}
-// 			return _self(...args);
-// 		};
-// 	});
-// 	return <p>123</p>;
-// };
+// import { WebMonoHooksStore } from "@repo/web/components/App.js";
+import { AppSidebar } from "@repo/web/components/app-sidebar.js";
+import { Breadcrumb } from "@repo/web/components/ui/breadcrumb.js";
+import { Separator } from "@repo/web/components/ui/separator.js";
+import {
+	SidebarInset,
+	SidebarProvider,
+	SidebarTrigger,
+} from "@repo/web/components/ui/sidebar.js";
+
+type WebWrapperProps = {
+	children: ReactNode;
+};
+
+export const WebWrapper = ({ children }: WebWrapperProps) => {
+	return (
+		<>
+			<SidebarProvider
+				style={
+					{
+						"--sidebar-width": "40px",
+						"max-height": "100%",
+					} as React.CSSProperties
+				}
+			>
+				<AppSidebar />
+
+				<SidebarInset>
+					<div className="tailwind-container">
+						<header className="sticky top-0 flex shrink-0 items-center gap-2 border-b bg-[#fbfbfb] p-4">
+							<SidebarTrigger className="-ml-1" />
+							<Separator orientation="vertical" className="mr-2 h-4" />
+							<Breadcrumb></Breadcrumb>
+						</header>
+					</div>
+
+					<div className="test-ui">{children}</div>
+				</SidebarInset>
+			</SidebarProvider>
+			{/* <WebMonoHooksStore /> */}
+		</>
+	);
+};

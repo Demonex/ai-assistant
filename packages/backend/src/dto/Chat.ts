@@ -1,29 +1,20 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDateString, IsObject, IsOptional, IsString } from "class-validator";
+import { IsString } from "class-validator";
+import type { UploadedFile } from "../types/Chat.js";
 
 export class ChatMessageDto {
 	@IsString()
 	@ApiProperty()
 	readonly raw: string;
-
-	// @IsObject()
-	// @IsOptional()
-	// @ApiProperty()
-	// readonly response: {
-	// 	[key: string]: unknown;
-	// };
-
-	@IsDateString()
-	@IsOptional()
-	@ApiProperty()
-	readonly created_at: string;
 }
 
 export class ChatUploadMediaDto {
 	@ApiProperty({
-		type: "file",
-		format: "binary",
-		isArray: true,
+		type: "array",
+		items: {
+			type: "file",
+			format: "binary",
+		},
 	})
-	media: any[];
+	media: UploadedFile[];
 }

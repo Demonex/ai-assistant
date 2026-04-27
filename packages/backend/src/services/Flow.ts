@@ -1,102 +1,69 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import FormData from "form-data";
 import got from "got";
-import { PassThrough } from "node:stream";
+import type { UploadedFile } from "../types/Chat.js";
+import type { Flow, FlowResponse, Folder, Fragment } from "../types/Flow.js";
+import { logErrors } from "../utils/index.js";
 
 @Injectable()
 export class LangFlowService {
-	private endpoint = process.env.LANGFLOW_URL || "http://10.199.20.10:7862";
-	private langflowApiKey =
-		process.env.LANGFLOW_API_KEY ||
-		"sk-T25yuKcW57Yr3_oehpknZhiFURVlwmSgiiC4RKsy8Ww";
-	private authorization =
-		"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlZWU3ZGU1OS1hZWZhLTQzNGItYjhiMy03YTkxMWFlZjJkODciLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY5NjA1NTM1fQ.JvS26u_1-R4NWieeKGWshIaNFfFaxA8CNxcdt3GhMYM";
-	// private authorization =
-	// 	"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxZmQ0ZTkwNS1kODc1LTQwZjEtODdmNS0xM2NiYWRlNjY4M2YiLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY4NTU0MzM5fQ.hdWCV_FBjKPvbqBL6HB1IKrVbq1y2wtI0hVvKuDEAmQ";
+	private endpoint = process.env.LANGFLOW_URL;
+	private langflowApiKey = process.env.LANGFLOW_API_KEY;
 
 	async uploadFile({
 		flowId,
 		media,
-		stream,
-		name,
-	}: { flowId?; media?; stream?; name? }) {
-		if (media) {
+	}: {
+		flowId: Flow["id"];
+		filename: string;
+		media?: UploadedFile;
+	}) {
+		try {
 			const form = new FormData();
 			form.append("file", media.buffer, media.originalname);
 
-			const res = got.post<{ flowId: string; file_path: string }>(
+			return got.post<{ flowId: string; file_path: string }>(
 				`${this.endpoint}/api/v1/files/upload/${flowId}`,
 				{
 					method: "POST",
 					body: form,
 					headers: {
 						"x-api-key": this.langflowApiKey,
-						// "x-api-key": "sk-nJL5Mhq1M0_5_Y-pVCAZwQFtU6aM7fu5UbkOiBPW5ec",
 					},
 					responseType: "json",
 					resolveBodyOnly: true,
 				},
 			);
-			console.log("res", res);
-			return res;
-		}
+		} catch (error) {
+			logErrors(error);
 
-		if (stream) {
-			const formData = new FormData();
-			const bufs = [];
-
-			await new Promise((resolve, reject) => {
-				stream.on("data", (d) => {
-					bufs.push(d);
-				});
-				stream.on("end", async () => {
-					formData.append("file", Buffer.concat(bufs), {
-						filename: name,
-						contentType: "application/pdf",
-					});
-					resolve(true);
-				});
-			});
-
-			try {
-				return await got.post(
-					`${this.endpoint}/api/v1/files/upload/${flowId}`,
-					{
-						body: formData,
-						headers: {
-							"x-api-key": this.langflowApiKey,
-							...formData.getHeaders(),
-						},
-						responseType: "json",
-						resolveBodyOnly: true,
-					},
-				);
-			} catch (error) {
-				console.error("Request failed1:", error.message);
-				console.error("Status code1:", error.response?.statusCode);
-				console.error("Response body1:", error.response?.body);
-				console.error("Headers1:", error.response?.headers);
-			}
+			throw new HttpException(
+				"Upload Pipeline Failed",
+				HttpStatus.INTERNAL_SERVER_ERROR,
+			);
 		}
 	}
 
 	async runFlow({
 		flowId,
 		payload,
-		method = "RETRIEVE",
+		action = "RETRIEVE",
 	}: {
 		flowId: string;
 		payload?: { [key: string]: unknown };
-		method?: "RETRIEVE" | "UPLOAD";
-	}): Promise<{ message?: string; fragments?: any[]; created_at?: Date }> {
-		const langflowResponse: any = await got.post(
-			`${this.endpoint}/api/v1/run/${flowId}?stream=false`,
-			{
-				method: "POST",
+		action?: "RETRIEVE" | "UPLOAD";
+	}): Promise<FlowResponse> {
+		try {
+			const langflowResponse = await got.post<{
+				outputs: Array<{
+					outputs: Array<{
+						results: { message: { text: string }; output: Fragment[] };
+					}>;
+				}>;
+			}>(`${this.endpoint}/api/v1/run/${flowId}?stream=false`, {
 				headers: {
 					"Content-Type": "application/json",
 					"x-api-key": this.langflowApiKey,
-					// "x-api-key": "sk-nJL5Mhq1M0_5_Y-pVCAZwQFtU6aM7fu5UbkOiBPW5ec",
 				},
 				json: {
 					input_value: payload.message,
@@ -106,69 +73,105 @@ export class LangFlowService {
 				},
 				responseType: "json",
 				resolveBodyOnly: true,
-			},
-		);
+			});
 
-		if (method === "UPLOAD") {
-			return;
+			if (action === "UPLOAD") {
+				return;
+			}
+
+			const results = langflowResponse.outputs[0].outputs[0].results;
+
+			const response: FlowResponse = {
+				message: results.message.text,
+				fragments: results.output,
+				created_at: new Date(),
+			};
+
+			return response;
+		} catch (error) {
+			logErrors(error);
+
+			throw new HttpException(
+				"Run Pipeline Failed",
+				HttpStatus.INTERNAL_SERVER_ERROR,
+			);
 		}
-
-		const results = langflowResponse.outputs[0].outputs[0].results;
-
-		const response = {
-			message: results.message.text,
-			fragments: results.output,
-			created_at: new Date(),
-		};
-
-		return response;
 	}
 
-	async getFlow({ filter } = { filter: "UPLOAD" }) {
-		const { id: layoutFolderId } = (
-			await got.get<any[]>(`${this.endpoint}/api/v1/folders/`, {
+	async getFlow({
+		action = "UPLOAD",
+	}: { action?: "UPLOAD" | "RETRIEVE" } = {}) {
+		try {
+			const { id: folderId } = (
+				await got.get<Folder[]>(`${this.endpoint}/api/v1/folders/`, {
+					headers: {
+						"x-api-key": this.langflowApiKey,
+					},
+					responseType: "json",
+					resolveBodyOnly: true,
+				})
+			).find((folder) => folder.name === "LAYOUTS");
+
+			const flow = (
+				await got.get<Flow[]>(`${this.endpoint}/api/v1/flows/`, {
+					headers: {
+						"x-api-key": this.langflowApiKey,
+					},
+					responseType: "json",
+					resolveBodyOnly: true,
+				})
+			).find((flow) => flow.folder_id === folderId && flow.name === action);
+
+			return flow;
+		} catch (error) {
+			logErrors(error);
+
+			throw new HttpException(
+				"Get Pipeline Failed",
+				HttpStatus.INTERNAL_SERVER_ERROR,
+			);
+		}
+	}
+
+	async copyFlow(flow: Flow) {
+		try {
+			const newFlow = await got.post<Flow>(`${this.endpoint}/api/v1/flows/`, {
+				json: {
+					name: `${Date.now().toString()}-${flow.name}`,
+					data: flow.data,
+				},
 				headers: {
 					"x-api-key": this.langflowApiKey,
 				},
 				responseType: "json",
 				resolveBodyOnly: true,
-			})
-		).find((folder) => folder.name === "LAYOUTS");
+			});
 
-		const flow = (
-			await got.get<any[]>(`${this.endpoint}/api/v1/flows/`, {
+			return newFlow;
+		} catch (error) {
+			logErrors(error);
+
+			throw new HttpException(
+				"Copy Pipeline Failed",
+				HttpStatus.INTERNAL_SERVER_ERROR,
+			);
+		}
+	}
+
+	async deleteFlow(flow: Flow) {
+		try {
+			await got.delete(`${this.endpoint}/api/v1/flows/${flow.id}`, {
 				headers: {
 					"x-api-key": this.langflowApiKey,
 				},
-				responseType: "json",
-				resolveBodyOnly: true,
-			})
-		).find((flow) => flow.folder_id === layoutFolderId && flow.name === filter);
+			});
+		} catch (error) {
+			logErrors(error);
 
-		return flow;
-	}
-
-	async createFlow({ flow }) {
-		const newFlow = await got.post(`${this.endpoint}/api/v1/flows/`, {
-			json: {
-				name: `${Date.now().toString()}-${flow.name}`,
-				data: flow.data,
-			},
-			headers: {
-				"x-api-key": this.langflowApiKey,
-			},
-			responseType: "json",
-			resolveBodyOnly: true,
-		});
-
-		return newFlow as any;
-	}
-
-	async deleteFlow({ flow }) {
-		await got.delete(`${this.endpoint}/api/v1/flows/${flow.id}`, {
-			headers: {
-				"x-api-key": this.langflowApiKey,
-			},
-		});
+			throw new HttpException(
+				"Delete Pipeline Failed",
+				HttpStatus.INTERNAL_SERVER_ERROR,
+			);
+		}
 	}
 }

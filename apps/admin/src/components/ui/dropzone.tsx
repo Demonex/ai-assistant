@@ -1,11 +1,12 @@
 "use client";
 
 import * as React from "react";
+
 import { Primitive } from "@radix-ui/react-primitive";
 import { Ban, CheckCircle2, Upload } from "lucide-react";
 
-import { cn } from "@/utilities/cn";
 import * as DropzonePrimitive from "@/components/ui/dropzone-primitive";
+import { cn } from "@/utilities/cn";
 
 export const Dropzone = DropzonePrimitive.Dropzone;
 

@@ -1,35 +1,14 @@
-import { parsePhoneNumber } from "awesome-phonenumber";
 import { isEmail } from "class-validator";
 
-export function promiseMap(inputValues, mapper) {
-	const reducer = (acc$, inputValue) =>
+export function promiseMap<T, V>(
+	inputValues: V[],
+	mapper: (arg: V) => Promise<T>,
+): Promise<T[]> {
+	const reducer = (acc$: Promise<T[]>, inputValue: V) =>
 		acc$.then((acc) =>
 			mapper(inputValue).then((result) => acc.push(result) && acc),
 		);
 	return inputValues.reduce(reducer, Promise.resolve([]));
-}
-
-export function getPhone(str?: string | unknown): string | null {
-	let phone: string | null = null;
-	if (typeof str !== "string" || !str) {
-		return phone;
-	}
-	let phoneDigits = String(str).trim().replace(/\D/g, "");
-	if (/^89\d{9}/g.test(phoneDigits)) {
-		phoneDigits = `7${phoneDigits.substr(1)}`;
-	}
-	if (/^9\d{8}/g.test(phoneDigits)) {
-		phoneDigits = `7${phoneDigits}`;
-	}
-	try {
-		const number = parsePhoneNumber(`+${phoneDigits}`);
-		if (number.possible) {
-			phone = number.number.e164;
-		}
-	} catch (e) {
-		return null;
-	}
-	return phone ? phone.trim().toLowerCase() : phone;
 }
 
 export function getEmail(email?: string | unknown): string | null {
@@ -37,4 +16,40 @@ export function getEmail(email?: string | unknown): string | null {
 		return null;
 	}
 	return email.trim().toLowerCase();
+}
+
+export function logErrors(error: {
+	message: string;
+	response: {
+		statusCode?: number;
+		body?: unknown;
+		headers?: unknown;
+	};
+}) {
+	console.error("Request failed:", error.message);
+	console.error("Status code:", error.response?.statusCode);
+	console.error("Response body:", error.response?.body);
+	console.error("Headers:", error.response?.headers);
+
+	console.error(error);
+}
+
+export function parsePeriod(period: string): number {
+	const match = /^(\d+)([smhd])$/.exec(period.trim());
+
+	if (!match) {
+		throw new Error("Invalid update_period format. Use like '5m', '2h', '1d'");
+	}
+
+	const value = parseInt(match[1], 10);
+	const unit = match[2];
+
+	const unitToMs = {
+		s: 1000,
+		m: 1000 * 60,
+		h: 1000 * 60 * 60,
+		d: 1000 * 60 * 60 * 24,
+	};
+
+	return value * unitToMs[unit];
 }

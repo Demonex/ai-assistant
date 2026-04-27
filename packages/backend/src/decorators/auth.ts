@@ -1,7 +1,9 @@
 import { UseGuards } from "@nestjs/common";
 import {
+	ApiKeyGuard,
 	AuthorizedGuard,
 	UnAuthorizedGuard,
+	UserEmailGuard,
 } from "@repo/backend/middlewares/auth.guard.js";
 
 export function Unauthorized() {
@@ -10,4 +12,12 @@ export function Unauthorized() {
 
 export function Authorized() {
 	return UseGuards(AuthorizedGuard);
+}
+
+export function ApiKey() {
+	return UseGuards(ApiKeyGuard);
+}
+
+export function UserEmailKey() {
+	return UseGuards(UserEmailGuard);
 }

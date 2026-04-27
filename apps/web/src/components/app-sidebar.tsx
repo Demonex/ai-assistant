@@ -1,9 +1,6 @@
-import { type ComponentProps, useState, useEffect } from "react";
-import { Command, MessageCircleMore, UserRoundCog } from "lucide-react";
+import { useLocation } from "react-router";
 
-import { useProfile } from "@/hooks/useProfile.js";
-
-import { NavUser } from "@/components/nav-user.js";
+import { NavUser } from "@repo/web/components/nav-user.js";
 import {
 	Sidebar,
 	SidebarContent,
@@ -14,62 +11,108 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-	useSidebar,
-} from "@/components/ui/sidebar.js";
+} from "@repo/web/components/ui/sidebar.js";
+import {
+	Atom,
+	Boxes,
+	Command,
+	File,
+	FileBox,
+	FileDiff,
+	FileVolume,
+	LayoutGrid,
+	Mails,
+	MessageCircleMore,
+	Network,
+	User,
+	UserRoundCog,
+	Users,
+} from "lucide-react";
 
-interface AppSidebarProps extends ComponentProps<typeof Sidebar> {
-	handleAdmin?: (value: boolean) => void;
-}
+import { useProfile } from "@/hooks/useProfile.js";
 
-export function AppSidebar({ handleAdmin, ...props }: AppSidebarProps) {
-	// Note: I'm using state to show active item.
-	// IRL you should use the url/router.
-	const [nav, setNav] = useState([
+import { SidebarItem } from "./SidebarItem.js";
+
+export function AppSidebar() {
+	const { pathname } = useLocation();
+
+	const { dataProfile } = useProfile();
+
+	console.log(dataProfile.superadmin);
+
+	const navigateList = [
 		{
-			id: Date.now(),
-			title: "Чаты",
-			icon: MessageCircleMore,
-			isActive: true,
-			isAdmin: false,
+			name: "Чаты",
+			path: "/chat",
+			icon: <MessageCircleMore />,
 		},
-	]);
-	const { setOpen } = useSidebar();
-	const { profile } = useProfile();
+		{
+			name: "Сравнение документов",
+			path: "/doc-comparison",
+			icon: <FileDiff />,
+		},
+		{
+			name: "Транскрибация",
+			path: "/transcription",
+			icon: <FileVolume />,
+		},
+		{
+			name: "Админ панель",
+			path: "/admin",
+			icon: <UserRoundCog />,
+		},
+	];
 
-	const toggleMenuItem = (item) => {
-		setNav((prev) =>
-			prev.map((el) => ({ ...el, isActive: el.id === item.id })),
-		);
-
-		if (profile.superadmin && item.isAdmin) handleAdmin(true);
-		else handleAdmin(false);
-
-		setOpen(true);
-	};
-
-	useEffect(() => {
-		setNav((prev) => {
-			if (profile.superadmin && !prev.some((item) => item.isAdmin)) {
-				return [
-					...prev,
-					{
-						id: Date.now(),
-						title: "Админ",
-						icon: UserRoundCog,
-						isActive: false,
-						isAdmin: true,
-					},
-				];
-			}
-			return prev;
-		});
-	}, [profile.superadmin]);
+	const adminList = [
+		{
+			name: "Коллекции",
+			path: "/collections",
+			icon: <Boxes />,
+		},
+		{
+			name: "Нейросервисы",
+			path: "/neuro",
+			icon: <Atom />,
+		},
+		{
+			name: "Модели",
+			path: "/models",
+			icon: <FileBox />,
+		},
+		{
+			name: "Пользователи",
+			path: "/users",
+			icon: <User />,
+		},
+		{
+			name: "Группы",
+			path: "/groups",
+			icon: <Users />,
+		},
+		{
+			name: "Тенанты",
+			path: "/tenats",
+			icon: <LayoutGrid />,
+		},
+		{
+			name: "Сообщения",
+			path: "/chat-message",
+			icon: <Mails />,
+		},
+		{
+			name: "Docs",
+			path: "/docs",
+			icon: <File />,
+		},
+		{
+			name: "Провайдеры",
+			path: "/providers",
+			icon: <Network />,
+		},
+	];
 
 	return (
 		<Sidebar>
-			{/* This is the first sidebar */}
-			{/* We disable collapsible and adjust width to icon. */}
-			{/* This will make the sidebar appear as icons. */}
 			<Sidebar
 				collapsible="none"
 				className="!w-[calc(var(--sidebar-width-icon)_+_1px)] border-r"
@@ -78,13 +121,13 @@ export function AppSidebar({ handleAdmin, ...props }: AppSidebarProps) {
 					<SidebarMenu>
 						<SidebarMenuItem>
 							<SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0">
-								<a href="#">
+								<a href="/">
 									<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
 										<Command className="size-4" />
 									</div>
 									<div className="grid flex-1 text-left text-sm leading-tight">
-										<span className="truncate font-semibold">Acme Inc</span>
-										<span className="truncate text-xs">Enterprise</span>
+										<span className="truncate font-semibold">ChatDoc</span>
+										<span className="truncate text-xs">Sigma</span>
 									</div>
 								</a>
 							</SidebarMenuButton>
@@ -96,23 +139,34 @@ export function AppSidebar({ handleAdmin, ...props }: AppSidebarProps) {
 					<SidebarGroup>
 						<SidebarGroupContent className="px-1.5 md:px-0">
 							<SidebarMenu>
-								{nav.map((item) => (
-									<SidebarMenuItem key={item.id}>
-										<SidebarMenuButton
-											tooltip={{
-												children: item.title,
-												hidden: false,
-												className: "hidden md:block",
-											}}
-											onClick={() => toggleMenuItem(item)}
-											isActive={item.isActive}
-											className="px-2.5 md:px-2"
-										>
-											<item.icon />
-											<span>{item.title}</span>
-										</SidebarMenuButton>
-									</SidebarMenuItem>
-								))}
+								{/* TODO Убрать фильтр, когда будет готова админка */}
+								{navigateList
+									.filter((item) => {
+										if (
+											!dataProfile.superadmin &&
+											item.name === "Админ панель"
+										) {
+											return false;
+										}
+										return true;
+									})
+									.map((item) => (
+										<SidebarItem
+											key={item.path}
+											item={item}
+											pathname={pathname}
+										/>
+									))}
+								<hr className="my-2 border-gray-200 dark:border-gray-700" />
+								{/* TODO Убрать проверку, когда будет готова админка */}
+								{window.location.host === "localhost:2051" &&
+									adminList.map((item) => (
+										<SidebarItem
+											key={item.path}
+											item={item}
+											pathname={pathname}
+										/>
+									))}
 							</SidebarMenu>
 						</SidebarGroupContent>
 					</SidebarGroup>

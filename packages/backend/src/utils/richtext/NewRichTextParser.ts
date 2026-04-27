@@ -1,4 +1,3 @@
-import escapeHTML from "escape-html";
 import {
 	IS_BOLD,
 	IS_CODE,
@@ -9,8 +8,9 @@ import {
 	IS_UNDERLINE,
 } from "@repo/backend/utils/richtext/RichTextNodeFormat.js";
 import type { SerializedLexicalNode } from "@repo/backend/utils/richtext/types.js";
+import escapeHTML from "escape-html";
 
-function getLinkForPage(doc) {
+function getLinkForPage(_doc) {
 	return "implement this";
 }
 
@@ -68,7 +68,6 @@ export function serialize(
 				case "linebreak":
 					return "<br>";
 				case "link": {
-					// eslint-disable-next-line no-case-declarations
 					const attributes: {
 						doc?;
 						linkType?: "custom" | "internal";

@@ -1,12 +1,13 @@
 "use client";
 
 import * as React from "react";
+
 import { FileText } from "lucide-react";
 import prettyBytes from "pretty-bytes";
 
-import { cn } from "@/utilities/cn";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { cn } from "@/utilities/cn";
 
 export const FileList = React.forwardRef<
 	React.ElementRef<"div">,

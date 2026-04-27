@@ -1,12 +1,12 @@
-import { cn } from "@/utilities/cn";
 import type React from "react";
+
+import { cn } from "@/utilities/cn";
 
 import { serializeLexical } from "./serialize";
 
 type Props = {
 	className?: string;
-	// eslint-disable-next-line
-	content: Record<string, any>;
+	content: Record<string, unknown>;
 	enableGutter?: boolean;
 	enableProse?: boolean;
 };

@@ -1,10 +1,15 @@
-import type { CollectionAfterChangeHook, CollectionConfig } from "payload";
 import { parse } from "cookie";
 import { unsign } from "cookie-signature";
 import Redis from "ioredis";
-import defaultAccess from "@/utilities/defaultAccess";
+import type { CollectionConfig } from "payload";
+
+import {
+	getEmailAccess,
+	getSuperadminAccess,
+	getUserAccess,
+} from "@/access/user";
 import { userMediaAvatar } from "@/collections/user/media/avatar";
-import { tenant } from "../tenant";
+import defaultAccess from "@/utilities/defaultAccess";
 
 const RedisSessionStore = new Redis(
 	`redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
@@ -12,11 +17,16 @@ const RedisSessionStore = new Redis(
 
 const userAccess = {
 	...defaultAccess,
+	...getUserAccess(),
 };
 
 export const user: CollectionConfig = {
 	slug: "user",
-	access: defaultAccess,
+	labels: {
+		singular: "Пользователь",
+		plural: "Пользователи",
+	},
+	access: userAccess,
 	admin: {
 		// hideAPIURL: true,
 		defaultColumns: ["name", "email", "superadmin"],
@@ -40,7 +50,7 @@ export const user: CollectionConfig = {
 					const userCache = key
 						? (JSON.parse(
 								(await RedisSessionStore.get(
-									`${process.env.REDIS_SESSION_PREFIX}:${key}`,
+									`${process.env.REDIS_SESSION_PREFIX}${key}`,
 								)) || "null",
 							)?.user ?? null)
 						: null;
@@ -60,15 +70,18 @@ export const user: CollectionConfig = {
 		{
 			name: "name",
 			type: "text",
+			label: "Имя",
 		},
 		{
 			name: "username",
 			type: "text",
+			label: "Никнейм",
 		},
 		{
 			name: "email",
 			type: "email",
 			unique: true,
+			access: getEmailAccess(),
 		},
 		// {
 		// 	name: "reset password token",
@@ -88,6 +101,7 @@ export const user: CollectionConfig = {
 		// },
 		{
 			name: "superadmin",
+			label: "Суперадмин",
 			type: "checkbox",
 			hooks: {
 				afterChange: [
@@ -108,7 +122,7 @@ export const user: CollectionConfig = {
 						const userCache = key
 							? (JSON.parse(
 									(await RedisSessionStore.get(
-										`${process.env.REDIS_SESSION_PREFIX}:${key}`,
+										`${process.env.REDIS_SESSION_PREFIX}${key}`,
 									)) || "null",
 								)?.user ?? null)
 							: null;
@@ -123,6 +137,7 @@ export const user: CollectionConfig = {
 					},
 				],
 			},
+			access: getSuperadminAccess(),
 		},
 		{
 			name: "password",
@@ -135,6 +150,7 @@ export const user: CollectionConfig = {
 			name: "avatar",
 			type: "upload",
 			relationTo: userMediaAvatar.slug as "user-media-avatar",
+			label: "Аватар",
 		},
 	],
 	timestamps: true,

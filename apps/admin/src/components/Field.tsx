@@ -1,33 +1,13 @@
 "use client";
 
-// import { Field } from "payload";
-// import { useState } from "react";
-
-// const CustomUploadField = () => {
-// 	const [file, setFile] = useState(null);
-
-// 	const handleFileChange = (event) => {
-// 		setFile(event.target.files[0]);
-// 		console.log("in upload");
-
-// 		// Handle file upload without showing a modal
-// 		// You might use an API call here to upload the file directly
-// 	};
-
-// 	return (
-// 		<div>
-// 			<input type="file" onChange={handleFileChange} multiple />
-// 		</div>
-// 	);
-// };
+import { useState } from "react";
+import { ErrorCode } from "react-dropzone";
+import { useFieldArray, useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, X } from "lucide-react";
-import { ErrorCode } from "react-dropzone";
-import { useFieldArray, useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
-
-import { CollectionService } from "@/services/CollectionService";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -56,12 +36,12 @@ import {
 	FormItem,
 	FormMessage,
 } from "@/components/ui/form";
-import { useState } from "react";
+import { CollectionService } from "@/services/CollectionService";
 
-import { toast } from "sonner";
+import "./components.scss";
 
 // 1 MB
-const MAX_FILE_SIZE = 1e6;
+const MAX_FILE_SIZE = 1024 * 1024 * 512;
 
 const FormSchema = z.object({
 	files: z
@@ -105,13 +85,60 @@ const DropzoneForm = () => {
 			});
 
 			setFileLoading(true);
-			CollectionService.filesUpload(Number(collectionId), formData)
-				.then(() => {
-					toast.success("Documents uploaded successfully");
+
+			CollectionService.filesUpload<{
+				duplicates?: {
+					file: string;
+					status: "success" | "duplicates" | "errors";
+					message?: string;
+				}[];
+				errors?: {
+					file: string;
+					status: "success" | "duplicates" | "errors";
+					message?: string;
+				}[];
+				success?: {
+					file: string;
+					status: "success" | "duplicates" | "errors";
+					message?: string;
+				}[];
+			}>(Number(collectionId), formData)
+				.then((response) => {
+					const mapFilesToString = (files) => {
+						return files.map((item: { file: string }) => item.file).join(", ");
+					};
+
+					const { duplicates = [], errors = [], success = [] } = response;
+					const totalFiles = success.length + duplicates.length + errors.length;
+
+					const hasDuplicates = duplicates.length > 0;
+					const hasErrors = errors.length > 0;
+
+					// toast('My action toast', {
+					// 	action: <Button onClick={() => console.log('Action!')}>Action</Button>,
+					// });
+
+					toast.success(`Загружено ${success.length} из ${totalFiles}`);
+
+					if (hasDuplicates) {
+						toast.info(
+							"Некоторые файлы уже были загружены ранее в коллекцию!",
+							{
+								description: <div>{mapFilesToString(duplicates)}</div>,
+							},
+						);
+					}
+					if (hasErrors) {
+						toast.error("Некоторые файлы не были загружены!", {
+							description: <div>{mapFilesToString(duplicates)}</div>,
+						});
+					}
+
+					// toast.success("Документы успешно загружены");
 					setFileLoading(false);
 				})
 				.catch(() => {
-					toast.error("Some errors occurred while uploading");
+					toast.error("При загрузке возникла ошибка");
 					setFileLoading(false);
 				})
 				.finally(() => {
@@ -136,7 +163,7 @@ const DropzoneForm = () => {
 		<Form {...form}>
 			<div
 				// onSubmit={form.handleSubmit(onSubmit)}
-				className="w-full space-y-6"
+				className="w-full space-y-6 rounded-[5px]"
 			>
 				<Dropzone
 					maxSize={MAX_FILE_SIZE}
@@ -150,12 +177,12 @@ const DropzoneForm = () => {
 									(err) => err.code === ErrorCode.FileTooLarge,
 								)
 							) {
-								toast("File size too large");
+								toast("Слишком большой размер файла!");
 							}
 						});
 					}}
 				>
-					{({ maxSize }) => (
+					{({ maxSize: _maxSize }) => (
 						<FormField
 							control={form.control}
 							name="files"
@@ -175,7 +202,7 @@ const DropzoneForm = () => {
 											<DropzoneUploadIcon />
 											<div className="grid gap-0.5">
 												<DropzoneTitle>
-													Browse to upload your file
+													Перетащите файлы сюда или кликните для загрузки.
 												</DropzoneTitle>
 												{/* <DropzoneDescription>
 													{`Maximum file size: ${prettyBytes(maxSize ?? 0)}`}
@@ -192,7 +219,7 @@ const DropzoneForm = () => {
 				</Dropzone>
 				{!!fields.length && (
 					<div className="grid gap-4">
-						<h6 className="font-semibold leading-none tracking-tight">{`Files (${fields.length})`}</h6>
+						<h6 className="font-semibold leading-none tracking-tight">{`Добавлено файлов (${fields.length})`}</h6>
 						<FileList>
 							{fields.map((field, index) => (
 								<FileListItem key={field.id}>
@@ -205,14 +232,14 @@ const DropzoneForm = () => {
 												{fileLoading && (
 													<FileListDescriptionText>
 														<Loader2 className="size-3 animate-spin" />
-														Uploading...
+														Загрузка...
 													</FileListDescriptionText>
 												)}
 											</FileListDescription>
 										</FileListInfo>
 										<FileListAction onClick={() => remove(index)}>
 											<X />
-											<span className="sr-only">Remove</span>
+											<span className="sr-only">Удалить</span>
 										</FileListAction>
 									</FileListHeader>
 								</FileListItem>
@@ -220,17 +247,30 @@ const DropzoneForm = () => {
 						</FileList>
 					</div>
 				)}
-				<Button onClick={form.handleSubmit(onSubmit)}>Submit</Button>
-				<Button
-					style={{ background: "#d0d0d0", color: "black" }}
-					onClick={onShowAllDocuments}
-				>
-					Show all documents
-				</Button>
+
+				<div className="flex gap-2">
+					<Button
+						style={{ cursor: "pointer", border: "none" }}
+						onClick={form.handleSubmit(onSubmit)}
+						disabled={fields.length === 0}
+					>
+						Загрузить
+					</Button>
+					<Button
+						style={{
+							background: "#d0d0d0",
+							color: "black",
+							cursor: "pointer",
+							border: "none",
+						}}
+						onClick={onShowAllDocuments}
+					>
+						Показать все документы
+					</Button>
+				</div>
 			</div>
 		</Form>
 	);
 };
 
 export default DropzoneForm;
-// export default CustomUploadField;
