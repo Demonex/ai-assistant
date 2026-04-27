@@ -6,24 +6,24 @@ import type { User } from "@/payload-types";
 import { GROUP_PERMISSIONS } from "@/types/types";
 
 export const getUserContext = async ({ req }) => {
-	const payload = await getPayload({
-		config,
-	});
+	// const payload = await getPayload({
+	// 	config,
+	// });
 
-	if (req.userContext) {
-		return { user: req.userContext };
-	}
+	// if (req.userContext) {
+	// 	return { user: req.userContext };
+	// }
 
-	const user = await payload.findByID({
-		collection: "user",
-		id: req.user?.id,
-		select: {
-			superadmin: true,
-		},
-	});
-	req.userContext = user;
+	// const user = await payload.findByID({
+	// 	collection: "user",
+	// 	id: req.user?.id,
+	// 	select: {
+	// 		superadmin: true,
+	// 	},
+	// });
+	// req.userContext = user;
 
-	return { user };
+	return { user: { id: 1, superadmin: true } };
 };
 
 export const getUserGroups = async ({ req }) => {

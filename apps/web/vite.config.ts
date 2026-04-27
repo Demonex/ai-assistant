@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
 			port: 2051,
 			proxy: {
 				"/api/v1": {
-					target: env.VITE_BACKEND_URL,
+					target: "http://localhost:2050",
 					changeOrigin: true,
 				},
 				// "/admin": {
